@@ -1,0 +1,912 @@
+
+
+\chapter{ATS-Trilemma: the Multivariate Case}\label{atsm_sec}
+
+
+In this chapter, the ATS-trilemma and the customized optimization principle are generalized to a multivariate MDFA-framework. Section \ref{ats_trilemma_and_cust} briefly reviews previously available criteria and derives all relevant concepts: multivariate ATS-trilemma, customized criterion, quadratic criterion and the corresponding closed-form solution; section \ref{mul_ats_tr_i_a} analyzes the effects obtained by emphasizing Timeliness and/or Smoothness in the new multivariate framework; finally, section \ref{emp_con_m_d} concludes by an empirical contest, comparing performances of univariate and multivariate MSE- and customized designs.
+
+
+
+
+\section{MDFA: ATS-Trilemma and Customization}\label{ats_trilemma_and_cust}
+
+
+We briefly list previous optimization criteria and we derive a generalization of the ATS-trilemma to the MDFA. A quadratic approximation of the estimation problem is proposed with a corresponding unique closed-form solution.  
+
+
+\subsection{A Review of Previous Optimization Criteria}
+
+
+\subsubsection{DFA-MSE}
+
+\begin{eqnarray}
+\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Gamma(\omega_k)-\hat{\Gamma}(\omega_k) \right|^2 I_{TX}(\omega_k)\to\min_{\mathbf{b}} \label{dfa_ms_e}
+\end{eqnarray}
+see \ref{dfa_ms}.
+
+
+
+\subsubsection{MDFA-MSE}
+
+\begin{equation}\label{dfanv_e}
+\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\left(\Gamma(\omega_k)-\hat{\Gamma}_X(\omega_k)\right)\Xi_{T
+X}(\omega_k)-\sum_{n=1}^m
+\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\right|^2 \to \min_{\mathbf{B}}
+\end{equation}
+see \ref{dfanv}. In matrix-notation we obtain
+
+\begin{eqnarray}\label{regms_e}
+(\mathbf{Y_{\textrm{rot}}-X_{\textrm{rot}}b})'(\mathbf{Y_{\textrm{rot}}-X_{\textrm{rot}}b})\to\min_{\mathbf{b}}
+\end{eqnarray}
+where $\mathbf{b}:=\textrm{Vec}(\mathbf{B})$ is the vector of stacked columns of $\mathbf{B}$. The solution is
+\begin{eqnarray}\label{bregms_e}
+\mathbf{\hat{b}}&=&\mathbf{\left(\Re(X_{\textrm{rot}}'X_{\textrm{rot}})\right)^{-1}\Re(X_{\textrm{rot}})'Y_{\textrm{rot}}}
+\end{eqnarray}
+see section \ref{gen_le_sq_sol}. The solution of the constrained optimization problem was proposed in \ref{const_sol}. 
+
+
+\subsubsection{Customized DFA}
+
+\begin{eqnarray}
+&&\frac{2\pi}{ T} \sum_{\textrm{All~Frequencies}} (A(\omega_k)-\hat{A}(\omega_k))^2 W(\omega_k,\eta) I_{TX}(\omega_k)\nonumber\\
+&&+(1+\lambda)\frac{2\pi}{ T}  \sum_{\textrm{Passband}} 4A(\omega_k)\hat{A}(\omega_k)\sin(\hat{\Phi}(\omega_k)/2)^2
+I_{TX}(\omega_k)\to\min_{\mathbf{b}}\label{dfatp_e}
+\end{eqnarray}
+see \ref{dfatp}. The analytically tractable quadratic expression is
+\begin{eqnarray}\label{idfa_s}
+&&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+ \left|\big|\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big|-\left\{\Re\left[\hat{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\big\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big\}\big)\right]\right.\right.\nonumber\\
+ &&\left.\left.+i\sqrt{1+\lambda|\Gamma(\omega_k)|}
+ \Im\left[\hat{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\right]\right\}\right|^2 W(\omega_k,\eta)\to\min_{\mathbf{b}}\nonumber\\
+\end{eqnarray}
+see \ref{idfa}.
+
+
+
+\subsection{ATS-Trilemma and Multivariate Customization}\label{ats_tr_mu_cu}
+
+
+A generalization of the customized criterion \ref{dfatp_e} to the multivariate case can  be gleaned from the timely ordering of criteria, by applying a simple, but effective, notational trick to the MSE-criterion \ref{dfanv_e}:
+\begin{eqnarray}
+\label{dfavtp}
+&&\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\Gamma(\omega_k)\Xi_{TX}(\omega_k)-\hat{\Gamma}_X(\omega_k)\Xi_{TX}(\omega_k)-\sum_{n=1}^m\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\right|^2 \nonumber \\
+&=&\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\Gamma(\omega_k)-\hat{\Gamma}_X(\omega_k)-\sum_{n=1}^m\hat{\Gamma}_{W_n}(\omega_k)\frac{\Xi_{TW_n}(\omega_k)}{\Xi_{TX}(\omega_k)}\right|^2 \left|\Xi_{TX}(\omega_k)\right|^2 \nonumber\\
+&=&\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\Gamma(\omega_k)-\tilde{\Gamma}(\omega_k)\right|^2 I_{TX}(\omega_k)\label{dtp}
+\end{eqnarray}
+where
+\begin{eqnarray}\label{dftp1}
+\tilde{\Gamma}(\omega_k):=\hat{\Gamma}_X(\omega_k)+\sum_{n=1}^m\hat{\Gamma}_{W_n}(\omega_k)\frac{\Xi_{TW_n}(\omega_k)}{\Xi_{TX}(\omega_k)}
+\end{eqnarray}
+Literally, expression \ref{dtp} `looks' very much like \ref{dfa_ms_e} (up to the fact that the former involves multiple time series and a richly parametrized multivariate filter). Therefore, we could re-write the ATS-components in \ref{mse_dec_ats} as 
+\begin{eqnarray}
+\left.\begin{array}{ccc}
+\textrm{A(ccuracy)}&:=&\frac{2\pi}{ T} \sum_{\textrm{Passband}} (A(\omega_k)-\tilde{A}(\omega_k))^2 I_{TX}(\omega_k)\\
+\textrm{S(moothness)}&:=&\frac{2\pi}{ T} \sum_{\textrm{Stopband}} (A(\omega_k)-\tilde{A}(\omega_k))^2 I_{TX}(\omega_k)\\
+\textrm{T(imeliness)}&:=&\frac{2\pi}{ T}  \sum_{\textrm{Passband}} 4A(\omega_k)\tilde{A}(\omega_k)\sin(\tilde{\Phi}(\omega_k)/2)^2
+I_{TX}(\omega_k)                                     \\
+\textrm{R(esidual)}&:=&\frac{2\pi}{ T}  \sum_{\textrm{Stopband}} 4A(\omega_k)\tilde{A}(\omega_k)\sin(\tilde{\Phi}(\omega_k)/2)^2
+I_{TX}(\omega_k)
+\end{array}\right\}\label{mse_dec_ats_e}
+\end{eqnarray}
+where $\tilde{A}(\omega_k)$ and $\tilde{\Phi}(\omega_k)$ are amplitude and phase functions of the aggregate transfer function $\tilde{\Gamma}(\omega_k)$ defined in \ref{dftp1}. The generalized ATS-Trilemma is obtained by splitting the MSE-norm into ATS-contributions (Residual is ignored)
+\begin{eqnarray*}
+\textrm{MSE}=\textrm{Accuracy}+ \textrm{Timeliness}+ \textrm{Smoothness}
+\end{eqnarray*}
+and a schematic (simplified) customized criterion is obtained by assigning weights to its constituents
+\begin{equation}\label{ats_cust_e}
+\textrm{MSE-Cust}(\lambda_1,\lambda_2)=\textrm{Accuracy}+(1+\lambda_1) \textrm{Timeliness}+(1+\lambda_2) \textrm{Smoothness}\to \min_{\mathbf{B}}
+\end{equation}
+where $\mathbf{B}$ is the matrix of filter coefficients. Using the weighting-functions introduced in section \ref{gen_cust_crit} the multivariate customized criterion becomes
+\begin{eqnarray}
+&&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+|\Gamma(\omega_k)-\tilde{\Gamma}(\omega_k)|^2 W(\omega_k,\eta)I_{TX}(\omega_k)\nonumber\\
+&&+4\lambda\frac{2\pi}{ T} \sum_{k=-T/2}^{T/2}
+A(\omega_k)\tilde{A}(\omega_k)\sin(\tilde{\Phi}(\omega_k)/2)^2
+W(\omega_k,\eta)I_{TX}(\omega_k)\to\min_{\mathbf{B}}\label{dfatp_i}
+\end{eqnarray}
+Instead of customizing all sub-filters individually, the proposed generalization of \ref{dfatp_e} addresses the aggregate multivariate filter  $\tilde{\Gamma}(\omega_k)$  `directly': a single customization pair $(\lambda,\eta)$ addresses Timeliness and Smoothness of the compound filter output.  
+
+
+
+
+
+
+\subsection{Quadratic Criterion}
+
+
+The univariate quadratic customized criterion \ref{idfa_s} can be rewritten in the multivariate case as
+\begin{eqnarray}\label{imdfa_ep}
+&&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+ \left|\big|\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big|-\left\{\Re\left[\tilde{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\big\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big\}\big)\right]\right.\right.\nonumber\\
+ &&\left.\left.+i\sqrt{1+\lambda|\Gamma(\omega_k)|}
+ \Im\left[\tilde{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\right]\right\}\right|^2 W(\omega_k,\eta)\to\min_{\mathbf{b}}\nonumber\\
+\end{eqnarray}
+where $\tilde{\Gamma}(\omega_k)$ is the aggregated multivariate filter \ref{dftp1}. This criterion can be solved in closed-form, see below. Moreover, $\lambda$ and $\eta$ address the relevant Timeliness -- speed -- and Smoothness -- noise suppression -- issues. Finally, all previous criteria are nested in \ref{imdfa_ep}. In order to derive a corresponding solution we explode the former expression into contributions by all subfilters: 
+\begin{eqnarray}
+&&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+ \left|\big|\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big|-\Bigg\{\Re\left[\tilde{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\big\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big\}\big)\right]\right.\nonumber\\
+ &&\left.+i\sqrt{1+\lambda|\Gamma(\omega_k)|}
+ \Im\left[\tilde{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\right]\Bigg\}\right|^2 W(\omega_k,\eta)\nonumber\\
+&=&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+ \left|\left|\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right|-\Bigg\{\Re\left[\hat{\Gamma}_X(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\right.\right.\nonumber\\
+&&+\sum_{n=1}^m \left.\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\right]\nonumber\\
+&&+i\sqrt{1+ \lambda\Gamma(\omega_k)}
+ \Im\left[\hat{\Gamma}_X(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\right.\nonumber\\
+&&\left.\left.+\sum_{n=1}^m\left.\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k))\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\right]\right\}\right|^2 W(\omega_k,\eta)\nonumber\\
+&&\to\min_{\mathbf{B}}\label{imdfa_e}
+\end{eqnarray}
+Being a quadratic function of filter coefficients, criterion \ref{imdfa_e} can be solved in closed-form, see below.
+If $\lambda=0$ then \ref{imdfa_e} and \ref{dfatp_i} are identical; indeed both criteria coincide with the MSE-criterion \ref{dfanv_e}. For $\lambda>0$, \ref{imdfa_e} and \ref{dfatp_i} are not strictly identical, anymore. However, as shown in section \ref{ti_o_app_idfa}, the former (quadratic criterion) approximates the latter (customized criterion) tightly, even if $\lambda\geq 0$ is large\footnote{Because phase-differences between target and aggregate multivariate output  are small (linearization).}. 
+
+
+
+
+
+
+\subsection{Least-Squares Customized Solution}\label{l-scsmdfa}
+
+We now generalize the MSE-expressions \ref{desmatrot} and \ref{desmatrot_y} of design matrix and target to the proposed customization-framework. Define
+\begin{eqnarray*}
+\mathbf{X}_{k}^{\textrm{Cust}}(\lambda,\eta)&:=&\left\{\Re(\mathbf{X}_{k}(\lambda,\eta))+i\sqrt{1+ \lambda\Gamma(\omega_k)}\Im(\mathbf{X}_{k}(\lambda,\eta))\right\}\sqrt{W(\omega_k,\eta)}\\
+\mathbf{Y}^{\textrm{Cust}}(\eta)&:=& \left(\begin{array}{c}\left|\Gamma(\omega_0)\Xi_{TX}(\omega_0)\right|\sqrt{W(\omega_0,\eta)}\\ 
+\sqrt{2}|\Gamma(\omega_1)\Xi_{TX}(\omega_1)|\sqrt{W(\omega_1,\eta)}\\
+\sqrt{2}|\Gamma(\omega_2)\Xi_{TX}(\omega_2)|\sqrt{W(\omega_2,\eta)}\\
+.\\
+\sqrt{2}|\Gamma(\omega_{T/2})\Xi_{TX}(\omega_{T/2})|\sqrt{W(\omega_{T/2},\eta)}
+\end{array}\right)
+\end{eqnarray*}
+where the target $\mathbf{Y}^{\textrm{Cust}}(\eta)$ depends on $\eta$, through the weighting function $W(\omega_k,\eta)$, and where 
+\begin{eqnarray*}
+\mathbf{X}_{k}(\lambda,\eta)'&=&\sqrt{1+I_{k>0}}\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\cdot\nonumber\\
+&&\textrm{Vec}_\textrm{row}\left(\begin{array}{ccccc} \Xi_{TX}(\omega_k)& \exp(-i\omega_k)\Xi_{TX}(\omega_k)&...& \exp(-i(L-1)\omega_k)\Xi_{TX}(\omega_k)\\
+ \Xi_{TW_1}(\omega_k)& \exp(-i\omega_k)\Xi_{TW_1}(\omega_k)& ...& \exp(-i(L-1)\omega_k)\Xi_{TW_1}(\omega_k)\\
+ \Xi_{TW_2}(\omega_k)& \exp(-i\omega_k)\Xi_{TW_2}(\omega_k)& ...& \exp(-i(L-1)\omega_k)\Xi_{TW_2}(\omega_k)\\
+...&...&...&...\\
+ \Xi_{TW_m}(\omega_k)& \exp(-i\omega_k)\Xi_{TW_m}(\omega_k&...& \exp(-i(L-1)\omega_k)\Xi_{TW_m}(\omega_k)\\
+\end{array}\right)
+\end{eqnarray*}
+whereby $\textrm{Vec}_\textrm{row}$ appends rows of a matrix to build a single long row-vector of dimension $(m+1)L$, recall section \ref{matrix_notation}. Finally, define $\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)$ to be the customized design matrix whose $k$-th row is $\mathbf{X}_{k}^{\textrm{Cust}}(\lambda,\eta)'$, as defined above. Since the target vector is already real and positive we can save the rotation in section \ref{matrix_notation} and criterion   \ref{imdfa_e} can be rewritten more conveniently as 
+\begin{eqnarray}\label{regcust}
+(\mathbf{Y^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)b})'(\mathbf{Y^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)b})\to\min_{\mathbf{b}}
+\end{eqnarray}
+where $\mathbf{b}:=\textrm{Vec}(\mathbf{B})$ is the vector of stacked columns of $\mathbf{B}$. Accordingly, the customized coefficient estimate is obtained as 
+\begin{eqnarray}\label{bregcust}
+\mathbf{\hat{b}}^{\textrm{Cust}}(\lambda,\eta)&=&\mathbf{\left(\Re\Bigg\{(\mathbf{X}^{\textrm{Cust}}(\lambda,\eta))' \mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\Bigg\}\right)^{-1}\Re(\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)})'
+\mathbf{Y^{\textrm{Cust}}(\eta)}
+\end{eqnarray}
+see section \ref{gen_le_sq_sol}. In order to avoid unnecessary overloading of notations in subsequent chapters we drop the parameters $(\lambda,\eta)$ in all customized expressions; we retain the superscript `Cust' to distinguish the customized estimate from the `plain vanilla' MSE-estimate \ref{bregms}, in the case $\lambda=\eta=0$.  Formally, it is an easy matter to account for additional I(1)- ($i1=T$) and/or I(2)- constraints ($i2=T$) proposed in chapter \ref{con_sec}: just add the superscript $\textrm{Cust}$ to all terms in the solution \ref{const_sol} (with all accompanying modifications). The generic MDFA-function 
+<<dfa_ms,echo=TRUE>>=
+head(mdfa_analytic)
+@
+handles the general case, and more to come. We now analyze performances of multivariate customized designs. 
+
+
+
+
+\section{The Multivariate ATS-Trilemma in Action}\label{mul_ats_tr_i_a}
+
+
+\subsection{Empirical Framework}
+
+We rely on the bivariate leading indicator design proposed in section \ref{leading_ind}. Specifically, we analyze the second process, $a_1=0.1$, and we target an ideal trend with cutoff $\pi/6$ by filters of length $L=12$. This design slightly departs from the previous chapter, where we selected cutoff $\pi/12$ and length $L=24$, because we do not want overfitting to interfer with our results in the richer multivariate framework\footnote{Recall that a minimal filter-length of $L=2\pi/(\pi/6)=12$ is required in order to suppress frequency $\pi/6$, as required by the cutoff, and that $2*L=24$ filter coefficients are estimated for the bivariate filters in samples of length $T=120$ (which corresponds to ten years of monthly data).}. 
+
+
+
+
+
+\subsection{Emphasizing Smoothness: $\eta\geq 0$, $\lambda=0$ Fixed}\label{e_s_mdfa}
+
+We fix $\lambda=0$ and let $\eta_k=0.3*k, k=0,...,6$.
+
+\subsubsection{Run the Code}
+
+
+<<echo=True>>=
+# Second process
+a1<-0.1
+# Customization settings MDFA
+eta_mdfa<-0.3*(0:6)
+# Fix lambda=0
+lambda_mdfa<-rep(0,length(eta_mdfa))
+# Customization settings DFA
+lambda_vec<-lambda_vec
+eta_vec<-eta_vec
+# target
+cutoff<-pi/6
+# Filter length
+L<-12
+# Real-time design
+Lag<-0
+# No constraints
+i1<-i2<-F
+# Sample length 120
+len<-120
+@
+<<echo=False>>=
+anzsim<-1
+lambda_vec<-c(0,30)
+eta_vec<-c(0,1)
+len1<-2000
+@
+<<echo=True>>=                                                        
+cust_leading_obj<-mdfa_mse_leading_indicator_vs_dfa_customized(anzsim,a1,
+    cutoff,L,lambda_vec,eta_vec,len1,len,i1,i2,Lag,lambda_mdfa,eta_mdfa,troikaner)  
+@
+The above function generates artificial data, applies our general DFA ($dfa\textunderscore analytic$) and MDFA ($mdfa\textunderscore analytic$) estimation routines, computes amplitude and time-shift-functions, filter coefficients, ATS-components and filter-outputs as well as Peak Correlation and Curvature statistics.
+
+\subsubsection{ATS-Components}
+
+ATS-components of the aggregate filter, as defined in section \ref{ats_tr_mu_cu}, are calculated explicitly and returned by the multivariate MDFA-function
+<<echo=True>>=
+tail(mdfa_analytic)
+@
+The results are summarized in table \ref{ats_comp_mdfa_S}.
+<<echo=False>>=
+ats_mat<-matrix(nrow=length(lambda_mdfa),ncol=5)
+for (i in 1:length(lambda_mdfa))
+{
+  ats_mat[i,1]<-cust_leading_obj$mdfa_list[[i]]$Accuracy
+  ats_mat[i,2]<-cust_leading_obj$mdfa_list[[i]]$Timeliness
+  ats_mat[i,3]<-cust_leading_obj$mdfa_list[[i]]$Smoothness
+  ats_mat[i,4]<-0
+  ats_mat[i,5]<-sum(ats_mat[i,1:4])
+}
+dimnames(ats_mat)[[1]]<-paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")
+dimnames(ats_mat)[[2]]<-c("Accuracy","Timeliness","Smoothness","Residual","MSE")
+@
+<<label=ats_comp_mdfa_S,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_mat, dec = 1,digits=6, caption = paste("ATS-Components as a function of eta (lambda=0 fixed)",sep=""),label=paste("ats_comp_mdfa_S",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+Smoothness decreases  monotonically as a function of $\eta$, as desired.
+
+
+
+\subsubsection{Amplitude-Functions, Time-Shift Functions and Filter Coefficients}
+
+The effect of the Smoothness-customization on amplitude- and time-shift functions of the subfilters, as well as on their coefficients, is visualized in fig.\ref{z_amp_shift_mdfacust_leadind_S}. Prior to interpreting these results let us emphasize that customization does not address the subfilters but the \emph{aggregate} filter $\tilde{\Gamma}(\cdot)$ defined in \ref{dftp1}. Therefore, the transformation of the sub-filters, analyzed here, is an `indirect' effect of customization.
+
+<<echo=False>>=
+colo<-rainbow(length(lambda_mdfa))
+file = paste("z_amp_shift_mdfacust_leadind_S.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(3,2))
+for (i_mdfa in 1:length(lambda_mdfa))
+{
+
+# amplitude functions first series
+  if (i_mdfa==1)
+  {
+    mplot <- abs(cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,1])
+  } else
+  {
+    mplot <- cbind(mplot,abs(cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,1]))
+  }
+}
+dimnames(mplot)[[2]]<-paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")
+# x-axis
+K<-nrow(mplot)-1
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+#colo <- NULL
+plot_title <- "Amplitude Functions series 1"
+title_more <- colnames(mplot)
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+for (i_mdfa in 1:length(lambda_mdfa))
+{
+
+# amplitude functions second series
+  if (i_mdfa==1)
+  {
+    mplot <- abs(cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,2])
+  } else
+  {
+    mplot <- cbind(mplot,abs(cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,2]))
+  }
+}
+dimnames(mplot)[[2]]<-paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")
+# x-axis
+K<-nrow(mplot)-1
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+#colo <- NULL
+plot_title <- "Amplitude Functions series 2 (leading indicator)"
+title_more <- colnames(mplot)
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+
+# time-shift first series
+for (i_mdfa in 1:length(lambda_mdfa))#i_mdfa<-1  i_mdfa<-7
+{
+
+# time-shift functions first series
+  if (i_mdfa==1)
+  {
+    mplot <- Arg(t(sign(apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b,2,sum))*t(cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt)))[,1]/((0 : K) * pi / K)
+# Use exact formula in frequency zero    
+    mplot[1] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+      apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[1]
+
+  } else
+  {
+    mplot <- cbind(mplot,(Arg(t(sign(apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b,2,sum))*t(cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt)))[,1]/((0 : K) * pi / K)))
+# Use exact formula in frequency zero    
+    mplot[1,i_mdfa] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+      apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[1]
+  }
+}
+plot_title <- "Time-Shift series 1"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+
+# time-shift second series
+for (i_mdfa in 1:length(lambda_mdfa))
+{
+
+# time-shift functions second series
+  if (i_mdfa==1)
+  {
+    mplot <- Arg(t(sign(apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b,2,sum))*t(cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt)))[,2]/((0 : K) * pi / K)
+# Use exact formula in frequency zero    
+    mplot[1] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+      apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[2]
+
+  } else
+  {
+    mplot <- cbind(mplot,(Arg(t(sign(apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b,2,sum))*t(cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt)))[,2]/((0 : K) * pi / K)))
+# Use exact formula in frequency zero    
+    mplot[1,i_mdfa] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+      apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[2]
+  }
+}
+plot_title <- "Time-Shift series 2 (leading indicator)"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+# Filter coefficients
+for (i_mdfa in 1:length(lambda_mdfa))
+{
+
+# coefficients first series
+  if (i_mdfa==1)
+  {
+    mplot <- cust_leading_obj$mdfa_list[[i_mdfa]]$b[,1]
+  } else
+  {
+    mplot <- cbind(mplot,cust_leading_obj$mdfa_list[[i_mdfa]]$b[,1])
+  }
+}
+plot_title <- "Coefficients series 1"
+ax<-paste("Lag ",0:(L-1),sep="")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+for (i_mdfa in 1:length(lambda_mdfa))
+{
+
+# coefficients first series
+  if (i_mdfa==1)
+  {
+    mplot <- cust_leading_obj$mdfa_list[[i_mdfa]]$b[,2]
+  } else
+  {
+    mplot <- cbind(mplot,cust_leading_obj$mdfa_list[[i_mdfa]]$b[,2])
+  }
+}
+plot_title <- "Coefficents series 2 (leading indicator)"
+ax<-paste("Lag ",0:(L-1),sep="")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+
+invisible(dev.off())
+@    
+<<label=z_amp_shift_mdfacust_leadind_S.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_amp_shift_mdfacust_leadind_S", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=8in, width=5in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (top), time-shift functions (middle) and filter coefficients (bottom): series 1 (left) and series 2 (right) for customized MDFA-leading indicator (emphasizing Smoothness): a1=0.1", sep = "")
+  cat("\\label{z_amp_shift_mdfacust_leadind_S}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\textbf{Analysis}
+\begin{itemize}
+\item Emphasizing Smoothness of the aggregate filter $\tilde{\Gamma}(\cdot)$, by $\eta$,  exerts effects on amplitude and time-shift functions of the subfilters $\hat{\Gamma}_X(\cdot), \hat{\Gamma}_{W_1}$ of the bivariate design which conform with expectations. In particular, the amplitude functions are shrinking in the stopband (stronger noise suppression) and the time-shifts are increasing in the passband, as $\eta$ increases\footnote{Note that the results obtained here are not directly comparable with those in section \ref{leading_ind} because the processes are different: $a_1=0.1$ (here) vs. $a_1=0.9$ (there).}.
+\item As for the DFA in the previous chapter, emphasizing Smoothness, by $\eta$, seems to smooth filter coefficients too. This phenomenon, which is mainly due to the more or less intensive amplitude-shrinkage in the stop-band (steeper transfer function), implies that suitably customized filters are less prone to overfitting than classic MSE-designs. 
+\end{itemize}
+
+
+
+\subsubsection{Effects on Aggregated Filter}
+
+
+Amplitude and time-shift functions of the aggregated filter $\tilde{\Gamma}(\cdot)$, defined in \ref{dftp1}, are plotted in fig. \ref{z_amp_shift_mdfacust_leadind_agg_S}.
+<<echo=False>>=
+colo<-rainbow(length(lambda_mdfa))
+file = paste("z_amp_shift_mdfacust_leadind_agg_S.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+
+
+for (i_mdfa in 1:length(lambda_mdfa))
+{
+
+  trffkt_agg<-cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,1]+cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,2]*cust_leading_obj$weight_func[,3]/cust_leading_obj$weight_func[,2]
+
+# amplitude functions first series
+  if (i_mdfa==1)
+  {
+    mplot <- abs(trffkt_agg)
+  } else
+  {
+    mplot <- cbind(mplot,abs(trffkt_agg))
+  }
+}
+mplot[1,]<-NA
+dimnames(mplot)[[2]]<-paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")
+# x-axis
+K<-nrow(mplot)-1
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+#colo <- NULL
+plot_title <- "Amplitude aggregated filter"
+title_more <- colnames(mplot)
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+
+
+# time-shift first series
+for (i_mdfa in 1:length(lambda_mdfa))#i_mdfa<-1  i_mdfa<-2
+{  
+  trffkt_agg<-cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,1]+cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,2]*cust_leading_obj$weight_func[,3]/cust_leading_obj$weight_func[,2]
+
+
+# time-shift functions first series
+  if (i_mdfa==1)
+  {
+    mplot <- Arg(trffkt_agg)/((0 : K) * pi / K)
+# Use exact formula in frequency zero    
+  #  mplot[1] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+   #   apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[1]
+
+  } else
+  {
+    mplot <- cbind(mplot, Arg(trffkt_agg)/((0 : K) * pi / K))
+# Use exact formula in frequency zero    
+    #mplot[1,i_mdfa] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+     # apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[1]
+  }
+}
+mplot[1,]<-NA
+plot_title <- "Time-Shift aggregated filter"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+invisible(dev.off())
+@    
+<<label=z_amp_shift_mdfacust_leadind_agg_S.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_amp_shift_mdfacust_leadind_agg_S", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions (right) of aggregated filter when emphasizing Smoothness: a1=0.1", sep = "")
+  cat("\\label{z_amp_shift_mdfacust_leadind_agg_S}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Note that the ratio of DFTs in \ref{dftp1} is uninformative in frequency zero and therefore we skipped the corresponding numbers. Both functions, amplitude and time-shift, are noisy because the DFT-ratio is noisy, too. Nevertheless, we can observe that the effect intended by $\eta$ is achieved by the aggregate: the amplitude function shrinks to zero in the stopband, as desired\footnote{The amplitude is also slightly shrunken in the passband, as expected, but shrinkage in the stopband is much stronger.} and the time-shift in the passband increases.
+
+
+
+
+
+
+
+\subsection{Emphasizing Timeliness: $\lambda\geq 0$, $\eta=0$ Fixed}
+
+We fix $\eta=0$ and let $\lambda_k=(0,2^k), k=0,...,7$.
+
+\subsubsection{Run the Code}
+
+
+<<echo=True>>=
+# Customization settings DFA
+lambda_mdfa<-c(0,2^(0:7))
+# Fix eta=0
+eta_mdfa<-rep(0,length(lambda_mdfa))
+@
+<<echo=False>>=
+# Second process
+a1<-0.1
+# target
+cutoff<-pi/6
+# Filter length
+L<-12
+# Real-time design
+Lag<-0
+# No constraints
+i1<-i2<-F
+# Sample length 120
+len<-120
+anzsim<-1
+lambda_vec<-c(0,30)
+eta_vec<-c(0,1)
+len1<-2000
+@
+<<echo=True>>=                                                        
+cust_leading_obj<-mdfa_mse_leading_indicator_vs_dfa_customized(anzsim,a1,
+    cutoff,L,lambda_vec,eta_vec,len1,len,i1,i2,Lag,lambda_mdfa,eta_mdfa,troikaner)  
+@
+
+
+
+\subsubsection{ATS-Components}
+
+ATS-components are summarized in table \ref{ats_comp_mdfa_T}.
+<<echo=False>>=
+ats_mat<-matrix(nrow=length(lambda_mdfa),ncol=5)
+for (i in 1:length(lambda_mdfa))
+{
+  ats_mat[i,1]<-cust_leading_obj$mdfa_list[[i]]$Accuracy
+  ats_mat[i,2]<-cust_leading_obj$mdfa_list[[i]]$Timeliness
+  ats_mat[i,3]<-cust_leading_obj$mdfa_list[[i]]$Smoothness
+  ats_mat[i,4]<-0
+  ats_mat[i,5]<-sum(ats_mat[i,1:4])
+}
+dimnames(ats_mat)[[1]]<-paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")
+dimnames(ats_mat)[[2]]<-c("Accuracy","Timeliness","Smoothness","Residual","MSE")
+@
+<<label=ats_comp_mdfa_T,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_mat, dec = 1,digits=6, caption = paste("ATS-Components as a function of lambda (eta=0 fixed)",sep=""),label=paste("ats_comp_mdfa_T",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+Timeliness decreases  monotonically as a function of $\lambda$, as required. We here skip the sub-filters and go straight to the interesting aggregate.
+
+
+
+
+\subsubsection{Effects on Aggregated Filter}
+
+
+Amplitude and time-shift functions of the aggregated filter $\tilde{\Gamma}(\cdot)$, defined in \ref{dftp1}, are plotted in fig. \ref{z_amp_shift_mdfacust_leadind_agg_T}.
+<<echo=False>>=
+colo<-rainbow(length(lambda_mdfa))
+file = paste("z_amp_shift_mdfacust_leadind_agg_T.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+
+
+for (i_mdfa in 1:length(lambda_mdfa))
+{
+
+  trffkt_agg<-cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,1]+cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,2]*cust_leading_obj$weight_func[,3]/cust_leading_obj$weight_func[,2]
+
+# amplitude functions first series
+  if (i_mdfa==1)
+  {
+    mplot <- abs(trffkt_agg)
+  } else
+  {
+    mplot <- cbind(mplot,abs(trffkt_agg))
+  }
+}
+mplot[1,]<-NA
+dimnames(mplot)[[2]]<-paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")
+# x-axis
+K<-nrow(mplot)-1
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+#colo <- NULL
+plot_title <- "Amplitude aggregated filter"
+title_more <- colnames(mplot)
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+
+
+# time-shift first series
+for (i_mdfa in 1:length(lambda_mdfa))#i_mdfa<-1  i_mdfa<-7
+{  
+  trffkt_agg<-cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,1]+cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,2]*cust_leading_obj$weight_func[,3]/cust_leading_obj$weight_func[,2]
+
+
+# time-shift functions first series
+  if (i_mdfa==1)
+  {
+    mplot <- Arg(trffkt_agg)/((0 : K) * pi / K)
+# Use exact formula in frequency zero    
+  #  mplot[1] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+   #   apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[1]
+
+  } else
+  {
+    mplot <- cbind(mplot, Arg(trffkt_agg)/((0 : K) * pi / K))
+# Use exact formula in frequency zero    
+    #mplot[1,i_mdfa] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+     # apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[1]
+  }
+}
+plot_title <- "Time-Shift aggregated filter"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+invisible(dev.off())
+@    
+<<label=z_amp_shift_mdfacust_leadind_agg_T.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_amp_shift_mdfacust_leadind_agg_T", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions (right) of aggregated filter when emphasizing Timeliness: a1=0.1", sep = "")
+  cat("\\label{z_amp_shift_mdfacust_leadind_agg_T}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+We can observe that the effect intended by emphasizing Timeliness is achieved: the time-shift of $\tilde{\Gamma}(\cdot)$ approaches zero in the passband as $\lambda$ increases.
+
+
+
+
+
+
+
+\subsection{Emphasizing Timeliness and Smoothness: : $\lambda> 0$, $\eta>0$}
+
+We compare MSE and balanced customized $\lambda=30,\eta=1$ designs: the latter refers to the univariate balanced DFA-design in section \ref{double_score_ats}.
+
+\subsubsection{Run the Code}
+
+
+<<echo=True>>=
+# Customization settings DFA
+lambda_mdfa<-c(0,30)
+# Fix eta=0
+eta_mdfa<-c(0,1)
+@
+<<echo=False>>=
+# Second process
+a1<-0.1
+# target
+cutoff<-pi/6
+# Filter length
+L<-12
+# Real-time design
+Lag<-0
+# No constraints
+i1<-i2<-F
+# Sample length 120
+len<-120
+anzsim<-1
+lambda_vec<-c(0,30)
+eta_vec<-c(0,1)
+len1<-2000
+@
+<<echo=True>>=                                                        
+cust_leading_obj<-mdfa_mse_leading_indicator_vs_dfa_customized(anzsim,a1,
+    cutoff,L,lambda_vec,eta_vec,len1,len,i1,i2,Lag,lambda_mdfa,eta_mdfa,troikaner)  
+@
+
+
+\subsubsection{ATS-Components}
+
+ATS-components are summarized in table \ref{ats_comp_mdfa_ST}.
+<<echo=False>>=
+ats_mat<-matrix(nrow=length(lambda_mdfa),ncol=5)
+for (i in 1:length(lambda_mdfa))
+{
+  ats_mat[i,1]<-cust_leading_obj$mdfa_list[[i]]$Accuracy
+  ats_mat[i,2]<-cust_leading_obj$mdfa_list[[i]]$Timeliness
+  ats_mat[i,3]<-cust_leading_obj$mdfa_list[[i]]$Smoothness
+  ats_mat[i,4]<-0
+  ats_mat[i,5]<-sum(ats_mat[i,1:4])
+}
+dimnames(ats_mat)[[1]]<-paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")
+dimnames(ats_mat)[[2]]<-c("Accuracy","Timeliness","Smoothness","Residual","MSE")
+@
+<<label=ats_comp_mdfa_ST,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_mat, dec = 1,digits=6, caption = paste("ATS-Components as a function of lambda and eta",sep=""),label=paste("ats_comp_mdfa_ST",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+Timeliness and Smoothness decrease  with increasing $(\lambda,\eta)$-pair, as required. 
+
+
+
+
+\subsubsection{Effects on Aggregated Filter}
+
+
+Amplitude and time-shift functions of the aggregated filter $\tilde{\Gamma}(\cdot)$, defined in \ref{dftp1}, are plotted in fig. \ref{z_amp_shift_mdfacust_leadind_agg_ST}: note that we re-scaled the customized filter because of zero-shrinkage, recall section \ref{l_e_geq_0}.
+<<echo=False>>=
+colo<-rainbow(length(lambda_mdfa)+length(lambda_vec))[length(lambda_vec)+1:length(lambda_mdfa)]
+file = paste("z_amp_shift_mdfacust_leadind_agg_ST.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+
+
+for (i_mdfa in 1:length(lambda_mdfa))
+{
+
+  trffkt_agg<-cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,1]+cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,2]*cust_leading_obj$weight_func[,3]/cust_leading_obj$weight_func[,2]
+
+# amplitude functions first series
+  if (i_mdfa==1)
+  {
+    mplot <- abs(trffkt_agg)
+  } else
+  {
+# We scale the customized filter because of zero-shrinkage    
+    mplot <- cbind(mplot,abs(trffkt_agg)*0.8*mean(mplot[2:12])/mean(abs(trffkt_agg)[2:12]))
+  }
+}
+mplot[1,]<-NA
+dimnames(mplot)[[2]]<-paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")
+# x-axis
+K<-nrow(mplot)-1
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+#colo <- NULL
+plot_title <- "Amplitude aggregated filter"
+title_more <- colnames(mplot)
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+
+
+# time-shift first series
+for (i_mdfa in 1:length(lambda_mdfa))#i_mdfa<-1  i_mdfa<-7
+{  
+  trffkt_agg<-cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,1]+cust_leading_obj$mdfa_list[[i_mdfa]]$trffkt[,2]*cust_leading_obj$weight_func[,3]/cust_leading_obj$weight_func[,2]
+
+
+# time-shift functions first series
+  if (i_mdfa==1)
+  {
+    mplot <- Arg(trffkt_agg)/((0 : K) * pi / K)
+# Use exact formula in frequency zero    
+  #  mplot[1] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+   #   apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[1]
+
+  } else
+  {
+    mplot <- cbind(mplot, Arg(trffkt_agg)/((0 : K) * pi / K))
+# Use exact formula in frequency zero    
+    #mplot[1,i_mdfa] <- (apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b * ((0 : (L - 1))), 2, sum) / 
+     # apply(cust_leading_obj$mdfa_list[[i_mdfa]]$b, 2, sum))[1]
+  }
+}
+plot_title <- "Time-Shift aggregated filter"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+
+invisible(dev.off())
+@    
+<<label=z_amp_shift_mdfacust_leadind_agg_ST.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_amp_shift_mdfacust_leadind_agg_ST", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions (right) of aggregated filter when emphasizing Timeliness: a1=0.1", sep = "")
+  cat("\\label{z_amp_shift_mdfacust_leadind_agg_ST}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The effects intended by emphasizing Timeliness and Smoothness are achieved: the amplitude of the customized $\tilde{\Gamma}(\cdot)$ is closer to zero in the stopband and its time-shift is closer to zero in the passband. We now measure the relevant impact of customization on Curvature and Peak Correlation statistics.
+
+
+
+
+
+
+\section{Empirical Contest: MDFA vs. DFA}\label{emp_con_m_d}
+
+In contrast to the previous section we here address multiple realizations of the process and derive in-sample as well as out-of-sample distributions of Peak Correlation, Curvature and MSE performance measures. The empirical design is the same as in the previous section: we target an ideal trend with cutoff $\pi/6$, based on filters of length $L=12$. The contenders in our study are univariate (DFA) and bivariate (MDFA) \emph{MSE}-designs ($\lambda=\eta=0$) and  \emph{customized} DFA and MDFA `balanced' designs  $\lambda=30,\eta=1$: four competitors, one of each kind. 
+
+<<echo=True>>=
+# Customization MDFA: MSE and balanced designs
+lambda_mdfa<-c(0,30)
+eta_mdfa<-c(0,1.)
+# Customization DFA: MSE and balanced designs
+lambda_vec<-c(0,30)
+eta_vec<-c(0,1)
+# Second process
+a1<-0.1
+# target
+cutoff<-pi/6
+# Filter length
+L<-12
+# Real-time design
+Lag<-0
+# No constraints
+i1<-i2<-F
+# Sample length 120
+len<-120
+# Number of replications
+anzsim<-100
+@
+<<echo=False>>=
+len1<-2000
+@
+<<echo=True>>=                                                        
+cust_leading_obj<-mdfa_mse_leading_indicator_vs_dfa_customized(anzsim,a1,
+    cutoff,L,lambda_vec,eta_vec,len1,len,i1,i2,Lag,lambda_mdfa,eta_mdfa,troikaner)  
+@
+
+
+Box-plots of in-sample and out-of-sample Curvature, Peak Correlation and MSE-scores are depicted in fig.\ref{z_curv_mdfacust_leadind_ST}.
+<<echo=False>>=
+colo<-rainbow(length(lambda_mdfa)+length(lambda_vec))
+file = paste("z_curv_mdfacust_leadind_ST.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(3,2))
+# Curvature in sample  dim(cust_leading_obj$perf_in_sample)
+boxplot(list(cust_leading_obj$perf_in_sample[,1,1],cust_leading_obj$perf_in_sample[,1,2],cust_leading_obj$perf_in_sample[,1,3],cust_leading_obj$perf_in_sample[,1,4]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")),main=paste("Curvature in-sample, a1=",a1,sep=""),cex.axis=0.8,col=colo)
+# Curvature out-of-sample
+boxplot(list(cust_leading_obj$perf_out_sample[,1,1],cust_leading_obj$perf_out_sample[,1,2],cust_leading_obj$perf_out_sample[,1,3],cust_leading_obj$perf_out_sample[,1,4]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")),main=paste("Curvature out-of-sample, a1=",a1,sep=""),cex.axis=0.8,col=colo)
+# Peak correlation in sample
+boxplot(list(cust_leading_obj$perf_in_sample[,2,1],cust_leading_obj$perf_in_sample[,2,2],cust_leading_obj$perf_in_sample[,2,3],cust_leading_obj$perf_in_sample[,2,4]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")),main=paste("Peak Correlation in-sample, a1=",a1,sep=""),cex.axis=0.8,col=colo)
+# Peak correlation out-of-sample 
+boxplot(list(cust_leading_obj$perf_out_sample[,2,1],cust_leading_obj$perf_out_sample[,2,2],cust_leading_obj$perf_out_sample[,2,3],cust_leading_obj$perf_out_sample[,2,4]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")),main=paste("Peak Correlation out-of-sample, a1=",a1,sep=""),cex.axis=0.8,col=colo)
+# MSE in sample
+boxplot(list(cust_leading_obj$perf_in_sample[,3,1],cust_leading_obj$perf_in_sample[,3,2],cust_leading_obj$perf_in_sample[,3,3],cust_leading_obj$perf_in_sample[,3,4]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")),main=paste("MSE in-sample, a1=",a1,sep=""),cex.axis=0.8,col=colo)
+# MSE out-of-sample 
+boxplot(list(cust_leading_obj$perf_out_sample[,3,1],cust_leading_obj$perf_out_sample[,3,2],cust_leading_obj$perf_out_sample[,3,3],cust_leading_obj$perf_out_sample[,3,4]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),paste("MDFA(",lambda_mdfa,",",eta_mdfa,")",sep="")),main=paste("MSE out-of-sample, a1=",a1,sep=""),cex.axis=0.8,col=colo)
+invisible(dev.off())
+@
+<<label=z_curv_mdfacust_leadind_ST.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_curv_mdfacust_leadind_ST", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=7in, width=5in]{", file, "}\n",sep = "")
+  cat("\\caption{Curvature (top), Peak Correlation (middle) and MSE (bottom), in-sample (left) and out-of-sample (right) for MSE-DFA (red), balanced DFA (green), MSE-MDFA (cyan) and balanced MDFA (violet): a1=0.1", sep = "")
+  cat("\\label{z_curv_mdfacust_leadind_ST}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\textbf{Analysis}
+\begin{itemize}
+\item Recall that the empirical design is different than in section \ref{double_score_ats} so that performances cannot be compared directly. 
+\item Both MSE-designs (red,cyan) are outperformed in terms of Curvature and Peak Correlation, by the balanced customized designs, in-sample and out-of-sample; but the latter loose in terms of MSE. 
+\item The univariate balanced design (green) is outperformed by the multivariate balanced design (violet) on all accounts; in-sample as well as out-of-sample. Similarly, DFA-MSE (red) is outperformed by MDFA-MSE (cyan), in-sample and out-of-sample.
+\item In-sample and out-of-sample performances are congruent which suggests that overfitting is avoided\footnote{The almost identical in- and out-of-sample distributions of Peak Correlation is due to discretization effects, since the Peak Correlation statistic is integer-valued.}.  
+\end{itemize}
+
+
+
+
+\section{Summary}
+
+\begin{itemize}
+\item The concepts in the previous chapter -- trilemma, customized criterion, quadratic criterion -- could be generalized to a multivariate framework by emphasizing the aggregate filter (output). Instead of tackling each sub-filter of the multivariate design separately, this proceeding addresses the problem in its entirety, by a single set of customization parameters $(\lambda,\eta)$.  
+\item Empirical examples illustrate efficiency gains of MDFA vs. DFA in the context of the bivariate leading-indicator design. Multivariate designs (MSE/balanced customized) outperform their univariate siblings on all accounts: Timeliness, Curvature and MSE, in-sample as well as out-of-sample.
+\item All previous optimization criteria are nested in the proposed multivariate closed-form solution.
+\end{itemize}

@@ -1,0 +1,24 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+
+
+
+
+\chapter{Non-Stationarity:  Integrated Processes}\label{int_sec}
+
+\section{Introduction}
+
+Briefly review classical model-based concepts
+
+\section{Integration}
+
+\subsection{Unit-Roots vs. Filter Constraints}
+
+Refer to  DFA-paper with Tucker and to 2005 and 2008-books (generalized unit-root test) 
+
+\subsection{I(1)- (Level) Constraint}
+
+\subsection{I(2)- (Time-Shift) Constraint}
+\section{Optimization Criterion}

@@ -1,0 +1,938 @@
+
+
+
+\chapter{Classic Mean-Square Error (MSE) Perspective}\label{mse_sec}
+
+\section{Introduction}
+
+MDFA is a generic forecast and signalextraction paradigm with a richly parametrized user-interface allowing for sophisticated data analysis. In this chapter we emphasize mean-square performances: the corresponding default-parameters were introduced in section \ref{control_dfa}. Specifically, the parameters can be conveniently up-loaded by sourcing a corresponding R-file. \\
+
+In section \ref{fresh_up} we provide a brief `fresh-up' of the antecedent \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} paradigm; section \ref{mdfa_ps_mse} generalizes the univariate (MSE-) case to a multivariate (MSE-) framework; section \ref{matrix_not} presents a general matrix-notation which will allow for formal and convenient extensions of the univariate DFA to the MDFA as well as for suitable extensions of the classic MSE-norm; an alternative so-called grand-mean parametrization is discussed in section \ref{gm_par}; the DFA is replicated by MDFA in section \ref{ex_rep_dfa}; finally, section \ref{leading_ind} benchmarks a bivariate MDFA against the former DFA and evaluates performance gains by a leading-indicator design.
+
+\section{DFA Booster}\label{fresh_up}
+
+We propose a brief survey or `re-fresher' of the main DFA-concepts. The interested reader is referred  to \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} and to to McElroy and Wildi (2014) (DFA and Trilemma) for technical details, (R-)code and exercises on the topic.
+
+
+
+\subsection{Discrete Fourier Transform (DFT) and Periodogram}\label{dft_and_per}
+
+A time series $x_t$, $t=1,...,T$, of length $T$, can be mapped to the frequency-domain by the so-called DFT:
+\begin{eqnarray}\label{dft}
+\Xi_{TX}(\omega):=\frac{1}{\sqrt{2\pi T}}\sum_{t=1}^Tx_t\exp(-it\omega)
+\end{eqnarray}
+The DFT $\Xi_{TX}(\omega)$ is generally restricted to the discrete frequency-grid
+$\omega_k=\displaystyle{\frac{k2\pi}{T}}$, where $k=-T/2,...,0,...,T/2$, for even $T$\footnote{For odd $T$ one uses $T'=T-1$ in these expressions instead of $T$.}. This (discrete grid) restriction can be justified by the fact that the data could be recovered from the DFT by applying the so-called \emph{inverse} (DFT-) transformation
+\begin{eqnarray}\label{idft}
+x_t&=&\frac{\sqrt{2\pi}}{\sqrt{ T}}\sum_{k=-[T/2]}^{[T/2]} w_k\Xi_{TX}(\omega_k)\exp(it\omega_k )\\
+&=&\frac{\sqrt{2\pi}}{\sqrt{ T}}\left(\Xi_{TX}(0)+2\sum_{k=1}^{[T/2]} w_k\Re\left(\Xi_{TX}(\omega_k)\exp(it\omega_k )\right)\right)\label{idft2}
+\end{eqnarray}
+where $[T/2]=\displaystyle{\left\{\begin{array}{cc}T/2& T\textrm{~even}\\(T-1)/2&T\textrm{~odd}\end{array}\right.}$ and where \\
+$w_k=\left\{\begin{array}{cc}1&,[-T/2]\leq k\leq [T/2] \textrm{~if~} T \textrm{~is ~odd}\\
+\left\{\begin{array}{cc}1&|k|<T/2\\1/2&|k|=T/2\end{array}\right.&\textrm{~if~} T \textrm{~is ~even}
+\end{array}\right.$. This results suggests that we can restrict the DFT to the discrete grid $\omega_k$since the corresponding (frequency-domain) information is equivalent to the original data sample $x_1,...,x_T$. In practice, the weights $w_k$ (not to be confounded with the frequencies $\omega_k$) are negligible and can be omitted from formulas or code expressions. \\
+
+The identity \ref{idft} is a tautological number identity: it applies to any sequence of numbers $x_t$, $t=1,...,T$ irrespective of (model-) assumptions. The identity suggests that the data $x_t$ can be decomposed into a linear combination of sines and cosines 
+as weighted by the DFT. The equation can be verified empirically, see \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 2.2.1, exercise 2 (a proof is provided in the appendix).\\
+
+The \emph{periodogram} $I_{TX}(\omega_k)$ is defined by
+\begin{eqnarray}\label{per_def}
+I_{TX}(\omega_k)=\left|\Xi_{TX}(\omega_k)\right|^2
+\end{eqnarray}
+The periodogram is the DFT of the \emph{sample autocovariance function} $\hat{R}(k)$ of the data:
+\begin{equation}\label{per3}
+I_{TX}(\omega_k)= \left\{\begin{array}{ccc}\displaystyle{
+\frac{1}{2\pi} \sum_{j=-(T-1)}^{T-1} \hat{R}(j) \exp(-ij\omega_k)}&,&|k|=1,...,T/2\\
+\displaystyle{\frac{T}{2\pi}}\overline{x}^2&,&k=0 \end{array}\right.\end{equation}
+where
+\begin{eqnarray}\label{rhat}
+\hat{R}(j):=\frac{1}{T}\sum_{t=1}^{T-|j|}x_tx_{t+|j|}
+\end{eqnarray}
+is the sample autocovariance of a zero-mean stationary process. The periodogram can be interpreted as a decomposition  of the sample variance:
+\begin{equation}\label{spec_dec_per}
+\hat{R}(0)=\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]} I_{TX}(\omega_k) =\frac{2\pi}{T}I_{TX}(0)+2\frac{2\pi}{T} \sum_{k=1}^{[T/2]} I_{TX}(\omega_k)
+\end{equation}
+The value $2\frac{2\pi}{T}I_{TX}(\omega_k), k>0$ measures dynamic contributions  of components with frequency $\omega_k$\footnote{More precisely: components with frequencies in the interval $[\omega_k-\pi/T,\omega_k+\pi/T]$.} to the sample variance of the data.\\
+
+In analogy to \ref{idft}, the identity \ref{per3} is a tautological number-identity which holds irrespective of model assumptions about $x_t$, see \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 2.3.1, exercise 1. 
+
+
+\subsection{Filter Effects: Transfer- Amplitude- and Time-Shift Functions}
+
+
+
+Let $y_t$ be the output of a general filter
+\[y_t=\sum_{k=-\infty}^{\infty}\gamma_kx_{t-k}\]
+In order to derive the important filter effect(s) we assume a particular (complex-valued)
+input series $x_t:=\exp(it\omega )$. The output signal $y_t$ then becomes
+\begin{eqnarray}\label{aidehh}
+y_{t}&=&\sum_{k=-\infty}^{\infty}{\gamma}_{k}\exp(i\omega(t-k))\\
+&=&\exp(i\omega t)\sum_{k=-\infty}^{\infty}{\gamma}_{k}\exp(-ik\omega)\\
+&=&\exp(i\omega t){\Gamma}(\omega)
+\end{eqnarray}
+where the (generally complex-valued) function
+\begin{eqnarray}
+\Gamma(\omega):=\sum_{k=-\infty}^{\infty}{\gamma}_k\exp(-ik\omega)
+\end{eqnarray}
+is called the \emph{transfer function} of the filter. We can represent the complex number $\Gamma(\omega)$ in terms of polar coordinates:
+\begin{eqnarray}
+\Gamma(\omega)=A(\omega)\exp(-i\Phi(\omega))
+\end{eqnarray}
+where $A(\omega)=|\Gamma(\omega)|$ is called the \emph{amplitude} of the filter and $\Phi(\omega)$ is its \emph{phase}. \\
+
+
+If the filter coefficients are real, then the real part
+of $x_t$ is mapped to the real part of $y_{t}$. Therefore the cosine (real-part of the input) is mapped to
+\begin{eqnarray}
+\cos(t\omega)&\to& \Re(\exp(i\omega t){\Gamma}(\omega))\\
+&=&A(\omega)\left[
+\cos(t\omega)\cos(-{\Phi}(\omega))-\sin(t\omega)
+\sin(-{\Phi}(\omega))\right]\nonumber\\
+&=&A(\omega)\cos(t\omega-{\Phi}(\omega))\nonumber\\
+&=&A(\omega) \cos(\omega(t-{\Phi}(\omega)/\omega)) \label{costocosphi}
+\end{eqnarray}
+The amplitude function \(A(\omega)\) can be interpreted as the weight (damping if \(A(\omega)<1\), amplification if
+\(A(\omega)>1\)) attributed by the filter to a sinusoidal input signal
+with frequency \(\omega\). The function
+\begin{eqnarray}\label{tsfunc}
+\phi(\omega):={\Phi}(\omega)/\omega
+\end{eqnarray}
+can be interpreted as the \emph{time shift} of the
+filter at frequency \(\omega\).\\
+
+The transferfunction of a causal and stable ARMA-filter 
+\[y_t=\sum_{k=1}^{L'}a_ky_{t-k}+\sum_{j=0}^{L}b_jx_{t-j}\]
+is obtained as
+\[\Gamma(\omega)=\frac{\sum_{j=0}^{L}b_j\exp(-ij\omega)}{1-\sum_{k=1}^{L'}a_k\exp(-ik\omega)}\]
+Amplitude and time-shift functions of the ARMA-filter can be derived from this expression, see \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, sections 3.2.2, 3.2.3 and 3.2.4 for comprehensive results and exercises on the topic.
+
+
+
+
+
+\subsection{Discrete Finite Sample Convolution}
+
+
+
+The transferfunction or, alternatively, the amplitude and the phase (or time-shift) functions,
+summarize and describe the effects of a filter as
+applied to an elementary (periodic and deterministic) trigonometric signal $x_t=\exp(it\omega)$:
+\[
+y_t=\sum_{j=-\infty}^{\infty}\gamma_jx_{t-j}={\Gamma}(\omega)x_t
+\]
+An arbitrary sequence $x_1,...,x_T$, neither periodic nor deterministic, can be decomposed into a weighted sum of trigonometric  sinusoids
+\begin{equation}\label{dft_r}
+x_t=\frac{\sqrt{2\pi}}{\sqrt{ T}}\sum_{k=-[T/2]}^{[T/2]} \Xi_{TX}(\omega_k)\exp(it\omega_k )
+\end{equation}
+and similarly for $y_t$
+\begin{equation}\label{dft_ry}
+y_t=\frac{\sqrt{2\pi}}{\sqrt{ T}}\sum_{k=-[T/2]}^{[T/2]} \Xi_{TY}(\omega_k)\exp(it\omega_k )
+\end{equation}
+recall the number-identity \ref{idft} (we omit the weights $w_k$). Therefore, when applying the filter to
+a general sequence $x_1,...,x_T$ we might proceed as follows
+\begin{eqnarray}
+y_t&=&\sum_{j=-\infty}^{\infty}\gamma_jx_{t-j}\nonumber\\
+&\approx&\sum_{j=-\infty}^{\infty}\gamma_j\left(\frac{\sqrt{2\pi}}{\sqrt{ T}}\sum_{k=-[T/2]}^{[T/2]} w_k\Xi_{TX}(\omega_k)\exp(i(t-j)\omega_k )\right)\label{conv_app}\\
+&=&\frac{\sqrt{2\pi}}{\sqrt{ T}}\sum_{k=-[T/2]}^{[T/2]} w_k\Xi_{TX}(\omega_k)\left(\sum_{j=-\infty}^{\infty}\gamma_j\exp(i(t-j)\omega_k )\right)\nonumber\\
+&=&\frac{\sqrt{2\pi}}{\sqrt{ T}}\sum_{k=-[T/2]}^{[T/2]} w_k\Xi_{TX}(\omega_k)\Gamma(\omega_k)\exp(it\omega_k )\label{conv_o}
+\end{eqnarray}
+Comparing \ref{dft_ry} and \ref{conv_o} suggests that the DFT $\Xi_{TY}(\omega_k)$ of the output signal is linked to the DFT $\Xi_{TX}(\omega_k)$
+of the input signal via
+\begin{equation}\label{convolution_dft}
+\Xi_{TY}(\omega)\approx\Gamma(\omega)\Xi_{TX}(\omega)
+\end{equation}
+This result is not a strict equality but from a practical point of view we can
+ignore the error \footnote{One can invoke a `uniform super-consistency' argument for integrals or discrete sums, see  Wildi (2005) and (2008).}. A quantification of the finite sample error is provided in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 3.3.2. By definition, see \ref{per_def}, we then obtain
+\begin{eqnarray}\label{conv_per}
+I_{TY}(\omega)\approx\left|\Gamma(\omega)\right|^2I_{TX}(\omega)
+\end{eqnarray}
+
+
+
+
+\subsection{Assembling the Puzzle: the Optimization Criterion}
+
+
+We assume a general target specification
+\begin{equation}\label{target}
+y_t=\sum_{k=-\infty}^{\infty}\gamma_{k} x_{t-k}
+\end{equation}
+Note, for example, that (classical one-step ahead) forecasting could be addressed by specifying $\gamma_{-1}=1$, $\gamma_k=0, k\neq -1$. We aim at finding filter coefficients $b_{k}$, $k=0,...,L-1$ such that the finite sample
+estimate
+\begin{equation}\label{filter}
+\hat{y}_{t}:=\sum_{k=0}^{L-1}b_{k}x_{t-k}
+\end{equation}
+is `closest possible' to $y_{t}$ in \emph{mean-square}
+\begin{eqnarray}\label{mso}
+E\left[(y_{t}-\hat{y}_{t})^2\right]\to\min_{\mathbf{b}}
+\end{eqnarray}
+where $\mathbf{b}=(b_{0},...,b_{L-1})$.\\
+
+As usual, in applications, the expectation is unknown and therefore we could try to replace \ref{mso} by its sample estimate
+\begin{equation}\label{s_dfa}
+\frac{1}{T}\sum_{t=1}^T (y_{t}-\hat{y}_{t})^2=\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}I_{T\Delta Y}(\omega_k)
+\end{equation}
+where $I_{T\Delta Y}(\omega_k)$ is the periodogram of $\Delta y_t:=y_{t}-\hat{y}_{t}$ and where the identity follows from \ref{spec_dec_per}.
+Unfortunately, the output $y_t$ of the generally bi-infinite filter isn't observed and therefore $I_{T\Delta Y}(\omega_k)$ is unknown too.
+But we could try to approximate $I_{T\Delta Y}(\omega_k)$ by relying on the finite-sample discrete convolution \ref{conv_per}:
+\begin{eqnarray*}
+I_{T\Delta Y}(\omega_k)&\approx& \left|\Delta \Gamma(\omega_k) \right|^2I_{TX}(\omega_k)
+\end{eqnarray*}
+where $\Delta \Gamma(\omega_k)=\Gamma(\omega_k)-\hat{\Gamma}(\omega_k)=\sum_{j=-\infty}^{\infty}\Delta\gamma_j\exp(-ij\omega_k)$
+is the difference of target and real-time transfer functions. Then
+\begin{eqnarray}
+\frac{1}{T}\sum_{t=1}^T (y_{t}-\hat{y}_{t})^2&=&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}I_{T\Delta Y}(\omega_k)\label{s_dfa_e}\\
+&\approx&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Delta\Gamma(\omega_k) \right|^2 I_{TX}(\omega_k)\to\min_{\mathbf{b}} \label{dfa_ms}
+\end{eqnarray}
+We refer the reader to section 4.1 in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} for background  on this derivation and in particular: 
+\begin{itemize}
+\item for an extension of these concepts to integrated processes, see also chapter \ref{int_sec}, and
+\item for the magnitude of the approximation error which is negligible in practice (`uniform superconsistency'\footnote{Superconsistency means: the approximation error is asymptotically of smaller order than $1/\sqrt{T}$. Uniformity means: this claim remains valid after optimization. The magnitude of the approximation error is computed in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 3.3.2.}).
+\end{itemize} 
+The optimization problem specified by \ref{dfa_ms} is the DFA-MSE criterion (Direct Filter Approach Mean-Square Error). \\
+
+%Note that if the true spectrum $h_X(\omega)$ of the proxess $x_t$ is substituted for the periodogram in \ref{dfa_ms}, then 
+%\begin{eqnarray}
+%\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}|\Gamma(\omega_k)-\hat{\Gamma}(\omega_k)|^2h_{X}(\omega_k)&=&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}h_{\Delta Y}(\omega_k)\nonumber\\
+%&=&E\left[\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}I_{T\Delta Y}(\omega_k)\right]\nonumber\\
+%&=&E\left[\frac{1}{T}\sum_{t=1}^T(y_t-\hat{y}_t)^2\right]\nonumber\\
+%&=&E[(y_t-\hat{y}_t)^2]\label{add_res_dfa}
+%\end{eqnarray}
+%i.e. criterion \ref{dfa_ms} would minimize the true (unknown) mean-square filter error (instead of the finite- sample MSE). The first equality follows from classical convolution results\footnote{In contrast to \ref{conv_per}, which involves a small approximation error, the classic convolution theorem linking (true) spectral densities is an identity.}, whereby $h_{\Delta Y}(\omega_k)$ denotes the spectral density of the (stationary) filter error; the second equality follows from the unbiasedness of the periodogram i.e. $E[I_{T\Delta Y}(\omega_k)]=h_{\Delta Y}(\omega_k)$, where $I_{T\Delta Y}(\omega_k)$ is the periodogram of the filter error $y_t-\hat{y}_t$; the third equality is a consequence of \ref{spec_dec_per}.
+
+
+\subsection{Exercises: `Uniform Superconsistency' in a Finite Sample Number-Perspective}\label{ex_dfa_1}
+
+The empirical design of the following exercises is inspired from \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 4.1.1, exercise 2. It is assumed that the reader is familiar with the concept of an ideal trend (definition, computation of symmetric coefficients) as well as with the DFA-booster proposed above. The series of exercises aims at illustrating the quality of the approximation  \ref{dfa_ms} by putting the abstract `uniform super-consistency' argument into a finite-sample number-perspective. 
+\begin{enumerate}
+\item Generate realizations of three different stationary processes\footnote{The middle process $x_t=0.1x_{t-1}+\epsilon_t$ is inspired from macro-economic applications since this model fits log-returns of INDPRO (industrial production in the US) quite well over a longer historical time span. The other two processes with coefficients $a_1=-0.9$ and $a_1=0.9$ illustrate applications to strongly negatively and to strongly positively autocorrelated processes.}
+\begin{eqnarray}
+\left.\begin{array}{ccc}x_t&=&0.9x_{t-1}+\epsilon_t\\
+x_t&=&0.1x_{t-1}+\epsilon_t\\
+x_t&=&-0.9x_{t-1}+\epsilon_t
+\end{array}\right\}\label{ar1_processes}
+\end{eqnarray}
+and apply an ideal trend with cutoff $\pi/6$ to each of them. The target series $y_t$ should have length 120 (10 years of monthly data). Hint: since the ideal trend is a bi-infinite filter, we use a truncated finite sample approximation.  
+\begin{itemize}
+\item Generate realizations for all three processes. Hint: generate long time series of length 2000 in order to apply the symmetric target filter. 
+<<exercise_dfa_ms_1,echo=True>>=
+# Generate series of length 2000
+lenh<-2000
+len<-120
+# Specify the AR-coefficients
+a_vec<-c(0.9,0.1,-0.9)
+xh<-matrix(nrow=lenh,ncol=length(a_vec))
+x<-matrix(nrow=len,ncol=length(a_vec))
+yhat<-x
+y<-x
+# Generate series for each AR(1)-process
+for (i in 1:length(a_vec))
+{
+# We want the same random-seed for each process  
+  set.seed(10)
+  xh[,i]<-arima.sim(list(ar=a_vec[i]),n=lenh)
+}
+@
+
+\item Extract the data (series of length 120) and compute (truncated) ideal trends. 
+<<exercise_dfa_ms_2,echo=True>>=
+# Extract 120 observations in the midddle of the longer series
+x<-xh[lenh/2+(-len/2):((len/2)-1),]
+# Compute the coefficients of the symmetric target filter
+cutoff<-pi/6
+# Order of approximation
+ord<-1000
+# Filter weights ideal trend (See DFA)
+gamma<-c(cutoff/pi,(1/pi)*sin(cutoff*1:ord)/(1:ord))
+# Compute the outputs yt of the (truncated) symmetric target filter
+for (i in 1:length(a_vec))
+{
+  for (j in 1:120)
+  {
+    y[j,i]<-gamma[1:900]%*%xh[lenh/2+(-len/2)-1+(j:(j-899)),i]+
+    gamma[2:900]%*%xh[lenh/2+(-len/2)+(j:(j+898)),i]
+  }
+}
+@
+\textbf{Remark}: the proposed simulation framework allows computation of the target series $y_t$ which is generally unobservable. Therefore, we can obtain the sample mean-square filter error on the left-hand side of \ref{s_dfa_e}. In applications, the latter is generally \emph{unobservable}. 
+\end{itemize}
+
+\item For each of the above realizations: approximate the ideal trend $y_t$ by a real-time\footnote{So-called nowcasts, see section \ref{for_now_smo} for details. A nowcast is obtained by setting $Lag=0$ in the head of the MDFA-function.} estimate $\hat{y}_t$ based on a filter of length $L=12$ and compute the criterion value (the right-hand side of \ref{dfa_ms}).
+\begin{itemize}
+\item Use filters of length $L=12$ and apply the MSE-DFA criterion \ref{dfa_ms} or, equivalently, the MSE-DFA function proposed in section \ref{dfa_intro} to 
+the data samples of length 120 corresponding to $y_1,...,y_{120}$. 
+<<exercise_dfa_ms_3,echo=True>>=
+plot_T<-F
+periodogram<-matrix(ncol=3,nrow=len/2+1)
+trffkt<-periodogram
+perf_mat<-matrix(nrow=3,ncol=2)
+dimnames(perf_mat)[[2]]<-c("Criterion Value",
+                           "Mean-Square Sample Filter Error")
+dimnames(perf_mat)[[1]]<-c("a1=0.9","a1=0.1","a1=-0.9")
+# Filter length
+L<-12
+# Real-time design
+Lag<-0
+# Target ideal trend
+Gamma<-c(1,(1:(len/2))<len/12)
+b<-matrix(nrow=L,ncol=3)
+# Compute real-time filters
+for (i in 1:3)#i<-1
+{
+# Compute the periodogram based on the data (length 120)  
+  periodogram[,i]<-per(x[,i],plot_T)$per
+# Optimize filters
+  filt<-dfa_ms(L,periodogram[,i],Lag,Gamma)
+  trffkt[,i]<-filt$trffkt
+  b[,i]<-filt$b
+# Compute real-time outputs (we can use the longer series in order 
+# to obtain estimates for time points t=1,...,11)
+  for (j in 1:len)
+    yhat[j,i]<-filt$b%*%xh[lenh/2+(-len/2)-1+j:(j-L+1),i]
+}
+@
+\item Compute criterion values (the right-hand side of  \ref{dfa_ms}) for each time series.
+<<exercise_dfa_ms_3,echo=True>>=
+for (i in 1:3)
+{
+# Compute criterion values
+  perf_mat[i,1]<-(2*pi/length(Gamma))*
+                  abs(Gamma-trffkt[,i])^2%*%periodogram[,i]
+}
+perf_mat[,1]
+@
+\end{itemize}
+\item Compute sample mean-square filter errors: the left-hand side of  \ref{s_dfa_e}.
+<<exercise_dfa_ms_4,echo=True>>=
+# Compute time-domain MSE
+mse<-apply(na.exclude((yhat-y))^2,2,mean)
+perf_mat[,2]<-mse
+round(perf_mat[,2],3)
+@
+\item Compare left-hand side of \ref{s_dfa_e} and right-hand side of \ref{dfa_ms}, see table \ref{perf_mat}.\\ 
+<<label=z_dfa_ar1_output.pdf,echo=FALSE,results=tex>>=
+  library(Hmisc)
+  require(xtable)
+  #latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+  #center = "centering", file = "", floating = FALSE)
+  xtable(perf_mat, dec = 1,digits=rep(3,dim(perf_mat)[2]+1),
+  paste("Criterion values vs. sample (mean-square) filter errors",sep=""),
+  label=paste("perf_mat",sep=""),
+  center = "centering", file = "", floating = FALSE)
+@
+The alleged tightness of the approximation in \ref{dfa_ms} seems confirmed.
+\item Verify optimality of the estimated filter coefficients (left as an exercise to the reader).
+
+\end{enumerate}
+
+
+
+\subsection{Exercises: Explaining the Optimization Criterion}\label{ex_dfa}
+
+The DFA-criterion \ref{dfa_ms} corresponds to a weighted optimization: the real-time filter $\hat{\Gamma}(\cdot)$ should be close to the target $\Gamma(\cdot)$ in `loaded' frequencies whereby the amount of loading is measured by the periodogram (alternative spectral estimates are analyzed in chapter \ref{rep_sec}). We here briefly illustrate this particular optimization concept by analyzing real-time filter outputs and filter characteristics (amplitude and time-shift functions).
+
+\begin{enumerate}
+\item Compare graphically target $y_t$ and real-time estimate $\hat{y}_t$ for each realization of the previous exercise, see fig.\ref{z_dfa_ar1_sym_output}.
+<<label=z_dfa_ar1_output.pdf,echo=TRUE>>=
+file = paste("z_dfa_ar1_sym_output.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+par(mfrow=c(3,1))
+for (i in 1:3)   #i<-1
+{
+  ymin<-min(min(y[,i]),min(na.exclude(yhat)[,i]))
+  ymax<-max(max(y[,i]),max(na.exclude(yhat)[,i]))
+  ts.plot(yhat[,i],main=paste("Time-domain MSE = ",
+  round(mse[i],3)," , Frequency-domain MSE = ",
+  round(perf_mat[i,1],3),", a1 = ",a_vec[i],sep=""),col="blue",
+        ylim=c(ymin,ymax),
+  gpars=list(xlab="", ylab=""))
+  lines(y[,i],col="red")
+  mtext("Real-time", side = 3, line = -1,at=len/2,col="blue")
+  mtext("target", side = 3, line = -2,at=len/2,col="red")
+}
+invisible(dev.off())
+@
+
+
+<<label=z_dfa_ar1_output.pdf,echo=FALSE,results=tex>>=
+file = paste("z_dfa_ar1_sym_output", sep = "")
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{Real-time filter output (blue) vs. targets (red) for a1=0.9 (top), a1=0.1 (middle) and a1=-0.9 (bottom)", sep = "")
+cat("\\label{z_dfa_ar1_sym_output}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+Visual inspection seems to conflict with MSE-performances: the real-time filter with the largest MSE (upper panel) appears to fit its target best. This conflict can be alleviated, to some extent, by adjusting for differences in scale of the time series\footnote{A relative (signal-to-noise) measure would seem more appropriate than the raw MSE, see later chapters.}. But it is obvious that the task of the filter in the upper panel seems easier, in some way, than that of the bottom filter, whose output is much noisier than its target. A more refined analysis reveals, also, that the real-time estimates appear to be systematically shifted to the right: they are delayed. Once again, the upper filter seems least affected. In summary: the difficulty of the estimation task seems to depend on the DGP as specified by the parameter $a_1$\footnote{Smaller $a_1$ correspond to noisier realizations $x_t$ which, in turn, lead to noisier real-time estimates $\hat{y}_t$ (increasingly difficult estimation problems).}. 
+\item Compute and compare graphically amplitude and time-shift functions for all three realizations (processes), see fig.\ref{z_dfa_ar1_amp_shift}\footnote{Our plots are similar but not identical to the plots in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 4.1.1, exercise 1: here we use data in the middle of the long sample whereas in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} the first 120 observations are used.}.
+<<label=z_dfa_ar1_output.pdf,echo=TRUE>>=
+
+omega_k<-pi*0:(len/2)/(len/2)
+file = paste("z_dfa_ar1_amp_shift.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, 
+    height = 6)
+par(mfrow=c(2,2))
+amp<-abs(trffkt)
+shift<-Arg(trffkt)/omega_k
+plot(amp[,1],type="l",main="Amplitude functions",
+axes=F,xlab="Frequency",ylab="Amplitude",col="black",ylim=c(0,1))
+lines(amp[,2],col="orange")
+lines(amp[,3],col="green")
+lines(Gamma,col="violet")
+mtext("Amplitude a1=0.9", side = 3, line = -1,at=len/4,col="black")
+mtext("Amplitude a1=0.1", side = 3, line = -2,at=len/4,col="orange")
+mtext("Amplitude a1=-0.9", side = 3, line = -3,at=len/4,col="green")
+mtext("Target", side = 3, line = -4,at=len/4,col="violet")
+axis(1,at=c(0,1:6*len/12+1),labels=c("0","pi/6","2pi/6","3pi/6",
+"4pi/6","5pi/6","pi"))
+axis(2)
+box()
+plot(shift[,1],type="l",main="Time-shifts",
+axes=F,xlab="Frequency",ylab="Shift",col="black",
+ylim=c(0,max(na.exclude(shift[,3]))))
+lines(shift[,2],col="orange")
+lines(shift[,3],col="green")
+lines(rep(0,len/2+1),col="violet")
+mtext("Shift a1=0.9", side = 3, line = -1,at=len/4,col="black")
+mtext("Shift a1=0.1", side = 3, line = -2,at=len/4,col="orange")
+mtext("Shift a1=-0.9", side = 3, line = -3,at=len/4,col="green")
+mtext("Target", side = 3, line = -4,at=len/4,col="violet")
+axis(1,at=c(0,1:6*len/12+1),labels=c("0","pi/6","2pi/6","3pi/6",
+"4pi/6","5pi/6","pi"))
+axis(2)
+box()
+plot(periodogram[,1],type="l",main="Periodograms",
+axes=F,xlab="Frequency",ylab="Periodogram",col="black",
+ylim=c(0,max(periodogram[,3])/6))
+lines(periodogram[,2],col="orange")
+lines(periodogram[,3],col="green")
+mtext("Periodogram a1=0.9", side = 3, line = -1,at=len/4,col="black")
+mtext("Periodogram a1=0.1", side = 3, line = -2,at=len/4,col="orange")
+mtext("Periodogram a1=-0.9", side = 3, line = -3,at=len/4,col="green")
+axis(1,at=c(0,1:6*len/12+1),labels=c("0","pi/6","2pi/6","3pi/6",
+"4pi/6","5pi/6","pi"))
+axis(2)
+box()
+invisible(dev.off())
+@
+<<label=z_dfa_ar1_output.pdf,echo=FALSE,results=tex>>=
+file = paste("z_dfa_ar1_amp_shift.pdf", sep = "")
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{Amplitude (top left), time-shifts (top-right) and periodograms (bottom left) for
+a1=0.9 (black), a1=0.1 (orange) and a1=-0.9 (green)", sep = "")
+cat("\\label{z_dfa_ar1_amp_shift}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+\begin{itemize}
+\item Noise and delay of the real-time estimates $\hat{y}_t$ previously observed in fig.\ref{z_dfa_ar1_sym_output} are due to leaking amplitude functions (incomplete stop-band rejection) and to non-vanishing time-shift functions of the real-time filters, see fig.\ref{z_dfa_ar1_amp_shift}. Chapter \ref{ats_sec} proposes a more general optimization paradigm which will address these issues explicitly.
+\item The time-shift (top right panel) of the black filter ($a_1=0.9$) remains comparatively small. Its amplitude function (top left panel) 
+is the farthest away from the target in the stop-band $\omega>\pi/6$ but it is closest
+to the target in the passband $\omega\leq\pi/6$: the optimization criterion seems to trade (poorer) high-frequency damping against (improved) passband properties. In summary: $\hat{\Gamma}(\cdot)$ tracks $\Gamma(\cdot)$ towards the loaded frequencies, as measured by the periodogram (bottom panel) in \ref{dfa_ms}. Similar findings apply to the other two processes.
+\end{itemize}
+\end{enumerate}
+
+
+
+\section{MDFA: Problem-Structure and Target (MSE-Perspective)}\label{mdfa_ps_mse}
+
+
+
+
+\subsection{Emphasizing the Filter Error}
+
+
+The previous (univariate) DFA has been generalized to a multivariate framework in Wildi (2008.2), theorem 7.1, and in McElroy-Wildi (2015) (MDFA-paper).  We here briefly summarize the main results in the case of stationary processes (see chapters \ref{int_sec}, \ref{coint_sec} and \ref{ada_sec} for generalizations to non-stationary processes). \\
+
+Let the target $y_t$ be defined by \ref{target} and let $x_t, w_{tj}$, $t=1,...,T$ and $j=1,...,m$ be an $m+1$-dimensional set of explanatory variables\footnote{The explicit link between $y_t$ and $x_t$, as defined by \ref{target}, justifies to distinguish $x_t$ from the other explanatory series.}. Consider
+\begin{eqnarray}
+\hat{\Gamma}_X(\omega_k)\Xi_{T
+X}(\omega_k)+\sum_{n=1}^m
+\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\label{statcase}
+\end{eqnarray}
+where
+\begin{eqnarray}
+\hat{\Gamma}_X(\omega_k)&=&\sum_{j=0}^{L-1}b_{Xj} \exp(-ij\omega_k)\label{exp1}\\
+\hat{\Gamma}_{W_n}(\omega_k)&=&\sum_{j=0}^{L-1}b_{w_nj} \exp(-ij\omega_k)\label{exp2}
+\end{eqnarray}
+are the (one-sided) transfer functions of the (real-time) filters, whose coefficients must be determined, and where $\Xi_{TX}(\omega_k)$, $\Xi_{TW_n}(\omega_k)$ are the corresponding DFTs of the data. The filter coefficients can be collected in a matrix $\mathbf{B}=(\mathbf{b}_{X},\mathbf{b}_{w_1},...,\mathbf{b}_{w_m})$ where $\mathbf{b}_{X}=(b_{X0},...,b_{X,L-1})'$ and $\mathbf{b}_{w_n}=(b_{w_n0},...,b_{w_n,L-1})'$ are the vectors of filter coefficients. Then the following multivariate MSE-criterion
+\begin{equation}\label{dfanv}
+\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\left(\Gamma(\omega_k)-\hat{\Gamma}_X(\omega_k)\right)\Xi_{T
+X}(\omega_k)-\sum_{n=1}^m
+\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\right|^2 \to \min_{\mathbf{B}}
+\end{equation}
+generalizes the univariate DFA-MSE criterion \ref{dfa_ms}, see theorem 7.1 in Wildi (2008.2) and McElroy-Wildi (2015)\footnote{MDFA-paper.}.\\
+
+
+\textbf{Remarks}:
+\begin{itemize}
+\item Due to the explicit link between $x_t$ and the target $y_t$, the former is generally informative about $y_t$. In some cases, however, we want to exclude $x_t$ from the set of explanatory variables (for example if $x_t$ is subject to large publication lags and/or large revisions, see chapter \ref{rev_sec}) and then we assume $\mathbf{b}_{X}=\mathbf{0}$ or, equivalently,  $\hat{\Gamma}_X\equiv 0$.
+\item In the absence of additional explanatory series (i.e. $m=0$)  the multivariate criterion \ref{dfanv} reduces to \ref{dfa_ms}. The proposed (MSE-) MDFA-criterion thus generalizes the previous DFA. 
+\end{itemize}
+
+
+
+
+
+
+\subsection{One- and Multi-Step Ahead Forecast Criteria}\label{one_step}
+
+The univariate and multivariate criteria \ref{dfa_ms} and \ref{dfanv} rely on a general target specification. The classic one-step ahead mean-square criterion could be replicated by specifying $\gamma_{-1}=1, \gamma_k=0, k\neq 0$ in \ref{target}:
+\[y_t=\sum_{k=-\infty}^\infty\gamma_kx_{t-k}=x_{t+1}\]
+In this case, criterion \ref{dfanv} becomes
+\begin{equation}\label{dfanv_1s}
+\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\left(\exp(i\omega_k)-\hat{\Gamma}_X(\omega_k)\right)\Xi_{T
+X}(\omega_k)-\sum_{n=1}^m
+\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\right|^2 \to \min_{\mathbf{B}}
+\end{equation}
+where the anticipative \emph{allpass} target filter $\Gamma(\omega_k):=\exp(i\omega_k)$ rotates the DFT $\Xi_{T
+X}(\omega_k)$ in the frequency-domain (shifts the data in the time-domain). A direct link to classical (pseudo-) maximum likelihood approaches is provided in chapter \ref{rep_sec} for details (replication of model-based performances by MDFA). To conclude, we note that  $h$-step ahead forecasting could be obtained by specifying the allpass target $\Gamma_h(\omega_k):=\exp(ih\omega_k)$. \\
+
+\textbf{Remarks}
+\begin{itemize}
+\item Typically, in the time-domain, $h$ observations are lost when estimating the coefficients of a direct $h$-step ahead forecast equation. In contrast, the whole sample remains at disposal in the frequency-domain because time-shifts, of the data, are handled by rotations, of the (full-sample) DFTs.  
+\item We here proposed forecasts of the \emph{original} data. In section \ref{for_now_smo} we generalize this concept to forecasts, nowcasts and backcasts of arbitrary signals.
+\end{itemize}
+
+
+
+
+\section{Matrix Notation and Generalized Least-Squares Solution}\label{matrix_not}
+
+We here introduce a convenient matrix notation which will be useful when tackling filter constraints (see chapter \ref{con_sec}) as well as more sophisticated optimization criteria (customization, regularization, mixed-frequency). We then derive the solution of the MSE-criterion \ref{dfanv} in closed-form.
+
+\subsection{Matrix Notation}\label{matrix_notation}
+
+Because of the symmetry of its summands around $\omega_0=0$, criterion \ref{dfanv} can be rewritten in a numerically more efficient form
+\begin{eqnarray}\label{dfanv_s}
+&&\frac{2\pi}{T}\left|\left(\Gamma(0)-\hat{\Gamma}_X(0)\right)\Xi_{TX}(0)-\sum_{n=1}^m\hat{\Gamma}_{W_n}(0)\Xi_{TW_n}(0)\right|^2\nonumber\\
+&+&2\frac{2\pi}{T} \sum_{k>0}^{T/2}\left|\left(\Gamma(\omega_k)-\hat{\Gamma}_X(\omega_k)\right)\Xi_{TX}(\omega_k)-\sum_{n=1}^m\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\right|^2 \to \min_{\mathbf{B}}
+\end{eqnarray}
+Note that frequency zero is counted once, only,  whereas all strictly positive frequencies are duplicated\footnote{The unequal weighting of frequency zero explains the modified DFT in exercise \ref{ex_rep_dfa_1}, section \ref{ex_rep_dfa}.}. We now derive a more convenient vector notation for the above criterion.\\
+
+Let $\mathbf{X}$ be a matrix whose $k$-th row $\mathbf{X}_k$ is defined as
+\begin{eqnarray}\label{desmat}
+\mathbf{X}_k&=&\sqrt{1+I_{k>0}}\cdot\nonumber\\
+&&\textrm{Vec}_\textrm{row}\left(\begin{array}{ccccc} \Xi_{TX}(\omega_k)& \exp(-i\omega_k)\Xi_{TX}(\omega_k)&...& \exp(-i(L-1)\omega_k)\Xi_{TX}(\omega_k)\\
+ \Xi_{TW_1}(\omega_k)& \exp(-i\omega_k)\Xi_{TW_1}(\omega_k)& ...& \exp(-i(L-1)\omega_k)\Xi_{TW_1}(\omega_k)\\
+ \Xi_{TW_2}(\omega_k)& \exp(-i\omega_k)\Xi_{TW_2}(\omega_k)& ...& \exp(-i(L-1)\omega_k)\Xi_{TW_2}(\omega_k)\\
+...&...&...&...\\
+ \Xi_{TW_m}(\omega_k)& \exp(-i\omega_k)\Xi_{TW_m}(\omega_k&...& \exp(-i(L-1)\omega_k)\Xi_{TW_m}(\omega_k)\\
+\end{array}\right)
+\end{eqnarray}
+where the $\textrm{Vec}_\textrm{row}$-operator appends rows (we use this notation in order to avoid margin-overflow) and where the `indicator' function $\sqrt{1+I_{k>0}}=\left\{\begin{array}{cc}1&k=0\\ \sqrt{2}&k=1,...,T/2\end{array}\right.$ accounts for the fact that frequency zero occurs once only in the criterion\footnote{Note that the square-root is required because we consider the DFT in \ref{desmat} i.e. the square root of the expressions in \ref{dfanv_s}.}. The length of the $k$-th row is $(m+1)L$ and the dimension of the design-matrix $\mathbf{X}$ is $(T/2+1)*(m+1)L$. Next, define a coefficient vector $\mathbf{b}$ and a target vector $\mathbf{Y}$
+\begin{eqnarray*}
+\mathbf{b}=\textrm{Vec}_\textrm{col}(\mathbf{B})&=&\textrm{Vec}_\textrm{col}\left(\begin{array}{ccccc} b_{X0}&b_{W_10}&b_{W_20}&...&b_{W_m0}\\
+b_{X1}&b_{W_11}&b_{W_21}&...&b_{W_m1}\\
+...&...&...&...&...\\
+b_{XL-1}&b_{W_1L-1}&b_{W_2L-1}&...&b_{W_mL-1}
+\end{array}\right)\\
+\mathbf{Y}&=&\left(\begin{array}{c}\Gamma(\omega_0)\Xi_{TX}(\omega_0)\\ 
+\sqrt{2}\Gamma(\omega_1)\Xi_{TX}(\omega_1)\\
+\sqrt{2}\Gamma(\omega_2)\Xi_{TX}(\omega_2)\\
+.\\
+\sqrt{2}\Gamma(\omega_{T/2})\Xi_{TX}(\omega_{T/2})
+\end{array}\right)
+\end{eqnarray*}
+where $\textrm{Vec}_\textrm{col}$ stacks the columns of the coefficient matrix $\mathbf{B}$. Note, once again, that all frequencies larger than zero are `duplicated' (scaled by $\sqrt{2}$) in $\mathbf{Y}$. Criterion \ref{dfanv} or, equivalently \ref{dfanv_s}, can now be expressed more conveniently in vector notation:
+\begin{eqnarray}\label{irk}
+(\mathbf{Y-Xb})'(\mathbf{Y-Xb})\to\min_{\mathbf{b}}
+\end{eqnarray}
+where $(\mathbf{Y-Xb})'$ is the Hermitian conjugate of $\mathbf{Y-Xb}$ (transpose and complex conjugate)\footnote{For simplicity we omitted the normalization $\frac{2\pi}{T}$ which is irrelevant for optimization.}. If all vectors and matrices were real (real numbers) then the solution to this minimization problem would be the well-known least-squares estimate
+\begin{eqnarray*}
+\mathbf{\hat{b}}=\left(\mathbf{X'X}\right)^{-1}\mathbf{X'}\mathbf{Y}
+\end{eqnarray*}
+Unfortunately, the above vectors and matrices are complex-valued. Before presenting a correct least-squares estimate we propose to rotate all DFT's \footnote{The criterion \ref{dfanv} is invariant to such a transformation.}: this transformation is not strictly necessary but it simplifies later expressions.
+\begin{eqnarray}\label{dfanver}
+&&\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\left(\Gamma(\omega_k)-\hat{\Gamma}_X(\omega_k)\right)\Xi_{T
+X}(\omega_k)-\sum_{n=1}^m
+\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\right|^2\nonumber \\
+&=&\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\left|\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right| \exp\left(i*\arg\left(\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right)\right)-\hat{\Gamma}_X(\omega_k)\Xi_{TX}(\omega_k)\right.\nonumber\\
+&&\left.-\sum_{n=1}^m
+\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\right|^2 \nonumber\\
+&=&\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\left|\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right| -\hat{\Gamma}_X(\omega_k)\Xi_{TX}(\omega_k)\exp\left(-i*\arg\left(\Gamma(\omega_k)\Xi_{T
+X}(\omega_k)\right)\right)\right.\nonumber\\
+&&\left.-\sum_{n=1}^m
+\hat{\Gamma}_{W_n}(\omega_k)\Xi_{TW_n}(\omega_k)\exp\left(-i*\arg\left(\Gamma(\omega_k)\Xi_{T
+X}(\omega_k)\right)\right)\right|^2 \label{i-mdfa}
+\end{eqnarray}
+where the arg-function corresponds to the phase (angle) of a complex number and where the function is applied component-by-component to the complex-valued vector.  
+Let us define a rotated design-matrix $\mathbf{X}_{\textrm{rot}}$ and a rotated target vector $\mathbf{Y}_{\textrm{rot}}$
+\begin{eqnarray}\label{desmatrot}
+\mathbf{X}_{k,\textrm{rot}}&=&\mathbf{X}_k \exp\left(-i*\arg\left(\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right)\right)
+\end{eqnarray}
+where $\mathbf{X}_{k,\textrm{rot}}$ designates the $k$-th row of $\mathbf{X}_{\textrm{rot}}$ and where
+\begin{eqnarray}\label{desmatrot_y}
+ \mathbf{Y}_{\textrm{rot}}=\left|\mathbf{Y}\right|
+\end{eqnarray}
+is a (real) positive target vector. 
+
+
+
+\subsection{Generalized Least Squares Solution}\label{gen_le_sq_sol}
+
+The optimization criterion becomes
+\begin{eqnarray}\label{regms}
+(\mathbf{Y_{\textrm{rot}}-X_{\textrm{rot}}b})'(\mathbf{Y_{\textrm{rot}}-X_{\textrm{rot}}b})\to\min_{\mathbf{b}}
+\end{eqnarray}
+The general (matrix derivative) formula for tackling this complex-valued minimization problem is\footnote{A convenient survey of matrix derivatives is to be found on the wikipedia-site \href{http://en.wikipedia.org/wiki/Matrix_calculus}{Matrix calculus}.}
+\begin{eqnarray}\label{least_squares_b}
+d/d\mathbf{b}~\textrm{Criterion}&=&d/d\mathbf{b}~ (\mathbf{Y_{\textrm{rot}}-X_{\textrm{rot}}b})'(\mathbf{Y_{\textrm{rot}}-X_{\textrm{rot}}b})\\
+&=&-\mathbf{(Y_{\textrm{rot}}-X_{\textrm{rot}}b)'X_{\textrm{rot}}}-\mathbf{(Y_{\textrm{rot}}-X_{\textrm{rot}}b)^T\overline{X_{\textrm{rot}}}}\nonumber\\
+&=&-2\mathbf{Y_{\textrm{rot}}'\Re\left(X_{\textrm{rot}}\right)}+2\mathbf{b'\Re(X_{\textrm{rot}}'X_{\textrm{rot}})}\nonumber
+\end{eqnarray}
+where  $\mathbf{X_{\textrm{rot}}}'$ is the Hermitian conjugate, $\mathbf{X_{\textrm{rot}}^T}$ is the transposed and $\overline{\mathbf{X_{\textrm{rot}}}}$ is the complex conjugate matrix;   $\Re\left(\cdot\right)$ means the real part of a complex number. The generalized least-squares estimate is obtained by equating the previous expression to zero
+\begin{eqnarray}\label{bregms}
+\mathbf{\hat{b}}&=&\mathbf{\left(\Re(X_{\textrm{rot}}'X_{\textrm{rot}})\right)^{-1}\Re(X_{\textrm{rot}})'Y_{\textrm{rot}}}
+\end{eqnarray}
+The least-squares estimate $\mathbf{\hat{b}}$ is the solution of the MDFA-MSE signal extraction problem \ref{dfanv} (or \ref{dfa_ms} in the univariate case).
+
+
+\subsection{R-Code}
+
+\subsubsection{DFA}
+
+The proposed matrix notation and the MSE (generalized least-squares) estimate $\hat{\mathbf{b}}$ can be traced-back in the R-code of the (MSE-) DFA proposed in section \ref{dfa_intro}:
+
+<<dfa_ms,echo=TRUE>>=
+dfa_ms
+@
+The code replicates the above formulas up to the particular weighting of frequency zero (see exercise \ref{ex_rep_dfa_1}, section \ref{ex_rep_dfa_11}).
+
+\subsubsection{MDFA}
+
+The least-squares solution \ref{bregms} is nested as a special case in the generic MDFA estimation routine introduced in section \ref{mdfa_intro}. The DFA is nested too, see section  \ref{ex_rep_dfa} (replication). Other nested solutions replicate classic model-based approaches, see chapter \ref{rep_sec}. Conceptually, `nesting' is obtained by specifying hyperparameters in the head of the function call.
+
+
+\section{Grand-Mean Parametrization}\label{gm_par}
+
+
+This particular feature has been discontinued and has been substituted by the more powerful Regularization Troika, see chapter \ref{reg_sec}. Nevertheless, one may find vestiges in our R-package (and the functionality could still be activated). Therefore we briefly review the main concepts.\\
+
+The term `Grand-Mean' refers to a reparametrization or recoding of the filter coefficients whereby the original coefficients are expressed as deviations about a central (grand-mean) value. Specifically, let $b_l^u$, $l=0,...,L-1$, $u=0,...,m$ denote the lag-$l$ coefficient assigned to series $u$, whereby $u=0$ corresponds to $x_t$ and $u=1,...,m$ stands for $w_{tu}$. The coefficients could be rewritten in the form
+\begin{eqnarray}\label{repara}
+b_{l}^u&=&\left\{\begin{array} {cc}b_l+\delta b_l^u, &u>0\\
+b_l-\sum_{u=1}^m\delta b_l^{u}, &u=0\end{array}\right.
+\end{eqnarray}
+where $b_l$, $l=0,...,L-1$ is a central (grand-mean) vector of coefficients and where $\delta b_l^u$ are the deviations about the central coefficient-vector. For obvious reasons we here assume $m>0$ (truly multivariate design). Note that \ref{repara} imposes  $\delta b_l^0=-\sum_{u=1}^m\delta b_l^{u}$ which means that $b_l$ is in the `center' of the coefficients. Similarly,  $\delta b_l^u$, $u>0$ can be interpreted as series-specific `effects'. We can express the above re-parametrization in terms of
+\begin{eqnarray}
+\mathbf{b}&=&\mathbf{A} \mathbf{\tilde{b}}\label{btild}\\
+\mathbf{A}&=&\left(\begin{array}{cccccc} \mathbf{Id}&\mathbf{-Id}&\mathbf{-Id}&...             &...&\mathbf{-Id}\\
+                                                            \mathbf{Id}&\mathbf{Id}&\mathbf{0}&\mathbf{0}&...&\mathbf{0}\\
+                                                            \mathbf{Id}&\mathbf{0}&\mathbf{Id}&\mathbf{0}&...&\mathbf{0}\\
+:::\\
+                                                            \mathbf{Id}&\mathbf{0}&\mathbf{0}&...&...&\mathbf{Id}\\
+\end{array}\right)\nonumber\\
+\mathbf{b}'&=&\left(b_0^0, b_1^0 ,...,b_{L-1}^0~|~ b_0^1, b_1^1,...,b_{L-1}^1~|~...~|~...~|~...~|~  b_0^m, b_1^m,..., b_{L-1}^m\right)'\nonumber\\
+\mathbf{\tilde{b}}'&=&\left(b_0, b_1 ,...,b_{L-1}~|~ \delta b_0^1,\delta b_1^1,...,\delta b_{L-1}^1~|~ \delta b_0^2,\delta b_1^2,...,\delta b_{L-1}^2~|~...~|~...~|~...~|~ \delta b_0^m,\delta b_1^m,...,\delta b_{L-1}^m\right)'\nonumber
+\end{eqnarray} 
+where $\mathbf{Id}$ is an $L*L$ identity. In principle, a separation of the series-specific effects from the grand-mean would point towards an explicit control of the cross-sectional adaptivity of the multivariate filter (for example by imposing a zero-shrinkage of $\delta b_l^u$). In this context we may refer to chapter \ref{reg_sec} for a more general approach and therefore we defer a more comprehensive discussion and treatment of the topic.
+
+
+
+\section{Replication of DFA by MDFA}\label{ex_rep_dfa}
+
+
+
+We rely on the data in the previous exercises, see section \ref{ex_dfa}, and \emph{replicate} the obtained DFA-results (criterion \ref{dfa_ms}) by MDFA (criterion \ref{dfanv}). 
+
+\subsection{Exercises}\label{ex_rep_dfa_11}
+
+\begin{enumerate}
+\item \label{ex_rep_dfa_1}Define the data-matrix (target and explanatory variable) and compute the DFTs. For ease of exposition we consider the first AR(1)-process only ($a_1=0.9$).
+<<exercise_dfa_ms_4,echo=True>>=
+# Select the first process
+i_process<-1
+# Define the data-matrix:
+# The first column must be the target series. 
+# Columns 2,3,... are the explanatory series. In a univariate setting
+# target and explanatory variable are identical
+data_matrix<-cbind(x[,i_process],x[,i_process])
+# Determine the in-sample period (fully in sample)
+insample<-nrow(data_matrix)
+# Compute the DFT by relying on the multivariate DFT-function: 
+#   d=0 for stationary data (default settings)
+weight_func<-spec_comp(insample, data_matrix, d)$weight_func 
+# For this replication exercise we have to define a second DFT 
+#   which is altered in frequency zero only 
+weight_func_mod<-weight_func
+# Frequency zero is scaled by sqrt(2) in order to be able to replicate DFA
+weight_func_mod[1,]<-sqrt(2)*weight_func[1,]
+@
+We here use two different DFTs: $weight\textunderscore func$, the original DFT, and $weight\textunderscore func\textunderscore mod$ which is altered by a constant scaling term in frequency zero. As we shall see, the latter (modified) DFT allows to replicate DFA perfectly. To be clear: although the effect of this modification is marginal (see below) we do not recommend it, except for replication purposes. 
+\item Estimate optimal filter coefficients and compare DFA- and MDFA-estimates, for original as well as modified DFTs.
+<<exercise_dfa_ms_4,echo=True>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path_MDFA.pgm,"control_default.r",sep=""))
+# Estimate filter coefficients: original (unmodified) DFTs
+mdfa_obj_original<-mdfa_analytic(K,L,lambda,weight_func,Lag,Gamma,
+                    eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                    lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                    grand_mean,b0_H0,c_eta,weights_only=F,weight_structure,
+                    white_noise,synchronicity,lag_mat)
+# Estimate filter coefficients: modified DFTs (for replication purpose only)
+mdfa_obj_mod<-mdfa_analytic(K,L,lambda,weight_func_mod,Lag,Gamma,
+                    eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                    lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                    grand_mean,b0_H0,c_eta,weights_only=F,weight_structure,
+                    white_noise,synchronicity,lag_mat)
+# Filter coefficients: compare MDFA and previous DFA
+b_mat<-cbind(mdfa_obj_original$b,mdfa_obj_mod$b,b[,i_process])
+dimnames(b_mat)[[2]]<-c("MDFA original","MDFA modified","DFA")
+dimnames(b_mat)[[1]]<-paste("lag ",0:(L-1),sep="")
+as.matrix(round(b_mat,5))
+@
+The modified MDFA replicates DFA exactly, as desired. Also, the differences between original and modified MDFAs are marginal, as expected. In the following we shall always rely on the \emph{original} MDFA (unmodified DFTs), because frequency zero is tackled the right way. 
+\item The value of the multivariate criterion \ref{dfanv} is computed explicitly by the MDFA-function:
+<<exercise_dfa_ms_4,echo=True>>=
+# Criterion value
+criterion_mdfa<-mdfa_obj_original$rever  
+# DFA-numbers are stored in perf_mat
+crit_mdfa<-matrix(c(criterion_mdfa,perf_mat[i_process,1],
+                    perf_mat[i_process,2]),ncol=1)
+dimnames(crit_mdfa)[[1]]<-c("MDFA criterion (original)",
+                            "DFA criterion","sample MSE")
+dimnames(crit_mdfa)[[2]]<-"MSE estimates"
+t(round(crit_mdfa,3))
+@
+\end{enumerate}
+
+
+
+
+\section{Qualitative Easing by Leading Indicators: an Empirical Study}\label{leading_ind}
+
+We attempt to quantify performance gains obtained by inclusion of a leading indicator into the univariate design of the previous section. Specifically, we construct a new explanatory  series $w_{1t}$ 
+\begin{equation}\label{def_led_i}
+w_{1t}=x_{t+\delta}+s\cdot\epsilon_{t+\delta}
+\end{equation}
+where $x_t$ is the data of the previous univariate design, $\epsilon_t$ is an idiosyncratic noise component (iid zero-mean Gaussian standardized), $s$ is a scaling\footnote{A larger $s$ implies that the indicator is less informative about the target $y_t$.}) and $\delta$ is a time-shift. 
+In the first exercise, section \ref{bimdfaudfa}, we select $s=0.1$ (a weak idiosyncratic component) and $\delta=1$ (lead by one time unit). Alternative settings are analyzed in section \ref{lead_snr}.
+
+\subsection{Bivariate MDFA vs. Univariate DFA}\label{bimdfaudfa}
+
+\begin{enumerate}
+\item Use the data in the previous section \ref{ex_rep_dfa}, construct the leading indicator \ref{def_led_i} and specify the (3-dim) data-matrix.
+<<exercise_dfa_ms_4,echo=True>>=
+set.seed(12)
+# Select the AR(1)-process with coefficient 0.9
+i_process<-1
+# Scaling of the idiosyncratic noise
+scale_idiosyncratic<-0.1
+eps<-rnorm(nrow(xh))
+indicator<-xh[,i_process]+scale_idiosyncratic*eps
+# Data: first column=target, second column=x, 
+#   third column=shifted (leading) indicator
+data_matrix<-cbind(xh[,i_process],xh[,i_process],c(indicator[2:nrow(xh)],NA))
+dimnames(data_matrix)[[2]]<-c("target","x","leading indicator")
+# Extract 120 observations from the long sample
+data_matrix_120<-data_matrix[lenh/2+(-len/2):((len/2)-1),]
+head(round(data_matrix_120,4))
+@
+The first two series are identical; the new third one leads by one-time unit and it is contaminated by noise.
+\item Compute the DFTs of the data.
+<<exercise_dfa_ms_4,echo=True>>=
+# Fully in sample
+insample<-nrow(data_matrix_120)
+# d=0 for stationary series: see default settings
+weight_func<-spec_comp(insample, data_matrix_120, d)$weight_func 
+@
+\item Estimate optimal (MSE-) filter coefficients.
+<<exercise_dfa_ms_4,echo=True>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path_MDFA.pgm,"control_default.r",sep=""))
+# Estimate filter coefficients
+mdfa_obj<-mdfa_analytic(K,L,lambda,weight_func,Lag,Gamma,
+                    eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                    lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                    grand_mean,b0_H0,c_eta,weights_only=F,weight_structure,
+                    white_noise,synchronicity,lag_mat)
+# Filter coefficients
+b_mat<-mdfa_obj$b
+dimnames(b_mat)[[2]]<-c("x","leading indicator")
+dimnames(b_mat)[[1]]<-paste("Lag ",0:(L-1),sep="")#dim(b_mat)
+head(b_mat)
+@
+The top-coefficient (the first six only are shown) in the second column assigns most weight to the last observation of the leading-indicator: this observation is particular because it leads the original data. In direct comparison with the first column, the other coefficients are generally smaller (in absolute value) because the leading-indicator is contaminated by noise (the coefficients in the first column must be shifted down in order to make meaningful cross-sectional comparisons).  
+\item Compute the minimal criterion value.
+<<exercise_dfa_ms_4,echo=True>>=
+# Criterion value
+round(mdfa_obj$rever,3)
+@
+The new criterion value is substantially smaller than the DFA (\Sexpr{round(perf_mat[1,1],3)}, see previous exercise): efficiency gains exceed $50\%$ (reduction of mean-square filter error).
+\item  Verify that the mean-square sample error is indeed smaller (recall that the sample MSE is generally not observable because it involves knowledge of the target $y_t$).
+\begin{itemize}
+\item Apply the (bivariate) filter to the data
+<<exercise_dfa_ms_4,echo=True>>=
+yhat_multivariate_leading_indicator<-rep(NA,len)
+for (j in 1:len)
+  yhat_multivariate_leading_indicator[j]<-sum(apply(b_mat*
+                  data_matrix[lenh/2+(-len/2)-1+j:(j-L+1),2:3],1,sum))
+@
+\item Derive the (time-domain) sample mean-square error and compare performances with the DFA, above.
+<<exercise_dfa_ms_4,echo=True>>=
+y_target_leading_indicator<-y[,i_process]
+perf_mse<-matrix(c(mean(na.exclude((yhat_multivariate_leading_indicator-
+          y_target_leading_indicator))^2),
+          mean(na.exclude((yhat[,i_process]-
+          y_target_leading_indicator))^2)),nrow=1)
+dimnames(perf_mse)[[2]]<-c("bivariate MDFA","DFA")
+dimnames(perf_mse)[[1]]<-"Sample MSE"
+round(perf_mse,3)
+@
+Sample MSE-performances of the bivariate design are substantially improved, as expected: the leading indicator is informative (this result depends on the magnitude of the idiosyncratic noise in the construction of the indicator, of course). Also, the criterion value \Sexpr{round(mdfa_obj$rever,3)} is fairly close to the sample MSE \Sexpr{round(perf_mse[1,1],3)}, as desired.    
+\end{itemize}
+\item Plot and compare target $y_t$ as well as DFA and MDFA real-time estimates $\hat{y}_t$.
+<<label=z_mdfadfa_ar1_output.pdf,echo=TRUE>>=
+file = paste("z_mdfadfa_ar1_sym_output.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+i<-1
+ymin<-min(min(y[,i]),min(na.exclude(yhat)[,i]))
+ymax<-max(max(y[,i]),max(na.exclude(yhat)[,i]))
+ts.plot(yhat[,i],main=paste("Sample MSE MDFA: ",ylab="",
+round(perf_mse[1],3),", DFA: ",round(perf_mse[2],3),sep=""),col="blue",
+      ylim=c(ymin,ymax))
+lines(y[,i],col="red")
+lines(yhat_multivariate_leading_indicator,col="green")
+mtext("DFA", side = 3, line = -2,at=len/2,col="blue")
+mtext("target", side = 3, line = -1,at=len/2,col="red")
+mtext("MDFA", side = 3, line = -3,at=len/2,col="green")
+invisible(dev.off())
+@
+
+
+<<label=z_mdfadfa_ar1_output.pdf,echo=FALSE,results=tex>>=
+file = paste("z_mdfadfa_ar1_sym_output", sep = "")
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{Target (red) vs. DFA (blue) and bivariate MDFA (green) for the first process (a1=0.9)", sep = "")
+cat("\\label{z_mdfadfa_ar1_sym_output}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+The MDFA-output (green) is both smoother and faster than the DFA (blue): noisy ripples are smaller in magnitude and turning points can be detected earlier (lead).
+
+\item Verify that filter coefficients of the bivariate design are optimal: this is left as an exercise to the reader (any other set of bivariate filter coefficients, of length \Sexpr{L}, should increase the criterion value \Sexpr{round(mdfa_obj$rever,3)} and/or the sample MSE \Sexpr{round(perf_mse[1],3)}).
+
+\end{enumerate}
+
+
+
+
+\subsection{Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}\label{lead_snr}
+
+Empirical evidence or experience suggest that `lead' and `signal-to-noise ratio' are conflicting requirements: faster indicators are generally noisier. We here attempt to disentangle and to quantify both effects, in terms of MSE-performances, by relying on our previous toy-model
+\[w_{1t}=x_{t+\delta}+s\cdot\epsilon_{t+\delta}\]
+For fixed $x_t$ we can alter the shift $\delta$ and the (inverse) signal-to-noise ratio $s$. To be more specific, we want to analyze non-integer shifts $\delta_j=j/4,j=0,1,2,3,4$\footnote{Arbitrary $\delta$ can be implemented very easily in the frequency-domain because shifts become rotations of the data.} in order to be able to quantify \emph{weekly} up-dating effects of a \emph{monthly} indicator in the framework of a mixed-frequency approach, see chapter \ref{mix_sec}\footnote{A fractional lead of $\delta=1/4$ corresponds to an anticipation by one week in an otherwise monthly framework: this lead by one week could be obtained by exploiting weekly up-dates of a `high-frequency' weekly indicator correlating with the interesting monthly target series.}. In the context of the following exercise we are interested in quantifying gains obtained by up-dating information on a weekly basis as a function of the signal-to-noise ratio of the high-frequency (weekly) indicator.
+
+
+\begin{enumerate}
+\item Specify candidate time-shifts $\delta_j=j/4,j=0,...,4$ and (inverse) signal-to-noise ratios $\mathbf{s}=(0,0.1,0.5,1,2)/\sqrt{Var(x_t)}$
+<<exercise_dfa_ms_4,echo=True>>=
+# Inverse SNR: the variance of the standardized noise is one: 
+#   we thus normalize by the standard deviation of the data x 
+#   (second column of the data matrix) 
+scale_idiosyncratic_vec<-c(0,0.1,0.5,1,2)/sqrt(var(data_matrix_120[,2]))
+# We select fractional leads: multiples of 0.25 
+#   A fractional lead of 0.25 corresponds roughly to a week 
+#   on a monthly time scale
+delta_vec<-0.25*0:4
+@
+\item Generate leading indicators for all combinations of $(\delta_j,s_i)$ and compute corresponding mean-square filter errors (criterion values).
+<<exercise_dfa_ms_4,echo=True>>=
+# Initialize the performance matrix
+lead_snr_mat<-matrix(ncol=length(scale_idiosyncratic_vec),
+                     nrow=length(delta_vec))
+dimnames(lead_snr_mat)[[2]]<-paste("1/SNR=",
+            sqrt(var(data_matrix_120[,1]))*scale_idiosyncratic_vec,paste="")
+dimnames(lead_snr_mat)[[2]][1]<-paste("Univ. design: ",
+            dimnames(lead_snr_mat)[[2]][1],sep="")
+dimnames(lead_snr_mat)[[1]]<-paste("Lead ",delta_vec,paste="")
+# Generate the idiosyncratic noise
+set.seed(20)
+eps<-rnorm(nrow(data_matrix_120))
+# Loop over all combinations of leads and SNR-ratios
+for (i in 1:length(scale_idiosyncratic_vec))#i<-1
+{
+  for (j in 1:length(delta_vec))#j<-1
+  {
+# Add the (suitably scaled) noise: no lead yet.    
+    indicator<-data_matrix_120[,2]+scale_idiosyncratic_vec[i]*eps
+# Overwrite the indicator column with the new time series
+    data_matrix_120[,3]<-indicator
+# Compute the DFTs (full in-sample, for stationary series d=0)
+    insample<-nrow(data_matrix_120)
+    weight_func<-spec_comp(insample, data_matrix_120, d)$weight_func
+# Compute the discrete frequency-grid omega_k: from zero to pi
+    omega_k<-(0:(nrow(weight_func)-1))*pi/(nrow(weight_func)-1)
+# Introduce the fractional time-shift by rotation of the DFT 
+#   of the indicator (last column)
+    weight_func[,ncol(weight_func)]<-exp(-1.i*delta_vec[j]*omega_k)*
+                  weight_func[,ncol(weight_func)]
+# If the idiosyncratic noise is zero, then we use a univariate design
+  if (i==1)
+     weight_func<-weight_func[,-2]
+# Compute optimal filters and derive the (frequency-domain) MSE
+    mdfa_obj<-mdfa_analytic(K,L,lambda,weight_func,Lag,Gamma,
+              eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+              lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+              grand_mean,b0_H0,c_eta,weights_only=F,weight_structure,
+              white_noise,synchronicity,lag_mat)
+# Store the MSE
+    lead_snr_mat[j,i]<-mdfa_obj$rever
+  }
+}
+@
+\item Collect all MSEs (criterion values) in table \ref{lead_snr_mat} and analyse the obtained results.
+<<label=z_dfa_ar1_output.pdf,echo=FALSE,results=tex>>=
+  library(Hmisc)
+  require(xtable)
+  #latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+  #center = "centering", file = "", floating = FALSE)
+  xtable(lead_snr_mat, dec = 1,digits=rep(3,dim(lead_snr_mat)[2]+1),
+  paste("Effect of lead and of (inverse) signal-to-noise ratio on filter MSE",sep=""),
+  label=paste("lead_snr_mat",sep=""),
+  center = "centering", file = "", floating = FALSE)
+@
+\\
+\textbf{Analysis: Design}
+\begin{itemize}
+\item If the noise and the lead vanish ($s=\delta=0$), then the design is singular because 
+\[w_{1t}=x_t+s\epsilon_t=x_t
+\]
+Therefore we have to skip one of the redundant explanatory variables in the DFT.
+\item If the idiosyncratic noise component vanishes but the lead does not ($s=0, \delta>0$) then, in principle, the data is not perfectly colinear, at least in the time-domain. In the frequency-domain, though, the two DFT-columns are linearly dependent (rotation) and therefore the proposed design is still singular\footnote{The DFT assumes that the data is periodic: therefore original and shifted data are perfectly colinear. The singularity could be avoided by computing DFTs of original and shifted series explicitly (instead of rotating the DFT).}. Therefore, all results in the first column correspond to \emph{univariate} designs, where the single explanatory variable is the \emph{noise-free} leading indicator.
+\item Performances reported in columns 2-5 of the first row (\Sexpr{round(lead_snr_mat[1,2],3)}: $\delta=0$) are identical because all designs are strictly equivalent in informational terms: one can subtract $x_t$ (second data-column) from $w_{1t}=x_t+s\epsilon_t$ to obtain $s\epsilon_t$ i.e. the data-matrix $(x_t,w_{1t})$ could be substituted by $(x_t,\epsilon_t)$ for all $s\neq 0$. 
+\item Since $\epsilon_t$ is independent of $x_t$ (different random seed) one expects that performances of bivariate designs (columns 2-5) and of the univariate design (column 1) in the first row ($\delta=0$) should be identical, at least in theory. In practice, the spurious decrease \Sexpr{round(lead_snr_mat[1,2],3)}$-$\Sexpr{round(lead_snr_mat[1,1],3)}$=$\Sexpr{round(lead_snr_mat[1,2]-lead_snr_mat[1,1],3)} of the bivariate designs is entirely due to \emph{overfitting}, see chapter \ref{reg_sec} for a comprehensive development of the topic. 
+\end{itemize}
+\textbf{Analysis: Results}
+\begin{itemize}
+\item Column 1 in the above table corresponds to a \emph{univariate} design; columns 2-5 are \emph{bivariate} designs. The first column measures time-shift effects of a single \emph{noise-free} leading indicator\footnote{The DFA cannot be used to replicate these results if the explanatory variable is shifted because target and explanatory variables wouldn't be identical.}. Columns 2-4 consider a classic bivariate design, where the original data is augmented by a noisy leading indicator.
+\item The top-left number (\Sexpr{round(criterion_mdfa,3)}) (univariate design without lead) replicates performances as reported in section \ref{ex_rep_dfa}. 
+\item The MSE generally decreases with increasing lead (increasing $\delta$) and/or with decreasing (inverse) signal-to-noise ratio (smaller $s$, except the degenerate case $s=0$: overfitting). A stronger noise could be compensated, to some extent, by a larger lead, at least in a mean-square perspective. As an example, an increase of the (inverse) SNR from 0.1 to 1 could be compensated by a relative lead by half a month, see cells (3,2) and (5,4) in the above table.
+\item Leads larger than one time unit (one month) do not seem to add significant value if the noise is weak (second column). If the noise is strong (last column) larger leads may be required in order to compensate for the augmented noise\footnote{Stronger noise suppression by the filter induces larger delays of the output signal which must be compensated by an increasing lead of the series.}. 
+\item Ignoring weekly up-dates of the filter-output $\hat{y}_t$, within the running month, could be costly in terms of performance-losses: if the noise component is weak (second column) then a lead of 0.25 instead of 0 (up-date at the week following the monthly release) would reduce MSE from \Sexpr{round(lead_snr_mat[1,2],3)} to \Sexpr{round(lead_snr_mat[2,2],3)} under the above experimental setting. If noise and signal are equally strong (4-th column) then an up-date of $\hat{y}_t$ in the middle of the month (lead 0.5 instead of 0) would reduce the MSE from \Sexpr{round(lead_snr_mat[1,4],3)} to \Sexpr{round(lead_snr_mat[3,4],3)}.    
+\end{itemize}
+These results suggests pertinence of a mixed-frequency approach for which the filter output is aligned on an in-flowing high-frequency data-stream and continuously up-dated in real-time, see chapter \ref{mix_sec}. 
+\end{enumerate}
+
+\section{Summary}
+
+\begin{itemize}
+\item We emphasized MSE-performances of unconstrained, unregularized and stationary designs.
+\item We provided a DFA-reminder and confirmed empirical pertinence of the abstract uniform superconsistency argument. We illustrated and interpreted the univariate DFA-criterion.
+\item We generalized the DFA-criterion to a multivariate framework and derived a closed-form solution. 
+\item We replicated the DFA by the more general MDFA and we quantified efficiency gains obtained by a bivariate leading-indicator design (over the univariate approach).
+\item Our results suggested pertinence and practical relevance of a mixed-frequency approach, for which filter-outputs would be up-dated along a high-frequency data-stream.
+\end{itemize}
+For ease of exposition, all  examples emphasized in-sample and single realization experiments. Empirical distributions of in-sample as well as of out-of-sample performances are to be found in chapters \ref{ats_sec} and following.

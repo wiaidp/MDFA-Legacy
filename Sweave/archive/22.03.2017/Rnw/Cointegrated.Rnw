@@ -1,0 +1,34 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+
+
+\chapter{Non-Stationarity:  Cointegrated Processes}\label{coint_sec}
+
+
+Contribution by Tucker? Refer to elements paper with regards to empirical criteria.
+
+\section{Cointegration Relations vs. Filter Constraints}
+
+\section{The Rank-One Case}
+
+\section{Arbitrary Rank}
+
+\section{Universal Time-Domain Decomposition of the Filter Error}
+
+\section{Frequency-Domain Decomposition of the Filter Error}
+
+\section{I(1)-MSE Criterion}
+
+\section{Unveiling the Unit-Root Singularity}
+
+\section{Matrix Notation (Frequency Domain)}
+
+\section{Customization}
+
+\section{Regularization}
+
+\section{An Application of Cointegration to Data Revisions}
+
+Link to section \ref{rev_sec_int}

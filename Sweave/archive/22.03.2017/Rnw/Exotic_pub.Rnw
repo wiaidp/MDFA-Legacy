@@ -1,0 +1,39 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+\chapter{Exotic Optimization Criteria}\label{exo_sec}
+
+\section{Introduction}
+
+Classic MSE and Customization: From AT-dilemma to ATS-trilemma. Alternative performances (not directly signal extraction): exotic criteria.
+
+
+\section{Hybrid Criterion}
+
+\subsection{SE-Performance}
+
+\subsection{Emphasizing Trading Performance}
+
+\subsubsection{Maximizing Profits: Time vs. Frequency-Domain Perspectives}
+
+
+\subsubsection{A Scaling Problem}
+
+
+\subsubsection{A Projection Approach}
+
+
+
+\section{Double-Decker}
+
+
+\subsection{Instilling Performance}
+
+
+
+
+\subsection{Extracting Performance}
+
+
+

@@ -1,0 +1,45 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+\chapter{Exotic Optimization Criteria}\label{exo_sec}
+
+\section{Introduction}
+
+Classic MSE and Customization: From AT-dilemma to ATS-trilemma. Alternative performances (not directly signal extraction): exotic criteria.
+
+
+\section{Hybrid Criterion}
+
+\subsection{SE-Performance}
+
+\subsection{Emphasizing Trading Performance}
+
+\subsubsection{Maximizing Profits: Time vs. Frequency-Domain Perspectives}
+
+
+\subsubsection{A Scaling Problem}
+
+
+\subsubsection{A Projection Approach}
+
+
+
+\section{Double-Decker}
+multi-stage
+
+\subsection{Instilling Performance}
+
+ATS+one-step ahead 
+
+
+\subsection{Extracting Performance}
+
+
+
+\section{Radical departure MSE}
+
+Emphasize turning-points (zero-crossings): holding time (width) and delay (relative position)
+EaSY GENERALIZATION TO MULTIVARIate: like multivariate customization (for holding-time we are only interested in the acf(1) corresponding to univariate output of multivariate filter; and similarly for delay)
+
+Use crossover bandpass as start-value for optimization

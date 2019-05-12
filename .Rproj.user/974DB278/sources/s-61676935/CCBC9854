@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1516282015233.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "CCBC9854",
+    "lastKnownWriteTime" : 1554987502,
+    "last_content_update" : 1554987502163,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/Rnw/Mean_square.Rnw",
+    "project_path" : "Sweave/Rnw/Mean_square.Rnw",
+    "properties" : {
+        "cursorPosition" : "642,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}

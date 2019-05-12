@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1557645380448.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "2144556365",
+    "id" : "5794F5BA",
+    "lastKnownWriteTime" : 1557645914,
+    "last_content_update" : 1557645914325,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/Rnw/Regularization.Rnw",
+    "project_path" : "Sweave/Rnw/Regularization.Rnw",
+    "properties" : {
+        "cursorPosition" : "254,0",
+        "scrollLine" : "237"
+    },
+    "relative_order" : 15,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}

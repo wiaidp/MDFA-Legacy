@@ -1,0 +1,3387 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.8.18)  25 OCT 2016 13:23
+entering extended mode
+**D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/MDFA_Legacy.tex
+(D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/MDFA_Legacy.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2013-05-26, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
+ lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
+german-x-2013-05-26, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
+an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
+ishmax, welsh, loaded.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\book.cls"
+Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\bk10.clo"
+File: bk10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\infwarerr.sty"
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\ltxcmds.sty"
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count88
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\url\url.sty"
+\Urlmuskip=\muskip10
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+\c@Theorem=\count89
+\c@Lemma=\count90
+\c@Corollary=\count91
+\c@Proposition=\count92
+\c@Definition=\count93
+\c@Remark=\count94
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip43
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks16
+\ex@=\dimen105
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen106
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count95
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count96
+\leftroot@=\count97
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count98
+\DOTSCASE@=\count99
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen107
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count100
+\c@MaxMatrixCols=\count101
+\dotsspace@=\muskip11
+\c@parentequation=\count102
+\dspbrk@lvl=\count103
+\tag@help=\toks17
+\row@=\count104
+\column@=\count105
+\maxfields@=\count106
+\andhelp@=\toks18
+\eqnshift@=\dimen108
+\alignsep@=\dimen109
+\tagshift@=\dimen110
+\tagwidth@=\dimen111
+\totwidth@=\dimen112
+\lineht@=\dimen113
+\@envbody=\toks19
+\multlinegap=\skip44
+\multlinetaggap=\skip45
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\latexsym.sty"
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\epsfig.sty"
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+\epsfxsize=\dimen114
+\epsfysize=\dimen115
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\tools\verbatim.sty"
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks21
+\verbatim@line=\toks22
+\verbatim@in@stream=\read1
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hyperref.sty"
+Package: hyperref 2012/11/06 v6.83m Hypertext links for LaTeX
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-hyperref.sty"
+Package: hobsub-hyperref 2012/04/25 v1.12 Bundle oberdiek, subset hyperref (HO)
+
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\hobsub-generic.sty"
+Package: hobsub-generic 2012/04/25 v1.12 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2012/04/25 v1.12 Construct package bundles (HO)
+Package hobsub Info: Skipping package `infwarerr' (already loaded).
+Package hobsub Info: Skipping package `ltxcmds' (already loaded).
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
+Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
+)
+Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+)
+Package hobsub Info: Skipping package `hobsub' (already loaded).
+Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
+Package: hopatch 2011/06/24 v1.1 Wrapper for package hooks (HO)
+Package: xcolor-patch 2011/01/30 xcolor patch
+Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
+Package atveryend Info: \enddocument detected (standard20110627).
+Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
+Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\ifxetex\ifxetex.sty"
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\auxhook.sty"
+Package: auxhook 2011/03/04 v1.3 Hooks for auxiliary files (HO)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\kvoptions.sty"
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+)
+\@linkdim=\dimen116
+\Hy@linkcounter=\count107
+\Hy@pagecounter=\count108
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\pd1enc.def"
+File: pd1enc.def 2012/11/06 v6.83m Hyperref: PDFDocEncoding definition (HO)
+)
+\Hy@SavedSpaceFactor=\count109
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\hyperref.cfg"
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+Package hyperref Info: Hyper figures OFF on input line 4443.
+Package hyperref Info: Link nesting OFF on input line 4448.
+Package hyperref Info: Hyper index ON on input line 4451.
+Package hyperref Info: Plain pages OFF on input line 4458.
+Package hyperref Info: Backreferencing OFF on input line 4463.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4688.
+\c@Hy@tempcnt=\count110
+LaTeX Info: Redefining \url on input line 5041.
+\XeTeXLinkMargin=\dimen117
+\Fld@menulength=\count111
+\Field@Width=\dimen118
+\Fld@charsize=\dimen119
+Package hyperref Info: Hyper figures OFF on input line 6295.
+Package hyperref Info: Link nesting OFF on input line 6300.
+Package hyperref Info: Hyper index ON on input line 6303.
+Package hyperref Info: backreferencing OFF on input line 6310.
+Package hyperref Info: Link coloring OFF on input line 6315.
+Package hyperref Info: Link coloring with OCG OFF on input line 6320.
+Package hyperref Info: PDF/A mode OFF on input line 6325.
+LaTeX Info: Redefining \ref on input line 6365.
+LaTeX Info: Redefining \pageref on input line 6369.
+\Hy@abspage=\count112
+\c@Item=\count113
+\c@Hfootnote=\count114
+)
+
+Package hyperref Message: Driver (autodetected): hpdftex.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\hpdftex.def"
+File: hpdftex.def 2012/11/06 v6.83m Hyperref driver for pdfTeX
+\Fld@listcount=\count115
+\c@bookmark@seq@number=\count116
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\oberdiek\rerunfilecheck.sty"
+Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
+82.
+)
+\Hy@SectionHShift=\skip46
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\float\float.sty"
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count117
+\float@exts=\toks23
+\float@box=\box28
+\@float@everytoks=\toks24
+\@floatcapt=\box29
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks25
+\inpenc@posthook=\toks26
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\utf8.def"
+File: utf8.def 2008/04/05 v1.1m UTF-8 support for inputenc
+Now handling font encoding OML ...
+... no UTF-8 mapping file for font encoding OML
+Now handling font encoding T1 ...
+... processing UTF-8 mapping file for font encoding T1
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.dfu"
+File: t1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00AB (decimal 171)
+   defining Unicode char U+00BB (decimal 187)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C0 (decimal 192)
+   defining Unicode char U+00C1 (decimal 193)
+   defining Unicode char U+00C2 (decimal 194)
+   defining Unicode char U+00C3 (decimal 195)
+   defining Unicode char U+00C4 (decimal 196)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00C7 (decimal 199)
+   defining Unicode char U+00C8 (decimal 200)
+   defining Unicode char U+00C9 (decimal 201)
+   defining Unicode char U+00CA (decimal 202)
+   defining Unicode char U+00CB (decimal 203)
+   defining Unicode char U+00CC (decimal 204)
+   defining Unicode char U+00CD (decimal 205)
+   defining Unicode char U+00CE (decimal 206)
+   defining Unicode char U+00CF (decimal 207)
+   defining Unicode char U+00D0 (decimal 208)
+   defining Unicode char U+00D1 (decimal 209)
+   defining Unicode char U+00D2 (decimal 210)
+   defining Unicode char U+00D3 (decimal 211)
+   defining Unicode char U+00D4 (decimal 212)
+   defining Unicode char U+00D5 (decimal 213)
+   defining Unicode char U+00D6 (decimal 214)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00D9 (decimal 217)
+   defining Unicode char U+00DA (decimal 218)
+   defining Unicode char U+00DB (decimal 219)
+   defining Unicode char U+00DC (decimal 220)
+   defining Unicode char U+00DD (decimal 221)
+   defining Unicode char U+00DE (decimal 222)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E0 (decimal 224)
+   defining Unicode char U+00E1 (decimal 225)
+   defining Unicode char U+00E2 (decimal 226)
+   defining Unicode char U+00E3 (decimal 227)
+   defining Unicode char U+00E4 (decimal 228)
+   defining Unicode char U+00E5 (decimal 229)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00E7 (decimal 231)
+   defining Unicode char U+00E8 (decimal 232)
+   defining Unicode char U+00E9 (decimal 233)
+   defining Unicode char U+00EA (decimal 234)
+   defining Unicode char U+00EB (decimal 235)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F0 (decimal 240)
+   defining Unicode char U+00F1 (decimal 241)
+   defining Unicode char U+00F2 (decimal 242)
+   defining Unicode char U+00F3 (decimal 243)
+   defining Unicode char U+00F4 (decimal 244)
+   defining Unicode char U+00F5 (decimal 245)
+   defining Unicode char U+00F6 (decimal 246)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+00F9 (decimal 249)
+   defining Unicode char U+00FA (decimal 250)
+   defining Unicode char U+00FB (decimal 251)
+   defining Unicode char U+00FC (decimal 252)
+   defining Unicode char U+00FD (decimal 253)
+   defining Unicode char U+00FE (decimal 254)
+   defining Unicode char U+00FF (decimal 255)
+   defining Unicode char U+0102 (decimal 258)
+   defining Unicode char U+0103 (decimal 259)
+   defining Unicode char U+0104 (decimal 260)
+   defining Unicode char U+0105 (decimal 261)
+   defining Unicode char U+0106 (decimal 262)
+   defining Unicode char U+0107 (decimal 263)
+   defining Unicode char U+010C (decimal 268)
+   defining Unicode char U+010D (decimal 269)
+   defining Unicode char U+010E (decimal 270)
+   defining Unicode char U+010F (decimal 271)
+   defining Unicode char U+0110 (decimal 272)
+   defining Unicode char U+0111 (decimal 273)
+   defining Unicode char U+0118 (decimal 280)
+   defining Unicode char U+0119 (decimal 281)
+   defining Unicode char U+011A (decimal 282)
+   defining Unicode char U+011B (decimal 283)
+   defining Unicode char U+011E (decimal 286)
+   defining Unicode char U+011F (decimal 287)
+   defining Unicode char U+0130 (decimal 304)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0132 (decimal 306)
+   defining Unicode char U+0133 (decimal 307)
+   defining Unicode char U+0139 (decimal 313)
+   defining Unicode char U+013A (decimal 314)
+   defining Unicode char U+013D (decimal 317)
+   defining Unicode char U+013E (decimal 318)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0143 (decimal 323)
+   defining Unicode char U+0144 (decimal 324)
+   defining Unicode char U+0147 (decimal 327)
+   defining Unicode char U+0148 (decimal 328)
+   defining Unicode char U+014A (decimal 330)
+   defining Unicode char U+014B (decimal 331)
+   defining Unicode char U+0150 (decimal 336)
+   defining Unicode char U+0151 (decimal 337)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+0154 (decimal 340)
+   defining Unicode char U+0155 (decimal 341)
+   defining Unicode char U+0158 (decimal 344)
+   defining Unicode char U+0159 (decimal 345)
+   defining Unicode char U+015A (decimal 346)
+   defining Unicode char U+015B (decimal 347)
+   defining Unicode char U+015E (decimal 350)
+   defining Unicode char U+015F (decimal 351)
+   defining Unicode char U+0160 (decimal 352)
+   defining Unicode char U+0161 (decimal 353)
+   defining Unicode char U+0162 (decimal 354)
+   defining Unicode char U+0163 (decimal 355)
+   defining Unicode char U+0164 (decimal 356)
+   defining Unicode char U+0165 (decimal 357)
+   defining Unicode char U+016E (decimal 366)
+   defining Unicode char U+016F (decimal 367)
+   defining Unicode char U+0170 (decimal 368)
+   defining Unicode char U+0171 (decimal 369)
+   defining Unicode char U+0178 (decimal 376)
+   defining Unicode char U+0179 (decimal 377)
+   defining Unicode char U+017A (decimal 378)
+   defining Unicode char U+017B (decimal 379)
+   defining Unicode char U+017C (decimal 380)
+   defining Unicode char U+017D (decimal 381)
+   defining Unicode char U+017E (decimal 382)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201A (decimal 8218)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+   defining Unicode char U+201E (decimal 8222)
+   defining Unicode char U+2030 (decimal 8240)
+   defining Unicode char U+2031 (decimal 8241)
+   defining Unicode char U+2039 (decimal 8249)
+   defining Unicode char U+203A (decimal 8250)
+   defining Unicode char U+2423 (decimal 9251)
+)
+Now handling font encoding OT1 ...
+... processing UTF-8 mapping file for font encoding OT1
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ot1enc.dfu"
+File: ot1enc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+   defining Unicode char U+00A1 (decimal 161)
+   defining Unicode char U+00A3 (decimal 163)
+   defining Unicode char U+00B8 (decimal 184)
+   defining Unicode char U+00BF (decimal 191)
+   defining Unicode char U+00C5 (decimal 197)
+   defining Unicode char U+00C6 (decimal 198)
+   defining Unicode char U+00D8 (decimal 216)
+   defining Unicode char U+00DF (decimal 223)
+   defining Unicode char U+00E6 (decimal 230)
+   defining Unicode char U+00EC (decimal 236)
+   defining Unicode char U+00ED (decimal 237)
+   defining Unicode char U+00EE (decimal 238)
+   defining Unicode char U+00EF (decimal 239)
+   defining Unicode char U+00F8 (decimal 248)
+   defining Unicode char U+0131 (decimal 305)
+   defining Unicode char U+0141 (decimal 321)
+   defining Unicode char U+0142 (decimal 322)
+   defining Unicode char U+0152 (decimal 338)
+   defining Unicode char U+0153 (decimal 339)
+   defining Unicode char U+2013 (decimal 8211)
+   defining Unicode char U+2014 (decimal 8212)
+   defining Unicode char U+2018 (decimal 8216)
+   defining Unicode char U+2019 (decimal 8217)
+   defining Unicode char U+201C (decimal 8220)
+   defining Unicode char U+201D (decimal 8221)
+)
+Now handling font encoding OMS ...
+... processing UTF-8 mapping file for font encoding OMS
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omsenc.dfu"
+File: omsenc.dfu 2008/04/05 v1.1m UTF-8 support for inputenc
+   defining Unicode char U+00A7 (decimal 167)
+   defining Unicode char U+00B6 (decimal 182)
+   defining Unicode char U+00B7 (decimal 183)
+   defining Unicode char U+2020 (decimal 8224)
+   defining Unicode char U+2021 (decimal 8225)
+   defining Unicode char U+2022 (decimal 8226)
+)
+Now handling font encoding OMX ...
+... no UTF-8 mapping file for font encoding OMX
+Now handling font encoding U ...
+... no UTF-8 mapping file for font encoding U
+Now handling font encoding PD1 ...
+... no UTF-8 mapping file for font encoding PD1
+   defining Unicode char U+00A9 (decimal 169)
+   defining Unicode char U+00AA (decimal 170)
+   defining Unicode char U+00AE (decimal 174)
+   defining Unicode char U+00BA (decimal 186)
+   defining Unicode char U+02C6 (decimal 710)
+   defining Unicode char U+02DC (decimal 732)
+   defining Unicode char U+200C (decimal 8204)
+   defining Unicode char U+2026 (decimal 8230)
+   defining Unicode char U+2122 (decimal 8482)
+   defining Unicode char U+2423 (decimal 9251)
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\a4wide\a4wide.sty"
+Package: a4wide 1994/08/30
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ntgclass\a4.sty"
+Package: a4 2004/04/15 v1.2g A4 based page layout
+))
+(D:\wia_desktop\Projekte\2016\MDFA-Legacy\Sweave\Latex\Sweave.sty
+Package: Sweave 
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ifthen.sty"
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\fancyvrb\fancyvrb.sty"
+Package: fancyvrb 2008/02/07
+
+Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
+<2008/02/07> (tvz)
+\FV@CodeLineNo=\count118
+\FV@InFile=\read2
+\FV@TabBox=\box30
+\c@FancyVerbLine=\count119
+\FV@StepNumber=\count120
+\FV@OutFile=\write3
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\upquote\upquote.sty"
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\ae.sty"
+Package: ae 2001/02/12 1.3 Almost European Computer Modern
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+)
+LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aer.fd"
+File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
+))))
+(D:\wia_desktop\Projekte\2016\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.aux
+
+LaTeX Warning: Label `filter' multiply defined.
+
+
+LaTeX Warning: Label `ar1_processes' multiply defined.
+
+
+LaTeX Warning: Label `cons2' multiply defined.
+
+
+LaTeX Warning: Label `dd0' multiply defined.
+
+
+LaTeX Warning: Label `cons77s' multiply defined.
+
+
+LaTeX Warning: Label `ar1_processes' multiply defined.
+
+
+LaTeX Warning: Label `idfa_s' multiply defined.
+
+
+LaTeX Warning: Label `smooth_term' multiply defined.
+
+
+LaTeX Warning: Label `cons5s' multiply defined.
+
+)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count121
+\scratchdimen=\dimen120
+\scratchbox=\box31
+\nofMPsegments=\count122
+\nofMParguments=\count123
+\everyMPshowfont=\toks27
+\MPscratchCnt=\count124
+\MPscratchDim=\dimen121
+\MPnumerator=\count125
+\makeMPintoPDFobject=\count126
+\everyMPtoPDFconversion=\toks28
+)
+\AtBeginShipoutBox=\box32
+Package hyperref Info: Link coloring OFF on input line 82.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
+Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\oberdiek\gettitlestring.sty"
+Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
+)
+\c@section@level=\count127
+)
+LaTeX Info: Redefining \ref on input line 82.
+LaTeX Info: Redefining \pageref on input line 82.
+LaTeX Info: Redefining \nameref on input line 82.
+
+(D:\wia_desktop\Projekte\2016\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.out)
+(D:\wia_desktop\Projekte\2016\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.out)
+\@outlinefile=\write4
+LaTeX Font Info:    Try loading font information for U+msa on input line 85.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 85.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 85.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ulasy.fd"
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+) [1
+
+
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
+
+]
+(D:\wia_desktop\Projekte\2016\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.toc [1
+
+]
+[2] [3] [4])
+\tf@toc=\write5
+ [5] [6
+
+]
+Chapter 1.
+LaTeX Font Info:    Try loading font information for OMS+aer on input line 118.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\omsaer.fd"
+File: omsaer.fd 1999/12/27
+)
+LaTeX Font Info:    Font shape `OMS/aer/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 118.
+
+Overfull \hbox (6.60797pt too wide) in paragraph at lines 127--127
+[]\T1/aer/bx/n/14.4 A Shift of Per-spec-tive: Tack-ling the (Rel-e-vant) Proble
+m-
+ []
+
+
+LaTeX Warning: Reference `exo_sec' on page 1 undefined on input line 138.
+
+
+LaTeX Warning: Reference `inf_sec' on page 1 undefined on input line 138.
+
+
+LaTeX Warning: Reference `rev_sec' on page 1 undefined on input line 138.
+
+
+LaTeX Warning: Reference `mix_sec' on page 1 undefined on input line 138.
+
+
+LaTeX Warning: Reference `int_sec' on page 1 undefined on input line 138.
+
+
+LaTeX Warning: Reference `coint_sec' on page 1 undefined on input line 138.
+
+
+LaTeX Warning: Reference `ada_sec' on page 1 undefined on input line 138.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.139 
+       [1
+
+]
+LaTeX Font Info:    Try loading font information for T1+aett on input line 152.
+
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ae\t1aett.fd"
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+)pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
+ been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.180 > path.main<-paste(disk_id,
+                                  [2] [3] [4]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 295.
+
+[5] [6]
+
+LaTeX Warning: Reference `mix_sec' on page 7 undefined on input line 369.
+
+
+LaTeX Warning: Reference `int_sec' on page 7 undefined on input line 369.
+
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 378.
+
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 414--415
+
+ []
+
+
+LaTeX Warning: Reference `inf_sec' on page 8 undefined on input line 429.
+
+
+LaTeX Warning: Reference `rev_sec' on page 8 undefined on input line 429.
+
+
+LaTeX Warning: Reference `mix_sec' on page 8 undefined on input line 429.
+
+
+LaTeX Warning: Reference `int_sec' on page 8 undefined on input line 429.
+
+
+LaTeX Warning: Reference `coint_sec' on page 8 undefined on input line 429.
+
+
+LaTeX Warning: Reference `ada_sec' on page 8 undefined on input line 429.
+
+[8] [9] [10]
+Chapter 2.
+
+Underfull \hbox (badness 10000) in paragraph at lines 506--507
+
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 527--532
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 533--535
+
+ []
+
+[12]
+Underfull \hbox (badness 10000) in paragraph at lines 552--554
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 578--580
+
+ []
+
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 597--600
+
+ []
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 666--668
+
+ []
+
+[15]
+
+LaTeX Warning: Reference `int_sec' on page 16 undefined on input line 687.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 690--691
+
+ []
+
+
+Overfull \hbox (3.99524pt too wide) in paragraph at lines 702--702
+[]\T1/aer/bx/n/12 Exercises: `Uni-form Su-per-con-sis-tency' in a Fi-nite Sam-p
+le Number-
+ []
+
+[16] [17] [18] [19pdfTeX warning (ext4): destination with the same identifier (
+name{table.2.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.870 +         ylim=c(ymin,ymax),
+                                  ]
+<z_dfa_ar1_sym_output.pdf, id=1169, 433.62pt x 433.62pt>
+File: z_dfa_ar1_sym_output.pdf Graphic file (type pdf)
+
+<use z_dfa_ar1_sym_output.pdf>
+Package pdftex.def Info: z_dfa_ar1_sym_output.pdf used on input line 885.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 885--885
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20]
+[21pdfTeX warning (ext4): destination with the same identifier (name{figure.2.1
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.886 \item C
+             ompute and compare graphically amplitude and time-shift functio...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_dfa_ar1_sym_output.pd
+f>] [22] <z_dfa_ar1_amp_shift.pdf, id=1199, 433.62pt x 433.62pt>
+File: z_dfa_ar1_amp_shift.pdf Graphic file (type pdf)
+
+<use z_dfa_ar1_amp_shift.pdf>
+Package pdftex.def Info: z_dfa_ar1_amp_shift.pdf used on input line 942.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 942--943
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [23]
+[24pdfTeX warning (ext4): destination with the same identifier (name{figure.2.2
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.948 \end{itemize}
+                    <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_df
+a_ar1_amp_shift.pdf>]
+Overfull \hbox (18.7851pt too wide) in paragraph at lines 953--953
+[]\T1/aer/bx/n/14.4 MDFA: Problem-Structure and Tar-get (MSE-Perspective) 
+ []
+
+
+LaTeX Warning: Reference `int_sec' on page 25 undefined on input line 961.
+
+
+LaTeX Warning: Reference `coint_sec' on page 25 undefined on input line 961.
+
+
+LaTeX Warning: Reference `ada_sec' on page 25 undefined on input line 961.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 961--962
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 980--982
+
+ []
+
+
+LaTeX Warning: Reference `rev_sec' on page 25 undefined on input line 986.
+
+[25]
+Underfull \hbox (badness 10000) in paragraph at lines 1005--1008
+
+ []
+
+
+Underfull \vbox (badness 3108) has occurred while \output is active []
+
+ [26]
+Underfull \hbox (badness 10000) in paragraph at lines 1028--1030
+
+ []
+
+[27] [28] [29]
+Underfull \hbox (badness 10000) in paragraph at lines 1160--1161
+
+ []
+
+[30]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 1214.
+
+
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 1214.
+
+
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 1214.
+
+
+[31] [32] [33] [34] [35]
+<z_mdfadfa_ar1_sym_output.pdf, id=1348, 433.62pt x 433.62pt>
+File: z_mdfadfa_ar1_sym_output.pdf Graphic file (type pdf)
+
+<use z_mdfadfa_ar1_sym_output.pdf>
+Package pdftex.def Info: z_mdfadfa_ar1_sym_output.pdf used on input line 1422.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 1422--1422
+ [][] 
+ []
+
+
+LaTeX Warning: Reference `mix_sec' on page 36 undefined on input line 1435.
+
+[36pdfTeX warning (ext4): destination with the same identifier (name{figure.2.3
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1436 
+        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_mdfadfa_ar1_sy
+m_output.pdf>] [37]
+Overfull \hbox (0.60123pt too wide) in paragraph at lines 1504--1515
+ [][] 
+ []
+
+[38pdfTeX warning (ext4): destination with the same identifier (name{table.2.2}
+) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1525 \item P
+              erformances reported in columns 2-5 of the first row (0.263: $...
+]
+
+LaTeX Warning: Reference `mix_sec' on page 39 undefined on input line 1536.
+
+[39] [40]
+Chapter 3.
+[41
+
+]
+
+LaTeX Warning: Reference `rev_sec' on page 42 undefined on input line 1613.
+
+
+Underfull \vbox (badness 5548) has occurred while \output is active []
+
+ [42pdfTeX warning (ext4): destination with the same identifier (name{table.3.1
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1629 \]
+         ]
+Underfull \hbox (badness 10000) in paragraph at lines 1645--1646
+
+ []
+
+[43] [44] [45] <z_dfa_ar1_amp_shift_Lag_0.pdf, id=1442, 433.62pt x 433.62pt>
+File: z_dfa_ar1_amp_shift_Lag_0.pdf Graphic file (type pdf)
+
+<use z_dfa_ar1_amp_shift_Lag_0.pdf>
+Package pdftex.def Info: z_dfa_ar1_amp_shift_Lag_0.pdf used on input line 1781.
+
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 1781--1782
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [46]
+[47pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1800 \item A
+              ssume that in time point $t$ a new observation $x_t$ becomes a...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_dfa_ar1_amp_shift_Lag
+_0.pdf>] [48]
+Overfull \hbox (18.52017pt too wide) in paragraph at lines 1842--1856
+ [][] 
+ []
+
+[49pdfTeX warning (ext4): destination with the same identifier (name{table.3.2}
+) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1873 \item F
+              itting classic models to a vintage series would conflict with ...
+] <z_vintages.pdf, id=1482, 433.62pt x 433.62pt>
+File: z_vintages.pdf Graphic file (type pdf)
+ <use z_vintages.pdf>
+Package pdftex.def Info: z_vintages.pdf used on input line 1912.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 1912--1913
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [50]
+Underfull \vbox (badness 7468) has occurred while \output is active []
+
+ [51pdfTeX warning (ext4): destination with the same identifier (name{figure.3.
+2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1917 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+vintages.pdf>] <z_vintages_2.pdf, id=1501, 433.62pt x 433.62pt>
+File: z_vintages_2.pdf Graphic file (type pdf)
+
+<use z_vintages_2.pdf>
+Package pdftex.def Info: z_vintages_2.pdf used on input line 1949.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 1949--1949
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [52]
+Underfull \vbox (badness 4621) has occurred while \output is active []
+
+ [53pdfTeX warning (ext4): destination with the same identifier (name{figure.3.
+3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.1957 \item G
+              enerate a leading indicator and define the corresponding (3-di...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_vintages_2.pdf>]
+[54] [55] <z_vintages_mdfa.pdf, id=1538, 433.62pt x 433.62pt>
+File: z_vintages_mdfa.pdf Graphic file (type pdf)
+
+<use z_vintages_mdfa.pdf>
+Package pdftex.def Info: z_vintages_mdfa.pdf used on input line 2071.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 2071--2071
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [56]
+[57pdfTeX warning (ext4): destination with the same identifier (name{figure.3.4
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.2085 \item W
+              e distinguished forecast ($h>0$), nowcast ($h=0$) and backcast...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_vintages_mdfa.pdf>]
+
+LaTeX Warning: Reference `rev_sec' on page 58 undefined on input line 2086.
+
+[58]
+Chapter 4.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2097--2098
+
+ []
+
+
+LaTeX Warning: Reference `coint_sec' on page 59 undefined on input line 2099.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2112--2114
+
+ []
+
+[59
+
+]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 2131.
+
+
+
+LaTeX Warning: Reference `coint_sec' on page 60 undefined on input line 2131.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2150--2153
+
+ []
+
+[60]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 2171.
+
+
+
+LaTeX Warning: Reference `coint_sec' on page 61 undefined on input line 2171.
+
+[61]
+Overfull \hbox (15.78754pt too wide) in paragraph at lines 2231--2231
+[]\T1/aer/bx/n/14.4 Filter Con-straints, Pseudo-DFT and Pseudo-Periodogram 
+ []
+
+
+LaTeX Warning: Reference `int_sec' on page 62 undefined on input line 2234.
+
+[62] [63]
+Underfull \hbox (badness 10000) in paragraph at lines 2283--2285
+
+ []
+
+[64]
+Underfull \hbox (badness 10000) in paragraph at lines 2329--2333
+
+ []
+
+[65] [66]
+Underfull \hbox (badness 10000) in paragraph at lines 2399--2401
+
+ []
+
+[67]
+Overfull \hbox (38.32568pt too wide) detected at line 2439
+\OML/cmm/m/it/10 b[] \OT1/cmr/m/n/10 = []
+ []
+
+
+Overfull \hbox (4.4341pt too wide) in alignment at lines 2441--2454
+ [][][] []
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2454--2456
+
+ []
+
+[68]
+Underfull \hbox (badness 10000) in paragraph at lines 2514--2516
+
+ []
+
+[69]
+Overfull \hbox (12.37305pt too wide) in alignment at lines 2541--2553
+ [][][] []
+ []
+
+
+Underfull \vbox (badness 1320) has occurred while \output is active []
+
+ [70]
+[71]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [72]
+<z_mdfa_ar1_amp_shift_Lag_0_iF_i2F.pdf, id=1718, 433.62pt x 433.62pt>
+File: z_mdfa_ar1_amp_shift_Lag_0_iF_i2F.pdf Graphic file (type pdf)
+
+<use z_mdfa_ar1_amp_shift_Lag_0_iF_i2F.pdf>
+Package pdftex.def Info: z_mdfa_ar1_amp_shift_Lag_0_iF_i2F.pdf used on input li
+ne 2652.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 2652--2652
+ [][] 
+ []
+
+[73pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.2661 > # Constraints: for series 1 and 2
+                                           <D:/wia_desktop/Projekte/2016/MDFA-L
+egacy/Sweave/Latex/z_mdfa_ar1_amp_shift_Lag_0_iF_i2F.pdf>]
+<z_mdfa_ar1_amp_shift_Lag_0_iT_i2F.pdf, id=1732, 433.62pt x 433.62pt>
+File: z_mdfa_ar1_amp_shift_Lag_0_iT_i2F.pdf Graphic file (type pdf)
+
+<use z_mdfa_ar1_amp_shift_Lag_0_iT_i2F.pdf>
+Package pdftex.def Info: z_mdfa_ar1_amp_shift_Lag_0_iT_i2F.pdf used on input li
+ne 2705.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 2705--2705
+ [][] 
+ []
+
+
+Underfull \vbox (badness 2591) has occurred while \output is active []
+
+ [74]
+[75pdfTeX warning (ext4): destination with the same identifier (name{figure.4.2
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.2715 > shift_constraint<-c(exp(1),-pi)
+                                         <D:/wia_desktop/Projekte/2016/MDFA-Leg
+acy/Sweave/Latex/z_mdfa_ar1_amp_shift_Lag_0_iT_i2F.pdf>]
+<z_mdfa_ar1_amp_shift_Lag_0_iF_i2T.pdf, id=1750, 433.62pt x 433.62pt>
+File: z_mdfa_ar1_amp_shift_Lag_0_iF_i2T.pdf Graphic file (type pdf)
+
+<use z_mdfa_ar1_amp_shift_Lag_0_iF_i2T.pdf>
+Package pdftex.def Info: z_mdfa_ar1_amp_shift_Lag_0_iF_i2T.pdf used on input li
+ne 2760.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 2760--2760
+ [][] 
+ []
+
+[76] [77pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.4.3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.2775 ...ff,i1,i2,weight_constraint,lambda_cross,
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_mdfa_ar1_amp_shift_Lag_0_iF_i2T.pdf>]
+<z_mdfa_ar1_amp_shift_Lag_0_iT_i2T.pdf, id=1769, 433.62pt x 433.62pt>
+File: z_mdfa_ar1_amp_shift_Lag_0_iT_i2T.pdf Graphic file (type pdf)
+
+<use z_mdfa_ar1_amp_shift_Lag_0_iT_i2T.pdf>
+Package pdftex.def Info: z_mdfa_ar1_amp_shift_Lag_0_iT_i2T.pdf used on input li
+ne 2824.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 2824--2824
+ [][] 
+ []
+
+[78] [79pdfTeX warning (ext4): destination with the same identifier (name{figur
+e.4.4}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.2830 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+mdfa_ar1_amp_shift_Lag_0_iT_i2T.pdf>] [80]
+<z_mdfa_ar1_amp_shift_Lag_0_iF_i2T_Lag.pdf, id=1791, 433.62pt x 433.62pt>
+File: z_mdfa_ar1_amp_shift_Lag_0_iF_i2T_Lag.pdf Graphic file (type pdf)
+
+<use z_mdfa_ar1_amp_shift_Lag_0_iF_i2T_Lag.pdf>
+Package pdftex.def Info: z_mdfa_ar1_amp_shift_Lag_0_iF_i2T_Lag.pdf used on inpu
+t line 2884.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 2884--2884
+ [][] 
+ []
+
+[81pdfTeX warning (ext4): destination with the same identifier (name{figure.4.5
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.2885 \item F
+              eed a signal to the filters of the the bivariate design and ve...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_mdfa_ar1_amp_shift_La
+g_0_iF_i2T_Lag.pdf>] [82]
+
+LaTeX Warning: Reference `coint_sec' on page 83 undefined on input line 2931.
+
+
+LaTeX Warning: Reference `coint_sec' on page 83 undefined on input line 2933.
+
+[83] [84
+
+]
+Chapter 5.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2948--2949
+
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [85]
+[86]
+Underfull \hbox (badness 10000) in paragraph at lines 3034--3037
+
+ []
+
+[87] [88]
+Underfull \hbox (badness 10000) in paragraph at lines 3118--3120
+
+ []
+
+[89]
+
+LaTeX Warning: Reference `discret_sums_cor' on page 90 undefined on input line 
+3151.
+
+
+LaTeX Warning: Reference `dstt' on page 90 undefined on input line 3151.
+
+[90]
+
+LaTeX Warning: Reference `discret_sums' on page 91 undefined on input line 3160
+.
+
+
+LaTeX Warning: Reference `dstt' on page 91 undefined on input line 3160.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3164--3166
+
+ []
+
+[91pdfTeX warning (ext4): destination with the same identifier (name{equation.5
+.2.16}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3171 \section
+               {Quadratic Criterion$^*$}\label{idfas}]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3171.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `superscript' on input line 3171.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3171.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [92]
+Underfull \hbox (badness 10000) in paragraph at lines 3213--3220
+
+ []
+
+[93]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 3248.
+
+
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 3263.
+
+
+[94]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 3279.
+
+
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 3297.
+
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3300.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\lambda' on input line 3300.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\geq' on input line 3300.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3300.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3300.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\eta' on input line 3300.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3300.
+
+[95] [96pdfTeX warning (ext4): destination with the same identifier (name{table
+.5.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3364 \item F
+              or each combination of $\lambda,\eta$ we obtain a correspondin...
+] <z_box_plot_amp_and_shift_cust_T_1.pdf, id=2017, 433.62pt x 433.62pt>
+File: z_box_plot_amp_and_shift_cust_T_1.pdf Graphic file (type pdf)
+
+<use z_box_plot_amp_and_shift_cust_T_1.pdf>
+Package pdftex.def Info: z_box_plot_amp_and_shift_cust_T_1.pdf used on input li
+ne 3371.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 3371--3371
+ [][] 
+ []
+
+<z_dfa_cust_ats_out_1_T.pdf, id=2019, 433.62pt x 433.62pt>
+File: z_dfa_cust_ats_out_1_T.pdf Graphic file (type pdf)
+
+<use z_dfa_cust_ats_out_1_T.pdf>
+Package pdftex.def Info: z_dfa_cust_ats_out_1_T.pdf used on input line 3372.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 3372--3372
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [97pdfTeX warning (ext4): destination with the same identifier (name{figure.5.
+1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3373 \end{enumerate}
+                       <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z
+_box_plot_amp_and_shift_cust_T_1.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3386.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\eta' on input line 3386.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\geq' on input line 3386.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3386.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3386.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\lambda' on input line 3386.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3386.
+
+[98pdfTeX warning (ext4): destination with the same identifier (name{figure.5.2
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3405 \end{Sinput}
+                    <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_df
+a_cust_ats_out_1_T.pdf>]
+<z_box_plot_amp_and_shift_cust_S_1.pdf, id=2051, 433.62pt x 433.62pt>
+File: z_box_plot_amp_and_shift_cust_S_1.pdf Graphic file (type pdf)
+
+<use z_box_plot_amp_and_shift_cust_S_1.pdf>
+Package pdftex.def Info: z_box_plot_amp_and_shift_cust_S_1.pdf used on input li
+ne 3429.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 3429--3429
+ [][] 
+ []
+
+<z_box_plot_coef_S_1.pdf, id=2053, 433.62pt x 433.62pt>
+File: z_box_plot_coef_S_1.pdf Graphic file (type pdf)
+
+<use z_box_plot_coef_S_1.pdf>
+Package pdftex.def Info: z_box_plot_coef_S_1.pdf used on input line 3430.
+(pdftex.def)             Requested size: 289.09473pt x 216.80946pt.
+
+Underfull \vbox (badness 8094) has occurred while \output is active []
+
+ [99pdfTeX warning (ext4): destination with the same identifier (name{table.5.2
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3430 ...oef_S_1}}\end{center}\end{figure}\item F
+                                                  ilter-outputs  are plotted...
+pdfTeX warning (ext4): destination with the same identifier (name{figure.5.3}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3430 ...oef_S_1}}\end{center}\end{figure}\item F
+                                                  ilter-outputs  are plotted...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_box_plot_amp_and_shif
+t_cust_S_1.pdf>] <z_dfa_cust_ats_out_1_S.pdf, id=2071, 433.62pt x 433.62pt>
+File: z_dfa_cust_ats_out_1_S.pdf Graphic file (type pdf)
+
+<use z_dfa_cust_ats_out_1_S.pdf>
+Package pdftex.def Info: z_dfa_cust_ats_out_1_S.pdf used on input line 3431.
+(pdftex.def)             Requested size: 289.09473pt x 216.80946pt.
+ [100pdfTeX warning (ext4): destination with the same identifier (name{figure.5
+.4}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3440 \item F
+              ig.\ref{z_box_plot_coef_S_1} reveals that filter coefficients ...
+pdfTeX warning (ext4): destination with the same identifier (name{figure.5.5}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3440 \item F
+              ig.\ref{z_box_plot_coef_S_1} reveals that filter coefficients ...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_box_plot_coef_S_1.pdf
+> <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_dfa_cust_ats_out_1_S
+.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3446.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\lambda' on input line 3446.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\eta' on input line 3446.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\geq' on input line 3446.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 3446.
+
+<z_box_plot_amp_and_shift_cust_ST_1.pdf, id=2097, 433.62pt x 216.81pt>
+File: z_box_plot_amp_and_shift_cust_ST_1.pdf Graphic file (type pdf)
+
+<use z_box_plot_amp_and_shift_cust_ST_1.pdf>
+Package pdftex.def Info: z_box_plot_amp_and_shift_cust_ST_1.pdf used on input l
+ine 3487.
+(pdftex.def)             Requested size: 289.09473pt x 216.81938pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [101pdfTeX warning (ext4): destination with the same identifier (name{table.5.
+3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3487 ...st_ST_1}}\end{center}\end{figure}\item F
+                                                  ilter-outputs of MSE and c...
+] <z_dfa_cust_ats_out_1_ST.pdf, id=2109, 433.62pt x 216.81pt>
+File: z_dfa_cust_ats_out_1_ST.pdf Graphic file (type pdf)
+
+<use z_dfa_cust_ats_out_1_ST.pdf>
+Package pdftex.def Info: z_dfa_cust_ats_out_1_ST.pdf used on input line 3488.
+(pdftex.def)             Requested size: 289.09473pt x 216.81938pt.
+ [102pdfTeX warning (ext4): destination with the same identifier (name{figure.5
+.6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3496 \item T
+              he time-shift of the customized design in fig.\ref{z_box_plot_...
+pdfTeX warning (ext4): destination with the same identifier (name{figure.5.7}) 
+has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3496 \item T
+              he time-shift of the customized design in fig.\ref{z_box_plot_...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_box_plot_amp_and_shif
+t_cust_ST_1.pdf> <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_dfa_c
+ust_ats_out_1_ST.pdf>]
+<z_box_plot_amp_and_shift_cust_ST_1_scaled_unscaled.pdf, id=2140, 433.62pt x 21
+6.81pt>
+File: z_box_plot_amp_and_shift_cust_ST_1_scaled_unscaled.pdf Graphic file (type
+ pdf)
+ <use z_box_plot_amp_and_shift_cust_ST_1_scaled_unscaled.pdf>
+Package pdftex.def Info: z_box_plot_amp_and_shift_cust_ST_1_scaled_unscaled.pdf
+ used on input line 3519.
+(pdftex.def)             Requested size: 289.09473pt x 289.11456pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [103]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [104pdfTeX warning (ext4): destination with the same identifier (name{figure.5
+.8}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3553 \end{eqnarray}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{table.5.4}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3553 \end{eqnarray}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+box_plot_amp_and_shift_cust_ST_1_scaled_unscaled.pdf>]
+Overfull \hbox (10.43118pt too wide) in paragraph at lines 3553--3555
+\T1/aer/m/n/10 where $\OT1/cmr/m/n/10 (1 \OMS/cmsy/m/n/10   \OML/cmm/m/it/10 B\
+OT1/cmr/m/n/10 )[]$ \T1/aer/m/n/10 is the second-order dif-fer-ence op-er-a-tor
+ (cur-va-ture) and where $[] []$
+ []
+
+
+Overfull \hbox (75.99007pt too wide) in paragraph at lines 3564--3579
+ [][] 
+ []
+
+
+Overfull \hbox (73.75996pt too wide) in paragraph at lines 3587--3600
+ [][] 
+ []
+
+
+Overfull \hbox (83.75996pt too wide) in paragraph at lines 3607--3616
+ [][] 
+ []
+
+[105pdfTeX warning (ext4): destination with the same identifier (name{table.5.5
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3618 \end{table}\item I
+                         n table \ref{ats_comp_dfa_ST_1} the double-score of...
+] [106pdfTeX warning (ext4): destination with the same identifier (name{table.5
+.6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3636 \[
+         S=\frac{2\pi}{ T} \sum_{\textrm{Stopband}} \hat{A}(\omega_k)^2 W(\o...
+pdfTeX warning (ext4): destination with the same identifier (name{table.5.7}) h
+as been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3636 \[
+         S=\frac{2\pi}{ T} \sum_{\textrm{Stopband}} \hat{A}(\omega_k)^2 W(\o...
+]
+Underfull \hbox (badness 10000) in paragraph at lines 3636--3638
+
+ []
+
+
+LaTeX Warning: Reference `convolution theorem' on page 107 undefined on input l
+ine 3647.
+
+
+LaTeX Warning: Reference `dis_con_app' on page 107 undefined on input line 3647
+.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 3659--3660
+
+ []
+
+[107] [108]
+
+LaTeX Warning: Reference `app_double_score_ats' on page 109 undefined on input 
+line 3712.
+
+
+LaTeX Warning: Reference `dstt' on page 109 undefined on input line 3712.
+
+<z_box_plot_emp_per_perf_inout_2.pdf, id=2208, 433.62pt x 433.62pt>
+File: z_box_plot_emp_per_perf_inout_2.pdf Graphic file (type pdf)
+
+<use z_box_plot_emp_per_perf_inout_2.pdf>
+Package pdftex.def Info: z_box_plot_emp_per_perf_inout_2.pdf used on input line
+ 3715.
+(pdftex.def)             Requested size: 361.36676pt x 361.36676pt.
+
+<z_box_plot_emp_per_perf_mse_inout_2.pdf, id=2209, 433.62pt x 433.62pt>
+File: z_box_plot_emp_per_perf_mse_inout_2.pdf Graphic file (type pdf)
+
+<use z_box_plot_emp_per_perf_mse_inout_2.pdf>
+Package pdftex.def Info: z_box_plot_emp_per_perf_mse_inout_2.pdf used on input 
+line 3720.
+(pdftex.def)             Requested size: 361.36676pt x 180.67676pt.
+ [109pdfTeX warning (ext4): destination with the same identifier (name{figure.5
+.9}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3723 \textbf{Findings}
+                         <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex
+/z_box_plot_emp_per_perf_inout_2.pdf>]
+<z_dfa_cust_ats_mba_per_e.pdf, id=2228, 433.62pt x 433.62pt>
+File: z_dfa_cust_ats_mba_per_e.pdf Graphic file (type pdf)
+
+<use z_dfa_cust_ats_mba_per_e.pdf>
+Package pdftex.def Info: z_dfa_cust_ats_mba_per_e.pdf used on input line 3739.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 3739--3739
+ [][] 
+ []
+
+[110pdfTeX warning (ext4): destination with the same identifier (name{figure.5.
+10}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3739 ...ats_mba_per_e}}\end{center}\end{figure}T
+                                                  he customized filter outpe...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_box_plot_emp_per_perf
+_mse_inout_2.pdf>]
+Overfull \hbox (21.27896pt too wide) in paragraph at lines 3747--3747
+[]\T1/aer/bx/n/14.4 Univariate Cus-tomized De-sign vs. Bi-vari-ate MSE Leading-
+
+ []
+
+[111pdfTeX warning (ext4): destination with the same identifier (name{figure.5.
+11}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3763 \end{Sinput}
+                    <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_df
+a_cust_ats_mba_per_e.pdf>]
+<z_curv_dfacust_leadind.pdf, id=2257, 433.62pt x 433.62pt>
+File: z_curv_dfacust_leadind.pdf Graphic file (type pdf)
+
+<use z_curv_dfacust_leadind.pdf>
+Package pdftex.def Info: z_curv_dfacust_leadind.pdf used on input line 3785.
+(pdftex.def)             Requested size: 289.09473pt x 216.80946pt.
+
+<z_peak_cor_dfacust_leadind.pdf, id=2259, 433.62pt x 433.62pt>
+File: z_peak_cor_dfacust_leadind.pdf Graphic file (type pdf)
+
+<use z_peak_cor_dfacust_leadind.pdf>
+Package pdftex.def Info: z_peak_cor_dfacust_leadind.pdf used on input line 3799
+.
+(pdftex.def)             Requested size: 289.09473pt x 216.80946pt.
+ [112pdfTeX warning (ext4): destination with the same identifier (name{figure.5
+.12}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3799 ...acust_leadind}}\end{center}\end{figure}T
+                                                  he customized design (gree...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_curv_dfacust_leadind.
+pdf>] <z_MSE_dfacust_leadind.pdf, id=2275, 433.62pt x 433.62pt>
+File: z_MSE_dfacust_leadind.pdf Graphic file (type pdf)
+
+<use z_MSE_dfacust_leadind.pdf>
+Package pdftex.def Info: z_MSE_dfacust_leadind.pdf used on input line 3814.
+(pdftex.def)             Requested size: 289.09473pt x 216.80946pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [113pdfTeX warning (ext4): destination with the same identifier (name{figure.5
+.13}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3814 ...acust_leadind}}\end{center}\end{figure}T
+                                                  he customized design (gree...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_peak_cor_dfacust_lead
+ind.pdf>]
+<z_dfa_cust_mdfa_leading_indicator.pdf, id=2294, 433.62pt x 433.62pt>
+File: z_dfa_cust_mdfa_leading_indicator.pdf Graphic file (type pdf)
+
+<use z_dfa_cust_mdfa_leading_indicator.pdf>
+Package pdftex.def Info: z_dfa_cust_mdfa_leading_indicator.pdf used on input li
+ne 3829.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 3829--3829
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [114pdfTeX warning (ext4): destination with the same identifier (name{figure.5
+.14}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3829 ...ing_indicator}}\end{center}\end{figure}T
+                                                  he customized DFA (green) ...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_MSE_dfacust_leadind.p
+df>]
+Underfull \hbox (badness 10000) in paragraph at lines 3829--3830
+
+ []
+
+[115pdfTeX warning (ext4): destination with the same identifier (name{figure.5.
+15}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.3842 \[
+          <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_dfa_cust_mdf
+a_leading_indicator.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 3855--3857
+
+ []
+
+[116] [117] [118
+
+]
+Chapter 6.
+[119] [120] [121] [122]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4098.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\eta' on input line 4098.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\geq' on input line 4098.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4098.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4098.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\lambda' on input line 4098.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4098.
+
+[123]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 4134.
+
+
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 4134.
+
+
+[124] <z_amp_shift_mdfacust_leadind_S.pdf, id=2432, 433.62pt x 433.62pt>
+File: z_amp_shift_mdfacust_leadind_S.pdf Graphic file (type pdf)
+
+<use z_amp_shift_mdfacust_leadind_S.pdf>
+Package pdftex.def Info: z_amp_shift_mdfacust_leadind_S.pdf used on input line 
+4186.
+(pdftex.def)             Requested size: 361.36676pt x 578.22916pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [125pdfTeX warning (ext4): destination with the same identifier (name{table.6.
+1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4186 ...end{center}\end{figure}\textbf{Analysis}
+                                                  ]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [126pdfTeX warning (ext4): destination with the same identifier (name{figure.6
+.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4188 \item E
+              mphasizing Smoothness of the aggregate filter $\tilde{\Gamma}(...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_amp_shift_mdfacust_le
+adind_S.pdf>]
+<z_amp_shift_mdfacust_leadind_agg_S.pdf, id=2455, 433.62pt x 433.62pt>
+File: z_amp_shift_mdfacust_leadind_agg_S.pdf Graphic file (type pdf)
+
+<use z_amp_shift_mdfacust_leadind_agg_S.pdf>
+Package pdftex.def Info: z_amp_shift_mdfacust_leadind_agg_S.pdf used on input l
+ine 4204.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4204--4204
+ [][] 
+ []
+
+[127pdfTeX warning (ext4): destination with the same identifier (name{figure.6.
+2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4205 
+        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_amp_shift_mdfa
+cust_leadind_agg_S.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4212.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\lambda' on input line 4212.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\geq' on input line 4212.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4212.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4212.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\eta' on input line 4212.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4212.
+
+<z_amp_shift_mdfacust_leadind_agg_T.pdf, id=2474, 433.62pt x 433.62pt>
+File: z_amp_shift_mdfacust_leadind_agg_T.pdf Graphic file (type pdf)
+
+<use z_amp_shift_mdfacust_leadind_agg_T.pdf>
+Package pdftex.def Info: z_amp_shift_mdfacust_leadind_agg_T.pdf used on input l
+ine 4275.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4275--4275
+ [][] 
+ []
+
+[128pdfTeX warning (ext4): destination with the same identifier (name{table.6.2
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4275 ...leadind_agg_T}}\end{center}\end{figure}W
+                                                  e can observe that the eff...
+]
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4283.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\lambda' on input line 4283.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4283.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4283.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `\eta' on input line 4283.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 4283.
+
+[129pdfTeX warning (ext4): destination with the same identifier (name{figure.6.
+3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4336 \end{Soutput}
+                     <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_a
+mp_shift_mdfacust_leadind_agg_T.pdf>]
+<z_amp_shift_mdfacust_leadind_agg_ST.pdf, id=2505, 433.62pt x 433.62pt>
+File: z_amp_shift_mdfacust_leadind_agg_ST.pdf Graphic file (type pdf)
+
+<use z_amp_shift_mdfacust_leadind_agg_ST.pdf>
+Package pdftex.def Info: z_amp_shift_mdfacust_leadind_agg_ST.pdf used on input 
+line 4338.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4338--4338
+ [][] 
+ []
+
+[130pdfTeX warning (ext4): destination with the same identifier (name{table.6.3
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4354 ...tomization DFA: MSE and balanced designs
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{figure.6.4}) has been already used, duplic
+ate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4354 ...tomization DFA: MSE and balanced designs
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_amp_shift_mdfacust_leadind_agg_ST.pdf>]
+<z_curv_mdfacust_leadind_ST.pdf, id=2517, 433.62pt x 433.62pt>
+File: z_curv_mdfacust_leadind_ST.pdf Graphic file (type pdf)
+
+<use z_curv_mdfacust_leadind_ST.pdf>
+Package pdftex.def Info: z_curv_mdfacust_leadind_ST.pdf used on input line 4388
+.
+(pdftex.def)             Requested size: 361.36676pt x 505.91743pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [131]
+[132pdfTeX warning (ext4): destination with the same identifier (name{figure.6.
+5}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4392 \item T
+              he univariate balanced design (green) is outperformed by the m...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_curv_mdfacust_leadind
+_ST.pdf>] [133] [134
+
+]
+Chapter 7.
+
+Underfull \hbox (badness 10000) in paragraph at lines 4417--4420
+
+ []
+
+[135]
+
+LaTeX Warning: Reference `int_sec' on page 136 undefined on input line 4443.
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 136 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[136] [137]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 138 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[138]
+
+LaTeX Warning: Reference `int_sec' on page 139 undefined on input line 4565.
+
+[139]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 140 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[140] <z_replication_amp_shift_dfa_2.pdf, id=2598, 433.62pt x 433.62pt>
+File: z_replication_amp_shift_dfa_2.pdf Graphic file (type pdf)
+
+<use z_replication_amp_shift_dfa_2.pdf>
+Package pdftex.def Info: z_replication_amp_shift_dfa_2.pdf used on input line 4
+632.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4632--4632
+ [][] 
+ []
+
+<z_replication_curv_peak_dfa_2.pdf, id=2601, 433.62pt x 433.62pt>
+File: z_replication_curv_peak_dfa_2.pdf Graphic file (type pdf)
+
+<use z_replication_curv_peak_dfa_2.pdf>
+Package pdftex.def Info: z_replication_curv_peak_dfa_2.pdf used on input line 4
+652.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4652--4652
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [141pdfTeX warning (ext4): destination with the same identifier (name{figure.7
+.1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4652 ...k_dfa_2}}\end{center}\end{figure}\item A
+                                                   comparison of filter-outp...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_replication_amp_shift
+_dfa_2.pdf>] <z_replication_output_dfa_2.pdf, id=2619, 433.62pt x 433.62pt>
+File: z_replication_output_dfa_2.pdf Graphic file (type pdf)
+
+<use z_replication_output_dfa_2.pdf>
+Package pdftex.def Info: z_replication_output_dfa_2.pdf used on input line 4653
+.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4653--4653
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 142 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[142pdfTeX warning (ext4): destination with the same identifier (name{table.7.1
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4653 ...}\end{center}\end{figure}\end{enumerate}
+                                                  pdfTeX warning (ext4): destin
+ation with the same identifier (name{figure.7.2}) has been already used, duplic
+ate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4653 ...}\end{center}\end{figure}\end{enumerate}
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_replication_curv_peak_dfa_2.pdf>] [143pdfTeX warni
+ng (ext4): destination with the same identifier (name{figure.7.3}) has been alr
+eady used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4673 
+        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_replication_ou
+tput_dfa_2.pdf>]
+<z_replication_curv_peak_dfa_2_emp.pdf, id=2654, 433.62pt x 433.62pt>
+File: z_replication_curv_peak_dfa_2_emp.pdf Graphic file (type pdf)
+
+<use z_replication_curv_peak_dfa_2_emp.pdf>
+Package pdftex.def Info: z_replication_curv_peak_dfa_2_emp.pdf used on input li
+ne 4687.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4687--4687
+ [][] 
+ []
+
+<z_replication_curv_peak_dfa_2_emp_mse.pdf, id=2655, 433.62pt x 433.62pt>
+File: z_replication_curv_peak_dfa_2_emp_mse.pdf Graphic file (type pdf)
+
+<use z_replication_curv_peak_dfa_2_emp_mse.pdf>
+Package pdftex.def Info: z_replication_curv_peak_dfa_2_emp_mse.pdf used on inpu
+t line 4688.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4688--4688
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 144 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[144]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [145pdfTeX warning (ext4): destination with the same identifier (name{figure.7
+.4}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4689 \textbf{Findings}
+                         <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex
+/z_replication_curv_peak_dfa_2_emp.pdf>]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 146 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[146pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+5}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4709 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+replication_curv_peak_dfa_2_emp_mse.pdf>]
+<z_us_real_log_gdp.pdf, id=2687, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp.pdf>
+Package pdftex.def Info: z_us_real_log_gdp.pdf used on input line 4744.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4744--4744
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [147]
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 4758.
+LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
+(Font)              Font shape `U/lasy/m/n' tried instead on input line 4758.
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 148 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[148pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4759 \begin{eqnarray}
+                        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/
+z_us_real_log_gdp.pdf>] [149]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 150 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[150] <z_us_real_log_gdp_comp.pdf, id=2745, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_comp.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_comp.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_comp.pdf used on input line 4877.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4877--4877
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [151pdfTeX warning (ext4): destination with the same identifier (name{table.7.
+2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4877 ..._log_gdp_comp}}\end{center}\end{figure}T
+                                                  he cycle is similar, but n...
+]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 152 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[152pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+7}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4883 
+        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_us_real_log_gd
+p_comp.pdf>]
+Overfull \hbox (13.39012pt too wide) in paragraph at lines 4925--4934
+ [][] 
+ []
+
+<z_us_real_log_gdp_comp_wgr.pdf, id=2772, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_comp_wgr.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_comp_wgr.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_comp_wgr.pdf used on input line 4944
+.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4944--4944
+ [][] 
+ []
+
+[153pdfTeX warning (ext4): destination with the same identifier (name{table.7.3
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4944 ..._gdp_comp_wgr}}\end{center}\end{figure}T
+                                                  he `explosive' dynamics of...
+]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 154 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[154pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+8}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4955 \item S
+              hort-term forecast performances (maximum likelihood principle)...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_us_real_log_gdp_comp_
+wgr.pdf>] <z_effective_length.pdf, id=2797, 433.62pt x 433.62pt>
+File: z_effective_length.pdf Graphic file (type pdf)
+
+<use z_effective_length.pdf>
+Package pdftex.def Info: z_effective_length.pdf used on input line 4983.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 4983--4983
+ [][] 
+ []
+
+
+Underfull \vbox (badness 4792) has occurred while \output is active []
+
+ [155]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 156 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[156pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+9}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5006 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+effective_length.pdf>]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 5035.
+
+
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 5035.
+
+
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 5035.
+
+
+<z_us_real_log_gdp_comp_i2.pdf, id=2823, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_comp_i2.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_comp_i2.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_comp_i2.pdf used on input line 5044.
+
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5044--5044
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [157pdfTeX warning (ext4): destination with the same identifier (name{table.7.
+4}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5044 ...}\end{center}\end{figure}\end{enumerate}
+                                                  ]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 158 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[158pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+10}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5052 \item F
+              ig.\ref{z_us_real_log_gdp_comp_i2} suggests that drift and cyc...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_us_real_log_gdp_comp_
+i2.pdf>] <z_us_real_log_gdp_detrended.pdf, id=2853, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_detrended.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_detrended.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_detrended.pdf used on input line 508
+2.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5082--5082
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [159]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 160 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[160pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+11}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5099 \end{eqnarray*}
+                       <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z
+_us_real_log_gdp_detrended.pdf>]
+<z_us_real_log_gdp_detrended_spect.pdf, id=2873, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_detrended_spect.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_detrended_spect.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_detrended_spect.pdf used on input li
+ne 5109.
+(pdftex.def)             Requested size: 289.09473pt x 289.09473pt.
+
+
+LaTeX Warning: Reference `int_sec' on page 161 undefined on input line 5109.
+
+[161pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+12}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5124 \end{eqnarray}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+us_real_log_gdp_detrended_spect.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 5124--5126
+
+ []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 162 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[162]
+<z_us_real_log_gdp_detrended_amp_shift_bp.pdf, id=2902, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_detrended_amp_shift_bp.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_detrended_amp_shift_bp.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_detrended_amp_shift_bp.pdf used on i
+nput line 5175.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5175--5175
+ [][] 
+ []
+
+<z_us_real_log_gdp_detrended_filt_bp.pdf, id=2906, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_detrended_filt_bp.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_detrended_filt_bp.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_detrended_filt_bp.pdf used on input 
+line 5193.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5193--5193
+ [][] 
+ []
+
+[163pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+13}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5193 ...}\end{center}\end{figure}\end{enumerate}
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_us_real_log_gdp_detrended_amp_shift_bp.pdf>]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 164 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[164pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+14}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5210 \end{eqnarray*}
+                       <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z
+_us_real_log_gdp_detrended_filt_bp.pdf>]
+<z_us_real_log_gdp_detrended_spect_i2.pdf, id=2934, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_detrended_spect_i2.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_detrended_spect_i2.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_detrended_spect_i2.pdf used on input
+ line 5223.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5223--5223
+ [][] 
+ []
+
+[165pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+15}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5225 
+        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_us_real_log_gd
+p_detrended_spect_i2.pdf>]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 166 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[166]
+<z_us_real_log_gdp_detrended_amp_shift_bp_i2.pdf, id=2961, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_detrended_amp_shift_bp_i2.pdf Graphic file (type pdf)
+<use z_us_real_log_gdp_detrended_amp_shift_bp_i2.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_detrended_amp_shift_bp_i2.pdf used o
+n input line 5287.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5287--5287
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [167]
+<z_us_real_log_gdp_detrended_filt_bp_i2.pdf, id=2973, 433.62pt x 433.62pt>
+File: z_us_real_log_gdp_detrended_filt_bp_i2.pdf Graphic file (type pdf)
+
+<use z_us_real_log_gdp_detrended_filt_bp_i2.pdf>
+Package pdftex.def Info: z_us_real_log_gdp_detrended_filt_bp_i2.pdf used on inp
+ut line 5307.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5307--5307
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 168 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[168pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+16}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5307 ...}\end{center}\end{figure}\end{enumerate}
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_us_real_log_gdp_detrended_amp_shift_bp_i2.pdf>]
+[169pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+17}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5313 \end{itemize}
+                     <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_u
+s_real_log_gdp_detrended_filt_bp_i2.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 5333--5335
+
+ []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 170 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[170]
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 171
+ []
+
+[171]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 172 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[172] <z_HP_us_real_log_gdp.pdf, id=3028, 433.62pt x 433.62pt>
+File: z_HP_us_real_log_gdp.pdf Graphic file (type pdf)
+
+<use z_HP_us_real_log_gdp.pdf>
+Package pdftex.def Info: z_HP_us_real_log_gdp.pdf used on input line 5471.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5471--5471
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 173
+ []
+
+[173]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 174 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[174pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+18}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5482 ...e-root) spectra of target (first column)
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_HP_us_real_log_gdp.pdf>]
+<z_HP_filt_trffkt.pdf, id=3048, 433.62pt x 433.62pt>
+File: z_HP_filt_trffkt.pdf Graphic file (type pdf)
+
+<use z_HP_filt_trffkt.pdf>
+Package pdftex.def Info: z_HP_filt_trffkt.pdf used on input line 5517.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5517--5517
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 175
+ []
+
+[175]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 176 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[176pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+19}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5526 ...utations we set the spectrum arbitrarily
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_HP_filt_trffkt.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 177
+ []
+
+[177] <z_HP_filt_coef.pdf, id=3072, 433.62pt x 433.62pt>
+File: z_HP_filt_coef.pdf Graphic file (type pdf)
+
+<use z_HP_filt_coef.pdf>
+Package pdftex.def Info: z_HP_filt_coef.pdf used on input line 5574.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5574--5574
+ [][] 
+ []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 178 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[178pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+20}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5576 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+HP_filt_coef.pdf>]
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 179
+ []
+
+[179]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 180 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[180]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 181
+ []
+
+[181]
+<z_HP_us_real_log_gdp_hp_diff__gap_amp.pdf, id=3118, 433.62pt x 433.62pt>
+File: z_HP_us_real_log_gdp_hp_diff__gap_amp.pdf Graphic file (type pdf)
+
+<use z_HP_us_real_log_gdp_hp_diff__gap_amp.pdf>
+Package pdftex.def Info: z_HP_us_real_log_gdp_hp_diff__gap_amp.pdf used on inpu
+t line 5710.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5710--5710
+ [][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 5710--5711
+
+ []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 182 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[182pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+21}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5722 ...rs: ",periodicity_in_quarters/4,sep=""))
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_HP_us_real_log_gdp_hp_diff__gap_amp.pdf>]
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 183
+ []
+
+[183]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 184 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[184] <z_HP_us_real_log_gdp_hp_diff_mse.pdf, id=3152, 433.62pt x 433.62pt>
+File: z_HP_us_real_log_gdp_hp_diff_mse.pdf Graphic file (type pdf)
+
+<use z_HP_us_real_log_gdp_hp_diff_mse.pdf>
+Package pdftex.def Info: z_HP_us_real_log_gdp_hp_diff_mse.pdf used on input lin
+e 5827.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5827--5827
+ [][] 
+ []
+
+
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 185
+ []
+
+[185pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+22}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5832 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+HP_us_real_log_gdp_hp_diff_mse.pdf>]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 186 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[186] <z_HP_us_real_log_gdp_hp_bp.pdf, id=3175, 433.62pt x 433.62pt>
+File: z_HP_us_real_log_gdp_hp_bp.pdf Graphic file (type pdf)
+
+<use z_HP_us_real_log_gdp_hp_bp.pdf>
+Package pdftex.def Info: z_HP_us_real_log_gdp_hp_bp.pdf used on input line 5901
+.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5901--5901
+ [][] 
+ []
+
+
+Overfull \hbox (3.93744pt too wide) in paragraph at lines 5900--5901
+\T1/aer/m/n/10 The cy-cle (blue line) re-ly-ing on the pseudo-spectral den-sity
+ []7.12[] (dif-fer-enced data) is smoother,
+ []
+
+
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 187
+ []
+
+[187pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+23}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5906 \subsection
+                  {Customization} <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Swe
+ave/Latex/z_HP_us_real_log_gdp_hp_bp.pdf>]
+<z_HP_cust_coef.pdf, id=3190, 289.08pt x 289.08pt>
+File: z_HP_cust_coef.pdf Graphic file (type pdf)
+ <use z_HP_cust_coef.pdf>
+Package pdftex.def Info: z_HP_cust_coef.pdf used on input line 5951.
+(pdftex.def)             Requested size: 289.09251pt x 289.09251pt.
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 188 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[188]
+Overfull \hbox (8.28413pt too wide) has occurred while \output is active
+\T1/aer/m/sl/10 7.6.  REPLICATION AND CUSTOMIZATION OF THE HODRICK-PRESCOTT HP-
+FILTER) \T1/aer/m/n/10 189
+ []
+
+[189pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+24}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5973 ...)  #ts.plot(x_cycle)  ts.plot(mplot[,2])
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_HP_cust_coef.pdf>]
+<z_HP_us_real_log_gdp_hp_bp_cust.pdf, id=3211, 433.62pt x 433.62pt>
+File: z_HP_us_real_log_gdp_hp_bp_cust.pdf Graphic file (type pdf)
+
+<use z_HP_us_real_log_gdp_hp_bp_cust.pdf>
+Package pdftex.def Info: z_HP_us_real_log_gdp_hp_bp_cust.pdf used on input line
+ 5981.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 5981--5981
+ [][] 
+ []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 190 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[190pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+25}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6001 \begin{eqnarray}
+                        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/
+z_HP_us_real_log_gdp_hp_bp_cust.pdf>] [191]
+<z_amp_shift_dfa_mse_cf_0.pdf, id=3234, 433.62pt x 433.62pt>
+File: z_amp_shift_dfa_mse_cf_0.pdf Graphic file (type pdf)
+
+<use z_amp_shift_dfa_mse_cf_0.pdf>
+Package pdftex.def Info: z_amp_shift_dfa_mse_cf_0.pdf used on input line 6077.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6077--6077
+ [][] 
+ []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 192 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[192]
+Overfull \hbox (8.84169pt too wide) in paragraph at lines 6097--6099
+[]\T1/aer/m/n/10 Compute real-time CF-filter co-ef-fi-cients ac-cord-ing to the
+ func-tion $\OML/cmm/m/it/10 cffilter$ \T1/aer/m/n/10 (pack-age $\OML/cmm/m/it/
+10 mFilter$[][][]\T1/aer/m/n/10 )
+ []
+
+[193pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+26}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6107 \end{Sinput}
+                    <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_am
+p_shift_dfa_mse_cf_0.pdf>]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 194 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[194] <z_CF_us_real_log_gdp.pdf, id=3264, 433.62pt x 433.62pt>
+File: z_CF_us_real_log_gdp.pdf Graphic file (type pdf)
+
+<use z_CF_us_real_log_gdp.pdf>
+Package pdftex.def Info: z_CF_us_real_log_gdp.pdf used on input line 6162.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6162--6162
+ [][] 
+ []
+
+[195pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+27}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6177 ...Compare DFA and model-based coefficients
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_CF_us_real_log_gdp.pdf>]
+<z_CF_us_real_log_gdp_fb.pdf, id=3280, 433.62pt x 433.62pt>
+File: z_CF_us_real_log_gdp_fb.pdf Graphic file (type pdf)
+
+<use z_CF_us_real_log_gdp_fb.pdf>
+Package pdftex.def Info: z_CF_us_real_log_gdp_fb.pdf used on input line 6194.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6194--6194
+ [][] 
+ []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 196 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[196pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+28}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6197 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+CF_us_real_log_gdp_fb.pdf>] [197]
+<z_HP_us_real_log_gdp_cf_out.pdf, id=3303, 433.62pt x 433.62pt>
+File: z_HP_us_real_log_gdp_cf_out.pdf Graphic file (type pdf)
+
+<use z_HP_us_real_log_gdp_cf_out.pdf>
+Package pdftex.def Info: z_HP_us_real_log_gdp_cf_out.pdf used on input line 627
+5.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6275--6275
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 198 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[198]
+Underfull \hbox (badness 10000) in paragraph at lines 6275--6276
+
+ []
+
+[199pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+29}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6300 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+HP_us_real_log_gdp_cf_out.pdf>]
+<z_HP_us_real_log_gdp_cf_cycle.pdf, id=3324, 433.62pt x 433.62pt>
+File: z_HP_us_real_log_gdp_cf_cycle.pdf Graphic file (type pdf)
+
+<use z_HP_us_real_log_gdp_cf_cycle.pdf>
+Package pdftex.def Info: z_HP_us_real_log_gdp_cf_cycle.pdf used on input line 6
+322.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6322--6322
+ [][] 
+ []
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 200 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[200pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+30}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6323 \end{enumerate}
+                       <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z
+_HP_us_real_log_gdp_cf_cycle.pdf>]
+<z_amp_shift_dfa_mse_cf.pdf, id=3339, 433.62pt x 433.62pt>
+File: z_amp_shift_dfa_mse_cf.pdf Graphic file (type pdf)
+
+<use z_amp_shift_dfa_mse_cf.pdf>
+Package pdftex.def Info: z_amp_shift_dfa_mse_cf.pdf used on input line 6357.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6357--6357
+ [][] 
+ []
+
+[201]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 202 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[202pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+31}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6365 ...lot<-cbind(shift_mse_forecast,shift_mse)
+                                                   <D:/wia_desktop/Projekte/201
+6/MDFA-Legacy/Sweave/Latex/z_amp_shift_dfa_mse_cf.pdf>]
+<z_amp_shift_dfa_mse_cf_lead.pdf, id=3368, 433.62pt x 433.62pt>
+File: z_amp_shift_dfa_mse_cf_lead.pdf Graphic file (type pdf)
+
+<use z_amp_shift_dfa_mse_cf_lead.pdf>
+Package pdftex.def Info: z_amp_shift_dfa_mse_cf_lead.pdf used on input line 638
+4.
+(pdftex.def)             Requested size: 289.09473pt x 289.09473pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 6384--6385
+
+ []
+
+[203pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+32}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6385 
+        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_amp_shift_dfa_
+mse_cf_lead.pdf>]
+
+LaTeX Warning: Command \textunderscore invalid in math mode on input line 6386.
+
+
+
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 204 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[204] <z_HP_us_real_log_gdp_cf_out_cust.pdf, id=3389, 433.62pt x 433.62pt>
+File: z_HP_us_real_log_gdp_cf_out_cust.pdf Graphic file (type pdf)
+
+<use z_HP_us_real_log_gdp_cf_out_cust.pdf>
+Package pdftex.def Info: z_HP_us_real_log_gdp_cf_out_cust.pdf used on input lin
+e 6473.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6473--6473
+ [][] 
+ []
+
+
+Overfull \hbox (0.43784pt too wide) in paragraph at lines 6483--6484
+[]\T1/aer/m/n/10 Implicit model-based per-spec-tives can be as-signed to clas-s
+ic Hodrick-Prescott and Christiano-
+ []
+
+[205pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
+33}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6485 \item A
+               customized explicit or implicit model-based approach is a \em...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_HP_us_real_log_gdp_cf
+_out_cust.pdf>]
+Overfull \hbox (23.1757pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 206 \T1/aer/m/sl/10 CHAPTER 7.  REPLICATING AND CUSTOMIZING CLAS
+SIC MODEL-BASED APPROACHES
+ []
+
+[206]
+Chapter 8.
+[207
+
+] [208] [209] [210]
+Overfull \hbox (40.528pt too wide) in alignment at lines 6663--6669
+ [][][] []
+ []
+
+[211] [212] <z_mdfa_ms_reg_decay.pdf, id=3455, 433.62pt x 433.62pt>
+File: z_mdfa_ms_reg_decay.pdf Graphic file (type pdf)
+
+<use z_mdfa_ms_reg_decay.pdf>
+Package pdftex.def Info: z_mdfa_ms_reg_decay.pdf used on input line 6745.
+(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6745--6745
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [213]
+[214pdfTeX warning (ext4): destination with the same identifier (name{figure.8.
+1}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6768 \end{Soutput}
+                     <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_m
+dfa_ms_reg_decay.pdf>]
+<z_mdfa_ms_reg_decay_screen_decay_1.pdf, id=3474, 433.62pt x 433.62pt>
+File: z_mdfa_ms_reg_decay_screen_decay_1.pdf Graphic file (type pdf)
+
+<use z_mdfa_ms_reg_decay_screen_decay_1.pdf>
+Package pdftex.def Info: z_mdfa_ms_reg_decay_screen_decay_1.pdf used on input l
+ine 6770.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6770--6770
+ [][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 6770--6771
+
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [215pdfTeX warning (ext4): destination with the same identifier (name{figure.8
+.2}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6778 \begin{Sinput}
+                      <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_
+mdfa_ms_reg_decay_screen_decay_1.pdf>]
+<z_mdfa_ms_reg_decay_screen_decay_2.pdf, id=3489, 433.62pt x 433.62pt>
+File: z_mdfa_ms_reg_decay_screen_decay_2.pdf Graphic file (type pdf)
+
+<use z_mdfa_ms_reg_decay_screen_decay_2.pdf>
+Package pdftex.def Info: z_mdfa_ms_reg_decay_screen_decay_2.pdf used on input l
+ine 6791.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6791--6791
+ [][] 
+ []
+
+
+Overfull \hbox (33.67465pt too wide) in paragraph at lines 6791--6792
+\T1/aer/m/n/10 The strength-parameter $\OML/cmm/m/it/10 []$ \T1/aer/m/n/10 is 
+bounded to the in-ter-val $\OT1/cmr/m/n/10 [0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10
+ 1]$\T1/aer/m/n/10 , too (the code re-lies on $\OML/cmm/m/it/10 f\OT1/cmr/m/n/1
+0 ([](\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 []\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 
+; \OT1/cmr/m/n/10 1))$
+ []
+
+[216pdfTeX warning (ext4): destination with the same identifier (name{figure.8.
+3}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6796 \subsection
+                  {Constraints vs. Regularization}\label{con_vs_reg} <D:/wia_de
+sktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_mdfa_ms_reg_decay_screen_decay_2
+.pdf>] [217]
+<z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf, id=3510, 433.62pt x 433.62pt>
+File: z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf Graphic file (type pdf)
+
+<use z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf>
+Package pdftex.def Info: z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf used on in
+put line 6846.
+(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6846--6846
+ [][] 
+ []
+
+[218pdfTeX warning (ext4): destination with the same identifier (name{figure.8.
+4}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6847 
+        <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_mdfa_ms_reg_de
+cay_screen_decay_2_rest.pdf>] [219]
+<z_mdfa_ms_reg_smooth_1.pdf, id=3536, 433.62pt x 433.62pt>
+File: z_mdfa_ms_reg_smooth_1.pdf Graphic file (type pdf)
+
+<use z_mdfa_ms_reg_smooth_1.pdf>
+Package pdftex.def Info: z_mdfa_ms_reg_smooth_1.pdf used on input line 6917.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6917--6917
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [220]
+[221pdfTeX warning (ext4): destination with the same identifier (name{figure.8.
+5}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6929 \begin{eqnarray}
+                       \label{centm} <D:/wia_desktop/Projekte/2016/MDFA-Legacy/
+Sweave/Latex/z_mdfa_ms_reg_smooth_1.pdf>] [222]
+<z_mdfa_ms_reg_cross_1.pdf, id=3568, 433.62pt x 433.62pt>
+File: z_mdfa_ms_reg_cross_1.pdf Graphic file (type pdf)
+
+<use z_mdfa_ms_reg_cross_1.pdf>
+Package pdftex.def Info: z_mdfa_ms_reg_cross_1.pdf used on input line 6974.
+(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
+
+Overfull \hbox (9.05254pt too wide) in paragraph at lines 6974--6974
+ [][] 
+ []
+
+[223pdfTeX warning (ext4): destination with the same identifier (name{figure.8.
+6}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.6979 \section
+               {Regularization Troika: a Triplet of Universal Filter Require...
+ <D:/wia_desktop/Projekte/2016/MDFA-Legacy/Sweave/Latex/z_mdfa_ms_reg_cross_1.p
+df>] [224]
+Underfull \vbox (badness 2538) has occurred while \output is active []
+
+ [225]
+Overfull \hbox (20.06143pt too wide) in alignment at lines 7066--7077
+ [][][] []
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [226]
+Overfull \hbox (51.86322pt too wide) in alignment at lines 7079--7093
+ [][][] []
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 7099--7102
+
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 7109.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `superscript' on input line 7109.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 7109.
+
+[227]
+Overfull \hbox (4.06102pt too wide) in alignment at lines 7118--7122
+ [][][] []
+ []
+
+
+Overfull \hbox (10.59149pt too wide) in alignment at lines 7141--7148
+ [][][] []
+ []
+
+[228]
+Underfull \hbox (badness 10000) in paragraph at lines 7150--7152
+
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 7167.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 7167.
+
+[229] [230] [231]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 7311.
+ [232]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 7311.
+
+(D:\wia_desktop\Projekte\2016\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 7311.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 7311.
+
+Package rerunfilecheck Info: File `MDFA_Legacy.out' has not changed.
+(rerunfilecheck)             Checksum: 252DD22C36E6EEB712978A719F0803A0;14828.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 7311.
+ ) 
+Here is how much of TeX's memory you used:
+ 8894 strings out of 493921
+ 131059 string characters out of 3144879
+ 216798 words of memory out of 3000000
+ 10990 multiletter control sequences out of 15000+200000
+ 66485 words of font info for 139 fonts, out of 3000000 for 9000
+ 841 hyphenation exceptions out of 8191
+ 35i,18n,31p,2269b,641s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Prog
+ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Progra
+m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex8.pfb><C:/Prog
+ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Progra
+m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program 
+Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Fil
+es (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files 
+(x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files (x8
+6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files (x86)/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmmib7.pfb><C:/Program Files (x86
+)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files (x86)/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files (x86)/MiKTeX 
+2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files (x86)/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmsl10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmsltt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmsy5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/
+amsfonts/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmsy8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmti8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+tt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt
+8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/ms
+bm10.pfb>
+Output written on MDFA_Legacy.pdf (240 pages, 2076974 bytes).
+PDF statistics:
+ 3952 PDF objects out of 4296 (max. 8388607)
+ 927 named destinations out of 1000 (max. 500000)
+ 1804 words of extra memory for PDF output out of 10000 (max. 10000000)
+

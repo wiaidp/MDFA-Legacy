@@ -1,0 +1,1474 @@
+
+
+
+
+
+
+
+\chapter{ATS-Trilemma: the Univariate Case}\label{ats_sec}
+
+We propose an extension of the classic MSE-paradigm which addresses nowcast and forecast applications\footnote{Backcasts were discussed in chapter \ref{fil_sec}.}. Specifically, we split the original MSE-norm into three components, identified as Accuracy, Timeliness and Smoothness. The resulting two-dimensional trade-off, controlled by the parameter-pair $\lambda,\eta$ in the head of the main function call, is called Accuracy-Timeliness-Smoothness Trilemma, or ATS-Trilemma for short, see Wildi (2005), McElroy and Wildi (2015). We derive  a generic optimization principle, called Customization, which nests the classic MSE-approach.  We show that the ATS-trilemma collapses to a one-dimensional trade off, the so-called AT-dilemma, in the case of forecasting. We infer  that classic (pseudo-maximum likelihood)  one-step ahead forecast approaches are incapable of addressing Timeliness and Smoothness, simultaneously. Efficiency gains of customized designs are quantified in a series of empirical examples. \\
+
+The ATS-trilemma and the generic customization principle are introduced in section \ref{seatatst}; section \ref{fatatd} highlights the classic dichotomic forecast paradigm; quadratic optimization criteria and closed-form solutions are presented in section \ref{idfas}; an application of customization is proposed in section \ref{ats_work_o}; performance measures are presented in section \ref{peco_cu}; finally, sections \ref{double_score_ats} and \ref{ucdvbmseli} assess performances of customized designs when benchmarked against classic MSE-approaches. 
+
+
+
+
+
+
+
+
+
+
+
+\section{Signal Extraction and the ATS-Trilemma}\label{seatatst}
+
+We address the univariate dfa-case and generalize criterion \ref{dfa_ms}. Our treatment follows \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 4.3, and McElroy and Wildi (2015). 
+
+
+\subsection{Decomposition of the MSE-Norm}
+
+The DFA emphasizes the so-called transferfunction-error $\Gamma(\cdot)-\hat{\Gamma}(\cdot)$. The following geometric identity holds in general (law of cosine in the complex plane):
+\begin{eqnarray}
+|\Gamma(\omega)-\hat{\Gamma}(\omega)|^2&=&A(\omega)^2+\hat{A}(\omega)^2-2A(\omega)
+\hat{A}(\omega)\cos\left(\hat{\Phi}(\omega)-\Phi(\omega)\right)\nonumber\\
+&=&
+(A(\omega)-\hat{A}(\omega))^2\nonumber\\
+&&+2A(\omega)\hat{A}(\omega)\left[1-\cos\left(\hat{\Phi}(\omega)-\Phi(\omega)\right)\right]\label{etrigid}
+\end{eqnarray}
+If $\Gamma$ is symmetric and positive, then \(\Phi(\omega)\equiv
+0\) so that we can omit $\Phi(\omega)$ from our notation\footnote{The ideal trend, classical filters (HP, CF, henderson) or model-based filters are typically positive (symmetric) filters. It should be clear that $\Phi(\omega)$ cannot be omitted if the condition is unfulfilled.}. By inserting \ref{etrigid} into \ref{dfa_ms} and using
+$1-\cos(\hat{\Phi}(\omega))=2\sin(\hat{\Phi}(\omega)/2)^2$ we obtain
+\begin{eqnarray} &&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Gamma(\omega_k)-\hat{\Gamma}(\omega_k) \right|^2 I_{TX}(\omega_k)\nonumber\\
+&=&\frac{2\pi}{ T} \sum_{k=-T/2}^{T/2}
+(A(\omega_k)-\hat{A}(\omega_k))^2 I_{TX}(\omega_k)\label{unboptidioe}\\
+&&+\frac{2\pi}{ T} \sum_{k=-T/2}^{T/2}
+4A(\omega_k)\hat{A}(\omega_k)\sin(\hat{\Phi}(\omega_k)/2)^2
+I_{TX}(\omega_k)\label{unboptidio}
+\end{eqnarray}
+The first summand \ref{unboptidioe} is the distinctive part of the total mean-square filter error
+which is attributable to the amplitude function of the real-time filter (the MS-amplitude error).
+The second summand \ref{unboptidio} measures the distinctive contribution of the phase or time-shift to
+the total mean-square error (the MS-time-shift error). Note that the product
+$A(\omega_k)\hat{A}(\omega_k)I_{TX}(\omega_k)$ in \ref{unboptidio} maps the scales of the filter outputs $y_t,\hat{y}_t$ to the frequency-domain (the phase function alone would be dimensionless).
+
+
+
+\subsection{Accuracy, Timeliness and Smoothness (ATS-) Error-Components}  \label{ats_section}
+
+
+
+The previous decomposition can be refined by splitting
+each term into contributions from \emph{pass-} and \emph{stopbands}. For ease of exposition we assume an ideal lowpass target 
+\[\Gamma(\omega)=\left\{\begin{array}{cc}1~,~|\omega|\leq\textrm{cutoff}\\0~,~\textrm{otherwise}\end{array}\right.\]
+The set $\{\omega_k||\omega_k|\leq\textrm{cutoff}\}$ corresponds to the passband and its complement $\{\omega_k||\omega_k|>\textrm{cutoff}\}$ is the stop- or rejection-band. We now define
+\begin{eqnarray}
+\left.\begin{array}{ccc}
+\textrm{A(ccuracy)}&:=&\frac{2\pi}{ T} \sum_{\textrm{Passband}} (A(\omega_k)-\hat{A}(\omega_k))^2 I_{TX}(\omega_k)\\
+\textrm{S(moothness)}&:=&\frac{2\pi}{ T} \sum_{\textrm{Stopband}} (A(\omega_k)-\hat{A}(\omega_k))^2 I_{TX}(\omega_k)\\
+\textrm{T(imeliness)}&:=&\frac{2\pi}{ T}  \sum_{\textrm{Passband}} 4A(\omega_k)\hat{A}(\omega_k)\sin(\hat{\Phi}(\omega_k)/2)^2
+I_{TX}(\omega_k)                                     \\
+\textrm{R(esidual)}&:=&\frac{2\pi}{ T}  \sum_{\textrm{Stopband}} 4A(\omega_k)\hat{A}(\omega_k)\sin(\hat{\Phi}(\omega_k)/2)^2
+I_{TX}(\omega_k)
+\end{array}\right\}\label{mse_dec_ats}
+\end{eqnarray}
+\begin{itemize}
+\item \emph{Residual} is that part of the MSE which is contributed by the time-shift in the stopband: it \emph{vanishes} exactly in the case of the ideal trend.  Even if it does not vanish, it is generally negligible because the product $A(\omega_k)\hat{A}(\omega_k)$ is small in the stopband. We now ignore this error-term (it is dropped from subsequent notation).
+\item \emph{Accuracy} measures the contribution to the MSE-norm which would be obtained by ignoring time-shift (passband) and noise suppression (stop-band) issues\footnote{It is the performance of a symmetric filter (no time-shift) with perfect noise suppression ($\hat{A}(\cdot)=\Gamma(0)=0$ in
+the stopband) and with the same amplitude as $\hat{\Gamma}(\cdot)$ in the passband. Such a design could be easily constructed by
+the techniques presented in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 1.}.
+\item \emph{Smoothness} measures the contribution to total MSE of the undesirable high-frequency noise, leaking
+from the imperfect amplitude fit in the stopband (convolution theorem \ref{convolution_dft}). This measure is tightly linked to classical time-domain \emph{curvature} (smoothness) measures.
+\item \emph{Timeliness} measures the MSE-contribution generated by the time-shift. This measure is closely linked
+to the well-known (time-domain) \emph{peak-correlation}, as referenced against the target signal.
+\end{itemize}
+We are now able to address each single or each \emph{pairwise} combination of error-terms by splitting the MSE-criterion accordingly. Typically, speed (Timeliness) and noise suppression (Smoothness) are important properties of a real-time filter in prospective estimation problems (nowcast, forecast)  
+
+
+
+\subsection{Generic Customized Criterion}\label{gen_cust_crit}
+
+
+We are in a position to generalize the mean-square optimization criterion \ref{dfa_ms}
+by assigning weights to the ATS-components (recall that the Residual either vanishes exactly or is negligible):
+\begin{equation}\label{ats_cust}
+\textrm{MSE-Cust}(\lambda_1,\lambda_2)=\textrm{Accuracy}+(1+\lambda_1) \textrm{Timeliness}+(1+\lambda_2) \textrm{Smoothness}\to \min_{\mathbf{b}}
+\end{equation}
+Selecting $\lambda_1>0$ results, ceteris paribus, in a smaller Timeliness component; as we shall see the resulting filter will be faster: turning-points can be detected earlier (smaller peak-correlation against the target signal). Selecting
+$\lambda_2>0$ magnifies, ceteris paribus, the Smoothness term: the output of the resulting filter is smoother or, stated otherwise, undesirable high-frequency noise is damped more effectively. Finally, selecting $\lambda_1>0,\lambda_2>0$ emphasizes both attributes: the resulting filter-output is able to gain both in terms of `speed' as well as in terms of `noise suppression'. The ATS-trilemma confers the user the possibility to adjust trade-offs according to research priorities.\\
+
+
+The schematic criterion \ref{ats_cust} can be generalized by substituting weighting functions $W_1(\omega_k)\geq 0$, $W_2(\omega_k)\geq 0$  for the fixed weights $\lambda_1,\lambda_2$:
+\begin{eqnarray*}
+&&\frac{2\pi}{ T} \sum_{\textrm{Passband}} (A(\omega_k)-\hat{A}(\omega_k))^2 I_{TX}(\omega_k)\nonumber\\
+&&+\frac{2\pi}{ T} \sum_{\textrm{Stopband}} (A(\omega_k)-\hat{A}(\omega_k))^2 W_2(\omega_k)I_{TX}(\omega_k)\nonumber\\
+&&+\frac{2\pi}{ T}  \sum_{\textrm{Passband}} 4A(\omega_k)\hat{A}(\omega_k)\sin(\hat{\Phi}(\omega_k)/2)^2
+W_1(\omega_k)I_{TX}(\omega_k)\to\min_{\mathbf{b}}
+\end{eqnarray*}
+Criterion \ref{ats_cust} can be replicated by selecting
+\begin{eqnarray*}
+W_1(\omega_k,\lambda_1)&=&1+\lambda_1\\
+W_2(\omega_k,\lambda_2)&=&1+\lambda_2
+\end{eqnarray*}
+Note, however, that $W_2$ would introduce an undesirable discontinuity in the cutoff-frequency, if $\lambda_2\neq 0$. Therefore, we propose the following weighting-scheme
+\begin{eqnarray}
+\left.\begin{array}{ccc}W_1(\omega_k,\lambda)&=&1+\lambda\\
+W_2(\omega_k,\eta)&=&(1+|\omega_k|-\textrm{cutoff})^{\eta}
+\end{array}\right\}\label{w_func_cust}
+\end{eqnarray}
+The new function $W_2$ allows for a continuous transition from pass- to stopband and its monotonic shape overemphasizes undesirable high-frequency components\footnote{The `nuisance' of an undesirable high-frequency component, as measured by its derivative (or its first-order difference) is proportional to $\omega$ (or to $|1-\exp(-i\omega)|$).}. We re-labelled
+$\lambda_1,\lambda_2$ by $\lambda,\eta$ in order to distinguish symbolically both effects: $\lambda>0$ emphasizes Timeliness and $\eta>0$ addresses Smoothness. The criterion can be re-written more compactly as
+\begin{eqnarray}
+&&\frac{2\pi}{ T} \sum_{\textrm{All~Frequencies}} (A(\omega_k)-\hat{A}(\omega_k))^2 W(\omega_k,\eta) I_{TX}(\omega_k)\nonumber\\
+&&+(1+\lambda)\frac{2\pi}{ T}  \sum_{\textrm{Passband}} 4A(\omega_k)\hat{A}(\omega_k)\sin(\hat{\Phi}(\omega_k)/2)^2
+I_{TX}(\omega_k)\to\min_{\mathbf{b}}\label{dfatp}
+\end{eqnarray}
+where
+\begin{equation}\label{w}
+W(\omega_k,\eta,\textrm{cutoff})=\left\{\begin{array}{cc}
+1~,~\textrm{if~} |\omega_k|<\textrm{cutoff}\\
+(1+|\omega_k|-\textrm{cutoff})^{\eta}~,~\textrm{otherwise}
+\end{array}\right.
+\end{equation}
+The optimization principle \ref{dfatp} is called a \emph{customized} criterion, see Wildi (2005) and McElroy and Wildi (2015). Obviously, the customized criterion nests the MSE-criterion \ref{dfa_ms} (select $\lambda=\eta=0$).  
+
+
+\section{Forecasting and the AT-Dilemma}\label{fatatd}
+
+In the previous section we assumed a particular signal as specified by a lowpass target. Here we analyze (anticipative) \emph{allpass} targets which appear in classical forecast applications, recall section \ref{one_step}.    
+
+\subsection{ATS-Trilemma Collapses to AT-Dilemma}
+
+An application of the MDFA-MSE criterion \ref{dfanv} to ordinary one- (and multi-) step head forecasting was proposed in section \ref{one_step}. Specifically, in the case of the classic one-step ahead criterion, \ref{dfa_ms} becomes 
+\begin{equation}\label{dfanv_1s_ats}
+\frac{2\pi}{T} \sum_{k=-T/2}^{T/2}
+\left|\exp(i\omega_k)-\hat{\Gamma}_X(\omega_k)\right|^2I_{T
+X}(\omega_k) \to \min_{\mathbf{b}}
+\end{equation}
+Note that the target filter $\Gamma(\omega_k):=\exp(i\omega_k)$ is an allpass since $|\Gamma(\omega_k)|=1$ for all frequencies. As a consequence, both the Residual- as well as the Smoothness-term vanish -- they are missing -- and (the schematic) criterion  \ref{ats_cust} simplifies to
+\begin{eqnarray*}
+\textrm{MSE-Cust}(\lambda_1)=\textrm{Accuracy}+(1+\lambda_1) \textrm{Timeliness}\to \min_{\mathbf{b}}
+\end{eqnarray*}
+The signal-extraction ATS-trilemma collapses to a forecast {AT-dilemma}. We may infer that the classic time series paradigm (pseudo-maximum-likelihood), which relies on (mean-square one-step ahead) forecast performances is immanently unable to break-up the tie between Timeliness and Smoothness in real-time signal extraction.  
+
+
+
+
+\subsection{Illustration: White Noise and Random-Walk Processes}\label{i_w_rw}
+
+\subsubsection{LDP-Filter and Arithmetic Mean}
+
+Let $\Gamma(\omega_k)=\exp(i\omega_k)$ be the one-step ahead target and consider the following two polar filter designs: 
+\begin{enumerate}
+\item Let $b_0=1,b_j=0,j=1,...,L-1$: the filter assigns full weight $b_0=1$ to $x_T$ in the data-sample $x_1,...,x_T$. Let's call it `Last-Data-Point' (LDP-) filter. Its transfer function is
+\[\hat{\Gamma}(\omega_k)=1\]
+\item Let $b_j=1/L,j=0,...,L-1$: the filter assigns equal weight $1/L$ to $x_T,...,x_{T-(L-1)}$. We now set $L:=T$ so that the equal-weight filter corresponds to the arithmetic mean. The transfer function of the arithmetic mean is
+\[\hat{\Gamma}(\omega_k)=\frac{1}{T}\sum_{j=0}^{T-1}\exp(-ij\omega_k)\]
+\end{enumerate}
+The LDP-filter is an allpass without time-shift; the arithmetic mean is a lowpass with a narrow passband and a large time-shift. 
+
+
+
+\subsubsection{Random-Walk Process}
+
+Let $x_1,...,x_T$ be a realization of a random-walk process. In this case, the LDP-filter is optimal, in a mean-square one-step ahead perspective: the best forecast of $x_{T+1}$ is $x_T$. Since Smoothness is missing (no stop-band), the (schematic) customized criterion \ref{ats_cust} simplifies -- degenerates -- to
+\begin{eqnarray}
+\textrm{MSE-Cust}(\lambda_1)&=&\textrm{Accuracy}+(1+\lambda_1) \textrm{Timeliness}~\left(\to\min_{\mathbf{b}}\right)\label{mdfa_cust_forec}\\
+&=&\frac{2\pi}{ T} \sum_{\textrm{All ~Frequencies}} (A(\omega_k)-\hat{A}(\omega_k))^2 I_{TX}(\omega_k)\nonumber\\
+&&+(1+\lambda_1)\frac{2\pi}{ T}  \sum_{\textrm{All~Frequencies}} 4A(\omega_k)\hat{A}(\omega_k)\sin\left(\frac{\Phi(\omega_k)-\hat{\Phi}(\omega_k)}{2}\right)^2I_{TX}(\omega_k)\nonumber\\
+&=&(1+\lambda_1)\frac{2\pi}{ T}  \sum_{\textrm{All~Frequencies}} 4\sin\left(\omega_k/2\right)^2I_{TX}(\omega_k)~\left(\to\min_{\mathbf{b}}\right)\label{ast_cust_for}
+\end{eqnarray}
+The last equality follows from $A(\omega_k)=\hat{A}(\omega_k)=1$ (both the target as well as the LDP-filter are allpass designs), $\Phi(\omega_k)=\textrm{Arg}(\exp(i\omega_k))=\omega_k$ (the target filter is anticipative) and $\hat{\Phi}(\omega_k)=0$. We infer that MSE is entirely attributable to Timeliness (Accuracy vanishes); indeed, the output $x_T$ of $\hat{\Gamma}(\cdot)$ is shifted by one time-unit relative to the target $x_{T+1}$: no other action or effect is supported by the LDP-filter. In contrast, the arithmetic mean would strongly smooth the filter output: Accuracy would inflate considerably in \ref{mdfa_cust_forec}.\\
+
+The (true) pseudo-spectrum of the process is given by 
+\begin{eqnarray}\label{pseudo_spectrum}
+h_X(\omega)=\frac{\sigma^2}{2\pi|1-\exp(-i\omega)|^2}
+\end{eqnarray} 
+where $\sigma^2$ is the variance of the (stationary) white noise $\tilde{x}_t=x_t-x_{t-1}$ and $\displaystyle{\frac{\sigma^2}{2\pi}}$ is its (flat) spectral-density;  $\displaystyle{\frac{1}{1-\exp(-i\omega)}}$ is the transfer function of the (non-stationary) AR(1)-filter linking the noise $\tilde{x}_t$ to the random-walk $x_t$, see also section \ref{pseudo_dft}. We could now plug the true pseudo-spectrum into \ref{ast_cust_for} and set $\lambda_1=0$ to obtain a so-called `true' MSE%\footnote{The rationale for this substitution is given by \ref{add_res_dfa} i.e. one would minimize the true (unknown) mean-square filter error.} 
+\begin{eqnarray}
+\textrm{true~MSE}&=&\frac{2\pi}{ T}  \sum_{\textrm{All~Frequencies}} 4\sin\left(\omega_k/2\right)^2\frac{\sigma^2}{2\pi|1-\exp(-i\omega_k)|^2}\nonumber\\
+&=&\frac{2\sigma^2}{ T}  \sum_{\textrm{All~Frequencies}} \frac{1-\cos(\Phi(\omega_k))}{|1-\exp(-i\omega_k)|^2}\nonumber\\
+&=&\frac{2\sigma^2}{ T}  \sum_{\textrm{All~Frequencies}} \frac{1}{2}\label{rwmse}\\
+&=&\sigma^2\nonumber
+\end{eqnarray}
+where we used $|1-\exp(-i\omega_k)|^2=(1-\cos(\omega_k))^2+\sin(\omega_k)^2=2-2\cos(\omega_k)$\footnote{For notational simplicity we did not discriminate the case of odd and even $T$: in the latter case additional weights $w_k$ would be necessary, see section \ref{dft_and_per}.}. The `true MSE' is the mean-square one-step ahead forecast error, as expected.
+
+
+
+\subsubsection{White Noise}
+
+
+Assume $x_t$ is a white noise process and consider, once again, the LDP-filter. From the above we have 
+\begin{eqnarray}
+\textrm{MSE-Cust}(\lambda_1)&=&(1+\lambda_1)\frac{2\pi}{ T}  \sum_{\textrm{All~Frequencies}} 4\sin\left(\omega_k/2\right)^2I_{TX}(\omega_k)~\left(\to\min_{\mathbf{b}}\right)\label{ast_cust_for_wn}
+\end{eqnarray}
+Setting $\lambda_1=0$ and plugging the (flat) spectral density $\displaystyle{\frac{\sigma^2}{2\pi}}$ of the process into this expression %\footnote{The rationale for this substitution is given by \ref{add_res_dfa} i.e. one would minimize the true (unknown) mean-square filter error.} 
+we obtain 
+\begin{eqnarray}
+\textrm{true~MSE}&=&\frac{2\pi}{ T}  \sum_{\textrm{All~Frequencies}} 4\sin(\omega_k/2)^2\frac{\sigma^2}{2\pi}\nonumber\\
+&=&\frac{\sigma^2}{ T}  \sum_{\textrm{All~Frequencies}} 4\sin(\omega_k/2)^2\nonumber\\
+&=&\frac{2\sigma^2}{ T}  \sum_{\textrm{All~Frequencies}} (1-\cos(\omega_k))\label{wnmse}\\
+&=&2\sigma^2\nonumber
+\end{eqnarray}
+where we made use of $\sum_{\textrm{All~Frequencies}} \cos(\omega_k)=0$, see corollary \ref{discret_sums_cor} in the \ref{dstt}. Indeed, the (true) MSE of the LDP-filter is $Var(x_{T+1}-x_{T})=2\sigma^2$. Comparing \ref{wnmse} and \ref{rwmse} reveals that high-frequency components contribute disproportionate to Timeliness since $1-\cos(\omega_k)$ is monotonically increasing. We now substitute the arithmetic mean for the LDP-filter and obtain:
+\begin{eqnarray}
+\textrm{true~MSE}&=&\textrm{Accuracy+Timeliness}\nonumber\\
+&=&\frac{2\pi}{ T} \sum_{\textrm{All ~Frequencies}} (A(\omega_k)-\hat{A}(\omega_k))^2 \frac{\sigma^2}{2\pi}\nonumber\\
+&&+\frac{2\pi}{ T}  \sum_{\textrm{All~Frequencies}} 4A(\omega_k)\hat{A}(\omega_k)\sin\left(\frac{\Phi(\omega_k)-\hat{\Phi}(\omega_k)}{2}\right)^2\frac{\sigma^2}{2\pi}\nonumber\\
+&=&\frac{2\pi}{ T} \sum_{\textrm{All ~Frequencies}} \left(1-\left|\frac{1}{T}\sum_{j=0}^{T-1}\exp(-ij\omega_k)\right|\right)^2\frac{\sigma^2}{2\pi} \nonumber\\
+&&+\frac{2\pi}{ T}  \sum_{\textrm{All~Frequencies}} 4\left|\frac{1}{T}\sum_{j=0}^{T-1}\exp(-ij\omega_k)\right| \sin\left(\frac{-\omega_k-\frac{T}{2}\omega_k}{2}\right)^2\frac{\sigma^2}{2\pi}\nonumber
+\end{eqnarray}
+where we inserted $\Phi(\omega_k)=-Arg(\exp(i\omega_k))=-\omega_k$ (anticipative allpass target) and $\hat{\Phi}(\omega_k)=\hat{\phi}(\omega_k)\omega_k=\displaystyle{\frac{T}{2}}\omega_k$\footnote{The equally-weighted (arithmetic mean) filter shifts all components by half its filter-length $L/2$ and we selected $L=T$. Therefore $\hat{\phi}(\omega_k)=T/2$.}. 
+Using $\frac{1}{T}\sum_{j=0}^{T-1}\exp(-ij\omega_k)=0, \omega_k\not= 0$, see proposition \ref{discret_sums} in the appendix \ref{dstt}, and the fact that the sine function vanishes at $\omega_0=0$, the expression for the (true) MSE simplifies to
+\begin{eqnarray}
+\textrm{MSE}&=&\frac{2\pi}{ T} \sum_{\textrm{All ~Frequencies}} \left(1-\left|\frac{1}{T}\sum_{j=0}^{T-1}\exp(-ij\omega_k)\right|\right)^2\frac{\sigma^2}{2\pi} \nonumber\\
+&=&\sigma^2\frac{T-1}{T}\label{mse_ins}
+\end{eqnarray}
+Timeliness vanishes completely because $\hat{A}(\omega_k)=\left|\frac{1}{T}\sum_{j=0}^{T-1}\exp(-ij\omega_k)\right|=0$ if $\omega_k\neq 0$ and because $\sin\left(\frac{\omega_0-\frac{T}{2}\omega_0}{2}\right)=0$ for $\omega_0=0$. Also, the summand of the Accuracy term vanishes in $\omega_0$; therefore Accuracy sums to $\displaystyle{\frac{T-1}{T}}\sigma^2$. The asymptotically negligible correction $\displaystyle{\frac{T-1}{T}}$ accounts for the fact that the arithmetic mean is an in-sample estimate i.e. we observe a tiny bit of overfitting here (the fit in frequency zero is `too good'). We conclude that the (optimal) arithmetic mean trades the entire Timeliness term against a full-blown Accuracy term\footnote{Figuratively, the arithmetic mean squeezes the data to a flat line which is free of time-shifts.}. The net result is that MSE decreases from $2\sigma^2$, in the case of the LDP filter, to $\approx\sigma^2$ (ignoring the finite sample correction).\\
+
+The fact that the arithmetic mean, a strong smoothing filter with a large time-shift, reduces Timeliness is not without a touch of irony\footnote{This is because Timeliness is not a scale-invariant measure i.e. the contribution of the time-shift to MSE depends on the magnitude of the signals. See section \ref{peco_cu} for a corresponding scale-invariant metric.}; even more so when considering that the decrease in Timeliness must overcompensate the inflated Accuracy; and exceedingly so when considering that Smoothness does not even appear in criterion \ref{mdfa_cust_forec} since the forecast-target is an \emph{allpass}. Hopefully, the proposed counter-intuitive examples shed some light on the rich(er) structure of the ATS-trilemma or, for that matter, of its degenerate sibling, the forecast AT-dilemma. 
+
+
+
+\section{Quadratic Criterion$^*$}\label{idfas}
+
+\subsection{I-DFA}
+
+
+The mean-square error criterion \ref{dfa_ms} is a quadratic function of the filter coefficients $\mathbf{b}$ and can be solved  in closed-form, see \ref{bregms}: the solution is unique and numerical computations are fast. Unfortunately, \ref{dfatp} is no longer quadratic in $\mathbf{b}$, if $\lambda>0$. We here propose an alternative expression which is quadratic irrespective of $\lambda$. Interestingly, the new quadratic criterion matches closely \ref{dfatp}, even for `large' $\lambda$ (virtuous feedback loop\footnote{Larger $\lambda$ tend to linearize the problem because $\hat{\Phi}(\omega)-\Phi(\omega)$ will be small, see section \ref{ti_o_app_idfa}.}). Our treatment is general i.e. the target $\Gamma(\cdot)$ does not need to be positive and real. Moreover, the proposed formalism lends itself for a straightforward generalization to the multivariate case, to be developed in chapter \ref{atsm_sec}. Consider
+\begin{eqnarray}\label{idfa}
+&&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+ \left|\big|\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big|-\left\{\Re\left[\hat{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\big\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big\}\big)\right]\right.\right.\nonumber\\
+ &&\left.\left.+i\sqrt{1+\lambda|\Gamma(\omega_k)|}
+ \Im\left[\hat{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\left\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\right\}\big)\right]\right\}\right|^2 W(\omega_k,\eta)\to\min_{\mathbf{b}}\nonumber\\
+\end{eqnarray}
+where $\Re(\cdot)$ and $\Im(\cdot)$ denote real and imaginary parts and $i^2=-1$ is the imaginary unit.
+We call the resulting approach I-DFA\footnote{The capital I in the acronym stands for the imaginary part which
+is emphasized by $\lambda$.}. The above expression is quadratic in the filter coefficients because real and imaginary parts are linear in the coefficients. In analogy to \ref{dfatp}, the weighting function $W(\omega_k,\eta)$ emphasizes the fit  in the
+stop band. The term $\lambda|\Gamma(\omega_k)|$, under the square-root, emphasizes the imaginary part of the real-time filter
+in the pass band: for $\lambda>0$ the imaginary part is artificially inflated and therefore we expect the phase 
+to shrink, see below for details. If $\Gamma(\cdot)$ is a real and positive function (ideal trend, for example), then the quadratic criterion \ref{idfa} simplifies to
+\begin{equation}\label{idfa_s}
+\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+ \left|\Gamma(\omega_k)-\left\{\Re\left(\hat{\Gamma}(\omega_k)\right)+i\sqrt{1+\lambda\Gamma(\omega_k)}
+ \Im\left(\hat{\Gamma}(\omega_k)\right)\right\}\right|^2 W(\omega_k,\eta)I_{TX}(\omega_k)\to\min_{\mathbf{b}}
+\end{equation}
+Expression \ref{idfa} is intentionally more complex, than strictly necessary, because it will allow for a straightforward derivation of the closed-form solution, in the next chapter. The following development allows for a direct comparison of \ref{dfatp} and \ref{idfa}:
+\begin{eqnarray}
+&&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+ \left|\big|\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big|-\left\{\Re\left[\hat{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\big\{\Gamma(\omega_k)\Xi_{TX}(\omega_k)\big\}\big)\right]\right.\right.\nonumber\\
+ &&\left.\left.+i\sqrt{1+\lambda|\Gamma(\omega_k)|}
+ \Im\left[\hat{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)\exp\big(-i\arg\big\{\Gamma(\omega_k))\Xi_{TX}(\omega_k)\big\}\big)\right]\right\}\right|^2 W(\omega_k,\eta)\label{idfa_t}\\
+&=&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+  \left\{\left(\big|\Gamma(\omega_k)\big|-\Re\left[\hat{\Gamma}(\omega_k)\exp\big(-i\arg(\Gamma(\omega_k))\big)\right]\right)^2\right.\nonumber\\
+&&\left.+\Im\left[\hat{\Gamma}(\omega_k)\exp\big(-i\arg(\Gamma(\omega_k))\big)\right]^2\right\}W(\omega_k,\eta)I_{TX}(\omega_k)\nonumber\\
+&&+\lambda\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+  A(\omega_k)\Im\left[\hat{\Gamma}(\omega_k)\exp\big(-i\arg(\Gamma(\omega_k))\big)\right]^2W(\omega_k,\eta)I_{TX}(\omega_k) \nonumber\\
+&=&\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+ \left|\Gamma(\omega_k)-\hat{\Gamma}(\omega_k)\right|^2 W(\omega_k,\eta)I_{TX}(\omega_k)\nonumber\\
+&&+\lambda\frac{2\pi}{T} \sum_{k=-[T/2]}^{[T/2]}
+  A(\omega_k)\hat{A}(\omega_k)^2\sin\left(\hat{\Phi}(\omega_k)-\Phi(\omega_k)\right)^2W(\omega_k,\eta)I_{TX}(\omega_k)\nonumber\\
+&=&\left\{\begin{array}{c}\displaystyle{\frac{2\pi}{T} \sum_{\textrm{All~Frequencies}} (A(\omega_k)-\hat{A}(\omega_k))^2 W(\omega_k,\eta) I_{TX}(\omega_k)}\\
+\displaystyle{+\frac{2\pi}{ T}  \sum_{\textrm{Passband}} 4A(\omega_k)\hat{A}(\omega_k)\sin(\hat{\Phi}(\omega_k)/2)^2I_{TX}(\omega_k)}\\
++\displaystyle{\lambda\frac{2\pi}{T} \sum_{\textrm{Passband}}
+  A(\omega_k)\hat{A}(\omega_k)^2\sin\left(\hat{\Phi}(\omega_k)-\Phi(\omega_k)\right)^2I_{TX}(\omega_k)}\end{array}\right.\label{idfatp}  
+\end{eqnarray}
+where we assumed that $W(\omega_k,\eta)=1$ for $\omega_k$ in the passband. If $\Phi(\omega_k)=0$, then a direct comparison of \ref{dfatp} and \ref{idfatp} reveals that $\hat{\Phi}(\omega_k)/2$, in the former, is replaced
+by $\hat{\Phi}(\omega_k)$ in the term weighted by $\lambda$ in \ref{idfatp}; also, a supernumerary weighting-term $\hat{A}(\omega_k)$ appears in this expression and the constant scaling-term 4 is missing. Before discussing the quality of the approximation of \ref{dfatp} by \ref{idfatp} we note that the latter expression is quadratic in the filter coefficients because both sums are quadratic: while this statement is obvious for the first sum, it applies to the second too because $\hat{A}(\omega_k)\sin(\hat{\Phi}(\omega_k)-\Phi(\omega_k))$ is the
+imaginary part of $\hat{\Gamma}(\omega_k)\exp(-i\Phi(\omega_k))$ which is linear in the filter coefficients. Therefore, minimization of \ref{idfatp} can be solved in closed form. 
+For $\lambda=\eta=0$ the original (DFA) mean-square
+criterion \ref{dfa_ms} is obtained. Overemphasizing the imaginary part of the real-time filter
+in the pass-band, by $\lambda>0$, achieves a smaller time-shift and increasing $\eta$ magnifies stopband rejection, as desired. If $\Phi(\omega_k)\not=0$\footnote{A classic (allpass) one-step ahead target implies $\Phi(\omega_k)=\omega_k$, see section \ref{one_step}.} then a larger $\lambda$ generates a smaller phase-error i.e. $|\hat{\Phi}(\omega_k)-\Phi(\omega_k)|$ shrinks in the passband, as desired. \\
+
+\textbf{Remark}: 
+\begin{itemize}
+\item Although \ref{idfatp} is a simpler, more elegant and intuitively more appealing form of the equivalent criterion \ref{idfa}, we prefer the latter because the solution can be derived more easily, in closed-form, see chapter \ref{atsm_sec}. Also, \ref{idfa} matches the implementation in our R-code: the interested reader can track theory in code. 
+\end{itemize}
+
+
+\subsection{Tightness of Approximation} \label{ti_o_app_idfa}
+
+If $\lambda>0$ then \ref{dfatp} is no more quadratic in the filter coefficients. Therefore, we might be tempted to deduce that   \ref{idfatp} and \ref{dfatp} differ in proportion to $\lambda$: larger $\lambda$ should magnify discrepancies between both criteria. Interestingly, a larger $\lambda$ implies a smaller phase-error which, in turn, `linearizes' the approximation problem as we now show --  virtuous feedback-loop -- (for notational convenience we assume that $\Phi(\omega_k)=0$):
+\begin{enumerate}
+\item For small $\hat{\Phi}(\omega_k)$ the following approximations apply (first order Taylor)
+\begin{equation}\label{approx_prob_linearized}
+4\sin(\hat{\Phi}(\omega_k)/2)^2\approx 4\hat{\Phi}(\omega_k)^2/4 \approx \sin(\hat{\Phi}(\omega_k))^2
+\end{equation}
+We deduce that the phase terms in \ref{dfatp} and \ref{idfatp} are interchangeable; also, the additional scaling constant 4, in \ref{dfatp}, is replicated exactly by \ref{idfatp}. 
+\item In general, $\hat{A}(\omega_k)$ is nearly constant in the passband because Accuracy ensures that $\hat{A}(\omega_k)\approx|\Gamma(\omega_k)|=1$. Obviously, in such a case, the supernumerary amplitude term in \ref{idfatp} can be ignored. 
+\item Sometimes, imposing a strong customization weakens Accuracy, see for example section \ref{l_e_geq_0}. If $\hat{A}(\omega_k)\not\approx 1$, then the effect of the supernumerary amplitude term in \ref{idfatp} cannot be ignored, anymore. However, in such a case the distortion induced by the additional amplitude term  in \ref{idfatp} could be compensated by a simple re-adjusting or re-scaling of $\lambda$, as discussed in section \ref{l_e_geq_0} below.
+\end{enumerate}
+We conclude that the quadratic customized criterion \ref{idfatp} is identical to \ref{dfatp}, when $\lambda=0$; if $\lambda>0$ is small, then both criteria are nearly identical; if $\lambda>0$ is large, then $\hat{\Phi}(\omega_k)-\Phi(\omega_k)$ tends to be small (because $\lambda$ emphasizes the time-shift) and therefore the approximation problem is linearized, see \ref{approx_prob_linearized}.
+
+
+
+
+
+\subsection{R-code}
+
+
+The R-function $dfa\textunderscore analytic()$ proposed in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}, section 4.3.5,  implements a closed-form solution of criterion \ref{idfa}. 
+
+<<echo=True>>=
+head(dfa_analytic)
+@
+The entries $L$, $weight\textunderscore func$, $Lag$, $Gamma$, $i1$ and $i2$ retain their original meanings, as discussed in previous chapters. The new customization parameters $\lambda,\eta$ and $cutoff$ refer to the weighting functions $W_1$ and $W_2$ defined in \ref{w_func_cust} (in general cutoff coincides with the specification of the target $Gamma$). The function returns coefficients as well as transfer function of the filter:
+<<echo=True>>=
+tail(dfa_analytic)
+@
+\textbf{Remark}
+\begin{itemize}
+\item For historical reasons the level-constraint (i1=T) was not implemented in closed (exact) form\ref{con_sec}\footnote{In order to improve the fit of the transfer functions in frequency zero ($\hat{\Gamma}(0)\equiv\Gamma(0)$) a large artificial value is assigned to $I_{TX}(0)$.}. We therefore recommend usage of the generic MDFA-code $mdfa\textunderscore analytic$ instead. The latter relies on exact formulas, as derived in chapter \ref{con_sec}.  
+\end{itemize}
+
+
+
+
+
+\section{ATS-Components: a Worked-Out Example}\label{ats_work_o}
+
+
+%We just saw  that -- under some particular circumstances (allpass target) -- Timeliness can be reduced by a filter with a considerable time-shift. This seemingly counterintuitive result should not distract from the fact that customization \emph{effectively} tackles `speed' and `noise suppression' in typical prospective signal extraction applications. In order to illustrate the relevant issues 
+We here rely on the simulation framework of section \ref{ex_dfa_1}, taken over from McElroy and Wildi (2015). Specifically, we consider the three AR(1)-processes 
+\begin{eqnarray}
+\left.\begin{array}{ccc}x_t&=&0.9x_{t-1}+\epsilon_t\\
+x_t&=&0.1x_{t-1}+\epsilon_t\\
+x_t&=&-0.9x_{t-1}+\epsilon_t
+\end{array}\right\}\label{ar1_processes}
+\end{eqnarray}
+and we generate a single realization of length $T=120$ (10 years of monthly data) for each process. Our target is an ideal trend with cutoff $\pi/12$ and we rely on real-time DFA-filters of length $L=24$\footnote{The target signal eliminates components whose duration is shorter than $2\pi/(\pi/12)=24$ (two years of monthly data). This design is inspired from real-time `business-cycle' applications. The chosen filter-length $L=24$ reflects the maximal duration of components in the stopband of the target filter (two years).}. We then assess customization effects obtained by $\lambda,\eta$ in (the quadratic) criterion \ref{idfa} or, equivalently, \ref{idfatp}. For this purpose we compute and report ATS-components, total MSE, amplitude and time-shift functions, filter coefficients as well as filter outputs. In order to save space, we report results for the third process, $a_1=0.9$, only (the other results are reported in the appendix). The estimation routine is based on $dfa\textunderscore analytic$ as introduced in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} and briefly presented in chapter \ref{intro_sec}. In-sample and out-of-sample distributions of performances of competing designs, based on multiple realizations of the above processes, will be analyzed in sections \ref{double_score_ats} and \ref{ucdvbmseli}, further below.
+
+
+\subsection{Timeliness Only: $\lambda\geq0$, $\eta=0$ Fixed}
+
+\begin{enumerate}
+\item We source the relevant R-file 
+<<echo=TRUE>>=
+source(file=paste(path_DFA.pgm,"functions_trilemma.r",sep=""))
+source(file=paste(path_MDFA.pgm,"mplot_func.r",sep=""))
+@
+The functions in this file generate the data, estimate filter coefficients, compute  ATS-components as well as alternative performance measures (Peak Correlation and Curvature, see section \ref{peco_cu} below) and amplitude and time-shift-functions. 
+\item We specify the empirical design and run the code. Specifically, we select $\lambda=0$ (MSE) and $\lambda=2^k, k=0,...,7$ (emphasize Timeliness) and we fix $\eta=0$ (no emphasis of Smoothness).
+<<echo=True>>=
+#rm(list=ls())
+# Specify the processes: ar(1) with coefficients -0.9,0.1 and 0.9
+a_vec<-c(0.9,0.1,-0.9)
+# Specify the lambdas
+lambda_vec<-c(0,2^(0:7))
+# Specify the fixed eta
+eta_vec<-rep(0,length(lambda_vec))
+# Specify filter length
+L<-24
+# Length of estimation sample
+len<-120
+# cutoff
+cutoff<-pi/12
+# Nowcast
+Lag<-0
+# No filter constraints
+i1<-i2<-F
+@
+<<echo=False>>=
+# Unscaled ATS-components: see below for an activation of this option
+scaled_ATS<-F
+# Generate a single realization of the processes
+anzsim<-1
+# Use periodogram
+mba<-F
+estim_MBA<-T
+M<-len/2
+# Length of symmetric filter (will be used later)
+L_sym<-1000
+# Length of long data (for computing the target)
+len1<-3000
+# difference data
+dif<-F
+@
+<<echo=True>>=
+# Proceed to estimation
+for_sim_obj<-for_sim_out(a_vec,len1,len,cutoff,L,mba,estim_MBA,L_sym,
+              Lag,i1,i2,scaled_ATS,lambda_vec,eta_vec,anzsim,M,dif)
+@
+<<echo=False>>=
+# Extract sample performances
+# 1 ATS
+ats_sym_T<-for_sim_obj$ats_sym
+# 2 Curvature, Peak Correlation, ...
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+# 3. Amplitude and time-shifts
+amp_sim_per<-for_sim_obj$amp_sim_per
+shift_sim_per<-for_sim_obj$shift_sim_per
+# 4. Output series
+xff_sim<-for_sim_obj$xff_sim
+# 5. Peak correlation and Curvature
+amp_shift_mat_sim_T<-for_sim_obj$amp_shift_mat_sim
+dim_names<-for_sim_obj$dim_names
+i_process<-1
+@
+\item ATS-components and MSE for the first process ($a_1=0.9$) are summarized in table \ref{ats_comp_dfa_T}.\\
+<<label=print_tab_cor,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_sym_T[-1,,i_process,1], dec = 1,digits=6, caption = paste("ATS-Components as a function of lambda (eta=0 fixed)",sep=""),label=paste("ats_comp_dfa_T",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+Let us briefly explain how the numbers in the above table were obtained (the same proceeding applies to all subsequent examples): 
+\begin{itemize}
+\item For each combination of $\lambda,\eta$ we obtain a corresponding filter from criterion \ref{idfa}.
+\item ATS-components are then obtained by plugging the resulting amplitude and time-shift functions into \ref{mse_dec_ats}.
+\item MSE is obtained as the sum of these ATS-components. It is an estimate of the true (unknown) mean-square filter error, recall section \ref{ex_dfa_1}.
+\item This MSE-number does not correspond to the criterion value \ref{idfa} because the latter is `distorted' by the customization weights $\lambda,\eta\neq 0$.
+\end{itemize}
+Table \ref{ats_comp_dfa_T} as well as the following graphs will be analyzed all at once, at the end of the exercise.
+\item Amplitude and time-shift functions for the first process are plotted in fig.\ref{z_box_plot_amp_and_shift_cust_T_1}.
+<<echo=False>>=
+for (DGP in 1:length(a_vec))#DGP<-3
+{
+  file = paste("z_box_plot_amp_and_shift_cust_T_",DGP,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  par(mfrow=c(1,2))
+  mplot<-amp_sim_per[,-1,DGP,1]
+  dimnames(mplot)[[2]]<-paste("Amplitude (",lambda_vec,",",eta_vec,")",sep="")
+  ax<-rep(NA,ncol(mplot))
+  ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+  plot_title<-"Amplitude functions"
+  insamp<-1.e+90
+  title_more<-dimnames(mplot)[[2]]
+  colo<-rainbow(ncol(mplot))
+  mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+  mplot<-shift_sim_per[,-1,DGP,1]
+  dimnames(mplot)[[2]]<-paste("Time-shifts (",lambda_vec,",",eta_vec,")",sep="")
+  ax<-rep(NA,ncol(mplot))
+  ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+  plot_title<-"Time-shifts"
+  insamp<-1.e+90
+  title_more<-dimnames(mplot)[[2]]
+  colo<-rainbow(ncol(mplot))
+  mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+  invisible(dev.off())
+}
+@
+<<label=z_box_plot_amp_and_shift_cust_T_1.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_amp_and_shift_cust_T_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions (right) as a function of lambda for fixed eta=0", sep = "")
+  cat("\\label{z_box_plot_amp_and_shift_cust_T_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item Filter-outputs are plotted in fig.\ref{z_dfa_cust_ats_out_1_T}: series are standardized in order to facilitate visual inspection.
+<<echo=FALSE>>=
+# Plots
+#colo<-c("red","blue")
+# we select DFA-MSE (second series) and a customized 
+series_vec<-2:(length(eta_vec)+1)#c(2,8)
+for (ki in 1:length(a_vec)) #ki<-1  
+{
+file = paste("z_dfa_cust_ats_out_",ki,"_T.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+# extract all series from first realization (there is only one realization here)
+  xf_per<-xff_sim[940:(940+len),,ki,1]#dim(xff_sim)
+  dimnames(xf_per)[[2]]<-dim_names[[1]]
+  anf<-1
+  enf<-len
+  sel<-1:dim(amp)[2]
+  mplot<-scale(xf_per[,series_vec][anf:enf,])  #head(xf_per)
+  plot(as.ts(mplot[,1]),type="l",axes=F,col="red",ylim=c(min(na.exclude(mplot)),
+  max(na.exclude(mplot))),ylab="",xlab="",
+  main=paste("MSE (red) vs. Customized",sep=""),lwd=1)
+  mtext("MSE", side = 3, line = -1,at=(enf-anf)/2,col=colo[1])
+  for (i in 2:length(series_vec))
+  {
+    lines(as.ts(mplot[,i]),col=colo[i],lwd=1)
+    mtext(paste("Customized: ",dimnames(xf_per)[[2]][series_vec[i]],sep=""), side = 3, line = -i,at=(enf-anf)/2,col=colo[i])
+  }
+  axis(1,at=c(1,rep(0,6))+as.integer((0:6)*(enf-anf)/6),
+  labels=as.integer(anf+(0:6)*(enf-anf)/6))
+  axis(2)
+  box()
+
+invisible(dev.off())
+}
+@
+<<label=z_dfa_cust_ats_out_1_T.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_dfa_cust_ats_out_1_T", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter outputs: MSE (red) vs. customized , a1=0.9", sep = "")
+  cat("\\label{z_dfa_cust_ats_out_1_T}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+\end{enumerate}
+
+
+
+\subsubsection{Analysis}
+\begin{itemize}
+\item Accuracy, Timeliness and Smoothness sum-up to total MSE in table \ref{ats_comp_dfa_T}. Residual vanishes because the target filter vanishes in the stopband.
+\item Timeliness decreases with increasing $\lambda$, as desired. Accuracy and Smoothness as well as total MSE increase, as a consequence.
+\item Amplitude and time-shift functions in fig.\ref{z_box_plot_amp_and_shift_cust_T_1} provide more insights. Timeliness decreases because the time-shift is uniformly decreasing in the passband, as a function of $\lambda$. Accuracy increases with increasing $\lambda$ because the amplitude function departs from the target ($\Gamma(\omega)$ in the stopband: leakage is increasing with $\lambda$. As a consequence, Smoothness deteriorates. 
+\item Outputs of the customized filter in fig.\ref{z_dfa_cust_ats_out_1_T} tend to lie to the left (they are `faster') and the series are becoming increasingly noisy, as $\lambda$ increases.
+\end{itemize}
+
+
+\subsection{Smoothness Only: $\eta\geq 0$, $\lambda=0$ Fixed}\label{smoo_on}
+
+
+
+\begin{enumerate}
+\item We fix $\lambda=0$ (no emphasis of Timeliness) and let $\eta=k*0.3, k=0,...,6$ (Smoothness is emphasized).
+<<echo=True>>=
+# Specify the etas
+eta_vec<-0.3*0:6
+# Specify the fixed lambda
+lambda_vec<-rep(0,length(eta_vec))
+@
+<<echo=False>>=
+#rm(list=ls())
+# Specify the processes: ar(1) with coefficients -0.9,0.1 and 0.9
+a_vec<-c(0.9,0.1,-0.9)
+# Ordinary ATS-components
+scaled_ATS<-F
+# Generate a single realization of the processes
+anzsim<-1
+# Specify filter length
+L<-24
+# Use periodogram
+mba<-F
+estim_MBA<-T
+M<-len/2
+L_sym<-1000
+# Length of long data (for computing the target)
+len1<-3000
+# Length of estimation sample
+len<-120
+# cutoff
+cutoff<-pi/12
+# Real-time design
+Lag<-0
+# No constraints
+i1<-i2<-F
+# difference data
+dif<-F
+@
+<<echo=True>>=
+# Proceed to estimation
+for_sim_obj<-for_sim_out(a_vec,len1,len,cutoff,L,mba,estim_MBA,L_sym,
+             Lag,i1,i2,scaled_ATS,lambda_vec,eta_vec,anzsim,M,dif)
+@
+<<echo=False>>=
+# Extract sample performances
+# 1 ATS
+ats_sym_S<-for_sim_obj$ats_sym
+# 2 Curvature, Peak Correlation, ...
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+# 3. Amplitude and time-shifts
+amp_sim_per<-for_sim_obj$amp_sim_per
+shift_sim_per<-for_sim_obj$shift_sim_per
+# 4. Output series
+xff_sim<-for_sim_obj$xff_sim
+# 5. Peak correlation and Curvature
+amp_shift_mat_sim_S<-for_sim_obj$amp_shift_mat_sim
+# 6. Filter coefficients
+b_sim<-for_sim_obj$b_sim
+dim_names<-for_sim_obj$dim_names
+i_process<-1
+@
+
+\item ATS-components and MSE for the first process ($a_1=0.9$) are summarized in table \ref{ats_comp_dfa_S}.
+<<label=print_tab_cor,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_sym_S[-1,,i_process,1], dec = 1,digits=6, caption = paste("ATS-Components as a function of eta (lambda=0 fixed)",sep=""),label=paste("ats_comp_dfa_S",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+\item Amplitude and time-shift functions for the first process are plotted in fig.\ref{z_box_plot_amp_and_shift_cust_S_1}.
+<<echo=False>>=
+for (DGP in 1:length(a_vec))#DGP<-1
+{
+  file = paste("z_box_plot_amp_and_shift_cust_S_",DGP,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  par(mfrow=c(1,2))
+  mplot<-amp_sim_per[,-1,DGP,1]
+  dimnames(mplot)[[2]]<-paste("Amplitude (",lambda_vec,",",eta_vec,")",sep="")
+  ax<-rep(NA,ncol(mplot))
+  ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+  plot_title<-"Amplitude functions"
+  insamp<-1.e+90
+  title_more<-dimnames(mplot)[[2]]
+  colo<-rainbow(ncol(mplot))
+  mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+  mplot<-shift_sim_per[,-1,DGP,1]
+  dimnames(mplot)[[2]]<-paste("Time-shifts (",lambda_vec,",",eta_vec,")",sep="")
+  ax<-rep(NA,ncol(mplot))
+  ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+  plot_title<-"Time-shifts"
+  insamp<-1.e+90
+  title_more<-dimnames(mplot)[[2]]
+  colo<-rainbow(ncol(mplot))
+  mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+  invisible(dev.off())
+}
+@
+<<label=z_box_plot_amp_and_shift_cust_S_1.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_amp_and_shift_cust_S_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions (right) as a function of eta (lambda=0 fixed)", sep = "")
+  cat("\\label{z_box_plot_amp_and_shift_cust_S_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item Filter coefficients can be seen in fig.\ref{z_box_plot_coef_S_1}.
+<<echo=False>>=
+for (DGP in 1:length(a_vec))#DGP<-1
+{
+  file = paste("z_box_plot_coef_S_",DGP,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  mplot<-b_sim[,-1,DGP,1]
+  ax<-dimnames(mplot)[[1]]
+  plot_title<-"Filter coefficients"
+  insamp<-1.e+90
+  title_more<-dimnames(mplot)[[2]]
+  colo<-rainbow(ncol(mplot))
+  mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+  invisible(dev.off())
+}
+@
+<<label=z_box_plot_coef_S_1.pdf,echo=FALSE,results=tex>>=   
+  file = paste("z_box_plot_coef_S_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter coefficients as a function of eta (lambda=0 fixed)", sep = "")
+  cat("\\label{z_box_plot_coef_S_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item Filter-outputs  are plotted in fig.\ref{z_dfa_cust_ats_out_1_S}: the series are standardized for ease of visual inspection.
+<<echo=FALSE>>=
+# Plots
+#colo<-c("red","blue")
+# we select DFA-MSE (second series) and a customized 
+series_vec<-2:length(eta_vec)
+for (ki in 1:length(a_vec)) #ki<-1  
+{
+file = paste("z_dfa_cust_ats_out_",ki,"_S.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+# extract all series from first realization (there is only one realization here)
+  xf_per<-xff_sim[940:(940+len),,ki,1]#dim(xff_sim)
+  dimnames(xf_per)[[2]]<-dim_names[[1]]
+  anf<-1
+  enf<-len
+  sel<-1:dim(amp)[2]
+  mplot<-scale(xf_per[,series_vec][anf:enf,])  #head(xf_per)
+  plot(as.ts(mplot[,1]),type="l",axes=F,col="red",ylim=c(min(na.exclude(mplot)),
+  max(na.exclude(mplot))),ylab="",xlab="",
+  main=paste("MSE (red) vs. Customized",sep=""),lwd=1)
+  mtext("MSE", side = 3, line = -1,at=(enf-anf)/2,col=colo[1])
+  for (i in 2:length(series_vec))
+  {
+    lines(as.ts(mplot[,i]),col=colo[i],lwd=1)
+    mtext(paste("Customized: ",dimnames(xf_per)[[2]][series_vec[i]],sep=""), side = 3, line = -i,at=(enf-anf)/2,col=colo[i])
+  }
+  axis(1,at=c(1,rep(0,6))+as.integer((0:6)*(enf-anf)/6),
+  labels=as.integer(anf+(0:6)*(enf-anf)/6))
+  axis(2)
+  box()
+invisible(dev.off())
+}
+@
+<<label=z_dfa_cust_ats_out_1_S.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_dfa_cust_ats_out_1_S", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter outputs MSE (red) vs. customized, a1=0.9", sep = "")
+  cat("\\label{z_dfa_cust_ats_out_1_S}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+
+\end{enumerate}
+
+
+\subsubsection{Analysis}
+\begin{itemize}
+\item Smoothness in table \ref{ats_comp_dfa_S} decreases with increasing $\eta$, as required. Accuracy, Timeliness as well as total MSE increase, as a consequence.
+\item Amplitude and time-shift functions in fig.\ref{z_box_plot_amp_and_shift_cust_S_1} offer a more detailed picture: for increasing $\eta$ the amplitude functions are approaching zero in the stopband at costs of the time-shifts which grow substantially in the passband. 
+\item Fig.\ref{z_box_plot_coef_S_1} reveals that filter coefficients become smoother for increasing $\eta$. This desirable side-effect is obtained by imposing stronger shrinkage of the amplitude function in the (wide) stopband: degrees of freedom are implicitly freezed; in particular, we expect overfitting to be contained. 
+\item As $\eta$ increases, outputs of the customized filter in fig.\ref{z_dfa_cust_ats_out_1_S} tend to lie to the right (delay) and the series appear to be increasingly smooth.
+\end{itemize}
+
+
+
+\subsection{Emphasizing Timeliness and Smoothness: $\lambda,\eta\geq0$}\label{l_e_geq_0}
+
+
+
+
+\begin{enumerate}
+\item We compare the MSE-design $\lambda=\eta=0$ with the strongly customized filter $\lambda=128,\eta=1.8$ which emphasizes Timeliness and Smoothness simultaneously.
+<<echo=True>>=
+# Specify the etas
+eta_vec<-c(0,1.8)
+# Specify the fixed lambda
+lambda_vec<-c(0,128)
+@
+<<echo=False>>=
+#rm(list=ls())
+# Specify the processes: ar(1) with coefficients -0.9,0.1 and 0.9
+a_vec<-c(0.9,0.1,-0.9)
+# Ordinary ATS-components
+scaled_ATS<-F
+# Generate a single realization of the processes
+anzsim<-1
+# Specify filter length
+L<-24
+# Use periodogram
+mba<-F
+estim_MBA<-T
+M<-len/2
+L_sym<-1000
+# Length of long data (for computing the target)
+len1<-3000
+# Length of estimation sample
+len<-120
+# cutoff
+cutoff<-pi/12
+# Real-time design
+Lag<-0
+# no constraints
+i1<-i2<-F
+# difference data
+dif<-F
+@
+<<echo=True>>=
+# Proceed to estimation
+for_sim_obj<-for_sim_out(a_vec,len1,len,cutoff,L,mba,estim_MBA,L_sym,
+              Lag,i1,i2,scaled_ATS,lambda_vec,eta_vec,anzsim,M,dif)
+@
+<<echo=False>>=
+# Extract sample performances
+# 1 ATS
+ats_sym_ST<-for_sim_obj$ats_sym
+# 2 Curvature, Peak Correlation, ...
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+# 3. Amplitude and time-shifts
+amp_sim_per<-for_sim_obj$amp_sim_per
+shift_sim_per<-for_sim_obj$shift_sim_per
+# 4. Output series
+xff_sim<-for_sim_obj$xff_sim
+# 5. Peak correlation and Curvature
+amp_shift_mat_sim_ST<-for_sim_obj$amp_shift_mat_sim
+dim_names<-for_sim_obj$dim_names
+i_process<-1
+@
+
+\item ATS-components and MSE for the first process ($a_1=0.9$) are summarized in table \ref{ats_comp_dfa_ST_1}.
+<<label=print_tab_cor,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_sym_ST[-1,,i_process,1], dec = 1,digits=6, caption = paste("ATS-Components as a function of lambda and eta, a1=0.9",sep=""),label=paste("ats_comp_dfa_ST_1",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+
+
+\item Amplitude and time-shift functions for the first process are plotted in fig.\ref{z_box_plot_amp_and_shift_cust_ST_1}.
+<<echo=False>>=
+
+for (DGP in 1:length(a_vec))#DGP<-3
+{
+  file = paste("z_box_plot_amp_and_shift_cust_ST_",DGP,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", 
+      width = 6, height = 3)
+  par(mfrow=c(1,2))
+  mplot<-amp_sim_per[,-1,DGP,1]
+  dimnames(mplot)[[2]]<-paste("Amplitude (",lambda_vec,",",eta_vec,")",sep="")
+  ax<-rep(NA,ncol(mplot))
+  ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+  plot_title<-paste("Amplitude functions: a1=",a_vec[DGP],sep="")
+  insamp<-1.e+90
+  title_more<-dimnames(mplot)[[2]]
+  colo<-rainbow(ncol(mplot))
+  mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+  mplot<-shift_sim_per[,-1,DGP,1]
+  dimnames(mplot)[[2]]<-paste("Time-shifts (",lambda_vec,",",eta_vec,")",sep="")
+  ax<-rep(NA,ncol(mplot))
+  ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+  plot_title<-paste("Time-shifts: a1=",a_vec[DGP],sep="")
+  insamp<-1.e+90
+  title_more<-dimnames(mplot)[[2]]
+  colo<-rainbow(ncol(mplot))
+  mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+  invisible(dev.off())
+}
+
+@
+<<label=z_box_plot_amp_and_shift_cust_ST_1.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_amp_and_shift_cust_ST_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions (right) as a function of lambda and eta", sep = "")
+  cat("\\label{z_box_plot_amp_and_shift_cust_ST_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item Filter-outputs of MSE and customized  filters are plotted in fig.\ref{z_dfa_cust_ats_out_1_ST} (series are standardized for ease of visual inspection).
+<<echo=FALSE>>=
+# Plots
+#colo<-c("red","blue")
+# we select DFA-MSE (second series) and a customized 
+series_vec<-c(2,3)
+for (ki in 1:length(a_vec)) #ki<-3  
+{
+# extract all series from first realization (there is only one realization here)
+  file = paste("z_dfa_cust_ats_out_",ki,"_ST.pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 3)
+  xf_per<-xff_sim[940:(940+len),,ki,1]#dim(xff_sim)
+  dimnames(xf_per)[[2]]<-dim_names[[1]]
+  anf<-1
+  enf<-len
+  sel<-1:dim(amp)[2]
+  mplot<-scale(cbind(xf_per[,series_vec[1]],xf_per[,series_vec[2]])[anf:enf,])  #head(xf_per)
+  plot(as.ts(mplot[,1]),type="l",axes=F,col="red",ylim=c(min(na.exclude(mplot)),
+  max(na.exclude(mplot))),ylab="",xlab="",
+  main=paste("MSE (red) vs. Customized (cyan): a1=",a_vec[ki],sep=""),lwd=1)
+  mtext("MSE", side = 3, line = -1,at=(enf-anf)/2,col=colo[1])
+  i<-2
+  lines(as.ts(mplot[,i]),col=colo[2],lwd=2)
+  mtext(paste("Customized: ",dimnames(xf_per)[[2]][series_vec[2]],sep=""), side = 3, line = -i,at=(enf-anf)/2,col=colo[2])
+  axis(1,at=c(1,rep(0,6))+as.integer((0:6)*(enf-anf)/6),
+  labels=as.integer(anf+(0:6)*(enf-anf)/6))
+  axis(2)
+  box()
+  invisible(dev.off())
+
+}
+@
+<<label=z_dfa_cust_ats_out_1_ST.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_dfa_cust_ats_out_1_ST", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter outputs MSE (red) vs. customized (cyan), a1=0.9", sep = "")
+  cat("\\label{z_dfa_cust_ats_out_1_ST}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+
+\end{enumerate}
+
+
+\subsubsection{Analysis}
+\begin{itemize}
+\item As confirmed in table \ref{ats_comp_dfa_ST_1}, the customized design improves in terms of Timeliness as well as of Smoothness, {simultaneously} at costs of a remarkable deterioration of Accuracy and, as a a consequence, of total MSE.
+\item The time-shift of the customized design in fig.\ref{z_box_plot_amp_and_shift_cust_ST_1} is generally smaller in the passband (except at frequency zero). Its amplitude function is close to zero in the passband, as desired;  but the amplitude of the customized filter is also pulled towards zero in the passband (zero-shrinkage of the coefficients) which explains the excess Accuracy- and MSE-losses.   
+\item The output of the customized filter in fig.\ref{z_dfa_cust_ats_out_1_ST} tends to lie to the left (faster) and it is smoother, as desired (recall that the series are standardized).
+\end{itemize}
+In order to grasp the observed zero-shrinkage of the customized filter we observe that  the scale-dependent Timeliness and Smoothness measures vanish if the amplitude function shrinks to zero. Accuracy alone lifts the amplitude away from zero (at least in the passband). Therefore, emphasizing heavily Smoothness and Timeliness, as we did in our example, exhausts to some extent Accuracy's action\footnote{The supernumerary amplitude-term in criterion \ref{idfatp} is counterproductive too, see section \ref{idfas}.}. Fortunately, this problem could be addressed by a simple re-scaling of the (customized) filter output\footnote{Recall that the series in fig.\ref{z_dfa_cust_ats_out_1_ST} were standardized.}, as we briefly explore below. 
+<<echo=True>>=
+# We allow for a re-calibration (by the inverse amplitude function in the passband)
+scaled_ATS<-T
+for_sim_obj<-for_sim_out(a_vec,len1,len,cutoff,L,mba,estim_MBA,L_sym,Lag,i1,
+                        i2,scaled_ATS,lambda_vec,eta_vec,anzsim,M,dif)
+@
+<<echo=False>>=
+# Extract sample performances
+# 1 ATS
+ats_sym_ST_re_scaled<-for_sim_obj$ats_sym
+# 2. Amplitude and time-shifts
+amp_sim_per_re_scaled<-for_sim_obj$amp_sim_per
+# 3. Target
+Gamma<-for_sim_obj$Gamma
+i_process<-1
+ats_scaled_unscaled<-rbind(ats_sym_ST[3,,i_process,1],ats_sym_ST_re_scaled[3,,i_process,1])
+dimnames(ats_scaled_unscaled)[[1]]<-c("Customized unscaled","Customized re-scaled")
+@
+Specifically, we scale the filter coefficients by a constant which is inversely proportional to the  amplitude function in the passband\footnote{Alternatively one could fit an optimal MSE-normalization.}
+\[
+\textrm{Calibration~term}:=\frac{\textrm{Length~of~passband}}{\sum_{\textrm{Passband}}\hat{A}(\omega_k)}
+\]
+Fig. \ref{z_box_plot_amp_and_shift_cust_ST_1_scaled_unscaled} and table \ref{ats_comp_dfa_ST_1_scaled_unscaled} confirm that the previous zero-shrinkage is withdrawn.
+<<echo=False>>=
+DGP<-1
+colo<-c("blue","cyan","orange")
+passband<-1:(1+(length(amp_sim_per[,1+length(eta_vec),DGP,1])-1)*cutoff/pi)
+file = paste("z_box_plot_amp_and_shift_cust_ST_",DGP,"_scaled_unscaled.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 3)
+mplot<-cbind(Gamma,amp_sim_per[,1+length(eta_vec),DGP,1],amp_sim_per[,1+length(eta_vec),DGP,1]/mean(amp_sim_per[passband,1+length(eta_vec),DGP,1]))
+dimnames(mplot)[[2]]<-c("Target","Amplitude original","Amplitude re-calibrated")
+ax<-rep(NA,ncol(mplot))
+ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+plot_title<-"Amplitude customized: original (cyan) vs. re-scaled (orange)"
+insamp<-1.e+90
+title_more<-dimnames(mplot)[[2]]
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_box_plot_amp_and_shift_cust_ST_1_scaled_unscaled.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_amp_and_shift_cust_ST_1_scaled_unscaled", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude functions of original (cyan) and scaled customized filter (orange)", sep = "")
+  cat("\\label{z_box_plot_amp_and_shift_cust_ST_1_scaled_unscaled}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+In particular, Accuracy and MSE are relaxed, this time at costs of Smoothness and Timeliness.  
+<<label=print_tab_cor,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_scaled_unscaled, dec = 1,digits=6, caption = paste("ATS-Components of customized design: unscaled vs. scaled filter, a1=0.9",sep=""),label=paste("ats_comp_dfa_ST_1_scaled_unscaled",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+We retain from the above examples that both the time-shift (delay) as well as the noise-suppression of a (real-time) filter can be addressed by a decomposition of the MSE-norm into ATS-components. However, The fact that Timeliness and Smoothness are scale-dependent measures hampers interpretability. Therefore we now propose an alternative set of scale-invariant measures which will allow for a straightforward evaluation of customized designs. 
+
+
+
+
+
+
+
+
+
+\section{Curvature and Peak-Correlation}\label{peco_cu}
+
+\subsection{Definition}
+
+Define
+\begin{eqnarray}\label{mse_2diff}
+\textrm{Curvature}&:=&\frac{E\left[\Big((1-B)^2 \widehat{y}_t\Big)^2\right]}{\textrm{var}(\widehat{y_t})}\\
+\label{peak_corr}
+\textrm{Peak-Correlation}&:=&\textrm{Arg}\left(\max_j(cor(y_t,\widehat{y}_{t+j}))\right)
+\end{eqnarray}
+where $(1-B)^2$ is the second-order difference operator (curvature) and where $\textrm{Arg}\left(\max_j(cor(y_t,\widehat{y}_{t+j}))\right)$ means the lead or lag $j_0$ at which the correlation between the target $y_t$ and the estimate $\hat{y}_{t+j_0}$ is maximized\footnote{In applications, $y_t$ is generally unobserved and must be approximated by symmetric filters of finite order. Fortunately, the Peak Correlation concept is fairly robust against such approximations because the effective value of the correlation is irrelevant since we are solely interested in the lead/lag at which the correlation peaks.}. Note also that the covariance could be substituted to the correlation without altering the corresponding outcome.  Curvature and Peak Correlation are scale-invariant measures. As we shall show, they are linked to Smoothness and Timeliness. Empirical measures can be obtained by substituting  sample-estimates for unknown expectations in the above expressions. 
+
+
+\subsection{Examples}  
+
+We apply the above statistics to our previous example and complete the former tables \ref{ats_comp_dfa_T} (emphasizing Timeliness only), \ref{ats_comp_dfa_S} (emphasizing Smoothness only) and \ref{ats_comp_dfa_ST_1} (emphasizing Timeliness and Smoothness). 
+<<label=print_tab_cor,echo=FALSE,results=tex>>=
+i_process<-1
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(cbind(ats_sym_T[-1,,i_process,1],amp_shift_mat_sim_T[-1,3:4,i_process,1]), dec = 1,digits=6, caption = paste("ATS-Components, Peak-Correlation and Curvature: emphasizing Timeliness only, a1=0.9",sep=""),label=paste("ats_comp_dfa_T_1_pc",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+\begin{itemize}
+\item In table \ref{ats_comp_dfa_T_1_pc} Timeliness as well as Peak-Correlation decrease with increasing $\lambda$, as desired. The Peak Correlation is readily interpretable: in particular target series and real-time estimate appear to be  synchronized for $\lambda\geq 8$ (Peak Correlation vanishes).
+<<label=print_tab_cor,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(cbind(ats_sym_S[-1,,i_process,1],amp_shift_mat_sim_S[-1,3:4,i_process,1]), dec = 1,digits=6, caption = paste("ATS-Components, Peak-Correlation and Curvature: emphasizing Smoothness only, a1=0.9",sep=""),label=paste("ats_comp_dfa_S_1_pc",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+\item In table \ref{ats_comp_dfa_S_1_pc} Smoothness and Curvature decline with increasing $\eta$, as desired. The latter is readily interpretable in terms of normalized (inverse) signal-to-noise ratio. As a trade off, the Peak Correlation increases substantially. 
+<<echo=False>>=
+ats_scaled_unscaled_pc<-rbind(cbind(ats_sym_ST[2:3,,i_process,1],amp_shift_mat_sim_ST[-1,3:4,i_process,1]),c(ats_sym_ST_re_scaled[3,,i_process,1],amp_shift_mat_sim_ST[3,3:4,i_process,1]))
+dimnames(ats_scaled_unscaled_pc)[[1]][3]<-"Scaled customized"
+@
+<<label=print_tab_cor,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_scaled_unscaled_pc, dec = 1,digits=6, caption = paste("ATS-Components, Peak-Correlation and Curvature: emphasizing Timeliness and Smoothness, a1=0.9",sep=""),label=paste("ats_comp_dfa_ST_1_pc",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+\item In table \ref{ats_comp_dfa_ST_1} the double-score of the customized design is evidenced by Peak Correlation and Curvature which remain unaffected by the normalization (last row), in contrast to Timeliness and Smoothness.      
+\end{itemize}
+We deduce from the above examples that the new Peak Correlation and Curvature statistics are simple to implement, simple to formalize and simple to interpret.
+
+
+\subsection{Linking ATS-Components, Peak Correlation and Curvature}
+
+
+Consider the second-order differences in the numerator of the Curvature statistic \ref{mse_2diff}
+
+\begin{eqnarray*}
+E\left[\Big((1-B)^2 \widehat{y}_t\Big)^2\right]&\approx&\frac{1}{T}\sum_{t=1}^T \left\{(1-B)^2 \widehat{y}_t\right\}^2\\
+&=&\frac{2\pi}{T}\sum_{\textrm{All~frequencies}}I_{T\Delta^2\hat{Y}}(\omega_k)\\
+&\approx&\frac{2\pi}{T}\sum_{\textrm{All~frequencies}}|1-\exp(-i\omega_k)|^4I_{T\hat{Y}}\\
+&\approx&\frac{2\pi}{T}\sum_{\textrm{All~frequencies}}|1-\exp(-i\omega_k)|^4\hat{A}^2(\omega_k)I_{TX}
+\end{eqnarray*}
+where we assumed that $\hat{y}_{-1},\hat{y}_0$ were available and where $I_{T\Delta^2\hat{Y}}(\omega_k)$ is the periodogram of $(1-B)^2 \widehat{y}_t$. The first equality follows from \ref{spec_dec_per} and the subsequent approximations follow from \ref{conv_per}.\\
+We can compare this expression to  Smoothness
+\[S=\frac{2\pi}{ T} \sum_{\textrm{Stopband}} \hat{A}(\omega_k)^2 W(\omega_k,\eta) I_{TX}(\omega_k)\]
+which is defined in the stopband, only. Assimilating $|1-\exp(-i\omega_k)|^4$ with $W(\omega_k,\eta)$ and ignoring the passband establishes a link between Curvature and Smoothness\footnote{Note also that we ignored the denominator $\textrm{var}(\widehat{y_t})$ in the Curvature expression: the latter ensures scale-invariance of the measure.}.\\
+
+In order to relate Peak Correlation to Timeliness we consider the following development\footnote{Recall that the covariance could be substituted to the correlation without affecting numbers i.e. Peak Correlation and Peak Covariance are identical statistics.}
+\begin{eqnarray*}
+cov(y_t,\widehat{y}_{t+j})&\approx&\frac{1}{T}\sum_{t=1}^Ty_t\hat{y}_{t+j}\\
+&\approx&\frac{2\pi}{T}\sum_{\textrm{All~frequencies}} \Re\left(\Xi_{TY}(\omega_k)\overline{\exp(ij\omega_k)\Xi_{T\hat{Y}}(\omega_k)}\right)\\
+&\approx&\frac{2\pi}{T}\sum_{\textrm{All~frequencies}}\Re\left(\Gamma(\omega_k)\Xi_{TX}(\omega_k)\overline{\exp(ij\omega_k)\hat{\Gamma}(\omega_k)\Xi_{TX}(\omega_k)}\right)\\
+&=&\frac{2\pi}{T}\sum_{\textrm{Passband}}A(\omega_k)\hat{A}(\omega_k) \Re\left(\overline{\exp(ij\omega_k-i\hat{\Phi}(\omega_k))}\right)I_{TX}(\omega_k)\\
+&=&\frac{2\pi}{T}\sum_{\textrm{Passband}}A(\omega_k)\hat{A}(\omega_k) \cos(j\omega_k-\hat{\Phi}(\omega_k))I_{TX}(\omega_k)
+\end{eqnarray*}
+The second approximation is a consequence of proposition \ref{convolution theorem} in \ref{dis_con_app}. Let's assume, for a while, that $j$ is not a fixed integer but a general real-valued function of $\omega_k$. Then the last term in the above development would be maximized, as a function of $j(\omega_k)$, if $j(\omega_k)=\hat{\Phi}(\omega_k)/\omega_k=\hat{\phi}(\omega_k)$ (up to multiples of $2\pi$).  Therefore, reducing the time-shift $\hat{\phi}(\omega_k)$ in the passband, by emphasizing Timeliness, will decrease the lag at which the covariance or the correlation are peaking, which formalizes the link between Peak Correlation and Timeliness. 
+
+
+
+
+
+\section{Double Score Against the MSE Paradigm}\label{double_score_ats}
+
+
+
+\subsection{Introduction}
+
+We here illustrate the flexibility of the ATS-trilemma by benchmarking empirical real-time designs (nowcasts), optimized in view of particular research priorities (speed/reliability), against the best theoretical \emph{MSE}-filter, assuming knowledge of the \emph{true DGP}. The empirical framework leans on the previous sections, see McElroy and Wildi (2015), and the whole R-code is carried over. In contrast to the previous sections, where we emphasized \emph{single} realization \emph{in-sample} results, we now consider \emph{multiple} realizations and compute in-sample as well as \emph{out-of-sample} {distributions} of performance measures of competing designs. Specifically, we analyze performances based on the classic (total) MSE-norm as well as on the scale-invariant Peak Correlation and Curvature measures introduced in the previous section. \\
+
+Our contenders in this study will be the best theoretical MSE-estimate based on knowledge of the true DGP (benchmark), as well as the following empirical designs
+\begin{itemize}
+\item DFA-MSE: $\lambda=\eta=0$
+\item Strong noise suppression: $\lambda=0,\eta=1.5$
+\item Balanced (fast and smooth): $\lambda=30,\eta=1$
+\item Very fast: $\lambda=500,\eta=0.3$
+\end{itemize}
+
+
+
+\subsection{Simulation Run}
+
+
+
+
+
+Coefficients of the benchmark MSE-filters can be obtained by substituting the true spectral density
+\[\left|\frac{\sigma^2}{1-a_1\exp(-i\omega)}\right|^2~,~a_1=-0.9,0.1,0.9\]
+for the periodogram $I_{TX}(\omega)$ in \ref{dfatp}, setting $\lambda=\eta=0$, see chapter \ref{rep_sec} for further background\footnote{We implement an alternative time-domain solution in our R-code, see chapter \ref{rep_sec}.}. Note that benchmark filters do not depend on data, at all. Our target filter is the ideal trend with cutoff $\pi/12$.  
+For the empirical DFA-filters we generate 100 realizations for each process and compute real-time (nowcast) filters of length $L=24$. The code leans on McElroy and Wildi (2015)\footnote{It is a faster-running `debugged' version based on reconciliation with a multivariate extension proposed in the next section.}:
+\begin{enumerate}
+\item Source the R-file
+<<echo=TRUE>>=
+source(file=paste(path_DFA.pgm,"functions_trilemma.r",sep=""))
+@
+The functions in this file generate the data, estimate filter coefficients, compute performance measures (in- and out-of-sample), ATS-components as well as amplitude and time-shift-functions. 
+\item Specify the empirical design (same as in the previous section except for the number of realizations) and run the code. 
+<<echo=True>>=
+# Number of realizations
+anzsim<-100
+@
+<<echo=False>>=
+# Specify the processes: ar(1) with coefficients -0.9,0.1 and 0.9
+a_vec<-c(0.9,0.1,-0.9)
+# Ordinary ATS-components
+scaled_ATS<-F
+# Specify the lambdas
+lambda_vec<-c(0,0,30,500)
+# Specify the etas
+eta_vec<-c(0,1.5,1,0.3)
+# Specify filter length
+L<-24
+# Use periodogram
+mba<-F
+estim_MBA<-T
+M<-len/2
+# Length of symmetric target filter (for computing MSEs)
+L_sym<-2*939
+# Length of long data
+len1<-2000
+# Length of estimation sample
+len<-120
+# cutoff
+cutoff<-pi/12
+# Real-time design
+Lag<-0
+# no constraints
+i1<-i2<-F
+# difference data
+dif<-F
+
+@
+<<echo=True>>=
+# Proceed to simulation run
+for_sim_obj<-for_sim_out(a_vec,len1,len,cutoff,L,mba,estim_MBA,L_sym,Lag,
+                      i1,i2,scaled_ATS,lambda_vec,eta_vec,anzsim,M,dif)
+@
+<<echo=False>>=
+# Extract sample performances
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+amp_sim_per<-for_sim_obj$amp_sim_per
+shift_sim_per<-for_sim_obj$shift_sim_per
+xff_sim<-for_sim_obj$xff_sim
+xff_sim_sym<-for_sim_obj$xff_sim_sym
+ats_sym<-for_sim_obj$ats_sym
+dim_names<-for_sim_obj$dim_names
+@
+\end{enumerate}
+
+\subsection{Analysis}
+
+
+\subsubsection{Performance Measures}
+
+In order to save space we emphasize the second process $a_1=0.1$\footnote{Recall that this model fits log-returns of INDPRO quite well over a longer historical time span.}. Fig.\ref{z_box_plot_emp_per_perf_inout_2}  shows box-plots of in-sample (left) and out-of-sample (right) Curvature and Peak Correlation performances and fig.\ref{z_box_plot_emp_per_perf_mse_inout_2}  shows the corresponding sample MSEs: the latter are \emph{effective} time-domain measures
+\[\frac{1}{120}\sum_{t=1}^{120}(y_t-\hat{y}_t)^2\]
+where the target signal $y_t$ is obtained by applying a high-order (finite) symmetric trend filter to (very) long time series. Plots of the other two processes are shown in  section \ref{app_double_score_ats} in the Appendix \ref{dstt}.
+
+<<echo=False>>=
+# Boxplots performance measures: curvatures and peak-cor in and out-of-sample
+
+colo<-c("red","orange","yellow","green","blue")#rainbow(length(lambda_vec)+1)
+
+Perf_meas_sel<-c(3,7,4,8,5,9,6,10)
+for (DGP in 1:length(a_vec))#DGP<-2
+{
+  file = paste("z_box_plot_emp_per_perf_inout_",DGP,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  par(mfrow=c(2,2))
+  for (Perf_meas in Perf_meas_sel[1:4])
+  {
+    boxplot(list(amp_shift_mat_sim[1,Perf_meas,DGP,],amp_shift_mat_sim[2,Perf_meas,DGP,], amp_shift_mat_sim[3,Perf_meas,DGP,],amp_shift_mat_sim[4,Perf_meas,DGP,],amp_shift_mat_sim[5,Perf_meas,DGP,]),outline=T,names=c("Best MSE",paste("(",lambda_vec,",",eta_vec,")",sep="")),main=paste(dim_names[[2]][Perf_meas],", a1=",a_vec[DGP],sep=""),cex.axis=0.8,col=colo)
+  }
+  invisible(dev.off())
+  file = paste("z_box_plot_emp_per_perf_mse_inout_",DGP,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  par(mfrow=c(1,2))
+  for (Perf_meas in Perf_meas_sel[5:6])
+  {
+    boxplot(list(amp_shift_mat_sim[1,Perf_meas,DGP,],amp_shift_mat_sim[2,Perf_meas,DGP,],
+    amp_shift_mat_sim[3,Perf_meas,DGP,],amp_shift_mat_sim[4,Perf_meas,DGP,],amp_shift_mat_sim[5,Perf_meas,DGP,]),outline=T,
+    names=c("Best MSE",paste("(",lambda_vec,",",eta_vec,")",sep="")),
+    main=paste(dim_names[[2]][Perf_meas],", a1=",a_vec[DGP],sep=""),cex.axis=0.8,col=colo,notch=F)
+  }
+  invisible(dev.off())
+}
+@
+
+<<label=z_box_plot_emp_per_perf_inout_2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_emp_per_perf_inout_2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=5in, width=5in]{", file, "}\n",sep = "")
+  cat("\\caption{Empirical distributions
+  of Curvature and Peak-Correlation of best theoretical MSE (red), empirical MSE (orange), strong noise suppression (yellow), balanced fast and smooth (green) and very fast (blue) filters. All empirical filters are based on the periodogram:
+  in-sample (left plots) and out-of-sample (right plots) for a1=0.1", sep = "")
+  cat("\\label{z_box_plot_emp_per_perf_inout_2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+
+
+<<label=z_box_plot_emp_per_perf_mse_inout_2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_emp_per_perf_mse_inout_2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=2.5in, width=5in]{", file, "}\n",sep = "")
+  cat("\\caption{Empirical distributions
+  of Sample MSEs of best theoretical MSE (red), empirical MSE (orange), strong noise suppression (yellow), balanced fast and speed (green) and very fast (blue) filters. All empirical filters are based on the periodogram:
+  in-sample (left plots) and out-of-sample (right plots) for a1=0.1", sep = "")
+  cat("\\label{z_box_plot_emp_per_perf_mse_inout_2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+\textbf{Findings}
+\begin{itemize}
+\item The customized designs perform as expected. In particular the balanced design (green) outperforms the benchmark MSE-filter both in terms of Curvature as well as Peak-Correlation, in- and out-of-sample. 
+\item In- and out-of-sample performances are congruent\footnote{The distributions of the integer-valued Peak Correlations are almost identical due, in part, to discretization effects.}.  
+\item A comparison of in- and out-of-sample MSE-performances of benchmark (red) and empirical (orange) filters is indicative for overfitting: the orange filter performs slightly better in-sample but it is slightly outperformed out-of-sample. Interestingly, overfitting is moderate\footnote{In contrast to classic forecast approaches, which target an allpass filter, our examples target a lowpass filter with a wide stop-band. A close fit of the target in the stopband mimics, in some ways, classic shrinkage approaches or, stated otherwise, degrees of freedom are implicitly controlled by the DFA/MDFA-criteria.} even in the case of richly parametrized designs ($L=$\Sexpr{L} coefficients are estimated in samples of length $T=$\Sexpr{len}).
+\item The customized designs are systematically outperformed in terms of MSE-performances in- and out-of-sample, as expected. 
+\end{itemize}
+
+
+
+
+\subsubsection{Real-Time Filter Outputs}
+
+
+Benchmark-MSE (red) and customized-balanced (green) filter-outputs are compared in fig.\ref{z_dfa_cust_ats_mba_per_e} (both time series are standardized for ease of visual inspection). The chosen time-span covers in-sample as well as out-of-sample periods. 
+<<echo=False>>=
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+amp_sim_per<-for_sim_obj$amp_sim_per
+shift_sim_per<-for_sim_obj$shift_sim_per
+xff_sim<-for_sim_obj$xff_sim
+xff_sim_sym<-for_sim_obj$xff_sim_sym
+ats_sym<-for_sim_obj$ats_sym
+dim_names<-for_sim_obj$dim_names
+for (ki in 2:2) #ki<-2  
+{
+file = paste("z_dfa_cust_ats_mba_per_e.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+  xf_per<-xff_sim[940:(940+2*len),,ki,10]
+  dimnames(xf_per)[[2]]<-dim_names[[1]]
+  anf<-1
+  enf<-2*len
+  sel<-1:dim(amp)[2]
+  mplot<-scale(cbind(xf_per[,1],xf_per[,4])[anf:enf,])  #head(xf_per)
+  plot(as.ts(mplot[,1]),type="l",axes=F,col="red",ylim=c(min(na.exclude(mplot)),
+  max(na.exclude(mplot))),ylab="",xlab="",
+  main=paste("Benchmark MSE (red) vs. Customized balanced (green)",sep=""),lwd=2)
+  mtext("in sample",side = 3, line = -1,at=60,col="black")
+  mtext("out-of-sample",side = 3, line = -1,at=180,col="black")
+  mtext("Benchmark MSE", side = 3, line = -1,at=(enf-anf)/2,col="red")
+  i<-2
+  lines(as.ts(mplot[,i]),col=colo[4],lwd=2)
+  mtext(paste("Customized: ",dimnames(xf_per)[[2]][4],sep=""), side = 3, line = -i,at=(enf-anf)/2,col=colo[4])
+  abline(v=120)
+  axis(1,at=c(1,rep(0,6))+as.integer((0:6)*(enf-anf)/6),
+  labels=as.integer(anf+(0:6)*(enf-anf)/6))
+  axis(2)
+  box()
+
+invisible(dev.off())
+}
+@
+
+<<label=z_dfa_cust_ats_mba_per_e.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_dfa_cust_ats_mba_per_e", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Outputs of benchmark MSE (red) and customized balanced (green) filters: a1=0.1. In-sample (left half) and out-of-sample (right half)", sep = "")
+  cat("\\label{z_dfa_cust_ats_mba_per_e}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+
+@
+The customized filter outperforms the benchmark-MSE design on both accounts: it lies on the left (faster) and it is smoother both in-sample as well as out-of-sample. 
+
+
+
+
+
+
+
+\section{Univariate Customized Design vs. Bivariate MSE Leading-Indicator}\label{ucdvbmseli}
+
+In this section we stiffen the competition by benchmarking the univariate customized filter against a bivariate MSE-design with a leading indicator. The empirical design is otherwise identical to the previous section. 
+
+
+
+\subsubsection{Data and Contenders}
+
+We emphasize performances in the case of the second process ($a_1=0.1$) and compare the univariate MSE-DFA $\lambda=\eta=0$ (orange), the univariate balanced customized DFA $\lambda=30$,$\eta=1$ (green)) and the bivariate MDFA-MSE design proposed in section \ref{bimdfaudfa}.
+<<echo=True>>=
+# Second process
+a1<-0.1
+# Customization settings DFA
+lambda_vec<-c(0,30)
+eta_vec<-c(0,1)
+@
+<<echo=False>>=
+# target
+cutoff<-pi/12
+len1<-2000
+len<-120
+L<-24
+Lag<-0
+i1<-i2<-F
+# MDFA: MSE design
+lambda_mdfa<-eta_mdfa<-0
+@
+<<echo=True>>=   
+# Run the competition: the new function handles the multivariate case
+cust_leading_obj<-mdfa_mse_leading_indicator_vs_dfa_customized(anzsim,
+                  a1,cutoff,L,lambda_vec,eta_vec,len1,len,i1,i2,Lag,
+                  lambda_mdfa,eta_mdfa)  
+@
+
+
+
+\subsection{Performances: Curvature}
+
+Box-plots of in-sample and out-of-sample Curvature-scores are depicted in fig.\ref{z_curv_dfacust_leadind}.
+<<echo=False>>=
+file = paste("z_curv_dfacust_leadind.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+boxplot(list(cust_leading_obj$perf_in_sample[,1,1],cust_leading_obj$perf_in_sample[,1,2],cust_leading_obj$perf_in_sample[,1,3]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),"MDFA-MSE Leading Indicator"),main=paste("Curvature in-sample, a1=",a1,sep=""),cex.axis=0.8,col=c("orange","green","brown"))
+
+boxplot(list(cust_leading_obj$perf_out_sample[,1,1],cust_leading_obj$perf_out_sample[,1,2],cust_leading_obj$perf_out_sample[,1,3]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),"MDFA-MSE Leading Indicator"),main=paste("Curvature out-of-sample, a1=",a1,sep=""),cex.axis=0.8,col=c("orange","green","brown"))
+invisible(dev.off())
+@
+<<label=z_curv_dfacust_leadind.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_curv_dfacust_leadind", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Curvature: mean-square DFA (orange), customized DFA (green) and MSE-MDFA leading indicator (brown): a1=0.1 In-sample (left) and out-of-sample (right).", sep = "")
+  cat("\\label{z_curv_dfacust_leadind}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The empirical distributions of the univariate designs coincide with those reported in the previous section (same random-seed). The customized design (green) outperforms both contenders in-sample as well as out-of-sample. In- and out-of-sample figures are remarkably similar considering that the bivariate design (brown) relies on \Sexpr{2*L} estimated coefficients, in realizations of length $T=$\Sexpr{len}, only. 
+
+
+
+\subsection{Performances: Peak-Correlation}
+
+Box-plots of in-sample and out-of-sample Peak-Correlation scores are shown in fig.\ref{z_peak_cor_dfacust_leadind}.
+
+<<echo=False>>=
+file = paste("z_peak_cor_dfacust_leadind.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+par(mfrow=c(1,2))
+boxplot(list(cust_leading_obj$perf_in_sample[,2,1],cust_leading_obj$perf_in_sample[,2,2],cust_leading_obj$perf_in_sample[,2,3]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),"MDFA-MSE Leading Indicator"),main=paste("Peak-Correlation in-sample, a1=",a1,sep=""),cex.axis=0.8,col=c("orange","green","brown"))
+
+boxplot(list(cust_leading_obj$perf_out_sample[,2,1],cust_leading_obj$perf_out_sample[,2,2],cust_leading_obj$perf_out_sample[,2,3]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),"MDFA-MSE Leading Indicator"),main=paste("Peak-Correlation out-of-sample, a1=",a1,sep=""),cex.axis=0.8,col=c("orange","green","brown"))
+
+invisible(dev.off())
+@
+<<label=z_peak_cor_dfacust_leadind.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_peak_cor_dfacust_leadind", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Peak Correlation: mean-square DFA (orange), customized DFA (green) and MSE-MDFA leading indicator (brown): a1=0.1 In-sample (left) and out-of-sample (right).", sep = "")
+  cat("\\label{z_peak_cor_dfacust_leadind}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The customized design (green) substantially outperforms both contenders: it anticipates the DFA-MSE (orange) by \Sexpr{round(median(cust_leading_obj$perf_in_sample[,2,2])-median(cust_leading_obj$perf_in_sample[,2,1]),1)} time-units in the median; remarkably, it also outperforms the leading-indicator design (brown) by \Sexpr{round(median(cust_leading_obj$perf_in_sample[,2,2])-median(cust_leading_obj$perf_in_sample[,2,3]),1)} time-unit\footnote{Setting $\lambda=100$ would result in an anticipation of the customized design by 2 time-units, at costs of Accuracy and Smoothness.}. As expected, the univariate MSE-DFA (orange) is lagging the MSE-leading-indicator design (brown) by \Sexpr{round(median(cust_leading_obj$perf_in_sample[,2,1])-median(cust_leading_obj$perf_in_sample[,2,3]),1)} time-unit which reflects the lead-time provided by  the additional leading indicator.
+
+
+
+
+\subsection{Performances: MSE}
+
+
+Box-plots of in-sample and out-of-sample MSE-scores are shown in fig.\ref{z_MSE_dfacust_leadind}.
+<<echo=False>>=
+file = paste("z_MSE_dfacust_leadind.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+boxplot(list(cust_leading_obj$perf_in_sample[,3,1],cust_leading_obj$perf_in_sample[,3,2],cust_leading_obj$perf_in_sample[,3,3]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),"MDFA-MSE Leading Indicator"),main=paste("MSE in-sample, a1=",a1,sep=""),cex.axis=0.8,col=c("orange","green","brown"))
+
+boxplot(list(cust_leading_obj$perf_out_sample[,3,1],cust_leading_obj$perf_out_sample[,3,2],cust_leading_obj$perf_out_sample[,3,3]),outline=T,names=c(paste("DFA(",lambda_vec,",",eta_vec,")",sep=""),"MDFA-MSE Leading Indicator"),main=paste("MSE out-of-sample, a1=",a1,sep=""),cex.axis=0.8,col=c("orange","green","brown"))
+invisible(dev.off())
+@
+<<label=z_MSE_dfacust_leadind.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_MSE_dfacust_leadind", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{MSE: mean-square DFA (orange), customized DFA (green) and MSE-MDFA leading indicator (brown): a1=0.1 In-sample (left) and out-of-sample (right).", sep = "")
+  cat("\\label{z_MSE_dfacust_leadind}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+
+@
+The customized design (green) is outperformed by the MSE-designs, as expected, in-sample as well as out-of-sample: re-scaling of filter coefficients would mitigate, at least to some extent, the observed losses, see section \ref{l_e_geq_0}. The customized design seems to be less sensitive to overfitting: an explanation has been provided in section \ref{smoo_on}, recall fig.\ref{z_box_plot_coef_S_1}. 
+
+
+
+
+
+\subsection{Filter Outputs}
+
+The filter outputs corresponding to the last realization of the process are plotted in fig.\ref{z_dfa_cust_mdfa_leading_indicator}(the series are scaled for ease of visual inspection).
+<<echo=FALSE>>=
+# Plots
+file = paste("z_dfa_cust_mdfa_leading_indicator.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+mplot<-scale(cust_leading_obj$filter_output_in_sample) 
+dimnames(mplot)[[2]]<-dimnames(cust_leading_obj$filter_output_in_sample)[[2]]
+colo_cust<-c("orange","green","brown")
+plot(as.ts(mplot[,1]),type="l",axes=F,col=colo_cust[1],ylim=c(min(na.exclude(mplot)),max(na.exclude(mplot))),ylab="",xlab="",main=paste("Filter outputs: last realization",sep=""),lwd=1)
+mtext(dimnames(mplot)[[2]][1], side = 3, line = -1,at=nrow(mplot)/2,col=colo_cust[1])
+for (i in 2:(ncol(mplot)-1))
+{
+  lines(mplot[,i],col=colo_cust[i],lwd=1)
+  mtext(dimnames(mplot)[[2]][i], side = 3, line = -i,at=nrow(mplot)/2,col=colo_cust[i])
+}
+axis(1,at=c(1,rep(0,6))+as.integer((0:6)*nrow(mplot)/6),
+labels=c(1,rep(0,6))+as.integer((0:6)*nrow(mplot)/6))
+axis(2)
+box()
+invisible(dev.off())
+
+@
+<<label=z_dfa_cust_mdfa_leading_indicator.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_dfa_cust_mdfa_leading_indicator", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Scaled outputs of DFA-MSE (orange), DFA-balanced (green) and bivariate MDFA-MSE (brown): a1=0.9", sep = "")
+  cat("\\label{z_dfa_cust_mdfa_leading_indicator}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+
+@
+The customized DFA (green) appears faster and smoother, as expected. Note that the leading-indicator design (brown) is systematically faster than DFA-MSE (orange) in the turning-points.  \\
+
+We retain from the above example that a suitably customized \emph{univariate} design can outperform a classic MSE bivariate leading-indicator design, in-sample and out-of-sample, in terms of Peak Correlation and Curvature. A direct comparison of univariate and bivariate MSE-designs illustrates that the latter outperforms the former merely in terms of Peak Correlation (due to the leading indicator); gains in terms of MSE- or Curvature are moderate, at least out-of-sample.
+
+
+
+\section{An Extended Customization Triplet}\label{customization_triplet}
+
+Overemphasizing the Timeliness contribution to the MSE-norm, in the schematic criterion \ref{ats_cust} or in criterion \ref{dfatp}, provides a direct control of the magnitude of the time-shift of a real-time filter in the passband: as a result the filter-output shifts to the left, as confirmed by the Peak-Correlation statistic. As a possible alternative, the time-shift contribution to the MSE-norm can be overemphasized by targeting a lead $l>0$ of the signal 
+\begin{equation}\label{forecast_targ_spe}
+\exp(i l \omega)\Gamma(\omega)
+\end{equation}
+where $\Gamma(\omega)$ designates the original target. Note that $l$ corresponds to $-Lag$ in our R-code. In order to simplify the exposition we assume that $\Gamma(\omega)\geq 0$ is the transfer function of the ideal trend. Then 
+\[
+\Phi(\omega)=-Arg(\exp(i l \omega)\Gamma(\omega))=-l\omega
+\]
+and the mean-square error becomes
+\begin{eqnarray}
+MSE&=&\frac{2\pi}{ T} \sum_{\textrm{Passband}} (\Gamma(\omega_k)-\hat{A}(\omega_k))^2 I_{TX}(\omega_k)\nonumber\\
+&&+\frac{2\pi}{ T} \sum_{\textrm{Stopband}} (\Gamma(\omega_k)-\hat{A}(\omega_k))^2 I_{TX}(\omega_k)\nonumber\\
+&&+\frac{2\pi}{ T}  \sum_{\textrm{Passband}} 4\Gamma(\omega_k)\hat{A}(\omega_k)\sin\left(\frac{\hat{\Phi}(\omega_k)+l\omega_k}{2}\right)^2 I_{TX}(\omega_k) \label{once_more_timeliness}
+\end{eqnarray}
+where we used the fact that $\Gamma(\omega)=A(\omega)$ since the transfer function is positive everywhere.
+Since our target is the ideal lowpass, we expect that $\hat{\Phi}(\omega_k)>0$ in the passband: the output is shifted to the right with respect to the target. Therefore 
+\[
+\sin\left(\frac{\hat{\Phi}(\omega_k)+l\omega_k}{2}\right)^2>\sin\left(\frac{\hat{\Phi}(\omega_k)}{2}\right)^2
+\]
+if $l>0$. As a result, the Timeliness term \ref{once_more_timeliness} inflates, in contrast to Accuracy and Smoothness, which remain unaffected by the lead-time. The resulting effect must be similar, though not identical, to a specific magnification of Timeliness in the ATS-trilemma and therefore we expect the output of the resulting \emph{forecast} filter ($Lag=-l<0$) to lie to the left of the corresponding nowcast filter ($Lag=0$).\\
+
+
+Instead of interpreting the forecast lead as a possible (indirect) alternative for controlling Timeliness, in lieu of $\lambda$, say, we envisage a combination of $l$ and of the customization parameters: we consider the triplet $(l, \lambda, \eta)$ as a natural extension of the original customization pair $(\lambda,\eta)$. The additional `customization' parameter $l>0$ is helpful and effective if the time-shift of a particular real-time design is small already, in which case Timeliness cannot be substantially reduced anymore by selecting $\lambda>0$: a corresponding example is provided in section \ref{customization_cf} (customization of the Christiano Fitzgerald bandpass design). More generally and more formally, Timeliness is a measure of the phase error (the contribution of the phase to MSE)
+\[
+\frac{2\pi}{ T}  \sum_{\textrm{Passband}} 4A(\omega_k)\hat{A}(\omega_k)\sin\left(\frac{\hat{\Phi}(\omega_k)-\Phi(\omega_k)}{2}\right)^2
+I_{TX}(\omega_k) 
+\]
+where $\Phi(\omega_k)=-l \omega_k$. Selecting $\lambda>0$, in criteria \ref{ats_cust} or \ref{dfatp}, shrinks the Timeliness term by pulling $\hat{\Phi}(\omega_k)$ towards $-l \omega_k$ or, equivalently, by attracting the time-shift $\hat{\phi}(\omega_k)=\hat{\Phi}(\omega_k)/\omega_k$ towards $-l$. In contrast to the original customization pair $(\lambda,\eta)$, the extended triplet $(l,\lambda,\eta)$ allows to design filters with more general lead or lag properties. A worked-out example is provided in chapter \ref{rep_sec}, section \ref{customization_cf}.
+
+
+
+
+
+\section{Summary}
+
+\begin{itemize}
+\item The MSE-norm can be split into Accuracy, Timeliness and Smoothness components\footnote{The Residual either vanishes or is negligible in practice.}. 
+\item The MSE-paradigm is replicated by weighting ATS-components equally. Equal-weighting reflects one particular `diffuse' research priority.
+\item A strict MSE-approach is unable, per definition, to address Timeliness and Smoothness, either separately or all together.
+\item The ATS-trilemma degenerates to a AT-dilemma in the case of classic (allpass) forecasting. Stated otherwise: classic (quasi maximum likelihood) forecast approaches have a blind spot. 
+\item Curvature and  Peak-Correlation performances can be addressed simultaneously by customized designs. 
+%\item In a growth-perspective -- data and signals in {first differences} -- suitably customized designs improve `mechanically'  MSE-performances at the important turning-points of a time series;  at costs of MSE-performances at all other time points, between consecutive turning-points. 
+\item The DFA and the resulting ATS-trilemma are generic concepts: they allow for arbitrary target signals as well as arbitrary spectral estimates. Model-based targets and (pseudo) spectral densities are addressed in chapter \ref{rep_sec}.
+\item The generic customization triplet $(l,\lambda,\eta)$ extends the action of the ATS-trilemma to arbitrary real-valued lead or lag specifications. 
+\item The DFA/MDFA optimization criteria appear to be surprisingly robust against overfitting. Emphasizing Smoothness reinforces this statement.
+\end{itemize}
+%Paradoxon 1: (real-time) filters with enhanced speed and noise-suppression properties do not necessarily perform better in terms of MSE-performances, quite the contrary. Paradoxon 2: directional forecast properties are not always improved by emphasizing Smoothness and Timeliness in the ATS-trilemma. For this to happen, it requires a time series -- a process --  which supports directional inference.  
+

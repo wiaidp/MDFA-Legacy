@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1516281977283.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "1199266839",
+    "id" : "DDA21306",
+    "lastKnownWriteTime" : 1557644205,
+    "last_content_update" : 1557644205543,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/Rnw/MDFA_Legacy.rnw",
+    "project_path" : "Sweave/Rnw/MDFA_Legacy.rnw",
+    "properties" : {
+        "cursorPosition" : "184,0",
+        "scrollLine" : "123"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}

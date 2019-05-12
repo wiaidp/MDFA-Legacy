@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1516286550006.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "4E2341C0",
+    "lastKnownWriteTime" : 1481882042,
+    "last_content_update" : 1481882042,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/Rnw/ATS.Rnw",
+    "project_path" : "Sweave/Rnw/ATS.Rnw",
+    "properties" : {
+        "cursorPosition" : "228,562",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}

@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1518283604748.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "569E8491",
+    "lastKnownWriteTime" : 1518283631,
+    "last_content_update" : 1518283631678,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/Rnw/Filter_revisions.Rnw",
+    "project_path" : "Sweave/Rnw/Filter_revisions.Rnw",
+    "properties" : {
+        "cursorPosition" : "24,1",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 9,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}

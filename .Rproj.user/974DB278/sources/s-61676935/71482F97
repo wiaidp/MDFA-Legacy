@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1545295983419.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "71482F97",
+    "lastKnownWriteTime" : 1545298480,
+    "last_content_update" : 1545298480996,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/Rnw/Exotic_pub.Rnw",
+    "project_path" : "Sweave/Rnw/Exotic_pub.Rnw",
+    "properties" : {
+        "cursorPosition" : "44,31",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 13,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}

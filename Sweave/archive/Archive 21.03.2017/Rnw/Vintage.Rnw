@@ -1,0 +1,29 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+
+
+
+\chapter{Vintage Data: Working with Data-Revisions}\label{rev_sec}
+
+refer to 2011-paper
+\section{Introduction}
+
+\section{Data Organization}
+
+\subsection{Vintage and Release Triangles}
+
+\subsection{Vintage Triangle in the Frequency-Domain}
+
+
+\section{Reconcile Real-Time Signalextraction and Data-Revisions}
+
+\subsection{Vintage-Filtering/Smoothing}
+
+\subsection{Setting-Up MDFA-Designs: the (Pseudo-) Stationary Case}
+
+\subsection{Extension to Non-Stationary Time Series}\label{rev_sec_int}
+
+Refer and link to section \ref{coint_sec}
+

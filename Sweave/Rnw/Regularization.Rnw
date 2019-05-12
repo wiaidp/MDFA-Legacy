@@ -1,0 +1,969 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+
+
+\chapter{Overfitting and Regularization}\label{reg_sec}
+
+\section{Introduction}
+
+
+Overfitting refers to an undesirable phenomenon concomitant to fitting a filter (or a model) to data according to a particular optimization criterion: the fitted device matches `perfectly', in the sense of the criterion, a singular realization of the DGP at the expense of generally poorer fit for yet unseen data. We here propose to tackle overfitting by shrinking the ambient space $\mathbb{R}^{L(m+1)}$ of the \emph{filter} coefficients in such a way that desirable -- universal -- properties of the latter are obtained\footnote{In contrast to classic model-based approaches, the DFA  emphasizes the relevant filter coefficients.}. The commonly observed trade off between misspecification and overfitting can then be alleviated,  to some extent, by realizing that the required universal features, as emphasized by the regularized designs, are shared by the `truly best' (unobserved) coefficients, too. Succinctly,  we here address the hyper-parameters $\lambda_{decay},\lambda_{cross}$ and $\lambda_{smooth}$ in the call of our generic MDFA-function
+<<dfa_ms,echo=TRUE>>=
+head(mdfa_analytic)
+@
+
+In section \ref{ovft_se_pe} we contrast overfitting from a classic (one-step ahead forecasting) and from a general signal extraction perspective; section \ref{ta_ov_s_r} briefly reviews methods for tackling overfitting and introduces the so-called Regularization Troika; sections \ref{decay_reg} to \ref{cross_sec_sim} introduce, describe, analyze and illustrate the quadratic bilinear forms of the Regularization Troika; interaction of the regularization terms and implicit data-requirements are discussed in section \ref{reg_troika_uni_req}; section  \ref{opt_crit_reg_tro} derives closed form solutions of the regularized MDFA-estimate and section \ref{reg_tr_eff_deg_free} generalizes the concept of `degrees of freedom' to the Regularization Troika. 
+
+
+
+\section{Overfitting: a Signal-Extraction Perspective}\label{ovft_se_pe}
+
+Overfitting of a particular device -- filter, model -- in association with a particular optimization criterion, refers to the fact that in-sample realizations of the criterion systematically better out-of-sample realizations thereof. This undesirable discrepancy arises as a direct consequence of the perfected in-sample fit, which feigns an unrealistically optimistic picture of the underlying estimation problem. Ultimately, tackling overfitting is concerned about improving out-of-sample performances of the fitted device. 
+
+
+
+
+\subsection{In- and Out-of-Sample Spans}
+
+In a classic one-step ahead forecast perspective, the target $y_t=x_{t+1}$ is either observed (for $t=1,...,T-1$) or unobserved: there is no mid-way. Accordingly, the in-sample span coincides unequivocally with the time period $t=1,...,T-1$ for which the target is observed. In contrast, the more general signal extraction target 
+\begin{eqnarray}\label{target_reg_r}
+y_t&=&\sum_{k=-\infty}^{\infty}\gamma_{k} x_{t-k}
+\end{eqnarray}
+which can involve arbitrarily many future and past realizations, does not allow for a clear-cut distinction of in-sample and out-of-sample time spans anymore. Near the middle of the sample, $t\approx T/2$,  the target $y_{t}$ can be determined accurately, assuming $\gamma_k$ converge to zero sufficiently rapidly, and therefore observations in the middle of the sample may be claimed to be `in sample'; towards the sample-end $t=T$, however, the weights assigned to the out-of-sample portion $x_{T+1},x_{T+2},...$ of the target in \ref{target_reg_r} generally increase; eventually, for $h$ sufficiently large, $y_{T+h}$ may be claimed to be `entirely' out-of-sample. In contrast to classic one-step ahead forecasting, the transition from in-sample performances (fully observed target) to out-of-sample performances (unobserved target) is therefore generally gradual and smooth instead of abrupt and discontinuous; the transition depends essentially on the rate of decay of the filter coefficients $\gamma_k$; for one-step ahead forecasting, the decay is instantaneous and therefore an unequivocal clear-cut distinction of in-sample and out-of-sample spans is obtained. If $L$ is large, then an overly optimistic  fit of $y_t$ by the real-time estimate 
+\begin{eqnarray*}
+\hat{y}_{t}^{0}:=\sum_{k=0}^{L-1}b_{k0}x_{t-k}
+\end{eqnarray*}
+in the middle of the sample could result in a poor real-time estimate  $\hat{y}_{T}^{0}$ of $y_{T}$ towards the practically relevant end-point $t=T$, in which case the real-time filter $b_{k0}$ would have been overfitted. It is important to realize that $\hat{y}_{T}^{0}$ is, to a large extent, an out-of-sample estimate although the time point to which it refers, namely $T$, is literally in (the) sample. To conclude, note that the DFA targets $\Gamma(\cdot)\Xi_{TX}(\cdot)$ which, contrary to $y_t$, {is} observable. Unfortunately, the transformation of the data into the frequency-domain cannot prevent against the inescapable fact that $y_t$ is less well determined towards the sample-end\footnote{In the frequency-domain, the DFT `does the trick' by assuming circularity of the data. In the absence of circularity (periodicity) overfitting applies in a similar way.} and therefore the (mean-square) filter-error in the middle of the sample will generally be smaller than towards the boundaries.%\footnote{Since time-domain and frequency-domain are isomorphic, there is an equivalent target specification in the time-domain (hint: the DFT assumes circularity of the data). Note, however, that the frequency-domain leads to natural extensions, such as the generic ATS-trilemma, which would be more difficult to obtain in the time-domain, to say at least.}.   
+
+
+
+
+
+\subsection{Empirical Examples}
+
+To be filled... %add examples based on `fil rouge' (AR(1)). Show results for MBA and DFA and compare mid-sample performances against end-of-sample (concurrent) performances. 
+%\begin{itemize}
+%\item MBA: less robust because target is one-step ahead allpass.
+%\item DFA-MSE: more robust against overfitting because of explicit zero-shrinkage imposed by  stop-band of target filter; the latter effect is emphasized even further by customization.
+%\end{itemize}
+
+
+
+
+\section{Tackling Overfitting: a Short Review}\label{ta_ov_s_r}
+
+
+Restricting the ability of a device -- filter or model -- to `fit' data generally improves congruency of in-sample and out-of-sample performances. We here review some well-known methods, ranging from simple brute-force to more refined non-parametric and parametric approaches. To conclude, we prolong the list by introducing the Regularization Troika.
+
+
+
+\subsection{Hard (Filter-) Constraints}
+
+
+\subsubsection{Brute Force }
+
+The ability of a filter to fit data depends on the number $L(m+1)$ of its freely determined coefficients. Overfitting can be tamed by reducing either $L$ (shorter filters) or $m$ (less explaining variables), or both. Eventually, such decisions might be rationalized by relying on pertinent expert-knowledge, in some specific cases. However, the overall proceeding can be qualified as a brute-force approach for tackling a problem whose essence would deserve a more refined -- statistical -- treatment.
+
+
+\subsubsection{Loaded Constraints}
+
+The number of freely determined coefficients can be reduced by imposing filter-constraints which match a particular problem structure and/or particular user-priorities: the level- and time-shift constraints proposed in chapter \ref{con_sec} ($i1=i2=T$) are typical examples. Note that neither $L$ nor $m$ are affected by these constraints; instead, a particular meaningful -- loaded -- structure is imposed upon the longitudinal interplay of the coefficients.
+
+
+\subsection{Smoothing the Spectrum}
+
+
+
+In the (M)DFA-framework, the data is expressed in terms of its frequency-domain representation, the DFT. Instead of addressing degrees of freedom of the filter coefficients, we could emphasize degrees of freedom of the DFT. This way, we may maintain the (full-blown) ambient space $\mathbb{R}^{L(m+1)}$ of the (M)DFA intact, conditional on the DFT being of `reduced rank'.   
+
+
+\subsubsection{Non-Parametric Approaches}
+
+
+Classical distribution theory suggests that the periodogram is an unbiased but noisy estimate of the true spectral density of the DGP. A better estimate of the spectrum, in terms of mean-square performances, could be obtained by trading unbiasedness against variance-reduction or, more explicitly, by applying a suitable Kernel-smoother to adjacent periodogram ordinates in order to reduce randomness\footnote{For various reasons we abstain from smoothing the periodogram or the DFT.}. If $L=T$ (full-blown ambient space), then the (M)DFA-filter based on the smoothed spectrum inherits degrees of freedom directly from the latter. Increased smoothness shrinks degrees of freedom and tames overfitting (eventually ending-up in more or less heavy misspecification and  inefficiency).
+
+
+
+\subsubsection{Parametric (Model-Based) Approach}
+
+According to chapter \ref{rep_sec}, the (M)DFA can replicate classic model-based approaches by exchanging the periodogram (or the DFT) for a corresponding model-based estimate in the optimization criterion. If $L=T$, then the MBA can be replicated up to arbitrary precision by the (M)DFA and therefore degrees of freedom of (M)DFA and MBA must coincide. In the case of replication and/or customization, the (M)DFA-filter thus inherits parsimony from the model.   
+
+
+
+
+\subsection{Regularization Troika}
+
+Far from being exhaustive, the above discussion delineates a path from simple brute-force to more refined parametric approaches for taming overfitting. The Regularization Troika, to be detailed below, prolongs this path: instead of constraining the spectrum (the DFT), it emphasizes the filter coefficients; instead of emphasizing one-step ahead forecasting performances, it addresses the filter error, directly; instead of imposing hard constraints, it incentivizes the (M)DFA-criterion. The last point is achieved by parametrizing a triplet of universal `features': the longitudinal rate of decay, the longitudinal smoothness and the cross-sectional similarity of the filter coefficients. Specifically, the original MDFA-criterion is augmented by three positive definite quadratic bilinear forms   
+\begin{eqnarray*}
+MDFA+f(\lambda_{decay,2})\mathbf{b}'\boldsymbol{\Lambda}_{decay}^m\mathbf{b}+f(\lambda_{smooth})\mathbf{b}'\boldsymbol{\Lambda}_{smooth}^m\mathbf{b}+f(\lambda_{cross})\mathbf{b}'\boldsymbol{\Lambda}_{cross}^m\mathbf{b}\to \min_{\mathbf{b}}
+\end{eqnarray*}
+The newly introduced quadratic terms penalize departures of the original MDFA-estimate from the proposed requirements. We now define and analyze each penalty-term of the Regularization Troika and provide empirical illustrations of its specific capacities.
+
+
+
+
+\section{Longitudinal (Rate of) Decay}\label{decay_reg}
+
+
+
+In general, observations in the remote past of a time series are less relevant for determining current and future states -- nowcasts or forecasts -- of a time series than fresher data. As a consequence one expects that filter coefficients should converge to zero with increasing lag. This universal pattern can be facilitated by introducing a suitable penalty term amending additively the original optimization criterion. 
+
+\subsection{Quadratic Bilinear Form: Univariate Framework}
+
+
+We here emphasize univariate designs in a {nowcast}-perspective. Extensions to multivariate designs as well as to backcasting and/or forecasting are discussed below.
+Let $y_T=\sum_{k=-\infty}^{\infty}\gamma_kx_{T-k}$ and $\hat{y}_T=\sum_{k=0}^{L-1}b_kx_{T-k}$. The regularized criterion is obtained as 
+\begin{eqnarray*}
+DFA+\lambda_{decay,2}\mathbf{b}'\boldsymbol{\Lambda}_{decay}^0\mathbf{b}\to \min_{\mathbf{b}}
+\end{eqnarray*}
+where \emph{DFA} stands for any of the previous DFA-criteria (MSE or customized, with or without constraints) and where $\boldsymbol{\Lambda}_{decay}^0$ is a diagonal matrix of dimension $L*L$ with diagonal-elements $(1+\lambda_{decay,1})^k$, $k=0,...,L-1$
+\begin{eqnarray*}
+\boldsymbol{\Lambda}_{decay}^0=\left(\begin{array}{ccccc}1&0&0&...&0\\
+                                              0&1+\lambda_{decay,1}&0&...&0\\
+                                              0&0&(1+\lambda_{decay,1})^2&...&0\\
+                                              0&0&0&...&(1+\lambda_{decay,1})^{L-1}                                              
+                                              \end{array}\right)
+\end{eqnarray*}
+and where $\lambda_{decay,1}\geq 0,\lambda_{decay,2}\geq 0$ account for the \emph{shape} as well as for the \emph{strength} of the decay-regularization. We note that
+\[\mathbf{b}'\boldsymbol{\Lambda}_{decay}^0\mathbf{b}=\sum_{k=0}^{L-1}(1+\lambda_{decay,1})^{k}b_k^2\]
+is a strictly positive definite bilinear form of the filter coefficients. For convenience, a non-linear monotonic transformation $f(\lambda_{decay,2})$ of $\lambda_{decay,2}$ can be used 
+\begin{eqnarray}\label{decay_term}
+DFA+f(\lambda_{decay,2})\mathbf{b}'\boldsymbol{\Lambda}_{decay}\mathbf{b}\to \min_{\mathbf{b}}
+\end{eqnarray}
+such that $f(0)=0$ and $f(1)=\infty$. If $\lambda_{decay,2}=0$ then \ref{decay_term} reduces to the original DFA-criterion; if $\lambda_{decay,2}\to 1$ then full (asymptotically infinite) weight is assigned to the penalty term i.e. the data is ignored and the solution is projected onto zero by the (strictly positive definite) bilinear-form ($\mathbf{\hat{b}}=\mathbf{0}$, asymptotically); for $0<\lambda_{decay,2}<1$ the criterion balances data-requirements, on one side, and regularization-preferences, on the other side. For $\lambda_{decay,1}=0$ all coefficients are shrunken equally, irrespective of their lag; for $\lambda_{decay,1}>0$ high-lag coefficients are shrunken more heavily such that data in the remote past will be discounted accordingly. The degrees of freedom shrink continuously from the maximum value $L$, when $\lambda_{decay,2}=0$ (no regularization), to zero when $\lambda_{decay,2}=1$.
+
+
+
+
+\subsection{Backcasting and Forecasting}\label{now_for_bac_reg}
+
+For a backcast $\hat{y}_{T+h}^{h}:=\sum_{k=h}^{L-1+h}b_{kh}x_{T+h-k}$ of $y_{T+h}$, $h<0$, the most important observation is no more $x_T$, in general, but $x_{T+h},h<0$, instead. As a consequence, the decay-regularization should be amended in order to emphasize shrinkage on both sides -- to the left and to the right -- of $x_{T+h},h<0$. Specifically, we may want to replace the above bilinear form $\boldsymbol{\Lambda}_{decay}^0$ by
+\begin{eqnarray*}
+\left(\begin{array}{ccccc}(1+\lambda_{decay,1})^{-h}&0&0&...&0\\
+                                              0&(1+\lambda_{decay,1})^{-h-1}&0&...&0\\
+                                              0&0&(1+\lambda_{decay,1})^{-h-2}&...&0\\
+                                              :::\\
+                                              0&0&0&...&(1+\lambda_{decay,1})^{L-1+h}                                              
+                                              \end{array}\right)
+\end{eqnarray*}
+If $h=0$ (nowcast) then this expression reduces to the earlier one. In the case of backcasting, $h<0$, a symmetric shrinkage is exerted on both sides of $x_{T+h}$, as desired. 
+In the case of forecasting, i.e. if $h>0$, then the most important observation is generally (though not always) $x_T$ and therefore we may want to apply exactly the same scheme as for nowcasting. The following slightly modified bilinear-form fulfills all requirements
+\begin{eqnarray}\label{fo_bac_now-block}
+\boldsymbol{\Lambda}_{decay}^{0,h}=\left(\begin{array}{ccccc}(1+\lambda_{decay,1})^{\max(0,-h)}&0&0&...&0\\
+                                              0&(1+\lambda_{decay,1})^{\max(0,-h)-1}&0&...&0\\
+:::\\
+                                              0&0&0&...&(1+\lambda_{decay,1})^{L-1-\max(0,-h)}                                              
+                                              \end{array}\right)
+\end{eqnarray}
+The maximum $\max(0,-h)$ in the exponent ensures that forecasting and nowcasting are handled equally. 
+
+
+
+
+
+
+\subsection{Multivariate Framework}
+
+The extension to a multivariate framework, with explaining series $x_t$, $w_{1t},...,w_{mt}$, $m>0$, is straightforward: 
+\begin{eqnarray*}
+MDFA+\lambda_{decay,2}\mathbf{b}'\boldsymbol{\Lambda}_{decay}^m\mathbf{b}\to \min_{\mathbf{b}}
+\end{eqnarray*}
+where $\boldsymbol{\Lambda}_{decay}^m$ is an $L(m+1)*L(m+1)$-dimensional diagonal matrix 
+\[\boldsymbol{\Lambda}_{decay}^m=\left(\begin{array}{cccc}\boldsymbol{\Lambda}_{decay}^0&0&...&0\\
+0&\boldsymbol{\Lambda}_{decay}^0&...&0\\
+:::\\
+0&0&...&\boldsymbol{\Lambda}_{decay}^0\end{array}\right)
+\]
+where $\boldsymbol{\Lambda}_{decay}^0$ from the univariate case is replicated $m+1$ times along the diagonal of $\boldsymbol{\Lambda}_{decay}^m$ and where filter coefficients are stacked in a long column vector $\mathbf{b}=Vec(\mathbf{B})$, of dimension $L(m+1)$. Note that it is implicitly assumed that all time series are coincident (synchronized) since the same block $\boldsymbol{\Lambda}_{decay}^0$ is used throughout. Otherwise, the more general expression \ref{fo_bac_now-block} could be substituted. 
+
+
+
+
+\subsection{Simple Example}
+
+In order to illustrate the new regularization feature we here rely on a simple bivariate design based on the second process (AR(1) with coefficient $a_1=0.1$) and realizations of length $T=120$. 
+<<exercise_dfa_ms_4,echo=True>>=
+set.seed(1)
+len<-120
+eps1<-arima.sim(list(ar=0.1),n=len)
+eps2<-arima.sim(list(ar=0.1),n=len)
+# Define the data-matrix:
+# The first column must be the target series. 
+data_matrix<-cbind(eps1,eps1,eps2)
+@
+We then compute the DFTs of the data and specify the target signal, an ideal trend with cutoff $\pi/6$.
+<<exercise_dfa_ms_4,echo=True>>=
+# Determine the in-sample period (full in sample)
+insample<-nrow(data_matrix)
+# Compute the DFT: d=0 for stationary data (default settings)
+weight_func<-spec_comp(insample, data_matrix, d)$weight_func
+# Target
+Gamma<-(1:nrow(weight_func))<=(nrow(weight_func)-1)/6+1
+@
+Next, we estimate filter coefficients of a `plain vanilla' real-time MSE-design (default hyperparameters: $\boldsymbol{\lambda}_{decay}=(0,0)$) with filter-length $L=12$ per series i.e. with $2\cdot 12=24$ degrees of freedom. 
+<<exercise_dfa_ms_4,echo=True>>=
+L<-12
+# Source the default (MSE-) parameter settings
+source(file=paste(path.pgm,"control_default.r",sep=""))
+troikaner<-T
+# Estimate filter coefficients: MSE
+mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2,weight_constraint,lambda_cross,lambda_decay,lambda_smooth,lin_eta,shift_constraint,grand_mean,b0_H0,c_eta,weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+@
+Next, we  impose a non-vanishing decay-regularization $\boldsymbol{\lambda}_{decay}=(0.5,0.5)$ and re-estimate filter coefficients: $\lambda_{decay,1}=0.5$ enforces stronger shrinkage for high-lag coefficients and $\lambda_{decay,2}=0.5$ assigns some kind of `mid-term' weight: neither vanishing nor very strong. 
+<<exercise_dfa_ms_4,echo=True>>=
+# Estimate filter coefficients: Decay-regularization
+lambda_decay[2]<-0.5
+lambda_decay[1]<-0.5
+mdfa_obj_decay<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2,weight_constraint,lambda_cross,lambda_decay,lambda_smooth,lin_eta,shift_constraint,grand_mean,b0_H0,c_eta,weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+@
+The resulting filter-coefficients are plotted in fig.\ref{z_mdfa_ms_reg_decay}.
+<<exercise_mdfa_ms_reg,echo=False>>=
+source(paste(path.pgm,"mplot_func.r",sep=""))
+file = paste("z_mdfa_ms_reg_decay.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+mplot <- cbind(mdfa_obj$b[,1],mdfa_obj_decay$b[,1])
+ax <- Lag + 0 : (L-1)
+colo<-rainbow(ncol(mplot))
+insamp<-1.e+90
+plot_title <- "Filter Coefficients Series 1"
+title_more<-c(paste("lambda_decay=",0,",",0,sep=""),paste("lambda_decay=",lambda_decay[1],",",lambda_decay[2],sep=""))
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+mplot <- cbind(mdfa_obj$b[,2],mdfa_obj_decay$b[,2])
+ax <- Lag + 0 : (L-1)
+plot_title <- "Filter Coefficients Series 2"
+title_more<-c(paste("lambda_decay=",0,",",0,sep=""),paste("lambda_decay=",lambda_decay[1],",",lambda_decay[2],sep=""))
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+dev.off()
+
+@
+<<label=z_mdfa_ms_reg_decay,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ms_reg_decay", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter Coefficients: original unregularized (red) vs. decay-regularization (cyan) for series 1 (left) and 2 (right) of the bivariate design, lambda-decay=(0.5,0.5)", sep = "")
+  cat("\\label{z_mdfa_ms_reg_decay}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+As expected, the rate of decay of the regularized coefficients (cyan) is more pronounced. In order to measure the `effective' strength of the regularization we can compute the so-called \emph{effective degrees of freedom} of the estimates (see below for details): the regularization has shrunken the original unconstrained space, of dimension $\Sexpr{round(mdfa_obj$degrees_freedom,2)}$ ($2*L$), to a subspace of (generally non-integer) dimension $\Sexpr{round(mdfa_obj_decay$degrees_freedom,2)}$: approximately ten degrees of freedom were lost by imposing the decay regularization and therefore in-sample and out-of-sample performances of the regularized design will be less incongruent (overfitting is tamed).
+
+
+
+\subsection{Grid-Screening of Effects}
+
+We here attempt to provide more insights into the decay-regularization by screening the specific effects controlled by $\lambda_{decay,1}$ and $\lambda_{decay,2}$.
+
+\subsubsection{Shape-Parameter $\lambda_{decay,1}$}
+
+ We first fix the strength-parameter $\lambda_{decay,2}:=0.5$ and compute estimates of the filter coefficients for a discrete grid of the shape-parameter $\lambda_{decay,1}=k\cdot 0.1$ with $k=-1,0,...,11$:  
+<<exercise_dfa_ms_4,echo=True>>=
+# Estimate filter coefficients: Decay-regularization
+lambda_decay_1<-0.5
+lambda_decay_2<-0.1*0:9
+lambda_decay_2<-c(lambda_decay_2,lambda_decay_2[length(lambda_decay_2)]+0.01*0:9,0.995,0.999,1)
+@
+<<exercise_dfa_ms_4,echo=False>>=
+b_mat<-matrix(nrow=L,ncol=(ncol(weight_func)-1)*length(lambda_decay_2))
+edof_vec<-rep(NA,length(lambda_decay_1))
+for (i in 1:length(lambda_decay_2))#i<-1
+{
+  lambda_decay<-c(lambda_decay_1,lambda_decay_2[i])
+  mdfa_obj_decay<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2,
+                                weight_constraint,lambda_cross,lambda_decay,lambda_smooth,lin_eta,shift_constraint,grand_mean,b0_H0,c_eta,weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+  b_mat[,(i-1)*(ncol(weight_func)-1)+1:(ncol(weight_func)-1)]<-mdfa_obj_decay$b
+  edof_vec[i]<-mdfa_obj_decay$degrees_freedom
+}
+@
+The resulting filter-coefficients  are plotted in fig.\ref{z_mdfa_ms_reg_decay_screen_decay_1}: the effective degrees of freedom, $edof$, as well as the regularization settings are reported too.
+<<exercise_mdfa_ms_reg,echo=False>>=
+file = paste("z_mdfa_ms_reg_decay_screen_decay_1.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+mplot <- b_mat[,1+(0:(length(lambda_decay_2)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+colo<-rainbow(ncol(mplot))
+insamp<-1.e+90
+plot_title <- "Series 1"
+title_more<-paste("lambda_decay=(",lambda_decay_1,",",lambda_decay_2,"), edof=",round(edof_vec,1),sep="")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+mplot <- b_mat[,2+(0:(length(lambda_decay_2)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+plot_title <- "Series 2"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+dev.off()
+
+@
+<<label=z_mdfa_ms_reg_decay,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ms_reg_decay_screen_decay_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter Coefficients: effect of shape-parameter (grid of points -0.1, 0, 0.1, 0.2, ..., 1.1) for fixed strength parameter (0.5), series 1 (left) and 2 (right)", sep = "")
+  cat("\\label{z_mdfa_ms_reg_decay_screen_decay_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+A small value of the shape-parameter $\lambda_{decay,1}$ implies that nearly equal weight is assigned to all coefficients, irrespective of the lag. In this case, the number of effective degrees of freedom, $edof$, is smallest and the overall shrinkage-effect is most pronounced. For increasing shape parameter, higher-lag coefficients are shrunken more heavily whereas small-lag coefficients get relaxed, in relative terms. Note that a larger shape-parameter $\lambda_{decay,1}$ tends, ceteris paribus, to enforce the strength of the regularization\footnote{This entanglement could be avoided by normalizing $\lambda_{decay,2}$ by $\frac{1}{L}\sum_{k=0}^{L-1}|1+\lambda_{decay,1}|^k$, for example (but we didn't).}. This effect explains the non-monotonicity of $edof$ as a function of $\lambda_{decay,1}$. Note, also, that the effect of $\lambda_{decay,1}$ is bounded to the interval $[0,1]$: our R-code relies on $\min(|\lambda_{decay,1}|,1)$, which explains why the estimates for $\lambda_{decay,1}=-0.1$ and $\lambda_{decay,1}=0.1$ (or for $\lambda_{decay,1}=1$ and $\lambda_{decay,1}=1.1$) are indistinguishable. \\
+
+
+\subsubsection{Strength-Parameter $\lambda_{decay,2}$}
+
+
+We now fix the shape-parameter $\lambda_{decay,1}=0.5$ and analyze effects by the strength-parameter $\lambda_{decay,2}=k\cdot 0.1$ where $k=-1,0,1,...,11$:
+<<exercise_dfa_ms_4,echo=True>>=
+# Estimate filter coefficients: Decay-regularization
+lambda_decay_1<-0.5
+lambda_decay_2<-0.1*-1:11
+@
+<<exercise_dfa_ms_4,echo=False>>=
+b_mat<-matrix(nrow=L,ncol=(ncol(weight_func)-1)*length(lambda_decay_2))
+edof_vec<-rep(NA,length(lambda_decay_2))
+for (i in 1:length(lambda_decay_2))
+{
+  lambda_decay<-c(lambda_decay_1,lambda_decay_2[i])
+  mdfa_obj_decay<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2,weight_constraint,lambda_cross,lambda_decay,lambda_smooth,lin_eta,shift_constraint,grand_mean,b0_H0,c_eta,weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+  b_mat[,(i-1)*(ncol(weight_func)-1)+1:(ncol(weight_func)-1)]<-mdfa_obj_decay$b
+  edof_vec[i]<-mdfa_obj_decay$degrees_freedom
+}
+@
+The resulting filter-coefficients  are plotted in fig.\ref{z_mdfa_ms_reg_decay_screen_decay_2}: the effective degrees of freedom, $edof$, as well as the regularization settings are reported too.
+<<exercise_mdfa_ms_reg,echo=False>>=
+file = paste("z_mdfa_ms_reg_decay_screen_decay_2.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+mplot <- b_mat[,1+(0:(length(lambda_decay_2)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+colo<-rainbow(ncol(mplot))
+insamp<-1.e+90
+plot_title <- "Filter Coefficients Series 1"
+title_more<-paste("lambda_decay=(",lambda_decay_1,",",lambda_decay_2,"), edof=",round(edof_vec,1),sep="")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+mplot <- b_mat[,2+(0:(length(lambda_decay_2)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+plot_title <- "Filter Coefficients Series 2"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+dev.off()
+
+@
+<<label=z_mdfa_ms_reg_decay,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ms_reg_decay_screen_decay_2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter Coefficients: effect of strength-parameter (grid of points -0.1,0, 0.1, 0.2, ..., 1.1) for fixed shape parameter (0.5), series 1 (left) and 2 (right)", sep = "")
+  cat("\\label{z_mdfa_ms_reg_decay_screen_decay_2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The strength-parameter $\lambda_{decay,2}$ is bounded to the interval $[0,1]$, too (the code relies on $f(\min(|\lambda_{decay,2}|,1))$ where $f(\cdot)$ is a monotonic function with $f(0)=0$ and $f(1)=\infty$). If $\lambda_{decay,2}=0$ then no regularization is imposed and thus $edof=\Sexpr{edof_vec[2]}$ ($=2L$). The number of effective degrees of freedom shrinks monotonically as a function of $\lambda_{decay,2}$: for `large' $\lambda_{decay,2}\to 1$, an asymptotically infinite weight\footnote{For numerical reasons we use a finite upper-bound in our R-code.} is obtained and therefore the coefficients are shrunken to zero i.e. $edof=0$ (the corresponding coefficients are confounded with the zero line).
+
+
+
+
+\subsection{Constraints vs. Regularization}\label{con_vs_reg}
+
+
+Hard-constraints, such as imposed by $i1$ or $i2$, see chapter \ref{con_sec}, are maintained irrespective of regularization settings: hard-constraints are prioritized and dominate the design. In the following example we compare unrestricted ($i1=i2=F$) and restricted filter estimates, whereby a simple level-constraint $i1=T$ is imposed in the latter case: $\hat{\Gamma}_1(0)=\hat{\Gamma}_2(0)=1$ (the transferfunctions of the two real-time filters of the bivariate design must equate one in frequency zero).
+
+
+<<exercise_dfa_ms_4,echo=True>>=
+# Estimate filter coefficients: Decay-regularization
+lambda_decay_1<-0.5
+lambda_decay_2<-c(0,0.5,1)
+@
+We now estimate coefficients for all four combinations of regularized/unregularized and constrained/unconstrained designs:
+<<exercise_dfa_ms_4,echo=True>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path.pgm,"control_default.r",sep=""))
+troikaner<-T
+# Unconstrained designs: with and without regularization
+b_mat_unrestricted<-matrix(nrow=L,ncol=(ncol(weight_func)-1)*length(lambda_decay_2))
+edof_vec_unrestricted<-rep(NA,length(lambda_decay_2))
+for (i in 1:length(lambda_decay_2))
+{
+  lambda_decay<-c(lambda_decay_1,lambda_decay_2[i])
+  mdfa_obj_decay<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2,weight_constraint,lambda_cross,lambda_decay,lambda_smooth,lin_eta,shift_constraint,grand_mean,b0_H0,c_eta,weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+  b_mat_unrestricted[,(i-1)*(ncol(weight_func)-1)+1:(ncol(weight_func)-1)]<-mdfa_obj_decay$b
+  edof_vec_unrestricted[i]<-mdfa_obj_decay$degrees_freedom
+}
+# Impose level-constraint
+i1<-T
+# Both transfer functions must equal one in frequency zero
+weight_constraint<-c(1,1)
+b_mat_restricted<-matrix(nrow=L,ncol=(ncol(weight_func)-1)*length(lambda_decay_2))
+edof_vec_restricted<-rep(NA,length(lambda_decay_2))
+for (i in 1:length(lambda_decay_2))
+{
+  lambda_decay<-c(lambda_decay_1,lambda_decay_2[i])
+  mdfa_obj_decay<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2,weight_constraint,lambda_cross,lambda_decay,lambda_smooth,lin_eta,shift_constraint,grand_mean,b0_H0,c_eta,weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+  b_mat_restricted[,(i-1)*(ncol(weight_func)-1)+1:(ncol(weight_func)-1)]<-mdfa_obj_decay$b
+  edof_vec_restricted[i]<-mdfa_obj_decay$degrees_freedom
+}
+@
+The resulting filter-coefficients  are plotted in fig.\ref{z_mdfa_ms_reg_decay_screen_decay_2_rest}: the effective degrees of freedom, $edof$, as well as the regularization settings are reported too.
+<<exercise_mdfa_ms_reg,echo=False>>=
+file = paste("z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,2))
+mplot <- b_mat_unrestricted[,1+(0:(length(lambda_decay_2)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+colo<-rainbow(ncol(mplot))
+insamp<-1.e+90
+plot_title <- "Series 1: unrestricted"
+title_more<-paste("lambda=(",lambda_decay_1,",",lambda_decay_2,"), edof=",round(edof_vec_unrestricted,1),sep="")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+mplot <- b_mat_unrestricted[,2+(0:(length(lambda_decay_2)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+plot_title <- "Series 2: unrestricted"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+mplot <- b_mat_restricted[,1+(0:(length(lambda_decay_2)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+colo<-rainbow(ncol(mplot))
+insamp<-1.e+90
+plot_title <- "Series 1: restricted"
+title_more<-paste("lambda_decay=(",lambda_decay_1,",",lambda_decay_2,"), edof=",round(edof_vec_restricted,1),sep="")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+mplot <- b_mat_restricted[,2+(0:(length(lambda_decay_2)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+plot_title <- "Series 2: restricted"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+dev.off()
+
+@
+<<label=z_mdfa_ms_reg_decay_screen_decay_2_rest,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ms_reg_decay_screen_decay_2_rest", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter Coefficients: effect of constraints and strength-parameter (0, 0.5, 1) for fixed shape parameter (0.5), series 1 (left) and 2 (right); unconstrained design (top) vs. constrained design (bottom)", sep = "")
+  cat("\\label{z_mdfa_ms_reg_decay_screen_decay_2_rest}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Without regularization imposed (red lines), the constrained design (bottom) looses two degrees of freedom, dropping from $edof=\Sexpr{round(edof_vec_unrestricted[1],1)}$ to $edof=\Sexpr{round(edof_vec_restricted[1],1)}$. With full regularization imposed (blue lines) the unconstrained design (top) is shrunken to zero; in contrast the constrained design (bottom) must satisfy $\hat{\Gamma}_i(0)=\sum_{k=0}^{L-1}b_{ki}=1$ for $i=1,2$. Indeed, the latter constraints are satisfied by all filters, irrespective of regularization settings. To conclude, we note that level and time-shift constraints were parametrized in such a way that potential conflicts with the proposed regularization-term are avoided, irrespective of the lead (forecast) or lag (backcast) of the estimate, see section \ref{cons_gen_par}.
+
+
+
+
+
+
+
+
+
+\section{Longitudinal Smoothness}
+
+
+For each explaining time series $x_t$, $w_{it}$, $i=1,...,m$, in a real-time filter design, the corresponding filter coefficients $b_{ik}$\footnote{The case $i=0$ refers to the explaining data of $x_t$.}, for $i$ fixed, may be considered as functions of the lag $k=0,...,L-1$. A typical indication of overfitting is given when these lag-dependent functions are ragged i.e. when the series $b_{ik}$, for fixed $i$, are `noisy' or, more formally, when the curvatures (squared second order differences)
+\begin{equation}\label{curvature_squa}
+\sum_{k=0}^{L-3} \left((1-B)^2 b_{ik}\right)^2=\sum_{k=0}^{L-3}\left(b_{ik}-2b_{i,k+1}+b_{i,k+2}\right)^2
+\end{equation}
+are large.
+
+
+\subsection{Quadratic Bilinear Form}
+
+
+We may thus introduce a penalty-term whose bilinear form replicates \ref{curvature_squa}. Specifically, the regularized criterion becomes
+\begin{eqnarray}\label{smooth_term}
+MDFA+f(\lambda_{smooth})\mathbf{b}'\boldsymbol{\Lambda}_{smooth}^m\mathbf{b}\to \min_{\mathbf{b}}
+\end{eqnarray}
+where  $\boldsymbol{\Lambda}_{smooth}^m$ is a block-diagonal matrix of dimension $L(m+1)*L(m+1)$
+\begin{eqnarray*}
+\boldsymbol{\Lambda}_{smooth}^m=\left(\begin{array}{cccc}\boldsymbol{\Lambda}_{smooth}^0&0&...&0\\
+                                              0&\boldsymbol{\Lambda}_{smooth}^0&...&0\\
+                                              :::\\
+                                              0&0&...&\boldsymbol{\Lambda}_{smooth}^0                                              
+                                              \end{array}\right)
+\end{eqnarray*}
+with $L*L$-dimensional blocks $\boldsymbol{\Lambda}_{smooth}^0$
+\begin{eqnarray*}
+\boldsymbol{\Lambda}_{smooth}^0&=&\left(\begin{array}{ccccccccccccc}
+1 &-2&1 &  0&0&0 &0&....&  &   &   &   &  0\\
+-2& 5&-4&1 &0&0 &0&....&  &   &   &   &  0\\
+1 &-4& 6&-4&1&0 &0&....&  &   &   &   &  0\\
+0 &1 &-4& 6&-4&1&0&....&  &   &   &   &  0\\
+::\\
+0 & 0& 0&0&0 &0&...&1 &-4& 6&-4& 1& 0\\
+0 &0 & 0& 0&0&0 &0&...&1 &-4& 6&-4& 1\\
+0 &0 & 0& 0&0&0 &0&...&0 & 1 &-4& 5&-2\\
+0 &0 & 0& 0&0&0 &0&...&0 & 0 &1 &-2&1  \\
+\end{array}\right)
+\end{eqnarray*}
+The latter replicate the curvature measure \ref{curvature_squa} 
+\[\sum_{k=0}^{L-3} \left((1-B)^2 b_{ik}\right)^2=\mathbf{b}_i'\boldsymbol{\Lambda}_{smooth}^0\mathbf{b}_i\]
+for $i=0,...,m$\footnote{Checking this identity is graciously left as an exercise.}. In the univariate case we have $m=0$ and therefore $\boldsymbol{\Lambda}_{smooth}^m=\boldsymbol{\Lambda}_{smooth}^0$. As for the previous decay-regularization, $f(\lambda_{smooth})$ is a non-linear function of $\lambda_{smooth}$, with $f(0)=0, f(1)=\infty$, which measures the strength of the smoothness-regularization. If $\lambda_{smooth}=1$, then full regularization is imposed but, in contrast to the previous decay-term, the data is not completely discarded in this case, because shrinkage is applied to {second-order differences}. The proposed quadratic bilinear form is positive but not \emph{strictly} positive definite: its kernel consists of all functions which are linear in the lag $k$. Therefore, asymptotically, filter coefficients $b_{ik}$ must be linear, which still allows for multiple dependency from the data (such as scale and sign, for example). In particular the degrees of freedom shrink continuously from $L*(m+1)$ when $\lambda_{smooth}=0$ to $2*(m+1)$\footnote{Two parameters, namely intercept and slope, determine a linear function.} when $\lambda_{smooth}=1$. Note that the smoothness regularization is not affected by the lag parameter ($Lag$ or $-h$) and therefore the above mentioned applies indifferently to backcasting, nowcasting or forecasting, as well.
+
+
+
+\subsection{Empirical Examples}
+
+We rely on the above example and compute coefficients for a discrete grid $\lambda_{smooth}=k\cdot 0.1$, $k=-1,0,...,11$, of parameter values:  
+<<exercise_dfa_ms_4,echo=True>>=
+# Estimate filter coefficients: Decay-regularization
+#lambda_smooth_vec<-0.1*-1:11
+lambda_smooth_vec<-0.1*0:9
+lambda_smooth_vec<-c(lambda_smooth_vec,lambda_smooth_vec[length(lambda_smooth_vec)]+0.01*0:9,0.995,0.999,1)
+@
+<<exercise_dfa_ms_4,echo=False>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path.pgm,"control_default.r",sep=""))
+troikaner<-T
+b_mat<-matrix(nrow=L,ncol=(ncol(weight_func)-1)*length(lambda_smooth_vec))
+edof_vec<-rep(NA,length(lambda_smooth_vec))
+for (i in 1:length(lambda_smooth_vec))
+{
+  lambda_smooth<-lambda_smooth_vec[i]
+  mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2,weight_constraint,lambda_cross,lambda_decay,lambda_smooth,lin_eta,shift_constraint,grand_mean,b0_H0,c_eta,weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+  b_mat[,(i-1)*(ncol(weight_func)-1)+1:(ncol(weight_func)-1)]<-mdfa_obj$b
+  edof_vec[i]<-mdfa_obj$degrees_freedom
+}
+@
+The resulting filter-coefficients  are plotted in fig.\ref{z_mdfa_ms_reg_smooth_1}: the effective degrees of freedom, $edof$, as well as the accompanying regularization settings are reported too.
+<<exercise_mdfa_ms_reg,echo=False>>=
+file = paste("z_mdfa_ms_reg_smooth_1.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+mplot <- b_mat[,1+(0:(length(lambda_smooth_vec)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+colo<-rainbow(ncol(mplot))
+insamp<-1.e+90
+plot_title <- "Series 1"
+title_more<-paste("lambda_smooth=",lambda_smooth_vec," edof=",round(edof_vec,1),sep="")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+mplot <- b_mat[,2+(0:(length(lambda_smooth_vec)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+plot_title <- "Series 2"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+dev.off()
+
+@
+<<label=z_mdfa_ms_reg_smooth_1,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ms_reg_smooth_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter Coefficients: effect of smoothness regularization for grid-points -0.1, 0, 0.1, 0.2, ..., 1.1: series 1 (left) and 2 (right)", sep = "")
+  cat("\\label{z_mdfa_ms_reg_smooth_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The longitudinal smoothness of the filter coefficients is improved as $\lambda_{smooth}$ increases and the coefficients end-up as linear functions of the lag when full regularization is imposed. Unlike the previous decay-regularization, the coefficients are not shrunken towards zero for $\lambda_{smooth}=1$; in this case $edof=2*(m+1)=4$, as expected. In conformity with the previous decay-term, the effect of $\lambda_{smooth}$ is bounded to the interval $[0,1]$: our R-code relies on $f(\min(|\lambda_{decay,1}|,1))$ where $f(\cdot)$ is a monotonic function with $f(0)=0$ and $f(1)=\infty$. Therefore, the estimates for $\lambda_{smooth}=-0.1$ and $\lambda_{smooth}=0.1$ (or for $\lambda_{smooth}=1$ and $\lambda_{smooth}=1.1$) are identical.  
+
+
+
+\section{Cross-Sectional Similarity}\label{cross_sec_sim}
+
+
+Often, in practice, the time series $x_t,w_{it}$, $i=1,...,m$ of a multivariate design are redundant, at least to some extent\footnote{Business-cycles, for example, are defined as  pervasive co-movements across a range of interesting time series. In this context, it is not uncommon to assume that time series can be decomposed additively (eventually after suitable data-transformation) into a common generally non-stationary term (common factor) and a stationary idiosyncratic component (cointegration rank one). In such a case the common factor stands for the redundant information across the original data.}. In such a case it is not illegitimate to assume that filter coefficients should share common features, too: for example the rate of decay and/or the sign and/or the scale.
+
+\subsection{Quadratic Bilinear Form}
+
+In order to account for this possibility we here fix the lag-index $k$ and consider $b_{ik}$ as a function of the cross-sectional index $i=0,...,m$: for each (fixed) $k$, $b_{ik}$ should be similar or, stated otherwise, $b_{ik}$ should be close to the cross sectional mean $\frac{1}{m+1}\sum_{i=0}^mb_{ik}$\footnote{The cross-sectional means are the grand-means, see section \ref{gm_par}. However, our proceeding here avoids the undesirable asymmetry of the explicit grand-mean parametrization.}. Accordingly,  the penalty term amending additively the (M)DFA-criterion can be specified as
+\begin{eqnarray}\label{centm}
+\sum_{k=0}^{L-1}\sum_{i=0}^m\left(b_{ik}-\frac{1}{m+1}\sum_{i'=0}^mb_{i'k}\right)^2
+\end{eqnarray}
+Smaller values of this statistic signify enforced cross-sectional similarity of the coefficients, as desired. A suitable positive definite bilinear form replicating this penalty term is given by 
+\begin{eqnarray}\label{sympa}
+\boldsymbol{\Lambda}_{cross}^m&=&\mathbf{I}-\boldsymbol{M}
+\end{eqnarray}
+where $\mathbf{I}$ is an $L(m+1)*L(m+1)$-dimensional identity and
+\begin{eqnarray*}
+\boldsymbol{M}&=&\left(\begin{array}{ccc}\boldsymbol{\mu}&...&\boldsymbol{\mu}\\
+:::\\
+\boldsymbol{\mu}&...&\boldsymbol{\mu}\end{array}\right)
+\end{eqnarray*}
+is made of $(m+1)^2$ replications of the $L*L$-dimensional block $\boldsymbol{\mu}$
+\begin{eqnarray*}
+\boldsymbol{\mu}&=&\left(\begin{array}{cccc}
+-\frac{1}{m+1}&0&...&0\\
+0&-\frac{1}{m+1}&...&0\\
+:::\\
+0&0&...&-\frac{1}{m+1}
+\end{array}\right)
+\end{eqnarray*}
+A juxtaposition of these blocks along the rows of $\boldsymbol{M}$ builds-up the cross-sectional means from the stacked (long) coefficient vector $\mathbf{b}=Vec(\mathbf{B})$. The corresponding regularized criterion becomes
+\begin{eqnarray}\label{smooth_term}
+MDFA+f(\lambda_{cross})\mathbf{b}'\boldsymbol{\Lambda}_{cross}^m\mathbf{b}\to \min_{\mathbf{b}}
+\end{eqnarray}
+where, once again, $f(\lambda_{cross})$ is a non-linear monotonic function with $f(0)=0, f(1)=\infty$. In the latter case, when full regularization is imposed, the cross-sectional differences are projected onto zero. As for the smoothness-term, the cross-sectional bilinear form is not strictly positive since its kernel is made of the common `grand-mean'. Asymptotically, the data still interacts with the regularized estimate: the remaining degrees of freedom shrink continuously from $(m+1)L$, when $\lambda_{cross}=0$, to $L$ when $\lambda_{cross}=1$.  Note that the cross-sectional regularization is not affected by the lag parameter ($Lag$ or $-h$) and therefore the above mentioned applies indifferently to backcasting, nowcasting or forecasting, as well.
+
+
+\subsection{Empirical Examples}
+
+We rely on the previous example and compute coefficients for a discrete grid $\lambda_{cross}=k\cdot 0.1$, $k=-1,0,...,11$, of parameter values:  
+<<exercise_dfa_ms_4,echo=True>>=
+# Estimate filter coefficients: Decay-regularization
+#lambda_cross_vec<-0.1*0:9
+lambda_cross_vec<-0.1*0:9
+lambda_cross_vec<-c(lambda_cross_vec,lambda_cross_vec[length(lambda_cross_vec)]+0.01*0:9,0.995,0.999,1)
+@
+<<exercise_dfa_ms_4,echo=False>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path.pgm,"control_default.r",sep=""))
+troikaner<-T
+b_mat<-matrix(nrow=L,ncol=(ncol(weight_func)-1)*length(lambda_cross_vec))
+edof_vec<-rep(NA,length(lambda_cross_vec))
+for (i in 1:length(lambda_cross_vec))
+{
+  lambda_cross<-lambda_cross_vec[i]
+  mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2,weight_constraint,lambda_cross,lambda_decay,lambda_smooth,lin_eta,shift_constraint,grand_mean,b0_H0,c_eta,weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+  b_mat[,(i-1)*(ncol(weight_func)-1)+1:(ncol(weight_func)-1)]<-mdfa_obj$b
+  edof_vec[i]<-mdfa_obj$degrees_freedom
+}
+@
+The resulting filter-coefficients  are plotted in fig.\ref{z_mdfa_ms_reg_cross_1}: the effective degrees of freedom, $edof$, as well as the accompanying regularization settings are reported too.
+<<exercise_mdfa_ms_reg,echo=False>>=
+file = paste("z_mdfa_ms_reg_cross_1.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+mplot <- b_mat[,1+(0:(length(lambda_cross_vec)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+colo<-rainbow(ncol(mplot))
+insamp<-1.e+90
+plot_title <- "Series 1"
+title_more<-paste("lambda_cross=",lambda_cross_vec," edof=",round(edof_vec,1),sep="")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+mplot <- b_mat[,2+(0:(length(lambda_smooth_vec)-1)*(ncol(weight_func)-1))]
+ax <- Lag + 0 : (L-1)
+plot_title <- "Series 2"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+dev.off()
+
+@
+<<label=z_mdfa_ms_reg_cross_1,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ms_reg_cross_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter Coefficients: effect of cross-sectional regularization for grid-points -0.1, 0, 0.1, 0.2, ..., 1.1: series 1 (left) and 2 (right)", sep = "")
+  cat("\\label{z_mdfa_ms_reg_cross_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+For increasing $\lambda_{cross}$, filter coefficients for series 1 and 2 are merged more effectively, ending-up absorbed in the common  grand-mean, when full regularization is imposed (the coefficients in left and right panels are identical if $\lambda_{cross}\geq 1$). As for the smoothness-regularization, the coefficients are not shrunken towards zero for $\lambda_{cross}=1$; instead, the gap to the common grand-mean is closed and $edof=L (=12)$. In conformity with the previous regularization terms, the effect of $\lambda_{cross}$ is bounded to the interval $[0,1]$: our R-code relies on $f(\min(|\lambda_{cross,1}|,1))$ where $f(\cdot)$ is a monotonic function with $f(0)=0$ and $f(1)=\infty$. Therefore, the estimates for $\lambda_{cross}=-0.1$ and $\lambda_{cross}=0.1$ (or for $\lambda_{cross}=1$ and $\lambda_{cross}=1.1$) are identical. let us conclude here by emphasizing that the cross-sectional regularization is inadequate in the specific case of our toy-example because the second series of our bivariate design is independent from the target i.e. its coefficients should vanish\footnote{The common coefficients obtained for $\lambda_{cross}\geq 1$ in fig.\ref{z_mdfa_ms_reg_cross_1} are a shrunken version of the unregularized coefficients for series 1: whereas the first series is informative, the second-one just adds undesirable noise, which must be tamed by zero-shrinkage.}. 
+
+
+
+
+\section{Regularization Troika: a Triplet of Universal Filter Requirements}\label{reg_troika_uni_req}
+
+Instead of imposing possibly misspecified `hard' constraints, the proposed triplet of regularization-terms assigns `soft' preferences to particular sub-spaces of the ambient space $\mathbb{R}^{L(m+1)}$, which are felt to be of universal relevance. 
+
+\subsection{Quadratic (Bilinear) Form}
+
+An arbitrary combination and weighting of all three requirements can be obtained formally by the so-called Regularization Troika    
+\begin{eqnarray}\label{troika}
+MDFA+f(\lambda_{decay,2})\mathbf{b}'\boldsymbol{\Lambda}_{decay}^m\mathbf{b}+f(\lambda_{smooth})\mathbf{b}'\boldsymbol{\Lambda}_{smooth}^m\mathbf{b}+f(\lambda_{cross})\mathbf{b}'\boldsymbol{\Lambda}_{cross}^m\mathbf{b}\to \min_{\mathbf{b}}
+\end{eqnarray}
+If $\lambda_{decay,2}=\lambda_{smooth}=\lambda_{cross}=0$ then \ref{troika} replicates the original MDFA-criterion. Otherwise, degrees of freedom are shrunken by projecting filter coefficients onto sub-spaces which are \emph{un}likely to conflict with data (universality postulate) if the regularization is suitably balanced. Our credo --backed-up by experience -- is that the MDFA, endowed with the proposed regularization features, is able to tame overfitting without necessarily inflicting `misspecification' or statistical inefficiency: shrinkage-gains outweigh misspecification-losses such that, overall, out-of-sample performances improve.    
+
+
+
+\subsection{Empirical Examples}
+
+To be filled...
+
+
+\subsection{Entanglement and Conflicting Requirements}
+
+The proposed regularization features are not mutually orthogonal: as an example a strong decay-regularization may favor simultaneously smoothness  as well as cross-sectional similarity by attracting coefficients towards the `common' and `smooth' zero-line. Per contra, the  decay-regularization might also conflict with the smoothness requirement, since a rapid decay could be disruptive or discontinuous. It should be clear, therefore, that the regularization settings, as controlled by the hyperparameters $\boldsymbol{\lambda}_{decay}, \lambda_{smooth}$ and $\lambda_{cross}$ interact, either positively or negatively, to some extent. Interestingly, part of the conflicts can be resolved by specifying alternative origins of the shrinkage-spaces, see section \ref{h0_shrink}. Finally, let us remind here that regularization sub-spaces can be affected by imposing hard-constraints, see the example in section \ref{con_vs_reg}. 
+
+
+
+\subsection{Limitations: Data Transformations}
+
+Some of the proposed regularization features assume, at least implicitly, that the data is subject to specific homogeneity constraints. As a trivial example, the cross-sectional term assumes similarity of  time series in the data set (against the premicesses of our toy example). Filter-performances are no more invariant to (arbitrary) sign-changes or transformation of scales of time series if $\lambda_{cross}>0$. In a similar vein, the zero-shrinkage peculiar to the strictly positive definite decay-term assumes that the scales of the time series are identical or at least similar. Otherwise, the series with the smallest scale would be penalized more heavily because its coefficients are generally (though not always) larger, in absolute value. Performances are no more invariant to scale transformations if $\lambda_{decay,2}>0$. We therefore recommend to transform the data prior to regularization in such a way that the implicit homogeneity assumptions are met. In applications so far we found useful to match scales and signs of series\footnote{In order to measure performances in a consistent way, data transformations should always be causal i.e. they should not rely on future observations.}.         
+
+
+
+
+\subsection{Empirical Examples}
+
+To be filled...
+
+
+
+
+
+
+
+\section{Optimization Criterion (Zero-Shrinkage)}\label{opt_crit_reg_tro}
+
+We note that \ref{troika} is quadratic in the filter coefficients and therefore a unique closed-form solution exists. Using bilinear forms simplifies the derivation (as well as the notation) of the closed-form solution. We distinguish the cases of regularization with and without `hard' constraints (for example i1- and i2-constraints). 
+
+
+
+
+\subsection{Unconstrained Design}\label{opt_reg_uncon}
+
+
+Consider
+\begin{eqnarray}\label{regcustreg}
+&&(\mathbf{Y}^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\mathbf{b})'(\mathbf{Y}^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\mathbf{b})\nonumber\\
+&+&\lambda_{{smooth}}\mathbf{b}'\boldsymbol{\Lambda}_{smooth}\mathbf{b}
++\lambda_{{cross}}\mathbf{b}'\boldsymbol{\Lambda}_{cross}\mathbf{b}+\lambda_{{decay,2}}\mathbf{b}'\boldsymbol{\Lambda}_{decay}\mathbf{b}\to\min
+\end{eqnarray}
+where $\mathbf{Y}^{\textrm{Cust}}(\eta)\in \mathbb{R}^{[T/2]+1}$ is a $[T/2]+1$-dimensional real-valued vector of dependent variables and where $\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\in \mathbb{C}^{([T/2]+1)(m+1)L}$ is a $([T/2]+1)*((m+1)L)$-dimensional complex-valued matrix of explaining data, see section \ref{l-scsmdfa}: for $\lambda=\eta=0$ no customization is imposed and therefore a classic MSE-estimate is obtained. Derivation of the criterion with respect to the stacked parameter vector $\mathbf{b}$ leads to
+\begin{eqnarray*}
+\frac{d}{d\mathbf{b}}~\textrm{Criterion}&=&\frac{d}{d\mathbf{b}}~(\mathbf{Y}^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\mathbf{b})'(\mathbf{Y}^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\mathbf{b})\nonumber\\
+&+&\frac{d}{d\mathbf{b}}~\Big(\lambda_{{smooth}}\mathbf{b}'\boldsymbol{\Lambda}_{smooth}\mathbf{b}
++\lambda_{{cross}}\mathbf{b}'\boldsymbol{\Lambda}_{cross}\mathbf{b}+\lambda_{{decay,2}}\mathbf{b}'\boldsymbol{\Lambda}_{decay}\mathbf{b}\Big)\\
+&=&-2\mathbf{Y}^{\textrm{Cust}}(\eta)'\Re\left(\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\right)+2\mathbf{b}'\Re\bigg\{\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)'\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\bigg\}\\
+&&+2\lambda_{{smooth}}\mathbf{b}'\boldsymbol{\Lambda}_{smooth}
++2\lambda_{{cross}}\mathbf{b}'\boldsymbol{\Lambda}_{cross}+2\lambda_{{decay},2}\mathbf{b}'\boldsymbol{\Lambda}_{decay}
+\end{eqnarray*}
+where we used the fact that the proposed bilinear forms are symmetric. Equating this expression to zero, the generalized regularized solution is obtained as
+\begin{eqnarray}\label{bregcustreg}
+&&\mathbf{\hat{b}}^{\textrm{Cust-Reg}}(\lambda,\eta,\lambda_{{smooth}},\lambda_{{cross}},\lambda_{{decay,1}},\lambda_{decay,2})=\\
+&&\left(\Re\bigg\{\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)' \mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\bigg\}+
+\lambda_{{smooth}}\boldsymbol{\Lambda}_{smooth}+\lambda_{{cross}}\boldsymbol{\Lambda}_{cross}+\lambda_{{decay},2}\boldsymbol{\Lambda}_{decay}
+\right)^{-1}\nonumber\\
+&&\Re(\mathbf{X}^{\textrm{Cust}}(\lambda,\eta))'
+\mathbf{Y}^{\textrm{Cust}}(\eta)\nonumber
+\end{eqnarray}
+As can be seen, each term of the Regularization Troika contributes in `regularizing' the matrix subject to inversion: ill-posed problems with $L$ large (large filter order) and/or $m$ large (high-dimensional design) can be solved effectively by imposing suitable shrinkage towards idealized filter patterns. In particular, the number $(m+1)L$ of unknown filter coefficients may exceed the sample size $T$\footnote{This would allow for a formal treatment of high-dimensional designs ($m$ large), for example.}.  
+
+
+
+\subsection{Constrained Design}
+
+We assume that the filter constraints can be written in the form
+\begin{eqnarray}\label{cons5s}
+\mathbf{b}&=&\mathbf{R}(i1,i2) \mathbf{b_{f}}+\mathbf{c}(i1,i2)
+\end{eqnarray}
+where $\mathbf{b_f}$ is the vector of freely determined coefficients and where $\mathbf{R}(i1,i2)$ and $\mathbf{c}(i1,i2)$ depend on the booleans $i1,i2$, see section \ref{matrix_notation_constraints} (alternative constraints could be considered, of course). Plugging this expression into \ref{regcustreg} and taking derivatives with respect to the stacked vector of freely determined coefficients $\mathbf{b_{f}}$, we obtain (note that the functional dependencies of $\mathbf{Y}^{\textrm{Cust}}(\eta), \mathbf{X}^{\textrm{Cust}}(\lambda,\eta)$ on the customization parameters $\lambda,\eta$ are omitted for notational simplicity):
+\begin{eqnarray*}
+\frac{d}{d\mathbf{b_f}}~\textrm{Criterion}&=&\frac{d}{d\mathbf{b_f}}~(\mathbf{Y}^{\textrm{Cust}}-\mathbf{X}^{\textrm{Cust}}\left(\mathbf{R b_{f}+c}\right))'(\mathbf{Y}^{\textrm{Cust}}-\mathbf{X}^{\textrm{Cust}}\left(\mathbf{R b_{f}+c}\right))\nonumber\\
+&+&\frac{d}{d\mathbf{b_f}}~\lambda_{{smooth}}\left(\mathbf{R b_{f}+c}\right)'\boldsymbol{\Lambda}_{smooth}\left(\mathbf{R b_{f}+c}\right)\\
+&+&\frac{d}{d\mathbf{b_f}}~\lambda_{{cross}}\left(\mathbf{R b_{f}+c}\right)'\boldsymbol{\Lambda}_{cross}\left(\mathbf{R b_{f}+c}\right)\\
+&+&\frac{d}{d\mathbf{b_f}}~\lambda_{{decay},2}\left(\mathbf{R b_{f}+c}\right)'\boldsymbol{\Lambda}_{decay}\left(\mathbf{R b_{f}+c}\right)\\
+&=&-2(\mathbf{Y}^{\textrm{Cust}})'\Re\left(\mathbf{X}^{\textrm{Cust}}\right)\mathbf{R}+
+2\Re\bigg\{\mathbf{(X^{\textrm{Cust}}c)'(X^{\textrm{Cust}}R)}\bigg\}
++2\mathbf{b}_f'\Re\bigg\{(\mathbf{X}^{\textrm{Cust}}\mathbf{R})'\mathbf{X}^{\textrm{Cust}}\mathbf{R}\bigg\}\\
+&&+2\lambda_{{smooth}}\mathbf{b_f'R'}\boldsymbol{\Lambda}_{smooth}\mathbf{R}+2\lambda_{{smooth}}\mathbf{(c'}\boldsymbol{\Lambda}_{{smooth}}\mathbf{R)}\\
+&&+2\lambda_{{cross}}\mathbf{b_f'R'}\boldsymbol{\Lambda}_{cross}\mathbf{R}+2\lambda_{{cross}}\mathbf{(c'}\boldsymbol{\Lambda}_{{cross}}\mathbf{R)}\\
+&&+2\lambda_{{decay},2}\mathbf{b_f'R'}\boldsymbol{\Lambda}_{decay}\mathbf{R}+2\lambda_{{decay},2}\mathbf{(c'}\boldsymbol{\Lambda}_{\textrm{decay}}\mathbf{R)}
+\end{eqnarray*}
+where, again, we used the fact that the proposed bilinear forms are symmetric. Equating this expression to zero, the \emph{customized, regularized and constrained }solution is obtained as
+\begin{eqnarray}\label{bregcustregconst}
+&&\mathbf{\hat{b}}^{\textrm{Cust-Reg-Const}}_f(\lambda,\eta,\lambda_{{smooth}},\lambda_{{cross}},\lambda_{{decay},1},\lambda_{{decay},2},i1,i2)\nonumber\\
+&=&\Big\{\Re\Big[(\mathbf{X}^{\textrm{Cust}}\mathbf{R})' \mathbf{X}^{\textrm{Cust}}\mathbf{R}\Big]+
+\lambda_{{smooth}}\mathbf{R}'\boldsymbol{\Lambda}_{smooth}\mathbf{R}+\lambda_{{cross}}\mathbf{R}'\boldsymbol{\Lambda}_{cross}\mathbf{R}+\lambda_{{decay},2}\mathbf{R}'\boldsymbol{\Lambda}_{decay}\mathbf{R}
+\Big\}^{-1}\nonumber\\
+&&\Big((\Re(\mathbf{X^{\textrm{Cust}})R})'
+\mathbf{Y}^{\textrm{Cust}}-\Re\bigg\{(\mathbf{X^{\textrm{Cust}}R})'\mathbf{X^{\textrm{Cust}}c}\bigg\}-
+\mathbf{R}'(\lambda_{{smooth}}\boldsymbol{\Lambda}_{\textrm{smooth}}+\lambda_{{cross}}\boldsymbol{\Lambda}_{{cross}}+
+\lambda_{{decay},2}\boldsymbol{\Lambda}_{{cross}})\mathbf{c}\Big)\nonumber\\
+&=&\Big\{\Re\Big[\mathbf{R}'(\mathbf{X}^{\textrm{Cust} })' \mathbf{X}^{\textrm{Cust}}\mathbf{R}\Big]+
+\lambda_{{smooth}}\mathbf{R}'\boldsymbol{\Lambda}_{{smooth}}\mathbf{R}+\lambda_{{cross}}\mathbf{R}'\boldsymbol{\Lambda}_{cross}\mathbf{R}+\lambda_{{decay},2}\mathbf{R}'\boldsymbol{\Lambda}_{decay}\mathbf{R}
+\Big\}^{-1}\nonumber\\
+&&\Big((\Re(\mathbf{X}^{\textrm{Cust}})\mathbf{R})'
+\mathbf{Y}^{\textrm{Cust}}+\mathbf{Const}\Big)
+\end{eqnarray}
+where 
+\begin{eqnarray*}
+\mathbf{Const}=-\mathbf{R}'\Big\{\Re\Big[(\mathbf{X}^{\textrm{Cust}})'\mathbf{X}^{\textrm{Cust}}\Big]+
+\lambda_{{smooth}}\boldsymbol{\Lambda}_{{smooth}}+\lambda_{{cross}}\boldsymbol{\Lambda}_{{cross}}+
+\lambda_{{decay},2}\boldsymbol{\Lambda}_{{decay}}\Big\}\mathbf{c}
+\end{eqnarray*}
+This last term collects all level constraints\footnote{Indeed, $\mathbf{c=0}$ if $i1=F$.}. A comparison with \ref{bregcustreg} illustrates that both expressions - with or without constraints - are formally quite similar, up to the additional transformation by $\mathbf{R}$ and the emergence of a new generalized level-shift $\mathbf{Const}$: setting $\mathbf{R=Id}$ and $\mathbf{c=0}$ (no constraints involved) in the above solution indeed replicates  \ref{bregcustreg}. The result of the optimization is $\mathbf{b_f}$, the vector of freely determined coefficients. 
+The sought-after `full-coefficient' vector $\mathbf{b}$, which is indispensable for the filtering-task, is then obtained from \ref{cons5s}.\\
+
+
+\subsection{Empirical Example: Constrained Regularized Customized Design}
+
+To be filled...
+
+
+\section{Effective Degrees of $\textrm{Freedom}^*$}\label{reg_tr_eff_deg_free}
+
+In the absence of regularization, the number of effective degrees of freedom $edof$ coincides with the number of freely determined filter coefficients (the length of the stacked vector $\mathbf{b_f}$); otherwise, $edof$ is reduced. We here derive a statistic which extends  $edof$ to the generic Regularization Troika. In contrast to the classic (real-valued) linear regression framework, the MDFA-criterion is subject to technical  peculiarities because the filter coefficients, as determined in a complex-valued space (frequency-domain), are required to be real-valued. As a result, the hat-matrix is neither symmetric, nor a projection anymore. As we shall see, this problem can be overcome by introducing a so-called adjoined imaginary estimate (the purely imaginary least-squares solution) and by augmenting the original hat-matrix by the resulting adjoined hat-matrix. For technically-averse readers, the results in this section can be skipped without impairing comprehension of later topics. %Determining a meaningful statistic for inferring this number in the presence of regularization is a non-trivial task and, moreover, a potentially equivocal prospect since multiple definitions are provided in the literature\footnote{A quick-and-dirty review is proposed in ????. These definitions are equivalent in the absence of regularization but they differ otherwise because the hat-matrix (to be defined below) is no more a projection, in general.}. However, a unique pertinent definition can be obtained when aiming at an explicit control of overfitting. For that purpose we address the \emph{spurious} decrease of the empirical  mean-square filter error or, equivalently, the spurious decrease of the criterion value as a function of the number of filter coefficients\footnote{Our approach is similar, in spirit, to ???, though not identical.}. In analogy to the previous section we distinguish unconstrained and constrained designs. 
+
+
+\subsection{Hat-Matrix and Residual-Matrix}
+
+For simplicity of exposition we here treat the unconstrained case as obtained by criterion \ref{regcustreg}.
+The so-called \emph{hat-matrix} $\mathbf{H}$ is defined by 
+\begin{eqnarray}
+\mathbf{H}&=&\mathbf{X}^{\textrm{Cust}}\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}+
+\lambda_{{smooth}}\boldsymbol{\Lambda}_{smooth}+\lambda_{{cross}}\boldsymbol{\Lambda}_{cross}+\lambda_{{decay},2}\boldsymbol{\Lambda}_{decay}
+\right)^{-1}\Re(\mathbf{X}^{\textrm{Cust}})'\label{hat_matrix_ex}
+\end{eqnarray}
+Thus
+\[\mathbf{\hat{Y}^{\textrm{Cust}}:={X}^{\textrm{Cust}}\hat{b}}=\mathbf{HY^{\textrm{Cust}}}\]
+i.e. $\mathbf{H}$ maps the dependent variable $\mathbf{Y}$ onto $\mathbf{\hat{Y}^{\textrm{Cust}}}$. In the absence of regularization, the expression for $\mathbf{H}$ simplifies to
+\begin{eqnarray*}
+\mathbf{H}&=&\mathbf{X}^{\textrm{Cust}}\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}
+\right)^{-1}\Re(\mathbf{X}^{\textrm{Cust}})'
+\end{eqnarray*}
+Note that $\mathbf{\hat{Y}^{\textrm{Cust}}}$  lies in a particular subspace of the complex plane spanned by the data $\mathbf{X}^{\textrm{Cust}}$, determined by the requirement that the least-squares solution must be real-valued\footnote{If we relaxed this restriction, i.e. if we allowed for an unrestricted complex-valued least-squares solution, then the resulting hat-matrix would be
+\[\mathbf{H}=\mathbf{X}^{\textrm{Cust}}\left((\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\right)^{-1}(\mathbf{X}^{\textrm{Cust}})'\]
+This matrix would be a symmetric (hermitian) projection with eigenvalues either one or zero.}. Therefore, the complex-valued hat-matrix $\mathbf{H}$ is generally asymmetric ($\mathbf{H}\neq \mathbf{H}'$) and it is no more a projection since 
+\begin{eqnarray*}
+\mathbf{H'H}&=&\mathbf{\overline{H}^TH}\\
+&=&\Re(\mathbf{X}^{\textrm{Cust}})\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}
+\right)^{-1}(\mathbf{X}^{\textrm{Cust}})'\mathbf{X}^{\textrm{Cust}}\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}
+\right)^{-1}\Re(\mathbf{X}^{\textrm{Cust}})\\
+&\neq& \mathbf{H}
+\end{eqnarray*}
+Interestingly, though, an idempotency is obtained when focusing on the real-parts only:
+\begin{eqnarray*}
+\Re\left(\mathbf{H'H}\right)&=&\Re(\mathbf{X}^{\textrm{Cust}})\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}
+\right)^{-1}\Re\Big((\mathbf{X}^{\textrm{Cust}})'\mathbf{X}^{\textrm{Cust}}\Big)\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}
+\right)^{-1}\Re(\mathbf{X}^{\textrm{Cust}})\\
+&=&\Re(\mathbf{X}^{\textrm{Cust}})\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}
+\right)^{-1}\Re(\mathbf{X}^{\textrm{Cust}}) \\
+&=&\Re(\mathbf{H})
+\end{eqnarray*}
+Also, in contrast to the classic linear regression framework, the eigenvalues of $\mathbf{H}$ are not restricted to unity or zero: they are generally complex-valued and can be larger or smaller than one, in absolute value. Finally, the trace of the hat-matrix does not correspond to the effective degrees of freedom, anymore
+\[tr(\mathbf{H})\neq (m+1)L\]
+In fact, $tr(\mathbf{H})$ is a (data-dependent) random-variable. \\
+
+The \emph{residual-matrix} $\mathbf{Res}$ is defined by
+\[\mathbf{Res:=I-H}\]
+It maps the dependent variable $\mathbf{Y}$ onto the filter error $\mathbf{(I-H)Y}=\mathbf{Y}-\hat{\mathbf{Y}}$. In analogy to the former hat-matrix, the latter residual-matrix  is no more symmetric, it is no more a projection and its trace is a (data-dependent) random-variable. Interestingly, though, 
+\begin{eqnarray*}
+\Re\left(\mathbf{(I-H)'\hat{Y}}\right)&=&\Re\left(\mathbf{(I-H)'HY}\right)\\
+&=&\left(\Re(\mathbf{H})-\Re(\mathbf{H'H})\right)\mathbf{Y}\\
+&=&\mathbf{0}
+\end{eqnarray*}
+i.e. the residual-matrix retains orthogonality, at least for real parts. 
+We now propose an extension of these (classic) concepts which allow for a formal and general definition of the number of effective degrees of freedom $edof$ in the generic MDFA-framework. 
+
+
+
+
+\subsection{A Generalization of $edof$: Adjoined Complex Estimate and Symmetric Augmentation of the Hat-Matrix}
+
+The origin of the above difficulties resides in the asymmetry of the hat-matrix $\mathbf{H}$ which is imputable to its imaginary part. Fundamentally, this asymmetry is caused by requiring the least-squares coefficient-vector $\hat{\mathbf{b}}$ to be real-valued. Consider now the following (asymmetric) optimization problem
+\begin{eqnarray*}
+&&(\mathbf{Y}^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)i\mathbf{b})'(\mathbf{Y}^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)i\mathbf{b})\\
+&=&\left|\mathbf{Y}^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)i\mathbf{b}\right|^2\\
+&=&\left|-i\mathbf{Y}^{\textrm{Cust}}(\eta)-\mathbf{X}^{\textrm{Cust}}(\lambda,\eta)\mathbf{b}\right|^2
+\end{eqnarray*}
+where $i\mathbf{b}$ is supposed to be purely imaginary. The last equation suggests that we may be looking for a purely real solution $\mathbf{b}$ after rotating the (real-valued) target by $\pi/2$, from $\mathbf{Y}^{\textrm{Cust}}(\eta)$ to $-i\mathbf{Y}^{\textrm{Cust}}(\eta)$. We name this problem \emph{adjoined  optimization criterion} and  the resulting purely imaginary (least-squares) solution is called \emph{adjoined estimate}. Its closed-form is obtained from
+\begin{eqnarray*}
+d/d\mathbf{b}~\textrm{Adjoined Criterion}&=&d/d\mathbf{b}~ (-i\mathbf{Y^{\textrm{Cust}}-X^{\textrm{Cust}}b})'(-i\mathbf{Y^{\textrm{Cust}}-X^{\textrm{Cust}}b})\\
+&=&-(-i\mathbf{Y}^{\textrm{Cust}}-\mathbf{X^{\textrm{Cust}}b})'\mathbf{X^{\textrm{Cust}}}-(-i\mathbf{Y}^{\textrm{Cust}}-\mathbf{X^{\textrm{Cust}}b)^T\overline{X^{\textrm{Cust}}}}\nonumber\\
+&=&2\mathbf{Y^{\textrm{Cust}}}'\Im\left(\mathbf{X^{\textrm{Cust}}}\right)+2\mathbf{b}'\mathbf{\Re((X^{\textrm{Cust}})'X^{\textrm{Cust}})}\nonumber
+\end{eqnarray*}
+where we used the fact that $(i\mathbf{Y}^{\textrm{Cust}})'=-i(\mathbf{Y}^{\textrm{Cust}})'$, since $\mathbf{Y}^{\textrm{Cust}}$ is real-valued. We deduce that the adjoined (purely imaginary) least-squares estimate $\mathbf{\hat{b}}^{ad}$ is obtained as
+\begin{eqnarray*}
+\mathbf{\hat{b}}^{ad}&=&-i\mathbf{\left(\Re((X^{\textrm{Cust}})'X^{\textrm{Cust}})\right)^{-1}}\mathbf{\Im\left(X^{\textrm{Cust}}\right)'Y^{\textrm{Cust}}}\\
+&=&i\mathbf{\left(\Re((X^{\textrm{Cust}})'X^{\textrm{Cust}})\right)^{-1}}\mathbf{\Im\left((X^{\textrm{Cust}})'\right)Y^{\textrm{Cust}}}
+\end{eqnarray*}
+where the last equality follows from $\mathbf{\Im\left(X^{\textrm{Cust}}\right)'}=-\mathbf{\Im\left((X^{\textrm{Cust}})'\right)}$. 
+The corresponding adjoined hat-matrix $\mathbf{H}^{ad}$ is
+\begin{eqnarray*}
+\mathbf{H}^{ad}=i\mathbf{X^{\textrm{Cust}}}\mathbf{\left(\Re((X^{\textrm{Cust}})'X^{\textrm{Cust}})\right)^{-1}}\mathbf{\Im\left((X^{\textrm{Cust}})'\right)}
+\end{eqnarray*}
+Let us now define the \emph{augmented hat-matrix} $\mathbf{H}^{aug}$ as the sum of original and adjoined hat-matrices
+\begin{eqnarray*}
+\mathbf{H}^{aug}&=&\mathbf{H}+\mathbf{H}^{ad}\\
+&=&\mathbf{X^{\textrm{Cust}}}\mathbf{\left(\Re((X^{\textrm{Cust}})'X^{\textrm{Cust}})\right)^{-1}}\mathbf{\left(X^{\textrm{Cust}}\right)'}
+\end{eqnarray*}
+From the last equality we infer that the augmented hat-matrix is symmetric\footnote{Note however that it is not a projection.} $\mathbf{H}^{aug}=(\mathbf{H}^{aug})'$ and therefore its diagonal must be real-valued\footnote{Recall that $(\mathbf{H}^{aug})'=\overline{\mathbf{H}^{aug}}^T$ is the hermitian conjugate.}. We then obtain 
+\begin{eqnarray*}
+tr(\mathbf{H}^{aug})&=&tr\left(\mathbf{X}^{\textrm{Cust}}\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}
+\right)^{-1}(\mathbf{X}^{\textrm{Cust}})'\right)\\
+&=&tr\left((\mathbf{X}^{\textrm{Cust}})'\mathbf{X}^{\textrm{Cust}}\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}\right)^{-1}\right)\\
+&=&tr\left(\Re\Big\{(\mathbf{X}^{\textrm{Cust}})'\mathbf{X}^{\textrm{Cust}}\Big\}\left(\Re\big\{(\mathbf{X}^{\textrm{Cust}})' \mathbf{X}^{\textrm{Cust}}\big\}\right)^{-1}\right)\\
+&=&tr(\mathbf{I}_{(m+1)L})\\
+&=&(m+1)L
+\end{eqnarray*}
+where the third equality is a consequence of the trace being real and linear and where $\mathbf{I}_{(m+1)L}$ is an $(m+1)L*(m+1)L$-dimensional identity. Since the trace of the augmented hat-matrix $\mathbf{H}^{aug}$ is a fixed number (not a random variable depending on the data) coinciding with $edof=(m+1)L$\footnote{It is assumed that the data is of full rank.} in the absence of regularization, we are now in a position to extend the concept of the effective degrees of freedom to the case of arbitrary regularization by defining
+\begin{eqnarray*}
+edof(\boldsymbol{\lambda}_{decay},\lambda_{smooth},\lambda_{cross}):=tr(\mathbf{H}^{aug}(\boldsymbol{\lambda}_{decay},\lambda_{smooth},\lambda_{cross}))
+\end{eqnarray*}
+where the augmented hat-matrix $\mathbf{H}^{aug}(\cdot)$ is now considered as a function of the general regularization settings. This number has been reported in the previous figures: in the presence of regularization it is generally non-integer valued. To conclude, note that the constrained and regularized optimization criterion \ref{bregcustregconst} can be tackled analogously and does not deserve a separate treatment here.
+
+
+
+
+
+\subsection{Empirical Examples}
+
+To be filled
+
+
+
+
+
+
+
+
+
+
+
+
+\section{The Troikaner}
+
+To be filled...
+
+\subsection{Generalized Information Criterion}
+
+
+
+\section{General H0-Shrinkage}\label{h0_shrink}
+
+To be filled...
+
+\subsection{Zero-Shrinkage vs. Regularization: Potentially Conflicting Requirements}
+
+
+\subsection{Inclusion of A Priori Knowledge}
+
+
+\subsection{Replicating (and Enhancing) Clients' Performances}
+
+\section{Optimization Criterion under General H0-Shrinkage}
+
+To be filled...
+
+
+\section{MDFA-Stages}
+
+To be filled...
+
+\begin{itemize}
+\item Numerically (very) fast
+\item Statistically efficient
+\item Immunized against Overfitting
+\item Highly Adaptive
+\end{itemize}
+
+
+
+\section{Unsmoothing}
+
+Difficult task: heavy smoothing. It requires long filters which are prone to overfitting (if not regularized). Idea:
+\begin{itemize}
+\item Apply a very simple (univariate) 0-stage filter which oversmooths the data (for example equally weighted or white noise DFA with very small cutoff)
+\item At the first MDFA-stage apply a filter of length 2 or 3 with 0-shrinkage, based on the multivariate DFT, whose purposes are
+\begin{itemize}
+\item Account for sign (unemployment vs- production)
+\item Account for scale (if series are not standardized)
+\item Account for time-shift by unsmoothing the stage 0 filter (L>=2 allows for difference-like designs which unsmooth the filtered data and provide an anticipation)
+\end{itemize}
+\item Statistically efficient
+\item Immunized against Overfitting
+\item Highly Adaptive
+\end{itemize}
+
+
+
+\section{Summary}
+
+\begin{itemize}
+\item Overfitting is an unavoidable and direct consequence of determining filter coefficients according to an optimization principle: the perfected in-sample fit systematically understates the difficulty of the estimation problem. 
+\item The transition from in-sample to out-of-sample performances  is generally smooth and gradual in signal-extraction problems (in contrast to classic one-step ahead forecasting) and the transition depends on the rate of decay of the coefficients $\gamma_k$ of the target.  
+\item Improving out-of-sample performances by taming overfitting is an imbalancing act, whereby shrinkage-gains must outweigh misspecification-losses.
+\item The Regularization Troika complies with this view by assigning soft preferences to sub-spaces which are felt to be of universal relevance in terms of longitudinal decay, longitudinal smoothness and cross-sectional similarity of filter coefficients. If these characteristics are shared by the truly best (but unobserved) coefficients, then shrinkage does not conflict with efficiency.
+\item Finding optimal regularization weights $\boldsymbol{\lambda}_{decay},\lambda_{smooth}, \lambda_{cross}$ is a balancing act whose outcome strongly depends on user-preferences (utility function\footnote{As a factual example, mean-square performances and trading performances are incongruent to a large extent, due to scale-invariance, anisotropy and non-linearity effects.}). 
+\item The solution of the regularized quadratic criterion can be obtained in closed form. 
+\item An expression for the effective degrees of freedom of a regularized filter can be derived by augmenting the original hat-matrix, corresponding to the purely real-valued least-squares solution, by the adjoined hat-matrix, corresponding to the purely imaginary least-squares solution.
+\end{itemize}

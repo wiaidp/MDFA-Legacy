@@ -1,0 +1,19 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+\chapter{Summary and Links}
+
+\section{Survey of MDFA Optimization Criteria}
+
+\section{Consistency and Efficiency: a Tale of Two Philosophies}
+
+\subsection{Knowing the Truth: Omniscience}
+
+\subsection{Believing in Truth: Faith and Fatalism}
+
+\subsection{From Truth to Effectiveness: Emphasizing Performances}
+
+
+
+

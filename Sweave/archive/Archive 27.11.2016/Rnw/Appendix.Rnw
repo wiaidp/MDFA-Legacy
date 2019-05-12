@@ -1,0 +1,299 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+
+
+
+
+\chapter*{Appendix} \begin{appendix} \Appendix    
+% This makes the section title start with Appendix!
+\renewcommand{\theequation}{A.\arabic{equation}}
+\setcounter{equation}{0} 
+
+
+\section{Discrete Sums of Trigonometric Terms }\label{dstt}
+
+\begin{Proposition}\label{discret_sums}
+Let $\displaystyle{\omega_k=\frac{2k\pi}{T}}$ and $j=0,...,T-1$. For odd sample sizes $T$ we have
+\begin{eqnarray*}
+\sum_{k=-(T-1)/2}^{(T-1)/2} \exp(ij\omega_k)&=&\left\{\begin{array}{cc}T~&~j=0\\0~&\textrm{otherwise}\end{array}\right.\\
+\sum_{k=-(T-1)/2}^{(T-1)/2} \cos(j\omega_k)&=&\left\{\begin{array}{cc}T~&~j=0\\0~&\textrm{otherwise}\end{array}\right.\\
+\sum_{k=-(T-1)/2}^{(T-1)/2} \sin(j\omega_k)&=&0
+\end{eqnarray*}
+For even sample sizes $T$ we obtain similarly
+\begin{eqnarray*}
+\sum_{k=-T/2}^{T/2} w_k\exp(ij\omega_k)&=&\left\{\begin{array}{cc}T~&~j=0\\0~&\textrm{otherwise}\end{array}\right.\\
+\sum_{k=-T/2}^{T/2} w_k\cos(j\omega_k)&=&\left\{\begin{array}{cc}T~&~j=0\\0~&\textrm{otherwise}\end{array}\right.\\
+\sum_{k=-T/2}^{T/2} w_k\sin(j\omega_k)&=&0
+\end{eqnarray*}
+where $w_k=\left\{\begin{array}{cc}1&|k|<T/2\\1/2&|k|=T/2\end{array}\right.$
+ \end{Proposition}
+
+\textbf{Proof}\\
+Sums of sines vanish by (a)symmetry. Therefore sums of cosines and sums of complex exponentials must be identical. For odd $T$ and $j\neq 0$ we have
+\begin{eqnarray*}
+\sum_{k=-(T-1)/2}^{(T-1)/2} \exp(ij\omega_k)&=&\exp\left(ij\omega_{-(T-1)/2}\right)\sum_{k=0}^{T-1} \exp\left(ij\omega_k\right)\\
+&=&\exp\left(ij\omega_{-(T-1)/2}\right)\frac{1-\exp\left(ij\frac{2T\pi}{T}\right)}{1-\exp\left(ij\frac{2\pi}{T}\right)}\\
+&=&0
+\end{eqnarray*}
+For $j=0$ the proof follows from $\exp(ij\omega_k)=1$. For even $T$ we obtain
+\begin{eqnarray*}
+\sum_{k=-T/2}^{T/2} w_k\exp(ij\omega_k)&=&\exp\left(ij\omega_{-T/2}\right)\sum_{k=0}^{T} w_{k-T/2}\exp\left(ij\omega_k\right)\\
+&=&\exp\left(ij\omega_{-T/2}\right)\sum_{k=0}^{T-1} \exp\left(ij\omega_k\right)\\
+&=&\exp\left(ij\omega_{-T/2}\right)\frac{1-\exp\left(ij\frac{2T\pi}{T}\right)}{1-\exp\left(ij\frac{2\pi}{T}\right)}\\
+&=&0
+\end{eqnarray*}
+\\
+
+The following corollary is a direct consequence of the above results
+\begin{Corollary}\label{discret_sums_cor}
+\[\frac{1}{T}\sum_{j=0}^{T-1}\exp(-ij\omega_k)=\left\{\begin{array}{cc}
+1&\textrm{if~}\omega_k=0\\0&~\textrm{otherwise}\end{array}\right.\]
+\end{Corollary}
+
+
+\section{Discrete Convolution}\label{dis_con_app}
+
+
+
+\begin{Proposition}\label{convolution theorem}
+Let \(Y_{it}=\sum_{k=-\infty}^\infty \gamma_{ik} X_{i,t-k}, i=1,2\)
+be the outputs of arbitrary (not necessarily symmetric) filters with
+transfer functions \(\Gamma_i(\cdot), i=1,2\) and input series
+$X_{it}$, $i=1,2$.  Define
+\begin{eqnarray}\label{prop1085}
+r_T&:=&\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}\Xi_{TY_1}(\omega_j)\overline{\Xi_{TY_2}(\omega_j)}\nonumber\\
+    &-& \frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}\Gamma_1(\omega_j)\Xi_{TX_1}(\omega_j)
+    \overline{\Gamma_2(\omega_j)\Xi_{TX_2}(\omega_j)}
+    \end{eqnarray}
+    If $X_{it}\in C_f^0, i=1,2$ then
+\begin{eqnarray}
+E[|r_T|]=\left\{\begin{array}{cc}\textrm{o}(1/\sqrt{T})~\textrm{~if~~}\Gamma_i(\cdot)\in
+C_f^{1/2},i=1,2\\
+\textrm{O}(1/T)~\textrm{~if~~}\Gamma_i(\cdot)\in
+C_f^{1},i=1,2\end{array}\right.
+\end{eqnarray}
+\end{Proposition}
+Proof:\\
+
+Recall that we assume the sample size $T$ to be an odd integer for
+notational simplicity (similar though slightly modified developments
+apply in the case of even $T$). Let
+\begin{eqnarray*}
+R_{j}(\omega)&:=&\Xi_{TY_j}(\omega)-\Gamma(\omega)\Xi_{TX_j}(\omega)
+\end{eqnarray*}
+For stationary $X_t\in C_f^0$   theorem 4.8 in Wildi (2005) 
+shows that
+\begin{eqnarray}\label{frt}
+E[|R_{j}(\omega)|^2]=\textrm{O}(1/{T})
+\end{eqnarray}
+uniformly in $j$. Consider now the relevant error term
+\begin{eqnarray}
+r_T&=&\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}\Xi_{TY_1}(\omega_j)\overline{\Xi_{TY_2}(\omega_j)}\nonumber\\
+&&-\frac{2\pi}{T}\sum_{j=(T-1)/2}^{(T-1)/2}\Gamma_1(\omega_j)\Xi_{TX_1}(\omega_j)
+    \overline{\Gamma_2(\omega_j)\Xi_{TX_2}(\omega_j)}\nonumber\\
+&=&\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}\left(R_1(\omega_j)+\Gamma_1(\omega_j)\Xi_{TX_1}(\omega_j)\right)\nonumber\\
+&&\overline{\left(R_2(\omega_j)+\Gamma_2(\omega_j)\Xi_{TX_2}(\omega_j)\right)}\nonumber\\
+&&-\frac{2\pi}{T}\sum_{j=(T-1)/2}^{(T-1)/2}\Gamma_1(\omega_j)\Xi_{TX_1}(\omega_j)
+    \overline{\Gamma_2(\omega_j)\Xi_{TX_2}(\omega_j)}\nonumber\\
+&=&\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}R_1(\omega_j)\overline{R_2(\omega_j)}\nonumber\\
+&&+\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}R_1(\omega_j)
+\overline{\Gamma_2(\omega_j)\Xi_{TX_2}(\omega_j)}\label{ssp}\\
+&&+\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}\Gamma_1(\omega_j)\Xi_{TX_1}(\omega_j)\overline{R_2(\omega)}\nonumber
+\end{eqnarray}
+Using \ref{frt} and the Cauchy-Schwartz-inequality, the first
+summand is of order $\textrm{O}(1/T)$ and can be neglected. We now
+show that the second summand is of order $\textrm{o}(1/\sqrt{T})$
+(in absolute mean). A similar reasoning would apply to the third one
+by symmetry. \\
+From
+\begin{eqnarray}
+\Xi_{TY_j}(\omega)&=&\frac{\sqrt{2\pi}}{\sqrt{T}}\sum_{t=1}^TY_{jt}\exp(-it \omega )\nonumber\\
+&=&\frac{\sqrt{2\pi}}{\sqrt{T}}\sum_{t=1}^T
+\left(\sum_{k=-\infty}^{\infty}\gamma_{jk} X_{j,t-k} \right)
+\exp(-it
+\omega)\nonumber\\
+&=&\sum_{k=-\infty}^{\infty}\gamma_{jk}\exp(-ik\omega)\frac{\sqrt{2\pi}}{\sqrt{T}}
+\sum_{t=1}^{T}
+X_{j,t-k}\exp(-i(t-k)\omega)\nonumber\\
+&=&\sum_{k=-\infty}^{\infty}\gamma_{jk}\exp(-ik\omega)\frac{\sqrt{2\pi}}{\sqrt{T}}
+\sum_{t=1-k}^{T-k} X_{jt}\exp(-it\omega)\nonumber
+\end{eqnarray}
+one deduces
+\begin{eqnarray}
+R_{j}(\omega_n)&:=&\Xi_{TY_j}(\omega_n)-\Gamma(\omega_n)\Xi_{TX_j}(\omega_n)\nonumber\\
+&=&\sum_{k=-\infty}^{\infty}\gamma_{jk}\exp(-ik\omega_n)\nonumber\\
+&&\frac{\sqrt{2\pi}}{\sqrt{T}} \left(\sum_{t=1-k}^{T-k}
+X_{jt}\exp(-it\omega_n)-\sum_{t=1}^{T}
+X_{jt}\exp(-it\omega_n)\right)\nonumber\\
+&=&\sum_{k=-\infty}^{\infty}\gamma_{jk}\exp(-ik\omega_n)\frac{\sqrt{2\pi}}{\sqrt{T}}\nonumber\\
+&&\left[\sum_{t=1}^{\min(k,T)} \Big(X_{j,t-k}\exp(-i(t-k)\omega_n)\right.\nonumber\\
+&&-X_{j,T+t-k}\exp(-i(T+t-k)\omega_n)\Big)\nonumber\\
+&&+\sum_{t=1}^{\min(-k,T)}
+\Big(X_{j,T+1-t-k}\exp(-i(T+1-t-k)\omega_n)\nonumber\\
+&&-X_{j,1-t-k}\exp(-i(1-t-k)\omega_n)\Big)\Bigg]
+\nonumber\\
+&=&\sum_{k=-\infty}^{\infty}\gamma_{jk}\exp(-ik\omega_n)\frac{\sqrt{2\pi}}{\sqrt{T}}\nonumber\\
+&&\left[\sum_{t=1}^{\min(k,T)} \Big(X_{j,t-k}-X_{j,T+t-k}\Big)\exp(-i(t-k)\omega_n)\right.\nonumber\\
+&&+\left.\sum_{t=1}^{\min(-k,T)}
+\Big(X_{j,T+1-t-k}-X_{j,1-t-k}\Big)\exp(-i(1-t-k)\omega_n)\right]\nonumber
+\end{eqnarray}
+where the last equality follows from $T\omega_n$ being a multiple of
+$2\pi$. We now analyze the error component \ref{ssp}.
+\begin{eqnarray*}
+&&\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}R_1(\omega_j)
+\overline{\Gamma_2(\omega_j)\Xi_{TX_2}(\omega_j)}\\
+&=&\left(\frac{2\pi}{T}\right)^2\sum_{j=-(T-1)/2}^{(T-1)/2}\sum_{k=-\infty}^\infty
+\sum_{l=-\infty}^\infty
+I_{\{l>0\}}\\
+&&\times\sum_{r=1}^{\min(l,T)} \sum_{t=1}^{T}
+\gamma_{2k}\gamma_{1l}X_{2t}
+\Big(X_{1,r-l}-X_{1,T+r-l}\Big)\exp(-i(r-l-k-t)\omega_j)\\
+&&+\left(\frac{2\pi}{T}\right)^2\sum_{j=-(T-1)/2}^{(T-1)/2}\sum_{k=-\infty}^\infty
+\sum_{l=-\infty}^\infty
+I_{\{l<0\}}\\
+&&\times\sum_{r=1}^{\min(-l,T)} \sum_{t=1}^{T} \gamma_{2k}\gamma_{1l}X_{2t} \Big(X_{1,T+1-r-l}-X_{1,1-r-l}\Big)\\
+&&\exp(-i(1-r-l-k-t)\omega_j)
+\end{eqnarray*}
+where $I_{\{l>0\}}$ and $I_{\{l<0\}}$ are indicator functions. For
+$k,l,r$ fixed let\\ $s=r-l-k ~\textrm{mod}(T)$ so that
+\begin{eqnarray*}
+\frac{1}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}
+\exp(-i(r-l-k-t)\omega_j)=\left\{\begin{array}{cc}
+0& t\not=s\\
+1& \textrm{else}
+\end{array}\right.
+\end{eqnarray*}
+Thus
+\begin{eqnarray*}
+&&E\left[\left|\frac{1}{T} \sum_{t=1}^{T}
+\gamma_{2k}\gamma_{1l}X_{2t} \Big(X_{1,r-l}-X_{1,T+r-l}\Big)\right.\right.\\
+&&\left.\left.\sum_{j=-(T-1)/2}^{(T-1)/2}\exp(-i(r-l-k-t)\omega_j)\right|\right]\\
+&\leq& 2|\gamma_{2k}\gamma_{1l}|\sqrt{E[X_{1t}^2]E[X_{2t}^2]}
+\end{eqnarray*}
+and analogously
+\begin{eqnarray*}
+&&E\left[\left|\frac{1}{T} \sum_{t=1}^{T}
+\gamma_{2k}\gamma_{1l}X_{2t}
+\Big(X_{1,T+1-r-l}-X_{1,1-r-l}\Big)\right.\right.\\
+&&\left.\left. \sum_{j=-(T-1)/2}^{(T-1)/2}\exp(-i(1-r-l-k-t)\omega_j)\right|\right]\\
+&\leq& 2|\gamma_{2k}\gamma_{1l}|\sqrt{E[X_{1t}^2]E[X_{2t}^2]}
+\end{eqnarray*}
+Therefore
+\begin{eqnarray*}
+E[|r_T|]&\leq&E\left[\left|\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}R_1(\omega_j)
+\overline{\Gamma_2(\omega_j)\Xi_{TX_2}(\omega_j)}\right|\right]\\
+&&+E\left[\left|\frac{2\pi}{T}\sum_{j=-(T-1)/2}^{(T-1)/2}\Gamma_1(\omega_j)\Xi_{TX_1}(\omega_j)\overline{R_2(\omega)}
+\right|\right]+\textrm{O}(1/T)\\
+&\leq& \frac{4\pi^2}{T}\sum_{k=-\infty}^\infty
+\sum_{l=-\infty}^\infty 2
+|\gamma_{2k}\gamma_{1l}||\min(|l|,T)|\sqrt{E[X_{1t}^2]E[X_{2t}^2]}\\
+&&+ \frac{4\pi^2}{T}\sum_{k=-\infty}^\infty \sum_{l=-\infty}^\infty
+2
+|\gamma_{2k}\gamma_{1l}||\min(|k|,T)|\sqrt{E[X_{1t}^2]E[X_{2t}^2]}\\
+&&+\textrm{O}(1/T) \\
+&=&\left\{\begin{array}{cc}\textrm{o}(1/\sqrt{T})~\textrm{~if~~}\Gamma_i(\cdot)\in
+C_f^{1/2}, i=1,2\\\textrm{O}(1/T)~\textrm{~if~~}\Gamma_i(\cdot)\in
+C_f^{1}, i=1,2\end{array}\right.
+\end{eqnarray*}
+where the last equality - for $\Gamma_1(\cdot)\in C_f^{1/2}$ -
+follows from
+\begin{eqnarray*}
+ &&\frac{1}{T}\sum_{k=-\infty}^\infty \sum_{l=-\infty}^\infty |\gamma_{2k}\gamma_{1l}||\min(|l|,T)|\\
+ &\leq&
+ \frac{1}{\sqrt{T}}\sum_{k=-\infty}^\infty |\gamma_{2k}|\sum_{l=-\infty}^\infty  |\gamma_{1l}||\sqrt{|l|}|\frac{\sqrt{\min(|l|,T)}}{\sqrt{T}}\\
+&=&\textrm{o}(1/\sqrt{T})
+\end{eqnarray*}
+since $\Gamma_1(\cdot)\in C_f^{1/2}$ and
+$\displaystyle{\lim_{T\to\infty}\frac{\sqrt{\min(|l|,T)}}{\sqrt{T}}}=0$
+for each $l$ (and analogously for $\Gamma_2(\cdot)\in
+C_f^{1/2},C_f^1$). This completes the proof of the proposition. \\
+
+
+
+
+
+
+\section{Performances Customized Designs}\label{perf_cust_des_ap}
+
+
+\subsection{Peak Correlations, Curvatures and MSEs: In- and Out-of-Sample Distributions}\label{app_double_score_ats}
+
+
+The following graphs correspond to the in- and out-of-sample distributions of peak-correlations, curvatures and sample MSEs for the processes $a_1=0.9$ and $a_1=-0.9$ in section \ref{double_score_ats}.
+
+\subsubsection{$a_1=0.9$}
+
+
+<<label=z_box_plot_emp_per_perf_inout_1.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_emp_per_perf_inout_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Empirical distributions
+  of Curvature and Peak-Correlation of best theoretical MSE (red), empirical MSE (yellow), balanced customized (green),
+  unbalanced smoothness (cyan) and unbalanced timeliness (blue) filters. All empirical filters are based on the periodogram:
+  in-sample (left plots) and out-of-sample (right plots) for a1=-0.9", sep = "")
+  cat("\\label{z_box_plot_emp_per_perf_inout_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+
+<<label=z_box_plot_emp_per_perf_mse_inout_1.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_emp_per_perf_mse_inout_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Empirical distributions
+  of Sample MSEs of best theoretical MSE (red), empirical MSE (yellow), balanced customized (green),
+  unbalanced smoothness (cyan) and unbalanced timeliness (blue) filters. All empirical filters are based on the periodogram:
+  in-sample (left plots) and out-of-sample (right plots) for a1=-0.9", sep = "")
+  cat("\\label{z_box_plot_emp_per_perf_mse_inout_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+
+\subsubsection{$a_1=-0.9$}
+
+<<label=z_box_plot_emp_per_perf_inout_3.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_emp_per_perf_inout_3", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Empirical distributions
+  of Curvature and Peak-Correlation of best theoretical MSE (red), empirical MSE (yellow), balanced customized (green),
+  unbalanced smoothness (cyan) and unbalanced timeliness (blue) filters. All empirical filters are based on the periodogram:
+  in-sample (left plots) and out-of-sample (right plots) for a1=0.9", sep = "")
+  cat("\\label{z_box_plot_emp_per_perf_inout_3}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+
+
+<<label=z_box_plot_emp_per_perf_mse_inout_3.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_box_plot_emp_per_perf_mse_inout_3", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Empirical distributions
+  of  Sample MSEs of best theoretical MSE (red), empirical MSE (yellow), balanced customized (green),
+  unbalanced smoothness (cyan) and unbalanced timeliness (blue) filters. All empirical filters are based on the periodogram:
+  in-sample (left plots) and out-of-sample (right plots) for a1=0.9", sep = "")
+  cat("\\label{z_box_plot_emp_per_perf_mse_inout_3}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+
+
+
+
+\section{MDFA: R-Code}
+
+
+
+\end{appendix}

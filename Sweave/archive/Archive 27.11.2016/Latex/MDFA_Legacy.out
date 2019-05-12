@@ -1,0 +1,181 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Classic Model-Based Paradigm}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{A Shift of Perspective: Tackling the \(Relevant\) Problem-Structure and Addressing User-Priorities}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Univariate DFA}{chapter.1}% 4
+\BOOKMARK [1][-]{section.1.4}{This Book's Contribution: Multivariate \(M-\) DFA}{chapter.1}% 5
+\BOOKMARK [1][-]{section.1.5}{R-Code}{chapter.1}% 6
+\BOOKMARK [2][-]{subsection.1.5.1}{Getting Started: Setting the Paths}{section.1.5}% 7
+\BOOKMARK [2][-]{subsection.1.5.2}{DFA}{section.1.5}% 8
+\BOOKMARK [2][-]{subsection.1.5.3}{MDFA}{section.1.5}% 9
+\BOOKMARK [2][-]{subsection.1.5.4}{Feeding and Controlling MDFA}{section.1.5}% 10
+\BOOKMARK [0][-]{chapter.2}{Classic Mean-Square Error \(MSE\) Perspective}{}% 11
+\BOOKMARK [1][-]{section.2.1}{Introduction}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.2}{DFA Booster}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.2.1}{Discrete Fourier Transform \(DFT\) and Periodogram}{section.2.2}% 14
+\BOOKMARK [2][-]{subsection.2.2.2}{Filter Effects: Transfer- Amplitude- and Time-Shift Functions}{section.2.2}% 15
+\BOOKMARK [2][-]{subsection.2.2.3}{Discrete Finite Sample Convolution}{section.2.2}% 16
+\BOOKMARK [2][-]{subsection.2.2.4}{Assembling the Puzzle: the Optimization Criterion}{section.2.2}% 17
+\BOOKMARK [2][-]{subsection.2.2.5}{Exercises: `Uniform Superconsistency' in a Finite Sample Number-Perspective}{section.2.2}% 18
+\BOOKMARK [2][-]{subsection.2.2.6}{Exercises: Explaining the Optimization Criterion}{section.2.2}% 19
+\BOOKMARK [1][-]{section.2.3}{MDFA: Problem-Structure and Target \(MSE-Perspective\)}{chapter.2}% 20
+\BOOKMARK [2][-]{subsection.2.3.1}{Emphasizing the Filter Error}{section.2.3}% 21
+\BOOKMARK [2][-]{subsection.2.3.2}{One- and Multi-Step Ahead Forecast Criteria}{section.2.3}% 22
+\BOOKMARK [1][-]{section.2.4}{Matrix Notation and Generalized Least-Squares Solution}{chapter.2}% 23
+\BOOKMARK [2][-]{subsection.2.4.1}{Matrix Notation}{section.2.4}% 24
+\BOOKMARK [2][-]{subsection.2.4.2}{Generalized Least Squares Solution}{section.2.4}% 25
+\BOOKMARK [2][-]{subsection.2.4.3}{R-Code}{section.2.4}% 26
+\BOOKMARK [1][-]{section.2.5}{Grand-Mean Parametrization}{chapter.2}% 27
+\BOOKMARK [1][-]{section.2.6}{Replication of DFA by MDFA}{chapter.2}% 28
+\BOOKMARK [2][-]{subsection.2.6.1}{Exercises}{section.2.6}% 29
+\BOOKMARK [1][-]{section.2.7}{Qualitative Easing by Leading Indicators: an Empirical Study}{chapter.2}% 30
+\BOOKMARK [2][-]{subsection.2.7.1}{Bivariate MDFA vs. Univariate DFA}{section.2.7}% 31
+\BOOKMARK [2][-]{subsection.2.7.2}{Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{section.2.7}% 32
+\BOOKMARK [1][-]{section.2.8}{Summary}{chapter.2}% 33
+\BOOKMARK [0][-]{chapter.3}{Optimal Time-Dependent Filter Sequences}{}% 34
+\BOOKMARK [1][-]{section.3.1}{Introduction}{chapter.3}% 35
+\BOOKMARK [1][-]{section.3.2}{Data Revisions}{chapter.3}% 36
+\BOOKMARK [1][-]{section.3.3}{Optimal Filter Sequences}{chapter.3}% 37
+\BOOKMARK [2][-]{subsection.3.3.1}{Forecasting, Nowcasting and Smoothing}{section.3.3}% 38
+\BOOKMARK [2][-]{subsection.3.3.2}{Backcasting: Analysis of Filter Characteristics}{section.3.3}% 39
+\BOOKMARK [2][-]{subsection.3.3.3}{Filter Vintages}{section.3.3}% 40
+\BOOKMARK [2][-]{subsection.3.3.4}{Tentacle Plot}{section.3.3}% 41
+\BOOKMARK [1][-]{section.3.4}{Tentacle Plot of the Bivariate Leading Indicator Design}{chapter.3}% 42
+\BOOKMARK [1][-]{section.3.5}{Summary}{chapter.3}% 43
+\BOOKMARK [0][-]{chapter.4}{Filter Constraints}{}% 44
+\BOOKMARK [1][-]{section.4.1}{Level and Time-Shift Constraints}{chapter.4}% 45
+\BOOKMARK [2][-]{subsection.4.1.1}{Level: i1==T}{section.4.1}% 46
+\BOOKMARK [2][-]{subsection.4.1.2}{Time-shift: i2==T}{section.4.1}% 47
+\BOOKMARK [2][-]{subsection.4.1.3}{Level and Time-Shift: i1==T,i2==T}{section.4.1}% 48
+\BOOKMARK [2][-]{subsection.4.1.4}{Exercises: Checking the Formulas}{section.4.1}% 49
+\BOOKMARK [1][-]{section.4.2}{Filter Constraints, Pseudo-DFT and Pseudo-Periodogram}{chapter.4}% 50
+\BOOKMARK [2][-]{subsection.4.2.1}{Pseudo-DFT and Pseudo-Periodogram}{section.4.2}% 51
+\BOOKMARK [2][-]{subsection.4.2.2}{First Order Constraint}{section.4.2}% 52
+\BOOKMARK [2][-]{subsection.4.2.3}{Second Order Constraint}{section.4.2}% 53
+\BOOKMARK [1][-]{section.4.3}{General Parametrization}{chapter.4}% 54
+\BOOKMARK [2][-]{subsection.4.3.1}{Caveats}{section.4.3}% 55
+\BOOKMARK [2][-]{subsection.4.3.2}{Nowcasting, Forecasting and Smoothing}{section.4.3}% 56
+\BOOKMARK [2][-]{subsection.4.3.3}{Implementing the Filter Constraints}{section.4.3}% 57
+\BOOKMARK [2][-]{subsection.4.3.4}{Matrix Notation}{section.4.3}% 58
+\BOOKMARK [1][-]{section.4.4}{Constrained Optimization}{chapter.4}% 59
+\BOOKMARK [2][-]{subsection.4.4.1}{Generalized Criterion}{section.4.4}% 60
+\BOOKMARK [1][-]{section.4.5}{Exercises: Implementing Constraints in MDFA}{chapter.4}% 61
+\BOOKMARK [1][-]{section.4.6}{Summary}{chapter.4}% 62
+\BOOKMARK [0][-]{chapter.5}{ATS-Trilemma: the Univariate Case}{}% 63
+\BOOKMARK [1][-]{section.5.1}{Signal Extraction and the ATS-Trilemma}{chapter.5}% 64
+\BOOKMARK [2][-]{subsection.5.1.1}{Decomposition of the MSE-Norm}{section.5.1}% 65
+\BOOKMARK [2][-]{subsection.5.1.2}{Accuracy, Timeliness and Smoothness \(ATS-\) Error-Components}{section.5.1}% 66
+\BOOKMARK [2][-]{subsection.5.1.3}{Generic Customized Criterion}{section.5.1}% 67
+\BOOKMARK [1][-]{section.5.2}{Forecasting and the AT-Dilemma}{chapter.5}% 68
+\BOOKMARK [2][-]{subsection.5.2.1}{ATS-Trilemma Collapses to AT-Dilemma}{section.5.2}% 69
+\BOOKMARK [2][-]{subsection.5.2.2}{Illustration: White Noise and Random-Walk Processes}{section.5.2}% 70
+\BOOKMARK [1][-]{section.5.3}{Quadratic Criterion*}{chapter.5}% 71
+\BOOKMARK [2][-]{subsection.5.3.1}{I-DFA}{section.5.3}% 72
+\BOOKMARK [2][-]{subsection.5.3.2}{Tightness of Approximation}{section.5.3}% 73
+\BOOKMARK [2][-]{subsection.5.3.3}{R-code}{section.5.3}% 74
+\BOOKMARK [1][-]{section.5.4}{ATS-Components: a Worked-Out Example}{chapter.5}% 75
+\BOOKMARK [2][-]{subsection.5.4.1}{Timeliness Only: 0, =0 Fixed}{section.5.4}% 76
+\BOOKMARK [2][-]{subsection.5.4.2}{Smoothness Only: 0, =0 Fixed}{section.5.4}% 77
+\BOOKMARK [2][-]{subsection.5.4.3}{Emphasizing Timeliness and Smoothness: ,0}{section.5.4}% 78
+\BOOKMARK [1][-]{section.5.5}{Curvature and Peak-Correlation}{chapter.5}% 79
+\BOOKMARK [2][-]{subsection.5.5.1}{Definition}{section.5.5}% 80
+\BOOKMARK [2][-]{subsection.5.5.2}{Examples}{section.5.5}% 81
+\BOOKMARK [2][-]{subsection.5.5.3}{Linking ATS-Components, Peak Correlation and Curvature}{section.5.5}% 82
+\BOOKMARK [1][-]{section.5.6}{Double Score Against the MSE Paradigm}{chapter.5}% 83
+\BOOKMARK [2][-]{subsection.5.6.1}{Introduction}{section.5.6}% 84
+\BOOKMARK [2][-]{subsection.5.6.2}{Simulation Run}{section.5.6}% 85
+\BOOKMARK [2][-]{subsection.5.6.3}{Analysis}{section.5.6}% 86
+\BOOKMARK [1][-]{section.5.7}{Univariate Customized Design vs. Bivariate MSE Leading-Indicator}{chapter.5}% 87
+\BOOKMARK [2][-]{subsection.5.7.1}{Performances: Curvature}{section.5.7}% 88
+\BOOKMARK [2][-]{subsection.5.7.2}{Performances: Peak-Correlation}{section.5.7}% 89
+\BOOKMARK [2][-]{subsection.5.7.3}{Performances: MSE}{section.5.7}% 90
+\BOOKMARK [2][-]{subsection.5.7.4}{Filter Outputs}{section.5.7}% 91
+\BOOKMARK [1][-]{section.5.8}{An Extended Customization Triplet}{chapter.5}% 92
+\BOOKMARK [1][-]{section.5.9}{Summary}{chapter.5}% 93
+\BOOKMARK [0][-]{chapter.6}{ATS-Trilemma: the Multivariate Case}{}% 94
+\BOOKMARK [1][-]{section.6.1}{MDFA: ATS-Trilemma and Customization}{chapter.6}% 95
+\BOOKMARK [2][-]{subsection.6.1.1}{A Review of Previous Optimization Criteria}{section.6.1}% 96
+\BOOKMARK [2][-]{subsection.6.1.2}{ATS-Trilemma and Multivariate Customization}{section.6.1}% 97
+\BOOKMARK [2][-]{subsection.6.1.3}{Quadratic Criterion}{section.6.1}% 98
+\BOOKMARK [2][-]{subsection.6.1.4}{Least-Squares Customized Solution}{section.6.1}% 99
+\BOOKMARK [1][-]{section.6.2}{The Multivariate ATS-Trilemma in Action}{chapter.6}% 100
+\BOOKMARK [2][-]{subsection.6.2.1}{Empirical Framework}{section.6.2}% 101
+\BOOKMARK [2][-]{subsection.6.2.2}{Emphasizing Smoothness: 0, =0 Fixed}{section.6.2}% 102
+\BOOKMARK [2][-]{subsection.6.2.3}{Emphasizing Timeliness: 0, =0 Fixed}{section.6.2}% 103
+\BOOKMARK [2][-]{subsection.6.2.4}{Emphasizing Timeliness and Smoothness: : > 0, >0}{section.6.2}% 104
+\BOOKMARK [1][-]{section.6.3}{Empirical Contest: MDFA vs. DFA}{chapter.6}% 105
+\BOOKMARK [1][-]{section.6.4}{Summary}{chapter.6}% 106
+\BOOKMARK [0][-]{chapter.7}{Replicating and Customizing Classic Model-Based Approaches}{}% 107
+\BOOKMARK [1][-]{section.7.1}{Introduction}{chapter.7}% 108
+\BOOKMARK [1][-]{section.7.2}{Replication of ARIMA-Based Approaches by the DFA}{chapter.7}% 109
+\BOOKMARK [2][-]{subsection.7.2.1}{Framework}{section.7.2}% 110
+\BOOKMARK [2][-]{subsection.7.2.2}{Time-domain}{section.7.2}% 111
+\BOOKMARK [2][-]{subsection.7.2.3}{Frequency-Domain}{section.7.2}% 112
+\BOOKMARK [2][-]{subsection.7.2.4}{Forecasting}{section.7.2}% 113
+\BOOKMARK [1][-]{section.7.3}{Customization of MBA by DFA: AR\(1\)-Process}{chapter.7}% 114
+\BOOKMARK [2][-]{subsection.7.3.1}{Known DGP}{section.7.3}% 115
+\BOOKMARK [2][-]{subsection.7.3.2}{Empirical AR\(1\)-Spectrum}{section.7.3}% 116
+\BOOKMARK [1][-]{section.7.4}{Replication of Unobserved-Components \(UC-\) Models}{chapter.7}% 117
+\BOOKMARK [2][-]{subsection.7.4.1}{The Data: \(Log\) Real US GDP}{section.7.4}% 118
+\BOOKMARK [2][-]{subsection.7.4.2}{UC-Model}{section.7.4}% 119
+\BOOKMARK [2][-]{subsection.7.4.3}{I\(1\)-Model MNZ \(2003\)}{section.7.4}% 120
+\BOOKMARK [2][-]{subsection.7.4.4}{Adding Recent Data: Validation, Great Recession}{section.7.4}% 121
+\BOOKMARK [2][-]{subsection.7.4.5}{Implied vs. Effective Cycle-Lengths}{section.7.4}% 122
+\BOOKMARK [2][-]{subsection.7.4.6}{I\(2\)-Models: Unconstrained vs. Constrained Cycle-Frequency}{section.7.4}% 123
+\BOOKMARK [2][-]{subsection.7.4.7}{Replicating the I\(1\)-Model by DFA}{section.7.4}% 124
+\BOOKMARK [2][-]{subsection.7.4.8}{Replicating the General I\(2\)-Model by DFA}{section.7.4}% 125
+\BOOKMARK [1][-]{section.7.5}{Customization of UC-Models}{chapter.7}% 126
+\BOOKMARK [1][-]{section.7.6}{Replication and Customization of the Hodrick-Prescott HP-Filter\)}{chapter.7}% 127
+\BOOKMARK [2][-]{subsection.7.6.1}{Replication}{section.7.6}% 128
+\BOOKMARK [2][-]{subsection.7.6.2}{Exercises: Replication}{section.7.6}% 129
+\BOOKMARK [2][-]{subsection.7.6.3}{Business-Cycle Analysis: HP-Gap and HP-Cycle}{section.7.6}% 130
+\BOOKMARK [2][-]{subsection.7.6.4}{Customization}{section.7.6}% 131
+\BOOKMARK [1][-]{section.7.7}{Christiano Fitzgerald CF-Filter\)}{chapter.7}% 132
+\BOOKMARK [2][-]{subsection.7.7.1}{Definition}{section.7.7}% 133
+\BOOKMARK [2][-]{subsection.7.7.2}{Replication}{section.7.7}% 134
+\BOOKMARK [2][-]{subsection.7.7.3}{Customization}{section.7.7}% 135
+\BOOKMARK [1][-]{section.7.8}{Summary}{chapter.7}% 136
+\BOOKMARK [0][-]{chapter.8}{Overfitting and Regularization}{}% 137
+\BOOKMARK [1][-]{section.8.1}{Introduction}{chapter.8}% 138
+\BOOKMARK [1][-]{section.8.2}{Overfitting: a Signal-Extraction Perspective}{chapter.8}% 139
+\BOOKMARK [2][-]{subsection.8.2.1}{In- and Out-of-Sample Spans}{section.8.2}% 140
+\BOOKMARK [2][-]{subsection.8.2.2}{Empirical Examples}{section.8.2}% 141
+\BOOKMARK [1][-]{section.8.3}{Tackling Overfitting: a Short Review}{chapter.8}% 142
+\BOOKMARK [2][-]{subsection.8.3.1}{Hard \(Filter-\) Constraints}{section.8.3}% 143
+\BOOKMARK [2][-]{subsection.8.3.2}{Smoothing the Spectrum}{section.8.3}% 144
+\BOOKMARK [2][-]{subsection.8.3.3}{Regularization Troika}{section.8.3}% 145
+\BOOKMARK [1][-]{section.8.4}{Longitudinal \(Rate of\) Decay}{chapter.8}% 146
+\BOOKMARK [2][-]{subsection.8.4.1}{Quadratic Bilinear Form: Univariate Framework}{section.8.4}% 147
+\BOOKMARK [2][-]{subsection.8.4.2}{Backcasting and Forecasting}{section.8.4}% 148
+\BOOKMARK [2][-]{subsection.8.4.3}{Multivariate Framework}{section.8.4}% 149
+\BOOKMARK [2][-]{subsection.8.4.4}{Simple Example}{section.8.4}% 150
+\BOOKMARK [2][-]{subsection.8.4.5}{Grid-Screening of Effects}{section.8.4}% 151
+\BOOKMARK [2][-]{subsection.8.4.6}{Constraints vs. Regularization}{section.8.4}% 152
+\BOOKMARK [1][-]{section.8.5}{Longitudinal Smoothness}{chapter.8}% 153
+\BOOKMARK [2][-]{subsection.8.5.1}{Quadratic Bilinear Form}{section.8.5}% 154
+\BOOKMARK [2][-]{subsection.8.5.2}{Empirical Examples}{section.8.5}% 155
+\BOOKMARK [1][-]{section.8.6}{Cross-Sectional Similarity}{chapter.8}% 156
+\BOOKMARK [2][-]{subsection.8.6.1}{Quadratic Bilinear Form}{section.8.6}% 157
+\BOOKMARK [2][-]{subsection.8.6.2}{Empirical Examples}{section.8.6}% 158
+\BOOKMARK [1][-]{section.8.7}{Regularization Troika: a Triplet of Universal Filter Requirements}{chapter.8}% 159
+\BOOKMARK [2][-]{subsection.8.7.1}{Quadratic \(Bilinear\) Form}{section.8.7}% 160
+\BOOKMARK [2][-]{subsection.8.7.2}{Empirical Examples}{section.8.7}% 161
+\BOOKMARK [2][-]{subsection.8.7.3}{Entanglement and Conflicting Requirements}{section.8.7}% 162
+\BOOKMARK [2][-]{subsection.8.7.4}{Limitations: Data Transformations}{section.8.7}% 163
+\BOOKMARK [2][-]{subsection.8.7.5}{Empirical Examples}{section.8.7}% 164
+\BOOKMARK [1][-]{section.8.8}{Optimization Criterion \(Zero-Shrinkage\)}{chapter.8}% 165
+\BOOKMARK [2][-]{subsection.8.8.1}{Unconstrained Design}{section.8.8}% 166
+\BOOKMARK [2][-]{subsection.8.8.2}{Constrained Design}{section.8.8}% 167
+\BOOKMARK [2][-]{subsection.8.8.3}{Empirical Example: Constrained Regularized Customized Design}{section.8.8}% 168
+\BOOKMARK [1][-]{section.8.9}{Effective Degrees of Freedom*}{chapter.8}% 169
+\BOOKMARK [2][-]{subsection.8.9.1}{Hat-Matrix and Residual-Matrix}{section.8.9}% 170
+\BOOKMARK [2][-]{subsection.8.9.2}{A Generalization of edof: Adjoined Complex Estimate and Symmetric Augmentation of the Hat-Matrix}{section.8.9}% 171
+\BOOKMARK [2][-]{subsection.8.9.3}{Empirical Examples}{section.8.9}% 172
+\BOOKMARK [1][-]{section.8.10}{The Troikaner}{chapter.8}% 173
+\BOOKMARK [2][-]{subsection.8.10.1}{Generalized Information Criterion}{section.8.10}% 174
+\BOOKMARK [1][-]{section.8.11}{General H0-Shrinkage}{chapter.8}% 175
+\BOOKMARK [2][-]{subsection.8.11.1}{Zero-Shrinkage vs. Regularization: Potentially Conflicting Requirements}{section.8.11}% 176
+\BOOKMARK [2][-]{subsection.8.11.2}{Inclusion of A Priori Knowledge}{section.8.11}% 177
+\BOOKMARK [2][-]{subsection.8.11.3}{Replicating \(and Enhancing\) Clients' Performances}{section.8.11}% 178
+\BOOKMARK [1][-]{section.8.12}{Optimization Criterion under General H0-Shrinkage}{chapter.8}% 179
+\BOOKMARK [1][-]{section.8.13}{MDFA-Stages}{chapter.8}% 180
+\BOOKMARK [1][-]{section.8.14}{Summary}{chapter.8}% 181

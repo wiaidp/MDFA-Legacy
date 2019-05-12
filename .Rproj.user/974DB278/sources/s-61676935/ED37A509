@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1554964700595.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "ED37A509",
+    "lastKnownWriteTime" : 1490878641,
+    "last_content_update" : 1490878641,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/MDFA_package/R/DFT.r",
+    "project_path" : "Sweave/MDFA_package/R/DFT.r",
+    "properties" : {
+        "cursorPosition" : "85,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 15,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

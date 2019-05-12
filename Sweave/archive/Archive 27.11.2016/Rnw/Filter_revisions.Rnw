@@ -1,0 +1,494 @@
+
+
+\chapter{Optimal Time-Dependent Filter Sequences}\label{vintages_triangle_revision}\label{fil_sec}
+
+
+
+
+\section{Introduction}
+
+Until yet we analyzed real-time \emph{fixed} filters
+\[\hat{y}_t=\sum_{k=0}^{L-1}b_kx_{t-k}~,~t=L,...,T\]
+whose coefficients $b_k$ did not dependent on time $t$. In practice, however, it is not uncommon  to rely on \emph{sequences} of time-dependent filters, whereby each filter in the sequence is optimized for a particular time point $t$ in the sample. In such a case, adding a new observation $x_{T+1}$ generally affects all (or part of the) previous estimates $\hat{y}_t$, for $t=L,...,T$, because $x_{T+1}$ might provide new evidences about the `true' signal $y_t$ in $t=L,...,T$. Preliminary estimates $\hat{y}_t$, $t=L,...,T$ are revised as new information $x_{T+1}$ becomes available so that $\hat{y}_t|_{\{x_1,...,x_T\}} \neq \hat{y}_t|_{\{x_1,...,x_{T+1}\}}$, in general.
+In this chapter we explore optimal time-dependent filter-sequences and their associated revision-sequences. Section \ref{data_revision_sec} provides a brief digression about data revisions and nails the topic of the chapter; the main concepts such as nowcasting, backcasting, revisions, filter-vintages and tentacle plots are introduced in section \ref{filter_revi}; finally, section \ref{blid} applies the novel findings to a bivariate leading-indicator design.
+
+
+
+
+\section{Data Revisions}\label{data_revision_sec}
+
+In the above brief introduction we implicitly assumed the data $x_1,...,x_T$ to be fixed or error-free. However, in practice, many important economic aggregates are revised over time. As an example, table \ref{US_GDP} provides a snapshot of GDP towards the great recession\footnote{The data can be accessed
+via the Philadelphia FED: \url{http://www.philadelphiafed.org/research-and-data/real-time-center/real-time-data/data-files/ROUTPUT/} or via \href{https://www.quandl.com}{Quandl}.}:
+<<echo=True>>=
+US_GDP<-read.csv(paste(path.dat,"US_GDP.csv",sep=""),header=T)
+US_GDP_wp<-read.csv(paste(path.dat,"US_GDP_wp.csv",sep=""),header=T,sep=";")
+@
+<<label=US_GDP,echo=FALSE,results=tex>>=
+  library(Hmisc)
+  require(xtable)
+  #latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+  #center = "centering", file = "", floating = FALSE)
+  xtable(US_GDP,
+  paste("US-GDP: yearly vintages starting in Q1 2009 and ending in Q1 2013",sep=""),
+  label=paste("US_GDP",sep=""),
+  center = "centering", file = "", floating = FALSE)
+@
+Columns correspond to publication dates: the first column was published in the first quarter 2009 and the last column was published in the first quarter 2013. Rows correspond to historical time. The fifth row (2008:Q4) addresses GDP in the last quarter 2008: the
+initial estimate in the first column, namely $\Sexpr{US_GDP_wp[5,2]}\%$, is successively {revised} accross columns 2-5, as new information in subsequent years becomes available. Three years after the first estimate was released (fourth column), the figure stabilized at $\Sexpr{US_GDP_wp[5,6]}\%$\footnote{The reader is refered to the \href{http://www.bea.gov}{BEA}, Bureau of Economic Analysis, for a comprehensive analysis of magnitude and source of the revisions.}. Evidently, this data-specific error source generally affects the quality of real-time filter estimates. However, in order to avoid confusions,  we shall assume the data to be error-free (fixed) in the remainder of this chapter. Accordingly, we focus on revisions solely imputable to (optimal) time-dependent filter-sequences. A comprehensive analysis of optimal filtering in the presence of data revisions is proposed in chapter \ref{rev_sec}.  
+
+
+
+
+\section{Optimal Filter Sequences}\label{filter_revi}
+
+
+
+
+\subsection{Forecasting, Nowcasting and Smoothing}\label{for_now_smo}
+
+
+For simplicity of exposition and ease of notation we adopt a univariate framework; extensions to the multivariate case are straightforward. Let the target $y_t$ be specified by \ref{target}
+\[
+y_t=\sum_{k=-\infty}^{\infty}\gamma_{k} x_{t-k}
+\]
+Until now we seeked filter coefficients $b_0,...,b_{L-1}$ such that $\hat{y}_t=\sum_{k=0}^{L-1}b_kx_{t-k}$ is close to $y_t$ in mean-square (a so-called nowcast). But we could have targeted $y_{t+1}$ (forecast) or $y_{t-1}$ (backcast), instead;  more generally, we could be interested in estimating $y_{t+h}$ by relying on data $x_t,...,x_{t-{L-1}}$ where $h\in \mbox{Z\hspace{-.3em}Z}$.  In this more general perspective, we aim at finding filter coefficients $b_{kh}$, $k=h,...,L-1+h$ such that the finite sample
+estimate
+\begin{equation}\label{filter}
+\hat{y}_{t}^{h}:=\sum_{k=h}^{L-1+h}b_{kh}x_{t-k}
+\end{equation}
+is `closest possible' to $y_{t}$, $h\in \mbox{Z\hspace{-.3em}Z}$, in \emph{mean-square}
+\begin{eqnarray*}
+E\left[(y_{t}-\hat{y}_{t}^h)^2\right]\to\min_{\mathbf{b}_h}
+\end{eqnarray*}
+where $\mathbf{b}_h=(b_{hh},...,b_{L-1+h,h})$.
+\begin{itemize}
+\item If $h=0$ we use data $x_t,...,x_{t-(L-1)}$ for estimating $y_t$: $\hat{y}_t^0$ is a \emph{nowcast} of $y_t$ and $b_{k0}$, $k=0,...,L-1$ is a real-time filter.
+\item If $h=1$ we use data $x_{t-1},...,x_{t-L}$ for estimating $y_t$: $\hat{y}_t^1$ is a \emph{forecast} of $y_t$ and $b_{k,1}$, $k=1,...,L$ is a forecast filter.
+\item If $h=-1$ we use data $x_{t+1},...,x_{t-(L-2)}$ for estimating $y_t$: $\hat{y}_t^{-1}$ is a \emph{backcast} of $y_t$ and $b_{k,-1}$, $k=-1,...,L-2$ is a smoother.
+\end{itemize}
+In contrast to classical one-step ahead forecasting which emphasize the original data, see section \ref{one_step}, we here extend the concept to general signal specifications: we forecast, nowcast or backcast the output $y_t$ of a possibly bi-infinite filter $\Gamma(\cdot)$. In this more general perspective the proposed nowcast- and backcast-problems are non-trivial estimation tasks. \\
+
+Intuitively, a backcast should improve (the filter-MSE should decrease) with decreasing horizon $h<0$ because future information $x_{t+1},...,x_{t-h}$ becomes available for tracking the historical target $y_t$. We now analyze these effects: section \ref{back_fil} emphasizes filter characteristics (amplitude and time-shifts) as a function of $h$; filter vintages and the revision error are discussed in section \ref{back_uni_rev}; section \ref{back_tentacle} proposes a convenient graphical summary, the so called tentacle plot.
+
+
+
+
+\subsection{Backcasting: Analysis of Filter Characteristics}\label{back_fil}
+
+We here analyze amplitude and time-shift functions of univariate DFA-filters as a function of $h\leq 0$. For this purpose we rely on the empirical design introduced in section \ref{ex_dfa}. Specifically, we estimate optimal filters for $h=0,-1,...,-6$ for the three stationary processes
+\begin{eqnarray}
+\left.\begin{array}{ccc}x_t&=&0.9x_{t-1}+\epsilon_t\\
+x_t&=&0.1x_{t-1}+\epsilon_t\\
+x_t&=&-0.9x_{t-1}+\epsilon_t
+\end{array}\right\}\label{ar1_processes}
+\end{eqnarray}
+The target is the ideal (bi-infinite) lowpass filter with cutoff $\pi/6$. The horizon parameter $h\leq 0$ corresponds to the $Lag$-variable in the head of the DFA-function call
+<<dfa_ms,echo=TRUE>>=
+head(dfa_ms)
+#head(mdfa_analytic)
+@
+Note however that $Lag=-h$ by convention i.e. a positive $Lag$ means a backcast. 
+\begin{enumerate}
+\item  Compute optimal finite sample filters for $Lag=0,...,(L-1)/2$ for
+the above three processes. Hint: we set $L=13$ in order to obtain a symmetric filter in $Lag=6$
+<<echo=FALSE>>=
+# Generate series
+set.seed(10)
+len<-120
+a_vec<-c(0.9,0.1,-0.9)
+x<-matrix(nrow=len,ncol=3)
+plot_T<-F
+yhat<-x
+periodogram<-matrix(ncol=3,nrow=len/2+1)
+trffkt<-periodogram
+# Generate series
+for (i in 1:3)
+{
+  set.seed(10)
+  x[,i]<-arima.sim(list(ar=a_vec[i]),n=len)
+}
+Gamma<-c(1,(1:(len/2))<len/12)
+@
+
+<<echo=True>>=
+L<-13
+yhat_Lag<-array(dim=c(len,3,L/2+2))
+trffkt<-array(dim=c(len/2+1,3,L/2+2))
+b<-array(dim=c(L,3,L/2+2))
+# Compute real-time filters for Lag=0,...,L/2 and for the 
+#   above three AR-processes
+for (i in 1:3)
+{
+  periodogram[,i]<-per(x[,i],plot_T)$per
+  for (Lag in 0:((L/2)+1))
+  {
+# Optimize filters
+    filt<-dfa_ms(L,periodogram[,i],Lag,Gamma)
+    trffkt[,i,Lag+1]<-filt$trffkt
+    b[,i,Lag+1]<-filt$b
+# Compute outputs
+    for (j in L:len)
+      yhat_Lag[j,i,Lag+1]<-filt$b%*%x[j:(j-L+1),i]
+  }
+}
+@
+\item Focus on the second process ($a_1=0.1$) and analyze the outcome as a function of $Lag$, see fig.\ref{z_dfa_ar1_amp_shift_Lag_0}.
+<<echo=True>>=
+# Discrete frequency grid
+omega_k<-pi*0:(len/2)/(len/2)
+colo<-rainbow(L/2+2)
+file = paste("z_dfa_ar1_amp_shift_Lag_0.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,2))
+amp<-abs(trffkt)
+shift<-Arg(trffkt)/omega_k
+for (i in 2:2)
+{
+  ymin<-min(amp[,i,],na.rm=T)
+  ymax<-max(amp[,i,],na.rm=T)
+  plot(amp[,i,1],type="l",main=paste("Amplitude functions, a1 = ",a_vec[i],sep=""),
+  axes=F,xlab="Frequency",ylab="Amplitude",col=colo[1],ylim=c(ymin,ymax))
+  mtext("Lag=0", side = 3, line = -1,at=len/4,col=colo[1])
+  for (j in 2:(L/2+2))
+  {
+    lines(amp[,i,j],col=colo[j])
+    mtext(paste("Lag=",j-1,sep=""), side = 3, line = -j,at=len/4,col=colo[j])
+  }
+  axis(1,at=c(0,1:6*len/12+1),labels=c("0","pi/6","2pi/6","3pi/6",
+  "4pi/6","5pi/6","pi"))
+  axis(2)
+  box()
+  ymin<-min(shift[,i,],na.rm=T)
+  ymax<-max(shift[,i,],na.rm=T)
+  plot(shift[,i,1],type="l",main=paste("Time-Shifts, a1 = ",a_vec[i],sep=""),
+  axes=F,xlab="Frequency",ylab="Shift",col=colo[1],ylim=c(ymin,ymax))
+  mtext("Lag=0", side = 3, line = -1,at=len/4,col=colo[1])
+  for (j in 2:(L/2+2))
+  {
+    lines(shift[,i,j],col=colo[j])
+    mtext(paste("Lag=",j-1,sep=""), side = 3, line = -j,at=len/4,col=colo[j])
+  }
+  axis(1,at=c(0,1:6*len/12+1),labels=c("0","pi/6","2pi/6","3pi/6",
+  "4pi/6","5pi/6","pi"))
+  axis(2)
+  box()
+  ymin<-min(b[,i,],na.rm=T)
+  ymax<-max(b[,i,],na.rm=T)
+  plot(b[,i,1],col=colo[1],ylim=c(ymin,ymax),main=paste("Filter coefficients"),
+  ylab="Output",xlab="lag",axes=F,typ="l")
+  mtext("Lag=0", side = 3, line = -1,at=L/2,col=colo[1])
+  for (j in 2:(L/2+2))
+  {
+    lines(b[,i,j],col=colo[j],type="l")
+    mtext(paste("Lag=",j-1,sep=""), side = 3, line = -j,at=L/2,col=colo[j])
+  }
+  axis(1,at=1:L,labels=-1+1:L)
+  axis(2)
+  box()
+
+  ymin<-min(yhat_Lag[,i,],na.rm=T)
+  ymax<-max(yhat_Lag[,i,],na.rm=T)
+  ts.plot(yhat_Lag[,i,1],col=colo[1],ylim=c(ymin,ymax),
+  main=paste("Output series"),ylab="Output")
+  mtext("Lag=0", side = 3, line = -1,at=len/2,col=colo[1])  
+  for (j in 2:(L/2+2))
+  {
+    lines(yhat_Lag[,i,j],col=colo[j])
+    mtext(paste("Lag=",j-1,sep=""), side = 3, line = -j,at=len/2,col=colo[j])
+  }
+
+}
+invisible(dev.off())
+@
+<<label=z_dfa_ar1_amp_shift_Lag_0.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_dfa_ar1_amp_shift_Lag_0.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift (right) functions as a function of Lag (rainbow colors) for
+  the second process (a1=0.1)", sep = "")
+  cat("\\label{z_dfa_ar1_amp_shift_Lag_0}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+As expected, the time-shift (top-right) increases with increasing Lag (decreasing $h$).
+For $Lag=(L-1)/2=6$ the filter is symmetric (see bottom left graph) and therefore
+the corresponding time-shift (violet line) is constant\footnote{The shift is constant (flat line) in the passband. The variable shift
+in the stopband is an artifact of the Arg-function: the physical shift must be constant
+since the filter weights (violet line bottom left
+panel) are symmetric.}. In contrast to the symmetric target filter, which is centered about $x_t$, the time-shift of the symmetric $Lag=\Sexpr{(L-1)/2}$-filter does not vanish because the filter is causal: its coefficients are centered about $x_{t-\Sexpr{(L-1)/2}}$. We can see that the output series
+(bottom-right panel) are shifted accordingly: larger shifts are associated to stronger noise rejection (amplitude closer to zero in the stop-band) and to smoother series. 
+\end{enumerate}
+
+
+
+
+
+\subsection{Filter Vintages}\label{back_uni_rev}
+
+
+In the GDP table \ref{US_GDP} historical releases are up-dated (revised) when new information becomes available. We could proceed analogously for the above filter-designs: 
+\begin{itemize}
+\item Assume that in time point $t$ a new observation $x_t$ becomes available. Therefore we can compute a nowcast $\hat{y}_t^0$ of $y_t$ based on the real-time filter $Lag=0$.
+\item But we can also improve our previous estimate $\hat{y}_{t-1}^{0}$ of $y_{t-1}$ if the new observation $x_t$ is informative about $y_{t-1}$. For this purpose we can rely on the $Lag=1$ filter and obtain a potentially better estimate $\hat{y}_{t-1}^{-1}$.
+\item We do similarly for $\hat{y}_{t-Lag}^{-Lag}$, $Lag>1$: all historical estimates can be up-dated\footnote{The new observation $x_t$ is potentially informative because the target filter is bi-infinite.}.
+\end{itemize}
+Assume now that we have a sample of length $T$ and define a filter-vintage according to 
+\[\hat{y}_{T-t}^{-t}, t=0,...,T-1\]
+In each time point $T-t$, the data point $\hat{y}_{T-t}^{-t}$ is the last observation of the output of the $Lag=t$-filter. The series $\hat{y}_{T-t}^{-t}, t=0,...,T-1$ is called a \emph{filter-vintage}. Filter vintages can be arranged in a so-called \emph{filter-vintage triangle}.
+
+\subsubsection{Exercises}
+\begin{enumerate}
+\item Compute a filter-vintage triangle for each of the above AR(1)-processes. Specifically, use the filters for $Lag=0,...,6$. Note that our maximal Lag-value is six: therefore,  $\hat{y}_{T-t}^{-t},t>6$ is identified with $\hat{y}_{T-t}^{-6}$ i.e. the filter-vintage becomes
+\[\hat{y}_{T-t}^{-\min(6,t)}, t=0,...,T-1\]
+<<echo=True>>=
+vintage<-array(dim=c(len,3,len))
+# For each of the three AR(1)-processes We compute the vintage series
+for (i in 1:3)
+{
+  for (j in L:len)#j<-L
+  {
+    vintage[(j-as.integer(L/2)):j,i,j]<-yhat_Lag[j,i,(as.integer(L/2)+1):1]
+    vintage[1:(j-as.integer(L/2)-1),i,j]<-
+    yhat_Lag[(as.integer(L/2)+1):(j-1),i,as.integer(L/2)+1]
+  }
+}
+number_vint<-6
+@
+\item Compute the last \Sexpr{number_vint+1} vintages (last \Sexpr{number_vint+1} columns and rows) for the third process ($a_1=-0.9$),  see table \ref{vintage_triangle}.
+<<echo=True>>=
+# We select the third DGP with a1=-0.9
+i<-3
+vintage_triangle<-vintage[,i,]
+dimnames(vintage_triangle)[[2]]<-paste("Publ. ",1:len,sep="")
+dimnames(vintage_triangle)[[1]]<-paste("Target ",1:len,sep="")
+@
+<<label=vintage_triangle,echo=FALSE,results=tex>>=
+  library(Hmisc)
+  require(xtable)
+  #latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+  #center = "centering", file = "", floating = FALSE)
+  xtable(vintage_triangle[(len-number_vint):len,(len-number_vint):len], dec = 1,digits=rep(3,dim(vintage_triangle[(len-number_vint):len,(len-number_vint):len])[2]+1),
+  paste("Last few vintages for the AR(1)-process with a1=-0.9: columns correspond to vintages and are indexed
+  by corresponding publication dates; rows correspond to revisions of estimates for a fixed historical target date; diagonals correspond to releases: the lowest diagonal corresponds to the first release (real-time filter or nowcast).",sep=""),
+  label=paste("vintage_triangle",sep=""),
+  center = "centering", file = "", floating = FALSE)
+@
+The last column collects the last vintage $\hat{y}_{120-t}^{-t}$ for $t=0,1,...,\Sexpr{number_vint}$: $\hat{y}_{120}^{0}=\Sexpr{round((vintage_triangle[(len-number_vint):len,(len-number_vint):len])[number_vint+1,number_vint+1],3)}$
+is the real-time estimate (first release) of the target $y_{120}$ based on data $x_1,...,x_{120}$; $y_{119}^{-1}=\Sexpr{round((vintage_triangle[(len-number_vint):len,(len-number_vint):len])[number_vint,number_vint+1],3)}$ is the second release of the target $y_{119}$ based on data $x_1,...,x_{120}$ (the output of the $Lag=1$ filter)
+and so on. In analogy to table \ref{US_GDP}, the column-date in table
+\ref{vintage_triangle} refers to the \emph{publication date} and the row-date refers to the
+\emph{target time} i.e. the index $t$ of $y_t$. The initial release
+in the first column (publication date 114) is $\Sexpr{round((vintage_triangle[(len-number_vint):len,(len-number_vint):len])[1,1],3)}$;  the second release
+of the same target value $y_{114}$ in the second column is $\Sexpr{round((vintage_triangle[(len-number_vint):len,(len-number_vint):len])[1,2],3)}$;
+the third release in the third column is $\Sexpr{round((vintage_triangle[(len-number_vint):len,(len-number_vint):len])[1,3],3)}$, and so on. The differences
+between the various releases are due to filter-revisions: previous estimates of  $y_{114}$ are up-dated when new information becomes available. The initial release $\Sexpr{round((vintage_triangle[(len-number_vint):len,(len-number_vint):len])[1,1],3)}$ is up-dated until it reaches its \emph{final} value $\Sexpr{round((vintage_triangle[(len-number_vint):len,(len-number_vint):len])[1,number_vint+1],3)}$ in the last column\footnote{Recall that $\hat{y}_{T-t}^{-t}=\hat{y}_{T-t}^{-6}$ if $t>6$ i.e. the estimate of $y_{114}$ won't be revised anymore in later vintages ($T>120$).}.  
+\end{enumerate}
+\textbf{Remarks}
+\begin{itemize}
+\item Recall that the data $x_t$ is error-free (fixed). Revisions are solely due to the deployment of the (optimal MSE) filter-sequence.
+\item The diagonals of the filter-vintage triangle are the releases: the initial release (first diagonal), the second release (second diagonal), and so on. A diagonal is generated by a fixed filter. Therefore diagonals are stationary time series (assuming stationarity of the data $x_t$).
+\item A filter-vintage (a column) is a non-stationary series: the DGP changes because different observations are generated by different filters (at least until the final values are obtained). As an example, the last observation of a vintage is generally `noisier' than earlier observations (because it is based on a causal real-time filter $Lag=0$).
+\item Fitting classic models to a vintage series would conflict with model assumptions because the series is non-stationary: the data-quality (noise/delay) worsens towards the sample end due to asymmetry of the underlying filters.
+\end{itemize}
+
+
+
+\subsection{Tentacle Plot}\label{back_tentacle}
+
+
+
+
+{All} vintages can be collected and plotted in a single graph, called \emph{tentacle plot}. The purpose of a tentacle plot is to reveal the quality of early releases of the filter-vintage by juxtaposing smoothed and real-time estimates. 
+\begin{enumerate}
+\item Plot the vintages obtained for the three AR(1)-processes \ref{ar1_processes} in the previous section, see fig.\ref{z_vintages}.  
+<<echo=True>>=
+colo<-rainbow(len)
+file = paste("z_vintages.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(3,1))
+for (i in 1:3)
+{
+  ymin<-min(vintage[,i,],na.rm=T)
+  ymax<-max(vintage[,i,],na.rm=T)
+  ts.plot(vintage[,i,L],col=colo[1],ylim=c(ymin,ymax),
+  main=paste("Tentacle plot: vintages and full revision sequence,
+  a1 = ",a_vec[i],sep=""),ylab="Vintages")
+  for (j in (L+1):len)
+  {
+    lines(vintage[,i,j],col=colo[j])
+  }
+  lines(vintage[,i,len],col="red",lwd=2)
+}
+invisible(dev.off())
+@
+<<label=z_vintages.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_vintages.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Tentacle plot: full historical revision sequence for
+  a1=0.9 (top), a1=0.1 (middle) and a1=-0.9 (bottom). Final release is emphasized in bold red", sep = "")
+  cat("\\label{z_vintages}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The rate of convergence of early releases to their final values and the dynamic pattern of the revisions, in particular in the vicinity of turning points, can be summarized and analyzed conveniently by this graphical tool which provides a backtest of the otherwise unobserved real-time performances of the filter-\emph{sequence}. The plot summarizes intrinsic properties of the filter-\emph{sequence} which are not addressed by previous diagnostic tools (MSEs, amplitude and time-shift functions). A direct comparison of the three tentacle plots confirms, once again, that the signal-extraction task seems less demanding when the data is positively autocorrelated (top graph).
+
+\item we focus attention on the second process ($a_1=0.1$) and emphasize final and initial releases, see fig.\ref{z_vintages_2}. 
+<<echo=True>>=
+file = paste("z_vintages_2.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,1))
+i<-2
+ymin<-min(vintage[,i,],na.rm=T)
+ymax<-max(vintage[,i,],na.rm=T)
+ts.plot(vintage[,i,L],col=colo[1],ylim=c(ymin,ymax),
+main="Vintages: full revision sequence and final release (black)",ylab="Vintages")
+for (j in (L+1):len)
+{
+  lines(vintage[,i,j],col=colo[j])
+}
+lines(vintage[,i,len],col="black",lwd=2)
+i<-2
+ymin<-min(vintage[,i,],na.rm=T)
+ymax<-max(vintage[,i,],na.rm=T)
+ts.plot(vintage[,i,L],col=colo[1],ylim=c(ymin,ymax),
+main="Vintages: full revision sequence and real-time initial release (black)",
+ylab="Vintages")
+for (j in (L+1):len)
+{
+  lines(vintage[,i,j],col=colo[j])
+}
+lines(yhat_Lag[,i,1],col="black",lty=1)
+invisible(dev.off())
+@
+<<label=z_vintages_2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_vintages_2.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Vintages: full historical revision sequence in the case of the second  process (a1=0.1)", sep = "")
+  cat("\\label{z_vintages_2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Convergence to the final values is achieved after $(L-1)/2=\Sexpr{(L-1)/2}$ time steps in this particular example. Top and bottom graphs stress final (symmetric filter) and first (concurrent filter) releases, respectively. Linking the end-points of the tentacles in the bottom graph highlights the noisy real-time dynamics as well as the inherent delay towards the sample-end of the filter-vintage: these effects were illustrated in fig.\ref{z_dfa_ar1_amp_shift_Lag_0}, in terms of amplitude and time-shift functions of the one-sided filter. The spreading tentacles at the turning points  suggest that univariate MSE-designs are not ideally suited for inferring growth-breaks in \emph{real time}. A better bivariate filter is proposed in the following section and chapters \ref{ats_sec} and \ref{atsm_sec} propose a generic criterion for tackling `timeliness' and `smoothness' of real-time designs (ATS-trilemma).
+\end{enumerate}
+
+
+\section{Tentacle Plot of the Bivariate Leading Indicator Design}\label{blid}
+
+We here apply the leading indicator design introduced in section \ref{leading_ind}. For simplicity we restrict the analysis to the second process ($a_1=0.1$).
+\begin{enumerate}
+\item Generate a leading indicator and define the corresponding (3-dim) data matrix.
+<<echo=True>>=
+set.seed(12)
+# Select the AR(1)-process with coefficient 0.1
+i_process<-2
+# Scaling of the idiosyncratic noise
+scale_idiosyncratic<-0.1
+eps<-rnorm(nrow(x))
+indicator<-x[,i_process]+scale_idiosyncratic*eps
+# Data: first column=target, second column=x, 
+#   third column=shifted (leading) indicator
+data_matrix_120<-cbind(x[,i_process],x[,i_process],
+                       c(indicator[2:nrow(x)],indicator[nrow(x)]))
+dimnames(data_matrix_120)[[2]]<-c("target","x","leading indicator")
+head(data_matrix_120)
+@
+
+\item Compute the DFTs.
+<<exercise_dfa_ms_4,echo=True>>=
+# Fully in sample
+insample<-nrow(data_matrix_120)
+# d=0 for stationary series: see default settings
+weight_func<-spec_comp(insample, data_matrix_120, d)$weight_func
+@
+\item Estimate optimal (MSE-) filter coefficients as a function of Lag=0,...,6
+<<exercise_dfa_ms_4,echo=True>>=
+yhat_Lag_mdfa<-matrix(nrow=len,ncol=L/2+2)
+# Source the default (MSE-) parameter settings
+source(file=paste(path_MDFA.pgm,"control_default.r",sep=""))
+# Estimate filter coefficients
+for (Lag in 0:((L/2)))
+{
+  mdfa_obj<-mdfa_analytic(K,L,lambda,weight_func,Lag,Gamma,
+                  eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                  lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                  grand_mean,b0_H0,c_eta,weights_only=F,weight_structure,
+                  white_noise,synchronicity,lag_mat)
+  print(paste("Lag=",Lag," Criterion=",round(mdfa_obj$rever,4),sep=""))
+# Filter coefficients
+  b_mat<-mdfa_obj$b
+# Compute outputs
+  for (j in L:len)
+    yhat_Lag_mdfa[j,Lag+1]<-sum(apply(b_mat*data_matrix_120[j:(j-L+1),2:3],1,sum))
+}
+@
+The criterion is minimal at Lag=3 which suggests a rapid convergence of early releases (short tentacles).  
+\item Define the vintage triangle.
+<<echo=True>>=
+vintage_mdfa<-matrix(nrow=len,ncol=len)
+# For each of the three AR(1)-processes We compute the vintage series
+for (j in L:len)#j<-len
+{
+  vintage_mdfa[(j-as.integer(L/2)):j,j]<-yhat_Lag_mdfa[j,(as.integer(L/2)+1):1]
+  vintage_mdfa[1:(j-as.integer(L/2)-1),j]<-
+  yhat_Lag_mdfa[(as.integer(L/2)+1):(j-1),as.integer(L/2)+1]
+}
+@
+\item Generate a tentacle plot, see fig\ref{z_vintages_mdfa}.
+<<echo=True>>=
+file = paste("z_vintages_mdfa.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,1))
+ymin<-min(vintage_mdfa,na.rm=T)
+ymax<-max(vintage_mdfa,na.rm=T)
+ts.plot(vintage_mdfa[,L],col=colo[1],ylim=c(ymin,ymax),
+main="Vintages: full revision sequence and final release (black)",ylab="Vintages")
+for (j in (L+1):len)
+{
+  lines(vintage_mdfa[,j],col=colo[j])
+}
+lines(vintage_mdfa[,len],col="black",lwd=2)
+ymin<-min(vintage_mdfa,na.rm=T)
+ymax<-max(vintage_mdfa,na.rm=T)
+ts.plot(vintage_mdfa[,L],col=colo[1],ylim=c(ymin,ymax),
+main="Vintages: full revision sequence and final release (black)",ylab="Vintages")
+for (j in (L+1):len)
+{
+  lines(vintage_mdfa[,j],col=colo[j])
+}
+lines(yhat_Lag_mdfa[,1],col="black",lwd=1)
+invisible(dev.off())
+@
+<<label=z_vintages_mdfa.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_vintages_mdfa.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Vintages: full historical revision sequence in the case of the second process (a1=0.1)", sep = "")
+  cat("\\label{z_vintages_mdfa}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Visual inspections and comparisons of figs.\ref{z_vintages_mdfa} and \ref{z_vintages_2} (univariate DFA) are more eloquent than a convoluted comparative analysis.
+
+\end{enumerate}
+
+\textbf{Final Remark}
+\begin{itemize}
+\item When applying a real-time  filter ($Lag=0$) of length $L$ to the data, the output $\hat{y}_{t}^0,t=1,...,L-1$ corresponding to the first $(L-1)$-observations is missing (because the sample starts in $t=1$ i.e. $x_0,x_{-1},x_{-2},...$ are not observed). These missing `initial' values could be obtained in terms of backcasts $\hat{y}_t^{-L+t}, t=1,...,L-1$ (verification of this claim is left as an exercise to the reader).   
+\end{itemize}
+
+
+\section{Summary}
+
+\begin{itemize}
+\item We analyzed optimal (time-dependent) filter sequences for tracking a generic target signal at each time point $t=1,...,T$ of a finite sample of length $T$. 
+\item We distinguished forecast ($h>0$), nowcast ($h=0$) and backcast ($h<0$) of a generic target: the corresponding estimation problems can be handled by the parameter $Lag=-h$ in the relevant function-calls of DFA and MDFA.
+\item All results were based on the assumption of error-free data. Optimal filter design in the presence of data revisions is addressed in chapter \ref{rev_sec}. 
+\item We proposed a useful diagnostic tool, the so-called tentacle plot, and benchmarked the bivariate leading-indicator design against the univariate DFA.
+\item Pertinence and practical relevance of the proposed filter-sequence is closely linked to the MSE-perspective because the optimization criterion adresses the (mean-square) filter error i.e. the revision error is minimized explicitly. More sophisticated criteria proposed in chapters \ref{ats_sec} and \ref{atsm_sec} will emphasize more specifically \emph{nowcast} and \emph{forecast} applications, instead.
+\end{itemize}

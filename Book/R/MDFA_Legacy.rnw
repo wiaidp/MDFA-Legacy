@@ -1,0 +1,181 @@
+% -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
+\documentclass[a4paper]{book}
+%\documentclass[envcountsame,envcountchap]{svmono}
+
+
+\usepackage{graphicx,url}
+\usepackage{amssymb}
+
+\def\pf{{\bf Proof. }}
+\def\logimplies{\Rightarrow}
+\def\convinlaw{\stackrel{{\cal L}}{\Longrightarrow }}
+\def\convinp{\stackrel{P}{\longrightarrow }}
+\def\convas{\stackrel{a.s.}{\longrightarrow }}
+\def\convv{\stackrel{v}{\longrightarrow}}
+\def\asymp{\stackrel{{\mathbb P}}{\sim}}
+\def\RR{\mathbb R}
+\def\ZZ{\mathbb Z}
+\def\QQ{\mathbb Q}
+\def\NN{\mathbb N}
+\def\MM{\mathbb M}
+\def\LL{\mathbb L}
+\def\EE{\mathbb E}
+\def\PP{\mathbb P}
+\def\DD{\mathbb D}
+\def\WW{\mathbb W}
+\def\FF{\mathbb F}
+\def\II{\mathbb I}
+\def\FF{\mathbb F}
+\def\XX{\mathbb X}
+\def\sige{\sigma_{\epsilon}}
+
+\def\eqinlaw{\stackrel{{\cal L}}{=}}
+\def\tends{\rightarrow}
+\def\tendsinf{\rightarrow\infty}
+\def\isodynamo{\Leftrightarrow}
+
+\newtheorem{Theorem}{Theorem}
+\newtheorem{Lemma}{Lemma}
+\newtheorem{Corollary}{Corollary}
+\newtheorem{Proposition}{Proposition}
+\newtheorem{Definition}{Definition}
+\newtheorem{Remark}{Remark}
+\newcommand{\mbf}[1]{\mbox{\boldmath $#1$}}
+
+\setlength{\textwidth}{6.5in} \setlength{\textheight}{9in}
+\setlength{\evensidemargin}{12pt} \setlength{\oddsidemargin}{0in}
+\setlength{\topmargin}{1in}
+\renewcommand{\baselinestretch}{1.3}
+\setlength{\headheight}{0.2in} 
+\setlength{\headsep}{0.2in}
+
+%- Makes the section title start with Appendix in the appendix environment
+\newcommand{\Appendix}
+{%\appendix
+%\def\thesection{Appendix~\Alph{section}}
+\def\thesection{Appendix~\Alph{chapter}}
+%\def\thesubsection{\Alph{section}.\arabic{subsection}}
+%\def\thesubsection{A.\arabic{subsection}}
+\def\thesubsection{A.\arabic{section}}
+}
+
+
+%\pagestyle{empty}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage{epsfig}
+%\usepackage{html}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{float}
+\usepackage[utf8]{inputenc}
+\usepackage{a4wide}
+
+\title{Multivariate Real-Time Signal Extraction}
+\author{Marc Wildi and Tucker McElroy}
+
+\SweaveOpts{echo=FALSE}
+
+
+\begin{document}
+
+\maketitle
+
+\date{}
+
+%\SweaveOpts{prefix.string=c:/wia/tmp/bar}
+
+\frontmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\include{dedic}
+%\newpage
+%\phantom{rete}
+%\newpage
+%\include{preface}
+
+
+
+
+\tableofcontents
+
+
+\mainmatter%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-----------------------------------------------
+
+\SweaveInput{Introduction}
+
+%----------------------------------------
+
+\SweaveInput{LPP}
+
+%----------------------------------------
+
+\SweaveInput{Mean_square}
+
+%----------------------------------------
+
+\SweaveInput{Filter_revisions}
+
+%----------------------------------------
+
+\SweaveInput{Constraints}
+
+%----------------------------------------
+
+\SweaveInput{ATS}
+
+%-------------------------------------------
+
+\SweaveInput{ATS_multivariate}
+
+%-------------------------------------------
+
+\SweaveInput{Replication}
+
+%-------------------------------------------
+
+%\SweaveInput{Exotic_pub}
+
+%----------------------------------------------
+
+%\SweaveInput{Inference}
+
+%------------------------------------------
+
+%\SweaveInput{Regularization}
+
+%----------------------------------------------
+
+%\SweaveInput{Vintage}
+
+%-------------------------------------------------------------
+
+%\SweaveInput{Mixed}
+
+%------------------------------------------------------------------
+
+\SweaveInput{Integrated}
+
+%------------------------------------------------------------------
+
+%\SweaveInput{Cointegrated}
+
+%-------------------------------------------------------------------
+
+%\SweaveInput{Adaptive}
+
+%--------------------------------------------------------------------
+
+%\SweaveInput{Seasonal_adjustment}
+%--------------------------------------------------------------------
+
+%\SweaveInput{Summary}
+
+%--------------------------------------------------------------------
+
+%\SweaveInput{Appendix}
+
+
+\end{document}

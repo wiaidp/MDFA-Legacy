@@ -1,0 +1,33 @@
+
+
+
+\chapter{Mixed-Frequency Data: Combining and Working with Data Sampled at Different Time Scales}\label{mix_sec}
+
+\section{Introduction}
+
+\begin{itemize}
+\item Refer to section \ref{lead_snr} for a quantitative analysis of up-dating effects.
+\item Refer to recent work with Chris
+\end{itemize}
+
+
+\section{Target is Low-Frequency Data}
+
+
+\subsection{Folding the Frequency Interval}
+
+\subsection{Generalized Optimization Criterion}
+
+\section{Explaining Series is/are Low-Frequency Data}
+
+\subsection{Folding and Expanding the Frequency Interval}
+
+\subsection{Generalized Optimization Criterion}
+
+\section{General Case: Arbitrary Mix}
+
+\section{Unequally Distributed Release Dates}
+
+\section{Missing Data}
+
+Lomb-Scargle, DFT with leads/lags: analyze orthogonality.

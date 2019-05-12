@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1518283657051.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "8897101E",
+    "lastKnownWriteTime" : 1554789237,
+    "last_content_update" : 1554789237462,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/Rnw/Replication.Rnw",
+    "project_path" : "Sweave/Rnw/Replication.Rnw",
+    "properties" : {
+        "cursorPosition" : "2401,0",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 10,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}

@@ -1,0 +1,9 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+
+
+\chapter{Inference}\label{inf_sec}
+
+Refer to DFA-article with Tucker. Refer to 2005 and 2008 books + elements paper. I won't assign too much time to this topic because it is more or less irrelevant for applications; it is less relevant than for model-based approaches because we emphasize the filter (not the DGP). Generalization(s) of well-known model-based statistics. Maybe additional contributions by Tucker about the multivariate case. My own results include asymptotic distribution of filter coefficients (2005-book) and a generalized unit-root test (2008-book).

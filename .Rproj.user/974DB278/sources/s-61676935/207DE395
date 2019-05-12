@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1516291554152.000,
+    "dirty" : false,
+    "encoding" : "ISO8859-1",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "207DE395",
+    "lastKnownWriteTime" : 1481893329,
+    "last_content_update" : 1481893329,
+    "path" : "C:/wia_desktop/2019/Projekte/MDFA-Legacy/Sweave/Rnw/ATS_multivariate.Rnw",
+    "project_path" : "Sweave/Rnw/ATS_multivariate.Rnw",
+    "properties" : {
+        "cursorPosition" : "186,14",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "sweave"
+}

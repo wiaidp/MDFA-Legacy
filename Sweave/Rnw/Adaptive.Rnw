@@ -1,0 +1,24 @@
+
+\SweaveOpts{concordance=FALSE}
+
+
+
+
+\chapter{Non-Stationarity: Adaptive Filtering}\label{ada_sec}
+
+
+\section{Introduction}
+
+Contrast with difference-stationary processes 
+
+\section{Filter Up-Dating}
+
+\subsection{Univariate Up-Dating}
+
+\subsection{Multivariate Up-Dating}
+
+
+\section{Adaptive State Space and MDFA}
+
+
+\section{MDFA-Stages}

@@ -1,0 +1,840 @@
+
+
+\chapter{Filter Constraints}\label{con_sec}
+
+We propose and analyze a set of filter constraints which are deemed to be relevant in applications. Formally, the constraints ensure finiteness of the mean-square filter error in the case of integrated processes\footnote{The constraints address filter characteristics in \emph{frequency zero}. Arbitrary frequencies could be tackled but we did not find any relevant practical application so far.}. Section \ref{i1i2_intr} sets-up the context; a link to integrated processes is proposed in section \ref{pseudo_dft}; a general matrix notation is proposed in section \ref{cons_gen_par}; section \ref{optim_stat} extends the former (unconstrained) MDFA-criterion to the constrained case; finally, section \ref{const_impl_mdfa} illustrates effects (of the constraints) on characteristics of real-time filters.  \\
+
+The constraints proposed in this chapter do not address cross-sectional links, such as required in the presence of cointegration, for example. The relevant multivariate aspects and extensions are proposed in chapter \ref{coint_sec}.
+
+\section{Level and Time-Shift Constraints}\label{i1i2_intr}
+
+\subsection{Level: i1==T}
+
+A first-order (level-) restriction of the coefficients  $b_0,...,b_{L-1}$ of a filter with transfer function $\hat{\Gamma}(\cdot)$ is specified as
+\[
+\hat{\Gamma}(0)=w
+\]
+or, equivalently
+\begin{eqnarray}\label{cons1}
+b_0+b_1+...+b_{L-1}=w
+\end{eqnarray}
+where $w$ is a constant. For $w:=\Gamma(0)$ the constraint implies that $\hat{\Gamma}(\cdot)$ fits the target $\Gamma(\cdot)$ exactly in frequency zero: typically, then $w=0$ (bandpass or highpass) or $w=1$ (lowpass). If $x_t$ is integrated of order one with a single unit-root in frequency zero, then the proposed restriction ensures a finite mean-square filter error (assuming some mild regularity conditions, see McElroy and Wildi (2014) DFA and Wildi (2005)). Figuratively,  $\hat{y}_t$ tracks the non-stationary level of the target $y_t$. Formally, $\hat{y}_t$ and $y_t$ are cointegrated, with cointegration vector $(1,-1)$.\\
+
+\subsubsection{R Code}
+
+Consider the head of the main MDFA estimation function
+<<dfa_ms,echo=TRUE>>=
+head(mdfa_analytic)
+@
+The Boolean $i1$ in the function call of MDFA determines imposition (or not) of the level constraint. The constant $w$ can be set in a vector called $weight\textunderscore constraint$. In a multivariate design one must specify multiple constraints $w^u, u=1,...,m+1$. The restrictions are independent: each time series receives its own weight (cross-sectional dependencies among the constraints are proposed in chapter \ref{coint_sec}).
+
+
+
+\subsection{Time-shift: i2==T}
+
+The time-shift $\hat{\phi}(\omega)=\hat{\Phi}(\omega)/\omega$ of a filter is subject to a singularity in frequency zero. However, the limiting value, as $\omega\to 0$, could be obtained, see section 3.2.3 in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}:
+\begin{eqnarray}
+\hat{\phi}(0)&=&\lim_{\omega\to 0}\frac{\hat{\Phi}(\omega)}{\omega}\nonumber\\
+&=&\frac{\left.\frac{d}{d\omega}\hat{\Phi}(\omega)\right |_{\omega=0}}{1}\nonumber\\
+&=&\frac{\left.\frac{d}{d\omega}\hat{\Gamma}(\omega)\right|_{\omega=0}}{-i\hat{A}(0)}\nonumber\\
+&=&\frac{\sum_{j=0}^{L-1}jb_j}{\sum_{j=0}^{L-1}b_j}\label{shift_zero_eq}
+\end{eqnarray}
+Second and third equalities are obtained from
+\begin{eqnarray*}
+-i\sum_{j=0}^{L-1}jb_j&=&\left.\frac{d}{d\omega}\hat{\Gamma}(\omega)\right |_{\omega=0}\\
+&=&\left.\frac{d}{d\omega}\hat{A}(\omega)\right |_{\omega=0}
+\exp(-i\hat{\Phi}(0))-i\hat{A}(0)\exp(-i\hat{\Phi}(0))\left.\frac{d}{d\omega}\hat{\Phi}(\omega)\right |_{\omega=0}\\
+&=&-i \hat{A}(0)\left.\frac{d}{d\omega}\hat{\Phi}(\omega)\right |_{\omega=0}
+\end{eqnarray*}
+The derivative of the amplitude vanishes in zero because the amplitude is a continuous even function
+i.e. $\hat{A}(-\omega)=\hat{A}(\omega)$. Note that we implicitly assumed $\hat{\Gamma}(0)>0$ such that $\hat{A}(0)=\hat{\Gamma}(0)=\sum_{j=0}^{L-1}b_j>0$ and thus \ref{shift_zero_eq} applies and is well defined\footnote{As we shall see, the case $\hat{\Gamma}(0)=0$ (highpass or bandpass) does not involve the time-shift in frequency zero. Moreover, the case $\hat{\Gamma}(0)<0$ is generally not practically relevant.}.\\
+
+We are now in a position to formulate a time-shift restriction in frequency zero:
+\begin{eqnarray*}
+\frac{\sum_{j=0}^{L-1}jb_j}{\sum_{j=0}^{L-1}b_j}=s
+\end{eqnarray*}
+This expression can be rewritten as
+\begin{eqnarray}
+\sum_{j=0}^{L-1}(j-s)b_j =0\label{shift_zero_eq_general}
+\end{eqnarray}
+In practice, a vanishing time-shift $s=0$ in frequency zero, i.e. 
+\begin{eqnarray*}
+\sum_{j=1}^{L-1}jb_j=0
+\end{eqnarray*}
+is often a desirable `feature' because turning-points (of the trend) should not be delayed too much. Also, a vanishing time-shift is necessary in order to ensure finiteness of the mean-square filter error if the data is integrated of order two, I(2). 
+
+
+\subsubsection{R Code}
+
+The Boolean $i2$ in the function call of MDFA determines imposition (or not) of the time-shift constraint. The constant $s$ can be set in a vector called $shift\textunderscore constraint$. In a multivariate design one must specify multiple constraints $s^u, u=1,...,m+1$. The restrictions are independent: each time series receives its own weight (cross-sectional dependencies among the constraints are proposed in chapter \ref{coint_sec}).
+
+
+
+\subsection{Level and Time-Shift: i1==T,i2==T}
+
+Both constraints can be imposed simultaneously by solving the above expressions for $b_{L-1}$ and $b_{L-2}$:
+\begin{eqnarray}\label{cons2}
+b_{L-2}&=&(L-1-s)w-(L-1)b_0-(L-2)b_1-...-2b_{L-3}\label{cons2}\\
+b_{L-1}&=&(2+s-L)w+(L-2)b_0+(L-3)b_1+(L-4)b_2+...+b_{L-3}\label{cons3}
+\end{eqnarray}
+
+\subsection{Exercises: Checking the Formulas}
+
+\begin{enumerate}
+\item We verify the filter constraints by a simple number experiment.
+\begin{itemize}
+\item Define arbitrary filter coefficients $b_0,...,b_3$ and constants $w,s$ and derive $b_4$ and $b_5$ according to \ref{cons2} and \ref{cons3} 
+<<exercise_constraint,echo=True>>=
+# Filter length
+L<-5
+set.seed(1)
+# The first three coefficients are random numbers
+b<-rnorm(1:(L-2))
+# Define the constants: the following are classical 
+#   restrictions (amplitude is 1 and time shift is zero)
+w<-1
+s<-0
+b<-c(b,(L-1-s)*w-(L-1:(L-2))%*%b,(2+s-L)*w+(L-2:(L-1))%*%b)
+@
+\item Verify pertinence of the filter constraints.
+<<exercise_constraint,echo=True>>=
+# Level constraint
+sum(b)-w
+# time-shift constraint
+sum(b*0:(L-1))/sum(b)-s
+@
+Both expressions are (virtually) zero, as desired.
+\end{itemize}
+\item To be filled: we verify the effects of the filter constraints on amplitude and time-shift functions 
+\begin{itemize}
+\item univariate: (problem: DFA is cheating (explain why) i.e. one must use MDFA univariate)
+\item recompute exercise previous section with i1 and/or i2 imposed with various constraints
+\end{itemize}
+\end{enumerate}
+
+
+
+\section{Filter Constraints, Pseudo-DFT and Pseudo-Periodogram}\label{pseudo_dft}
+
+
+We briefly link the aforementioned filter restrictions to unit roots of the DGP and we illustrate tracking of the target signals of non-stationary integrated processes by the real time designs (finite mean-square filter error). The treatment is informal, see chapter \ref{int_sec} and Wildi (2005), McElroy and Wildi (2015: DFA paper) for details.
+
+\subsection{Pseudo-DFT and Pseudo-Periodogram}
+
+ Assume that $x_t$ is a realization of an I(1)-process with a single unit-root in frequency zero (typical spectral shape of many economic time series). Then 
+\begin{eqnarray*}
+\tilde{x}_t&=&x_{t}-x_{t-1}=(1-B)x_t
+\end{eqnarray*}
+is a stationary process. According to \ref{convolution_dft} (finite sample convolution) we expect that the approximation
+\begin{eqnarray*}
+\Xi_{\tilde{X}T}(\omega)&\simeq&(1-\exp(-i\omega))\Xi_{TX}(\omega)
+\end{eqnarray*}
+should be `tight'. Unfortunately, one can show that the gap between left and right-hand sides of the above approximation does not close asymptotically\footnote{The realization of an I(1)-process is not mean-reverting (it is `far from periodic') which conflicts with the intrinsic assumption of the DFT. Fortunately, a very simple linear adjustment of the data, which does not affect its information content, re-establishes perfect equality between both terms in all frequencies (except zero), see Wildi (2005).} and therefore the periodogram of $x_t$ is a biased spectral estimate, see Wildi (2005). For an I(1)-process we consider the so-called pseudo-DFT
+\begin{eqnarray*}
+\Xi_{TX}^{pseudo}(\omega):=\frac{\Xi_{\tilde{X}T}(\omega)}{1-\exp(-i\omega)},~\omega\neq 0
+\end{eqnarray*}
+with associated pseudo-periodogram
+\[I_{TX}^{pseudo}(\omega)=\left|\Xi_{TX}^{pseudo}(\omega)\right|^2,~\omega\neq 0\]
+where $\Xi_{\tilde{X}T}(\omega)$ relies on first differences $\tilde{x}_t$ of the data. The pseudo-periodogram is an unbiased estimate of the pseudo-spectral density. The pseudo-DFT (pseudo-periodogram) is defined in all frequencies except $\omega=0$. 
+
+
+
+\subsection{First Order Constraint}\label{first_order_cons}
+
+Consider an extension of the stationary (univariate) DFA-criterion \ref{dfa_ms}
+\begin{eqnarray}
+&&\left.\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Delta\Gamma(\omega_k) \right|^2I_{TX}^{pseudo}(\omega_k)\right|_{\Gamma(0)=\hat{\Gamma}(0)}\nonumber\\
+&=&\left.\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\frac{\left|\Delta\Gamma(\omega_k) \right|^2}{|1-\exp(-i\omega_k)|^2}I_{T\tilde{X}}(\omega_k)\right|_{\Gamma(0)=\hat{\Gamma}(0)}\to\min_{\mathbf{b}} \label{dfa_ms_i}
+\end{eqnarray}
+where the original periodogram has been replaced by the unbiased pseudo-periodogram. Interestingly, the singularity in frequency zero can be adressed by imposing the level constraint
+\[\Delta\Gamma(0)=\Gamma(0)-\hat{\Gamma}(0)=0\]
+i.e. the limit 
+\[
+\left.\lim_{\omega\to 0}\frac{\left|\Delta\Gamma(\omega) \right|^2}{|1-\exp(-i\omega)|^2}I_{T\tilde{X}}(\omega)\right|_{\Gamma(0)=\hat{\Gamma}(0)}
+\]
+exists. More precisely, assuming a mild set of regularity assumptions, one can show that the coefficients of the filter 
+\begin{equation}\label{def_Gamma_t}
+\tilde{\Gamma}(\omega):=\left.\displaystyle{\frac{\Delta\Gamma(\omega) }{1-\exp(-i\omega)}}\right|_{\Gamma(0)=\hat{\Gamma}(0)}
+\end{equation} 
+are well-defined and converge at a suitable rate towards zero with increasing/decreasing lags, see Wildi (2005). Therefore, consider 
+\[\Gamma(\omega)-\hat{\Gamma}(\omega)=\tilde{\Gamma}(\omega)(1-\exp(-i\omega))\]
+We infer that the difference of target and real-time filters, on the left side, can be factored into a well-defined MA-filter $\tilde{\Gamma}(\omega)$ and a first difference operator. Our estimation problem can then be stated in (at least) two equivalent ways:
+\begin{itemize}
+\item Apply the filter with transfer function $\Gamma(\omega)-\hat{\Gamma}(\omega)$ to the non-stationary data $x_t$ and determine `optimal' filter coefficients of $\hat{\Gamma}(\omega)$.
+\item Apply the filter with transfer function $\tilde{\Gamma}(\omega)$ to the stationary data $\tilde{x}_t$ and determine `optimal' filter coefficients of $\hat{\Gamma}(\omega)$ (these coefficients enter into $\tilde{\Gamma}(\omega)$ via \ref{def_Gamma_t}).  
+\end{itemize}
+In the latter case, we are back to the stationary case discussed in chapter \ref{mse_sec} (except that we have to impose a filter constraint). In particular
+\begin{eqnarray*}
+\left.\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\tilde{\Gamma}(\omega_k) \right|^2I_{T\tilde{X}}(\omega_k)\right|_{\Gamma(0)=\hat{\Gamma}(0)} 
+\end{eqnarray*}
+is a superconsistent estimate of the (sample) mean-square filter error and therefore criterion \ref{dfa_ms_i} is pertinent. \\
+
+
+We conclude that the proposed level-constraint $\sum_{k=0}^{L-1}b_{k}=\Gamma(0)$ ensures existence and pertinence of the optimization criterion \ref{dfa_ms_i}. Moreover, the filter error $y_t-\hat{y}_t$ is stationary i.e. the mean-square filter error is finite\footnote{An extension to for/backcasting is straightforward by imposing $\sum_{k=h}^{L-1+h}b_{kh}=\Gamma(0)$.}. If $\Gamma(0)>0$ and if $\Gamma(\omega)$ is sufficiently regular in a vicinity of $\omega=0$, then the non-stationary target $y_t$ and the non-stationary finite sample estimate $\hat{y}_t$ are cointegrated with cointegration vector $(1,-1)$. If $\Gamma(0)=0$ and if $\Gamma(\omega)$ is sufficiently regular in a vicinity of $\omega=0$, then both the target $y_t$ as well as the finite sample estimate $\hat{y}_t$ are stationary. 
+
+
+
+
+\subsection{Second Order Constraint}\label{socco}
+
+We here assume that $x_t$ is a realization of an I(2)-process. Then the pseudo-DFT (-periodogram) becomes
+\begin{eqnarray}
+\Xi_{TX}^{pseudo}(\omega)&:=&\frac{\Xi_{\tilde{X}T}(\omega)}{(1-\exp(-i\omega))^2},~\omega\neq 0\nonumber\\
+I_{TX}^{pseudo}(\omega)&=&\left|\Xi_{TX}^{pseudo}(\omega)\right|^2,~\omega\neq 0\label{pseudo_per_i2}
+\end{eqnarray}
+where 
+\begin{eqnarray*}
+\tilde{x}_t&=&(1-B)^2x_t
+\end{eqnarray*}
+are the stationary second-order differences of the data. Consider the following optimization criterion 
+\begin{eqnarray}
+&&\left.\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Delta\Gamma(\omega_k) \right|^2I_{TX}^{pseudo}(\omega_k)\right|_{\Delta\Gamma(0)=\Delta\Gamma^{(1)}(0)=0}\nonumber \\
+&=&\left.\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\frac{\left|\Delta\Gamma(\omega_k) \right|^2}{|1-\exp(-i\omega_k)|^4}I_{T\tilde{X}}(\omega_k)\right|_{\Delta\Gamma(0)=\Delta\Gamma^{(1)}(0)=0}\to\min_{\mathbf{b}}\label{sos_rhs}
+\end{eqnarray}
+where we impose first- and second-order constraints
+\begin{eqnarray*}
+\Delta\Gamma(0)&=&0\\
+\Delta\Gamma^{(1)}(0)&=&\left.\frac{d (\Gamma(\omega)-\hat{\Gamma}(\omega))}{d\omega}\right|_{\omega=0}=0
+\end{eqnarray*}
+Note that \(\left.d
+\Gamma(\omega)/d\omega\right|_{\omega=0}=0\) in the second order-constraint, by symmetry of the target filter, (even function) so that we must impose a vanishing derivative of $\hat{\Gamma}(\cdot)$ in $\omega=0$ for the constraint to hold. We first consider the case $ |\Gamma(0)|>0$ (lowpass target). Let
+\[\hat{\Gamma}(\omega)=\hat{A}(\omega)\exp(-i\hat{\Phi}(\omega))\]
+so that
+\begin{eqnarray}\label{dd0}
+\left.\frac{d\hat{\Gamma}(\omega)}{d\omega}\right|_{\omega=0}&=&
+\left.\frac{d\hat{A}(\omega)}{d\omega}\right|_{\omega=0}\exp(-i\hat{\Phi}(0))-
+i\hat{A}(0)\exp(-i\hat{\Phi}(0))\left.\frac{d\hat{\Phi}(\omega)}{d\omega}\right|_{\omega=0}\label{dd0_dodo}\\
+&=&-i\hat{A}(0)\left.\frac{d\hat{\Phi}(\omega)}{d\omega}\right|_{\omega=0}\label{dd0}
+\end{eqnarray}
+where \(\left.d\hat{A}(\omega)/d\omega\right|_{\omega=0}=0\)
+by symmetry of the amplitude function\footnote{Note that $\hat{A}(0)>0$ (level constraint) and therefore the derivative exists.} (even function). Since  \(\hat{A}(0)=|\Gamma(0)|>0\) (first order constraint), the derivative in (\ref{dd0}) vanishes in \(\omega=0\)
+if and only if
+\begin{eqnarray}\label{soar}
+\left.\frac{d\hat{\Phi}(\omega)}{d\omega}\right|_{\omega=0}=\lim_{h\to
+0}\frac{\hat{\Phi}(h)-\hat{\Phi}(0)}{h}=\hat{\phi}(0)=0
+\end{eqnarray}
+where we used the fact that the phase function vanishes in 
+\(\omega=0\). We infer that both the first order level as well as the second-order time-shift constraints are necessary in order to cancel the second-order singularity in \ref{sos_rhs} if $|\Gamma(0)|>0$\footnote{Intuitively the vanishing time-shift is necessary because the slope (first difference) of the data diverges asymptotically.}. On the other hand, if \(\Gamma(0)=0\) (bandpass, highpass) then $\hat{A}(0)=0$ (first order level constraint). Therefore the right-hand side of \ref{dd0_dodo} vanishes iff 
+\(\left.d\hat{A}(\omega)/d\omega\right|_{\omega=0}=0\). However, the last equality together with $\hat{A}(0)=0$ implies that the zero of the amplitude function must be of order two in frequency zero, because $\hat{A}(\cdot)$ is an even function\footnote{A graphical illustration of the double-zero in frequency zero is obtained in fig.\ref{z_HP_us_real_log_gdp_hp_diff__gap_amp}, chapter \ref{rep_sec}: the bottom-right panel (double-zero in frequency-zero) is to be contrasted with the bottom-left panel (single zero in frequency zero).}. The same argument applies to $\Gamma(\cdot)$ which is an even function, too. Therefore, both filter outputs $y_t$ and $\hat{y}_t$ are stationary and therefore the filter-error is stationary too i.e. the mean-square filter error is finite, irrespective of the time-shift of the real-time filter.\\
+
+In analogy to the previous section, one can show that the coefficients of the filter 
+\begin{equation}\label{til_til_digg_gamma}
+\left.\tilde{\Gamma}(\omega):=\displaystyle{\frac{\Delta\Gamma(\omega) }{(1-\exp(-i\omega))^2}}\right|_{\Delta\Gamma(0)=\Delta\Gamma^{(1)}(0)=0}
+\end{equation} 
+are well defined and converge at a suitable rate towards zero with increasing lag, see Wildi (2005). As a consequence,  our estimation problem can be stated in (at least) two equivalent ways:
+\begin{itemize}
+\item Apply the filter with transfer function $\Gamma(\omega)-\hat{\Gamma}(\omega)$ to the non-stationary data $x_t$ and determine `optimal' filter coefficients of $\hat{\Gamma}(\omega)$.
+\item Apply the filter with transfer function $\tilde{\Gamma}(\omega)$ to the stationary data $\tilde{x}_t$ and determine `optimal' filter coefficients of $\hat{\Gamma}(\omega)$ (these coefficients enter into $\tilde{\Gamma}(\omega)$ via \ref{til_til_digg_gamma}).  
+\end{itemize}
+In the latter case, we are back to the stationary case discussed in chapter \ref{mse_sec} (except that we have to impose a double filter constraint). In particular
+\begin{eqnarray*}
+\left.\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\tilde{\Gamma}(\omega_k) \right|^2I_{T\tilde{X}}(\omega_k)\right|_{\Delta\Gamma(0)=\Delta\Gamma^{(1)}(0)=0}
+\end{eqnarray*}
+is a superconsistent estimate of the (sample) mean-square filter error and therefore criterion \ref{sos_rhs} is pertinent. In particular, the filter error $y_t-\hat{y}_t$ is stationary. If $\Gamma(0)>0$ and if $\Gamma(\omega)$ is sufficiently regular in $\omega=0$ then the non-stationary target $y_t$ and the non-stationary estimate $\hat{y}_t$ are cointegrated with cointegration vector $(1,-1)$. If $\Gamma(0)=0$ and if $\Gamma(\omega)$ is sufficiently regular in $\omega=0$ then both the target $y_t$ and the estimate $\hat{y}_t$ are stationary\footnote{Assuming mild regularity restrictions, the zero of $\Gamma(\omega)$ must be of second order because the function is even (symmetric around zero).}.  
+
+
+\section{General Parametrization}\label{cons_gen_par}
+
+\subsection{Caveats}
+
+The particular parametrization of the filter constraints in terms of $b_{L-1}$ and $b_{L-2}$ in \ref{cons2} and \ref{cons3} is to some extent arbitrary. Indeed, we could have selected $b_0$ and $b_1$, instead. Of course, our particular choice does not affect the estimation result, at least as long as the coefficients are otherwise freely determined. Unfortunately, the regularization features to be introduced in chapter \ref{reg_sec} conflict with this assumption. Therefore we here propose a more general approach.
+
+
+
+\subsection{Nowcasting, Forecasting and Smoothing}\label{implement}
+
+
+We want to estimate $y_{T+h}$ for $h>0$ (forecasting), $h=0$ (nowcasting) or $h< 0$ (backcasting), given data $x_T,x_{T-1},...,x_{T-(L-1)}$, see section \ref{for_now_smo}. If $h=0$ (nowcasting) then imposing a vanishing time shift ($s=0$) means that $\hat{y}_t$ and $y_t$ are `synchronized' (at least in frequency zero). If $h\neq 0$, then the synchronization should apply between $\hat{y}_{t-h}^h$ and $y_t$ i.e. the vanishing time-shift should apply to the \emph{shifted} output signal. Relying on  \ref{shift_zero_eq} we obtain:
+\begin{eqnarray*}
+\hat{\phi}(0)&=&\frac{\sum_{j=h}^{L-1+h}jb_{jh}}{\sum_{j=h}^{L-1+h}b_{jh}}
+\end{eqnarray*}
+and the time-shift constraint \ref{shift_zero_eq_general} becomes
+\begin{eqnarray}
+\sum_{j=h}^{L-1+h}(j-s)b_{jh} =0\label{cons11s}
+\end{eqnarray}
+The level constraint is `as usual'
+\begin{eqnarray}\label{cons1s}
+b_{hh}+b_{h+1,h}+...+b_{h+(L-1),h}=w
+\end{eqnarray}
+
+\subsection{Implementing the Filter Constraints}
+
+As discussed, any single coefficient $b_{jh}$ (single constraint) or any pair of coefficients (both constraints imposed) could be isolated out of the above equations for implementing the constraint(s). In order to avoid conflicts with later regularization features, see chapter \ref{reg_sec}, we here select $b_{max(0,h),h}$ (single constraint) or $b_{max(0,h),h},b_{max(0,h)+1,h}$ (both constraints imposed) as \emph{natural candidate(s)}. For $h\geq 0$ (nowcast/forecast) these are $b_{hh}, b_{h+1,h}$ i.e. the coefficients assigned to the last data points $x_T,x_{T-1}$, which are likely to be most informative for $y_{T+h}$. For $h<0$ (backcast) these are $b_{0h}$, $b_{1h}$ i.e the coefficient assigned to $x_{T-|h|}$ and $x_{T-|h|-1}$ which are likely to be most informative for $y_{T-|h|}$  (recall that the backcast filter is `centered' about $x_{T-|h|}$).
+
+
+
+
+
+
+
+
+\subsection{Matrix Notation}\label{matrix_notation_constraints}
+
+For notational ease we now drop the index $h$ from the subscripts i.e. we write $b_j$ instead of $b_{jh}$. The proposed filter constraints can then be re-written in the generic form
+\begin{eqnarray}\label{cons5s}
+\mathbf{b}&=&\mathbf{R b_{f}}+\mathbf{c}
+\end{eqnarray}
+where $\mathbf{b_f}$ is the vector of freely determined coefficients. We now specify the right-hand side of this equation for each of the three relevant cases: i1=T, i2=F (simple level-constraint), i1=F, i2=T (simple time-shift constraint) and i1=i2=T (both constraints imposed).  
+
+
+\subsubsection{The case $i1<-T$, $i2<-F$}
+
+We consider a general multivariate framework with $m+1$ explanatory variables $(x_t,w_{1t},...,w_{mt})$. In this case we obtain
+\begin{eqnarray*}
+b_{\max(0,h)}^u=w^u-\sum_{k=h,k\not=0}^{h+L-1}b_k^u
+\end{eqnarray*}
+where the index $u=0,...,m$ runs across series ($u=0$ corresponds to $x_t$). \\
+
+
+
+The entries in \ref{cons5s} become
+\begin{eqnarray}
+\mathbf{R}&=&\left(\begin{array}{cccc}
+\mathbf{C}&0&...&0\\
+0&\mathbf{C}&...&0\\
+:::\\
+0&0&...&\mathbf{C}
+\end{array}\right)\label{app1}\\
+\mathbf{C}&=&\left(\begin{array}{cccccc}
+1&0&0&...&0&0\\
+0&1&0&...&0&0\\
+:::\\
+-1&-1&-1&...&-1&-1\\
+:::\\
+0&0&0&...&1&0\\
+0&0&0&...&0&1
+\end{array}\right)\label{app2}\\
+\mathbf{c}'&=&(0,...,0,w^0,0,...,0~||~0,...,0,w^1,0,...,0~||~...~||0,...,0,w^m,0,...,0)\nonumber\\
+\mathbf{b_f}'&=&(b_{h}^0,...,b_{-1}^0,b_1^0,...,b_{h+L-1}^0~||~b_{h}^1,...,b_{-1}^1,b_1^1,...,b_{h+L-1}^1~||~...~||~b_{h}^m,...,b_{-1}^m,b_1^m,...,b_{h+L-1}^m)\nonumber
+\end{eqnarray}
+The vector of -1's in $\mathbf{C}$ is in row-position $\max(0,-h)+1$ whereas the constant $w^u$ ($u=0,...,m$) in $\mathbf{c}$ is in position $u*(L-1)+\max(0,-h)+1$. The vector $\mathbf{b_f'}$ collects all freely determined parameters (thus $b_0^u$ is missing) whereas $\mathbf{b}$ collects all coefficients: the former vector is used for optimization and the latter is required for filtering. 
+
+
+
+
+\subsubsection{The case $i1<-F$, $i2<-T$}
+
+
+We consider a simple time-shift constraint without level requirement\footnote{This case would be quite unusual in a classic model-based approach because imposition of the second-order constraint would require the first-order constraint as a prerequisite.} and we first assume $s\neq 0$ and $h<0$ (backcast). From \ref{cons11s} we obtain
+\[
+-sb_0^u=-(h-s)b_{h}^u-(h+1-s)b_{h+1}^u-...-(-1-s)b_{-1}^u-(1-s)b_1-(2-s)b_2^u-...-(h+L-1-s)b_{h+L-1}^u
+\]
+or equivalently
+\[
+b_0^u=\frac{(h-s)b_{h}^u+(h+1-s)b_{h+1}^u+...+(-1-s)b_{-1}^u+(1-s)b_1+(2-s)b_2^u+...+(h+L-1-s)b_{h+L-1}^u}{s}
+\]
+Such that
+\begin{eqnarray}\label{cons6s}
+\mathbf{C}_{h<0}&=&\left(\begin{array}{ccccccccc}
+1&0&0&...&...&...&...&0&0\\
+0&1&0&...&...&...&...&0&0\\
+:::\\
+\displaystyle{\frac{h-s}{s}}&\displaystyle{\frac{h+1-s}{s}}&\displaystyle{\frac{h+2-s}{s}}&...&\displaystyle{\frac{-1-s}{s}}&\displaystyle{\frac{1-s}{s}}&\displaystyle{\frac{2-s}{s}}&...&\displaystyle{\frac{h+L-1-s}{s}}\\
+:::\\
+0&0&0&...&...&...&...&1&0\\
+0&0&0&...&...&...&...&0&1
+\end{array}\right)\\
+\mathbf{c}_{h<0}'&=&\mathbf{0}\\
+\nonumber\\
+\mathbf{b_f}'&=&(b_{h}^0,...,b_{-1}^0,b_1^0,...,b_{h+L-1}^0~||~b_{h}^1,...,b_{-1}^1,b_1^1,...,b_{h+L-1}^1~||~...~||~b_{h}^m,...,b_{-1}^m,b_1^m,...,b_{h+L-1}^m)\nonumber
+\end{eqnarray}
+The vector $\left(\displaystyle{\frac{h-s}{s}},...,\displaystyle{\frac{h+L-1-s}{s}}\right)$ in $\mathbf{C}_{h<0}$ is in row-position $-h+1$. The vector $\mathbf{b_f}$ collects the freely determined coefficients: all coefficients except $b_0^u$.\\
+
+The case $h=0$ (nowcast) is handled by
+\begin{eqnarray*}%\label{cons6s}
+\mathbf{C}_{h=0}&=&\left(\begin{array}{cccc}
+\displaystyle{\frac{1-s}{s}}&\displaystyle{\frac{2-s}{s}}&...&\displaystyle{\frac{L-1-s}{s}}\\
+1&0&...&0\\
+:::\\
+0&0&...&1
+\end{array}\right)\nonumber\\
+\mathbf{c}_{h=0}'&=&\mathbf{0}\\
+\nonumber\\
+\mathbf{b_f}'&=&(b_1^0,...,b_{L-1}^0~||~b_1^1,...,b_{L-1}^1~||~...~||~b_1^m,...,b_{L-1}^m)\nonumber\end{eqnarray*}
+and the case $h>0$ (forecast) corresponds to 
+\[
+(h-s)b_h^u=-(h+1-s)b_{h+1}^u-(h+2-s)b_{h+2}^u-...-(h+L-1-s)b_{h+L-1}^u
+\]
+or, equivalently
+\[
+b_h^u=\frac{-(h+1-s)b_{h+1}^u-(h+2-s)b_{h+2}^u-...-(h+L-1-s)b_{h+L-1}^u}{h-s}
+\]
+We obtain
+\begin{eqnarray*}%\label{cons6s}
+\mathbf{C}_{h>0}&=&\left(\begin{array}{cccc}
+-\displaystyle{\frac{h+1-s}{h-s}}&-\displaystyle{\frac{h+2-s}{h-s}}&...&-\displaystyle{\frac{h+L-1-s}{h-s}}\\
+1&0&...&0\\
+:::\\
+0&0&...&1
+\end{array}\right)\nonumber\\
+\mathbf{c}_{h>0}'&=&\mathbf{0}\\
+\nonumber\\
+\mathbf{b_f}'&=&(b_{h+1}^0,...,b_{h+L-1}^0~||~b_{h+1}^1,...,b_{h+L-1}^1~||~...~||~b_{h+1}^m,...,b_{h+L-1}^m)\nonumber\end{eqnarray*}
+Note that we implicitly assumed $h-s\neq 0$ in the above derivation. Otherwise we would have to isolate $b_{h+1}$ instead of $b_h$ (left as an exercise to the reader). Recall, also, that we assumed $s\neq 0$ in the case $h\leq 0$: if $s=0$ then we isolate $b_1$, instead of $b_0$, in the above expressions\footnote{If $s=0$ then, obviously, $1-s\neq 0$ and therefore the quotients will be defined.} (left as an exercise to the reader). 
+
+
+
+\subsubsection{The case $i1<-T$, $i2<-T$}
+
+As in the previous section, we first tackle the backcast-problem: $h<0$. Solving for $b_0^u$ and $b_1^u$ in \ref{cons11s} and \ref{cons1s} leads to
+\begin{eqnarray*}%\label{cons2s}
+b_{1}^u&=&s^uw^u-hb_{h}^u-(h+1)b_{h+1}^u-...-(-1)b_{-1}^u-0-2b_{2}^u-3b_{3}^u-...-(h+L-1)b_{h+L-1}^u\nonumber\\
+b_{0}^u&=&w^u(1-s^u)+(h-1)b_{h}^u+hb_{h+1}^u+...+(-2)b_{-1}^u+b_{2}^u+2b_3^u+...+(L-2+h)b_{L-1+h}^u\nonumber%\label{cons3s}
+\end{eqnarray*}
+We obtain
+\begin{eqnarray}\label{cons77s}
+\mathbf{C}_{h<0}&=&\left(\begin{array}{ccccccccc}
+1&0&0&...&&&&0&0\\
+0&1&0&...&&&&0&0\\
+:::\\
+h-1&h&h+1&...&-2&1&2&...&(L-2+h)\\
+-h&-(h+1)&-(h+2)&...&1&-2&-3&...&-(h+L-1)\\
+:::\\
+0&0&0&...&&&&1&0\\
+0&0&0&...&&&&0&1
+\end{array}\right)\\
+\mathbf{c}_{h<0}'&=&(0,...,0,w^0(1-s^0),s^0w^0,0,...,0~||~0,...,0,w^1(1-s^1),s^1w^1,0,...,0~||~...~||\\
+&&0,...,0,w^m(1-s^m),s^mw^m,0,...,0)\nonumber\\
+\mathbf{b_f}'&=&(b_{-h}^0,...,b_{-1}^0,b_2^0,...,b_{L-1-h}^0~||~b_{-h}^1,...,b_{-1}^1,b_2^1,...,b_{L-1-h}^1~||~...~||~b_{-h}^m,...,b_{-1}^m,b_2^m,...,\\
+&&b_{L-1-h}^m)\nonumber
+\end{eqnarray}
+The non-trivial weighting-vectors in $\mathbf{C}_{h<0}$ are located in row-positions $-h+1$ and $-h+2$ whereas the constants $w^u(1-s^u)$ and $s^uw^u$ in $\mathbf{c}_{h<0}$ are to be found in positions $u*(L-2)-h+1$ and $u*(L-2)-h+2$, respectively. Note that both $b_0^u$ and $b_1^u$ are now missing in the vector of freely determined coefficients $\mathbf{b_f}$. \\
+
+
+For $h=0$ we obtain
+\begin{eqnarray}\label{cons77s}
+\mathbf{C}_{h=0}&=&\left(\begin{array}{ccccccccc}
+1&2&...&(L-2)\\
+-2&-3&...&-(L-1)\\
+1&&0&0\\
+:::\\
+0&...&0&1
+\end{array}\right)\\
+\mathbf{c}_{h=0}'&=&w^0(1-s^0),s^0w^0,0,...,0~||~w^1(1-s^1),s^1w^1,0,...,0~||~...~||w^m(1-s^m),s^mw^m,0,...,0)\nonumber\\
+\mathbf{b_f}'&=&(b_2^0,...,b_{L-1}^0~||~b_2^1,...,b_{L-1}^1~||~...~||~b_2^m,...,b_{L-1}^m)\nonumber
+\end{eqnarray}
+Finally, for $h>0$ the constraints become
+\begin{eqnarray*}%\label{cons2s}
+(h+1)b_{h+1}^u&=&s^uw^u-(h+2)b_{h+2}^u-(h+3)b_{h+3}-...-(h+L-1)b_{h+L-1}^u\nonumber\\
+hb_{h}^u&=&w^u(1-s^u)+(h+1)b_{h+2}^u+(h+2)b_{h+3}^u+...+(h+L-2)b_{h+L-1}^u\nonumber%\label{cons3s}
+\end{eqnarray*}
+or, equivalently
+\begin{eqnarray*}%\label{cons2s}
+b_{h+1}^u&=&\frac{s^uw^u-(h+2)b_{h+2}^u-(h+3)b_{h+3}-...-(h+L-1)b_{h+L-1}^u}{h+1}\nonumber\\
+b_{h}^u&=&\frac{w^u(1-s^u)+(h+1)b_{h+2}^u+(h+2)b_{h+3}^u+...+(h+L-2)b_{h+L-1}^u}{h}\nonumber%\label{cons3s}
+\end{eqnarray*}
+so that
+\begin{eqnarray*}%\label{cons6s}
+\mathbf{C}_{h> 0}&=&\left(\begin{array}{ccccc}
+\displaystyle{\frac{h+1}{h}}&\displaystyle{\frac{h+2}{h}}&\displaystyle{\frac{3}{h}}&...&\displaystyle{\frac{h+L-2}{h}}\\
+-\displaystyle{\frac{h+2}{h+1}}&-\displaystyle{\frac{h+3}{h+1}}&-\displaystyle{\frac{h+4}{h+1}}&...&-\displaystyle{\frac{h+L-1}{h+1}}\\
+1&0&0&...&0\\
+0&1&0&...&0\\
+:::\\
+0&0&0&...&1
+\end{array}\right)\nonumber\\
+\mathbf{c}_{h> 0}'&=&(\displaystyle{\frac{w^0(1-s^0)}{h}},\displaystyle{\frac{s^0w^0}{h+1}},0,...,0~||\displaystyle{\frac{w^1(1-s^1)}{h}},\displaystyle{\frac{s^1w^1}{h+1}},0,...,0~||~...~||\\
+&&\displaystyle{\frac{w^m(1-s^m)}{h}},\displaystyle{\frac{s^mw^m}{h+1}},0,...,0)\nonumber\\
+\mathbf{b_f}'&=&(b_{-h}^0,...,b_{-1}^0,b_2^0,...,b_{L-1-h}^0~||~b_{-h}^1,...,b_{-1}^1,b_2^1,...,b_{L-1-h}^1~||~...~||~b_{-h}^m,...,b_{-1}^m,b_2^m,...,b_{L-1-h}^m)\nonumber
+\end{eqnarray*}
+Obviously, all expressions on the right-hand side of \ref{cons5s} depend on i1, i2 as well as on $h$ but for notational simplicity we refrain from attaching a cumbersome triple index to them. 
+
+
+
+ 
+\section{Constrained Optimization}\label{optim_stat}
+
+\subsection{Generalized Criterion}
+
+Optimal constrained filter coefficients can be obtained by plugging \ref{cons5s} into \ref{regms} and by taking derivatives 
+\begin{eqnarray*}
+d/d\mathbf{b_f}~\textrm{Criterion}&=&d/d\mathbf{b_f}~(\mathbf{Y_{\textrm{rot}}-X_{\textrm{rot}}\left(\mathbf{R b_{f}}+\mathbf{c}\right)})'(\mathbf{Y_{\textrm{rot}}-X_{\textrm{rot}}\left(\mathbf{R b_{f}}+\mathbf{c}\right)})\nonumber\\
+&=&-2(\mathbf{Y_{\textrm{rot}})'\Re\left(X_{\textrm{rot}}\right)R-
+2\Re\bigg\{\mathbf{(X_{\textrm{rot}}c)'(X_{\textrm{rot}}R)}\bigg\}
++2b_f'\Re\bigg\{(X_{\textrm{rot}}R)'X_{\textrm{rot}}R\bigg\}}
+\end{eqnarray*}
+The \emph{constrained }solution is obtained by equating this expression to zero 
+\begin{eqnarray}\label{const_sol}
+\mathbf{\hat{b}}^{\textrm{Const}}_f(i1,i2)&=&\mathbf{\Big\{\Re\Big[(X_{\textrm{rot}}R)' X_{\textrm{rot}}R\Big]\Big\}}^{-1}\Big((\Re(\mathbf{X_{\textrm{rot}})R})'
+\mathbf{Y_{\textrm{rot}}}+\Re\bigg\{(\mathbf{X_{\textrm{rot}}R})'\mathbf{X_{\textrm{rot}}c}\bigg\}\Big)\nonumber\\
+&=&\mathbf{\Big\{\Re\Big[(X_{\textrm{rot}}R)' X_{\textrm{rot}}R\Big]\Big\}}^{-1}\Big((\Re(\mathbf{X_{\textrm{rot}})R})'
+\mathbf{Y_{\textrm{rot}}}+\mathbf{Level}\Big)
+\end{eqnarray}
+where the vector 
+\[
+\mathbf{Level}:=\Re\bigg\{(\mathbf{X_{\textrm{rot}}R})'\mathbf{X_{\textrm{rot}}c}\bigg\}
+\] 
+can be interpreted as a generalized level term\footnote{If $w^u=0$ for all $u=0,...,m$ then $\mathbf{Level=0}$.}. A comparison with \ref{bregms} illustrates that constrained and unconstrained solutions are similar up to the presence of the transformation $\mathbf{R}$ and the occurrence of the new level-term $\mathbf{Level}$. In particular $\mathbf{R=Id}$ and $\mathbf{c=0}$ replicates \ref{bregms}, as expected (no constraints imposed). The `full-coefficient' vector $\mathbf{b}$, indispensable for filtering, is obtained  by plugging the obtained constrained solution $\mathbf{\hat{b}}^{\textrm{Const}}_f(i1,i2)$ into \ref{cons5s}. 
+
+
+\section{Exercises: Implementing Constraints in MDFA}\label{const_impl_mdfa}
+
+We rely on the bivariate leading indicator design proposed in chapter \ref{mse_sec} and compute amplitude and time-shift functions for all possible combinations of the Boolean $(i1,i2)$.
+
+\begin{enumerate}
+\item \label{ex_c_1_li} Rely on the data of section \ref{bimdfaudfa} (leading indicator) and use the default settings ($Lag=0$, $i1=i2=F$: unconstrained design) for estimating filter coefficients for filters of length $L=13$. Use the third series ($a_1=-0.9$) and compute and plot amplitude and time-shift functions, see fig.\ref{z_mdfa_ar1_amp_shift_Lag_0_iF_i2F}.
+<<echo=FALSE>>=
+# Generate series
+#rm(list=ls())
+set.seed(10)
+len<-120
+a_vec<-c(0.9,0.1,-0.9)
+x<-matrix(nrow=len,ncol=3)
+plot_T<-F
+yhat<-x
+periodogram<-matrix(ncol=3,nrow=len/2+1)
+trffkt<-periodogram
+# Generate series
+for (i in 1:3)
+{
+  set.seed(10)
+  x[,i]<-arima.sim(list(ar=a_vec[i]),n=len)
+}
+# Target
+Gamma<-c(1,(1:(len/2))<len/12)
+set.seed(12)
+# Select the AR(1)-process with coefficient 0.9
+i_process<-3
+# Scaling of the idiosyncratic noise
+scale_idiosyncratic<-0.1
+eps<-rnorm(nrow(x))
+indicator<-x[,i_process]+scale_idiosyncratic*eps
+# Data: first column=target, second column=x, third column=shifted (leading) indicator
+data_matrix_120<-cbind(x[,i_process],x[,i_process],c(indicator[2:nrow(x)],indicator[nrow(x)]))
+dimnames(data_matrix_120)[[2]]<-c("target","x","leading indicator")
+head(data_matrix_120)
+@
+
+<<exercise_mdfa_ms_1,echo=True>>=
+# Filter length
+L<-13
+# Fully in sample
+insample<-nrow(data_matrix_120)
+# d=0 for stationary series: see default settings
+weight_func<-spec_comp(insample, data_matrix_120, d)$weight_func
+# Source the default (MSE-) parameter settings
+source(file=paste(path.outside,"control_default.r",sep=""))
+
+# Estimate filter coefficients
+mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,
+                eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                grand_mean,b0_H0,c_eta,weight_structure,
+                white_noise,synchronicity,lag_mat,troikaner)
+
+file = paste("z_mdfa_ar1_amp_shift_Lag_0_iF_i2F.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special",
+    width = 6, height = 6)
+
+par(mfrow = c(2, 1))
+# amplitude functions
+mplot <- abs(mdfa_obj$trffkt)
+# x-axis
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+colo <- NULL
+plot_title <- "Amplitude Functions"
+title_more <- colnames(x[, -1])
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+# time-shift
+mplot <- Arg(t(sign(apply(mdfa_obj$b, 2, sum)) * t(mdfa_obj$trffkt))) /
+      ((0 : (nrow(mdfa_obj$trffkt) - 1)) * pi / (nrow(mdfa_obj$trffkt) - 1))
+# We use the exact formula for the time-shift in frequency zero
+mplot[1, ] <- apply(mdfa_obj$b * ((0 : (L - 1))), 2, sum) / 
+      apply(mdfa_obj$b, 2, sum)
+plot_title <- "Time-Shift"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_mdfa_ar1_amp_shift_Lag_0_iF_i2F.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ar1_amp_shift_Lag_0_iF_i2F.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (top) and time-shift (bottom) functions: unconstrained i1=I2=F", sep = "")
+  cat("\\label{z_mdfa_ar1_amp_shift_Lag_0_iF_i2F}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+No constraints are imposed in frequency zero.
+\item Same as above but impose a simple level constraint: $i1=T,i2=F$ and $w^0=\frac{1+\sqrt{5}}{2},w^1=-\sqrt{2}$. Plot and compare the resulting amplitude functions, see fig.\ref{z_mdfa_ar1_amp_shift_Lag_0_iT_i2F}.
+
+<<exercise_dfa_ms_2,echo=True>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path.outside,"control_default.r",sep=""))
+# Impose level constraint
+i1<-T
+# Constraints: for series 1 and 2
+weight_constraint<-c((1+sqrt(5))/2,-sqrt(2))
+
+mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,
+                eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                grand_mean,b0_H0,c_eta,weight_structure,
+                white_noise,synchronicity,lag_mat,troikaner)
+
+file = paste("z_mdfa_ar1_amp_shift_Lag_0_iT_i2F.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+par(mfrow = c(2, 1))
+# amplitude functions
+mplot <- abs(mdfa_obj$trffkt)
+# x-axis
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+colo <- NULL
+plot_title <- "Amplitude Functions"
+title_more <- colnames(x[, -1])
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+# time-shift
+mplot <- Arg(t(sign(apply(mdfa_obj$b, 2, sum)) * t(mdfa_obj$trffkt))) /
+      ((0 : (nrow(mdfa_obj$trffkt) - 1)) * pi / (nrow(mdfa_obj$trffkt) - 1))
+# We use the exact formula for the time-shift in frequency zero
+mplot[1, ] <- apply(mdfa_obj$b*(0:(L-1)),2,sum)/apply(mdfa_obj$b, 2, sum)
+plot_title <- "Time-Shift"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+print(c("Level restrictions", round(apply(mdfa_obj$b,2,sum),4)))
+@
+
+<<label=z_mdfa_ar1_amp_shift_Lag_0_iT_i2F.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ar1_amp_shift_Lag_0_iT_i2F.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (top) and time-shift (bottom) functions: i1=T,i2=F", sep = "")
+  cat("\\label{z_mdfa_ar1_amp_shift_Lag_0_iT_i2F}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+As expected, the bivariate transfer function satisfies the imposed first order restrictions $w^0=\frac{1+\sqrt{5}}{2},w^1=-\sqrt{2}$ in frequency zero. Consider that the resulting filter is not obtained by a simple scaling of its coefficients; instead, it is the best (MSE) filter among all those which satisfy the restriction (a simple scaling could not pretend to optimality, in general). 
+\item Same as above but impose a simple time-shift restriction, $i1=F,i2=T$, and select $s^0=e=\exp(1),s^1=-\pi$. Compute and compare the time-shift functions, see fig.\ref{z_mdfa_ar1_amp_shift_Lag_0_iF_i2T}.
+
+<<exercise_dfa_ms_3,echo=True>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path.outside,"control_default.r",sep=""))#b0_H0
+# Estimate filter coefficients: note that i1<-F by sourcing 
+#   the default parameters
+i2<-T
+shift_constraint<-c(exp(1),-pi)
+
+mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,
+                eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                grand_mean,b0_H0,c_eta,weight_structure,
+                white_noise,synchronicity,lag_mat,troikaner)
+
+file = paste("z_mdfa_ar1_amp_shift_Lag_0_iF_i2T.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+
+par(mfrow = c(2, 1))
+# amplitude functions
+mplot <- abs(mdfa_obj$trffkt)
+# x-axis
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+colo <- NULL
+plot_title <- "Amplitude Functions"
+title_more <- colnames(x[, -1])
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+# time-shift
+mplot <- Arg(t(sign(apply(mdfa_obj$b, 2, sum)) * t(mdfa_obj$trffkt))) /
+      ((0 : (nrow(mdfa_obj$trffkt) - 1)) * pi / (nrow(mdfa_obj$trffkt) - 1))
+# We use the exact formula for the time-shift in frequency zero
+mplot[1, ] <- apply(mdfa_obj$b*(0:(L-1)),2,sum)/apply(mdfa_obj$b, 2, sum)
+plot_title <- "Time-Shift"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+print(c("Time-shift restrictions",
+    round(apply(mdfa_obj$b*(0:(L-1)),2,sum)/apply(mdfa_obj$b, 2, sum),4)))
+@
+
+<<label=z_mdfa_ar1_amp_shift_Lag_0_iF_i2T.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ar1_amp_shift_Lag_0_iF_i2T.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (top) and time-shift (bottom) functions: i1=F,i2=T", sep = "")
+  cat("\\label{z_mdfa_ar1_amp_shift_Lag_0_iF_i2T}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The time-shifts agree with our constraints, $s^0=e=\exp(1),s^1=-\pi$, in frequency zero.
+
+\item Impose both constraints simultaneously, see fig.\ref{z_mdfa_ar1_amp_shift_Lag_0_iT_i2T}.
+
+<<exercise_mdfa_ms_4,echo=True>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path.outside,"control_default.r",sep=""))
+# Impose both constraints
+i1<-T
+i2<-T
+# Specify the constraints
+weight_constraint<-c((1+sqrt(5))/2,-sqrt(2))
+shift_constraint<-c(exp(1),-pi)
+
+mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,
+                eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                grand_mean,b0_H0,c_eta,weight_structure,
+                white_noise,synchronicity,lag_mat,troikaner)
+
+file = paste("z_mdfa_ar1_amp_shift_Lag_0_iT_i2T.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+
+par(mfrow = c(2, 1))
+# amplitude functions
+mplot <- abs(mdfa_obj$trffkt)
+# x-axis
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+colo <- NULL
+plot_title <- "Amplitude Functions"
+title_more <- colnames(x[, -1])
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+# time-shift
+mplot <- Arg(t(sign(apply(mdfa_obj$b, 2, sum)) * t(mdfa_obj$trffkt))) /
+      ((0 : (nrow(mdfa_obj$trffkt) - 1)) * pi / (nrow(mdfa_obj$trffkt) - 1))
+# We use the exact formula for the time-shift in frequency zero
+mplot[1, ] <- apply(mdfa_obj$b*(0:(L-1)),2,sum)/apply(mdfa_obj$b, 2, sum)
+plot_title <- "Time-Shift"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+print(c("Level restrictions", round(apply(mdfa_obj$b,2,sum),4)))
+print(c("Time-shift restrictions",
+round(apply(mdfa_obj$b*(Lag:(L-1+Lag)),2,sum)/apply(mdfa_obj$b, 2, sum),4)))
+@
+
+<<label=z_mdfa_ar1_amp_shift_Lag_0_iT_i2T.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ar1_amp_shift_Lag_0_iT_i2T.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (top) and time-shift (bottom) functions: i1=i2=T", sep = "")
+  cat("\\label{z_mdfa_ar1_amp_shift_Lag_0_iT_i2T}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Both functions satisfy the restrictions $w^0=\frac{1+\sqrt{5}}{2},w^1=-\sqrt{2}$ and $s^0=e=\exp(1),s^1=-\pi$, as desired. 
+
+\item To conclude, we briefly analyze the effect of $Lag=-h\neq 0$. Specifically we address a two-step ahead forecast of the target signal and analyze synchronization effects obtained by the time-shift constraint.
+\begin{itemize}
+\item We rely on the following example: $i1=F$, $i2=T$ (time-shift constraint only\footnote{This setting could not be replicated by classic model-based approaches because the I(2)-shift constraint would assume the I(1)-level constraint as a prerequisite.}), $s^0=1,s^1=2$ and we set $Lag=-2$ (two-step ahead forecast of the signal). This particular example is not selected for its practical relevance; instead we want to illustrate handling of potential singularities  by our code (note that $Lag+s^1=0$).  
+<<exercise_dfa_ms_3,echo=True>>=
+# Source the default (MSE-) parameter settings
+source(file=paste(path.outside,"control_default.r",sep=""))#b0_H0
+# Estimate filter coefficients: note that i1<-F by sourcing the default parameters
+i2<-T
+Lag<--2
+shift_constraint<-c(0,2)
+
+mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,
+                eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                grand_mean,b0_H0,c_eta,weight_structure,
+                white_noise,synchronicity,lag_mat,troikaner)
+
+b_mat<-mdfa_obj$b
+trffkt_mdfa<-mdfa_obj$trffkt
+
+file = paste("z_mdfa_ar1_amp_shift_Lag_0_iF_i2T_Lag.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+
+par(mfrow = c(2, 1))
+# amplitude functions
+mplot <- abs(mdfa_obj$trffkt)
+# x-axis
+freq_axe <- rep(NA, K + 1)
+freq_axe[1] <- 0
+freq_axe[1 + (1 : 6) * K / 6] <- c(paste0(c("", 2 : 5), "pi/6"), "pi")
+ax <- freq_axe
+# colors, title and additional titles
+insamp <- 1.e+90
+colo <- NULL
+plot_title <- "Amplitude Functions"
+title_more <- colnames(x[, -1])
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+# time-shift
+mplot <- Arg(t(sign(apply(mdfa_obj$b, 2, sum)) * t(mdfa_obj$trffkt))) /
+      ((0 : (nrow(mdfa_obj$trffkt) - 1)) * pi / (nrow(mdfa_obj$trffkt) - 1))
+# We use the exact formula for the time-shift in frequency zero
+mplot[1, ] <- apply(mdfa_obj$b*(0:(L-1)),2,sum)/apply(mdfa_obj$b, 2, sum)
+plot_title <- "Time-Shift"
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+print(c("Time-shift restrictions",
+        round(apply(mdfa_obj$b*(0:(L-1)),2,sum)/
+          apply(mdfa_obj$b, 2, sum),4)))
+@
+
+<<label=z_mdfa_ar1_amp_shift_Lag_0_iF_i2T_Lag.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_mdfa_ar1_amp_shift_Lag_0_iF_i2T_Lag.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (top) and time-shift (bottom) functions: i1=F,i2=T, Lag=-2", sep = "")
+  cat("\\label{z_mdfa_ar1_amp_shift_Lag_0_iF_i2T_Lag}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The first time-shift agrees with our constraints when shifted by $Lag$: $s^0+Lag=0-2=-2$. The second time-shift should be $s^1+Lag=2-2=0$ which would generate a singularity (dividing by zero); in order to circumvent the problem we `shift the shift' by a small constant (0.01) in our code: the resulting effect should be negligible by all practical means and the trick allows a much simpler implementation of the constraints in the considered case (i1=F,i2=T). 
+\item Feed a signal to the filters of the the bivariate design and verify the time-shift constraints. Hints: we generate two filter outputs, one for each filter; since the constraints apply in frequency zero, our input signals are   linear trends (signals of frequency zero); since our amplitude functions are not normalized to one, in frequency zero, we need to normalize the output signals (by the inverse of the transfer functions in frequency zero).
+<<exercise_dfa_ms_4,echo=True>>=
+len_t<-100
+# Generate two linear trends (they are shifted by a constant 
+# in order to be distinguished)
+trend_data<-cbind(1:len_t,0.5+1:len_t)
+# Compute both output series: normalize by the inverse 
+#   transferfunctions in frequency zero
+yhat_multivariate<-cbind(rep(NA,len_t),rep(NA,len_t))
+for (i in 1:ncol(yhat_multivariate))
+  for (j in L:len_t)
+#  The transfer function in frequency zero is a real number: 
+#   R computes a complex number with vanishing imaginary part. 
+#   We have to extract the real part because otherwise the complex 
+#   series would not be plotted... 
+    yhat_multivariate[j,i]<-sum(b_mat[,i]*trend_data[j:(j-L+1),i])/
+      Re(trffkt_mdfa[1,i])
+
+mplot<-cbind(trend_data,yhat_multivariate)
+dimnames(mplot)[[2]]<-c("Input 1","Input 2","Output 1","Output 2")
+# Display the last observations
+tail(mplot)
+@
+We observe that `Output 1' leads `Input 1' by two time units, as desired. `Output 2' is almost synchronized with `Input 2'  up to the small correction by 0.01 (to avoid singular expressions in the R-code). 
+
+\end{itemize}
+
+\end{enumerate}
+The chosen real-numbered constraints in the above exercises illustrate that arbitrary (real or integer-numbered) restrictions can be imposed. Whether they are useful, or not, depends on the particular application (integration order of the DGP) as well as on the particular research priorities of the user (MSE or turning points). 
+
+
+\section{Summary}
+
+
+\begin{itemize}
+\item We proposed a set of  filter restrictions which affect the level and the time-shift of the filter outputs. 
+\item We extended the stationary DFA-criterion to non-stationary integrated processes. A generalization to multivariate filters is proposed in chapter \ref{coint_sec}.
+\item Given a non-stationary I(1)- or I(2)-input signal $x_t$ and a generic target specification $\Gamma(\omega)$, the output $\hat{y}_t$ of the constrained forecast-, nowcast- or backcast-filter $\hat{\Gamma}(\omega)$ is able to track the signal in the sense that the filter error remains stationary (cointegration). \item In practice, one is often interested in a vanishing time-shift whether the data is integrated or not.
+\item The proposed restrictions apply independently to each time series of a multivariate design. Cross-sectional links (cointegration) are proposed and discussed in chapter \ref{coint_sec}.
+\item We proposed a formal matrix implementation and derived a generalized optimization criterion. The unconstrained case, proposed in the previous chapters, is nested in the proposed solution.
+\end{itemize}
