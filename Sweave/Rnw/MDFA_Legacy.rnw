@@ -111,7 +111,7 @@
 \SweaveInput{LPP}
 %----------------------------------------
 
-\SweaveInput{MDFA_basic}
+%\SweaveInput{MDFA_basic}
 
 %----------------------------------------
 
