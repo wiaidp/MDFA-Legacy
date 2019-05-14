@@ -1355,19 +1355,7 @@ x.fore.mdfa <- x.fore.mdfa11 + x.fore.mdfa12
 
 # apply the univariate DFA concurrent filter
 x.fore.udfa <- filter(x.sim[,1],fore.udfa[[1]][1,1,],method="convolution",sides=1)
-@ 
 
-<<echo=False>>=
-# visualize (only in R)
-par(mar=c(4,4,2,2)+0.1,cex.lab=.8)
-plot(ts(x.target),ylab="",xlab="Time",yaxt="n",xaxt="n")
-axis(1,cex.axis=.5)
-axis(2,cex.axis=.5)
-lines(x.fore.mdfa,col=3)
-lines(x.fore.udfa,col=4)
-@
-
-<<echo=True>>=
 # compare in-sample performance
 print(c(mean((x.target[-seq(1,q-1)] - x.fore.mdfa[-seq(1,q-1)])^2),
 	mean((x.target[-seq(1,q-1)] - x.fore.udfa[-seq(1,q-1)])^2)))
