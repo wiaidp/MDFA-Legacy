@@ -11,6 +11,7 @@
 \renewcommand{\theequation}{A.\arabic{equation}}
 \setcounter{equation}{0} 
 
+\label{append_sec}
 
 \section{Discrete Sums of Trigonometric Terms }\label{dstt}
 

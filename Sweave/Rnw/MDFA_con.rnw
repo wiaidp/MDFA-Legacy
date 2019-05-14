@@ -1,0 +1,18 @@
+
+
+\chapter{Filter Constraints}
+\label{con_sec}
+
+We propose and analyze a set of filter constraints which are deemed 
+to be relevant in applications. Formally, the constraints ensure 
+finiteness of the mean-square filter error in the case of integrated
+ processes\footnote{The constraints address filter characteristics in 
+\emph{frequency zero}. Arbitrary frequencies could be tackled but we did 
+not find any relevant practical application so far.}. Section \ref{i1i2_intr} 
+sets-up the context; a link to integrated processes is proposed in 
+section \ref{pseudo_dft}; a general matrix notation is proposed in 
+section \ref{cons_gen_par}; section \ref{optim_stat} extends the former 
+(unconstrained) MDFA-criterion to the constrained case; finally, section 
+\ref{const_impl_mdfa} illustrates effects (of the constraints) on 
+characteristics of real-time filters.  \\
+

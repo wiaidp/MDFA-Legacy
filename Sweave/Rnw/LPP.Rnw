@@ -219,6 +219,7 @@ real-time estimation problems considered in this book.  This chapter
  Chapter \ref{int_sec} makes extensions to difference stationary processes.
 
 \begin{Definition} \rm
+\label{def:target}
  A {\bf target} is defined to be the output of any known linear
  filter acting on the data process, i.e.,  $\{Y_t \}$ is a target
  time series corresponding to a given filter $\Psi (L)$ acting on a 
@@ -236,7 +237,8 @@ We are only interested in scalar targets.  The reason is that if $\{ Y_t \}$
  $1 \leq j \leq n$ in turn, so that without loss of generality we
  can just give the treatment for the scalar case. 
 
-\paragraph{Example 1: Multi-step Ahead Forecasting.}  
+\begin{Example} {\bf  Multi-step Ahead Forecasting.}   \rm
+\label{exam:multi-step.fore}
   Suppose that our goal is to forecast one of the component series 
  $h$ steps ahead, where $h \geq 1$ is the given {\em forecast lead}.
   Here, suppose that the series of interest is the first component, so 
@@ -248,9 +250,10 @@ We are only interested in scalar targets.  The reason is that if $\{ Y_t \}$
   $\Psi (L) = L^{-h} \, e_1^{\prime}$.  That is, each $\psi (\ell)$
  is a $1 \times n$ row vector, each of which are zero except $\psi (-h)$,
  which is given by $e_1^{\prime}$.
- 
+\end{Example}
 
-\paragraph{Example 2: Ideal Low-Pass.} 
+\begin{Example} {\bf Ideal Low-Pass.} \rm
+\label{exam:ideal-low}
  In order to estimate a trend from a given series, conceptually we wish
  to screen out all the higher frequency components in the data.  With reference
  to the spectral representation, if $\Psi (z)$ is zero for all $\omega$ in a 
@@ -277,9 +280,11 @@ the stop-band.  To understand this terminology of pass-band and stop-band, obser
   \psi (\ell) = \frac{ \sin (\ell \mu) }{ \pi \ell } \, e_1^{\prime}
 \]
  for $\ell \neq 0$ and $\psi (0) = \mu/\pi \, e_1^{\prime}$.   
+\end{Example}
 
-
-\paragraph{Example 3: HP Low-pass.}  The Hodrick-Prescott (HP) filter (Hodrick
+\begin{Example} {\bf HP Low-pass.} \rm
+\label{exam:hp-low}
+ The Hodrick-Prescott (HP) filter (Hodrick
 and Prescott, 1997) is a low-pass filter appropriate for producing trends.
  A multivariate version of the HP low-pass (or just HP), 
  associated with trend-irregular structural models,
@@ -322,10 +327,11 @@ The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
 \]
  There are no known analytical formulas for the coefficients in the multivariate case,
  although in the univariate case they are available in McElroy (2008).
+\end{Example}
 
-
-
-\paragraph{Example 4: HP High-pass.}  While the HP filter is used to extract
+\begin{Example} {\bf HP High-pass.} \rm
+\label{exam:hp-high}
+ While the HP filter is used to extract
  trends, the residual is thought to measure the business cycle along with
  higher frequency oscillations in the data.  Thus, taking the identity minus the
  HP low-pass yields the HP high-pass filter:
@@ -335,14 +341,17 @@ The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
   The presence of the term ${|1 - z|}^4$ indicates differencing by the ${(1-L)}^2$
  and ${(1 - L^{-1})}^2$; thus the HP high-pass will annihilate cubic polynomials,
  and generally reduces high order stochastic trends to stationarity.  
+\end{Example}
 
-\vspace{.5cm}
+%\vspace{.5cm}
 
 As we see from these examples, the targets of real-time signal 
  extraction  are features of the stochastic process that are of interest to 
  a particular user.  Some scalar targets depend upon only  a single component 
- of the time series (Examples 1 and 2), whereas others may be defined in
- terms of all the components (Examples 3 and 4).  However, these targets
+ of the time series (Examples \ref{exam:multi-step.fore} and \ref{exam:ideal-low}), 
+whereas others may be defined in
+ terms of all the components (Examples \ref{exam:hp-low} and \ref{exam:hp-high}). 
+ However, these targets
  represent an ideal feature of the time series that typically we cannot compute
  in real-time.
 
@@ -395,6 +404,7 @@ $\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
  
 
 \begin{Definition} \rm
+\label{def:lpp}
  The {\bf Linear Prediction Problem} (LPP) seeks the minimal
  MSE linear estimate that solves the real-time estimation problem
   arising from a scalar target.  That
@@ -406,17 +416,24 @@ $\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
  has mean zero and minimal MSE.
 \end{Definition}
 
-\paragraph{Example 1: Multi-step Ahead Forecasting.}   The LPP corresponds to
+\begin{Example} {\bf Multi-step Ahead Forecasting.}   \rm
+\label{exam:multi-step.fore.2}
+The LPP corresponds to
   optimal $h$-step
  forecasting, and the forecast error is $[L^{-h} \, e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
   Note that although $\Psi (L)$ only involves one component series $\{ X_{t,1} \}$,
   the real-time concurrent filter $\widehat{\Psi} (L)$ can involve all $n$ component series.
+\end{Example}
 
-\paragraph{Example 3: HP Low-pass.}  
+\begin{Example} {\bf HP Low-pass.}   \rm
+\label{exan:hp-high.2}
   The LPP attempts to determine an optimal real-time trend estimate, where the target trend
  -- sometimes called the historical trend -- is defined through the HP low-pass filter.
   Here, both the target filter $\Psi (L)$ and the real-time 
    concurrent filter $\widehat{\Psi} (L)$   involve all $n$ component series.
+\end{Example}
+
+
 
 
 \subsection{Solution to the Linear Prediction Problem}
@@ -499,14 +516,17 @@ $\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
  considering classes of concurrent filters and directly minimizing the LPP MSE over
  this class -- this is the methodology of Direct Filter Analysis (DFA).
 
-
-\paragraph{Illustration 1:  VAR(1).}  Consider an LPP where the true process $\{ X_t \}$
+\begin{Illustration} {\bf  VAR(1).} \rm
+\label{ill:var1}
+ Consider an LPP where the true process $\{ X_t \}$
  is a Vector Autoregression (VAR) of order 1.  This process can be described via
 \[
   X_t = \Phi \, X_{t-1} + \epsilon_t
 \]
- for a matrix $\Phi$ with all eigenvalues bounded by one in modulus (L\"utkepohl, 2007).  It is known
- that the VAR(1) has the causal representation  $\Theta (L) = {(1 - \Phi \, L )}^{-1}$.  Because
+ for a matrix $\Phi$ that is stable, i.e., has 
+ all eigenvalues bounded by one in modulus (L\"utkepohl, 2007). 
+It is known that the VAR(1) has the causal representation  
+ $\Theta (L) = {(1 - \Phi \, L )}^{-1}$.  Because
  for $\ell < 0$ 
 \[
    { [ \Theta (L) ]}_{-\ell}^{ \infty  } = \sum_{j = -\ell}^{\infty} \Phi^j \, L^j 
@@ -521,7 +541,38 @@ $\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
  concurrent filter is determined by applying the filter to past data and modifying the
  present weight $\psi (0)$ by adding the quantity $A_{\Psi} (\Phi)$.  In the case of
  $h$-step ahead forecasting of the first time series (Example 1), $\widehat{\Psi} (L)
- = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$.
+ = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$.  This formula demonstrates that it is 
+ essential that $\Phi$ be stable, and if fitting a VAR(1) we must parametrize $\Phi$
+ such that stability is guaranteed.  The following parametrization 
+ (Roy, McElroy, and Linton, 2017) provides a bijection from $\RR^{n^2} \times \{ \pm 1 \}$
+ to the space of stable $n \times n $ matrices:
+\begin{align*}
+  (\phi, \delta) & \tends (V, Q) \\
+ 	V & = L \, D \, L^{\prime} \\
+	Q & = E \, ( 1_n - S ) \, {(1_n + S )}^{-1} \\
+ 	\Phi & = V^{1/2} \, Q \, {(1_n + V )}^{-1/2}
+\end{align*}
+ provides the map from the parameters to $\Phi$.  Here $V$ is  a positive definite 
+ matrix with Cholesky decomposition in terms of a unit lower triangular matrix $L$ and
+ a positive diagonal matrix $D$; any such matrix can be described by $\binom{n}{2}$
+ arbitrary real entries in the lower portion of $L$, and by the exponential of $n$ arbitrary
+ real numbers for $D$.  The matrix $Q$ is orthogonal, given by the Cayley representation,
+ where $S$ is anti-symmetric -- and hence can be described by $\binom{n}{2}$ arbitrary
+ real numbers -- and $E$ is diagonal, with the first entry given by $\delta $ (which equals
+ $\pm 1$) and the remaining $n-1$ entries are equal to one.  The inverse transformation is 
+ given by
+\begin{align*}
+   \Phi & \tends (V, Q) \\
+	V & = \sum_{j \geq 1} \Phi^j \, \Phi^{j \prime} \\
+	Q & = V^{-1/2} \, \Phi \, {(1_n + V )}^{1/2} \\
+	S & = {(1_n + E \, Q)}^{-1} \, (1_n - E \, Q) \\
+	\delta & = \det Q,
+\end{align*}
+ where $\phi$ can be recovered from the entries of $L$ and $D$ in the Cholesky decomposition
+ of $V$, along with the lower left entries of $S$.
+\end{Illustration}
+
+
 
 
 
@@ -603,7 +654,8 @@ $\widetilde{\vartheta}$ and $\widetilde{\Sigma}$ such that
  
 \begin{Proposition}
  \label{prop:PTV-truth}
- Given an LPP $\Psi$ and the criterion function $J_{\Psi} (\vartheta, \widetilde{F})$, if the model is correctly specified and the 
+ Given an LPP $\Psi$ and the criterion function $J_{\Psi} (\vartheta, \widetilde{F})$,
+ if the model is correctly specified and the 
  minimizer $\vartheta (\widetilde{F})$ is unique then it equals the true parameter 
 $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 \end{Proposition}
@@ -627,7 +679,21 @@ $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 
 \vspace{.5cm}
 
-\paragraph{Example 1: Multi-step Ahead Forecasting.}   For $h$-step ahead forecasting, only $\psi (-h)$
+
+\begin{Remark} \rm  
+\label{rem:PTVunique}
+ One of the conditions of Proposition \ref{prop:PTV-truth} is that the PTV is unique.  
+ Non-uniqueness can arise in practice, but any PTV that minimizes the LPP criterion 
+ is suitable for generating an optimal solution.  Hence, even though in this situation
+ a particular PTV does not equal the true parameter, yet it generates the same minimal
+ value of $J_{\Psi}$ as the true parameter, and is ``just as good" as the true parameter
+ for purposes of the particular LPP.  We do not care about correct model fitting {\it per se}.
+\end{Remark}
+
+
+\begin{Example} {\bf Multi-step Ahead Forecasting.}  \rm
+\label{exam:multi-step.fore.3}
+ For $h$-step ahead forecasting, only $\psi (-h)$
   is nonzero, so that
  $\Xi (L) =  L^{-h} \,  e_1^{\prime} \, {[ \Theta (L) ]}_0^{ h - 1}$. 
   Hence, the criterion function $J_{\Psi} $ fits models so as to minimize
@@ -645,8 +711,10 @@ $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 \]
   See the discussion in McElroy and Findley (2015).  This connection justifies viewing $J_{\Psi}$ as a generalization of the Whittle
  likelihood from one-step ahead forecasting to more general real-time LPPs.
+\end{Example}
 
-\vspace{.5cm}
+
+%\vspace{.5cm}
 
 It is possible to conduct inference from the PTVs on the basis of the estimates 
 $\vartheta (\widehat{F})$, and thereby assess model fit.  
@@ -691,9 +759,11 @@ causal filter of a higher-order martingale difference.
 
 \vspace{.5cm}
 
-\paragraph{Illustration 1: VAR(1).}  When the model is a VAR(1), the parameter vector $\vartheta$
- describes the entries of $\Phi$ in such a way that the matrix is stable (i.e., all eigenvalues
- have magnitude less than one).  The error filter can be 
+\begin{Illustration} {\bf  VAR(1).}  \rm
+\label{ill:var1.2}
+When the model is a VAR(1), the parameter vector $\vartheta$
+ describes the entries of $\Phi$ in such a way that the matrix is stable,
+ as described previously.  The error filter can be 
  expressed
 \begin{align*}
     \Xi (L) & =   \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
@@ -737,22 +807,128 @@ causal filter of a higher-order martingale difference.
  performance of the first series, which allows a practitioner to focus on parameter values
  that sacrifice performance on the other $n-1$ series in order to achieve superior results for
  the first series.
+\end{Illustration}
 
-\vspace{.5cm}
+%\vspace{.5cm}
 
-\paragraph{Exercise 1: Correct VAR(1) LPP.}  Simulate a sample of size $T=100$ from a
+
+<<exercise_lpp_var1.illustration1,echo=False>>=
+setwd("C:\\Users\\Tucker\\Documents\\MDFAbook\\RcodeTSM")
+# requires package expm
+library(expm)
+source("sqrtm.r")
+source("var1.psi2par.r")
+source("var1.par2psi.r")
+source("lpp.var1.r")
+@
+
+
+\begin{Exercise} {\bf Correct VAR(1) LPP.} \rm
+\label{exer:var1lpp-correct}
+ Simulate a sample of size $T=100$ from a
   bivariate VAR(1) process with 
 \[
   \Phi = \left[ \begin{array}{ll} 1 & .5 \\ -.2 & .3 \end{array} \right]
 \]
  and $\Sigma$ equal to the identity.  The eigenvalues are $.8$ and $.5$.
- Then utilize the LPP criterion $J_{\Psi} (\vartheta, G)$ to fit a VAR(1) model (let
- $\vartheta$ correspond to the four entries of $\Phi$) with both the $2$-step
- ahead forecasting LPP (Example 1) and the ideal low-pass LPP (Example 2) with 
+ Then utilize the LPP criterion $J_{\Psi} (\vartheta, G)$ to fit a VAR(1) model (use
+  the stable parametrization of $\Phi$, using two choices of $\delta$) with both 
+ the $2$-step ahead forecasting LPP (Example \ref{exam:multi-step.fore}) and the 
+ ideal low-pass  LPP (Example \ref{exam:ideal-low}) with 
   $\mu = \pi/24$, where $G$ is given by the periodogram of the sample.
-  Do the parameter estimates appear to be consistent?  Repeat for $T=200$ and $T=500$.
+ (As usual, the first of the two series is the target.)
+ Do you obtain a unique minimizer?    Do the parameter estimates appear to be consistent? 
+  How do the estimates compare to the Yule-Walker estimates?
+ Repeat for $T=200$ and $T=500$.
+\end{Exercise}
 
-\paragraph{Exercise 2: Incorrect VAR(1) LPP.}  Simulate a sample of size $T=100$ from
+<<exercise_lpp_var1.correct,echo=True>>=
+# Simulate a Gaussian VAR(1) of sample size 100:
+T <- 100
+phi.matrix <- rbind(c(1,.5),c(-.2,.3))
+innovar.matrix <- diag(2)
+true.psidelta <- var1.par2psi(phi.matrix,100)
+gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
+	matrix(innovar.matrix,ncol=1),nrow=2)
+x.init <- t(chol(gamma.0)) %*% rnorm(2)
+x.next <- x.init
+x.sim <- NULL
+for(t in 1:T)
+{
+	x.next <- phi.matrix %*% x.next + rnorm(2)
+	x.sim <- cbind(x.sim,x.next)
+}
+x.sim <- ts(t(x.sim))
+x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
+x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+
+# Yule-Walker fit
+phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
+yw.psidelta <- var1.par2psi(phi.yw,100)
+
+# 1-step ahead forecasting
+psi.array <- array(0,c(1,2,1))
+psi.array[,,1] <- c(1,0)
+acf.array <- x.acf[,,1:3]
+theta <- rep(0,4)
+var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=1,method="BFGS")
+var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=-1,method="BFGS")
+# fits using both delta values, compared
+print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+# phi coefficient from 1-step LPP, delta = 1
+print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+# phi coefficient from 1-step LPP, delta = -1
+print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+# phi coefficient from Yule-Walker
+print(phi.yw)
+
+# 2-step ahead forecasting
+psi.array <- array(0,c(1,2,2))
+psi.array[,,1] <- c(0,0)
+psi.array[,,2] <- c(1,0)
+acf.array <- x.acf[,,1:3]
+theta <- rep(0,4)
+var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=1,method="BFGS")
+var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=-1,method="BFGS")
+# fits using both delta values, compared
+print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+# phi coefficient from 2-step LPP, delta = 1
+print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+# phi coefficient from 2-step LPP, delta = -1
+print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
+# phi coefficient from Yule-Walker
+print(phi.yw)
+
+# low-pass LPP
+mu <- pi/24
+psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
+psi.array <- aperm(psi.array,c(1,3,2))
+acf.array <- x.acf
+theta <- rep(0,4)
+var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=1,method="BFGS")
+var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=-1,method="BFGS")
+# fits using both delta values, compared
+print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
+lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
+# phi coefficient from low-pass LPP, delta = 1
+print(var1.psi2par(var1.fit.bk.Pos$par,1))	
+# phi coefficient from low-pass LPP, delta = -1
+print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
+# phi coefficient from Yule-Walker
+print(phi.yw)
+@
+
+\begin{Exercise} {\bf Incorrect VAR(1) LPP.} \rm
+\label{exer:var1lpp-incorrect}
+ Simulate a sample of size $T=100$ from
  a bivariate Vector Moving Avergage process of order one, or VMA(1), given by
 \[
   X_t = \epsilon_t + \Theta \, \epsilon_{t-1},
@@ -761,13 +937,209 @@ causal filter of a higher-order martingale difference.
 \[
  \Theta = \left[ \begin{array}{ll} 1 & 0 \\ .4 & 2 \end{array} \right]
 \]
-  and $\Sigma$ equals the identity.  Use the VAR(1) LPP criterion of Exercise 1 to 
+  and $\Sigma$ equals the identity.  Use the VAR(1) LPP criterion of 
+ Exercise \ref{exer:var1lpp-correct} to 
  fit the mis-specified VAR(1) to this process, for both the $2$-step ahead forecasting
- LPP and the ideal low-pass LPP.  Why do the parameter estimates not match those
- of $\Theta$?  Repeat for $T=200$ and $T=500$, and explain your results.
+ LPP and the ideal low-pass LPP. 
+(As usual, the first of the two series is the target.)
+ Why do the parameter estimates not match those
+ of $\Theta$?   How do the estimates compare to the Yule-Walker estimates?
+ Repeat for $T=200$ and $T=500$, and explain your results.
+\end{Exercise}
+
+<<exercise_lpp_var1.incorrect,echo=True>>=
+# Simulate a Gaussian VMA(1) of sample size 100:
+T <- 100
+theta.matrix <- rbind(c(1,0),c(.4,2))
+innovar.matrix <- diag(2)
+eps.old <- rnorm(2)
+x.sim <- NULL
+for(t in 1:T)
+{
+	eps.next <- rnorm(2)
+	x.next <- eps.next + theta.matrix %*% eps.old
+	eps.old <- eps.next
+	x.sim <- cbind(x.sim,x.next)
+}
+x.sim <- ts(t(x.sim))
+x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
+x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+ 
+# Yule-Walker
+phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
+yw.psidelta <- var1.par2psi(phi.yw,100)
+
+# 1-step ahead forecasting
+psi.array <- array(0,c(1,2,1))
+psi.array[,,1] <- c(1,0)
+acf.array <- x.acf[,,1:3]
+theta <- rep(0,4)
+var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=1,method="BFGS")
+var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=-1,method="BFGS")
+# fits using both delta values, compared
+print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+# phi coefficient from 1-step LPP, delta = 1
+print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+# phi coefficient from 1-step LPP, delta = -1
+print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+# phi coefficient from Yule-Walker
+print(phi.yw)
+
+# 2-step ahead forecasting
+psi.array <- array(0,c(1,2,2))
+psi.array[,,1] <- c(0,0)
+psi.array[,,2] <- c(1,0)
+acf.array <- x.acf[,,1:3]
+theta <- rep(0,4)
+var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=1,method="BFGS")
+var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=-1,method="BFGS")
+# fits using both delta values, compared
+print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+# phi coefficient from 2-step LPP, delta = 1
+print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+# phi coefficient from 2-step LPP, delta = -1
+print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
+# phi coefficient from Yule-Walker
+print(phi.yw)
+
+# low-pass LPP
+mu <- pi/24
+psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
+psi.array <- aperm(psi.array,c(1,3,2))
+acf.array <- x.acf
+theta <- rep(0,4)
+var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=1,method="BFGS")
+var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=-1,method="BFGS")
+# fits using both delta values, compared
+print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
+lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
+# phi coefficient from low-pass LPP, delta = 1
+print(var1.psi2par(var1.fit.bk.Pos$par,1))	
+# phi coefficient from low-pass LPP, delta = -1
+print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
+# phi coefficient from Yule-Walker
+print(phi.yw)
+@
+
+
+\begin{Exercise} {\bf Incorrect VAR(1) Forecasting.} \rm
+\label{exer:var1lpp-incorrect.fore}
+ Simulate a sample of size $T=1000$ from
+ a bivariate Vector Moving Avergage process of order two, or VMA(2), given by
+\[
+  X_t = \epsilon_t + \Theta_1 \, \epsilon_{t-1} + \Theta_2 \, \epsilon_{t-2},
+\]
+  where
+\begin{align*}
+ \Theta_1 & = \left[ \begin{array}{ll} .9 & 2 \\ 0 & .8 \end{array} \right] \\
+ \Theta_2 & = \left[ \begin{array}{ll} .8 & 3.5 \\ .2 & .6 \end{array} \right] 
+\end{align*}
+  and $\Sigma$ equals the identity.  Use the VAR(1) LPP criterion of   
+ Exercise \ref{exer:var1lpp-correct}  to 
+ fit the mis-specified VAR(1) to this process, for   the $2$-step ahead forecasting
+ LPP.  (As usual, the first of the two series is the target.)
+ Then generate $2$-step ahead forecasts for the entire sample.  Compare the in-sample 
+ performance  (for the first series) using the LPP result and the Yule-Walker result.
+\end{Exercise}
 
 
 
+<<exercise_lpp_var1.incorrect.fore,echo=True>>=
+# Simulate a Gaussian VMA(2) of sample size 1000:
+T <- 1000
+theta1.matrix <- rbind(c(.9,2),c(0,.8))
+theta2.matrix <- rbind(c(.8,3.5),c(0.2,.6))
+innovar.matrix <- diag(2)
+eps.old <- rnorm(2)
+eps.oldd <- rnorm(2)
+x.sim <- NULL
+for(t in 1:T)
+{
+	eps.next <- rnorm(2)
+	x.next <- eps.next + theta1.matrix %*% eps.old + 
+		theta2.matrix %*% eps.oldd
+	eps.oldd <- eps.old
+	eps.old <- eps.next
+	x.sim <- cbind(x.sim,x.next)
+}
+x.sim <- ts(t(x.sim))
+x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
+x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+ 
+# Yule-Walker
+phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
+yw.psidelta <- var1.par2psi(phi.yw,100)
 
+# 1-step ahead forecasting
+psi.array <- array(0,c(1,2,1))
+psi.array[,,1] <- c(1,0)
+acf.array <- x.acf[,,1:3]
+theta <- rep(0,4)
+var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
+	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
+var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
+	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
+# fits using both delta values, compared
+print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+# phi coefficient from 1-step LPP, delta = 1
+print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+# phi coefficient from 1-step LPP, delta = -1
+print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+# phi coefficient from Yule-Walker
+print(phi.yw)
 
+# 2-step ahead forecasting
+psi.array <- array(0,c(1,2,2))
+psi.array[,,1] <- c(0,0)
+psi.array[,,2] <- c(1,0)
+acf.array <- x.acf[,,1:3]
+theta <- rep(0,4)
+var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
+	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
+var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
+	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
+# fits using both delta values, compared
+print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+# phi coefficient from 1-step LPP, delta = 1
+print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+# phi coefficient from 1-step LPP, delta = -1
+print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+# phi coefficient from Yule-Walker
+print(phi.yw)
+# select choices of phi from above
+if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
+	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
+} else {
+	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
+}
 
+# LPP case
+fore.lpp <- phi.lpp %^% 2
+fore.lpp <- fore.lpp[1,]
+fore.casts <- fore.lpp %*% t(x.sim[1:(T-2),])
+plot(ts(as.vector(x.sim[3:T,1])))
+lines(ts(as.vector(fore.casts)),col=2)
+sum((x.sim[3:T,1] - fore.casts)^2)/(T-2)
+
+# YW case
+fore.yw <- phi.yw %^% 2
+fore.yw <- fore.yw[1,]
+fore.casts <- fore.yw %*% t(x.sim[1:(T-2),])
+plot(ts(as.vector(x.sim[3:T,1])))
+lines(ts(as.vector(fore.casts)),col=2)
+sum((x.sim[3:T,1] - fore.casts)^2)/(T-2)
+@

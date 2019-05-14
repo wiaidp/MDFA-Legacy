@@ -1,7 +1,8 @@
 
 
 
-\chapter{Mixed-Frequency Data: Combining and Working with Data Sampled at Different Time Scales}\label{mix_sec}
+\chapter{Mixed-Frequency Data: Combining and Working with Data Sampled at Different Time Scales}
+\label{mix_sec}
 
 \section{Introduction}
 

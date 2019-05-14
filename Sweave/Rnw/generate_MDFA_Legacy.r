@@ -23,7 +23,10 @@ library(Quandl)
 require (Quandl)
 #Quandl.api_key("ivVdJGV57TXA1RX5jgvp")
 
-
+# Set paths
+#path.main <- "C:\\Users\\Tucker\\Documents\\MDFAbook\\"
+#path.pgm <- paste(path.main,"Rnw\\",sep="")
+#path.out <- paste(path.main,"Latex\\",sep="")
 
 path.main<-paste(getwd(),"/Sweave/",sep="")
 path.pgm<-paste(path.main,"Rnw/",sep="")

@@ -1,3 +1,39 @@
+\def\pf{{\bf Proof. }}
+\def\logimplies{\Rightarrow}
+\def\convinlaw{\stackrel{{\cal L}}{\Longrightarrow }}
+\def\convinp{\stackrel{P}{\longrightarrow }}
+\def\convas{\stackrel{a.s.}{\longrightarrow }}
+\def\convv{\stackrel{v}{\longrightarrow}}
+\def\asymp{\stackrel{{\mathbb P}}{\sim}}
+\def\RR{\mathbb R}
+\def\ZZ{\mathbb Z}
+\def\QQ{\mathbb Q}
+\def\NN{\mathbb N}
+\def\MM{\mathbb M}
+\def\LL{\mathbb L}
+\def\EE{\mathbb E}
+\def\PP{\mathbb P}
+\def\DD{\mathbb D}
+\def\WW{\mathbb W}
+\def\FF{\mathbb F}
+\def\II{\mathbb I}
+\def\FF{\mathbb F}
+\def\ttheta{\widetilde{\theta}}
+\def\tTheta{\widetilde{\Theta}}
+\def\tsig{\widetilde{\sigma}^2}
+\def\tc{\widetilde{c}}
+\def\etheta{\widehat{\theta}}
+\def\eTheta{\widehat{\Theta}}
+\def\esig{\widehat{\sigma}^2}
+\def\ptheta{\underline{\theta}}
+\def\pTheta{\underline{\Theta}}
+\def\psig{\underline{\sigma}^2}
+
+\def\eqinlaw{\stackrel{{\cal L}}{=}}
+\def\tends{\rightarrow}
+\def\tendsinf{\rightarrow\infty}
+\def\isodynamo{\Leftrightarrow}
+
 
 
 \chapter{ATS-Trilemma: the Multivariate Case}\label{atsm_sec}

@@ -40,6 +40,9 @@
 \newtheorem{Proposition}{Proposition}
 \newtheorem{Definition}{Definition}
 \newtheorem{Remark}{Remark}
+\newtheorem{Example}{Example}
+\newtheorem{Exercise}{Exercise}
+\newtheorem{Illustration}{Illustration}
 \newcommand{\mbf}[1]{\mbox{\boldmath $#1$}}
 
 \setlength{\textwidth}{6.5in} \setlength{\textheight}{9in}
@@ -109,80 +112,73 @@
 %----------------------------------------
 
 \SweaveInput{LPP}
-%----------------------------------------
-
-%\SweaveInput{MDFA_basic}
 
 %----------------------------------------
 
-\SweaveInput{Mean_square}
+\SweaveInput{MDFA_basic}
+%\SweaveInput{Mean_square}
+%  note: MDFA_basic replaces Mean_square
 
 %----------------------------------------
 
-\SweaveInput{Filter_revisions}
+\SweaveInput{MDFA_con}
+%\SweaveInput{Constraints}
+%  note: MDFA_con replaces Constraints,
+%    includes material from Replication
+
+%------------------------------------------------------------------
+
+\SweaveInput{Integrated}
+%\SweaveInput{Cointegrated}
+%  note: includes material from Cointegrated
 
 %----------------------------------------
 
-\SweaveInput{Constraints}
-
-%----------------------------------------
-
-\SweaveInput{ATS}
-
-%-------------------------------------------
-
-\SweaveInput{ATS_multivariate}
-
-%-------------------------------------------
-
-\SweaveInput{Replication}
-
-%-------------------------------------------
-
-\SweaveInput{Reverse_engineering}
-
-%-------------------------------------------
-
-\SweaveInput{Exotic_pub}
-
-%----------------------------------------------
-
-\SweaveInput{Inference}
+\SweaveInput{Custom}
+%\SweaveInput{ATS}
+%\SweaveInput{ATS_multivariate}
+%  note: Custom replaces ATS and ATS_multivariate
 
 %------------------------------------------
 
 \SweaveInput{Regularization}
 
-%----------------------------------------------
+%----------------------------------------
 
 \SweaveInput{Vintage}
+%\SweaveInput{Filter_revisions}
+%  note: Vintage replaces Filter_revisions
 
-%-------------------------------------------------------------
+%----------------------------------------------
 
 \SweaveInput{Mixed}
 
-%------------------------------------------------------------------
-
-\SweaveInput{Integrated}
-
-%------------------------------------------------------------------
-
-\SweaveInput{Cointegrated}
-
-%-------------------------------------------------------------------
-
-\SweaveInput{Adaptive}
-
-%--------------------------------------------------------------------
-
-\SweaveInput{Seasonal_adjustment}
-%--------------------------------------------------------------------
-
-\SweaveInput{Summary}
-
-%--------------------------------------------------------------------
-
-\SweaveInput{Appendix}
-
-
 \end{document}
+
+
+OLD IDEAS
+
+%-------------------------------------------
+
+%\SweaveInput{Exotic_pub}
+
+%----------------------------------------------
+
+%\SweaveInput{Inference}
+
+%------------------------------------------------------------------
+ 
+%\SweaveInput{Adaptive}
+
+%--------------------------------------------------------------------
+
+%\SweaveInput{Seasonal_adjustment}
+%--------------------------------------------------------------------
+
+%\SweaveInput{Summary}
+
+%--------------------------------------------------------------------
+
+%\SweaveInput{Appendix}
+
+
