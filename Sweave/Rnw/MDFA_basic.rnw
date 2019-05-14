@@ -615,9 +615,9 @@ setwd(path.main)
  Simulate a sample of size $T=100$ from a
   bivariate VAR(1) process with 
 \[
-  \Phi = \left[ \begin{array}{ll} 1 & .5 \\ -.2 & .3 \end{array} \right]
+  \Phi = \left[ \begin{array}{cc} 1 & 1/2 \\ -1/5 & 3/10 \end{array} \right]
 \]
- and $\Sigma$ equal to the identity.  The eigenvalues are $.8$ and $.5$.
+ and $\Sigma$ equal to the identity.  The eigenvalues are $4/5$ and $1/2$.
   Implement MDFA for this sample, using the moving average filters
  (Proposition \ref{prop:mdfa.quadsoln}) of length $q = 20$ to approximate the optimal
  LPP filter (Exercise \ref{exer:var1lpp-correct}), for the $2$-step
@@ -695,7 +695,7 @@ print(fore.mdfa[[1]][1,,1])
   Simulate a sample of size
   $T=100$ from  a bivariate  VMA(1) with
 \[
- \Theta = \left[ \begin{array}{ll} 1 & 0 \\ .4 & 2 \end{array} \right]
+ \Theta = \left[ \begin{array}{cc} 1 & 0 \\ 2/5 & 2 \end{array} \right]
 \]
   and $\Sigma$ equal to the identity.  Use the moving average filter
  MDFA  (Proposition \ref{prop:mdfa.quadsoln}) with $q=20$ to find the best
@@ -776,7 +776,7 @@ print(fore.mdfa[[1]][1,,1])
 Simulate a sample of size $T=2500$ from a
  bivariate VAR(1) process with 
 \[
-  \Phi = \left[ \begin{array}{ll} 1 & .5 \\ -.2 & .3 \end{array} \right]
+  \Phi = \left[ \begin{array}{cc} 1 & 1/2 \\ -1/5 & 3/10 \end{array} \right]
 \]
  and $\Sigma$ equal to the identity.  The eigenvalues are $.8$ and $.5$.
   Apply the   ideal low-pass filter  with 
@@ -901,7 +901,7 @@ optimization concept can be understood
 Simulate a sample of size $T=2500$ from a
  trivariate VAR(1) process with 
 \[
-  \Phi = \left[ \begin{array}{lll} .9 & 0 & 0 \\  0 & .1 & 0  \\ 0 & 0 & -.9
+  \Phi = \left[ \begin{array}{ccc} 9/10 & 0 & 0 \\  0 & 1/10 & 0  \\ 0 & 0 & -9/10
    \end{array} \right]
 \]
  and $\Sigma$ equal to the identity.   

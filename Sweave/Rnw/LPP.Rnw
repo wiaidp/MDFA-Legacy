@@ -830,9 +830,9 @@ setwd(path.main)
  Simulate a sample of size $T=100$ from a
   bivariate VAR(1) process with 
 \[
-  \Phi = \left[ \begin{array}{ll} 1 & .5 \\ -.2 & .3 \end{array} \right]
+  \Phi = \left[ \begin{array}{cc} 1 & 1/2 \\ -1/5 & 3/10 \end{array} \right]
 \]
- and $\Sigma$ equal to the identity.  The eigenvalues are $.8$ and $.5$.
+ and $\Sigma$ equal to the identity.  The eigenvalues are $4/5$ and $1/2$.
  Then utilize the LPP criterion $J_{\Psi} (\vartheta, G)$ to fit a VAR(1) model (use
   the stable parametrization of $\Phi$, using two choices of $\delta$) with both 
  the $2$-step ahead forecasting LPP (Example \ref{exam:multi-step.fore}) and the 
@@ -937,7 +937,7 @@ print(phi.yw)
 \]
   where
 \[
- \Theta = \left[ \begin{array}{ll} 1 & 0 \\ .4 & 2 \end{array} \right]
+ \Theta = \left[ \begin{array}{cc} 1 & 0 \\ 2/5 & 2 \end{array} \right]
 \]
   and $\Sigma$ equals the identity.  Use the VAR(1) LPP criterion of 
  Exercise \ref{exer:var1lpp-correct} to 
@@ -1041,8 +1041,8 @@ print(phi.yw)
 \]
   where
 \begin{align*}
- \Theta_1 & = \left[ \begin{array}{ll} .9 & 2 \\ 0 & .8 \end{array} \right] \\
- \Theta_2 & = \left[ \begin{array}{ll} .8 & 3.5 \\ .2 & .6 \end{array} \right] 
+ \Theta_1 & = \left[ \begin{array}{cc} 9/10 & 2 \\ 0 & 4/5 \end{array} \right] \\
+ \Theta_2 & = \left[ \begin{array}{cc} 4/5 & 7/2 \\ 1/5 & 3/5 \end{array} \right] 
 \end{align*}
   and $\Sigma$ equals the identity.  Use the VAR(1) LPP criterion of   
  Exercise \ref{exer:var1lpp-correct}  to 
