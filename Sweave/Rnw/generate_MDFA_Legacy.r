@@ -24,10 +24,11 @@ require (Quandl)
 #Quandl.api_key("ivVdJGV57TXA1RX5jgvp")
 
 # Set paths
-#path.main <- "C:\\Users\\Tucker\\Documents\\MDFAbook\\"
+#path.main <- "C:\\Users\\Tucker\\Documents\\GitHub\\MDFA-Legacy"
 #path.pgm <- paste(path.main,"Rnw\\",sep="")
 #path.out <- paste(path.main,"Latex\\",sep="")
 
+# set directory to GitHub/MDFA-Legacy
 path.main<-paste(getwd(),"/Sweave/",sep="")
 path.pgm<-paste(path.main,"Rnw/",sep="")
 path.out<-paste(path.main,"Latex/",sep="")

@@ -1,4 +1,5 @@
 
+
 \chapter{Introduction to the Multivariate Direct Filter Analysis}
 
 Chapter \ref{lpp_chap} introduced the LPP and its ideal solution.  This chapter
@@ -588,7 +589,8 @@ With this justification, we see that the entries of the matrix $B$ in
 
 
 <<exercise_lpp_var1.illustration1,echo=False>>=
-setwd("C:\\Users\\Tucker\\Documents\\MDFAbook\\RcodeTSM")
+path.main <- getwd()
+setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
 # requires packages expm and xtable
 library(expm)
 library(xtable)
@@ -603,6 +605,7 @@ source("mdfa.frf.r")
 source("mdfa.coeff.r")
 source("mdfa.filter.r")
 source("mdfa.unconstrained.r")
+setwd(path.main)
 @
 
 
@@ -676,7 +679,7 @@ lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
 # frf for 2-step ahead forecasting
 frf.psi <- matrix(lambda.ft^{-2},nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
  
 # compare LPP and MDFA first coefficients
@@ -757,7 +760,7 @@ lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
 # frf for 2-step ahead forecasting
 frf.psi <- matrix(lambda.ft^{-2},nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
  
 # compare LPP and MDFA first coefficients
@@ -828,7 +831,7 @@ frf.psi <- rep(0,Grid)
 frf.psi[abs(freq.ft) <= mu] <- 1
 frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
  
 # apply the MDFA concurrent filter
@@ -955,7 +958,7 @@ frf.psi <- rep(0,Grid)
 frf.psi[abs(freq.ft) <= mu] <- 1
 frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
  
 # apply the MDFA concurrent filter
@@ -1196,7 +1199,7 @@ lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
 # frf for 1-step ahead forecasting
 frf.psi <- matrix(lambda.ft^{-1},nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
 fore.udfa <- mdfa.unconstrained(frf.psi[1,1,,drop=FALSE],spec.hat[1,1,,drop=FALSE],q)
   
@@ -1335,7 +1338,7 @@ lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
 # frf for delta-step ahead forecasting
 frf.psi <- matrix(lambda.ft^{-delta},nrow=1) %x% diag(N)
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 fore.udfa <- mdfa.unconstrained(frf.psi[1,1,,drop=FALSE],spec.hat[1,1,,drop=FALSE],q)
 if(j > 1) { 
 	fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q) 

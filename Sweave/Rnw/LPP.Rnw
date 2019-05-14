@@ -298,8 +298,8 @@ and Prescott, 1997) is a low-pass filter appropriate for producing trends.
  but note that the frf is a continuous matrix-valued function of $\omega$.
 The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
  of the econometric concept of trend co-integration, which is further explored
- in Chapter REF???.  It is always assumed that $\Sigma_{\iota}$ has full rank, and hence 
- we can rewrite as
+ in Chapter \ref{int_sec}.  It is always assumed that $\Sigma_{\iota}$ has full rank, 
+ and hence  we can rewrite as
 \[
   \Psi (z) = Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}
 \]
@@ -544,7 +544,7 @@ It is known that the VAR(1) has the causal representation
  = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$.  This formula demonstrates that it is 
  essential that $\Phi$ be stable, and if fitting a VAR(1) we must parametrize $\Phi$
  such that stability is guaranteed.  The following parametrization 
- (Roy, McElroy, and Linton, 2017) provides a bijection from $\RR^{n^2} \times \{ \pm 1 \}$
+ (Roy, McElroy, and Linton (2019) provides a bijection from $\RR^{n^2} \times \{ \pm 1 \}$
  to the space of stable $n \times n $ matrices:
 \begin{align*}
   (\phi, \delta) & \tends (V, Q) \\

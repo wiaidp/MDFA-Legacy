@@ -15,5 +15,33 @@
 \subsection{From Truth to Effectiveness: Emphasizing Performances}
 
 
+\begin{thebibliography}{}
 
+
+\bibitem{}  Lutkepohl 2007
+
+\bibitem{}  Brockwell and Davis 1991
+
+\bibitem{} Baxter and King 1999
+
+\bibitem{} Self and Liang 1987
+
+\bibitem{} Hosoya and Taniguchi 1982
+
+\bibitem{} Taniguchi and Kakizawa 2000
+
+\bibitem{} McElroy and Trimbur 2015
+
+\bibitem{} McElroy 2008
+
+\bibitem{} Roy McElroy Linton 2019
+
+\bibitem{} McElroy and Findley 2015
+
+\bibitem{} Wildi 2008
+
+
+
+
+\end{thebibliography}
 
