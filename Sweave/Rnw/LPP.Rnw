@@ -72,9 +72,11 @@ The reader should have a basic familiarity with multivariate time
   For many applications in this book, the polynomials are actually scalar,
  and can be interpreted as having coefficients $A_j$ given by an  
  identity matrix $1_n$ multiplied by a scalar coefficient $a_j$.
+ 
 
  The spectral representation of a stationary square integrable vector 
-time series is particularly useful.  Assuming that $\EE X_t = 0$ (the
+time series is particularly useful (see Brockwell and Davis (1991) for 
+ further details). Assuming that $\EE X_t = 0$ (the
  zero vector in $\RR^n$) so that no fixed effects are present, we describe
  the stochastic process via
 \begin{equation}
@@ -105,7 +107,8 @@ covariance involves conjugation of
   \, d\omega = \Gamma (h).
 \]
  As an example -- that furnishes a basic building block for subsequent processes --
- we have {\em white noise}, which refers to a mean zero $\{ X_t \}$ where $F$ is constant, i.e.,
+ we have {\em white noise}, which refers to a mean zero $\{ X_t \}$ where 
+ $F$ is constant, i.e.,
  $F(\omega) = \Sigma$ for all $\omega$, where $\Sigma $ is real and symmetric and
  non-negative definite.  Clearly, $\Gamma (h) = 0$ for $h \neq 0$ and $\Gamma (0) = \Sigma$.
  We denote this type of process with the notation $\mbox{WN} (\Sigma)$.
@@ -122,13 +125,17 @@ covariance involves conjugation of
  Individual entries of the matrix are denoted $\psi_{jk} (\ell)$,
  for $1 \leq j, k \leq n$.   We also use the notation
   $ {[\Psi (L) ]}^{s}_r $ to denote $\sum_{\ell=r}^s
-  \psi (\ell) \, L^{\ell}$. In the special case that $\Psi (L)$ is a power
+  \psi (\ell) \, L^{\ell}$. 
+     Another quantity of interest is the derivative of a filter, 
+  defined via $\partial \Psi (L) = \sum_{j \in \ZZ} j \, \psi(j) \, L^{j-1}$.
+
+  
+  In the special case that $\Psi (L)$ is a power
  series in $L$, the only nonzero coefficients are for $\ell \geq 0$, 
  so that no negative powers of $L$ are featured, i.e., the filter
  only utilizes present and past data.  Such a filter is called a 
  {\em concurrent} filter.  
-
- The action of   a linear  filter
+  The action of   a linear  filter
  on a weakly stationary time series,
  expressed in terms of the spectral representation, is
 \[

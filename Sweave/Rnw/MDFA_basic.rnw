@@ -183,7 +183,7 @@ The amplitude effects can be understood as dilations of the input spectral densi
    
  The entire class of concurrent filters corresponds to 
   the collection of power series in $L$.  Here we are interested in 
- scalar targets given $N$ input series, so the coefficient matrices of the
+ scalar targets given $n$ input series, so the coefficient matrices of the
  concurrent filters are $1 \times n$.  We may be interested in some subcollection
  $\mathcal{G}$ of all concurrent filters.  For instance, $\mathcal{G}$ could
  be the optimal solutions to an LPP for a particular process, i.e., consist of
@@ -258,10 +258,11 @@ involves minimizing a particular parametric form of the filter error MSE -- name
 
 A   case of interest arises from taking a very broad class $\mathcal{G}$:
   let $\mathcal{G}$ consist of all length $q$ concurrent filters, with 
-\[
+\begin{equation}
+\label{eq:conc.filter}
 \vartheta^{\prime}  =  \left[ {\widehat{\psi} (0) }, 
   {\widehat{\psi} (1) }^{}, \ldots,   {\widehat{\psi} (q-1) }^{} \right].
-\]
+\end{equation}
  So $\vartheta$ is a column vector of length $q n$.  Then the 
 criterion (\ref{eq:mdfa-criterion})
  can be rewritten as
@@ -1422,9 +1423,3 @@ These results suggest the pertinence of a mixed-frequency approach,
  this is further discussed in Chapter \ref{chap:mix}. 
  
 
-\section{Replicating and Generalizing Model-Based Solutions}
-
- This section closes the chapter by discussing model-based multivariate filters,
-  and how MDFA can replicate these. 
-
- 
