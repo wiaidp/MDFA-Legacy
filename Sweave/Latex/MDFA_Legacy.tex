@@ -2106,6 +2106,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 %----------------------------------------
 
 
+
 \chapter{Introduction to the Multivariate Direct Filter Analysis}
 
 Chapter \ref{lpp_chap} introduced the LPP and its ideal solution.  This chapter
@@ -2694,73 +2695,3 @@ With this justification, we see that the entries of the matrix $B$ in
  can be obtained. 
 
 
-
-
-\begin{Exercise} {\bf Correct VAR(1) LPP.} \rm
-\label{exer:var1lpp-correct.2}
- This exercise compares LPP and MDFA when the model is correct.
- Simulate a sample of size $T=100$ from a
-  bivariate VAR(1) process with 
-\[
-  \Phi = \left[ \begin{array}{ll} 1 & .5 \\ -.2 & .3 \end{array} \right]
-\]
- and $\Sigma$ equal to the identity.  The eigenvalues are $.8$ and $.5$.
-  Implement MDFA for this sample, using the moving average filters
- (Proposition \ref{prop:mdfa.quadsoln}) of length $q = 20$ to approximate the optimal
- LPP filter (Exercise \ref{exer:var1lpp-correct}), for the $2$-step
- ahead forecasting LPP (Example \ref{exam:multi-step.fore}). 
-  Does the MDFA concurrent filter closely
- match the optimal LPP filter?  Repeat for $T=200$ and $T=500$.
-\end{Exercise}
-
-
-\begin{Schunk}
-\begin{Sinput}
-> # Simulate a Gaussian VAR(1) of sample size 100:
-> T <- 100
-> N <- 2
-> phi.matrix <- rbind(c(1,.5),c(-.2,.3))
-> innovar.matrix <- diag(2)
-> true.psidelta <- var1.par2psi(phi.matrix,100)
-> gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
-+ 	matrix(innovar.matrix,ncol=1),nrow=2)
-> x.init <- t(chol(gamma.0)) %*% rnorm(2)
-> x.next <- x.init
-> x.sim <- NULL
-> for(t in 1:T)
-+ {
-+ 	x.next <- phi.matrix %*% x.next + rnorm(2)
-+ 	x.sim <- cbind(x.sim,x.next)
-+ }
-> x.sim <- ts(t(x.sim))
-> x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
-> x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
-> # 2-step ahead forecasting
-> psi.array <- array(0,c(1,2,2))
-> psi.array[,,1] <- c(0,0)
-> psi.array[,,2] <- c(1,0)
-> acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # select choices of phi from above
-> if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-+ 	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
-+ } else {
-+ 	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
-+ }
-> # LPP case
-> fore.lpp <- phi.lpp %^% 2
-> fore.lpp <- fore.lpp[1,]
-> # MDFA
-> q <- 20
-> Grid <- T
-> m <- floor(Grid/2)
-> # The Fourier frequencies
-> lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
-> # frf for 2-step ahead forecasting
-> frf.psi <- matrix(lambda.ft^{-2},nrow=1) %x% diag(N) 	  
-> frf.psi <- array(frf.psi,c(N,N,Grid))
-> spec.hat <- mdfa.pergram(x.sim)	

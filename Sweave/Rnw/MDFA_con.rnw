@@ -3,8 +3,12 @@
 \chapter{Filter Constraints}
 \label{con_sec}
 
-We propose and analyze a set of filter constraints which are deemed 
-to be relevant in applications. Formally, the constraints ensure 
+We propose and analyze a set of filter constraints that may be relevant for certain 
+  applications. Formally, the constraints ensure 
+  that the filter error has mean zero, and hence may be
+   important to impose when the data process has a time-varying mean, or
+    is non-stationary.
+  
 finiteness of the mean-square filter error in the case of integrated
  processes\footnote{The constraints address filter characteristics in 
 \emph{frequency zero}. Arbitrary frequencies could be tackled but we did 

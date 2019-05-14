@@ -115,7 +115,7 @@
 
 %----------------------------------------
 
-\SweaveInput{MDFA_basic}
+%\SweaveInput{MDFA_basic}
 %\SweaveInput{Mean_square}
 %  note: MDFA_basic replaces Mean_square
 

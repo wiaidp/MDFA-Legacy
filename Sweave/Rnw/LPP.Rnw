@@ -813,13 +813,15 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 
 
 <<exercise_lpp_var1.illustration1,echo=False>>=
-setwd("C:\\Users\\Tucker\\Documents\\MDFAbook\\RcodeTSM")
+path.main <- getwd()
+setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
 # requires package expm
 library(expm)
 source("sqrtm.r")
 source("var1.psi2par.r")
 source("var1.par2psi.r")
 source("lpp.var1.r")
+setwd(path.main)
 @
 
 
