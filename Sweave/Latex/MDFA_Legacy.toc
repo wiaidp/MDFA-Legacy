@@ -1,0 +1,125 @@
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Overview}{1}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Signals and Extraction}{1}{subsection.1.1.1}
+\contentsline {subsection}{\numberline {1.1.2}The Classic Model-Based Paradigm}{2}{subsection.1.1.2}
+\contentsline {subsection}{\numberline {1.1.3}The Scope of MDFA}{3}{subsection.1.1.3}
+\contentsline {section}{\numberline {1.2}The Style of the Book}{4}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Setting the Paths}{4}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}DFA}{5}{subsection.1.2.2}
+\contentsline {subsubsection}{DFT and Periodogram}{5}{section*.2}
+\contentsline {subsubsection}{Basic DFA}{6}{section*.3}
+\contentsline {subsubsection}{Customized DFA}{7}{section*.4}
+\contentsline {subsection}{\numberline {1.2.3}MDFA}{7}{subsection.1.2.3}
+\contentsline {subsubsection}{Data Matrix}{7}{section*.5}
+\contentsline {subsubsection}{DFT}{9}{section*.6}
+\contentsline {subsection}{\numberline {1.2.4}Using MDFA}{10}{subsection.1.2.4}
+\contentsline {subsubsection}{A Versatile User Interface}{10}{section*.7}
+\contentsline {subsubsection}{Default Settings}{10}{section*.8}
+\contentsline {subsubsection}{Selected Calls: Classic MSE, Customization and Regularization}{11}{section*.9}
+\contentsline {chapter}{\numberline {2}Linear Prediction Problems}{13}{chapter.2}
+\contentsline {section}{\numberline {2.1}Background on Stationary Vector Time Series}{13}{section.2.1}
+\contentsline {section}{\numberline {2.2}MSE Optimal Prediction Problems}{16}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}The Linear Prediction Problem}{16}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Solution to the Linear Prediction Problem}{19}{subsection.2.2.2}
+\contentsline {paragraph}{Proof of Proposition \ref {prop:GPP}.}{20}{section*.10}
+\contentsline {section}{\numberline {2.3}Model Fitting via LPP MSE Minimization}{21}{section.2.3}
+\contentsline {paragraph}{Proof of Proposition \ref {prop:PTV-truth}.}{22}{section*.11}
+\contentsline {paragraph}{Proof of Theorem \ref {thm:LPP-Clt}.}{24}{section*.12}
+\contentsline {chapter}{\numberline {3}Introduction to the Multivariate Direct Filter Analysis}{35}{chapter.3}
+\contentsline {section}{\numberline {3.1}Background on Multivariate Filtering}{35}{section.3.1}
+\contentsline {paragraph}{Proof of Proposition \ref {prop:phase-delay}.}{37}{section*.13}
+\contentsline {section}{\numberline {3.2}Multivariate Direct Filter Analysis of the LPP}{37}{section.3.2}
+\contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln}.}{39}{section*.14}
+\contentsline {paragraph}{Proof of Theorem \ref {thm:MDFAasymp}.}{40}{section*.15}
+\contentsline {section}{\numberline {3.3}Computation of the Linear Prediction Filter}{41}{section.3.3}
+\contentsline {paragraph}{Proof of Proposition \ref {prop:dft-unitary}.}{42}{section*.16}
+\contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{52}{section.3.4}
+\contentsline {subsection}{\numberline {3.4.1}Bivariate MDFA versus Univariate DFA}{52}{subsection.3.4.1}
+\contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{53}{subsection.3.4.2}
+\contentsline {section}{\numberline {3.5}Replicating and Generalizing Model-Based Solutions}{58}{section.3.5}
+\contentsline {chapter}{\numberline {4}Filter Constraints}{59}{chapter.4}
+\contentsline {chapter}{\numberline {5}Integrated Processes}{61}{chapter.5}
+\contentsline {section}{\numberline {5.1}Stationary Multivariate DFA}{61}{section.5.1}
+\contentsline {section}{\numberline {5.2}Non-stationary Multivariate Processes}{65}{section.5.2}
+\contentsline {section}{\numberline {5.3}DFA for Co-Integrated Processes}{67}{section.5.3}
+\contentsline {section}{\numberline {5.4}Examples of Multivariate DFA}{70}{section.5.4}
+\contentsline {section}{\numberline {5.5}Examples of Co-Integrated Multivariate DFA}{70}{section.5.5}
+\contentsline {chapter}{\numberline {6}Filter Customization}{71}{chapter.6}
+\contentsline {chapter}{\numberline {7}Overfitting and Regularization}{73}{chapter.7}
+\contentsline {section}{\numberline {7.1}Introduction}{73}{section.7.1}
+\contentsline {section}{\numberline {7.2}Overfitting: a Signal-Extraction Perspective}{74}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}In- and Out-of-Sample Spans}{74}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}Empirical Examples}{75}{subsection.7.2.2}
+\contentsline {section}{\numberline {7.3}Tackling Overfitting: a Short Review}{75}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Hard (Filter-) Constraints}{75}{subsection.7.3.1}
+\contentsline {subsubsection}{Brute Force }{75}{section*.17}
+\contentsline {subsubsection}{Loaded Constraints}{75}{section*.18}
+\contentsline {subsection}{\numberline {7.3.2}Smoothing the Spectrum}{75}{subsection.7.3.2}
+\contentsline {subsubsection}{Non-Parametric Approaches}{75}{section*.19}
+\contentsline {subsubsection}{Parametric (Model-Based) Approach}{76}{section*.20}
+\contentsline {subsection}{\numberline {7.3.3}Regularization Troika}{76}{subsection.7.3.3}
+\contentsline {section}{\numberline {7.4}Longitudinal (Rate of) Decay}{76}{section.7.4}
+\contentsline {subsection}{\numberline {7.4.1}Quadratic Bilinear Form: Univariate Framework}{76}{subsection.7.4.1}
+\contentsline {subsection}{\numberline {7.4.2}Backcasting and Forecasting}{77}{subsection.7.4.2}
+\contentsline {subsection}{\numberline {7.4.3}Multivariate Framework}{78}{subsection.7.4.3}
+\contentsline {subsection}{\numberline {7.4.4}Simple Example}{78}{subsection.7.4.4}
+\contentsline {subsection}{\numberline {7.4.5}Grid-Screening of Effects}{80}{subsection.7.4.5}
+\contentsline {subsubsection}{Shape-Parameter $\lambda _{decay,1}$}{80}{section*.21}
+\contentsline {subsubsection}{Strength-Parameter $\lambda _{decay,2}$}{82}{section*.22}
+\contentsline {subsection}{\numberline {7.4.6}Constraints vs. Regularization}{83}{subsection.7.4.6}
+\contentsline {section}{\numberline {7.5}Longitudinal Smoothness}{85}{section.7.5}
+\contentsline {subsection}{\numberline {7.5.1}Quadratic Bilinear Form}{85}{subsection.7.5.1}
+\contentsline {subsection}{\numberline {7.5.2}Empirical Examples}{86}{subsection.7.5.2}
+\contentsline {section}{\numberline {7.6}Cross-Sectional Similarity}{87}{section.7.6}
+\contentsline {subsection}{\numberline {7.6.1}Quadratic Bilinear Form}{88}{subsection.7.6.1}
+\contentsline {subsection}{\numberline {7.6.2}Empirical Examples}{88}{subsection.7.6.2}
+\contentsline {section}{\numberline {7.7}Regularization Troika: a Triplet of Universal Filter Requirements}{90}{section.7.7}
+\contentsline {subsection}{\numberline {7.7.1}Quadratic (Bilinear) Form}{90}{subsection.7.7.1}
+\contentsline {subsection}{\numberline {7.7.2}Empirical Examples}{90}{subsection.7.7.2}
+\contentsline {subsection}{\numberline {7.7.3}Entanglement and Conflicting Requirements}{90}{subsection.7.7.3}
+\contentsline {subsection}{\numberline {7.7.4}Limitations: Data Transformations}{91}{subsection.7.7.4}
+\contentsline {subsection}{\numberline {7.7.5}Empirical Examples}{91}{subsection.7.7.5}
+\contentsline {section}{\numberline {7.8}Optimization Criterion (Zero-Shrinkage)}{91}{section.7.8}
+\contentsline {subsection}{\numberline {7.8.1}Unconstrained Design}{91}{subsection.7.8.1}
+\contentsline {subsection}{\numberline {7.8.2}Constrained Design}{92}{subsection.7.8.2}
+\contentsline {subsection}{\numberline {7.8.3}Empirical Example: Constrained Regularized Customized Design}{93}{subsection.7.8.3}
+\contentsline {section}{\numberline {7.9}Effective Degrees of $\textrm {Freedom}^*$}{94}{section.7.9}
+\contentsline {subsection}{\numberline {7.9.1}Hat-Matrix and Residual-Matrix}{94}{subsection.7.9.1}
+\contentsline {subsection}{\numberline {7.9.2}A Generalization of $edof$: Adjoined Complex Estimate and Symmetric Augmentation of the Hat-Matrix}{95}{subsection.7.9.2}
+\contentsline {subsection}{\numberline {7.9.3}Empirical Examples}{96}{subsection.7.9.3}
+\contentsline {section}{\numberline {7.10}The Troikaner}{97}{section.7.10}
+\contentsline {subsection}{\numberline {7.10.1}Generalized Information Criterion}{97}{subsection.7.10.1}
+\contentsline {section}{\numberline {7.11}General H0-Shrinkage}{97}{section.7.11}
+\contentsline {subsection}{\numberline {7.11.1}Zero-Shrinkage vs. Regularization: Potentially Conflicting Requirements}{97}{subsection.7.11.1}
+\contentsline {subsection}{\numberline {7.11.2}Inclusion of A Priori Knowledge}{97}{subsection.7.11.2}
+\contentsline {subsection}{\numberline {7.11.3}Replicating (and Enhancing) Clients' Performances}{97}{subsection.7.11.3}
+\contentsline {section}{\numberline {7.12}Optimization Criterion under General H0-Shrinkage}{97}{section.7.12}
+\contentsline {section}{\numberline {7.13}MDFA-Stages}{97}{section.7.13}
+\contentsline {section}{\numberline {7.14}Unsmoothing}{97}{section.7.14}
+\contentsline {section}{\numberline {7.15}Summary}{98}{section.7.15}
+\contentsline {chapter}{\numberline {8}Vintage Data: Working with Data-Revisions}{99}{chapter.8}
+\contentsline {section}{\numberline {8.1}Introduction}{99}{section.8.1}
+\contentsline {section}{\numberline {8.2}Data Organization}{99}{section.8.2}
+\contentsline {subsection}{\numberline {8.2.1}Vintage and Release Triangles}{99}{subsection.8.2.1}
+\contentsline {subsection}{\numberline {8.2.2}Vintage Triangle in the Frequency-Domain}{99}{subsection.8.2.2}
+\contentsline {section}{\numberline {8.3}Reconcile Real-Time Signalextraction and Data-Revisions}{99}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Vintage-Filtering/Smoothing}{99}{subsection.8.3.1}
+\contentsline {subsection}{\numberline {8.3.2}Setting-Up MDFA-Designs: the (Pseudo-) Stationary Case}{99}{subsection.8.3.2}
+\contentsline {subsection}{\numberline {8.3.3}Extension to Non-Stationary Time Series}{99}{subsection.8.3.3}
+\contentsline {chapter}{\numberline {9}Mixed-Frequency Data: Combining and Working with Data Sampled at Different Time Scales}{101}{chapter.9}
+\contentsline {section}{\numberline {9.1}Introduction}{101}{section.9.1}
+\contentsline {section}{\numberline {9.2}Target is Low-Frequency Data}{102}{section.9.2}
+\contentsline {subsection}{\numberline {9.2.1}Folding the Frequency Interval}{102}{subsection.9.2.1}
+\contentsline {subsection}{\numberline {9.2.2}Generalized Optimization Criterion}{102}{subsection.9.2.2}
+\contentsline {section}{\numberline {9.3}Explaining Series is/are Low-Frequency Data}{102}{section.9.3}
+\contentsline {subsection}{\numberline {9.3.1}Folding and Expanding the Frequency Interval}{102}{subsection.9.3.1}
+\contentsline {subsection}{\numberline {9.3.2}Generalized Optimization Criterion}{102}{subsection.9.3.2}
+\contentsline {section}{\numberline {9.4}General Case: Arbitrary Mix}{102}{section.9.4}
+\contentsline {section}{\numberline {9.5}Unequally Distributed Release Dates}{102}{section.9.5}
+\contentsline {section}{\numberline {9.6}Missing Data}{102}{section.9.6}
+\contentsline {chapter}{\numberline {10}Summary and Links}{103}{chapter.10}
+\contentsline {section}{\numberline {10.1}Survey of MDFA Optimization Criteria}{103}{section.10.1}
+\contentsline {section}{\numberline {10.2}Consistency and Efficiency: a Tale of Two Philosophies}{103}{section.10.2}
+\contentsline {subsection}{\numberline {10.2.1}Knowing the Truth: Omniscience}{103}{subsection.10.2.1}
+\contentsline {subsection}{\numberline {10.2.2}Believing in Truth: Faith and Fatalism}{103}{subsection.10.2.2}
+\contentsline {subsection}{\numberline {10.2.3}From Truth to Effectiveness: Emphasizing Performances}{103}{subsection.10.2.3}

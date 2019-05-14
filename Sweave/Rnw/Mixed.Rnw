@@ -2,7 +2,7 @@
 
 
 \chapter{Mixed-Frequency Data: Combining and Working with Data Sampled at Different Time Scales}
-\label{mix_sec}
+\label{chap:mix}
 
 \section{Introduction}
 

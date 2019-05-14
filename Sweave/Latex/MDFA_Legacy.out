@@ -1,0 +1,104 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Overview}{chapter.1}% 2
+\BOOKMARK [2][-]{subsection.1.1.1}{Signals and Extraction}{section.1.1}% 3
+\BOOKMARK [2][-]{subsection.1.1.2}{The Classic Model-Based Paradigm}{section.1.1}% 4
+\BOOKMARK [2][-]{subsection.1.1.3}{The Scope of MDFA}{section.1.1}% 5
+\BOOKMARK [1][-]{section.1.2}{The Style of the Book}{chapter.1}% 6
+\BOOKMARK [2][-]{subsection.1.2.1}{Setting the Paths}{section.1.2}% 7
+\BOOKMARK [2][-]{subsection.1.2.2}{DFA}{section.1.2}% 8
+\BOOKMARK [2][-]{subsection.1.2.3}{MDFA}{section.1.2}% 9
+\BOOKMARK [2][-]{subsection.1.2.4}{Using MDFA}{section.1.2}% 10
+\BOOKMARK [0][-]{chapter.2}{Linear Prediction Problems}{}% 11
+\BOOKMARK [1][-]{section.2.1}{Background on Stationary Vector Time Series}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.2}{MSE Optimal Prediction Problems}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.2.1}{The Linear Prediction Problem}{section.2.2}% 14
+\BOOKMARK [2][-]{subsection.2.2.2}{Solution to the Linear Prediction Problem}{section.2.2}% 15
+\BOOKMARK [1][-]{section.2.3}{Model Fitting via LPP MSE Minimization}{chapter.2}% 16
+\BOOKMARK [0][-]{chapter.3}{Introduction to the Multivariate Direct Filter Analysis}{}% 17
+\BOOKMARK [1][-]{section.3.1}{Background on Multivariate Filtering}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.2}{Multivariate Direct Filter Analysis of the LPP}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.3}{Computation of the Linear Prediction Filter}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.4}{Qualitative Easing by Leading Indicators: an Empirical Study}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.4.1}{Bivariate MDFA versus Univariate DFA}{section.3.4}% 22
+\BOOKMARK [2][-]{subsection.3.4.2}{Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{section.3.4}% 23
+\BOOKMARK [1][-]{section.3.5}{Replicating and Generalizing Model-Based Solutions}{chapter.3}% 24
+\BOOKMARK [0][-]{chapter.4}{Filter Constraints}{}% 25
+\BOOKMARK [0][-]{chapter.5}{Integrated Processes}{}% 26
+\BOOKMARK [1][-]{section.5.1}{Stationary Multivariate DFA}{chapter.5}% 27
+\BOOKMARK [1][-]{section.5.2}{Non-stationary Multivariate Processes}{chapter.5}% 28
+\BOOKMARK [1][-]{section.5.3}{DFA for Co-Integrated Processes}{chapter.5}% 29
+\BOOKMARK [1][-]{section.5.4}{Examples of Multivariate DFA}{chapter.5}% 30
+\BOOKMARK [1][-]{section.5.5}{Examples of Co-Integrated Multivariate DFA}{chapter.5}% 31
+\BOOKMARK [0][-]{chapter.6}{Filter Customization}{}% 32
+\BOOKMARK [0][-]{chapter.7}{Overfitting and Regularization}{}% 33
+\BOOKMARK [1][-]{section.7.1}{Introduction}{chapter.7}% 34
+\BOOKMARK [1][-]{section.7.2}{Overfitting: a Signal-Extraction Perspective}{chapter.7}% 35
+\BOOKMARK [2][-]{subsection.7.2.1}{In- and Out-of-Sample Spans}{section.7.2}% 36
+\BOOKMARK [2][-]{subsection.7.2.2}{Empirical Examples}{section.7.2}% 37
+\BOOKMARK [1][-]{section.7.3}{Tackling Overfitting: a Short Review}{chapter.7}% 38
+\BOOKMARK [2][-]{subsection.7.3.1}{Hard \(Filter-\) Constraints}{section.7.3}% 39
+\BOOKMARK [2][-]{subsection.7.3.2}{Smoothing the Spectrum}{section.7.3}% 40
+\BOOKMARK [2][-]{subsection.7.3.3}{Regularization Troika}{section.7.3}% 41
+\BOOKMARK [1][-]{section.7.4}{Longitudinal \(Rate of\) Decay}{chapter.7}% 42
+\BOOKMARK [2][-]{subsection.7.4.1}{Quadratic Bilinear Form: Univariate Framework}{section.7.4}% 43
+\BOOKMARK [2][-]{subsection.7.4.2}{Backcasting and Forecasting}{section.7.4}% 44
+\BOOKMARK [2][-]{subsection.7.4.3}{Multivariate Framework}{section.7.4}% 45
+\BOOKMARK [2][-]{subsection.7.4.4}{Simple Example}{section.7.4}% 46
+\BOOKMARK [2][-]{subsection.7.4.5}{Grid-Screening of Effects}{section.7.4}% 47
+\BOOKMARK [2][-]{subsection.7.4.6}{Constraints vs. Regularization}{section.7.4}% 48
+\BOOKMARK [1][-]{section.7.5}{Longitudinal Smoothness}{chapter.7}% 49
+\BOOKMARK [2][-]{subsection.7.5.1}{Quadratic Bilinear Form}{section.7.5}% 50
+\BOOKMARK [2][-]{subsection.7.5.2}{Empirical Examples}{section.7.5}% 51
+\BOOKMARK [1][-]{section.7.6}{Cross-Sectional Similarity}{chapter.7}% 52
+\BOOKMARK [2][-]{subsection.7.6.1}{Quadratic Bilinear Form}{section.7.6}% 53
+\BOOKMARK [2][-]{subsection.7.6.2}{Empirical Examples}{section.7.6}% 54
+\BOOKMARK [1][-]{section.7.7}{Regularization Troika: a Triplet of Universal Filter Requirements}{chapter.7}% 55
+\BOOKMARK [2][-]{subsection.7.7.1}{Quadratic \(Bilinear\) Form}{section.7.7}% 56
+\BOOKMARK [2][-]{subsection.7.7.2}{Empirical Examples}{section.7.7}% 57
+\BOOKMARK [2][-]{subsection.7.7.3}{Entanglement and Conflicting Requirements}{section.7.7}% 58
+\BOOKMARK [2][-]{subsection.7.7.4}{Limitations: Data Transformations}{section.7.7}% 59
+\BOOKMARK [2][-]{subsection.7.7.5}{Empirical Examples}{section.7.7}% 60
+\BOOKMARK [1][-]{section.7.8}{Optimization Criterion \(Zero-Shrinkage\)}{chapter.7}% 61
+\BOOKMARK [2][-]{subsection.7.8.1}{Unconstrained Design}{section.7.8}% 62
+\BOOKMARK [2][-]{subsection.7.8.2}{Constrained Design}{section.7.8}% 63
+\BOOKMARK [2][-]{subsection.7.8.3}{Empirical Example: Constrained Regularized Customized Design}{section.7.8}% 64
+\BOOKMARK [1][-]{section.7.9}{Effective Degrees of Freedom*}{chapter.7}% 65
+\BOOKMARK [2][-]{subsection.7.9.1}{Hat-Matrix and Residual-Matrix}{section.7.9}% 66
+\BOOKMARK [2][-]{subsection.7.9.2}{A Generalization of edof: Adjoined Complex Estimate and Symmetric Augmentation of the Hat-Matrix}{section.7.9}% 67
+\BOOKMARK [2][-]{subsection.7.9.3}{Empirical Examples}{section.7.9}% 68
+\BOOKMARK [1][-]{section.7.10}{The Troikaner}{chapter.7}% 69
+\BOOKMARK [2][-]{subsection.7.10.1}{Generalized Information Criterion}{section.7.10}% 70
+\BOOKMARK [1][-]{section.7.11}{General H0-Shrinkage}{chapter.7}% 71
+\BOOKMARK [2][-]{subsection.7.11.1}{Zero-Shrinkage vs. Regularization: Potentially Conflicting Requirements}{section.7.11}% 72
+\BOOKMARK [2][-]{subsection.7.11.2}{Inclusion of A Priori Knowledge}{section.7.11}% 73
+\BOOKMARK [2][-]{subsection.7.11.3}{Replicating \(and Enhancing\) Clients' Performances}{section.7.11}% 74
+\BOOKMARK [1][-]{section.7.12}{Optimization Criterion under General H0-Shrinkage}{chapter.7}% 75
+\BOOKMARK [1][-]{section.7.13}{MDFA-Stages}{chapter.7}% 76
+\BOOKMARK [1][-]{section.7.14}{Unsmoothing}{chapter.7}% 77
+\BOOKMARK [1][-]{section.7.15}{Summary}{chapter.7}% 78
+\BOOKMARK [0][-]{chapter.8}{Vintage Data: Working with Data-Revisions}{}% 79
+\BOOKMARK [1][-]{section.8.1}{Introduction}{chapter.8}% 80
+\BOOKMARK [1][-]{section.8.2}{Data Organization}{chapter.8}% 81
+\BOOKMARK [2][-]{subsection.8.2.1}{Vintage and Release Triangles}{section.8.2}% 82
+\BOOKMARK [2][-]{subsection.8.2.2}{Vintage Triangle in the Frequency-Domain}{section.8.2}% 83
+\BOOKMARK [1][-]{section.8.3}{Reconcile Real-Time Signalextraction and Data-Revisions}{chapter.8}% 84
+\BOOKMARK [2][-]{subsection.8.3.1}{Vintage-Filtering/Smoothing}{section.8.3}% 85
+\BOOKMARK [2][-]{subsection.8.3.2}{Setting-Up MDFA-Designs: the \(Pseudo-\) Stationary Case}{section.8.3}% 86
+\BOOKMARK [2][-]{subsection.8.3.3}{Extension to Non-Stationary Time Series}{section.8.3}% 87
+\BOOKMARK [0][-]{chapter.9}{Mixed-Frequency Data: Combining and Working with Data Sampled at Different Time Scales}{}% 88
+\BOOKMARK [1][-]{section.9.1}{Introduction}{chapter.9}% 89
+\BOOKMARK [1][-]{section.9.2}{Target is Low-Frequency Data}{chapter.9}% 90
+\BOOKMARK [2][-]{subsection.9.2.1}{Folding the Frequency Interval}{section.9.2}% 91
+\BOOKMARK [2][-]{subsection.9.2.2}{Generalized Optimization Criterion}{section.9.2}% 92
+\BOOKMARK [1][-]{section.9.3}{Explaining Series is/are Low-Frequency Data}{chapter.9}% 93
+\BOOKMARK [2][-]{subsection.9.3.1}{Folding and Expanding the Frequency Interval}{section.9.3}% 94
+\BOOKMARK [2][-]{subsection.9.3.2}{Generalized Optimization Criterion}{section.9.3}% 95
+\BOOKMARK [1][-]{section.9.4}{General Case: Arbitrary Mix}{chapter.9}% 96
+\BOOKMARK [1][-]{section.9.5}{Unequally Distributed Release Dates}{chapter.9}% 97
+\BOOKMARK [1][-]{section.9.6}{Missing Data}{chapter.9}% 98
+\BOOKMARK [0][-]{chapter.10}{Summary and Links}{}% 99
+\BOOKMARK [1][-]{section.10.1}{Survey of MDFA Optimization Criteria}{chapter.10}% 100
+\BOOKMARK [1][-]{section.10.2}{Consistency and Efficiency: a Tale of Two Philosophies}{chapter.10}% 101
+\BOOKMARK [2][-]{subsection.10.2.1}{Knowing the Truth: Omniscience}{section.10.2}% 102
+\BOOKMARK [2][-]{subsection.10.2.2}{Believing in Truth: Faith and Fatalism}{section.10.2}% 103
+\BOOKMARK [2][-]{subsection.10.2.3}{From Truth to Effectiveness: Emphasizing Performances}{section.10.2}% 104

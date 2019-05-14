@@ -1,6 +1,6 @@
 
 \chapter{Linear Prediction Problems}
-\label{lpp_chap}
+\label{chap:lpp}
 
 \section{Background on Stationary Vector Time Series}
 
@@ -216,7 +216,7 @@ components of the DFT will be asymptotically uncorrelated, and
 \subsection{The Linear Prediction Problem} We define the class of
 real-time estimation problems considered in this book.  This chapter
  focuses upon the case of weakly stationary vector time series, but
- Chapter \ref{int_sec} makes extensions to difference stationary processes.
+ Chapter \ref{chap:int} makes extensions to difference stationary processes.
 
 \begin{Definition} \rm
 \label{def:target}
@@ -298,7 +298,7 @@ and Prescott, 1997) is a low-pass filter appropriate for producing trends.
  but note that the frf is a continuous matrix-valued function of $\omega$.
 The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
  of the econometric concept of trend co-integration, which is further explored
- in Chapter \ref{int_sec}.  It is always assumed that $\Sigma_{\iota}$ has full rank, 
+ in Chapter \ref{chap:coint}.  It is always assumed that $\Sigma_{\iota}$ has full rank, 
  and hence  we can rewrite as
 \[
   \Psi (z) = Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}
@@ -426,7 +426,7 @@ The LPP corresponds to
 \end{Example}
 
 \begin{Example} {\bf HP Low-pass.}   \rm
-\label{exan:hp-high.2}
+\label{exam:hp-high.2}
   The LPP attempts to determine an optimal real-time trend estimate, where the target trend
  -- sometimes called the historical trend -- is defined through the HP low-pass filter.
   Here, both the target filter $\Psi (L)$ and the real-time 

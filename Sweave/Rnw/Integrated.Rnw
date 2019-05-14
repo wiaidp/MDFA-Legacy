@@ -39,7 +39,8 @@
 \SweaveOpts{concordance=FALSE}
 
 
-\chapter{Integrated Processes}\label{int_sec}
+\chapter{Integrated Processes}
+\label{chap:coint}
 
 
 The univariate DFA was introduced in Chapter 2 for the case of a stationary time series.  

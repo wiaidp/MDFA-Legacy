@@ -1,8 +1,9 @@
 
 
 \chapter{Introduction to the Multivariate Direct Filter Analysis}
+\label{chap:basic}
 
-Chapter \ref{lpp_chap} introduced the LPP and its ideal solution.  This chapter
+Chapter \ref{chap:lpp} introduced the LPP and its ideal solution.  This chapter
  extends the discussion, by determining optimal solutions without restricting
  to parametric models.
 
@@ -178,7 +179,7 @@ The amplitude effects can be understood as dilations of the input spectral densi
   While   DFA was originated to handle univariate time series, its
  multivariate generalization -- Multivariate Direct Filter Analysis (MDFA) --
  is designed for the broader context of LPPs discussed in Chapter 
-  \ref{lpp_chap}.
+  \ref{chap:lpp}.
    
  The entire class of concurrent filters corresponds to 
   the collection of power series in $L$.  Here we are interested in 
@@ -210,7 +211,7 @@ The amplitude effects can be understood as dilations of the input spectral densi
   parameter space} \}.
 \end{equation}
   Whereas the model-based 
- approach to the LPP  discussed in Chapter \ref{lpp_chap} 
+ approach to the LPP  discussed in Chapter \ref{chap:lpp} 
 involves minimizing a particular parametric form of the filter error MSE -- namely
  the function $J_{\Psi} (\vartheta, G)$ for $G$ corresponding either to the
  periodogram or true spectrum -- a more direct approach is
@@ -374,7 +375,7 @@ Filtering with  $\widehat{\Psi}_{\vartheta (\widehat{F})}$ instead
  involves some statistical error, which vanishes as $T \tends \infty$ because
   $\vartheta (  \widehat{F})$ is consistent for the PTV.  We can quantify this additional 
  error if we know the statistical properties of the estimate; under fairly broad conditions,
- it follows a central limit theorem.  As in Chapter \ref{lpp_chap}, we assume 
+ it follows a central limit theorem.  As in Chapter \ref{chap:lpp}, we assume 
   the HT conditions and that   the  Hessian  $H(\vartheta) = \nabla \nabla^{\prime}
   D_{\Psi} (\vartheta, \widetilde{F}) $  of $D_{\Psi} $ is positive definite at the PTV.
   The function $M$ is defined in (\ref{eq:mdfa-alternate}).
@@ -1110,7 +1111,7 @@ shifted to the right (they are delayed); the first series seems to be least
  estimates can be explained through the fact that the phase delay functions
  of the concurrent filters (orange, green, or
  violet lines in the center panel) do not vanish, unlike the ideal
- filter's phase delay (black).    Chapter \ref{ats_sec} 
+ filter's phase delay (black).    Chapter \ref{chap:ats} 
 proposes a more general optimization paradigm that will address these issues 
 explicitly.
 
@@ -1132,7 +1133,7 @@ Similar findings apply to the other two series.
 
 
 \section{Qualitative Easing by Leading Indicators: an Empirical Study}
-   \label{leading_ind}
+   \label{sec:leading.ind}
 
 In this section we quantify performance gains 
   obtained by inclusion of a leading indicator into a univariate design.
@@ -1255,7 +1256,7 @@ We see that there is a substantial improvement to performance of the MDFA over
  
 
 \subsection{Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}
- \label{lead_snr}
+ \label{sec:lead.snr}
 
 Intuitively, increasing $\delta$ or $\sigma$ should result in a harder forecasting
  problem: $1/ \sigma$ measures signal-to-noise ratio (snr), and low values indicate
@@ -1418,10 +1419,12 @@ These results suggest the pertinence of a mixed-frequency approach,
  whereby information at differing sampling frequencies (such as monthly
  and quarterly data) is combined.  The higher-frequency data stream
  could be used to update the filter for the lower-frequency time series;
- this is further discussed in Chapter \ref{mix_sec}. 
+ this is further discussed in Chapter \ref{chap:mix}. 
  
 
 \section{Replicating and Generalizing Model-Based Solutions}
 
+ This section closes the chapter by discussing model-based multivariate filters,
+  and how MDFA can replicate these. 
 
  

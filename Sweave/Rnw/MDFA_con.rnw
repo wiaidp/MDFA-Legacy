@@ -1,22 +1,159 @@
 
 
-\chapter{Filter Constraints}
-\label{con_sec}
+\chapter{Multivariate Direct Filter Analysis for Non-stationary Processes}
+\label{chap:int}
 
-We propose and analyze a set of filter constraints that may be relevant for certain 
-  applications. Formally, the constraints ensure 
-  that the filter error has mean zero, and hence may be
-   important to impose when the data process has a time-varying mean, or
-    is non-stationary.
-  
-finiteness of the mean-square filter error in the case of integrated
- processes\footnote{The constraints address filter characteristics in 
-\emph{frequency zero}. Arbitrary frequencies could be tackled but we did 
-not find any relevant practical application so far.}. Section \ref{i1i2_intr} 
-sets-up the context; a link to integrated processes is proposed in 
-section \ref{pseudo_dft}; a general matrix notation is proposed in 
-section \ref{cons_gen_par}; section \ref{optim_stat} extends the former 
-(unconstrained) MDFA-criterion to the constrained case; finally, section 
-\ref{const_impl_mdfa} illustrates effects (of the constraints) on 
-characteristics of real-time filters.  \\
+ We now extend the basic MDFA of Chapter \ref{chap:basic}  by considering
+ the method's application to  non-stationary processes.  
+ Section \ref{sec:constraint} introduces the idea of filter constraints
+arising from time-varying means, a form of non-stationarity.
+ This treatment is generalized in Section \ref{sec:non-stat}
+  by the definition of non-stationary processes, and theory for the corresponding
+   model-based filters is developed.  Finally, the MDFA criterion for
+    non-stationary processes is discussed in Section \ref{sec:mdfa-nonstat}.
+ 
+   
+% Section \ref{i1i2_intr} sets-up the context; a link to integrated processes is proposed in 
+% section \ref{pseudo_dft}; a general matrix notation is proposed in 
+% section \ref{cons_gen_par}; section \ref{optim_stat} extends the former 
+% (unconstrained) MDFA-criterion to the constrained case; finally, section 
+% \ref{const_impl_mdfa} illustrates effects (of the constraints) on 
+%  characteristics of real-time filters.  
 
+
+
+
+
+\subsection{Constrained MDFA}
+\label{sec:constraint}
+
+ If the  data process has a time-varying mean (which is a form of  non-stationarity),
+  then it is necessary to impose additional filter constraints -- otherwise
+   the filter error will not have mean zero.  
+  Various constraints upon the concurrent filter can be envisioned, 
+   and imposing such strictures results in  a constrained MDFA.  
+   Writing $\Delta (B) = \Psi (B) - \widehat{\Psi} (B)$ as the discrepancy filter,
+   we see  from (\ref{eq:dfa-error})   that $\EE [ E_t ] = \Delta (B) \, \EE [ X_t ]$; 
+   by Definition \ref{def:lpp}, we require
+ that $\EE [ E_t ] = 0$ for any LPP.  If $\EE [ X_t] = 0$ then this condition is always satisfied, but with nonzero means 
+ additional constraints on $\Delta (B)$ must be imposed, which implicitly amount to constraints on $\widehat{\Psi} (B)$.
+ The following results are well-known (Brockwell and Davis, 1991):  if $\EE [ X_t ]$ is constant but nonzero, then we require $\Delta (1) = 0$.
+  If $\EE [ X_t ]$ is linear in $t$, then we require $\Delta (1) = 0$ and $\partial {\Delta} (1) = 0$.  Hence, we obtain
+ three fundamental types of constraints: Level Constraint (LC), Time-Shift Constraint (TSC), and Level and Time-Shift Constraint (LTSC).
+  These are defined as follows:
+\begin{align*}
+ \mbox{LC} : &  \;  \Delta (1) = 0 \quad \mbox{or} \quad \Psi (1) = \widehat{\Psi} (1) \\
+ \mbox{TSC} : &  \;   \partial {\Delta} (1) = 0 \quad \mbox{or} \quad  \partial {\Psi} (1) = \partial {\widehat{\Psi}} (1)  \\
+ \mbox{LTSC} : &  \;  \Delta (1) = 0,  \,  \partial {\Delta} (1) = 0 \quad \mbox{or} \quad
+ \Psi (1) = \widehat{\Psi} (1), \; \partial {\Psi} (1) = \partial {\widehat{\Psi}} (1).
+\end{align*}
+ In the case of  concurrent filters of form  (\ref{eq:conc.filter}),  LC is accomplished by demanding that 
+  $\sum_{j=0}^{q-1} \widehat{\psi} (j) = \Psi(1)$.   More generally, we consider  linear constraints  formulated via
+\begin{equation}
+\label{eq:concurrent-constrain}
+  \vartheta = R \, \varphi + Q,
+\end{equation}
+ where $R$ is $N q \times N r$ and $\varphi$ is $N r \times N$ dimensional, consisting of 
+ free parameters; $Q$ is a matrix of constants, and is $N q \times N$ dimensional.
+ This is not the most general formulation (we could instead work with $\mbox{vec} [ \vartheta^{\prime}]$,
+ but is sufficient to describe LC, TSC, and LTSC.
+
+\vspace{.5cm}
+
+\noindent {\bf Level Constraint (LC).}    $\sum_{j=0}^{q-1} \widehat{\psi} (j) = \Psi(1)$ implies that
+\begin{equation}
+\label{eq:lc-gamma0}
+ \widehat{\psi} (0) = \Psi(1) - \sum_{j=1}^{q-1} \widehat{\psi} (j).
+\end{equation}
+ Hence  $ \varphi^{\prime}  = [ \widehat{\psi} (1), \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1) ] $ and
+\[
+	R  = \left[ \begin{array}{ccc} -1 & \ldots & -1 \\ 1 & 0 & 0 \\
+		\vdots & \ddots & \vdots \\ 0 & 0 & 1  \end{array} \right]  \otimes 1_N \qquad
+	Q = \left[ \begin{array}{c} \Psi (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+\]
+
+
+\vspace{.5cm}
+
+\noindent {\bf Time Shift Constraint (TSC).}    The constraint is $\partial {\Psi} (1) = \partial \widehat{\Psi} (1)
+   = \sum_{j=0}^{q-1} j \, \widehat{\psi} (j)$,
+ or $\widehat{\psi} (1)  = \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j \, \widehat{\psi} (j) $.
+ Hence  $ \varphi^{\prime}  = [ \widehat{\psi} (0), \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1) ] $ and
+\[
+	R  = \left[ \begin{array}{cccc} 1 & 0 &  \ldots &  0  \\  0 & -2  &  -3  & \ldots  \\
+		0 & 1 & 0 & \ldots \\ 
+		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right] \otimes 1_N \qquad
+	Q = \left[ \begin{array}{c} 0 \\ \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+\]
+
+
+\vspace{.5cm}
+
+\noindent {\bf Level and Time Shift Constraint (LTSC).}    Take the Time Shift constraint formula for $\widehat{\psi} (1)$,
+ and plug this into (\ref{eq:lc-gamma0}), to obtain
+\begin{align*}
+ \widehat{\psi} (0)  & = \Psi (1) - \left( \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j  \, \widehat{\psi} (j) \right) -  \sum_{j=2}^{q-1} 
+ \widehat{\psi} (j)  \\
+	& = \Psi (1) -  \partial {\Psi} (1)  +  \sum_{j=2}^{q-1} (j-1)  \, \widehat{\psi} (j).
+\end{align*}
+ Hence  $ \varphi^{\prime}  = [  \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1)  ] $ and
+\[
+	R  = \left[ \begin{array}{cccc} 1 & 2  &  3  &   \ldots    \\  -2  & -3  &  -4  & \ldots  \\
+		 1  & 0 & \ldots & 0 \\ 
+		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right]  \otimes 1_N \qquad
+	Q = \left[ \begin{array}{c} \Psi (1) - \partial {\Psi} (1)  \\  \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+\]
+
+
+ More generally, we can envision an LPP involving $M$ linear constraints on each scalar filter in $\vartheta$, taking the form
+ $   A = [ J \otimes 1_N ] \, \vartheta$, where $J$ is $M \times q$ dimensional ($M < q$) and $A$ is $N M \times N$ dimensional.
+ (The LC, TSC, and LTSC examples all have this form.)  In order to express this constraint in the form 
+ (\ref{eq:concurrent-constrain}), we use the Q-R decomposition (Golub and Van Loan, 1996) of $J$, writing
+ $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $M \times M$ dimensional), a rectangular upper triangular matrix $G$
+ (which is $M \times q$ dimensional), and a permuation matrix $\Pi$ (which is $q \times q$ dimensional).  
+ Standard matrix software will provide the Q-R decomposition $J$, and should produce the rank of $J$ as  a by-product --
+ if this is less than $M$, then there are redundancies in the constraints that should first be eliminated.  Hence
+ proceeding with a full rank $J$, we partition $G$ as $G = [ G_1 \, G_2]$ such that $G_1$ has $M$ columns and $G_2$
+ has $q-M$ columns.  This quantity $q-M$ corresponds to the number of free coefficient matrices, and is therefore the same as $r$.
+ The Q-R decomposition guarantees that $G_1$ is an upper triangular matrix, and moreover it is invertible.  Therefore
+\[
+  \left[ G_1^{-1} \, C^{-1} \otimes 1_N \right] \, A  = \left( \left[ 1_M , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_N  \right) \, \vartheta,
+\]
+ and the action of $\Pi$ (together with the tensor product) amounts to a block-wise permutation of the elements of $\vartheta$.
+  Let the output of this permutation be denoted
+\[
+   \left[ \begin{array}{l} \overline{\vartheta} \\ \underline{\vartheta} \end{array} \right] = \left( \Pi \otimes 1_N \right) \, \vartheta,
+\]
+ where $\overline{\vartheta}$ is $N M \times N$ dimensional and $\underline{\vartheta}$ is $N r \times N$ dimensional.  
+ Then  by substitution we can solve for $\overline{\vartheta}$ in terms of $\underline{\vartheta}$:
+\[
+   \overline{\vartheta} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_N \right] \, A - \left[  G_1^{-1} \, G_2  \otimes 1_N   \right] \, \underline{\vartheta}.
+\]
+ Therefore we recognize the free variables $\varphi = \underline{\vartheta}$, and obtain $R$ and $Q$ in 
+(\ref{eq:concurrent-constrain}) via
+\begin{align*}
+   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 1_{r} \end{array} \right] \otimes 1_N  \\
+  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_N  \right) \, A.
+\end{align*}
+  These formulas allow one to compute the   form (\ref{eq:concurrent-constrain})  from given constraints, and
+ an analytical solution to the resulting MDFA criterion  be obtained from the following result.
+
+\begin{Proposition}
+\label{prop:mdfa.quadsoln-constrain}
+ The minimizer of the  MDFA criterion given by the determinant of  (\ref{eq:mdfa-criterion}),
+ with respect to  $\mathcal{G}$ consists of all length $q$ concurrent filters subject to 
+ linear constraints of the form (\ref{eq:concurrent-constrain}),  is
+\begin{equation}
+\label{eq:phi.soln-constained}
+ \varphi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, \left( b - B \, Q \right).
+\end{equation}
+  Letting $H = 1_{Nq} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, B$, the minimal value is the determinant of
+\begin{equation}
+\label{eq:opt.val.mdfa-constrained}
+{ \langle \Psi (z) \, G \, { \Psi (z) }^* \rangle }_0 - b^{\prime} \, R \, { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,  b
+	+ Q^{\prime} \, B \, H \, Q - 2 \, b^{\prime} \, H \, Q.
+\end{equation}
+\end{Proposition}
+
+For computation, we utilize the same approximations to $B$ and $b$ as discussed in the previous subsection,
+ obtaining the constrained MDFA filter $\vartheta$ via (\ref{eq:phi.soln-constained}) followed by (\ref{eq:concurrent-constrain}).

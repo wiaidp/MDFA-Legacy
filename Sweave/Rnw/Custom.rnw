@@ -1,5 +1,6 @@
 
-\chapter{Filter Customization}\label{ats_sec}
+\chapter{Filter Customization}
+\label{chap:ats}
 
 We propose an extension of the classic MSE-paradigm which addresses
  nowcast and forecast applications\footnote{Backcasts were discussed 
