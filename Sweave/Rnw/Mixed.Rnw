@@ -1,5 +1,24 @@
 
-
+<<load r,echo=False>>=
+path.main <- getwd()
+setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
+# requires packages expm and xtable
+library(expm)
+library(xtable)
+source("sqrtm.r")
+source("var1.psi2par.r")
+source("var1.par2psi.r")
+source("lpp.var1.r")
+source("mdfa.dft.r")
+source("mdfa.idft.r")
+source("mdfa.pergram.r")
+source("mdfa.frf.r")
+source("mdfa.coeff.r")
+source("mdfa.filter.r")
+source("mdfa.unconstrained.r")
+source("mdfa.embed.r")
+setwd(path.main)
+@
 
 \chapter{Multivariate Direct Filter Analysis for Mixed Frequency Processes}
 \label{chap:mix}
@@ -21,4 +40,168 @@ differeing sampling frequencies, e.g., a monthly and a quarterly series.
 \section{Mixed Frequency Targets and Optimal Concurrent Filters}
 \label{sec:mix-mdfa}
 
+
+
+
+<<exercise_mdfa_trivar1.filtering,echo=True>>=
+# Simulate a Gaussian VAR(1) of sample size 2500:
+T <- 2500
+N <- 3
+phi.matrix <- rbind(c(.9,0,0),c(0,.1,0),c(0,0,-.9))
+innovar.matrix <- diag(N)
+true.psidelta <- var1.par2psi(phi.matrix,100)
+gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
+	matrix(innovar.matrix,ncol=1),nrow=N)
+x.init <- t(chol(gamma.0)) %*% rnorm(N)
+x.next <- x.init
+x.sim <- NULL
+for(t in 1:T)
+{
+	x.next <- phi.matrix %*% x.next + rnorm(N)
+	x.sim <- cbind(x.sim,x.next)
+}
+x.sim <- ts(t(x.sim))
+x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
+x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+ 
+# construct and apply low pass filter
+mu <- pi/6
+len <- 1000
+lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+lp.filter <- c(rev(lp.filter),lp.filter[-1])
+x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+
+# get MDFA concurrent filter
+q <- 20
+Grid <- T
+m <- floor(Grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*Grid^{-1}*(seq(1,Grid) - (m+1))
+# frf for ideal low-pass
+frf.psi <- rep(0,Grid)
+frf.psi[abs(freq.ft) <= mu] <- 1
+frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+frf.psi <- array(frf.psi,c(N,N,Grid))
+spec.hat <- mdfa.pergram(x.sim,1)	
+lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
+ 
+# apply the MDFA concurrent filter
+x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa[[1]][1,1,],method="convolution",sides=1)
+x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa[[1]][1,2,],method="convolution",sides=1)
+x.trend.mdfa13 <- filter(x.sim[,3],lp.mdfa[[1]][1,3,],method="convolution",sides=1)
+x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa[[1]][2,1,],method="convolution",sides=1)
+x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa[[1]][2,2,],method="convolution",sides=1)
+x.trend.mdfa23 <- filter(x.sim[,3],lp.mdfa[[1]][2,3,],method="convolution",sides=1)
+x.trend.mdfa31 <- filter(x.sim[,1],lp.mdfa[[1]][3,1,],method="convolution",sides=1)
+x.trend.mdfa32 <- filter(x.sim[,2],lp.mdfa[[1]][3,2,],method="convolution",sides=1)
+x.trend.mdfa33 <- filter(x.sim[,3],lp.mdfa[[1]][3,3,],method="convolution",sides=1)
+x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12 + x.trend.mdfa13,
+	x.trend.mdfa21 + x.trend.mdfa22 + x.trend.mdfa23,
+	x.trend.mdfa31 + x.trend.mdfa32 + x.trend.mdfa33)
+x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+@
+
+<<echo=False>>=
+# visualize
+file = paste("mdfa_trivar1_filtering.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(3,1),cex.lab=.8)
+plot(ts(x.trend.ideal[,1]),ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(x.trend.mdfa[,1],col=2)
+plot(ts(x.trend.ideal[,2]),ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(x.trend.mdfa[,2],col=2)
+plot(ts(x.trend.ideal[,3]),ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(x.trend.mdfa[,3],col=2)
+mtext("Time", side = 1, line = 1,outer=TRUE)
+invisible(dev.off())
+@
+
+<<echo=True>>=
+# compare in-sample performance
+print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2),
+	mean((x.trend.ideal[,3] - x.trend.mdfa[,3])^2)))
+
+# compare to criterion value
+diag(lp.mdfa[[2]])
+
+# compute gain and phase delay functions
+frf.psi <- frf.psi[1,1,]
+gain.psi <- abs(frf.psi)
+phased.psi <- Arg(frf.psi)/freq.ft
+lp.frf <- mdfa.frf(lp.mdfa[[1]],0,T)
+lp.gain1 <- abs(lp.frf[1,1,])
+lp.gain2 <- abs(lp.frf[2,2,])
+lp.gain3 <- abs(lp.frf[3,3,])
+lp.phased1 <- -Arg(lp.frf[1,1,])/freq.ft
+lp.phased2 <- -Arg(lp.frf[2,2,])/freq.ft
+lp.phased3 <- -Arg(lp.frf[3,3,])/freq.ft
+@
+
+<<echo=False>>=
+# visualize
+file = paste("mdfa_trivar1_freqdomain.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(3,1),cex.lab=.8)
+plot(ts(gain.psi,start=-1,frequency=m),col=1,ylim=c(0,1),main="Gain",
+	ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(ts(lp.gain1,start=-1,frequency=m),col="orange")
+lines(ts(lp.gain2,start=-1,frequency=m),col="green")
+lines(ts(lp.gain3,start=-1,frequency=m),col="violet")
+plot(ts(phased.psi,start=-1,frequency=m),col=1,
+	ylim=c(0,max(na.exclude(lp.phased1),na.exclude(lp.phased2),
+	na.exclude(lp.phased3))),main="Phase Delay",
+	ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(ts(lp.phased1,start=-1,frequency=m),col="orange")
+lines(ts(lp.phased2,start=-1,frequency=m),col="green")
+lines(ts(lp.phased3,start=-1,frequency=m),col="violet")
+plot(ts(rep(NA,T),start=-1,frequency=m),col=1,
+	ylim=c(0,max(Re(spec.hat[1,1,]),Re(spec.hat[2,2,]),Re(spec.hat[3,3,]))/6),
+	main="Periodogram",ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(ts(Re(spec.hat[1,1,]),start=-1,frequency=m),col="orange")
+lines(ts(Re(spec.hat[2,2,]),start=-1,frequency=m),col="green")
+lines(ts(Re(spec.hat[3,3,]),start=-1,frequency=m),col="violet")
+mtext("Cycles", side = 1, line = 1,outer=TRUE)
+invisible(dev.off())
+@ 
+
+<<exercise_mdfa_trivar1.filtering,echo=False>>=
+file = paste("mdfa_trivar1_filtering.pdf", sep = "")
+cat("\\begin{figure}[htb!]")
+cat("\\begin{center}")
+cat("\\includegraphics[]{", file, "}\n",sep = "")
+cat("\\caption{Ideal trends (black) for the trivariate VAR(1)
+	with real-time MDFA trends (red) overlaid, for series one (upper panel),
+	series two (center panel), and series three (bottom panel).", sep = "")
+cat("\\label{fig:trivar1.trends}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+
+<<exercise_mdfa_trivar1.filtering,echo=False>>=
+file = paste("mdfa_trivar1_freqdomain.pdf", sep = "")
+cat("\\begin{figure}[htb!]")
+cat("\\begin{center}")
+cat("\\includegraphics[]{", file, "}\n",sep = "")
+cat("\\caption{Gain functions (upper panel), 
+	Phase Delay Functions (center panel), and Periodograms (bottom panel)
+	 for series one (orange), two (green), and three (violet).", sep = "")
+cat("\\label{fig:trivar1.freqdomain}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
 
