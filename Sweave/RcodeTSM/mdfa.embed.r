@@ -24,7 +24,7 @@ mdfa.embed <- function(x.series,embed.f)
   x.mat <- NULL
   for(j in 1:N)
   {
-    x.svf <- t(matrix(x.series[,j],nrow=s.embed))
+    x.svf <- t(matrix(x.series[1:T,j,drop=FALSE],nrow=s.embed))
     x.mat <- cbind(x.mat,x.svf)
   }  
   return(x.mat) 
