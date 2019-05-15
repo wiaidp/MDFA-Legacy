@@ -36,14 +36,15 @@
 \contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{52}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}Bivariate MDFA versus Univariate DFA}{52}{subsection.3.4.1}
 \contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{53}{subsection.3.4.2}
-\contentsline {section}{\numberline {3.5}Replicating and Generalizing Model-Based Solutions}{58}{section.3.5}
-\contentsline {chapter}{\numberline {4}Filter Constraints}{59}{chapter.4}
-\contentsline {chapter}{\numberline {5}Integrated Processes}{61}{chapter.5}
-\contentsline {section}{\numberline {5.1}Stationary Multivariate DFA}{61}{section.5.1}
-\contentsline {section}{\numberline {5.2}Non-stationary Multivariate Processes}{65}{section.5.2}
-\contentsline {section}{\numberline {5.3}DFA for Co-Integrated Processes}{67}{section.5.3}
-\contentsline {section}{\numberline {5.4}Examples of Multivariate DFA}{70}{section.5.4}
-\contentsline {section}{\numberline {5.5}Examples of Co-Integrated Multivariate DFA}{70}{section.5.5}
+\contentsline {chapter}{\numberline {4}Multivariate Direct Filter Analysis for Non-stationary Processes}{59}{chapter.4}
+\contentsline {section}{\numberline {4.1}Constrained MDFA}{59}{section.4.1}
+\contentsline {section}{\numberline {4.2}Background on Non-stationary Vector Time Series }{62}{section.4.2}
+\contentsline {section}{\numberline {4.3}Error Criterion and Computation}{63}{section.4.3}
+\contentsline {chapter}{\numberline {5}Integrated Processes}{65}{chapter.5}
+\contentsline {section}{\numberline {5.1}Non-stationary Multivariate Processes}{65}{section.5.1}
+\contentsline {section}{\numberline {5.2}DFA for Co-Integrated Processes}{67}{section.5.2}
+\contentsline {section}{\numberline {5.3}Examples of Multivariate DFA}{70}{section.5.3}
+\contentsline {section}{\numberline {5.4}Examples of Co-Integrated Multivariate DFA}{70}{section.5.4}
 \contentsline {chapter}{\numberline {6}Filter Customization}{71}{chapter.6}
 \contentsline {chapter}{\numberline {7}Overfitting and Regularization}{73}{chapter.7}
 \contentsline {section}{\numberline {7.1}Introduction}{73}{section.7.1}

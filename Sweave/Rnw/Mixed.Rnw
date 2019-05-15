@@ -1,34 +1,24 @@
 
 
 
-\chapter{Mixed-Frequency Data: Combining and Working with Data Sampled at Different Time Scales}
+\chapter{Multivariate Direct Filter Analysis for Mixed Frequency Processes}
 \label{chap:mix}
 
-\section{Introduction}
+So far we have assumed that the explanatory series for a given target are observed
+ at the same sampling frequency, but here we entertain the possibility that
+ the target can be expressed as a multivariate filter acting on input series of
+differeing sampling frequencies, e.g., a monthly and a quarterly series.
+ Section \ref{sec:mix-svf} introduces the key insight, viz. the device of vector
+  embedding, which allows us to jointly analyze high- and low-frequency time series.
+  Then Section \ref{sec:mix-mdfa} shows how these ideas can be paired with the basic
+   MDFA methodology.
+ 
+\section{Sampling Frequency and Vector Embedding}
+\label{sec:mix-svf}
 
-\begin{itemize}
-\item Refer to section \ref{lead_snr} for a quantitative analysis of up-dating effects.
-\item Refer to recent work with Chris
-\end{itemize}
 
 
-\section{Target is Low-Frequency Data}
+\section{Mixed Frequency Targets and Optimal Concurrent Filters}
+\label{sec:mix-mdfa}
 
 
-\subsection{Folding the Frequency Interval}
-
-\subsection{Generalized Optimization Criterion}
-
-\section{Explaining Series is/are Low-Frequency Data}
-
-\subsection{Folding and Expanding the Frequency Interval}
-
-\subsection{Generalized Optimization Criterion}
-
-\section{General Case: Arbitrary Mix}
-
-\section{Unequally Distributed Release Dates}
-
-\section{Missing Data}
-
-Lomb-Scargle, DFT with leads/lags: analyze orthogonality.

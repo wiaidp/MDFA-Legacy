@@ -116,37 +116,31 @@
 %----------------------------------------
 
 \SweaveInput{MDFA_basic}
-%\SweaveInput{Mean_square}
 %  note: MDFA_basic replaces Mean_square
 
 %----------------------------------------
 
 \SweaveInput{MDFA_con}
-%\SweaveInput{Constraints}
 %  note: MDFA_con replaces Constraints,
 %    includes material from Replication
 
 %------------------------------------------------------------------
 
 \SweaveInput{Integrated}
-%\SweaveInput{Cointegrated}
 %  note: includes material from Cointegrated
 
 %----------------------------------------
 
-\SweaveInput{Custom}
-%\SweaveInput{ATS}
-%\SweaveInput{ATS_multivariate}
+%\SweaveInput{Custom}
 %  note: Custom replaces ATS and ATS_multivariate
 
 %------------------------------------------
 
-\SweaveInput{Regularization}
+%\SweaveInput{Regularization}
 
 %----------------------------------------
 
-\SweaveInput{Vintage}
-%\SweaveInput{Filter_revisions}
+%\SweaveInput{Vintage}
 %  note: Vintage replaces Filter_revisions
 
 %----------------------------------------------
