@@ -1299,7 +1299,7 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 <<exercise_mdfa_nowmdfa-udfa,echo=True>>=
 # Set up loops over delta and sigma
 sigma.vals <- c(0,.1,.5,1,2)
-critmdfa.mat <- matrix(0,5,5)
+critmdfa.mat <- matrix(0,5,5,dimnames=list(c(0,1,2,3,4)/4,sigma.vals))
 critudfa.mat <- matrix(0,5,5)
 for(delta in c(0,1,2,3,4)/4) {
 for(j in 1:5) {
@@ -1370,17 +1370,25 @@ critudfa.mat[i,j] <- fore.udfa[[2]][1,1]
 @
 
 <<exercise_mdfa_nowmdfa-udfa,echo=True>>=
-  xtable(critmdfa.mat, dec = 1,digits=rep(3,dim(critmdfa.mat)[2]+1),
+ xtb <- xtable(critmdfa.mat, dec = 1,digits=rep(3,dim(critmdfa.mat)[2]+1),
   paste("Effect of lead and  inverse signal-to-noise ratio on MDFA filter MSE",sep=""),
   label=paste("tab:critmdfa.mat",sep=""),
   center = "centering", file = "", floating = FALSE)
+addtorow <- list()
+addtorow$pos <- list(0)
+addtorow$command <- paste0(paste0('$','\\','delta$','& \\multicolumn{5}{c}{Sigma values}', collapse=''), '\\\\')
+print(xtb, add.to.row=addtorow, include.colnames=F)
 @
- 
+
 <<exercise_mdfa_nowmdfa-udfa,echo=True>>=
-  xtable(critudfa.mat, dec = 1,digits=rep(3,dim(critudfa.mat)[2]+1),
+xtb <-  xtable(critudfa.mat, dec = 1,digits=rep(3,dim(critudfa.mat)[2]+1),
   paste("Effect of lead and  inverse signal-to-noise ratio on DFA filter MSE",sep=""),
   label=paste("tab:critudfa.mat",sep=""),
   center = "centering", file = "", floating = FALSE)
+addtorow <- list()
+addtorow$pos <- list(0)
+addtorow$command <- paste0(paste0('$','\\','delta$','& \\multicolumn{5}{c}{Sigma values}', collapse=''), '\\\\')
+print(xtb, add.to.row=addtorow, include.colnames=F)
 @
 
  The results for MDFA and univariate DFA, respectively, are given in 
