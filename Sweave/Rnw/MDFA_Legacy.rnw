@@ -111,11 +111,11 @@
 
 %----------------------------------------
 
-\SweaveInput{LPP}
+%\SweaveInput{LPP}
 
 %----------------------------------------
 
-\SweaveInput{MDFA_basic}
+%\SweaveInput{MDFA_basic}
 %  note: MDFA_basic replaces Mean_square
 
 %----------------------------------------
