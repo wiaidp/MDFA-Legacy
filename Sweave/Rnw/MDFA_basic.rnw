@@ -1,4 +1,24 @@
 
+<<loading_code,echo=False>>=
+path.main <- getwd()
+setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
+# requires packages expm and xtable
+library(expm)
+library(xtable)
+source("sqrtm.r")
+source("var1.psi2par.r")
+source("var1.par2psi.r")
+source("lpp.var1.r")
+source("mdfa.dft.r")
+source("mdfa.idft.r")
+source("mdfa.pergram.r")
+source("mdfa.frf.r")
+source("mdfa.coeff.r")
+source("mdfa.filter.r")
+source("mdfa.unconstrained.r")
+setwd(path.main)
+@
+
 
 \chapter{Introduction to the Multivariate Direct Filter Analysis}
 \label{chap:basic}
@@ -589,26 +609,6 @@ With this justification, we see that the entries of the matrix $B$ in
  by focusing upon the first row, the applications of this chapter 
  can be obtained. 
 
-
-<<exercise_lpp_var1.illustration1,echo=False>>=
-path.main <- getwd()
-setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
-# requires packages expm and xtable
-library(expm)
-library(xtable)
-source("sqrtm.r")
-source("var1.psi2par.r")
-source("var1.par2psi.r")
-source("lpp.var1.r")
-source("mdfa.dft.r")
-source("mdfa.idft.r")
-source("mdfa.pergram.r")
-source("mdfa.frf.r")
-source("mdfa.coeff.r")
-source("mdfa.filter.r")
-source("mdfa.unconstrained.r")
-setwd(path.main)
-@
 
 
 \begin{Exercise} {\bf Correct VAR(1) LPP.} \rm

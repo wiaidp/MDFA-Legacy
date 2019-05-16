@@ -1,5 +1,31 @@
 
 
+<<loading_code,echo=False>>=
+path.main <- getwd()
+setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
+# requires packages expm and xtable
+library(expm)
+library(xtable)
+library(sigex)
+source("sqrtm.r")
+source("var1.psi2par.r")
+source("var1.par2psi.r")
+source("lpp.var1.r")
+source("mdfa.dft.r")
+source("mdfa.pergram.r")
+source("mdfa.frf.r")
+source("mdfa.coeff.r")
+source("mdfa.filter.r")
+source("mdfa.getconstraints.r")
+source("mdfa.unconstrained.r")
+source("mdfa.levelconstraint.r")
+source("mdfa.tsconstraint.r")
+source("mdfa.ltsconstraint.r")
+source("sigex.sim.r")
+source("sigex.graph.r")
+setwd(path.main)
+@
+
 \chapter{Multivariate Direct Filter Analysis for Non-stationary Processes}
 \label{chap:int}
 
@@ -12,15 +38,6 @@ arising from time-varying means, a form of non-stationarity.
    model-based filters is developed.  Finally, the MDFA criterion for
     non-stationary processes is discussed in Section \ref{sec:mdfa-nonstat}.
  
-   
-% Section \ref{i1i2_intr} sets-up the context; a link to integrated processes is proposed in 
-% section \ref{pseudo_dft}; a general matrix notation is proposed in 
-% section \ref{cons_gen_par}; section \ref{optim_stat} extends the former 
-% (unconstrained) MDFA-criterion to the constrained case; finally, section 
-% \ref{const_impl_mdfa} illustrates effects (of the constraints) on 
-%  characteristics of real-time filters.  
-
-
 
 \section{Constrained MDFA}
 \label{sec:constraint}
@@ -142,21 +159,21 @@ arising from time-varying means, a form of non-stationarity.
 
 
 
- More generally, we can envision an LPP involving $M$ linear constraints on 
+ More generally, we can envision an LPP involving $m$ linear constraints on 
   $\vartheta$, taking the form
- $   A = [ J \otimes 1_n ] \, \vartheta$, where $J$ is $M \times q$ 
- dimensional ($M < q$) and $A$ is $n M \times 1$ dimensional.
+ $   A = [ J \otimes 1_n ] \, \vartheta$, where $J$ is $m \times q$ 
+ dimensional ($m < q$) and $A$ is $n m \times 1$ dimensional.
  (The LC, TSC, and LTSC examples all have this form.)  In order to express 
  this constraint in the form 
  (\ref{eq:concurrent-constrain}), we use the Q-R decomposition 
  (Golub and Van Loan, 1996) of $J$, writing
- $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $M \times M$ dimensional),
+ $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $m \times m$ dimensional),
  a rectangular upper triangular matrix $G$
- (which is $M \times q$ dimensional), and a permuation matrix $\Pi$ 
+ (which is $m \times q$ dimensional), and a permuation matrix $\Pi$ 
  (which is $q \times q$ dimensional).  
  Standard matrix software such as $\textsc{R}$ will provide the Q-R decomposition $J$,
  and should produce the rank of $J$ as  a by-product --
- if this is less than $M$, then there are redundancies in the 
+ if this is less than $m$, then there are redundancies in the 
  constraints that should first be eliminated. 
  
  \begin{Exercise} {\bf QR Decomposition.} \rm
@@ -165,34 +182,36 @@ arising from time-varying means, a form of non-stationarity.
  \end{Exercise}
  
  Hence  proceeding with a full rank $J$, we partition $G$ as $G = [ G_1 \, G_2]$ 
- such that $G_1$ has $M$ columns and $G_2$
- has $q-M$ columns.  This quantity $q-M$ corresponds to the number 
+ such that $G_1$ has $m$ columns and $G_2$
+ has $q-m$ columns.  This quantity $q-m$ corresponds to the number 
  of free coefficient matrices, and is therefore the same as $r$.
  The Q-R decomposition guarantees that $G_1$ is an upper triangular matrix, 
  and moreover it is invertible.  Therefore
 \[
-  \left[ G_1^{-1} \, C^{-1} \otimes 1_N \right] \, A  = \left( \left[ 1_M , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_N  \right) \, \vartheta,
+  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, A  = 
+  \left( \left[ 1_m , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_n  \right) \, \vartheta,
 \]
  and the action of $\Pi$ (together with the tensor product) amounts 
  to a   permutation of the elements of $\vartheta$.
   Let the output of this permutation be denoted
 \[
    \left[ \begin{array}{l} \overline{\vartheta} \\ \underline{\vartheta} \end{array} \right]
-   = \left( \Pi \otimes 1_N \right) \, \vartheta,
+   = \left( \Pi \otimes 1_n \right) \, \vartheta,
 \]
- where $\overline{\vartheta}$ is $N M \times 1$ dimensional and
- $\underline{\vartheta}$ is $N r \times 1$ dimensional.  
+ where $\overline{\vartheta}$ is $n m \times 1$ dimensional and
+ $\underline{\vartheta}$ is $n r \times 1$ dimensional.  
  Then  by substitution we can solve for $\overline{\vartheta}$ in terms 
  of $\underline{\vartheta}$:
 \[
-   \overline{\vartheta} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_N \right] \, A - 
-   \left[  G_1^{-1} \, G_2  \otimes 1_N   \right] \, \underline{\vartheta}.
+   \overline{\vartheta} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, A - 
+   \left[  G_1^{-1} \, G_2  \otimes 1_n   \right] \, \underline{\vartheta}.
 \]
  Therefore we recognize the free variables $\varphi = \underline{\vartheta}$, 
  and obtain $R$ and $Q$ in (\ref{eq:concurrent-constrain}) via
 \begin{align*}
-   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 1_{r} \end{array} \right] \otimes 1_N  \\
-  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_N  \right) \, A.
+   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 
+   1_{r} \end{array} \right] \otimes 1_n  \\
+  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_n  \right) \, A.
 \end{align*}
   These formulas allow one to compute the   form (\ref{eq:concurrent-constrain}) 
    from given constraints, and
@@ -208,7 +227,7 @@ arising from time-varying means, a form of non-stationarity.
  \varphi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,
  \left( b - B \, Q \right).
 \end{equation}
-  Letting $H = 1_{Nq} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \,
+  Letting $H = 1_{n q} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \,
   R^{\prime} \, B$, the minimal value is  
 \begin{equation}
 \label{eq:opt.val.mdfa-constrained}
@@ -502,6 +521,232 @@ HERE material from E and S paper section 4.3
 %  using the factorization results of Corollary  \ref{cor:filter-noise}; this is not worth the effort in practical applications.)
 
 HERE revisit section 1 exercises now with RW and diff - VAR(1), using LTSC.  Petrol ex
+
+
+% Exercise 1
+% 
+% # Simulate a Gaussian VAR(1)  
+% T.sim <- 500 + 2*len
+% N <- 2
+% phi.matrix <- rbind(c(1,.5),c(-.2,.3))
+% innovar.matrix <- diag(N)
+% true.psidelta <- var1.par2psi(phi.matrix,100)
+% gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
+% 	matrix(innovar.matrix,ncol=1),nrow=N)
+% x.init <- t(chol(gamma.0)) %*% rnorm(N)
+% x.next <- x.init
+% x.sim <- NULL
+% for(t in 1:T.sim)
+% {
+% 	x.next <- phi.matrix %*% x.next + rnorm(N)
+% 	x.sim <- cbind(x.sim,x.next)
+% }
+% x.sim <- ts(t(x.sim))
+% x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T.sim)[[1]]
+% x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+% 
+% # construct and apply BW filter
+% bw.filter <- wk.trend[[1]]
+% x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)
+% x.trend.bw12 <- filter(x.sim[,2],bw.filter[1,2,],method="convolution",sides=2)
+% x.trend.bw21 <- filter(x.sim[,1],bw.filter[2,1,],method="convolution",sides=2)
+% x.trend.bw22 <- filter(x.sim[,2],bw.filter[2,2,],method="convolution",sides=2)
+% x.trend.bw <- cbind(x.trend.bw11 + x.trend.bw12,x.trend.bw21 + x.trend.bw22)
+% x.trend.bw <- x.trend.bw[(len+1):(T.sim-len),] 
+%  
+% 
+% # visualize
+% pdf(file="petrolVAR1trends.pdf",width=4, height=4.6)
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
+% plot(ts(x.sim[(len+1):(T.sim-len),1]),ylab="Series 1",xlab="",yaxt="n",xaxt="n",col=grey(.7))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.bw[,1],col=1,lwd=2)
+% #lines(ts(x.sim[(len+1):(T.sim-len),1]))
+% plot(ts(x.sim[(len+1):(T.sim-len),2]),ylab="Series 2",xlab="",yaxt="n",xaxt="n",col=grey(.7))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.bw[,2],col=1,lwd=2)
+% #lines(ts(x.sim[(len+1):(T.sim-len),2]))
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+% dev.off()
+% 
+% # get LPP soln using true VAR(1)
+% A.next <- diag(2)
+% A.phi <- matrix(0,2,2)
+% for(j in 1:len)
+% {
+% 	A.next <- A.next %*% phi.matrix
+% 	A.phi <- A.phi + bw.filter[,,(len+1-j)] %*% A.next
+% }
+% bw.lpp <- bw.filter[,,(len+1):(2*len+1)]
+% bw.lpp[,,1] <- bw.lpp[,,1] + A.phi
+% 
+% 
+% # get MDFA concurrent filter
+% q <- 30
+% Grid <- T.sim
+% frf.trend <- mdfa.frf(wk.trend[[1]],len,Grid)
+% spec.hat <- mdfa.pergram(x.sim,1)
+% # choose one of the four constraint scenarios for MDFA	
+% bw.mdfa <- mdfa.unconstrained(frf.trend,spec.hat,q)
+% bw.mdfa <- mdfa.levelconstraint(frf.trend,spec.hat,q)
+% bw.mdfa <- mdfa.tsconstraint(frf.trend,spec.hat,q)
+% bw.mdfa <- mdfa.ltsconstraint(frf.trend,spec.hat,q)
+%  
+% # apply the MDFA concurrent filter
+% x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
+% 
+% # construct and apply concurrent BW filter
+% conc.filter <- conc.trend
+% x.trend.conc11 <- filter(x.sim[,1],rev(conc.filter[1,1,]),method="convolution",sides=1)
+% x.trend.conc12 <- filter(x.sim[,2],rev(conc.filter[1,2,]),method="convolution",sides=1)
+% x.trend.conc21 <- filter(x.sim[,1],rev(conc.filter[2,1,]),method="convolution",sides=1)
+% x.trend.conc22 <- filter(x.sim[,2],rev(conc.filter[2,2,]),method="convolution",sides=1)
+% x.trend.conc <- cbind(x.trend.conc11 + x.trend.conc12,x.trend.conc21 + x.trend.conc22)
+% x.trend.conc <- x.trend.conc[(len+1):(T.sim-len),] 
+% 
+% # construct and apply optimal LPP filter
+% x.trend.lpp11 <- filter(x.sim[,1],bw.lpp[1,1,],method="convolution",sides=1)
+% x.trend.lpp12 <- filter(x.sim[,2],bw.lpp[1,2,],method="convolution",sides=1)
+% x.trend.lpp21 <- filter(x.sim[,1],bw.lpp[2,1,],method="convolution",sides=1)
+% x.trend.lpp22 <- filter(x.sim[,2],bw.lpp[2,2,],method="convolution",sides=1)
+% x.trend.lpp <- cbind(x.trend.lpp11 + x.trend.lpp12,x.trend.lpp21 + x.trend.lpp22)
+% x.trend.lpp <- x.trend.lpp[(len+1):(T.sim-len),] 
+% 
+% 
+% 
+% # visualize
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
+% plot(ts(x.trend.bw[,1]),ylab="",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
+% 	ylim=c(min(x.trend.bw[,1])-4,max(x.trend.bw[,1])))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,1]-2,col=grey(.4),lwd=1,lty=1)
+% lines(x.trend.lpp[,1]-4,col=grey(.6),lwd=1,lty=1)
+% plot(ts(x.trend.bw[,2]),ylab="",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
+% 	ylim=c(min(x.trend.bw[,2])-4,max(x.trend.bw[,2])))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,2]-2,col=grey(.4),lwd=1,lty=1)
+% lines(x.trend.lpp[,2]-4,col=grey(.6),lwd=1,lty=1)
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+%  
+% # compare in-sample performance: MDFA for series, and then Conc for series
+% print(c(mean((x.trend.bw[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.mdfa[,2])^2)))
+% print(c(mean((x.trend.bw[,1] - x.trend.conc[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.conc[,2])^2)))
+% print(c(mean((x.trend.bw[,1] - x.trend.lpp[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.lpp[,2])^2)))
+% 
+% # compare to criterion value
+% print(diag(bw.mdfa[[2]]))
+% 
+% 
+
+% 
+% 
+% ##########################################################
+% ### Exercise 2: replication - simulate bivariate LLM and apply MDFA
+% 
+% # Simulate a Gaussian LLM  
+% psi.sim <- c(2.17150287559847+1i, -8.36795922528+1i, -6.04133725367594+1i, 
+% 0.0648981656699+1i, -6.80849700177184+1i, -6.66004335288479+1i, 
+% -0.00016098322952+1i, 0.00051984185863+1i)
+% psi.sim[7:8] <- c(0+1i,0+1i)
+% psi.sim <- sigex.par2psi(param.sim,flag.default,mdl)
+% T.sim <- 500 + 2*len
+% N <- 2
+% burnin <- 0
+% init <- matrix(rnorm(2*N),ncol=N)
+% 
+%  
+% x.sim <- sigex.sim(psi.sim,mdl,T.sim,burnin,Inf,init)
+% plot(ts(x.sim))
+% 
+% # construct and apply BW filter
+% bw.filter <- wk.trend[[1]]
+% x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)
+% x.trend.bw12 <- filter(x.sim[,2],bw.filter[1,2,],method="convolution",sides=2)
+% x.trend.bw21 <- filter(x.sim[,1],bw.filter[2,1,],method="convolution",sides=2)
+% x.trend.bw22 <- filter(x.sim[,2],bw.filter[2,2,],method="convolution",sides=2)
+% x.trend.bw <- cbind(x.trend.bw11 + x.trend.bw12,x.trend.bw21 + x.trend.bw22)
+% x.trend.bw <- x.trend.bw[(len+1):(T.sim-len),] 
+% 
+% # visualize
+% pdf(file="petrolLLMtrendsNull.pdf",width=4, height=4.6)
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
+% plot(ts(x.sim[(len+1):(T.sim-len),1]),ylab="Consumption",xlab="",yaxt="n",xaxt="n",col=grey(.7))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.bw[,1],col=1,lwd=1)
+% plot(ts(x.sim[(len+1):(T.sim-len),2]),ylab="Imports",xlab="",yaxt="n",xaxt="n",col=grey(.7))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.bw[,2],col=1,lwd=1)
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+% dev.off()
+% 
+% # get MDFA concurrent filter for I(1) case
+% q <- 30
+% x.diff <- diff(x.sim)
+% spec.hat <- mdfa.pergram(x.diff,c(1,-1))
+% Grid <- T.sim - 1
+% frf.trend <- mdfa.frf(wk.trend[[1]],len,Grid)
+% #bw.mdfa <- mdfa.levelconstraint(frf.trend,spec.hat,q)[[1]]
+% constraints.mdfa <- mdfa.getconstraints(frf.trend,0,NULL,q)
+% bw.mdfa <- mdfa.filter(frf.trend,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])[[1]]
+% 
+% # apply the MDFA concurrent filter
+% x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
+% 
+% # construct and apply concurrent BW filter
+% conc.filter <- conc.trend
+% x.trend.conc11 <- filter(x.sim[,1],rev(conc.filter[1,1,]),method="convolution",sides=1)
+% x.trend.conc12 <- filter(x.sim[,2],rev(conc.filter[1,2,]),method="convolution",sides=1)
+% x.trend.conc21 <- filter(x.sim[,1],rev(conc.filter[2,1,]),method="convolution",sides=1)
+% x.trend.conc22 <- filter(x.sim[,2],rev(conc.filter[2,2,]),method="convolution",sides=1)
+% x.trend.conc <- cbind(x.trend.conc11 + x.trend.conc12,x.trend.conc21 + x.trend.conc22)
+% x.trend.conc <- x.trend.conc[(len+1):(T.sim-len),] 
+% 
+% # visualize
+% pdf(file="petrolLLMrealtimeNull.pdf",width=4, height=4.6)
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
+% plot(ts(x.trend.bw[,1]),ylab="Consumption",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
+% 	ylim=c(min(x.trend.bw[,1])-2/2,max(x.trend.bw[,1])))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,1]-1/2,col=grey(.4),lwd=1,lty=1)
+% lines(x.trend.conc[,1]-2/2,col=grey(.6),lwd=1,lty=1)
+% plot(ts(x.trend.bw[,2]),ylab="Imports",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
+% 	ylim=c(min(x.trend.bw[,2])-2,max(x.trend.bw[,2])))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,2]-1,col=grey(.4),lwd=1,lty=1)
+% lines(x.trend.conc[,2]-2,col=grey(.6),lwd=1,lty=1)
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+% dev.off()
+%  
+% # compare in-sample performance: MDFA for series, and then Conc for series
+% print(c(mean((x.trend.bw[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.mdfa[,2])^2)))
+% print(c(mean((x.trend.bw[,1] - x.trend.conc[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.conc[,2])^2)))
+% 
+% 
+
+
 
 HERE  HP exercise with connection to STM, and MB replication.  Ndc ex
 

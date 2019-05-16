@@ -12,7 +12,7 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,q)
 	#			with repeats for double roots, 
 	#			such that exp(-i*lambda) is a root
 	#			of the signal differencing polynomial
-	#		noisefreqs lists frequencies lambda=ppi*x, with x in [-1,1], 
+	#		noisefreqs lists frequencies lambda=pi*x, with x in [-1,1], 
 	#			with repeats for double roots, 
 	#			such that exp(-i*lambda) is a root
 	#			of the noise differencing polynomial
