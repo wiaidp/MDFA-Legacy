@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.1.12)  14 MAY 2019 20:20
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.1.12)  16 MAY 2019 17:13
 entering extended mode
 **C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/MDFA_Legacy.tex
 (C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/MDFA_Legacy.tex
@@ -552,7 +552,7 @@ File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
 ))))
 (C:\Users\Tucker\Documents\GitHub\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.aux
 
-LaTeX Warning: Label `smooth_term' multiply defined.
+LaTeX Warning: Label `sec:coint-zero' multiply defined.
 
 
 LaTeX Warning: Label `' multiply defined.
@@ -653,12 +653,14 @@ File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2
 
 ]
-(C:\Users\Tucker\Documents\GitHub\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.toc
+(C:\Users\Tucker\Documents\GitHub\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.toc)
+\tf@toc=\write5
+
 [1
 
-] [2])
-\tf@toc=\write5
- [3] [4]
+] [2
+
+]
 Chapter 1.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
@@ -666,7 +668,6 @@ been already used, duplicate ignored
                    \relax 
 l.152 
        [1
-
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
  been already used, duplicate ignored
@@ -679,6 +680,9 @@ LaTeX Warning: Reference `mse_sec' on page 3 undefined on input line 234.
 
 
 LaTeX Warning: Reference `ats_sec' on page 3 undefined on input line 234.
+
+
+LaTeX Warning: Reference `fil_sec' on page 3 undefined on input line 235.
 
 
 LaTeX Warning: Reference `int_sec' on page 3 undefined on input line 236.
@@ -697,6 +701,9 @@ LaTeX Warning: Reference `exo_sec' on page 3 undefined on input line 238.
 
 
 LaTeX Warning: Reference `inf_sec' on page 3 undefined on input line 239.
+
+
+LaTeX Warning: Reference `reg_sec' on page 3 undefined on input line 239.
 
 
 LaTeX Warning: Reference `rev_sec' on page 3 undefined on input line 239.
@@ -739,6 +746,9 @@ LaTeX Warning: Reference `int_sec' on page 8 undefined on input line 510.
 
 [8] [9]
 
+LaTeX Warning: Reference `reg_sec' on page 10 undefined on input line 558.
+
+
 LaTeX Warning: Reference `rev_sec' on page 10 undefined on input line 559.
 
 
@@ -756,87 +766,28 @@ LaTeX Warning: Reference `mse_sec' on page 11 undefined on input line 619.
 
 [11] [12]
 Chapter 2.
-[13
 
-] [14] [15] [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27]
-[28] [29] [30] [31] [32] [33] [34]
-Chapter 3.
-[35
-
-] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46] [47]
-
-LaTeX Warning: Reference `fig:var1.trends' on page 48 undefined on input line 3
-001.
-
-[48]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [49]
-[50]
-
-LaTeX Warning: Reference `fig:trivar1.trends' on page 51 undefined on input lin
-e 3181.
+LaTeX Warning: Reference `chap:basic' on page 13 undefined on input line 731.
 
 
-LaTeX Warning: Reference `fig:trivar1.freqdomain' on page 51 undefined on input
- line 3199.
+LaTeX Warning: Reference `eq:dfa-error' on page 13 undefined on input line 751.
 
 
-LaTeX Warning: Reference `fig:trivar1.freqdomain' on page 51 undefined on input
- line 3224.
 
-[51] [52]
+LaTeX Warning: Reference `def:lpp' on page 13 undefined on input line 753.
 
-LaTeX Warning: Reference `fig:easing1' on page 53 undefined on input line 3346.
-
-
-[53] [54]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [55]
-[56]
-
-LaTeX Warning: Reference `tab:critmdfa.mat' on page 57 undefined on input line 
-3552.
-
-
-LaTeX Warning: Reference `tab:critudfa.mat' on page 57 undefined on input line 
-3552.
-
-
-LaTeX Warning: Reference `tab:critmdfa.mat' on page 57 undefined on input line 
-3562.
-
-
-LaTeX Warning: Reference `tab:critudfa.mat' on page 57 undefined on input line 
-3562.
-
-[57]
-
-LaTeX Warning: Reference `tab:critmdfa.mat' on page 58 undefined on input line 
-3564.
-
-
-LaTeX Warning: Reference `tab:critudfa.mat' on page 58 undefined on input line 
-3564.
-
-
-LaTeX Warning: Reference `tab:critudfa.mat' on page 58 undefined on input line 
-3573.
-
-
-LaTeX Warning: Reference `tab:critmdfa.mat' on page 58 undefined on input line 
-3578.
-
-[58]
-Chapter 4.
 
 Underfull \vbox (badness 1454) has occurred while \output is active []
 
- [59
+ [13
 
 ]
-Overfull \hbox (3.73997pt too wide) in paragraph at lines 3705--3711
+
+LaTeX Warning: Reference `eq:conc.filter' on page 14 undefined on input line 79
+9.
+
+
+Overfull \hbox (3.73997pt too wide) in paragraph at lines 826--832
 []\T1/aer/bx/n/10 Time Shift Con-straint (TSC). []\T1/aer/m/n/10 The con-strain
 t is $\OML/cmm/m/it/10 @\OT1/cmr/m/n/10 	(1) = \OML/cmm/m/it/10 @[]\OT1/cmr/m/n
 /10 (1) = [][] \OML/cmm/m/it/10 j []\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 j\OT1/cmr
@@ -845,414 +796,181 @@ t is $\OML/cmm/m/it/10 @\OT1/cmr/m/n/10 	(1) = \OML/cmm/m/it/10 @[]\OT1/cmr/m/n
 
 
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 60 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+\T1/aer/m/n/10 14 \T1/aer/m/sl/10 CHAPTER 2.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[60] [61]
+[14] [15]
+
+LaTeX Warning: Reference `eq:mdfa-criterion' on page 16 undefined on input line
+ 921.
+
+
+LaTeX Warning: Reference `eq:mdfa-crit.linear' on page 16 undefined on input li
+ne 940.
+
+
+LaTeX Warning: Reference `prop:mdfa.quadsoln' on page 16 undefined on input lin
+e 947.
+
+
+LaTeX Warning: Reference `chap:basic' on page 16 undefined on input line 955.
+
+
+LaTeX Warning: Reference `eq:phi.soln-constained' on page 16 undefined on input
+ line 956.
+
+
+LaTeX Warning: Reference `exam:ideal-low' on page 16 undefined on input line 96
+2.
+
+
+LaTeX Warning: Reference `exam:ideal-low' on page 16 undefined on input line 97
+1.
+
+
+LaTeX Warning: Reference `prop:mdfa.quadsoln' on page 16 undefined on input lin
+e 975.
+
+
+LaTeX Warning: Reference `eq:opt.val.mdfa' on page 16 undefined on input line 9
+82.
+
+
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 62 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+\T1/aer/m/n/10 16 \T1/aer/m/sl/10 CHAPTER 2.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[62] [63]
+[16]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17]
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 64 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+\T1/aer/m/n/10 18 \T1/aer/m/sl/10 CHAPTER 2.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[64
+[18]
+
+LaTeX Warning: Reference `chap:lpp' on page 19 undefined on input line 1205.
+
+
+LaTeX Warning: Reference `chap:basic' on page 19 undefined on input line 1205.
+
+[19]
+Overfull \hbox (43.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 20 \T1/aer/m/sl/10 CHAPTER 2.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR NON-STATIONARY PROCESSES
+ []
+
+[20]
+Chapter 3.
+
+LaTeX Warning: Reference `sec:coint-gen' on page 21 undefined on input line 168
+3.
+
+[21
 
 ]
+Overfull \hbox (38.24452pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 22 \T1/aer/m/sl/10 CHAPTER 3.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR CO-INTEGRATED PROCESSES
+ []
+
+[22
+
+]
+Chapter 4.
+[23]
+Overfull \hbox (53.16322pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 24 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR MIXED FREQUENCY PROCESSES
+ []
+
+[24]
 Chapter 5.
-[65] [66] [67] [68]
-Overfull \hbox (23.35051pt too wide) detected at line 4491
-[]  \OML/cmm/m/it/10 h\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 !\OT1/cmr/m/n/10 ) [][]
-\OML/cmm/m/it/10 :
- []
+[25
 
-[69] [70]
-Chapter 6.
-
-Underfull \hbox (badness 10000) in paragraph at lines 4530--4545
-
- []
-
-
-LaTeX Warning: Reference `seatatst' on page 71 undefined on input line 4547.
-
-
-LaTeX Warning: Reference `fatatd' on page 71 undefined on input line 4547.
-
-
-LaTeX Warning: Reference `idfas' on page 71 undefined on input line 4549.
-
-
-LaTeX Warning: Reference `ats_work_o' on page 71 undefined on input line 4550.
-
-
-LaTeX Warning: Reference `peco_cu' on page 71 undefined on input line 4551.
-
-
-LaTeX Warning: Reference `double_score_ats' on page 71 undefined on input line 
-4552.
-
-
-LaTeX Warning: Reference `ucdvbmseli' on page 71 undefined on input line 4552.
-
-[71
-
-] [72
+] [26
 
 ]
-Chapter 7.
-[73] [74]
-
-LaTeX Warning: Reference `con_sec' on page 75 undefined on input line 4644.
-
-[75]
-
-LaTeX Warning: Reference `rep_sec' on page 76 undefined on input line 4663.
-
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <7> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 4672.
-LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
-(Font)              Font shape `U/lasy/m/n' tried instead on input line 4672.
-[76]
-Overfull \hbox (40.528pt too wide) in alignment at lines 4725--4731
- [][][] []
- []
-
-[77] [78] <z_mdfa_ms_reg_decay.pdf, id=1143, 433.62pt x 433.62pt>
-File: z_mdfa_ms_reg_decay.pdf Graphic file (type pdf)
-
-<use z_mdfa_ms_reg_decay.pdf>
-Package pdftex.def Info: z_mdfa_ms_reg_decay.pdf used on input line 4808.
-(pdftex.def)             Requested size: 433.63878pt x 216.80946pt.
-
-Overfull \hbox (9.05254pt too wide) in paragraph at lines 4808--4808
- [][] 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [79]
-[80pdfTeX warning (ext4): destination with the same identifier (name{figure.7.1
-}) has been already used, duplicate ignored
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2300.
+ [27pdfTeX warning (ext4): destination with the same identifier (name{cite.}) h
+as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.4832 \end{Soutput}
-                     <C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex
-/z_mdfa_ms_reg_decay.pdf>]
-<z_mdfa_ms_reg_decay_screen_decay_1.pdf, id=1164, 433.62pt x 433.62pt>
-File: z_mdfa_ms_reg_decay_screen_decay_1.pdf Graphic file (type pdf)
-
-<use z_mdfa_ms_reg_decay_screen_decay_1.pdf>
-Package pdftex.def Info: z_mdfa_ms_reg_decay_screen_decay_1.pdf used on input l
-ine 4834.
-(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
-
-Overfull \hbox (9.05254pt too wide) in paragraph at lines 4834--4834
- [][] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 4834--4835
-
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [81pdfTeX warning (ext4): destination with the same identifier (name{figure.7.
-2}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.4842 \begin{Sinput}
-                      <C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Late
-x/z_mdfa_ms_reg_decay_screen_decay_1.pdf>]
-<z_mdfa_ms_reg_decay_screen_decay_2.pdf, id=1183, 433.62pt x 433.62pt>
-File: z_mdfa_ms_reg_decay_screen_decay_2.pdf Graphic file (type pdf)
-
-<use z_mdfa_ms_reg_decay_screen_decay_2.pdf>
-Package pdftex.def Info: z_mdfa_ms_reg_decay_screen_decay_2.pdf used on input l
-ine 4855.
-(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
-
-Overfull \hbox (9.05254pt too wide) in paragraph at lines 4855--4855
- [][] 
- []
-
-
-Overfull \hbox (33.67465pt too wide) in paragraph at lines 4855--4856
-\T1/aer/m/n/10 The strength-parameter $\OML/cmm/m/it/10 []$ \T1/aer/m/n/10 is 
-bounded to the in-ter-val $\OT1/cmr/m/n/10 [0\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10
- 1]$\T1/aer/m/n/10 , too (the code re-lies on $\OML/cmm/m/it/10 f\OT1/cmr/m/n/1
-0 ([](\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 []\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 
-; \OT1/cmr/m/n/10 1))$
- []
-
-[82pdfTeX warning (ext4): destination with the same identifier (name{figure.7.3
-}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.4860 \subsection
-                  {Constraints vs. Regularization}\label{con_vs_reg} <C:/Users/
-Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/z_mdfa_ms_reg_decay_screen_dec
-ay_2.pdf>]
-
-LaTeX Warning: Reference `con_sec' on page 83 undefined on input line 4863.
-
-[83]
-<z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf, id=1203, 433.62pt x 433.62pt>
-File: z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf Graphic file (type pdf)
-
-<use z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf>
-Package pdftex.def Info: z_mdfa_ms_reg_decay_screen_decay_2_rest.pdf used on in
-put line 4911.
-(pdftex.def)             Requested size: 433.63878pt x 433.63878pt.
-
-Overfull \hbox (9.05254pt too wide) in paragraph at lines 4911--4911
- [][] 
- []
-
-
-LaTeX Warning: Reference `cons_gen_par' on page 84 undefined on input line 4911
-.
-
-[84pdfTeX warning (ext4): destination with the same identifier (name{figure.7.4
-}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.4912 
-        <C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/z_mdfa_ms_re
-g_decay_screen_decay_2_rest.pdf>] [85]
-<z_mdfa_ms_reg_smooth_1.pdf, id=1229, 433.62pt x 433.62pt>
-File: z_mdfa_ms_reg_smooth_1.pdf Graphic file (type pdf)
-
-<use z_mdfa_ms_reg_smooth_1.pdf>
-Package pdftex.def Info: z_mdfa_ms_reg_smooth_1.pdf used on input line 4984.
-(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
-
-Overfull \hbox (9.05254pt too wide) in paragraph at lines 4984--4984
- [][] 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [86]
-
-LaTeX Warning: Reference `gm_par' on page 87 undefined on input line 4995.
-
-[87pdfTeX warning (ext4): destination with the same identifier (name{figure.7.5
-}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.4996 \begin{eqnarray}
-                       \label{centm} <C:/Users/Tucker/Documents/GitHub/MDFA-Leg
-acy/Sweave/Latex/z_mdfa_ms_reg_smooth_1.pdf>] [88]
-<z_mdfa_ms_reg_cross_1.pdf, id=1260, 433.62pt x 433.62pt>
-File: z_mdfa_ms_reg_cross_1.pdf Graphic file (type pdf)
-
-<use z_mdfa_ms_reg_cross_1.pdf>
-Package pdftex.def Info: z_mdfa_ms_reg_cross_1.pdf used on input line 5043.
-(pdftex.def)             Requested size: 433.63878pt x 289.09473pt.
-
-Overfull \hbox (9.05254pt too wide) in paragraph at lines 5043--5043
- [][] 
- []
-
-[89pdfTeX warning (ext4): destination with the same identifier (name{figure.7.6
-}) has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.5044 
-        <C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/z_mdfa_ms_re
-g_cross_1.pdf>] [90]
-
-LaTeX Warning: Reference `l-scsmdfa' on page 91 undefined on input line 5106.
-
-
-Underfull \vbox (badness 2538) has occurred while \output is active []
-
- [91]
-
-LaTeX Warning: Reference `matrix_notation_constraints' on page 92 undefined on 
-input line 5134.
-
-
-Overfull \hbox (20.06143pt too wide) in alignment at lines 5135--5146
- [][][] []
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [92]
-Overfull \hbox (51.86322pt too wide) in alignment at lines 5148--5162
- [][][] []
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 5168--5171
-
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 5178.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `superscript' on input line 5178.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 5178.
-
-[93]
-Overfull \hbox (4.06102pt too wide) in alignment at lines 5187--5191
- [][][] []
- []
-
-
-Overfull \hbox (10.59149pt too wide) in alignment at lines 5210--5217
- [][][] []
- []
-
-[94]
-Underfull \hbox (badness 10000) in paragraph at lines 5219--5221
-
- []
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 5236.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 5236.
-
-[95] [96] [97] [98]
-Chapter 8.
-
-Overfull \hbox (15.12697pt too wide) in paragraph at lines 5391--5391
-[]\T1/aer/bx/n/14.4 Reconcile Real-Time Sig-nalex-trac-tion and Data-Revisions 
-
- []
-
-
-LaTeX Warning: Reference `coint_sec' on page 99 undefined on input line 5399.
-
-[99
-
-] [100
-
-]
-Chapter 9.
-
-LaTeX Warning: Reference `lead_snr' on page 101 undefined on input line 5415.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [101]
-Overfull \hbox (196.67874pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 102 \T1/aer/m/sl/10 CHAPTER 9.  MIXED-FREQUENCY DATA: COMBINING 
-AND WORKING WITH DATA SAMPLED AT DIFFERENT TIME SCALES
- []
-
-[102]
-Chapter 10.
-[103
-
-] [104
-
-]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 5493.
- [105pdfTeX warning (ext4): destination with the same identifier (name{cite.}) 
-has been already used, duplicate ignored
-
-\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
-                                                  \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      pdfTeX warning (ext4): destination with the same identifie
 r (name{cite.}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5493 \end{document}
+l.2300 \end{document}
                      ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 5493.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2300.
 
 (C:\Users\Tucker\Documents\GitHub\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 5493.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 5493.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2300.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2300.
 
 Package rerunfilecheck Info: File `MDFA_Legacy.out' has not changed.
-(rerunfilecheck)             Checksum: BE87E08757F8186890CB19916DFE8EBB;8657.
+(rerunfilecheck)             Checksum: 0D3051EE0D527115B8AC2F108A1560D4;2077.
 
 
 LaTeX Warning: There were undefined references.
@@ -1260,53 +978,37 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 5493.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2300.
  ) 
 Here is how much of TeX's memory you used:
- 7778 strings out of 493921
- 109685 string characters out of 3144873
- 195557 words of memory out of 3000000
- 10518 multiletter control sequences out of 15000+200000
- 68786 words of font info for 138 fonts, out of 3000000 for 9000
+ 7238 strings out of 493921
+ 102076 string characters out of 3144873
+ 187550 words of memory out of 3000000
+ 10279 multiletter control sequences out of 15000+200000
+ 52550 words of font info for 107 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 35i,16n,31p,2031b,489s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 35i,15n,28p,357b,477s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C
-:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/P
-rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx8.pfb><C:/Prog
-ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Progr
-am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program
- Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex7.pfb><C:/Progr
-am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex8.pfb><C:/Pro
-gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Progr
-am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program
- Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Fi
-les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files
- (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files (x
-86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files (x86)
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program Files (x86)/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files (x86)/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files (x86)/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files (x86)/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
-nts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/
-type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
-blic/amsfonts/cm/cmsl10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmsltt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmsy5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfo
-nts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmsy8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mtt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/latxfo
-nt/lasy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/sy
-mbols/msbm10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts
-/symbols/msbm7.pfb>
-Output written on MDFA_Legacy.pdf (111 pages, 913784 bytes).
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:
+/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Pro
+gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Progra
+m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program F
+iles (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program File
+s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files (
+x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsltt10.pfb><C:/Program Files (x86)/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files (x86)/MiKTeX 2.9
+/fonts/type1/public/amsfonts/latxfont/lasy10.pfb><C:/Program Files (x86)/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on MDFA_Legacy.pdf (31 pages, 336231 bytes).
 PDF statistics:
- 1559 PDF objects out of 1728 (max. 8388607)
- 351 named destinations out of 1000 (max. 500000)
- 871 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 405 PDF objects out of 1000 (max. 8388607)
+ 80 named destinations out of 1000 (max. 500000)
+ 209 words of extra memory for PDF output out of 10000 (max. 10000000)
 

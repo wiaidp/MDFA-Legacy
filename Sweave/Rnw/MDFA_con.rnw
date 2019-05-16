@@ -179,7 +179,7 @@ arising from time-varying means, a form of non-stationarity.
  
  \begin{Exercise} {\bf QR Decomposition.} \rm
  \label{exer:qr.constraint}
- TO DO
+ HERE
  \end{Exercise}
  
  Hence  proceeding with a full rank $J$, we partition $G$ as $G = [ G_1 \, G_2]$ 
@@ -224,7 +224,7 @@ arising from time-varying means, a form of non-stationarity.
  with respect to  $\mathcal{G}$ -- consisting of all length $q$ concurrent filters 
  subject to  linear constraints of the form (\ref{eq:concurrent-constrain}) -- is
 \begin{equation}
-\label{eq:phi.soln-constained}
+\label{eq:phi.soln-constrained}
  \varphi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,
  \left( b - B \, Q \right).
 \end{equation}
@@ -237,6 +237,21 @@ arising from time-varying means, a form of non-stationarity.
   + B^{-1} \right) \, ( b - B \, Q) -   b^{\prime} \, B^{-1} \, b.
 \end{equation}
 \end{Proposition}
+
+\paragraph{Proof of Proposition \ref{prop:mdfa.quadsoln-constrain}.}
+ Substituting (\ref{eq:concurrent-constrain}) in (\ref{eq:mdfa-crit.linear}) yields
+\begin{align*}
+  D_{\Psi} (\vartheta, G) &  = \varphi^{\prime} \,  \left[ R^{\prime} \, B \, R \right] \,  \varphi 
+  + \left[ Q^{\prime} \, B \, R - b^{\prime} \, R \right] \, \varphi + \varphi^{\prime} \,
+   \left[ R^{\prime} \, B \, Q - R^{\prime} \, b \right]  \\
+ & + Q^{\prime} \, B \, Q  - Q^{\prime} \, b - b^{\prime} \, Q  + { \langle \Psi (z) \, G \, { \Psi (z) }^* \rangle }_0.
+\end{align*}
+  Now by applying the method of proof in Proposition \ref{prop:mdfa.quadsoln}, we obtain 
+  the formula (\ref{eq:phi.soln-constrained}) for $\varphi$.  Plugging back into $D_{\Psi} (\vartheta, G)$
+ yields the minimal value (\ref{eq:opt.val.mdfa-constrained}).  $\quad \Box$
+
+
+\vspace{.5cm}
 
 For computation, we utilize the same approximations to $B$ and $b$ as discussed 
 in  Chapter \ref{chap:basic},
@@ -379,8 +394,7 @@ diag(lp.mdfa.ltsc[[2]])
 
 
 HERE  add exercise on ideal low-pass with various constraints 
-  for a WN process with linear trend.  
- repeat with VAR(1) with linear trend
+  repeat with VAR(1) with linear trend
 
 % 
 % We suppose the true process is a VAR($1$), and apply the MB trend filter defined in Example \ref{exam:trend-i1},

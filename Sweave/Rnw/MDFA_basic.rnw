@@ -286,11 +286,12 @@ A   case of interest arises from taking a very broad class $\mathcal{G}$:
  So $\vartheta$ is a column vector of length $q n$.  Then the 
 criterion (\ref{eq:mdfa-criterion})
  can be rewritten as
-\[
+\begin{equation}
+\label{eq:mdfa-crit.linear}
  D_{\Psi} (\vartheta, G)  = \vartheta^{\prime} \, B \, \vartheta -
    \vartheta^{\prime} \, b - 
    b^{\prime} \, \vartheta + { \langle \Psi (z) \, G \, { \Psi (z) }^* \rangle }_0,
-\]
+\end{equation}
  where 
 \begin{equation}
  \label{eq:bstar-expression}
