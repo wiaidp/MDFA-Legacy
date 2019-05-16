@@ -228,13 +228,13 @@ arising from time-varying means, a form of non-stationarity.
  \varphi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,
  \left( b - B \, Q \right).
 \end{equation}
-  Letting $H = 1_{n q} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \,
-  R^{\prime} \, B$, the minimal value is  
+ The minimal value is  
 \begin{equation}
 \label{eq:opt.val.mdfa-constrained}
-{ \langle \Psi (z) \, G \, { \Psi (z) }^* \rangle }_0 - b^{\prime} \, 
-R \, { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,  b
-	+ Q^{\prime} \, B \, H \, Q - 2 \, b^{\prime} \, H \, Q.
+{ \langle \Psi (z) \, G \, { \Psi (z) }^* \rangle }_0 
+  + {(b - B \, Q)}^{\prime} \, \left( 
+  R \, { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} 
+  + B^{-1} \right) \, ( b - B \, Q) -   b^{\prime} \, B^{-1} \, b.
 \end{equation}
 \end{Proposition}
 
