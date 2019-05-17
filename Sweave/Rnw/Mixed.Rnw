@@ -17,6 +17,7 @@ source("mdfa.coeff.r")
 source("mdfa.filter.r")
 source("mdfa.unconstrained.r")
 source("mdfa.embed.r")
+source("mdfa.hi2low.r")
 setwd(path.main)
 @
 
@@ -35,7 +36,7 @@ differeing sampling frequencies, e.g., a monthly and a quarterly series.
 \section{Sampling Frequency and Vector Embedding}
 \label{sec:mix-svf}
 
-<<test,echo=True>>=
+<<embed_var1,echo=True>>=
 T <- 100
 N <- 2
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
@@ -59,19 +60,29 @@ y.sim <- mdfa.embed(x.sim,4)
 
 
 
-<<test2,echo=True>>=
+<<embed_lp,echo=True>>=
  mu <- pi/6
- len <- 175
+ len <- 50
  lp.hifilter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
  lp.hifilter <- c(rev(lp.hifilter),lp.hifilter[-1])
- lp.lowfilter <- mdfa.embed(ts(as.matrix(lp.hifilter),frequency=12),4)
- lp.lowfilter <- array(lp.lowfilter,c(39,3,3))
+ hi.freq <- 12
+ low.freq <- 4
+ shift.hi <- 2
+ out <- mdfa.hi2low(lp.hifilter,hi.freq,low.freq,shift.hi)
+ lp.lowfilter <- out[[1]]  
+ shift.low <- out[[2]]
 @
 
 \section{Mixed Frequency Targets and Optimal Concurrent Filters}
 \label{sec:mix-mdfa}
 
-
+<<sim_svf,echo=True>>=
+ innovar <- 1
+ sig.vec <- c(1,1,1)
+ schur <- 1 
+ Sigma <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
+ 
+@ 
 
 % 
 % # construct and apply low pass filter
