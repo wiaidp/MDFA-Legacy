@@ -177,11 +177,7 @@ arising from time-varying means, a form of non-stationarity.
  if this is less than $m$, then there are redundancies in the 
  constraints that should first be eliminated. 
  
- \begin{Exercise} {\bf QR Decomposition.} \rm
- \label{exer:qr.constraint}
- HERE
- \end{Exercise}
- 
+
  Hence  proceeding with a full rank $J$, we partition $G$ as $G = [ G_1 \, G_2]$ 
  such that $G_1$ has $m$ columns and $G_2$
  has $q-m$ columns.  This quantity $q-m$ corresponds to the number 
@@ -214,6 +210,75 @@ arising from time-varying means, a form of non-stationarity.
    1_{r} \end{array} \right] \otimes 1_n  \\
   Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_n  \right) \, A.
 \end{align*}
+
+
+ \begin{Exercise} {\bf QR Decomposition.} \rm
+ \label{exer:qr.constraint}
+  Consider an arbitrary set of constraints $J$ on $\vartheta$, such that
+    $   A = [ J \otimes 1_n ] \, \vartheta$ for a given vector $A$.  
+    Encode the procedure that obtains $R$ and $Q$, and apply this
+    to the cases of the LC, TSC, and LTSC scenarios with $n=1$, verifying the results
+    given in Illustrations \ref{ill:lc}, \ref:tsc}, and \ref:ltsc}.
+    Use one-step ahead forecasting as the target filter.
+ \end{Exercise}
+ 
+ <<exer_qr-constraint,Echo=True>>=
+  N <- 1
+  q <- 10
+
+  ## level constraint case
+	constraint.mat <- matrix(rep(1,q),nrow=1)
+	constraint.vec <- diag(N)
+	constraint.qr <- qr(constraint.mat)
+	constraint.q <- qr.Q(constraint.qr)
+	constraint.r <- qr.R(constraint.qr)
+	constraint.pivot <- constraint.qr$pivot
+	constraint.ipivot <- sort.list(constraint.pivot)
+	M <- q - dim(constraint.r)[2] + dim(constraint.q)[2]
+	R.mat <- rbind(-solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE],
+		constraint.r[,(dim(constraint.q)[2]+1):q,drop=FALSE]),diag(q-M))
+	R.mat <- R.mat[constraint.ipivot,] %x% diag(N)
+	Q.mat <- rbind(solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE]) %*% 
+		solve(constraint.q),matrix(0,q-M,M)) 
+	Q.mat <- (Q.mat[constraint.ipivot,] %x% diag(N)) %*% constraint.vec
+  print(R.mat)
+	
+  ## time shift constraint case
+	constraint.mat <- matrix(seq(0,q-1),nrow=1)
+	constraint.vec <- -diag(N)
+	constraint.qr <- qr(constraint.mat)
+	constraint.q <- qr.Q(constraint.qr)
+	constraint.r <- qr.R(constraint.qr)
+	constraint.pivot <- constraint.qr$pivot
+	constraint.ipivot <- sort.list(constraint.pivot)
+	M <- q - dim(constraint.r)[2] + dim(constraint.q)[2]
+	R.mat <- rbind(-solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE],
+		constraint.r[,(dim(constraint.q)[2]+1):q,drop=FALSE]),diag(q-M))
+	R.mat <- R.mat[constraint.ipivot,] %x% diag(N)
+	Q.mat <- rbind(solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE]) %*% 
+		solve(constraint.q),matrix(0,q-M,M)) 
+	Q.mat <- (Q.mat[constraint.ipivot,] %x% diag(N)) %*% constraint.vec
+  print(R.mat)
+  
+	## level and time shift constraint case
+	constraint.mat <- rbind(rep(1,q),seq(0,q-1))
+	constraint.vec <- rbind(diag(N),-diag(N))
+	constraint.qr <- qr(constraint.mat)
+	constraint.q <- qr.Q(constraint.qr)
+	constraint.r <- qr.R(constraint.qr)
+	constraint.pivot <- constraint.qr$pivot
+	constraint.ipivot <- sort.list(constraint.pivot)
+	M <- q - dim(constraint.r)[2] + dim(constraint.q)[2]
+	R.mat <- rbind(-solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE],
+		constraint.r[,(dim(constraint.q)[2]+1):q,drop=FALSE]),diag(q-M))
+	R.mat <- R.mat[constraint.ipivot,] %x% diag(N)
+	Q.mat <- rbind(solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE]) %*% 
+		solve(constraint.q),matrix(0,q-M,M)) 
+	Q.mat <- (Q.mat[constraint.ipivot,] %x% diag(N)) %*% constraint.vec
+  print(R.mat)
+@
+
+
   These formulas allow one to compute the   form (\ref{eq:concurrent-constrain}) 
    from given constraints, and
  an analytical solution to the resulting MDFA criterion  be obtained from the following result.
@@ -266,10 +331,11 @@ This exercise applies the constrained MDFA in the case of an ideal low-pass filt
  Simulate a sample of size $T=2500$ from a
   bivariate white noise process with 
   $\Sigma$ equal to the identity, but with a linear trend  given by
-  \[
+  \begin{equation}
+  \label{eq:wntrend-lin.trend}
    \left[ \begin{array}{c} 1 \\ 2 \end{array} \right] + t \, 
    \left[ \begin{array}{c} -.002 \\ .001 \end{array} \right].
-  \]
+  \end{equation}
    Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
   $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
  Use the moving average filter  MDFA  with LC, TSC, and LTSC constraints
@@ -390,84 +456,150 @@ diag(lp.mdfa.ltsc[[2]])
  
  
 
+\begin{Exercise} {\bf  Constrained MDFA for VAR(1) with Linear Trend.} \rm
+\label{exer:var1trend-mdfa}
+This exercise applies the constrained MDFA in the case of an ideal low-pass filter
+ (cf. Example \ref{exam:ideal-low}) 
+ applied to a VAR(1) process that exhibits a linear trend.
+ Simulate a sample of size $T=2500$ of a
+   bivariate VAR(1) process with linear trend  given by
+   (\ref{eq:wntrend-lin.trend}), such that the demeaned process satisfies
+\[
+  X_t =  \left[ \begin{array}{cc}  1  & 1/2 \\    -1/5  &  3/10
+    \end{array} \right] \, X_{t-1} + \epsilon_t,
+\]
+ with stationary initialization, and $\{ \epsilon_t \}$ a Gaussian white noise of identity innovation variance.   Apply the   ideal low-pass filter
+  (cf. Example \ref{exam:ideal-low}) with 
+  $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
+ Use the moving average filter  MDFA  with LC, TSC, and LTSC constraints
+  (Proposition \ref{prop:mdfa.quadsoln-constrain}),
+  as well as unconstrained MDFA  (Proposition \ref{prop:mdfa.quadsoln}), to find the best
+ concurrent filter, setting $q= 30$. 
+  (Hint: compute the periodogram from OLS residuals obtained by regressing the simulation
+   on a constant plus time.)
+ Apply this concurrent filter 
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
+\end{Exercise}
+
+HERE
+
+<<exercise_var1trend-mdfa,echo=True>>=
+# Simulate a VAR(1) of sample size 2500:
+T <- 2500
+N <- 2
+levels <- c(1,2)
+slopes <- c(-2,1)/1000
+phi.matrix <- rbind(c(1,.5),c(-.2,.3))
+innovar.matrix <- diag(N)/10000
+true.psidelta <- var1.par2psi(phi.matrix,100)
+gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*%
+ 	matrix(innovar.matrix,ncol=1),nrow=N)
+x.init <- t(chol(gamma.0)) %*% rnorm(N)
+x.next <- x.init
+x.sim <- NULL
+for(t in 1:T)
+{
+ 	x.next <- phi.matrix %*% x.next + t(chol(innovar.matrix)) %*% rnorm(N)
+ 	x.sim <- cbind(x.sim,x.next)
+}
+x.sim <- ts(t(x.sim))
+time.trend <- seq(1,T)
+x.sim <- t(levels) %x% rep(1,T) + t(slopes) %x% rep(1,T) + x.sim
+plot(ts(x.sim))
 
 
 
-HERE  add exercise on ideal low-pass with various constraints 
-  repeat with VAR(1) with linear trend
+sim.ols <- lm(x.sim ~ time.trend)
+x.resid <- sim.ols$residuals
 
-% 
-% We suppose the true process is a VAR($1$), and apply the MB trend filter defined in Example \ref{exam:trend-i1},
-%   where the parameters are given by
-% \[
-%  \Sigma_{\mu} = \left[ \begin{array}{ll} 
-%    2.32 \cdot 10^{-4} &  5.04 \cdot 10^{-4} \\
-%    5.04 \cdot 10^{-4}  & 34.73 \cdot 10^{-4}  \end{array}  \right]
-%  \qquad  \Sigma_{\iota} = \left[ \begin{array}{ll}
-%         110.44 \cdot 10^{-5} &  7.17 \cdot 10^{-5}  \\
-%         7.17 \cdot 10^{-5} & 128.57 \cdot 10^{-5}   \end{array} \right].
-% \]
-%   Because the trend variance for the second component is $15$ times larger than that of the first component,
-%  the correspoding trend filter  does less smoothing.  
-%  
-% \begin{figure}[htb!]
-% \centering
-% \includegraphics[]{petrolVAR1trends}
-% \caption{\baselineskip=10pt Bivariate  trend  filter applied to VAR($1$) simulation (grey), with trends in black. }
-% \label{fig:petrol.var1trends}
-% \end{figure}
-% 
-% 
-%   We seek to solve the corresponding trend extraction LPP.    First, we can use the optimal solution  (\ref{eq:var1.lpp-opt})
-% given in   Illustration \ref{ill:var1}, supposing that we know  that the VAR($1$) is correctly specified.  
-%  Second, we can use MDFA, proceeding as if we do not know the true process is a VAR($1$), as we would in practice, 
-% and hence use the periodogram;  MDFA should be able to replicate the optimal solution, so long as the filter class
-%  $\mathcal{G}$ is sufficiently rich.    The VAR($1$)  is defined by
-% \[
-%   X_t =  \left[ \begin{array}{ll}  1.0  & 0.5 \\    -0.2  &  0.3  \end{array} \right] \, X_{t-1} + \epsilon_t,
-% \]
-%  with stationary initialization, and $\{ \epsilon_t \}$ a Gaussian white noise of identity innovation variance.
-%   Operationally, we simulate this process with sample size $4500$.  Then the 
-%   ideal trends $\Psi (B) X_t$ are produced by truncating the  MB  filter to length $4001$ (it is symmetric, so the indices
-%  range between $-2000$ and $2000$) and applying to the  simulation, only retaining the central $500$ data points,
-%  as displayed in Figure \ref{fig:petrol.var1trends}.   (In this way we can dispense with edge effects, and the extra
-%  $4000$ observations are not used in the MDFA.)     The grey lines of Figure \ref{fig:petrol.var1trends}
-%  are the central $500$ observations of the VAR($1$)
-%  simulation, and the  black  line is the target.     We wish to use MDFA (setting $q=30$) 
-%  with various constraints (LC, TSC, LTSC) 
-% to obtain a   real-time estimate,  comparing  the result  to the optimal solution given by implementing  Illustration \ref{ill:var1}.  
-%   In that case  we find that
-% \[
-%   A_{\Psi} (\Phi) = \left[ \begin{array}{ll}  0.317  &  0.218 \\    -0.054  &  0.027  \end{array} \right]
-% \]
-%  by direct calculation, 
-% and hence the optimal filter is easily computed.  The in-sample MSEs of the various methods are displayed in Table \ref{tab:petrol.var1.mdfa}.
-%   Note that the basic MDFA (no constraints) replicates the optimal filter, as their MSE is the same up to negligible   error.
-%   When imposing a level constraint (LC and LTSC) there is a loss to the MDFA performance, which makes sense given that the optimal
-%  filter does {\it not} impose a level constraint -- in fact, the value of the optimal concurrent filter at frequency zero is
-% \[
-%   \widehat{\Psi} (1) =  \left[ \begin{array}{ll}  0.914 &  0.251 \\    -0.030  &  0.842  \end{array} \right],
-% \]
-%  which is quite different from $1_2$.  On the other hand, the time shift constraint alone (TSC) has little impact on the performance of MDFA,
-%  because $\partial \widehat{\Psi} (1) \approx 0 \cdot 1_2$, i.e., the optimal filter already has this property of zero time shift.
-% 
-%  
-% 
-% \begin{table}[!htb]
-% \centering
-% \begin{tabular}{clllll}
-% \hline
-%   Series  &  LPP Opt  &  MDFA Basic &  MDFA LC &  MDFA TSC   &  MDFA LTSC \\
-%   1 & .2404  &  .2388  &  .2877  &   .2363  & .4367  \\
-%   2 & .0224 &   .0217 &   .0229  &   .0216  & .0264 \\
-% \hline
-% \end{tabular}
-% \caption{\baselineskip=10pt  LPP MSE for bivariate VAR($1$) process --  with target trend
-%  given by the LLM MB trend -- for various concurrent filters: LPP Opt is the optimal filter,
-%  whereas the MDFA filters are labeled according to the constraints imposed. }
-% \label{tab:petrol.var1.mdfa}
-% \end{table}
-%  
+# construct and apply low pass filter
+mu <- pi/6
+len <- 1000
+lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+lp.filter <- c(rev(lp.filter),lp.filter[-1])
+x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+
+# get MDFA concurrent filter
+q <- 30
+Grid <- T
+m <- floor(Grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*Grid^{-1}*(seq(1,Grid) - (m+1))
+
+# frf for ideal low-pass
+frf.psi <- rep(0,Grid)
+frf.psi[abs(freq.ft) <= mu] <- 1
+frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+frf.psi <- array(frf.psi,c(N,N,Grid))
+spec.hat <- mdfa.pergram(x.resid,1)	
+lp.mdfa.uc <- mdfa.unconstrained(frf.psi,spec.hat,q)
+lp.mdfa.lc <- mdfa.levelconstraint(frf.psi,spec.hat,q)
+lp.mdfa.tsc <- mdfa.tsconstraint(frf.psi,spec.hat,q)
+lp.mdfa.ltsc <- mdfa.ltsconstraint(frf.psi,spec.hat,q)
+
+# case 1: apply the unconstrained MDFA concurrent filter 
+x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.uc[[1]][1,1,],method="convolution",sides=1)
+x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.uc[[1]][1,2,],method="convolution",sides=1)
+x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.uc[[1]][2,1,],method="convolution",sides=1)
+x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.uc[[1]][2,2,],method="convolution",sides=1)
+x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+ 
+# compare in-sample performance
+print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+
+# compare to criterion value
+diag(lp.mdfa.uc[[2]])
+
+# case 2: apply the lc MDFA concurrent filter 
+x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.lc[[1]][1,1,],method="convolution",sides=1)
+x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.lc[[1]][1,2,],method="convolution",sides=1)
+x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.lc[[1]][2,1,],method="convolution",sides=1)
+x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.lc[[1]][2,2,],method="convolution",sides=1)
+x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+ 
+# compare in-sample performance
+print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+
+# compare to criterion value
+diag(lp.mdfa.lc[[2]])
+
+# case 3: apply the tsc MDFA concurrent filter 
+x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][1,1,],method="convolution",sides=1)
+x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][1,2,],method="convolution",sides=1)
+x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][2,1,],method="convolution",sides=1)
+x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][2,2,],method="convolution",sides=1)
+x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+ 
+# compare in-sample performance
+print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+
+# compare to criterion value
+diag(lp.mdfa.tsc[[2]])
+
+# case 4: apply the ltsc MDFA concurrent filter 
+x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][1,1,],method="convolution",sides=1)
+x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][1,2,],method="convolution",sides=1)
+x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][2,1,],method="convolution",sides=1)
+x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][2,2,],method="convolution",sides=1)
+x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+ 
+# compare in-sample performance
+print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+
+# compare to criterion value
+diag(lp.mdfa.ltsc[[2]])
+@
+  
 
 
 
@@ -672,6 +804,58 @@ HERE material from E and S paper section 4.3
 
 HERE revisit section 1 exercises now with RW and diff - VAR(1), using LTSC.  Petrol ex
 
+   
+% 
+%   We seek to solve the corresponding trend extraction LPP.    First, we can use the optimal solution  (\ref{eq:var1.lpp-opt})
+% given in   Illustration \ref{ill:var1}, supposing that we know  that the VAR($1$) is correctly specified.  
+%  Second, we can use MDFA, proceeding as if we do not know the true process is a VAR($1$), as we would in practice, 
+% and hence use the periodogram;  MDFA should be able to replicate the optimal solution, so long as the filter class
+%  $\mathcal{G}$ is sufficiently rich.    The VAR($1$)  is defined by
+% \[
+%   X_t =  \left[ \begin{array}{ll}  1.0  & 0.5 \\    -0.2  &  0.3  \end{array} \right] \, X_{t-1} + \epsilon_t,
+% \]
+%  with stationary initialization, and $\{ \epsilon_t \}$ a Gaussian white noise of identity innovation variance.
+%   Operationally, we simulate this process with sample size $4500$.  Then the 
+%   ideal trends $\Psi (B) X_t$ are produced by truncating the  MB  filter to length $4001$ (it is symmetric, so the indices
+%  range between $-2000$ and $2000$) and applying to the  simulation, only retaining the central $500$ data points,
+%  as displayed in Figure \ref{fig:petrol.var1trends}.   (In this way we can dispense with edge effects, and the extra
+%  $4000$ observations are not used in the MDFA.)     The grey lines of Figure \ref{fig:petrol.var1trends}
+%  are the central $500$ observations of the VAR($1$)
+%  simulation, and the  black  line is the target.     We wish to use MDFA (setting $q=30$) 
+%  with various constraints (LC, TSC, LTSC) 
+% to obtain a   real-time estimate,  comparing  the result  to the optimal solution given by implementing  Illustration \ref{ill:var1}.  
+%   In that case  we find that
+% \[
+%   A_{\Psi} (\Phi) = \left[ \begin{array}{ll}  0.317  &  0.218 \\    -0.054  &  0.027  \end{array} \right]
+% \]
+%  by direct calculation, 
+% and hence the optimal filter is easily computed.  The in-sample MSEs of the various methods are displayed in Table \ref{tab:petrol.var1.mdfa}.
+%   Note that the basic MDFA (no constraints) replicates the optimal filter, as their MSE is the same up to negligible   error.
+%   When imposing a level constraint (LC and LTSC) there is a loss to the MDFA performance, which makes sense given that the optimal
+%  filter does {\it not} impose a level constraint -- in fact, the value of the optimal concurrent filter at frequency zero is
+% \[
+%   \widehat{\Psi} (1) =  \left[ \begin{array}{ll}  0.914 &  0.251 \\    -0.030  &  0.842  \end{array} \right],
+% \]
+%  which is quite different from $1_2$.  On the other hand, the time shift constraint alone (TSC) has little impact on the performance of MDFA,
+%  because $\partial \widehat{\Psi} (1) \approx 0 \cdot 1_2$, i.e., the optimal filter already has this property of zero time shift.
+% 
+%  
+% 
+% \begin{table}[!htb]
+% \centering
+% \begin{tabular}{clllll}
+% \hline
+%   Series  &  LPP Opt  &  MDFA Basic &  MDFA LC &  MDFA TSC   &  MDFA LTSC \\
+%   1 & .2404  &  .2388  &  .2877  &   .2363  & .4367  \\
+%   2 & .0224 &   .0217 &   .0229  &   .0216  & .0264 \\
+% \hline
+% \end{tabular}
+% \caption{\baselineskip=10pt  LPP MSE for bivariate VAR($1$) process --  with target trend
+%  given by the LLM MB trend -- for various concurrent filters: LPP Opt is the optimal filter,
+%  whereas the MDFA filters are labeled according to the constraints imposed. }
+% \label{tab:petrol.var1.mdfa}
+% \end{table}
+%  
 
 % Exercise 1
 % 

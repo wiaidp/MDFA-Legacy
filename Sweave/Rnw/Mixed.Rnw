@@ -81,7 +81,14 @@ y.sim <- mdfa.embed(x.sim,4)
  sig.vec <- c(1,1,1)
  schur <- 1 
  Sigma <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
- 
+ l.mat <- t(chol(Sigma))
+ T <- 100
+ eps <- l.mat %*% matrix(rnorm(4*T),nrow=4)
+ eps.hi <- matrix(eps[1:3,],nrow=1)[1,]
+ eps.low <- eps[4,]
+ par(mfrow=c(2,1))
+ plot(ts(eps.hi))
+ plot(ts(eps.low))
 @ 
 
 % 
