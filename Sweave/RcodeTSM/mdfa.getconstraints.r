@@ -1,4 +1,4 @@
-mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,q)
+mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 {
 
 	#######################################################
@@ -16,6 +16,9 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,q)
 	#			with repeats for double roots, 
 	#			such that exp(-i*lambda) is a root
 	#			of the noise differencing polynomial
+  #   coint is N x N matrix of co-integrating row vectors, 
+  #     assumed to be the same for all signal frequencies.
+  #     set to zero if no co-integration constraints are assumed
 	#		frf is array N x N x Grid of complex entries, the target
 	#			frequency response function Psi(e^{-i lambda})
 	#			for lambda given by Grid number of Fourier frequencies 
@@ -27,7 +30,32 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,q)
 	#
 	##############################################################
 
-	N <- dim(frf)[1]
+  ceps2wold <- function(ceps,q)
+  {
+    m <- length(ceps)
+    if(q > m) { ceps <- c(ceps,rep(0,q-m)) }
+    wold <- 1
+    wolds <- wold
+    for(j in 1:q)
+    {
+      wold <- sum(seq(1,j)*ceps[1:j]*wolds[j:1])/j
+      wolds <- c(wolds,wold)
+    }
+    return(wolds)
+  }
+  
+  roots2ceps <- function(roots,m)
+  {
+    p <- length(roots)
+    ceps <- rep(0,m)
+    for(k in 1:m)
+    {	
+      ceps[k] <- -1*sum(roots^(-k))/k
+    }
+    return(ceps)
+  }
+  
+  N <- dim(frf)[1]
 	Grid <- dim(frf)[3]
 	m <- floor(Grid/2)
 
@@ -45,6 +73,9 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,q)
 		noise.mults <- c(noise.mults,sum(noisefreqs == noise.lambdas[j]))
 	}
 
+	noise.ceps <- Re(roots2ceps(exp(-1i*pi*noisefreqs),length(noisefreqs)))
+	delta.noise <- ceps2wold(noise.ceps,length(noisefreqs))
+	
 	sig.mat <- NULL
 	sig.vec <- NULL
 	if(length(sig.lambdas) > 0) {
@@ -54,7 +85,7 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,q)
 		if(j.star==(Grid+1)) j.star <- 1
 		zeta <- exp(-1i*sig.lambdas[k]*pi)
 		sig.mat.new <- zeta^(seq(0,q-1))
-		sig.vec.new <- frf[,,j.star]
+		sig.vec.new <- frf[,,j.star] - coint * sum(delta.noise * zeta^seq(0,length(noisefreqs)))
 		sig.mat <- rbind(sig.mat,Re(sig.mat.new))
 		sig.vec <- rbind(sig.vec,Re(sig.vec.new))
 		if( (sig.lambdas[k] != 0) && (sig.lambdas[k] != 1) )
