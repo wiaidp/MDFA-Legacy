@@ -328,7 +328,7 @@ in  Chapter \ref{chap:basic},
 This exercise applies the constrained MDFA in the case of an ideal low-pass filter
  (cf. Example \ref{exam:ideal-low}) 
  applied to a white noise process that exhibits a linear trend.
- Simulate a sample of size $T=2500$ from a
+ Simulate a sample of size $T=5000$ from a
   bivariate white noise process with 
   $\Sigma$ equal to the identity, but with a linear trend  given by
   \begin{equation}
@@ -352,7 +352,8 @@ This exercise applies the constrained MDFA in the case of an ideal low-pass filt
 
 <<exercise_wntrend-mdfa,echo=True>>=
 # Simulate a Gaussian WN of sample size 2500:
-T <- 2500
+set.seed(123)
+T <- 5000
 N <- 2
 levels <- c(1,2)
 slopes <- c(-2,1)/1000
@@ -461,7 +462,7 @@ diag(lp.mdfa.ltsc[[2]])
 This exercise applies the constrained MDFA in the case of an ideal low-pass filter
  (cf. Example \ref{exam:ideal-low}) 
  applied to a VAR(1) process that exhibits a linear trend.
- Simulate a sample of size $T=2500$ of a
+ Simulate a sample of size $T=5000$ of a
    bivariate VAR(1) process with linear trend  given by
    (\ref{eq:wntrend-lin.trend}), such that the demeaned process satisfies
 \[
@@ -483,16 +484,16 @@ This exercise applies the constrained MDFA in the case of an ideal low-pass filt
  (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
 \end{Exercise}
 
-HERE
 
 <<exercise_var1trend-mdfa,echo=True>>=
 # Simulate a VAR(1) of sample size 2500:
-T <- 2500
+set.seed(123)
+T <- 5000
 N <- 2
 levels <- c(1,2)
 slopes <- c(-2,1)/1000
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
-innovar.matrix <- diag(N)/10000
+innovar.matrix <- diag(N)
 true.psidelta <- var1.par2psi(phi.matrix,100)
 gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*%
  	matrix(innovar.matrix,ncol=1),nrow=N)
@@ -506,11 +507,7 @@ for(t in 1:T)
 }
 x.sim <- ts(t(x.sim))
 time.trend <- seq(1,T)
-x.sim <- t(levels) %x% rep(1,T) + t(slopes) %x% rep(1,T) + x.sim
-plot(ts(x.sim))
-
-
-
+x.sim <- t(levels) %x% rep(1,T) + t(slopes) %x% seq(1,T) + x.sim
 sim.ols <- lm(x.sim ~ time.trend)
 x.resid <- sim.ols$residuals
 
@@ -616,61 +613,262 @@ stationary, which are the most common type occuring in econometrics and finance.
   they also necessitate the use of filter constraints such as those
    considered in Section \ref{sec:constraint}.
   
- We suppose that there exists a polynomial $\delta (L)$
+ We suppose that there exists a degree $d$ polynomial $\delta (L)$
   that reduces each component series of $\{ X_t \}$ to a stationary
-   time series (which is allowed to have a non-zero constant mean),
+   time series (which is allowed to have a non-zero constant mean $\mu$),
    and suppose this is the minimal degree polynomial that accomplishes
-    this reduction.  We write $\partial X_t = \delta (L) \, X_t$ for
-  the stationary, differenced time series.
-    
-HERE :  do examples with $1-L$  and $1-L^2$, derive time-varying
-  spectral rep (from old notes on evol spectra, and DFA paper).
-  
-  
-  HERE : state the following as a proposition
-    
-So we can write
+    this reduction.  For convenience, and without loss of generality,
+    we suppose that $\delta_0 = 1$, or $\delta (0) = 1$.
+    We write $\partial X_t = \delta (L) \, X_t$ for
+  the stationary, differenced time series,
+   where $\partial X_t = \mu + Z_t$ and $\{ Z_t \}$ has a spectral
+    representation (\ref{eq:specRep}).  Then it is possible
+   to give time-domain and frequency-domain representations of
+    the original process $\{ X_t \}$ in terms of the stationary
+  ``increments" $\{ \partial X_t \}$, together with deterministic functions
+  of time that depend on ``initial values" of the process.
+   These deterministic functions can be obtained from 
+   the theory of Ordinary Difference Equations (ODE): 
+  all solutions to   $\delta (L) X_t = \partial X_t$
+   must include a homogeneous solution, i.e., solutions to
+    $\delta (L) X_t = 0$,   which include all functions of 
+    $t$ that are annihilated by $\delta (L)$.  Below we develop
+  a general method of solution, but We first provide a few
+   illustrations through specific cases.
+ 
+ \begin{Example} {\bf Representation for an $I(1)$ Process.}  \rm
+ \label{exam:I1-rep}
+    Letting $\delta (L)= 1-L$, we obtain a once-integrated process,
+  denoted as $I(1)$ for short.    
+  Because  the constant function (which up to proportionality, is the function $1$)
+  is annihilated by $1-L$, we expect the solution to take the form
+   of a constant plus some function of the increments $\partial X_t$.
+   Proceeding recursively, we obtain
 \[
- X_t = \sum_{j=1}^d A_{j, t+d} \, X_{j-d} + \int_{-\pi}^{\pi}
- \frac{ e^{i \omega t} - \sum_{j=1}^d A_{j,t+d} \, e^{-i \omega
- (d-j)} }{ \delta (e^{-i \omega}) } \; d \ZZ (\omega),
+  X_t =    X_{t-1} + \partial X_t = X_{t-2} + \partial X_t + \partial X_{t-1} = \ldots
+]
+    Let us suppose an initial time of $t=0$ for this process, so that the
+      solution is expressed as 
+\[
+ X_t = X_0 + \sum_{j=1}^t \partial X_j
 \]
- where $d = \sum_{\ell=1}^m q_{\ell}$ and each $A_{j, t+d}$ is a
- time varying function for each $j$, and the $x_{j-d}$ are initial
- values.  This representation is chiefly useful when $t > 1$, though
- it is still valid when $t \leq 0$.  The $\ZZ (\omega)$ is the
- orthogonal increments process in the spectral representation of
- $\partial X_t$. 
+    for $t \geq 1$ (and can be extended to $t=0$ by taking the sum to be empty in that case).
+  Note that this involves a constant function of time,
+  the term $X_0$.  Moreover, applying $X_j = \mu + Z_j$ and the spectral representation,
+  we obtain
+\begin{equation*}
+ X_t = X_0 + t \, \mu +   \int_{-\pi}^{\pi} \sum_{j=1}^t e^{i \omega j}
+   \, \mathcal{Z} (d\omega).  
+\end{equation*}
+  The summation inside the integral can be re-expressed when $\omega \neq 0$ as
+  $(1 - e^{i \omega (t+1)})/(1-e^{i \omega})$.
+\end{Example}   
 
- Each of the time-varying functions is in the null
- space of $\delta (B)$, i.e., $\delta (B) A_{j, t+d} = 0$ for $1 \leq
- j \leq d$, where the backshift operator works on the $t+d$ index.
- As a consequence, we can rewrite each $A_{j,t+d}$ as a linear
- combination of the basis functions of the null space of $\delta
- (B)$, which yields a more convenient representation.  Let the basis
- functions be $\phi_j (t) $ for $1 \leq j \leq d$; the existence and
- form of such functions are a basic staple of difference equation
- theory, treated briefly in Brockwell and Davis (1991).  Then we can
- write $A_{j,t+d} = \sum_{k=1}^d G_{jk} \phi_k (t)$ for each $1 \leq
- j \leq d$, for some coefficients $G_{jk}$.  It follows that
+
+\begin{Example} {\bf Representation for an $I(2)$ Process.} \rm
+\label{exam:i2-rep}
+  Now we set  $\delta (L)= {(1-L)}^2$  for a twice-integrated process,
+  denoted as $I(2)$ for short.    So first differences of $\{ X_t \}$ 
+  have a representation as an $I(1)$ process, and the expression for
+   $X_t$ will involve a linear function of time $t$, because $t$ is
+  annihilated by $\delta (L)$.  Applying the recursive technique of 
+  Example \ref{exam:i1-rep} twice, we obtain
+ \[
+ X_t = (t+1) \, X_0 - t \, X_{-1}  + \sum_{j=1}^t (t+1-j) \, \partial X_j,
+\]
+ which holds for $t \geq 1$  (but can be extended to $t=0,-1$ by setting
+  the summation to zero).  The linear function of time has slope
+  $X_0 - X_{-1}$ and intercept $X_0$.
+ Applying $X_j = \mu + Z_j$ and the spectral representation,
+  we obtain
+\begin{equation*}
+ X_t =(t+1) \, X_0 - t \, X_{-1}  + \binom{t+1}{2} \, \mu
+ +  \int_{-\pi}^{\pi} \sum_{j=1}^t (t+1-j) \, e^{i \omega j}
+   \, \mathcal{Z} (d\omega).  
+\end{equation*}
+ It can be verified that $(1-L) X_t$ is an $I(1)$ process with level
+ $X_0 - X_{-1}$.
+\end{Example}
+
+A general technique for obtaining the representation for non-stationary 
+processes involves the     inverse of the polynomial of $\delta(L)$, which is
+ denoted by $\xi (z)$:
+\begin{equation}
+\label{eq:xi-def}
+ \xi (L) = 1/ \delta (L) = \sum_{j \geq 0 }  \xi_j \, L^j.
+\end{equation}
+ This $\xi (z)$ is a power series that converges on a disk inside the unit circle.
+  Because $\delta (z) \, \xi (z) = 1$, one can recursively solve for the
+   coefficients $\xi_j$ in terms of past coefficients, using the $\delta_k$.
+  In particular, the $j$th coefficient of $\delta (z) \, \xi (z)$ is given by
+  the convolution formula:
+\begin{equation}
+\label{eq:delta.xi-conv}
+  \sum_{k \geq 0} \delta_k \, \xi_{j-k} = 1_{ \{ j=0 \} }.
+\end{equation}
+  In this formula, the equality is due to the fact that the $j$th coefficient of
+   the constant function $1$ (viewed as a power series in $z$) is zero unless $j=0$,
+   in which case it equals one.  On the left hand side of (\ref{eq:delta.xi-conv})
+   the sum runs from $0$ to  $j \wedge d$.  From the assumption that $\delta (0) =1$,
+ it is immediate that $\xi_0 = 1$ and 
+  \[
+  \xi_j = - \sum_{k \geq 1} \delta_k \, \xi_{j-k}
+  \]
+for $j > 0$.  Next, for any $ 0 \leq h \leq d-1$ we define
+\begin{equation}
+\label{eq:init.cond-fcns}
+  A_{t} (h) = \sum_{k=0}^h \delta_k \, \xi_{h+t-k}.
+\end{equation}
+ Note that for $h \geq d$ the formula (\ref{eq:init.cond-fcns}) equals 
+ (\ref{eq:delta.xi-conv}), and hence equals zero unless $h+t = 0$; but because
+$h < d$ in the definition of $A_t (h)$, the function is non-zero.
+  Also, when $ t \leq 0$ we have $\xi_{h+t-k} = 0$ for $ k > h$, so that
 \[
- \sum_{j=1}^d A_{j,t+d} B^{d-j} = \sum_{k=1}^d \phi_k (t)  \; \left(
- \sum_{j=1}^d G_{jk} B^{d-j} \right).
+ A_t (h) = \sum_{k=0}^d \delta_k \, \xi_{h+t-k} = 1_{ \{ h+t \} = 0} = 1_{ \{ t = -h \}}.
+\]
+ Using these definitions, we can state the following result.
+ 
+ \begin{Theorem}
+ \label{thm:nonstat-rep}
+ The solution for $t \geq 1-d$ to $\delta (L) X_t = \partial X_t$ is given by
+\begin{equation}
+ \label{eq:nonstatCausalRep}
+ X_t  = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
+  \sum_{j=0}^{t-1} \xi_j \, \partial X_{t-j},
+\end{equation}
+ where the coefficients $\xi_j$ are defined recursively through (\ref{eq:delta.xi-conv}),
+  and the time-varying functions $A_t (h)$ are defined via (\ref{eq:init.cond-fcns}).
+  Moreover, the algebraic identity 
+\begin{equation}
+ \label{eq:Identity1}
+  1 - \sum_{h=0}^{d-1} A_{h} (t) \, z^{t+h} = \sum_{k=0}^{t-1} \xi_k \, z^k
+  \, \delta (B)
+\end{equation}
+holds, and hence the   spectral representation for
+ $\{ X_t\}$ is
+\begin{equation}
+ \label{eq:nonstatRep-spec}
+  X_t = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h}  +
+   \sum_{k=0}^{t-1} \xi_k \, \mu +
+  \int_{-\pi}^{\pi}
+   \frac{ e^{i \omega t} - \sum_{h=0}^{d-1} A_{t} (h) \,  e^{-i \omega h } 
+    }{ \delta (e^{-i \omega}) } \, \ZZ (d\omega).
+\end{equation}
+\end{Theorem}  
+  
+\paragraph{Proof of Theorem  \ref{thm:nonstat-rep}.}  
+  We begin by proving (\ref{eq:Identity1}), from which the other results follow.
+ First write
+ \[
+  \xi (z) = {[ \xi (z) ]}_0^{t-1} + {[ \xi (z)]}_t^{\infty}
+ \]
+  and multiply by $\delta (z)$, yielding
+\[
+  {[ \xi (z) ]}_0^{t-1} \, \delta (z) = 1 -  {[ \xi (z)]}_t^{\infty}  \, \delta (z)
+\]
+via application of (\ref{eq:xi-def}).  Next, 
+\begin{align*}
+  {[ \xi (z)]}_t^{\infty}  \, \delta (z) & = 
+     \sum_{\ell \geq t} \xi_{\ell} \, z^{\ell}
+     \, \sum_{k=0}^d \delta_k \, z^k \\
+  & =   \sum_{k, \ell \geq 0} \delta_k \, \xi_{\ell+t} \, z^{k+\ell+t}  \\
+  & = z^t \, \sum_{h \geq 0}  \left( \sum_{\ell \geq 0} 
+  \delta_{h-\ell} \, \xi_{\ell+t} \right) \, z^h \\
+    & = z^t \, \sum_{h \geq 0}  \left( \sum_{k=0}^h 
+  \delta_{k} \, \xi_{h+t-k} \right) \, z^h.
+\end{align*}
+ We see that the coefficient of $z^h$ is either $1_{ \{ h+t =0 \} }$ for $h \geq d$
+  or equals $A_h (t)$ for $0 \leq h \leq d-1$.  Hence for $t \geq 1-d$ the calculation
+  simplifies to
+\[
+ {[ \xi (z)]}_t^{\infty}  \, \delta (z) =  z^t \sum_{h=0}^{d-1} A_h (t) \, z^h,
+\]
+ from which  (\ref{eq:Identity1}) follows. 
+ Next, multiply both sides of (\ref{eq:Identity1}) by $\delta (z)$, replace $z$ by $L$,
+  and apply the resulting power series to $\{ X_t \}$.  Using
+  $\delta (L) X_t = \partial X_t$, this yields
+  \[
+   \sum_{j=0}^{t-1} \xi_j \, \partial X_{t-j} = 
+    X_t - \sum_{h=0}^{d-1} A_{h} (t) \, X_{-h},
+\]
+ from which (\ref{eq:nonstatCausalRep}) follows.  The spectral representation is
+  obtained from (\ref{eq:nonstatCausalRep}) as follows:
+\begin{align*}
+ X_t  & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
+  \sum_{j=0}^{t-1} \xi_j \,  \left( \mu + 
+  \int_{-\pi}^{\pi} e^{i \omega (t-j)}  \, \ZZ (d\omega) \right) \\
+  & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
+  \sum_{j=0}^{t-1} \xi_j \, \mu  +
+    \int_{-\pi}^{\pi} e^{i \omega t } \, \sum_{j=0}^{t-1} \xi_j \,e^{-i \ommega j}
+    \, \ZZ (d\omega),
+\end{align*}
+  from which (\ref{eq:nonstatRep-spec}) follows.  $\quad \Box$
+ 
+  
+  Theorem  \ref{thm:nonstat-rep} shows how a non-stationary process
+  can be represented in  terms of a predictable
+  portion -- determined by the functions $A_{h} (t)$ and the
+  variables $X_{1-d}, \ldots, X_{-1}, X_0$ -- and a
+  non-predictable portion involving a time-varying filter of the $\{
+  \partial X_t \}$ series. 
+  The time-varying function $\sum_{k=0}^{t-1} \xi_k $ can be computed
+  by evaluating (\ref{eq:Identity1}) at $z=1$ and dividing by $\delta (1)$
+   so long as this is non-zero.  Otherwise, if $\delta (1) = 0$ we can
+   use L'Hopital's rule to obtain
+  \[
+   \sum_{k=0}^{t-1} \xi_k = \sum_{k=0}^{t-1} \xi_k \, z^k \vert_{z = 1}
+   = \frac{ - \sum_{h=0}^{d-1} A_h (t) \, (t+h) }{ \dot{\delta} (1)}.
+  \]
+     Each of the time-varying functions $A_h (t)$ is annihilated
+ by $\delta (L)$, i.e., $\delta (L) A_{h} (t) = 0$ for $0 \leq
+ h \leq d-1$.   As a consequence, we can rewrite each $A_{h} (t)$ as a linear
+ combination of the basis functions of the null space of $\delta
+ (L)$, which are given by $\zeta^{-t}$ for non-repeated roots $\zeta$
+  of $\delta (z)$ (when the roots are repeated, we instead consider
+  functions $t \, \zeta{-t}$, etc.).  
+    Let the basis  functions be denotes 
+    $\phi_j (t) $ for $1 \leq j \leq d$; see Brockwell and Davis (1991)
+     for additional details about difference equations.  Then we can
+ write $A_{h} (t) = \sum_{k=1}^d \alpha_{hk} \phi_k (t)$ for each $0 \leq
+ h \leq d-1$, for some coefficients $\alpha_{hk}$.  It follows that
+\[
+ \sum_{h=0}^{d-1} A_{h}(t) \, z^h = \sum_{k=1}^d \left(
+ \sum_{h=0}^{d-1} \alpha_{hk} z^h \right)  \, \phi_k (t).
 \]
  Each expression in parentheses on the right hand side is a degree
- $d-1$ polynomial in $B$, and will henceforth be denoted as $p^{(k)}
- (B)$.   Substituting the new formulation, we obtain
-\[
- x_t = \sum_{j=1}^d \phi_j (t) p^{(j)} (B) \, x_{0} + \int_{-\pi}^{\pi}
- \frac{ e^{i \omega t} - \sum_{j=1}^d \phi_j (t) \, p^{(j)} ( e^{-i \omega
+ $d-1$ polynomial in $z$, and will henceforth be denoted as $p^{(k)}
+ (z)$.   Substituting the new formulation, we obtain
+\begin{equation}
+\label{eq:nonstat.rep-basis}
+ X_t = \sum_{k=1}^d \phi_k (t) p^{(k)} (L) \, X_{0} + 
+  \sum_{k=0}^{t-1} \xi_k \, \mu  +  \int_{-\pi}^{\pi}
+ \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_k (t) \, p^{(k)} ( e^{-i \omega
  } )}{ \delta (e^{-i \omega}) } \; d \ZZ (\omega),
-\]
- where $p^{(j)} (B)$ acts on $x_0$ by shifting the time index $t=0$
- back in time for each power of $B$.  This representation is now
- extremely convenient, because application of any factor of
- $\delta(B)$ will annihilate a corresponding basis function (when
- roots are repeated, some basis functions will also be transformed
- into others that are instead annihilated). 
+\end{equation}
+ where $p^{(k)} (L)$ acts on $x_0$ by shifting the time index $t=0$
+ back in time for each power of $L$.  
+  This representation allows us to 
+  understand the action of a filter on a non-stationary time series,
+  as the following result demonstrates.
+  
+\begin{Proposition}
+  \label{prop:filter-nonstat}
+  The application of a filter $\Psi (L)$ to a non-stationary process $\{ X_t \}$
+  with representation  (\ref{eq:nonstat.rep-basis}) has spectral representation
+ \[
+ \Psi (B) X_t =   \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (L) \, X_{0}  +
+   \sum_{k \geq 1}  \Psi (L)  \xi_{t-k} \, \mu +
+  \int_{-\pi}^{\pi}
+   \frac{ e^{i \omega t} \, \Psi (e^{-i \omega}) 
+   - \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (e^{-i \omega}) 
+    }{ \delta (e^{-i \omega}) } \, \ZZ (d\omega).
+ \]
+ \end{Proposition}
+  
+  
+   
+   
+ 
 
    
   HERE material on WK : signal and noise spectra non-stat case, and basic formulas
@@ -679,6 +877,64 @@ So we can write
   HERE illustrations by LLM, STM, and Example 5 of E and S paper
   
   
+
+\begin{Example} {\bf Model-Based Random Walk Trend.} \rm
+\label{exam:trend-i1}
+  The Local Level Model (LLM) discussed in Harvey (1989) is capable
+  of modeling a time series consisting
+ of a  random walk trend $\{ \mu_t \}$ and a     white noise irregular
+ $\{ \iota_t \}$, such  that $X_t = \mu_t + \iota_t$.   
+ Both the multivariate trend and  irregular are driven by independent 
+ white noise processes, with respective covariance matrices
+   $\Sigma_{\mu}$ and $\Sigma_{\iota}$,
+ and the frf for the optimal trend extraction filter (McElroy and Trimbur, 2015) is
+\[ 
+ \Psi (e^{-i \omega}) = \Sigma_{\mu} \, { \left[ \Sigma_{\mu} + (2 - 2 \, \cos (\omega)) \, \Sigma_{\iota} \right] }^{-1}.
+\]
+ \end{Example}
+
+
+
+\begin{Example} {\bf Model-Based Integrated Random Walk Trend.} \rm
+\label{exam:trend-i2}
+  Example \ref{exam:trend-i1} can be generalized to the Smooth 
+  Trend Model (STM) developed in Harvey (1989),
+ where now the trend $\{ \mu_t \}$ is an integrated random walk, 
+ i.e., ${(1-L)}^2 \mu_t$ is white noise of
+ covariance matrix $\Sigma_{\mu}$.   Then the frf for the optimal 
+ trend extraction filter -- which also coincides
+ with the multivariate HP filter (cf. McElroy and Trimbur, 2015) 
+ -- is given by
+\[ 
+ \Psi (e^{-i \omega}) = \Sigma_{\mu} \, { \left[ \Sigma_{\mu} + {(2 - 2 \, \cos (\omega))}^2 \, \Sigma_{\iota} \right] }^{-1}.
+\]
+ The chief difference with the frf of the LLM is that the sinusoidal factor is now squared.  
+\end{Example}
+
+
+
+
+\begin{Example} {\bf Model-Based Seasonal Adjustment.} \rm
+\label{exam:sa}
+  Flexible structural models were discussed in McElroy (2017), 
+  with atomic components for each distinct unit root
+ (with any conjugate roots) in the differencing operator.  
+ For monthly data  where $\delta (L) = (1-L)(1-L^{12})$,
+ we obtain an integrated random walk trend component $\{ \mu_t \}$ 
+ (identical to the trend discussed in Example \ref{exam:trend-i2})
+ and six atomic seasonal components that combine into a single 
+ seasonal component $\{ \xi_t \}$ with differencing
+ operator $U(L) = 1 + L + L^2 + \ldots + L^{11}$, along with the
+ irregular $\{ \iota_t \}$.  
+  Six separate covariance matrices govern the dynamics of the seasonal
+  component, allowing for different degrees of
+ smoothness at each of the six seasonal frequencies.  The filter
+ that suppresses the seasonal component $\{ \xi_t \}$
+ and extracts trend $\{ \mu_t \}$ and irregular $\{ \iota_t \}$ is a model-based  seasonal adjustment filter, and is an 
+ example of a multivariate WK filter.  
+\end{Example}
+
+
 
 \section{Error Criterion and Computation}
 \label{sec:mdfa-nonstat}

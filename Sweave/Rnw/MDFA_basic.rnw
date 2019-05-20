@@ -632,6 +632,7 @@ With this justification, we see that the entries of the matrix $B$ in
 
 <<exercise_mdfa_var1.correct.2,echo=True>>=
 # Simulate a Gaussian VAR(1) of sample size 100:
+set.seed(123)
 T <- 100
 N <- 2
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
@@ -712,6 +713,7 @@ print(fore.mdfa[[1]][1,,1])
 
 <<exercise_mdfa_var1.incorrect.2,echo=True>>=
 # Simulate a Gaussian VMA(1) of sample size 100:
+set.seed(123)
 T <- 100
 N <- 2
 theta.matrix <- rbind(c(1,0),c(.4,2))
@@ -775,7 +777,7 @@ print(fore.mdfa[[1]][1,,1])
 \begin{Exercise} {\bf MDFA VAR(1) Filtering.} \rm
 \label{exer:var1mdfa.filter}
  This exercise examines MDFA applied to the trend of a  VAR(1) process.
-Simulate a sample of size $T=2500$ from a
+Simulate a sample of size $T=5000$ from a
  bivariate VAR(1) process with 
 \[
   \Phi = \left[ \begin{array}{cc} 1 & 1/2 \\ -1/5 & 3/10 \end{array} \right]
@@ -795,7 +797,8 @@ Simulate a sample of size $T=2500$ from a
 
 <<exercise_mdfa_var1.filtering,echo=True>>=
 # Simulate a Gaussian VAR(1) of sample size 2500:
-T <- 2500
+set.seed(123)
+T <- 5000
 N <- 2
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(N)
@@ -899,7 +902,7 @@ optimization concept can be understood
 \label{exer:var1mdfa2.filter}
  This exercise examines MDFA applied to the trend of a trivariate VAR(1) process,
  which is essentially three univariate AR(1) processes.
-Simulate a sample of size $T=2500$ from a
+Simulate a sample of size $T=5000$ from a
  trivariate VAR(1) process with 
 \[
   \Phi = \left[ \begin{array}{ccc} 9/10 & 0 & 0 \\  0 & 1/10 & 0  \\ 0 & 0 & -9/10
@@ -922,7 +925,8 @@ Also determine the in-sample performance, in comparison to the criterion value
 
 <<exercise_mdfa_trivar1.filtering,echo=True>>=
 # Simulate a Gaussian VAR(1) of sample size 2500:
-T <- 2500
+set.seed(123)
+T <- 5000
 N <- 3
 phi.matrix <- rbind(c(.9,0,0),c(0,.1,0),c(0,0,-.9))
 innovar.matrix <- diag(N)
@@ -1173,6 +1177,7 @@ Here   we select $\sigma=1$, corresponding to a weak
 
 <<exercise_mdfa_bimdfa-udfa,echo=True>>=
 # Simulate a Gaussian bivariate process of sample size 200:
+set.seed(123)
 T <- 200
 N <- 2
 phi <- .9
@@ -1304,6 +1309,7 @@ for(j in 1:5) {
 
 sigma <- sigma.vals[j]
 # Simulate a Gaussian bivariate process of sample size 2500:
+set.seed(123)
 T <- 2500
 N <- 2
 phi <- .9

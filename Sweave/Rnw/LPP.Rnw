@@ -853,6 +853,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 
 <<exercise_lpp_var1.correct,echo=True>>=
 # Simulate a Gaussian VAR(1) of sample size 100:
+set.seed(123)
 T <- 100
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
@@ -958,6 +959,7 @@ print(phi.yw)
 
 <<exercise_lpp_var1.incorrect,echo=True>>=
 # Simulate a Gaussian VMA(1) of sample size 100:
+set.seed(123)
 T <- 100
 theta.matrix <- rbind(c(1,0),c(.4,2))
 innovar.matrix <- diag(2)
@@ -1042,7 +1044,7 @@ print(phi.yw)
 \begin{Exercise} {\bf Incorrect VAR(1) Forecasting.} \rm
 \label{exer:var1lpp-incorrect.fore}
  Simulate a sample of size $T=1000$ from
- a bivariate Vector Moving Avergage process of order two, or VMA(2), given by
+ a bivariate Vector Moving Average process of order two, or VMA(2), given by
 \[
   X_t = \epsilon_t + \Theta_1 \, \epsilon_{t-1} + \Theta_2 \, \epsilon_{t-2},
 \]
@@ -1063,6 +1065,7 @@ print(phi.yw)
 
 <<exercise_lpp_var1.incorrect.fore,echo=True>>=
 # Simulate a Gaussian VMA(2) of sample size 1000:
+set.seed(123)
 T <- 1000
 theta1.matrix <- rbind(c(.9,2),c(0,.8))
 theta2.matrix <- rbind(c(.8,3.5),c(0.2,.6))
