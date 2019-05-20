@@ -649,7 +649,8 @@ It is known that the VAR(1) has the causal representation
  we can take $J_{\Psi} (\vartheta, \widetilde{F})$ as our criterion function.  However, this will only
  determine the proximity of the model to the true sdf, which is unavailable to us -- in order to compute actual
  parameter estimates, we must utilize the data to approximate the true sdf. 
- There are basic results giving asymptotic normality for simple functionals of the periodogram,
+ There are basic results giving asymptotic normality for simple functionals 
+ of the periodogram,
  and therefore this crude  estimator of the true sdf is sufficient for our purposes.  We propose 
 $J_{\Psi} (\vartheta, \widehat{F})$ as
  an estimator of $J_{\Psi} (\vartheta, \widetilde{F})$, and intend that the respective minimizers have the same relationship.
@@ -822,9 +823,11 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 \[
    e_1^{\prime} \, \left( \Gamma (0) - \Phi^h \, \Gamma (0) \, {\Phi}^{h \prime} \right) \, e_1.
 \]
- It is known that Whittle estimation corresponds to the $h=1$ case, with a criterion function given
+ It is known that Whittle estimation corresponds to the $h=1$ case, 
+ with a criterion function given
  by the determinant of the forecast MSE matrix (McElroy and Findley, 2015), and in essence
- incorporates forecast error from all $n$ series.  In the above, the criterion only depends on the
+ incorporates forecast error from all $n$ series.  In the above, 
+ the criterion only depends on the
  performance of the first series, which allows a practitioner to focus on parameter values
  that sacrifice performance on the other $n-1$ series in order to achieve superior results for
  the first series.
@@ -853,7 +856,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 
 <<exercise_lpp_var1.correct,echo=True>>=
 # Simulate a Gaussian VAR(1) of sample size 100:
-set.seed(123)
+set.seed(1234)
 T <- 100
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
@@ -959,7 +962,7 @@ print(phi.yw)
 
 <<exercise_lpp_var1.incorrect,echo=True>>=
 # Simulate a Gaussian VMA(1) of sample size 100:
-set.seed(123)
+set.seed(1234)
 T <- 100
 theta.matrix <- rbind(c(1,0),c(.4,2))
 innovar.matrix <- diag(2)
@@ -1065,7 +1068,7 @@ print(phi.yw)
 
 <<exercise_lpp_var1.incorrect.fore,echo=True>>=
 # Simulate a Gaussian VMA(2) of sample size 1000:
-set.seed(123)
+set.seed(1234)
 T <- 1000
 theta1.matrix <- rbind(c(.9,2),c(0,.8))
 theta2.matrix <- rbind(c(.8,3.5),c(0.2,.6))

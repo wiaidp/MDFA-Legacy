@@ -8,19 +8,32 @@
 \BOOKMARK [2][-]{subsection.1.2.2}{DFA}{section.1.2}% 8
 \BOOKMARK [2][-]{subsection.1.2.3}{MDFA}{section.1.2}% 9
 \BOOKMARK [2][-]{subsection.1.2.4}{Using MDFA}{section.1.2}% 10
-\BOOKMARK [0][-]{chapter.2}{Multivariate Direct Filter Analysis for Non-stationary Processes}{}% 11
-\BOOKMARK [1][-]{section.2.1}{Constrained MDFA}{chapter.2}% 12
-\BOOKMARK [1][-]{section.2.2}{Background on Non-stationary Vector Time Series }{chapter.2}% 13
-\BOOKMARK [1][-]{section.2.3}{Error Criterion and Computation}{chapter.2}% 14
-\BOOKMARK [0][-]{chapter.3}{Multivariate Direct Filter Analysis for Co-integrated Processes}{}% 15
-\BOOKMARK [1][-]{section.3.1}{Co-integration at Frequency Zero}{chapter.3}% 16
-\BOOKMARK [1][-]{section.3.2}{A General Treatment of Co-integration}{chapter.3}% 17
-\BOOKMARK [0][-]{chapter.4}{Multivariate Direct Filter Analysis for Mixed Frequency Processes}{}% 18
-\BOOKMARK [1][-]{section.4.1}{Sampling Frequency and Vector Embedding}{chapter.4}% 19
-\BOOKMARK [1][-]{section.4.2}{Mixed Frequency Targets and Optimal Concurrent Filters}{chapter.4}% 20
-\BOOKMARK [0][-]{chapter.5}{Summary and Links}{}% 21
-\BOOKMARK [1][-]{section.5.1}{Survey of MDFA Optimization Criteria}{chapter.5}% 22
-\BOOKMARK [1][-]{section.5.2}{Consistency and Efficiency: a Tale of Two Philosophies}{chapter.5}% 23
-\BOOKMARK [2][-]{subsection.5.2.1}{Knowing the Truth: Omniscience}{section.5.2}% 24
-\BOOKMARK [2][-]{subsection.5.2.2}{Believing in Truth: Faith and Fatalism}{section.5.2}% 25
-\BOOKMARK [2][-]{subsection.5.2.3}{From Truth to Effectiveness: Emphasizing Performances}{section.5.2}% 26
+\BOOKMARK [0][-]{chapter.2}{Linear Prediction Problems}{}% 11
+\BOOKMARK [1][-]{section.2.1}{Background on Stationary Vector Time Series}{chapter.2}% 12
+\BOOKMARK [1][-]{section.2.2}{MSE Optimal Prediction Problems}{chapter.2}% 13
+\BOOKMARK [2][-]{subsection.2.2.1}{The Linear Prediction Problem}{section.2.2}% 14
+\BOOKMARK [2][-]{subsection.2.2.2}{Solution to the Linear Prediction Problem}{section.2.2}% 15
+\BOOKMARK [1][-]{section.2.3}{Model Fitting via LPP MSE Minimization}{chapter.2}% 16
+\BOOKMARK [0][-]{chapter.3}{Introduction to the Multivariate Direct Filter Analysis}{}% 17
+\BOOKMARK [1][-]{section.3.1}{Background on Multivariate Filtering}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.2}{Multivariate Direct Filter Analysis of the LPP}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.3}{Computation of the Linear Prediction Filter}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.4}{Qualitative Easing by Leading Indicators: an Empirical Study}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.4.1}{Bivariate MDFA versus Univariate DFA}{section.3.4}% 22
+\BOOKMARK [2][-]{subsection.3.4.2}{Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{section.3.4}% 23
+\BOOKMARK [0][-]{chapter.4}{Multivariate Direct Filter Analysis for Non-stationary Processes}{}% 24
+\BOOKMARK [1][-]{section.4.1}{Constrained MDFA}{chapter.4}% 25
+\BOOKMARK [1][-]{section.4.2}{Background on Non-stationary Vector Time Series }{chapter.4}% 26
+\BOOKMARK [1][-]{section.4.3}{Error Criterion and Computation}{chapter.4}% 27
+\BOOKMARK [0][-]{chapter.5}{Multivariate Direct Filter Analysis for Co-integrated Processes}{}% 28
+\BOOKMARK [1][-]{section.5.1}{Co-integration at Frequency Zero}{chapter.5}% 29
+\BOOKMARK [1][-]{section.5.2}{A General Treatment of Co-integration}{chapter.5}% 30
+\BOOKMARK [0][-]{chapter.6}{Multivariate Direct Filter Analysis for Mixed Frequency Processes}{}% 31
+\BOOKMARK [1][-]{section.6.1}{Sampling Frequency and Vector Embedding}{chapter.6}% 32
+\BOOKMARK [1][-]{section.6.2}{Mixed Frequency Targets and Optimal Concurrent Filters}{chapter.6}% 33
+\BOOKMARK [0][-]{chapter.7}{Summary and Links}{}% 34
+\BOOKMARK [1][-]{section.7.1}{Survey of MDFA Optimization Criteria}{chapter.7}% 35
+\BOOKMARK [1][-]{section.7.2}{Consistency and Efficiency: a Tale of Two Philosophies}{chapter.7}% 36
+\BOOKMARK [2][-]{subsection.7.2.1}{Knowing the Truth: Omniscience}{section.7.2}% 37
+\BOOKMARK [2][-]{subsection.7.2.2}{Believing in Truth: Faith and Fatalism}{section.7.2}% 38
+\BOOKMARK [2][-]{subsection.7.2.3}{From Truth to Effectiveness: Emphasizing Performances}{section.7.2}% 39

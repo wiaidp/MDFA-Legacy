@@ -218,11 +218,11 @@ arising from time-varying means, a form of non-stationarity.
     $   A = [ J \otimes 1_n ] \, \vartheta$ for a given vector $A$.  
     Encode the procedure that obtains $R$ and $Q$, and apply this
     to the cases of the LC, TSC, and LTSC scenarios with $n=1$, verifying the results
-    given in Illustrations \ref{ill:lc}, \ref:tsc}, and \ref:ltsc}.
+    given in Illustrations \ref{ill:lc}, \ref{ill:tsc}, and \ref{ill:ltsc}.
     Use one-step ahead forecasting as the target filter.
  \end{Exercise}
  
- <<exer_qr-constraint,Echo=True>>=
+<<exercise_qr-constraint,echo=True>>=
   N <- 1
   q <- 10
 
@@ -281,7 +281,8 @@ arising from time-varying means, a form of non-stationarity.
 
   These formulas allow one to compute the   form (\ref{eq:concurrent-constrain}) 
    from given constraints, and
- an analytical solution to the resulting MDFA criterion  be obtained from the following result.
+ an analytical solution to the resulting MDFA criterion 
+ be obtained from the following result.
 
 \begin{Proposition}
 \label{prop:mdfa.quadsoln-constrain}
@@ -351,8 +352,8 @@ This exercise applies the constrained MDFA in the case of an ideal low-pass filt
 \end{Exercise}
 
 <<exercise_wntrend-mdfa,echo=True>>=
-# Simulate a Gaussian WN of sample size 2500:
-set.seed(123)
+# Simulate a Gaussian WN of sample size 5000:
+set.seed(1234)
 T <- 5000
 N <- 2
 levels <- c(1,2)
@@ -486,8 +487,8 @@ This exercise applies the constrained MDFA in the case of an ideal low-pass filt
 
 
 <<exercise_var1trend-mdfa,echo=True>>=
-# Simulate a VAR(1) of sample size 2500:
-set.seed(123)
+# Simulate a VAR(1) of sample size 5000:
+set.seed(1234)
 T <- 5000
 N <- 2
 levels <- c(1,2)
@@ -646,7 +647,7 @@ stationary, which are the most common type occuring in econometrics and finance.
    Proceeding recursively, we obtain
 \[
   X_t =    X_{t-1} + \partial X_t = X_{t-2} + \partial X_t + \partial X_{t-1} = \ldots
-]
+\]
     Let us suppose an initial time of $t=0$ for this process, so that the
       solution is expressed as 
 \[
@@ -724,7 +725,7 @@ for $j > 0$.  Next, for any $ 0 \leq h \leq d-1$ we define
 $h < d$ in the definition of $A_t (h)$, the function is non-zero.
   Also, when $ t \leq 0$ we have $\xi_{h+t-k} = 0$ for $ k > h$, so that
 \[
- A_t (h) = \sum_{k=0}^d \delta_k \, \xi_{h+t-k} = 1_{ \{ h+t \} = 0} = 1_{ \{ t = -h \}}.
+ A_t (h) = \sum_{k=0}^d \delta_k \, \xi_{h+t-k} = 1_{ \{ h+t = 0 \} } = 1_{ \{ t = -h \}}.
 \]
  Using these definitions, we can state the following result.
  
@@ -799,7 +800,7 @@ via application of (\ref{eq:xi-def}).  Next,
   \int_{-\pi}^{\pi} e^{i \omega (t-j)}  \, \ZZ (d\omega) \right) \\
   & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
   \sum_{j=0}^{t-1} \xi_j \, \mu  +
-    \int_{-\pi}^{\pi} e^{i \omega t } \, \sum_{j=0}^{t-1} \xi_j \,e^{-i \ommega j}
+    \int_{-\pi}^{\pi} e^{i \omega t } \, \sum_{j=0}^{t-1} \xi_j \,e^{-i \omega j}
     \, \ZZ (d\omega),
 \end{align*}
   from which (\ref{eq:nonstatRep-spec}) follows.  $\quad \Box$
@@ -855,42 +856,117 @@ via application of (\ref{eq:xi-def}).  Next,
   \label{prop:filter-nonstat}
   The application of a filter $\Psi (L)$ to a non-stationary process $\{ X_t \}$
   with representation  (\ref{eq:nonstat.rep-basis}) has spectral representation
- \[
- \Psi (B) X_t =   \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (L) \, X_{0}  +
-   \sum_{k \geq 1}  \Psi (L)  \xi_{t-k} \, \mu +
-  \int_{-\pi}^{\pi}
+ \begin{align*}
+ \Psi (B) X_t & =   \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (L) \, X_{0}  +
+   \sum_{k \geq 1}  \Psi (L)  \xi_{t-k} \, \mu \\
+   & +   \int_{-\pi}^{\pi}
    \frac{ e^{i \omega t} \, \Psi (e^{-i \omega}) 
    - \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (e^{-i \omega}) 
     }{ \delta (e^{-i \omega}) } \, \ZZ (d\omega).
- \]
+ \end{align*}
  \end{Proposition}
   
   
-   
-   
- 
-
-   
-  HERE material on WK : signal and noise spectra non-stat case, and basic formulas
-    in freq domain
-    
-  HERE illustrations by LLM, STM, and Example 5 of E and S paper
+Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
+ integration for the output process can be less than that of $\{ X_t \}$.
+ For instance, if $\Psi (\zeta) = 0$ for some root $\zeta$ of $\delta (z)$,
+  then at least one of the basis functions $\phi_k (t)$ is annihilated by
+   $\Psi (L)$, which means we can rewrite the representation in 
+   Proposition \ref{prop:filter-nonstat} in terms of $d-1$ instead of $d$ basis
+   functions.  We now consider a class of filters known as model-based (MB) filters,
+  since they arise as MSE optimal linear filters for a certain class of linear
+  signal extraction problems.
   
-  
+  Suppose that the process $\{ X_t \}$ is viewed as the sum of two latent processes
+  $\{ S_t \}$ and $\{ N_t \}$, labelled as signal and noise respectively.
+   These patronymics indicate merely that the signal is a process one desires
+  to estimate, or extract, whereas the noise is to be expunged.  There is no necessity
+  that trend non-stationarity must pertain to the signal -- in fact, for the problem
+  of business cycle analysis, where one wishes to extract a stationary business cycle
+  component, the noise will include trend as well as seasonal effects.
+  In general, because
+\[
+ X_t = S_t + N_t
+\]
+ and $\delta (L) X_t$ is stationary, it is necessary that $\delta (L) S_t$ and 
+  $\delta (L) N_t$ are stationary, although these not need be the minimal degree
+  differencing operators.  We assume there is a relatively prime factorization of
+  $\delta (z)$ into components $\delta^S (z)$ and $\delta^N (z)$, which are polynomials
+  of degrees $d_S$ and $d_N$ that reduce signal and noise to stationarity:
+\[
+  \partial S_t = \delta^S (L) S_t \qquad \partial N_t = \delta^N (L) N_t.
+\]
+  These time series are all $n$-dimensional, but we assume that the same differencing
+  operators are relevant for each component series.  It then follows that
+\[
+ \partial X_t = \delta^N (L) \, \partial S_t + \delta^S (L) \, \partial N_t,
+\]
+ which allows us to relate the spectral density $f_{\partial X}$ of $\{ \partial X_t \}$
+ to the spectral densities $f_{\partial S}$
+  and $f_{\partial N}$ of $\{ \partial S_t \}$ and $\{ \partial N_t \}$:
+ \begin{equation}
+ \label{eq:sig-and-noise.sdf}
+ f_{\partial X} (\omega) = {| \delta^N (e^{-i \omega}) |}^2 \, f_{\partial S} (\omega)
+  + {| \delta^S (e^{-i \omega}) |}^2 \, f_{\partial N} (\omega).
+ \end{equation}
+  Each of these spectral densities
+   is an $n \times n$-dimensional Hermitian function of $\omega$.
+   Next, dividing (\ref{eq:sig-and-noise.sdf}) through by ${| \delta (e^{-i\omega}) |}^2$,
+  and defining the pseudo-spectral densities by
+\begin{equation}
+\label{eq:pseudo-sdf}
+  f_X (\omega) = \frac{ f_{\partial X} (\omega)}{ {| \delta (e^{-i\omega}) |}^2 }
+  \quad   f_S (\omega) = \frac{ f_{\partial S} (\omega)}{ {| \delta^S (e^{-i\omega}) |}^2 }
+  \quad   f_N (\omega) = \frac{ f_{\partial N} (\omega)}{ {| \delta^N (e^{-i\omega}) |}^2 },
+\end{equation}
+  we obtain the relation
+\[
+  f_X = f_S + f_N.
+\]
+ Next, the objective of MB signal extraction is to find a linear estimator 
+ for the $j$th component  of $S_t$, for each $1 \leq j \leq n$.  That is,
+ we seek to find a filter $\Psi (L)$ such that
+  $\widehat{S}_{t,j} = \Psi (L) X_t$ has minimal mean squared estimation error of
+   $S_{t,j}$.  The key result of McElroy and Trimbur (2015) is that the filter is
+   obtained by the formula
+  \[
+    \Psi (e^{-i \omega}) =  e_j^{\prime} \, f_{\partial S} (\omega) \, 
+    { f_{\partial X} (\omega) }^{-1} \, {| \delta^N (e^{-i \omega}) |}^2.
+  \]
+  This presumes that $f_{\partial X} (\omega) $ is invertible; given this condition,
+  one computes each filter coefficient by Fourier inversion of the frf.  
+  Furthermore, we can use (\ref{eq:pseudo-sdf})   to obtain a simpler expression:
+\[
+   \Psi (e^{-i \omega}) =  e_j^{\prime} \, f_{ S} (\omega) \, 
+    { f_{ X} (\omega) }^{-1}.
+  \]
+  It is interesting that we do not require that $f_{\partial S} (\omega)$ be 
+  invertible -- this will be further explored in Chapter \ref{chap:coint}.
+  We now discuss several examples of MB filters.
 
 \begin{Example} {\bf Model-Based Random Walk Trend.} \rm
 \label{exam:trend-i1}
   The Local Level Model (LLM) discussed in Harvey (1989) is capable
   of modeling a time series consisting
- of a  random walk trend $\{ \mu_t \}$ and a     white noise irregular
- $\{ \iota_t \}$, such  that $X_t = \mu_t + \iota_t$.   
+ of a  random walk trend $\{ S_t \}$ and a     white noise irregular
+ $\{ N_t \}$, such  that $X_t = S_t + N_t$. 
+  Hence $\{ S_t \}$ is $I(1)$, and $\partial S_t = (1-L) S_t$.
+  Thus $\delta^S (z) = 1- z$, but $\{ N_t \}$ is stationary so that
+  $\delta^N (z) = 1$.  
  Both the multivariate trend and  irregular are driven by independent 
  white noise processes, with respective covariance matrices
-   $\Sigma_{\mu}$ and $\Sigma_{\iota}$,
- and the frf for the optimal trend extraction filter (McElroy and Trimbur, 2015) is
-\[ 
- \Psi (e^{-i \omega}) = \Sigma_{\mu} \, { \left[ \Sigma_{\mu} + (2 - 2 \, \cos (\omega)) \, \Sigma_{\iota} \right] }^{-1}.
+   $\Sigma_{S}$ and $\Sigma_{N}$,
+  and it follows that the spectra for the differenced processes 
+   are
+  \[
+    f_{\partial S} (\omega) = \Sigma_S \qquad f_{N} (\omega) = \Sigma_N.
 \]
+  Therefore  the frf for the optimal trend extraction filter is
+\[ 
+ \Psi (e^{-i \omega}) = e_j^{\prime} \, \Sigma_{S} \, 
+ { \left[ \Sigma_{S} + (2 - 2 \, \cos (\omega)) \, \Sigma_{N} \right] }^{-1},
+\]
+ which utilizes (\ref{eq:sig-and-noise.sdf}).
  \end{Example}
 
 
@@ -899,14 +975,14 @@ via application of (\ref{eq:xi-def}).  Next,
 \label{exam:trend-i2}
   Example \ref{exam:trend-i1} can be generalized to the Smooth 
   Trend Model (STM) developed in Harvey (1989),
- where now the trend $\{ \mu_t \}$ is an integrated random walk, 
- i.e., ${(1-L)}^2 \mu_t$ is white noise of
- covariance matrix $\Sigma_{\mu}$.   Then the frf for the optimal 
+ where now the trend $\{ S_t \}$ is an integrated random walk, 
+ i.e., ${(1-L)}^2 S_t$ is white noise of
+ covariance matrix $\Sigma_{S}$.   Then the frf for the optimal 
  trend extraction filter -- which also coincides
- with the multivariate HP filter (cf. McElroy and Trimbur, 2015) 
- -- is given by
+ with the multivariate HP filter  -- is given by
 \[ 
- \Psi (e^{-i \omega}) = \Sigma_{\mu} \, { \left[ \Sigma_{\mu} + {(2 - 2 \, \cos (\omega))}^2 \, \Sigma_{\iota} \right] }^{-1}.
+ \Psi (e^{-i \omega}) = e_j^{\prime} \, \Sigma_{S} \, 
+ { \left[ \Sigma_{S} + {(2 - 2 \, \cos (\omega))}^2 \, \Sigma_{N} \right] }^{-1}.
 \]
  The chief difference with the frf of the LLM is that the sinusoidal factor is now squared.  
 \end{Example}
@@ -920,18 +996,36 @@ via application of (\ref{eq:xi-def}).  Next,
   with atomic components for each distinct unit root
  (with any conjugate roots) in the differencing operator.  
  For monthly data  where $\delta (L) = (1-L)(1-L^{12})$,
- we obtain an integrated random walk trend component $\{ \mu_t \}$ 
+ we obtain an integrated random walk trend component $\{ C_t \}$ 
  (identical to the trend discussed in Example \ref{exam:trend-i2})
  and six atomic seasonal components that combine into a single 
- seasonal component $\{ \xi_t \}$ with differencing
+ seasonal component $\{ P_t \}$ with differencing
  operator $U(L) = 1 + L + L^2 + \ldots + L^{11}$, along with the
- irregular $\{ \iota_t \}$.  
+ irregular $\{ I_t \}$, which is a white noise. 
   Six separate covariance matrices govern the dynamics of the seasonal
   component, allowing for different degrees of
- smoothness at each of the six seasonal frequencies.  The filter
- that suppresses the seasonal component $\{ \xi_t \}$
- and extracts trend $\{ \mu_t \}$ and irregular $\{ \iota_t \}$ is a model-based  seasonal adjustment filter, and is an 
- example of a multivariate WK filter.  
+ smoothness at each of the six seasonal frequencies. 
+ In particular, we have $P_t = \sum_{\ell=1}^6 P^{(\ell)}_t$ and
+\begin{align*}
+  {(1-L)}^2 C_t & = \partial C_t \\
+   (1 - 2 \cos (\pi/6) L + L^2) P^{(1)}_t & = \partial P^{(1)}_t \\
+  (1 - 2 \cos (2\pi/6) L + L^2) P^{(2)}_t & = \partial P^{(2)}_t \\
+  (1 - 2 \cos (3\pi/6) L + L^2) P^{(3)}_t & = \partial P^{(3)}_t \\
+  (1 - 2 \cos (4\pi/6) L + L^2) P^{(4)}_t & = \partial P^{(4)}_t \\
+  (1 - 2 \cos (5\pi/6) L + L^2) P^{(5)}_t & = \partial P^{(5)}_t \\
+  (1 +L) P^{(6)}_t & = \partial P^{(6)}_t. 
+ \end{align*}
+ Each of the stationary processes is assumed to be an independent white noise,
+ where the covariance matrices are denoted by $\Sigma_C$, $\Sigma_{1}$,
+  $\Sigma_2$, $\Sigma_3$, $\Sigma_4$, $\Sigma_5$, $\Sigma_6$, and 
+  $\Sigma_I$ respectively.   For seasonal adjustment we seek to suppress
+  seasonality, so $S_t = C_t + I_t$ and $N_t = P_t$.  Thus $\delta^S (z) = {(1-z)}^2$
+  and $\delta^N (z) = U(z)$, and the MB seasonal adjustment filter   has frf
+\[
+  \Psi (e^{-i \omega}) = e_j^{\prime} \, \left( \Sigma_{C} + {|1 - e^{-i \omega}|}^4
+   \Sigma_I \right) \, 
+    { f_{\partial X} (\omega) }^{-1} \, {| U (e^{-i \omega}) |}^2.
+\]
 \end{Example}
 
 
