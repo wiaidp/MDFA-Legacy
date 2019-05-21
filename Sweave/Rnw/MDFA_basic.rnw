@@ -1373,7 +1373,7 @@ critudfa.mat[i,j] <- fore.udfa[[2]][1,1]
 }}
 @
 
-<<exercise_mdfa_nowmdfa-udfa,echo=True>>=
+<<exercise_mdfa_nowmdfa-udfa,echo=False>>=
  xtb <- xtable(critmdfa.mat, dec = 1,digits=rep(3,dim(critmdfa.mat)[2]+1),
   paste("Effect of lead and  inverse signal-to-noise ratio on MDFA filter MSE",sep=""),
   label=paste("tab:critmdfa.mat",sep=""),
@@ -1384,7 +1384,7 @@ addtorow$command <- paste0(paste0('$','\\','delta$','& \\multicolumn{5}{c}{Sigma
 print(xtb, add.to.row=addtorow, include.colnames=F)
 @
 
-<<exercise_mdfa_nowmdfa-udfa,echo=True>>=
+<<exercise_mdfa_nowmdfa-udfa,echo=False>>=
 xtb <-  xtable(critudfa.mat, dec = 1,digits=rep(3,dim(critudfa.mat)[2]+1),
   paste("Effect of lead and  inverse signal-to-noise ratio on DFA filter MSE",sep=""),
   label=paste("tab:critudfa.mat",sep=""),
