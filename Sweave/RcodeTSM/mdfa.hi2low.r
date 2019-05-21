@@ -23,13 +23,13 @@ mdfa.hi2low <- function(filter.hi,hi.freq,low.freq,shift.hi)
   
   s.embed <- hi.freq/low.freq
   len.hi <- length(filter.hi)
-  left.pad <- NULL
-  if(shift.hi > 0) { left.pad <- rep(0,s.embed - (shift.hi %% s.embed)) }
-  right.pad <- NULL
-  if((len.hi-1-shift.hi) > 0) { right.pad <- 
-    rep(0,2*s.embed - ((len.hi-1-shift.hi) %% s.embed)-1) }
-  filter.embed <- NULL
+  if(shift.hi %% s.embed == 0) { left.pad <- NULL } else {
+    left.pad <- rep(0,s.embed - (shift.hi %% s.embed)) }
+  new.len <- length(c(left.pad,filter.hi))
+  if(new.len %% s.embed == 0) { right.pad <- NULL } else {
+    right.pad <- rep(0,s.embed - (new.len %% s.embed)) }
   next.column <- c(left.pad,filter.hi,right.pad)
+  filter.embed <- next.column
   len.low <- length(next.column)/s.embed
   for(k in 1:s.embed)
   {
@@ -38,7 +38,7 @@ mdfa.hi2low <- function(filter.hi,hi.freq,low.freq,shift.hi)
   }
   filter.low <- array(filter.embed,c(s.embed,len.low,s.embed))
   filter.low <- aperm(filter.low,c(1,3,2))
-  shift.low <- (length(left.pad) + shift.hi)/s.embed - 1
+  shift.low <- (length(left.pad) + shift.hi)/s.embed
   
   return(list(filter.low,shift.low))
 }

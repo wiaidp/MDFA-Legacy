@@ -495,7 +495,6 @@ levels <- c(1,2)
 slopes <- c(-2,1)/1000
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(N)
-true.psidelta <- var1.par2psi(phi.matrix,100)
 gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*%
  	matrix(innovar.matrix,ncol=1),nrow=N)
 x.init <- t(chol(gamma.0)) %*% rnorm(N)
@@ -1335,25 +1334,34 @@ HERE revisit section 1 exercises now with RW and diff - VAR(1), using LTSC.  Pet
 % 
 
 % 
-% 
-% ##########################################################
-% ### Exercise 2: replication - simulate bivariate LLM and apply MDFA
-% 
-% # Simulate a Gaussian LLM  
-% psi.sim <- c(2.17150287559847+1i, -8.36795922528+1i, -6.04133725367594+1i, 
-% 0.0648981656699+1i, -6.80849700177184+1i, -6.66004335288479+1i, 
-% -0.00016098322952+1i, 0.00051984185863+1i)
-% psi.sim[7:8] <- c(0+1i,0+1i)
-% psi.sim <- sigex.par2psi(param.sim,flag.default,mdl)
-% T.sim <- 500 + 2*len
-% N <- 2
-% burnin <- 0
-% init <- matrix(rnorm(2*N),ncol=N)
-% 
-%  
-% x.sim <- sigex.sim(psi.sim,mdl,T.sim,burnin,Inf,init)
-% plot(ts(x.sim))
-% 
+<<exercise_llm-mdfa,echo=True>>=
+##########################################################
+### Exercise 2: replication - simulate bivariate LLM and apply MDFA
+ 
+# Simulate a Gaussian LLM  
+set.seed(1234)
+psi.sim <- c(2.17150287559847, -8.36795922528, -6.04133725367594, 
+             0.0648981656699, -6.80849700177184, -6.66004335288479, 
+             -0.00016098322952, 0.00051984185863)
+psi.sim[7:8] <- c(0,0)
+len <- 1000
+T.sim <- 500 + 2*len
+burn <- 1000
+N <- 2
+delta <- array(t(c(1,-1)) %x% diag(N),c(N,N,2))
+d <- dim(delta)[3] - 1
+mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
+Sigma.mu <- mu.sim[[2]]
+mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+plot(ts(x.sim))
+@
+
+
+
 % # construct and apply BW filter
 % bw.filter <- wk.trend[[1]]
 % x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)

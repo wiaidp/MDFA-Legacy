@@ -36,12 +36,14 @@ differeing sampling frequencies, e.g., a monthly and a quarterly series.
 \section{Sampling Frequency and Vector Embedding}
 \label{sec:mix-svf}
 
+
+
 <<embed_var1,echo=True>>=
+set.seed(1234)
 T <- 100
 N <- 2
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
-true.psidelta <- var1.par2psi(phi.matrix,100)
 gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
 	matrix(innovar.matrix,ncol=1),nrow=2)
 x.init <- t(chol(gamma.0)) %*% rnorm(2)
@@ -58,7 +60,7 @@ y.sim <- mdfa.embed(x.sim,4)
 #x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 @
 
-
+% high freq target
 
 <<embed_lp,echo=True>>=
  mu <- pi/6
@@ -76,19 +78,90 @@ y.sim <- mdfa.embed(x.sim,4)
 \section{Mixed Frequency Targets and Optimal Concurrent Filters}
 \label{sec:mix-mdfa}
 
-<<sim_svf,echo=True>>=
- innovar <- 1
- sig.vec <- c(1,1,1)
- schur <- 1 
- Sigma <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
- l.mat <- t(chol(Sigma))
- T <- 100
- eps <- l.mat %*% matrix(rnorm(4*T),nrow=4)
- eps.hi <- matrix(eps[1:3,],nrow=1)[1,]
- eps.low <- eps[4,]
- par(mfrow=c(2,1))
- plot(ts(eps.hi))
- plot(ts(eps.low))
+% construct mixed wn
+
+<<sim_svf-wn,echo=True>>=
+set.seed(1234)
+innovar <- 1
+sig.vec <- c(1,1,1)
+schur <- 1 
+Sigma <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
+l.mat <- t(chol(Sigma))
+T <- 100
+eps <- l.mat %*% matrix(rnorm(4*T),nrow=4)
+eps.hi <- matrix(eps[1:3,],nrow=1)[1,]
+eps.low <- eps[4,]
+par(mfrow=c(2,1))
+plot(ts(eps.hi))
+plot(ts(eps.low))
+@ 
+
+% construct mixed LLM
+
+<<sim_svf-llm,echo=True>>=
+set.seed(1234)
+innovar <- 1
+sig.vec <- c(1,1,1)
+schur <- 1 
+Sigma.mu <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
+l.mat <- t(chol(Sigma.mu))
+T.sim <- 100
+burn <- 100
+eps <- l.mat %*% matrix(rnorm(4*(T.sim+burn)),nrow=4)
+delta.0 <- rbind(c(1,0,0,0),
+                 c(-1,1,0,0),
+                 c(0,-1,1,0),
+                 c(0,0,0,1))
+delta.1 <- rbind(c(0,0,0,-1),
+                 c(0,0,0,0),
+                 c(0,0,0,0),
+                 c(0,0,0,-1))
+delta <- array(cbind(delta.0,delta.1),c(4,4,2))
+d <- dim(delta)[3] - 1
+mu.sim <- mdfa.ucsim(delta,t(eps))[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(rep(0,10),rep(1,4),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+x.hi <- matrix(t(x.sim)[1:3,],nrow=1)[1,]
+x.low <- x.sim[,4]
+ 
+par(mfrow=c(2,1))
+plot(ts(x.hi))
+plot(ts(x.low))
+@ 
+
+
+% construct mingled VAR
+
+<<sim_svf-var1,echo=True>>=
+set.seed(1234)
+innovar <- 1
+sig.vec <- c(1,1,1)
+schur <- 1 
+Sigma <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
+l.mat <- t(chol(Sigma))
+T.sim <- 100
+burn <- 100
+eps <- l.mat %*% matrix(rnorm(4*(T.sim+burn)),nrow=4)
+phi.ar3 <- c(1,.9,.64,.576)
+phi.array <- mdfa.hi2low(phi.ar3,12,4,0)
+phi.vec <- c(1,1,1)
+phi.0 <- cbind(rbind(phi.array[[1]][,,1],phi.vec),c(0,0,0,1))
+phi.1 <- cbind(rbind(phi.array[[1]][,,2],c(0,0,0)),c(0,0,0,-.95))
+delta <- array(cbind(phi.0,phi.1),c(4,4,2))
+d <- dim(delta)[3] - 1
+mu.sim <- mdfa.ucsim(delta,t(eps))[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(rep(0,10),rep(1,4),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+x.hi <- matrix(t(x.sim)[1:3,],nrow=1)[1,]
+x.low <- x.sim[,4]
+ 
+par(mfrow=c(2,1))
+plot(ts(x.hi))
+plot(ts(x.low))
 @ 
 
 % 
