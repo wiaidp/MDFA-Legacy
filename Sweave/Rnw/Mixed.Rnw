@@ -18,6 +18,9 @@ source("mdfa.filter.r")
 source("mdfa.unconstrained.r")
 source("mdfa.embed.r")
 source("mdfa.hi2low.r")
+source("mdfa.wnsim.r")
+source("mdfa.ucsim.r")
+source("mdfa.spectra.r")
 setwd(path.main)
 @
 

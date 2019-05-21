@@ -24,6 +24,7 @@ source("mdfa.tsconstraint.r")
 source("mdfa.ltsconstraint.r")
 source("mdfa.wnsim.r")
 source("mdfa.ucsim.r")
+source("mdfa.spectra.r")
 setwd(path.main)
 @
 
