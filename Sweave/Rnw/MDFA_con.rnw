@@ -616,7 +616,7 @@ stationary, which are the most common type occuring in econometrics and finance.
   they also necessitate the use of filter constraints such as those
    considered in Section \ref{sec:constraint}.
   
- We suppose that there exists a degree $d$ polynomial $\delta (L)$
+ We suppose that there exists a degree $d$ scalar polynomial $\delta (L)$
   that reduces each component series of $\{ X_t \}$ to a stationary
    time series (which is allowed to have a non-zero constant mean $\mu$),
    and suppose this is the minimal degree polynomial that accomplishes
@@ -1268,129 +1268,276 @@ for(i in 1:N)
 
 
 
-
-
 \section{Error Criterion and Computation}
 \label{sec:mdfa-nonstat}
 
-HERE material from E and S paper section 4.3
+ Now supposing that $\{ X_t \}$ is non-stationary,
+ examination of (\ref{eq:dfa-error}) indicates that the error process is 
+ not stationary unless we make certain assumptions
+ about $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$.    
+ In order to remove the time-varying functions it is necessary that 
+ we can factor $\delta (L)$ from $\Delta (L)$, i.e., we require the existence of
+ $\widetilde{\Delta } (L)$ such that
+\begin{equation}
+ \label{eq:delta.factor}
+  \Delta (L) = \widetilde{\Delta } (L) \, \delta (L),
+\end{equation}
+ as otherwise we cannot guarantee that $\{ E_t \}$ will be stationary. 
+  Moreover, if $\mu =0$ then (\ref{eq:delta.factor}) is also sufficient to guarantee
+ that the filter error be stationary, because
+\[
+  E_t = \widetilde{\Delta} (L) \, \partial X_t
+\]
+ in such a case.   We next discuss a set of filter 
+ constraints that guarantee (\ref{eq:delta.factor}), beginning with a result
+ that discusses the factorization of filters.  
+ We say a filter $\Psi (L)$ is absolutely convergent 
+ if $\sum_{j \in \ZZ} \| \psi (j) \| < \infty$
+ for a given matrix norm $\| \cdot \|$.
 
-% We here consider difference-stationary vector time series, which means there exists a scalar differencing polynomial $\delta (L)$ such
-%  that $\partial X_t = \delta (L) X_t$ is mean zero and covariance stationary.  
-%  Examination of (\ref{eq:dfa-error}) indicates that the error process is not stationary unless we make certain assumptions
-%  about $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$.     It is necessary that we can factor $\delta (L)$ from $\Delta (L)$, i.e., there exists
-%  $\widetilde{\Delta } (L)$ such that
-% \begin{equation}
-%  \label{eq:delta.factor}
-%   \Delta (L) = \widetilde{\Delta } (L) \, \delta (L),
-% \end{equation}
-%  as otherwise we cannot guarantee that $\{ E_t \}$ will be stationary.  However, (\ref{eq:delta.factor}) is sufficient to guarantee
-%  that the filter error be stationary, because
-% \[
-%   E_t = \widetilde{\Delta} (L) \, \partial X_t
-% \]
-%  in such a case.   We next discuss a set of filter constraints that guarantee (\ref{eq:delta.factor}), beginning with a lemma
-%  that discusses factorization of filters.  We say a filter $\Psi (L)$ is absolutely convergent if $\sum_{j \in \ZZ} \| \psi (j) \| < \infty$
-%  for a given matrix norm $\| \cdot \|$.
-% 
-% \begin{Proposition}
-% \label{prop:filter-decompose}
-%  Any linear filter $\Psi (L)$ can be expressed as
-% \[
-%   \Psi (L) = \Psi (\zeta) + (L - \zeta) \, \Psi^{\sharp} (L)
-% \]
-%  for any $\zeta \in \CC$  such that $| \zeta | = 1$, 
-%   and an absolutely convergent filter $\Psi^{\sharp} (L)$, so long as  $\partial \Psi (L) $ is absolutely convergent.
-%  If in addition $ \partial \partial \Psi (L) = \sum_{ j \in \ZZ} j (j-1) \, \psi (j) \, L^j$
-%    is absolutely convergent, then there also exists an absolutely convergent filter $\Psi^{\flat} (L)$ 
-%  such that
-% \[
-%  \Psi (L) = \Psi (\zeta) + \partial \Psi (\zeta) \, (L- \zeta) \, \overline{\zeta} + {(L - \zeta)}^2 \, \Psi^{\flat} (L).
-% \]
-% \end{Proposition}
-% 
-%  Note that if $\Psi (\zeta) = 0$, it follows from Proposition \ref{prop:filter-decompose} that $L-\zeta$ can be factored from
-%   $\Psi (L)$.  Similarly, ${(L- \zeta)}^2$ can be factored from $\Psi (L)$ is $\Psi(\zeta) = \partial \Psi (\zeta) =0$.
-% 
-% \begin{Definition} \rm
-% \label{def:filter-noise}
-%  For $\omega \in [-\pi, \pi]$, a filter $\Psi (L)$ annihilates $\omega$-noise of order $1$ if $\Psi (e^{-i \omega}) = 0$,
-%  and annihilates $\omega$-noise of order $2$ if in addition $\partial \Psi (e^{-i \omega}) = 0$.
-% \end{Definition}
-% 
-% 
-% Hence, we have the following immediate corollary of Proposition \ref{prop:filter-decompose}.
-% 
-% \begin{Corollary}
-%  \label{cor:filter-noise}
-%   If a filter $\Psi (L)$ annihilates $\omega$-noise of order $1$ and $\partial \Psi (L)$ is absolutely convergent, then
-% \[
-%   \Psi (L) = (L- e^{-i \omega}) \, \Psi^{\sharp} (L).
-% \]
-%  If a filter $\Psi (L)$ annihilate $\omega$-noise of order $2$,  and $\partial \partial \Psi (L)$ is absolutely convergent, then
-% \[
-%   \Psi (L) = {(L- e^{-i \omega}) }^2 \, \Psi^{\flat} (L).
-% \]
-% \end{Corollary}
-% 
-%  We can apply Corollary \ref{cor:filter-noise} to factor a noise-differencing polynomial $\delta^N (L)$ from $\Delta (L)$:
-%  for each $\omega$ such that the target filter $\Psi (L)$ annihilate $\omega$-noise of order $d$, we impose the constraint
-%  that $\widehat{\Psi} (L)$ shall have the same property, and hence ${(L- e^{-i \omega})}^d$ can be factored from both
-%  filters.   For instance, if noise frequencies are $\omega_{\ell}$ with multiplicities $d_{\ell}$, then repeated application of 
-%  Corollary \ref{cor:filter-noise} yields
-% \[
-%  \Psi (L) = \prod_{\ell} {(L -  e^{-i \omega_{\ell}})}^{d_{\ell}} \, \Psi^{\natural} (L)
-%    = \delta^N (L) \, \Psi^{\star} (L)
-% \]
-%  for some residual filter $\Psi^{\natural} (L)$, where $\Psi^{\star} (L) = \prod_{\ell} -e^{-i \omega_{\ell} d_{\ell}} \, \Psi^{\natural} (L)$
-%  and $\delta^N (L) = \prod_{\ell} (1 - e^{i \omega_{\ell}} \, L)$.
-%  By imposing the same linear constraints on $\widehat{\Psi} (L)$, we likewise obtain $\widehat{\Psi} (L) = \delta^N (L) \, \widehat{\Psi}^{\star} (L)$,
-%  and hence 
-% \begin{equation}
-%  \label{eq:delta-noise}
-% \Delta (L) = \left(  {\Psi}^{\star} (L) - \widehat{\Psi}^{\star} (L) \right) \, \delta^N (L).
-% \end{equation}
-%   So if $\delta (L) = \delta^N (L)$, then (\ref{eq:delta.factor}) holds at once.  More generally, a given process' differencing polynomial
-%  may be factored into relatively prime polynomials $\delta^N (z)$ and $\delta^S (z)$, which correspond to noise and signal dynamics
-%  respectively -- see Bell (1984) and McElroy (2008a).  Many  signal extraction filters $\Psi (L)$   have the property that they
-%  annihilate $\omega$-noise of the appropriate order, such that $\delta^N (L)$ can be factored; in addition, the noise filter $1_N - \Psi (L)$
-%  has the same property with respect to the signal frequencies, i.e., $\delta^S (L)$ can be factored from $1_N - \Psi (L)$ in the same manner.
-%  Hence  $1_N -  \Psi (L) =   \delta^S (L) \, \Psi^{\diamond} (L)$ for some factor $\Psi^{\diamond} (L)$,
-%  and imposing the same constraints on the concurrent filter yields
-% \[
-%   \Delta (L) = (1_N - \widehat{\Psi} (L)) - (1_N - \Psi (L)) = \left(  \widehat{\Psi}^{\diamond} (L) - \Psi^{\diamond} (L)  \right) \, \delta^S (L).
-% \]
-%   However, (\ref{eq:delta-noise}) also holds, and the roots of $\delta^S (z)$ and $\delta^N (z)$ are distinct (because the polynomials
-%  are relatively prime by assumption), and hence $\delta (L) = \delta^N (L) \, \delta^S (L)$ must be a factor.  Therefore,
-%  $\widetilde{\Delta} (L) =  (  \widehat{\Psi}^{\diamond} (L) - \Psi^{\diamond} (L)   )/ \delta^N (L)$, and (\ref{eq:delta.factor}) holds.
-% 
-% In summary, given a factorization of $\delta (z)$ into signal and noise differencing polynomials, the noise constraints and signal constraints
-%  on $\Psi (L)$ must also be imposed upon $\widehat{\Psi} (L)$, and this ensures that $\{ E_t \}$ will be stationary with mean zero.  
-%  If $\omega$ satisfies $\delta^N (e^{-i \omega}) = 0$, then we impose that $\widehat{\Psi} (L)$ annihilates $\omega$-noise of order
-%  given by the multiplicity of the root in $\delta^N (z)$.  Otherwise, if $\omega$ satisfies $\delta^S (e^{-i \omega})$ then we impose
-%  that $\widehat{\Psi} (e^{-i \omega}) = \Psi (e^{-i \omega})$ (if the root is simple -- if a double root, then also impose that
-%  $\partial \widehat{\Psi} (e^{-i \omega}) = \partial \Psi (e^{-i \omega})$).  In practice, we must determine the real and imaginary  parts of each such constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ in the form $A = [J \otimes 1_N] \, \vartheta$ for
-%   filters of form (\ref{eq:conc.filter}), applying the methodology of the previous subsection.  
-%   With these constraints in play, the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$ replaced by $\widetilde{\Delta} (z)$
-%  and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., we define the nonstationary MDFA criterion 
-%  function as $\det D_{\Psi } (\vartheta, G)$ for
-% \begin{equation}
-% \label{eq:mdfa-criterion-nonstat}
-%  D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Delta} (z)   \,   G \,  {\widetilde{\Delta} (z) }^*   \rangle }_0
-%  = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \,   G \, {|\delta (z) |}^{-2} \,
-%   {  \left[ \Psi (z) -  \widehat{\Psi}_{\vartheta} (z) \right] }^{*} \rangle }_0.
-% \end{equation}
-%   The second expression in (\ref{eq:mdfa-criterion-nonstat}) utilizes (\ref{eq:delta.factor}), and employs the understanding
-%  that poles in ${\delta (z) }^{-1}$ are exactly canceled out by the corresponding zeros in $\Psi (z) - \widehat{\Psi} (z)$.
-%   Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\delta (z) = \widetilde{\Delta} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
-%  as the previous discussion guarantees.  As a matter of convenience, given that the frequencies of singularity in
-%  ${|\delta (z) |}^{-2}$ are a set of Lebesgue measure zero, calculation of $D_{\Psi} (\vartheta, G)$ can proceed by using
-%  the second expression, computing the numerical integration over only those frequencies where $\delta (z)$ is nonzero.
-%   Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, with $F$ being the spectral density of $\{ \partial X_t \}$,
-%  for estimation we approximate the integral over Fourier frequencies, and utilize the periodogram of the differenced data for $G$.
-%  Again, we omit any contributions to the sum arising from Fourier frequencies that correspond to zeros of $\delta (z)$, as such an omission
-%  only results in a loss of order $T^{-1}$.  (The alternative is to compute the quantities $\widetilde{\Delta} (z)$ at Fourier frequencies,
-%  using the factorization results of Corollary  \ref{cor:filter-noise}; this is not worth the effort in practical applications.)
+\begin{Proposition}
+\label{prop:filter-decompose}
+ Any linear filter $\Psi (L)$ can be expressed as
+\[
+  \Psi (L) = \Psi (\zeta) + (L - \zeta) \, \Psi^{\sharp} (L)
+\]
+ for any $\zeta \in \CC$  such that $| \zeta | = 1$,
+  and an absolutely convergent filter $\Psi^{\sharp} (L)$,
+  so long as  $\partial \Psi (L) $ is absolutely convergent.
+ If in addition $ \partial \partial \Psi (L) =
+ \sum_{ j \in \ZZ} j (j-1) \, \psi (j) \, L^j$
+   is absolutely convergent, then there also exists an absolutely
+   convergent filter $\Psi^{\flat} (L)$  such that
+\[
+ \Psi (L) = \Psi (\zeta) + \partial \Psi (\zeta) \, 
+ (L- \zeta) \, \overline{\zeta} + {(L - \zeta)}^2 \, \Psi^{\flat} (L).
+\]
+\end{Proposition}
+
+
+\paragraph{Proof of Proposition \ref{prop:filter-decompose}.}
+ We claim that $\Psi^{\sharp} (L) = \sum_{j \in \ZZ} \psi^{\sharp} (j) \, L^j$ with
+\[
+ \psi^{\sharp} (j) = \begin{cases}  {\zeta}^{-(j+1)} \,  
+ \sum_{k \geq j+1} \psi (k) \, \zeta^k  \quad j \geq 0 \\
+					-\zeta^{-(j+1)} \, \sum_{k \geq -j} \psi (-k) \,  
+					{\zeta}^{-k} \quad j \leq -1.	
+		\end{cases}
+\]
+To show this, first observe that 
+\[
+  \Psi (L) - \Psi (\zeta) = \sum_{j \geq 1} \psi (j) \, 
+  (L^j - \zeta^j) + \sum_{j \leq -1} \psi (j) \, (L^j - \zeta^j).
+\]
+ Beginning with the first term, so that $j \geq 1$, we write 
+ $L^j - \zeta^j = \zeta^j \, (L/\zeta - 1) \, p_{j-1} (L/\zeta)$
+ where $p_k (z) = \sum_{\ell=0}^k z^{\ell}$.   Next, by coefficient
+ matching we can verify that
+\begin{align*}
+   \sum_{j \geq 1} \psi (j) \, (L^j - \zeta^j) & = (L/\zeta - 1) \,
+   \sum_{j \geq 1} \psi (j) \, \zeta^j \, p_{j-1} (L/\zeta) \\
+ & = (L/\zeta -1) \, \sum_{j \geq 0}  \sum_{k \geq j+1} \psi (k) \,
+ \zeta^k \, {(L/\zeta)}^{j}
+ = (L - \zeta) \,  \sum_{j \geq 0}  \psi^{\sharp} (j) \, L^j.
+\end{align*}
+ Next, take $j \leq -1$, and use the symbol $F = L^{-1}$:
+\begin{align*}
+  \sum_{j \leq -1} \psi (j) \, (L^j - \zeta^j) & = \sum_{j \geq 1}
+  \psi (-j) \, (F^j - \zeta^{-j}) 
+   =   (F \zeta - 1) \, \sum_{j \geq 1} \psi (-j) \, \zeta^{-j} \, p_{j-1} (F \zeta) \\
+ & =  (F \zeta - 1) \, \sum_{j \geq 0} \sum_{k \geq j+1}  
+  \psi (-k) \, \zeta^{-k} \, {(F \zeta)}^{j}  \\
+ &  =  - F\,  (L - \zeta ) \, \sum_{j \geq 1}  \zeta^{j-1} 
+ \, \sum_{k \geq j}  \psi (-k) \, \zeta^{-k} \,  F^{j-1}  \\
+ &= (L - \zeta) \, \sum_{j \leq -1}  \psi^{\sharp} (j) \, L^j.
+\end{align*}
+ This establishes algebraically that $\Psi^{\sharp} (L)$ 
+ with coefficients as defined above equals
+ $(\Psi (L) - \Psi (\zeta))/(L- \zeta)$, whenever the Laurent
+ series converges.  Based on the above calculations, we can write
+\[
+  \frac{ \Psi (L) - \Psi (\zeta) }{ L - \zeta} 
+  = \sum_{j \geq 1} \left( \psi (j) \, \zeta^{j-1} \, p_{j-1}
+  (L/\zeta) - \psi (-j) \, \zeta^{-j} \, F \, p_{j-1} (F \zeta) \right).
+\]
+ To check the absolute convergence, it suffices to set $L = 1$;  
+ note that $| p_k  (\zeta) | \leq (k+1)$
+ if $|\zeta| = 1$.  Thus  we obtain the bound
+\[
+ \left\|   \frac{ \Psi (L) - \Psi (\zeta) }{ L - \zeta}  \right\| 
+ \leq \sum_{j \geq 1}  j \, \left( \| \psi (j) \|  +\| \psi (-j) \| \right),
+\]
+ which is finite by the assumption that $\partial \Psi (L)$ 
+ is absolutely convergent.   Next, we claim that
+$\Psi^{\flat} (L) = \sum_{j \in \ZZ} \psi^{\flat} (j) \, L^j$ with
+\[
+ \psi^{\flat} (j) = \begin{cases}  {\zeta}^{-(j+2)} \, 
+ \sum_{k \geq j+2} (k-1-j) \, \psi (k) \, \zeta^k  \quad j \geq 0 \\
+					\zeta^{-(j+2)} \, \sum_{k \geq -j} (k+j+1) \,
+					\psi (-k) \,  {\zeta}^{-k} \quad j \leq -1.	
+		\end{cases}
+\]
+To verify this, observe that
+\begin{align*}
+  \Psi (L) - \Psi (\zeta)  - \partial \Psi (\zeta) \, (L- \zeta) \, \zeta^{-1} 
+ & = \sum_{j \geq 1} \psi (j) \, \left[ (L^j - \zeta^j)  
+ - j \, \zeta^{j-1}   \, (L- \zeta) \right]  \\
+& + \sum_{j \leq -1} \psi (j) \, \left[ (L^j - \zeta^j)  
+- j \, \zeta^{j-1}   \, (L- \zeta) \right].
+\end{align*}
+ First assuming that $j \geq 1$, note that $p_{\ell-1} (z) - \ell$
+ equals zero unless $\ell \geq 2$, 
+ and otherwise   equals $\sum_{k=1}^{\ell-1} p_{k-1} (z) \, (z -1)$. Therefore 
+\begin{align*}
+ \sum_{j \geq 1} \psi (j) \, \left[ (L^j - \zeta^j)  
+ - j \, \zeta^{j-1}  \, (L- \zeta) \right]    & 
+ = (L- \zeta) \, \sum_{j \geq 1} \psi (j) \, 
+ \zeta^{j-1} \, \left[   p_{j-1} (L/\zeta) 	  - j   \right]   \\
+ & =  {(L - \zeta)}^2 \, \sum_{j \geq 2} \psi (j) \, 
+ \zeta^{j-2} \, \sum_{k=1}^{j-1} p_{k-1} (L/\zeta)   \\
+ & =  {(L - \zeta)}^2 \, \sum_{j \geq 0} \psi^{\flat} (j) \,  L^j 
+\end{align*}
+ by coefficient matching in the final step.  Similarly, letting $j \leq -1$ 
+ and using $z p_{\ell-1} (z) - \ell = (z-1) \, 
+ \sum_{k=1}^{\ell} p_{k-1} (z)$, we have
+\begin{align*}
+ \sum_{j \leq -1} \psi (j) \, \left[ (L^j - \zeta^j) 
+ - j \, \zeta^{j-1}  \, (L- \zeta) \right]    & 
+  =  (L- \zeta) \, \sum_{j \geq 1} \psi (-j) \, \zeta^{-j} \,
+  \left[ - F \,  p_{j-1} (F \zeta)  +  j  \, \zeta^{-1} \right]   \\
+ & =  {(L- \zeta)}^2 \, F \, \sum_{j \geq 1} \psi(-j) \, 
+ \zeta^{-(j+1)} \, \sum_{k=1}^{j} p_{k-1} (F \zeta)  \\
+ & = {(L- \zeta)}^2 \, F \, \zeta^{-1} \, \sum_{j \geq 0} 
+ \sum_{k \geq j+1}  (k-j) \, \psi (-k) \, \zeta^{-k} \, {(F \zeta)}^j \\
+ & = {(L-\zeta)}^2 \,  \sum_{j \leq -1}  \psi^{\flat} (j) \, L^j
+\end{align*}
+ by matching coefficients.  To establish convergence of the 
+ Laurent series for $\Psi^{\flat} (L)$,  observe that
+\[
+ \frac{  \Psi (L) - \Psi (\zeta)  - \partial \Psi (\zeta) 
+ \, (L- \zeta) \, \zeta^{-1}  }{ {(L- \zeta)}^2 } =
+    \sum_{j \geq 2} \psi (j) \, \zeta^{j-2} \, \sum_{k=1}^{j-1} p_{k-1} (L/\zeta) +
+     F \, \sum_{j \geq 1} \psi(-j) \, \zeta^{-(j+1)} \, \sum_{k=1}^{j} p_{k-1} (F \zeta).
+\]
+ Hence the matrix norm has   the bound (setting $L=1$ and taking $|\zeta| = 1$) of
+\[
+ \left\|   \frac{  \Psi (L) - \Psi (\zeta) 
+ - \partial \Psi (\zeta) \, (L- \zeta) \, \zeta^{-1}  }{ {(L- \zeta)}^2 }  \right\|
+  \leq  \sum_{j \geq 2} \| \psi (j)  \|  \, \binom{j}{2} + 
+  \sum_{j \geq 1} \| \psi(-j)  \|  \, \binom{j+1}{2},
+\]
+ using $| \sum_{k=1}^j p_{k-1} (\zeta) | \leq \binom{j+1}{2}$.  
+ Because $\partial \partial \Psi (L)$ is 
+ absolutely convergent, the above norm is finite.  $\quad \Box$
+
+
+ Note that if $\Psi (\zeta) = 0$, it follows from 
+  Proposition \ref{prop:filter-decompose} that $L-\zeta$ can be factored from
+  $\Psi (L)$.  Similarly, ${(L- \zeta)}^2$ can be factored 
+   from $\Psi (L)$ if $\Psi(\zeta) = \partial \Psi (\zeta) =0$.
+
+\begin{Definition} \rm
+\label{def:filter-noise}
+ For $\omega \in [-\pi, \pi]$, a filter $\Psi (L)$ annihilates 
+ $\omega$-noise of order $1$ if $\Psi (e^{-i \omega}) = 0$,
+ and annihilates $\omega$-noise of order $2$ if in addition 
+ $\partial \Psi (e^{-i \omega}) = 0$.
+\end{Definition}
+
+
+Hence, we have the following immediate corollary of 
+Proposition \ref{prop:filter-decompose}.
+
+\begin{Corollary}
+ \label{cor:filter-noise}
+  If a filter $\Psi (L)$ annihilates $\omega$-noise of order $1$ 
+  and $\partial \Psi (L)$ is absolutely convergent, then
+\[
+  \Psi (L) = (L- e^{-i \omega}) \, \Psi^{\sharp} (L).
+\]
+ If a filter $\Psi (L)$ annihilate $\omega$-noise of order $2$,  
+ and $\partial \partial \Psi (L)$ is absolutely convergent, then
+\[
+  \Psi (L) = {(L- e^{-i \omega}) }^2 \, \Psi^{\flat} (L).
+\]
+\end{Corollary}
+
+ We can apply Corollary \ref{cor:filter-noise} to factor a 
+ noise-differencing polynomial $\delta^N (L)$ from $\Delta (L)$:
+ for each $\omega$ such that the target filter $\Psi (L)$ annihilate
+ $\omega$-noise of order $d$, we impose the constraint
+ that $\widehat{\Psi} (L)$ shall have the same property, and hence 
+ ${(L- e^{-i \omega})}^d$ can be factored from both
+ filters.   For instance, if noise frequencies are $\omega_{\ell}$
+ with multiplicities $d_{\ell}$, then repeated application of
+ Corollary \ref{cor:filter-noise} yields
+\[
+ \Psi (L) = \prod_{\ell} {(L -  e^{-i \omega_{\ell}})}^{d_{\ell}} \, \Psi^{\natural} (L)
+   = \delta^N (L) \, \Psi^{\star} (L)
+\]
+ for some residual filter $\Psi^{\natural} (L)$, where 
+ $\Psi^{\star} (L) = \prod_{\ell} -e^{-i \omega_{\ell} d_{\ell}} \, \Psi^{\natural} (L)$
+ and $\delta^N (L) = \prod_{\ell} (1 - e^{i \omega_{\ell}} \, L)$.
+ By imposing the same linear constraints on $\widehat{\Psi} (L)$, 
+ we likewise obtain $\widehat{\Psi} (L) = \delta^N (L) \, \widehat{\Psi}^{\star} (L)$,
+ and hence
+\begin{equation}
+ \label{eq:delta-noise}
+\Delta (L) = \left(  {\Psi}^{\star} (L) - 
+\widehat{\Psi}^{\star} (L) \right) \, \delta^N (L).
+\end{equation}
+  So if $\delta (L) = \delta^N (L)$, then (\ref{eq:delta.factor}) 
+  holds at once.  More generally, a given process' differencing polynomial
+ may be factored into relatively prime polynomials $\delta^N (z)$ and $\delta^S (z)$, 
+ which correspond to noise and signal dynamics
+ respectively -- see Bell (1984) and McElroy (2008). 
+ Many  signal extraction filters $\Psi (L)$   have the property that they
+ annihilate $\omega$-noise of the appropriate order, 
+ such that $\delta^N (L)$ can be factored.
+ 
+ HERE
+ 
+ 
+ in addition, the noise filter $1_N - \Psi (L)$
+ has the same property with respect to the signal frequencies, i.e., $\delta^S (L)$ can be factored from $1_N - \Psi (L)$ in the same manner.
+ Hence  $1_N -  \Psi (L) =   \delta^S (L) \, \Psi^{\diamond} (L)$ for
+ some factor $\Psi^{\diamond} (L)$,
+ and imposing the same constraints on the concurrent filter yields
+\[
+  \Delta (L) = (1_N - \widehat{\Psi} (L)) - (1_N - \Psi (L)) = 
+  \left(  \widehat{\Psi}^{\diamond} (L) - \Psi^{\diamond} (L)  \right) \, \delta^S (L).
+\]
+  However, (\ref{eq:delta-noise}) also holds, and the roots of $\delta^S (z)$ and $\delta^N (z)$ are distinct (because the polynomials
+ are relatively prime by assumption), and hence $\delta (L) = \delta^N (L) \, \delta^S (L)$ must be a factor.  Therefore,
+ $\widetilde{\Delta} (L) =  (  \widehat{\Psi}^{\diamond} (L) - \Psi^{\diamond} (L)   )/ \delta^N (L)$, and (\ref{eq:delta.factor}) holds.
+
+In summary, given a factorization of $\delta (z)$ into signal and noise differencing polynomials, the noise constraints and signal constraints
+ on $\Psi (L)$ must also be imposed upon $\widehat{\Psi} (L)$, and this ensures that $\{ E_t \}$ will be stationary with mean zero.
+ If $\omega$ satisfies $\delta^N (e^{-i \omega}) = 0$, then we impose that $\widehat{\Psi} (L)$ annihilates $\omega$-noise of order
+ given by the multiplicity of the root in $\delta^N (z)$.  Otherwise, if $\omega$ satisfies $\delta^S (e^{-i \omega})$ then we impose
+ that $\widehat{\Psi} (e^{-i \omega}) = \Psi (e^{-i \omega})$ (if the root is simple -- if a double root, then also impose that
+ $\partial \widehat{\Psi} (e^{-i \omega}) = \partial \Psi (e^{-i \omega})$).  In practice, we must determine the real and imaginary  parts of each such constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ in the form $A = [J \otimes 1_N] \, \vartheta$ for
+  filters of form (\ref{eq:conc.filter}), applying the methodology of the previous subsection.
+  With these constraints in play, the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$ replaced by $\widetilde{\Delta} (z)$
+ and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., we define the nonstationary MDFA criterion
+ function as $\det D_{\Psi } (\vartheta, G)$ for
+\begin{equation}
+\label{eq:mdfa-criterion-nonstat}
+ D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Delta} (z)   \,   G \,  {\widetilde{\Delta} (z) }^*   \rangle }_0
+ = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \,   G \, {|\delta (z) |}^{-2} \,
+  {  \left[ \Psi (z) -  \widehat{\Psi}_{\vartheta} (z) \right] }^{*} \rangle }_0.
+\end{equation}
+  The second expression in (\ref{eq:mdfa-criterion-nonstat}) utilizes (\ref{eq:delta.factor}), and employs the understanding
+ that poles in ${\delta (z) }^{-1}$ are exactly canceled out by the corresponding zeros in $\Psi (z) - \widehat{\Psi} (z)$.
+  Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\delta (z) = \widetilde{\Delta} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
+ as the previous discussion guarantees.  As a matter of convenience, given that the frequencies of singularity in
+ ${|\delta (z) |}^{-2}$ are a set of Lebesgue measure zero, calculation of $D_{\Psi} (\vartheta, G)$ can proceed by using
+ the second expression, computing the numerical integration over only those frequencies where $\delta (z)$ is nonzero.
+  Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, with $F$ being the spectral density of $\{ \partial X_t \}$,
+ for estimation we approximate the integral over Fourier frequencies, and utilize the periodogram of the differenced data for $G$.
+ Again, we omit any contributions to the sum arising from Fourier frequencies that correspond to zeros of $\delta (z)$, as such an omission
+ only results in a loss of order $T^{-1}$.  (The alternative is to compute the quantities $\widetilde{\Delta} (z)$ at Fourier frequencies,
+ using the factorization results of Corollary  \ref{cor:filter-noise}; this is not worth the effort in practical applications.)
 
 HERE revisit section 1 exercises now with RW and diff - VAR(1), using LTSC.  Petrol ex
 

@@ -19,6 +19,8 @@
 
 \bibitem{} Baxter and King 1999
 
+\bibitem{} Bell 1984
+
 \bibitem{}  Brockwell and Davis 1991
 
 \bibitem{} Golub and Van Loan, 1996
@@ -29,7 +31,7 @@
 
 \bibitem{}  Lutkepohl 2007
 
-\bibitem{} McElroy 2008
+\bibitem{} McElroy 2008 ET
 
 \bibitem{} McElroy 2017 JBES
 
