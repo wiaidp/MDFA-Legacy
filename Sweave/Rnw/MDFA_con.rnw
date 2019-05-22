@@ -1010,7 +1010,7 @@ for(i in 1:N)
 {
   for(j in 1:N)
   {
-    plot(ts(Re(trend.frf[i,j,]),frequency=grid,start=0),ylim=c(0,1),ylab="")
+    plot(ts(Re(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(0,1),ylab="")
   }
 }
 @
@@ -1071,7 +1071,7 @@ for(i in 1:N)
 {
   for(j in 1:N)
   {
-    plot(ts(Re(trend.frf[i,j,]),frequency=grid,start=0),ylim=c(0,1),ylab="")
+    plot(ts(Re(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(0,1),ylab="")
   }
 }
 @
@@ -1259,7 +1259,7 @@ for(i in 1:N)
 {
   for(j in 1:N)
   {
-    plot(ts(Re(sa.frf[i,j,]),frequency=grid,start=0),ylim=c(-.5,1),ylab="")
+    plot(ts(Re(sa.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(-.5,1),ylab="")
     abline(h=0,col=grey(.7))
   }
 }

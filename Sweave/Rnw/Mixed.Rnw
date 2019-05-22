@@ -108,8 +108,9 @@ sig.vec <- c(1,1,1)
 schur <- 1 
 Sigma.mu <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
 l.mat <- t(chol(Sigma.mu))
-T.sim <- 100
-burn <- 100
+len <- 500
+T.sim <- 500 + 2*len
+burn <- 500
 N <- 4
 grid <- 1000
 eps <- l.mat %*% matrix(rnorm(N*(T.sim+burn)),nrow=N)
@@ -117,7 +118,7 @@ delta.0 <- rbind(c(1,0,0,0),
                  c(-1,1,0,0),
                  c(0,-1,1,0),
                  c(0,0,0,1))
-delta.1 <- rbind(c(0,0,0,-1),
+delta.1 <- rbind(c(0,0,-1,0),
                  c(0,0,0,0),
                  c(0,0,0,0),
                  c(0,0,0,-1))
@@ -144,7 +145,7 @@ for(i in 1:N)
 {
   for(j in 1:N)
   {
-    plot(ts(Re(trend.frf[i,j,]),frequency=grid,start=0),ylim=c(-.5,1),ylab="")
+    plot(ts(Re(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(-.5,1),ylab="")
   }
 }
 par(mfrow=c(N,N))
@@ -152,9 +153,62 @@ for(i in 1:N)
 {
   for(j in 1:N)
   {
-    plot(ts(Im(trend.frf[i,j,]),frequency=grid,start=0),ylim=c(-.5,1),ylab="")
+    plot(ts(Im(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(-.5,1),ylab="")
   }
 }
+wk.trend <- mdfa.coeff(trend.frf,-len,len)
+par(mfrow=c(N,N))
+for(i in 1:N)
+{
+  for(j in 1:N)
+  {
+    plot(ts(wk.trend[i,j,],frequency=1,start=-len),ylab="")
+  }
+}
+
+# construct and apply MB SA filter
+mb.filter <- wk.trend
+x.mb11 <- filter(x.sim[,1],mb.filter[1,1,],method="convolution",sides=2)
+x.mb12 <- filter(x.sim[,2],mb.filter[1,2,],method="convolution",sides=2)
+x.mb13 <- filter(x.sim[,3],mb.filter[1,3,],method="convolution",sides=2)
+x.mb14 <- filter(x.sim[,4],mb.filter[1,4,],method="convolution",sides=2)
+x.mb21 <- filter(x.sim[,1],mb.filter[2,1,],method="convolution",sides=2)
+x.mb22 <- filter(x.sim[,2],mb.filter[2,2,],method="convolution",sides=2)
+x.mb23 <- filter(x.sim[,3],mb.filter[2,3,],method="convolution",sides=2)
+x.mb24 <- filter(x.sim[,4],mb.filter[2,4,],method="convolution",sides=2)
+x.mb31 <- filter(x.sim[,1],mb.filter[3,1,],method="convolution",sides=2)
+x.mb32 <- filter(x.sim[,2],mb.filter[3,2,],method="convolution",sides=2)
+x.mb33 <- filter(x.sim[,3],mb.filter[3,3,],method="convolution",sides=2)
+x.mb34 <- filter(x.sim[,4],mb.filter[3,4,],method="convolution",sides=2)
+x.mb41 <- filter(x.sim[,1],mb.filter[4,1,],method="convolution",sides=2)
+x.mb42 <- filter(x.sim[,2],mb.filter[4,2,],method="convolution",sides=2)
+x.mb43 <- filter(x.sim[,3],mb.filter[4,3,],method="convolution",sides=2)
+x.mb44 <- filter(x.sim[,4],mb.filter[4,4,],method="convolution",sides=2)
+x.mb <- cbind(x.mb11 + x.mb12 + x.mb13 + x.mb14,
+		     x.mb21 + x.mb22 + x.mb23 + x.mb24,
+		     x.mb31 + x.mb32 + x.mb33 + x.mb34,
+		     x.mb41 + x.mb42 + x.mb43 + x.mb44)
+x.mb <- x.mb[(len+1):(T.sim-len),] 
+
+# get MDFA concurrent filter for SA case
+q <- 30
+comp.matrix <- -1*solve(delta.0) %*% delta.1
+eigs <- eigen(comp.matrix)$values
+eigs <- eigs[eigs != 0]
+delta.det <- 1
+for(k in 1:length(eigs))
+{
+  delta.det <- polymult(delta.det,c(1,-1*eigs[k]))
+}
+
+x.diff <- filter(x.sim,delta.det,method="convolution",sides=1)[length(delta.det):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,delta.det)
+grid <- T.sim - length(delta.det) + 1
+
+constraints.mdfa <- mdfa.getconstraints(trend.frf,c(0,0),seq(1,6)/6,q)
+mb.mdfa <- mdfa.filter(trend.frf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])[[1]]
+
+
 @ 
 
 
