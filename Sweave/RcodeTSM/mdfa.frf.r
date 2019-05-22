@@ -1,4 +1,4 @@
-mdfa.frf <- function(filter,shift,Grid)
+mdfa.frf <- function(filter,shift,grid)
 {
 
 	#######################################################
@@ -12,23 +12,23 @@ mdfa.frf <- function(filter,shift,Grid)
 	#			corresponding to filter coefficients of index
 	#			-shift,...,L-1-shift.
 	#		shift gives the integer offset; shift=0 for a causal filter
-	#		Grid is integer number of Fourier frequencies	
+	#		grid is integer number of Fourier frequencies	
 	#	outputs:
-	#		frf is array N x N x Grid of complex entries
+	#		frf is array N x N x grid of complex entries
 	#
 	################################################# 
 
 	N <- dim(filter)[1]
 	L <- dim(filter)[3]
-	m <- floor(Grid/2)
-	lambda.ft <- exp(-1i*2*pi*Grid^(-1)*(seq(1,Grid) - (m+1)))	## this is e^{-i lambda}
+	m <- floor(grid/2)
+	lambda.ft <- exp(-1i*2*pi*grid^(-1)*(seq(1,grid) - (m+1)))	## this is e^{-i lambda}
 
-	frf.mat <- matrix(0,nrow=N,ncol=(N*Grid))
+	frf.mat <- matrix(0,nrow=N,ncol=(N*grid))
 	for(l in 1:L)
 	{
 		frf.mat <- frf.mat + (matrix(lambda.ft^(l-1-shift),nrow=1) %x% filter[,,l]) 
 	}
-	frf <- array(frf.mat,c(N,N,Grid))
+	frf <- array(frf.mat,c(N,N,grid))
 
 	return(frf)
 }

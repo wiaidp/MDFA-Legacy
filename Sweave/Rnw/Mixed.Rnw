@@ -110,7 +110,9 @@ Sigma.mu <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*
 l.mat <- t(chol(Sigma.mu))
 T.sim <- 100
 burn <- 100
-eps <- l.mat %*% matrix(rnorm(4*(T.sim+burn)),nrow=4)
+N <- 4
+grid <- 1000
+eps <- l.mat %*% matrix(rnorm(N*(T.sim+burn)),nrow=N)
 delta.0 <- rbind(c(1,0,0,0),
                  c(-1,1,0,0),
                  c(0,-1,1,0),
@@ -119,10 +121,10 @@ delta.1 <- rbind(c(0,0,0,-1),
                  c(0,0,0,0),
                  c(0,0,0,0),
                  c(0,0,0,-1))
-delta <- array(cbind(delta.0,delta.1),c(4,4,2))
+delta <- array(cbind(delta.0,delta.1),c(N,N,2))
 d <- dim(delta)[3] - 1
 mu.sim <- mdfa.ucsim(delta,t(eps))[(burn+1-d):(T.sim+burn-d),]
-irr.sim <- mdfa.wnsim(rep(0,10),rep(1,4),T.sim,Inf)
+irr.sim <- mdfa.wnsim(c(rep(0,6),rep(log(100),4)),rep(1,N),T.sim,Inf)
 Sigma.irr <- irr.sim[[2]]
 irr.sim <- irr.sim[[1]] 
 x.sim <- mu.sim + irr.sim
@@ -132,6 +134,27 @@ x.low <- x.sim[,4]
 par(mfrow=c(2,1))
 plot(ts(x.hi))
 plot(ts(x.low))
+
+iden <- array(diag(N),c(N,N,1))
+f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
+trend.frf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+par(mfrow=c(N,N))
+for(i in 1:N)
+{
+  for(j in 1:N)
+  {
+    plot(ts(Re(trend.frf[i,j,]),frequency=grid,start=0),ylim=c(-.5,1),ylab="")
+  }
+}
+par(mfrow=c(N,N))
+for(i in 1:N)
+{
+  for(j in 1:N)
+  {
+    plot(ts(Im(trend.frf[i,j,]),frequency=grid,start=0),ylim=c(-.5,1),ylab="")
+  }
+}
 @ 
 
 
@@ -180,6 +203,8 @@ for(i in 1:4)
   }
 }
 @ 
+
+
 
 % 
 % # construct and apply low pass filter
