@@ -147,24 +147,38 @@ l.mat <- t(chol(Sigma))
 T.sim <- 100
 burn <- 100
 eps <- l.mat %*% matrix(rnorm(4*(T.sim+burn)),nrow=4)
-phi.ar3 <- c(1,.9,.64,.576)
+phi.ar3 <- c(1,-.9,.64,-.576)
 phi.array <- mdfa.hi2low(phi.ar3,12,4,0)
 phi.vec <- c(1,1,1)
 phi.0 <- cbind(rbind(phi.array[[1]][,,1],phi.vec),c(0,0,0,1))
 phi.1 <- cbind(rbind(phi.array[[1]][,,2],c(0,0,0)),c(0,0,0,-.95))
 delta <- array(cbind(phi.0,phi.1),c(4,4,2))
 d <- dim(delta)[3] - 1
-mu.sim <- mdfa.ucsim(delta,t(eps))[(burn+1-d):(T.sim+burn-d),]
-irr.sim <- mdfa.wnsim(rep(0,10),rep(1,4),T.sim,Inf)
-Sigma.irr <- irr.sim[[2]]
-irr.sim <- irr.sim[[1]] 
-x.sim <- mu.sim + irr.sim
+x.sim <- mdfa.ucsim(delta,t(eps))[(burn+1-d):(T.sim+burn-d),]
 x.hi <- matrix(t(x.sim)[1:3,],nrow=1)[1,]
 x.low <- x.sim[,4]
  
 par(mfrow=c(2,1))
 plot(ts(x.hi))
 plot(ts(x.low))
+
+var.spec <- mdfa.spectra(delta,array(diag(4),c(4,4,1)),Sigma,1000)
+par(mfrow=c(4,4))
+for(i in 1:4)
+{
+  for(j in 1:4)
+  {
+    plot(ts(Re(var.spec[i,j,]),frequency=1000))
+  }
+}
+par(mfrow=c(4,4))
+for(i in 1:4)
+{
+  for(j in 1:4)
+  {
+    plot(ts(Im(var.spec[i,j,]),frequency=1000))
+  }
+}
 @ 
 
 % 
