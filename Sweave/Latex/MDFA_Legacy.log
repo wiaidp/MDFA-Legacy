@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.1.12)  23 MAY 2019 14:55
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2014.1.12)  23 MAY 2019 16:49
 entering extended mode
 **C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/MDFA_Legacy.tex
 (C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/MDFA_Legacy.tex
@@ -853,39 +853,7 @@ udfa.pdf>] [57]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [58]
-
-LaTeX Warning: Reference `tab:critmdfa.mat' on page 59 undefined on input line 
-3473.
-
-
-LaTeX Warning: Reference `tab:critudfa.mat' on page 59 undefined on input line 
-3473.
-
-
-LaTeX Warning: Reference `tab:critmdfa.mat' on page 59 undefined on input line 
-3483.
-
-
-LaTeX Warning: Reference `tab:critudfa.mat' on page 59 undefined on input line 
-3483.
-
 [59]
-
-LaTeX Warning: Reference `tab:critmdfa.mat' on page 60 undefined on input line 
-3485.
-
-
-LaTeX Warning: Reference `tab:critudfa.mat' on page 60 undefined on input line 
-3485.
-
-
-LaTeX Warning: Reference `tab:critudfa.mat' on page 60 undefined on input line 
-3494.
-
-
-LaTeX Warning: Reference `tab:critmdfa.mat' on page 60 undefined on input line 
-3499.
-
 
 LaTeX Warning: Reference `chap:mix' on page 60 undefined on input line 3509.
 
@@ -986,202 +954,264 @@ IS FOR NON-STATIONARY PROCESSES
 
 LaTeX Warning: Reference `chap:coint' on page 77 undefined on input line 4524.
 
-[77])
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*
-(Please type a command or say `\end')
-*\end
+[77] <llm_frf.pdf, id=827, 433.62pt x 289.08pt>
+File: llm_frf.pdf Graphic file (type pdf)
+ <use llm_frf.pdf>
+Package pdftex.def Info: llm_frf.pdf used on input line 4593.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
 
-*
-! Emergency stop.
-<*> \end
-        
-End of file on the terminal!
+Overfull \hbox (43.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 78 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR NON-STATIONARY PROCESSES
+ []
 
- 
+[78pdfTeX warning (ext4): destination with the same identifier (name{figure.4.1
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4613 \]
+          <C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/llm_frf.pd
+f>] <stm_frf.pdf, id=841, 433.62pt x 289.08pt>
+File: stm_frf.pdf Graphic file (type pdf)
+ <use stm_frf.pdf>
+Package pdftex.def Info: stm_frf.pdf used on input line 4658.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+
+Underfull \vbox (badness 1005) has occurred while \output is active []
+
+ [79]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (43.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 80 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR NON-STATIONARY PROCESSES
+ []
+
+[80pdfTeX warning (ext4): destination with the same identifier (name{figure.4.2
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4749 \end{align*}
+                    <C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/
+stm_frf.pdf>] [81]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (43.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 82 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR NON-STATIONARY PROCESSES
+ []
+
+[82]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [83]
+<sauc_frf.pdf, id=874, 433.62pt x 289.08pt>
+File: sauc_frf.pdf Graphic file (type pdf)
+ <use sauc_frf.pdf>
+Package pdftex.def Info: sauc_frf.pdf used on input line 4849.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+
+Overfull \hbox (43.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 84 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR NON-STATIONARY PROCESSES
+ []
+
+[84pdfTeX warning (ext4): destination with the same identifier (name{figure.4.3
+}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.4901 \]
+          <C:/Users/Tucker/Documents/GitHub/MDFA-Legacy/Sweave/Latex/sauc_frf.p
+df>]
+Overfull \hbox (5.31406pt too wide) in paragraph at lines 4940--4945
+\T1/aer/m/n/10 This es-tab-lishes al-ge-braically that $\OT1/cmr/m/n/10 	[](\OM
+L/cmm/m/it/10 L\OT1/cmr/m/n/10 )$ \T1/aer/m/n/10 with co-ef-fi-cients as de-fin
+ed above equals $\OT1/cmr/m/n/10 (	(\OML/cmm/m/it/10 L\OT1/cmr/m/n/10 ) \OMS/cm
+sy/m/n/10   \OT1/cmr/m/n/10 	(\OML/cmm/m/it/10 \OT1/cmr/m/n/10 ))\OML/cmm/m/it
+/10 =\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 L \OMS/cmsy/m/n/10  $
+ []
+
+[85]
+Overfull \hbox (16.36378pt too wide) detected at line 5008
+[] \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 j\O
+T1/cmr/m/n/10 ) \OML/cmm/m/it/10 []  [] p[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 L
+=\OT1/cmr/m/n/10 ) + \OML/cmm/m/it/10 F  []  \OT1/cmr/m/n/10 (\OMS/cmsy/m/n/10
+  \OML/cmm/m/it/10 j\OT1/cmr/m/n/10 ) \OML/cmm/m/it/10 []  [] p[]\OT1/cmr/m/n/
+10 (\OML/cmm/m/it/10 F\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
+ []
+
+
+Overfull \hbox (43.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 86 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR NON-STATIONARY PROCESSES
+ []
+
+[86]
+
+LaTeX Warning: Reference `eq:non-stat.constraint' on page 87 undefined on input
+ line 5104.
+
+[87]
+Overfull \hbox (43.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 88 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR NON-STATIONARY PROCESSES
+ []
+
+[88] [89]
+Overfull \hbox (43.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 90 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
+IS FOR NON-STATIONARY PROCESSES
+ []
+
+[90
+
+]
+Chapter 5.
+[91] [92
+
+]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 5552.
+ [93pdfTeX warning (ext4): destination with the same identifier (name{cite.}) h
+as been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     pdfTeX warning (ext4): destination with the same identifie
+r (name{cite.}) has been already used, duplicate ignored
+
+\AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
+                                                  \fi \fi 
+l.5552 \end{document}
+                     ]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 5552.
+
+(C:\Users\Tucker\Documents\GitHub\MDFA-Legacy\Sweave\Latex\MDFA_Legacy.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 5552.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 5552.
+
+Package rerunfilecheck Info: File `MDFA_Legacy.out' has not changed.
+(rerunfilecheck)             Checksum: 776CCE105926F6672725167138A3EE0C;2700.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 5552.
+ ) 
 Here is how much of TeX's memory you used:
- 7486 strings out of 493921
- 105577 string characters out of 3144873
- 195174 words of memory out of 3000000
- 10382 multiletter control sequences out of 15000+200000
+ 7544 strings out of 493921
+ 106361 string characters out of 3144873
+ 198725 words of memory out of 3000000
+ 10401 multiletter control sequences out of 15000+200000
  52550 words of font info for 107 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 35i,16n,28p,365b,489s stack positions out of 5000i,500n,10000p,200000b,50000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 35i,16n,28p,369b,489s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
+<C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C
+:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:
+/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cmextra/cmex7.pfb><C:
+/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/P
+rogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Prog
+ram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program
+ Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Fi
+les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files
+ (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files (x
+86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files (x86)/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Program Files (x86)/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmsltt10.pfb><C:/Program Files (x86)/MiKTeX
+ 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmsy5.pfb><C:/Program Files (x86)/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts
+/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/latxfont/lasy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/symbols/msbm10.pfb><C:/Program Files (x86)/MiKTeX 2.9/
+fonts/type1/public/amsfonts/symbols/msbm7.pfb>
+Output written on MDFA_Legacy.pdf (97 pages, 1187019 bytes).
+PDF statistics:
+ 1085 PDF objects out of 1200 (max. 8388607)
+ 257 named destinations out of 1000 (max. 500000)
+ 300 words of extra memory for PDF output out of 10000 (max. 10000000)
+

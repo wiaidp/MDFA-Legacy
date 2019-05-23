@@ -327,137 +327,136 @@ in  Chapter \ref{chap:basic},
  obtaining the constrained MDFA filter $\vartheta$ via (\ref{eq:phi.soln-constained})
  followed by (\ref{eq:concurrent-constrain}).
 
-\begin{Exercise} {\bf  Constrained MDFA for White Noise with Linear Trend.} \rm
-\label{exer:wntrend-mdfa}
-This exercise applies the constrained MDFA in the case of an ideal low-pass filter
- (cf. Example \ref{exam:ideal-low}) 
- applied to a white noise process that exhibits a linear trend.
- Simulate a sample of size $T=5000$ from a
-  bivariate white noise process with 
-  $\Sigma$ equal to the identity, but with a linear trend  given by
-  \begin{equation}
-  \label{eq:wntrend-lin.trend}
-   \left[ \begin{array}{c} 1 \\ 2 \end{array} \right] + t \, 
-   \left[ \begin{array}{c} -.002 \\ .001 \end{array} \right].
-  \end{equation}
-   Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
-  $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
- Use the moving average filter  MDFA  with LC, TSC, and LTSC constraints
-  (Proposition \ref{prop:mdfa.quadsoln-constrain}),
-  as well as unconstrained MDFA  (Proposition \ref{prop:mdfa.quadsoln}), to find the best
- concurrent filter, setting $q= 30$. 
-  (Hint: compute the periodogram from OLS residuals obtained by regressing the simulation
-   on a constant plus time.)
- Apply this concurrent filter 
- to the simulation, and compare the relevant portions to the ideal trend.
- Also determine the in-sample performance, in comparison to the criterion value
- (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
-\end{Exercise}
+% \begin{Exercise} {\bf  Constrained MDFA for White Noise with Linear Trend.} \rm
+% \label{exer:wntrend-mdfa}
+% This exercise applies the constrained MDFA in the case of an ideal low-pass filter
+%  (cf. Example \ref{exam:ideal-low}) 
+%  applied to a white noise process that exhibits a linear trend.
+%  Simulate a sample of size $T=5000$ from a
+%   bivariate white noise process with 
+%   $\Sigma$ equal to the identity, but with a linear trend  given by
+%   \begin{equation}
+%   \label{eq:wntrend-lin.trend}
+%    \left[ \begin{array}{c} 1 \\ 2 \end{array} \right] + t \, 
+%    \left[ \begin{array}{c} -.002 \\ .001 \end{array} \right].
+%   \end{equation}
+%    Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
+%   $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
+%  Use the moving average filter  MDFA  with LC, TSC, and LTSC constraints
+%   (Proposition \ref{prop:mdfa.quadsoln-constrain}),
+%   as well as unconstrained MDFA  (Proposition \ref{prop:mdfa.quadsoln}), to find the best
+%  concurrent filter, setting $q= 30$. 
+%   (Hint: compute the periodogram from OLS residuals obtained by regressing the simulation
+%    on a constant plus time.)
+%  Apply this concurrent filter 
+%  to the simulation, and compare the relevant portions to the ideal trend.
+%  Also determine the in-sample performance, in comparison to the criterion value
+%  (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
+% \end{Exercise}
 
-<<exercise_wntrend-mdfa,echo=True>>=
-# Simulate a Gaussian WN of sample size 5000:
-set.seed(1234)
-T <- 5000
-N <- 2
-levels <- c(1,2)
-slopes <- c(-2,1)/1000
-innovar.matrix <- diag(N)
-x.sim <- NULL
-for(t in 1:T)
-{
-	x.next <- levels + slopes*t + t(chol(innovar.matrix)) %*% rnorm(N)
-	x.sim <- cbind(x.sim,x.next)
-}
-x.sim <- ts(t(x.sim))
-time.trend <- seq(1,T)
-sim.ols <- lm(x.sim ~ time.trend)
-x.resid <- sim.ols$residuals
+% # Simulate a Gaussian WN of sample size 5000:
+% set.seed(1234)
+% T <- 5000
+% N <- 2
+% levels <- c(1,2)
+% slopes <- c(-2,1)/1000
+% innovar.matrix <- diag(N)
+% x.sim <- NULL
+% for(t in 1:T)
+% {
+% 	x.next <- levels + slopes*t + t(chol(innovar.matrix)) %*% rnorm(N)
+% 	x.sim <- cbind(x.sim,x.next)
+% }
+% x.sim <- ts(t(x.sim))
+% time.trend <- seq(1,T)
+% sim.ols <- lm(x.sim ~ time.trend)
+% x.resid <- sim.ols$residuals
+% 
+% # construct and apply low pass filter
+% mu <- pi/6
+% len <- 1000
+% lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+% lp.filter <- c(rev(lp.filter),lp.filter[-1])
+% x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+% 
+% # get MDFA concurrent filter
+% q <- 30
+% Grid <- T
+% m <- floor(Grid/2)
+% # The Fourier frequencies
+% freq.ft <- 2*pi*Grid^{-1}*(seq(1,Grid) - (m+1))
+% 
+% # frf for ideal low-pass
+% frf.psi <- rep(0,Grid)
+% frf.psi[abs(freq.ft) <= mu] <- 1
+% frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+% frf.psi <- array(frf.psi,c(N,N,Grid))
+% spec.hat <- mdfa.pergram(x.resid,1)	
+% lp.mdfa.uc <- mdfa.unconstrained(frf.psi,spec.hat,q)
+% lp.mdfa.lc <- mdfa.levelconstraint(frf.psi,spec.hat,q)
+% lp.mdfa.tsc <- mdfa.tsconstraint(frf.psi,spec.hat,q)
+% lp.mdfa.ltsc <- mdfa.ltsconstraint(frf.psi,spec.hat,q)
+% 
+% # case 1: apply the unconstrained MDFA concurrent filter 
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.uc[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.uc[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.uc[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.uc[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+%  
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa.uc[[2]])
+% 
+% # case 2: apply the lc MDFA concurrent filter 
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.lc[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.lc[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.lc[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.lc[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+%  
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa.lc[[2]])
+% 
+% # case 3: apply the tsc MDFA concurrent filter 
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+%  
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa.tsc[[2]])
+% 
+% # case 4: apply the ltsc MDFA concurrent filter 
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+%  
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa.ltsc[[2]])
 
-# construct and apply low pass filter
-mu <- pi/6
-len <- 1000
-lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
-lp.filter <- c(rev(lp.filter),lp.filter[-1])
-x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
-
-# get MDFA concurrent filter
-q <- 30
-Grid <- T
-m <- floor(Grid/2)
-# The Fourier frequencies
-freq.ft <- 2*pi*Grid^{-1}*(seq(1,Grid) - (m+1))
-
-# frf for ideal low-pass
-frf.psi <- rep(0,Grid)
-frf.psi[abs(freq.ft) <= mu] <- 1
-frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
-frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.resid,1)	
-lp.mdfa.uc <- mdfa.unconstrained(frf.psi,spec.hat,q)
-lp.mdfa.lc <- mdfa.levelconstraint(frf.psi,spec.hat,q)
-lp.mdfa.tsc <- mdfa.tsconstraint(frf.psi,spec.hat,q)
-lp.mdfa.ltsc <- mdfa.ltsconstraint(frf.psi,spec.hat,q)
-
-# case 1: apply the unconstrained MDFA concurrent filter 
-x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.uc[[1]][1,1,],method="convolution",sides=1)
-x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.uc[[1]][1,2,],method="convolution",sides=1)
-x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.uc[[1]][2,1,],method="convolution",sides=1)
-x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.uc[[1]][2,2,],method="convolution",sides=1)
-x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
- 
-# compare in-sample performance
-print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
-	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
-
-# compare to criterion value
-diag(lp.mdfa.uc[[2]])
-
-# case 2: apply the lc MDFA concurrent filter 
-x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.lc[[1]][1,1,],method="convolution",sides=1)
-x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.lc[[1]][1,2,],method="convolution",sides=1)
-x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.lc[[1]][2,1,],method="convolution",sides=1)
-x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.lc[[1]][2,2,],method="convolution",sides=1)
-x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
- 
-# compare in-sample performance
-print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
-	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
-
-# compare to criterion value
-diag(lp.mdfa.lc[[2]])
-
-# case 3: apply the tsc MDFA concurrent filter 
-x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][1,1,],method="convolution",sides=1)
-x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][1,2,],method="convolution",sides=1)
-x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][2,1,],method="convolution",sides=1)
-x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][2,2,],method="convolution",sides=1)
-x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
- 
-# compare in-sample performance
-print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
-	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
-
-# compare to criterion value
-diag(lp.mdfa.tsc[[2]])
-
-# case 4: apply the ltsc MDFA concurrent filter 
-x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][1,1,],method="convolution",sides=1)
-x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][1,2,],method="convolution",sides=1)
-x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][2,1,],method="convolution",sides=1)
-x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][2,2,],method="convolution",sides=1)
-x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
- 
-# compare in-sample performance
-print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
-	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
-
-# compare to criterion value
-diag(lp.mdfa.ltsc[[2]])
-@
  
  
 
@@ -468,7 +467,12 @@ This exercise applies the constrained MDFA in the case of an ideal low-pass filt
  applied to a VAR(1) process that exhibits a linear trend.
  Simulate a sample of size $T=5000$ of a
    bivariate VAR(1) process with linear trend  given by
-   (\ref{eq:wntrend-lin.trend}), such that the demeaned process satisfies
+   \begin{equation}
+   \label{eq:wntrend-lin.trend}
+    \left[ \begin{array}{c} 1 \\ 2 \end{array} \right] + t \, 
+    \left[ \begin{array}{c} -.002 \\ .001 \end{array} \right],
+   \end{equation}
+    such that the demeaned process satisfies
 \[
   X_t =  \left[ \begin{array}{cc}  1  & 1/2 \\    -1/5  &  3/10
     \end{array} \right] \, X_{t-1} + \epsilon_t,
@@ -1306,7 +1310,7 @@ for(i in 1:N)
   for(j in 1:N)
   {
     plot(ts(Re(sa.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(-.5,1),ylab="",
-         xlab="Cycles",yaxt="n",xaxt="n")
+          xlab="Cycles",yaxt="n",xaxt="n")
     abline(h=0,col=grey(.7))
     axis(1,cex.axis=.5)
     axis(2,cex.axis=.5)
@@ -1638,6 +1642,77 @@ Proposition \ref{prop:filter-decompose}.
  as the Riemann sum approximation over Fourier frequencies to the exact integral.
 
 
+\begin{Exercise} {\bf  Non-stationary MDFA for Random Walk.} \rm
+\label{exer:rwtrend-mdfa}
+This exercise applies the constrained MDFA in the case of an ideal low-pass filter
+ (cf. Example \ref{exam:ideal-low}) 
+ applied to a random walk process that exhibits a linear trend.
+ Simulate a sample of size $T=5000$ from a
+  bivariate random walk process with 
+  $\Sigma$ equal to the identity.  
+      Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
+  $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
+ Use the moving average filter  MDFA  for an $I(1)$ process  to find the best
+ concurrent filter, setting $q= 30$. 
+   Apply this concurrent filter 
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
+\end{Exercise}
+
+
+<<exercise_rwtrend-mdfa,echo=True>>=
+# Simulate a Gaussian RW of sample size 5000:
+set.seed(1234)
+T.sim <- 5000
+burn <- 1000
+N <- 2
+dpoly <- c(1,-1)
+delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+d <- length(dpoly) - 1
+z.sim <- mdfa.wnsim(rep(0,3),rep(1,N),T.sim+burn,Inf)
+Sigma <- z.sim[[2]]
+x.sim <- mdfa.ucsim(delta,z.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+   
+# construct and apply low pass filter
+mu <- pi/6
+len <- 1000
+lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+lp.filter <- c(rev(lp.filter),lp.filter[-1])
+x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+
+# get MDFA concurrent filter
+q <- 30
+x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,dpoly)
+grid <- T.sim - d
+m <- floor(grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+# frf for ideal low-pass
+frf.psi <- rep(0,grid)
+frf.psi[abs(freq.ft) <= mu] <- 1
+frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+frf.psi <- array(frf.psi,c(N,N,grid))
+constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,0*diag(N),q)
+bw.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+
+# apply the MDFA concurrent filter
+x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[[1]][1,1,],method="convolution",sides=1)
+x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[[1]][1,2,],method="convolution",sides=1)
+x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[[1]][2,1,],method="convolution",sides=1)
+x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[[1]][2,2,],method="convolution",sides=1)
+x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
+ 
+# compare in-sample performance
+print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+
+# compare to criterion value
+diag(bw.mdfa[[2]])
+@
+ 
 
 
 HERE revisit section 1 exercises now with RW and diff - VAR(1), using LTSC.  Petrol ex

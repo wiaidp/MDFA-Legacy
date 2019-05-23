@@ -56,40 +56,44 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
   }
   
   N <- dim(frf)[1]
-	Grid <- dim(frf)[3]
-	m <- floor(Grid/2)
+	grid <- dim(frf)[3]
+	m <- floor(grid/2)
 
 	sig.lambdas <- unique(sigfreqs)
 	sig.mults <- NULL
-	for(j in 1:length(sig.lambdas))
+	if(length(sigfreqs)>0) 
 	{
-		sig.mults <- c(sig.mults,sum(sigfreqs == sig.lambdas[j]))
+	  for(j in 1:length(sig.lambdas))
+	  {
+		  sig.mults <- c(sig.mults,sum(sigfreqs == sig.lambdas[j]))
+	  } 
 	}
 
 	noise.lambdas <- unique(noisefreqs)
 	noise.mults <- NULL
-	for(j in 1:length(noise.lambdas))
+	if(length(noisefreqs)>0) 
 	{
-		noise.mults <- c(noise.mults,sum(noisefreqs == noise.lambdas[j]))
+	  for(j in 1:length(noise.lambdas))
+	  {
+		  noise.mults <- c(noise.mults,sum(noisefreqs == noise.lambdas[j]))
+	  } 
+		noise.ceps <- Re(roots2ceps(exp(-1i*pi*noisefreqs),length(noisefreqs)))
+	  delta.noise <- ceps2wold(noise.ceps,length(noisefreqs))
 	}
-
-	noise.ceps <- Re(roots2ceps(exp(-1i*pi*noisefreqs),length(noisefreqs)))
-	delta.noise <- ceps2wold(noise.ceps,length(noisefreqs))
 	
 	sig.mat <- NULL
 	sig.vec <- NULL
 	if(length(sig.lambdas) > 0) {
 	for(k in 1:length(sig.lambdas))
 	{
-		j.star <- floor(sig.lambdas[k]*Grid/2) + m+1
-		if(j.star==(Grid+1)) j.star <- 1
+		j.star <- floor(sig.lambdas[k]*grid/2) + m+1
+		if(j.star==(grid+1)) j.star <- 1
 		zeta <- exp(-1i*sig.lambdas[k]*pi)
 		sig.mat.new <- zeta^(seq(0,q-1))
 		sig.vec.new <- frf[,,j.star] - coint * sum(delta.noise * zeta^seq(0,length(noisefreqs)))
 		sig.mat <- rbind(sig.mat,Re(sig.mat.new))
 		sig.vec <- rbind(sig.vec,Re(sig.vec.new))
 		if( (sig.lambdas[k] != 0) && (sig.lambdas[k] != 1) )
-#		if(Im(zeta) != 0) 
 		{ 
 			sig.mat <- rbind(sig.mat,Im(sig.mat.new))
 			sig.vec <- rbind(sig.vec,Im(sig.vec.new))
@@ -97,19 +101,18 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 		if(sig.mults[k]==2)
 		{
 			sig.mat.new <- seq(0,q-1)*zeta^(seq(-1,q-2))
-			if(j.star==Grid) 
+			if(j.star==grid) 
 			{ 
 				sig.vec.new <- 1i*exp(1i*sig.lambdas[k]*pi)*
-					(frf[,,1]-frf[,,j.star])*Grid/(2*pi) 
+					(frf[,,1]-frf[,,j.star])*grid/(2*pi) 
 			} else 
 			{ 
 				sig.vec.new <- 1i*exp(1i*sig.lambdas[k]*pi)*
-					(frf[,,j.star+1]-frf[,,j.star])*Grid/(2*pi) 
+					(frf[,,j.star+1]-frf[,,j.star])*grid/(2*pi) 
 			}
 			sig.mat <- rbind(sig.mat,Re(sig.mat.new))
 			sig.vec <- rbind(sig.vec,Re(sig.vec.new))
 			if( (sig.lambdas[k] != 0) && (sig.lambdas[k] != 1) )
-#			if(Im(zeta) != 0) 
 			{ 
 				sig.mat <- rbind(sig.mat,Im(sig.mat.new))
 				sig.vec <- rbind(sig.vec,Im(sig.vec.new))
@@ -122,15 +125,14 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 	if(length(noise.lambdas) > 0) {
 	for(k in 1:length(noise.lambdas))  
 	{
-		j.star <- floor(noise.lambdas[k]*Grid/2) + m+1
-		if(j.star==(Grid+1)) j.star <- 1
+		j.star <- floor(noise.lambdas[k]*grid/2) + m+1
+		if(j.star==(grid+1)) j.star <- 1
 		zeta <- exp(-1i*noise.lambdas[k]*pi)
 		noise.mat.new <- zeta^(seq(0,q-1))
 		noise.vec.new <- frf[,,j.star]
 		noise.mat <- rbind(noise.mat,Re(noise.mat.new))
 		noise.vec <- rbind(noise.vec,Re(noise.vec.new))
 		if( (noise.lambdas[k] != 0) && (noise.lambdas[k] != 1) )
-#		if(Im(zeta) != 0) 
 		{ 
 			noise.mat <- rbind(noise.mat,Im(noise.mat.new))
 			noise.vec <- rbind(noise.vec,Im(noise.vec.new))
@@ -138,19 +140,18 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 		if(noise.mults[k]==2)
 		{
 			noise.mat.new <- seq(0,q-1)*zeta^(seq(-1,q-2))
-			if(j.star==Grid) 
+			if(j.star==grid) 
 			{ 
 				noise.vec.new <- 1i*exp(1i*noise.lambdas[k]*pi)*
-					(frf[,,1]-frf[,,j.star])*Grid/(2*pi) 
+					(frf[,,1]-frf[,,j.star])*grid/(2*pi) 
 			} else 
 			{ 
 				noise.vec.new <- 1i*exp(1i*noise.lambdas[k]*pi)*
-					(frf[,,j.star+1]-frf[,,j.star])*Grid/(2*pi) 
+					(frf[,,j.star+1]-frf[,,j.star])*grid/(2*pi) 
 			}	
 			noise.mat <- rbind(noise.mat,Re(noise.mat.new))
 			noise.vec <- rbind(noise.vec,Re(noise.vec.new))
 			if( (noise.lambdas[k] != 0) && (noise.lambdas[k] != 1) )
-#			if(Im(zeta) != 0) 
 			{ 
 				noise.mat <- rbind(noise.mat,Im(noise.mat.new))
 				noise.vec <- rbind(noise.vec,Im(noise.vec.new))

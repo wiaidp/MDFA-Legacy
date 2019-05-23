@@ -24,3 +24,10 @@
 \BOOKMARK [0][-]{chapter.4}{Multivariate Direct Filter Analysis for Non-stationary Processes}{}% 24
 \BOOKMARK [1][-]{section.4.1}{Constrained MDFA}{chapter.4}% 25
 \BOOKMARK [1][-]{section.4.2}{Background on Non-stationary Vector Time Series }{chapter.4}% 26
+\BOOKMARK [1][-]{section.4.3}{Error Criterion and Computation}{chapter.4}% 27
+\BOOKMARK [0][-]{chapter.5}{Summary and Links}{}% 28
+\BOOKMARK [1][-]{section.5.1}{Survey of MDFA Optimization Criteria}{chapter.5}% 29
+\BOOKMARK [1][-]{section.5.2}{Consistency and Efficiency: a Tale of Two Philosophies}{chapter.5}% 30
+\BOOKMARK [2][-]{subsection.5.2.1}{Knowing the Truth: Omniscience}{section.5.2}% 31
+\BOOKMARK [2][-]{subsection.5.2.2}{Believing in Truth: Faith and Fatalism}{section.5.2}% 32
+\BOOKMARK [2][-]{subsection.5.2.3}{From Truth to Effectiveness: Emphasizing Performances}{section.5.2}% 33
