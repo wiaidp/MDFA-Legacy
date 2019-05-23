@@ -22,7 +22,7 @@ mdfa.wkfrf <- function(delta.noise,delta.signal,spec.noise,spec.signal)
   N <- dim(spec.noise)[1]
   grid <- dim(spec.noise)[3]
   m <- floor(grid/2)
-  lambda <- pi*(seq(1,grid) - (m+1))/grid
+  lambda <- 2*pi*(seq(1,grid) - (m+1))/grid
   
   frf.noise <- t(rep(1,grid)) %x% delta.noise[,,1]  
   if(d.noise > 0) {

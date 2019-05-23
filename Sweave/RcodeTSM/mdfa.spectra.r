@@ -18,7 +18,7 @@ mdfa.spectra <- function(phi,theta,sigma,grid)
   q <- dim(theta)[3] - 1
   N <- dim(sigma)[1]
   m <- floor(grid/2)
-  lambda <- pi*(seq(1,grid) - (m+1))/grid
+  lambda <- 2*pi*(seq(1,grid) - (m+1))/grid
   
   f.ma <- t(rep(1,grid)) %x% theta[,,1]  
   if(q > 0) {

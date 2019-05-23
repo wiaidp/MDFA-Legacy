@@ -1146,15 +1146,15 @@ if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
 fore.lpp <- phi.lpp %^% 2
 fore.lpp <- fore.lpp[1,]
 fore.casts <- fore.lpp %*% t(x.sim[1:(T-2),])
-plot(ts(as.vector(x.sim[3:T,1])))
-lines(ts(as.vector(fore.casts)),col=2)
+#plot(ts(as.vector(x.sim[3:T,1])))
+#lines(ts(as.vector(fore.casts)),col=2)
 sum((x.sim[3:T,1] - fore.casts)^2)/(T-2)
 
 # YW case
 fore.yw <- phi.yw %^% 2
 fore.yw <- fore.yw[1,]
 fore.casts <- fore.yw %*% t(x.sim[1:(T-2),])
-plot(ts(as.vector(x.sim[3:T,1])))
-lines(ts(as.vector(fore.casts)),col=2)
+#plot(ts(as.vector(x.sim[3:T,1])))
+#lines(ts(as.vector(fore.casts)),col=2)
 sum((x.sim[3:T,1] - fore.casts)^2)/(T-2)
 @

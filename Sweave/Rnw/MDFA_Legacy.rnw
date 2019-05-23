@@ -27,6 +27,7 @@
 \def\II{\mathbb I}
 \def\FF{\mathbb F}
 \def\XX{\mathbb X}
+\def\CC{\mathbb C}
 \def\sige{\sigma_{\epsilon}}
 
 \def\eqinlaw{\stackrel{{\cal L}}{=}}
@@ -126,7 +127,7 @@
 
 %------------------------------------------------------------------
 
-\SweaveInput{Integrated}
+%\SweaveInput{Integrated}
 %  note: includes material from Cointegrated
 
 %----------------------------------------
@@ -145,7 +146,7 @@
 
 %----------------------------------------------
 
-\SweaveInput{Mixed}
+%\SweaveInput{Mixed}
 
 %--------------------------------------------------------------------
 

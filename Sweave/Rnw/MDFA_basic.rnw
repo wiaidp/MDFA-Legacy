@@ -845,6 +845,13 @@ x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa[[1]][2,1,],method="convolution",sides
 x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa[[1]][2,2,],method="convolution",sides=1)
 x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
 x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+
+# compare in-sample performance
+print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+
+# compare to criterion value
+diag(lp.mdfa[[2]])
 @
 
 <<echo=False>>=
@@ -856,36 +863,25 @@ par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
 plot(ts(x.trend.ideal[,1]),ylab="",xlab="",yaxt="n",xaxt="n")
 axis(1,cex.axis=.5)
 axis(2,cex.axis=.5)
-lines(x.trend.mdfa[,1],col=2)
+lines(x.trend.mdfa[,1],col=grey(.7))
 plot(ts(x.trend.ideal[,2]),ylab="",xlab="",yaxt="n",xaxt="n")
 axis(1,cex.axis=.5)
 axis(2,cex.axis=.5)
-lines(x.trend.mdfa[,2],col=2)
+lines(x.trend.mdfa[,2],col=grey(.7))
 mtext("Time", side = 1, line = 1,outer=TRUE)
 invisible(dev.off())
 @
 
-<<echo=True>>=
-# compare in-sample performance
-print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
-	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
 
-# compare to criterion value
-diag(lp.mdfa[[2]])
-@
-
-<<exercise_mdfa_var1.filtering,echo=False>>=
-file = paste("mdfa_var1_filtering.pdf", sep = "")
-cat("\\begin{figure}[htb!]")
-cat("\\begin{center}")
-cat("\\includegraphics[]{", file, "}\n",sep = "")
-cat("\\caption{Ideal trends (black) for the bivariate VAR(1)
-	with real-time MDFA trends (red) overlaid, for series one (upper panel)
-	and series two (bottom panel).", sep = "")
-cat("\\label{fig:var1.trends}}", sep = "")
-cat("\\end{center}")
-cat("\\end{figure}")
-@
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{mdfa_var1_filtering.pdf}
+\caption{Ideal trends (black) for the bivariate VAR(1)
+	with real-time MDFA trends (grey) overlaid, for series one (upper panel)
+	and series two (bottom panel).}
+\label{fig:var1.trends}
+\end{center}
+\end{figure}
 
  Figure \ref{fig:var1.trends} shows the tracking of the ideal trends
  by the MDFA real-time trends.
@@ -979,31 +975,7 @@ x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12 + x.trend.mdfa13,
 	x.trend.mdfa21 + x.trend.mdfa22 + x.trend.mdfa23,
 	x.trend.mdfa31 + x.trend.mdfa32 + x.trend.mdfa33)
 x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
-@
 
-<<echo=False>>=
-# visualize
-file = paste("mdfa_trivar1_filtering.pdf", sep = "")
-pdf(file = paste(path.out,file,sep=""), paper = "special", 
-    width = 6, height = 6)
-par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(3,1),cex.lab=.8)
-plot(ts(x.trend.ideal[,1]),ylab="",xlab="",yaxt="n",xaxt="n")
-axis(1,cex.axis=.5)
-axis(2,cex.axis=.5)
-lines(x.trend.mdfa[,1],col=2)
-plot(ts(x.trend.ideal[,2]),ylab="",xlab="",yaxt="n",xaxt="n")
-axis(1,cex.axis=.5)
-axis(2,cex.axis=.5)
-lines(x.trend.mdfa[,2],col=2)
-plot(ts(x.trend.ideal[,3]),ylab="",xlab="",yaxt="n",xaxt="n")
-axis(1,cex.axis=.5)
-axis(2,cex.axis=.5)
-lines(x.trend.mdfa[,3],col=2)
-mtext("Time", side = 1, line = 1,outer=TRUE)
-invisible(dev.off())
-@
-
-<<echo=True>>=
 # compare in-sample performance
 print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2),
@@ -1026,6 +998,26 @@ lp.phased3 <- -Arg(lp.frf[3,3,])/freq.ft
 @
 
 <<echo=False>>=
+# visualize
+file = paste("mdfa_trivar1_filtering.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(3,1),cex.lab=.8)
+plot(ts(x.trend.ideal[,1]),ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(x.trend.mdfa[,1],col=grey(.7))
+plot(ts(x.trend.ideal[,2]),ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(x.trend.mdfa[,2],col=grey(.7))
+plot(ts(x.trend.ideal[,3]),ylab="",xlab="",yaxt="n",xaxt="n")
+axis(1,cex.axis=.5)
+axis(2,cex.axis=.5)
+lines(x.trend.mdfa[,3],col=grey(.7))
+mtext("Time", side = 1, line = 1,outer=TRUE)
+invisible(dev.off())
+
 # visualize
 file = paste("mdfa_trivar1_freqdomain.pdf", sep = "")
 pdf(file = paste(path.out,file,sep=""), paper = "special", 
@@ -1059,33 +1051,27 @@ mtext("Cycles", side = 1, line = 1,outer=TRUE)
 invisible(dev.off())
 @ 
 
-<<exercise_mdfa_trivar1.filtering,echo=False>>=
-file = paste("mdfa_trivar1_filtering.pdf", sep = "")
-cat("\\begin{figure}[htb!]")
-cat("\\begin{center}")
-cat("\\includegraphics[]{", file, "}\n",sep = "")
-cat("\\caption{Ideal trends (black) for the trivariate VAR(1)
-	with real-time MDFA trends (red) overlaid, for series one (upper panel),
-	series two (center panel), and series three (bottom panel).", sep = "")
-cat("\\label{fig:trivar1.trends}}", sep = "")
-cat("\\end{center}")
-cat("\\end{figure}")
-@
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{mdfa_trivar1_filtering.pdf}
+\caption{Ideal trends (black) for the trivariate VAR(1)
+	with real-time MDFA trends (grey) overlaid, for series one (upper panel),
+	series two (center panel), and series three (bottom panel).}
+\label{fig:trivar1.trends} 
+\end{center}
+\end{figure}
 
-<<exercise_mdfa_trivar1.filtering,echo=False>>=
-file = paste("mdfa_trivar1_freqdomain.pdf", sep = "")
-cat("\\begin{figure}[htb!]")
-cat("\\begin{center}")
-cat("\\includegraphics[]{", file, "}\n",sep = "")
-cat("\\caption{Gain functions (upper panel), 
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{mdfa_trivar1_freqdomain.pdf}
+\caption{Gain functions (upper panel), 
 	Phase Delay Functions (center panel), and Periodograms (bottom panel)
-	 for series one (orange), two (green), and three (violet).", sep = "")
-cat("\\label{fig:trivar1.freqdomain}}", sep = "")
-cat("\\end{center}")
-cat("\\end{figure}")
-@
+	 for series one (orange), two (green), and three (violet).}
+\label{fig:trivar1.freqdomain}
+\end{center}
+\end{figure}
 
-
+ 
 A visual inspection of Figure \ref{fig:trivar1.trends}, regarding
 the trends and trend estimates in Exercise 
  \ref{exer:var1mdfa2.filter}, indicates an apparent conflict with the 
@@ -1215,6 +1201,13 @@ x.fore.mdfa <- x.fore.mdfa11 + x.fore.mdfa12
 
 # apply the univariate DFA concurrent filter
 x.fore.udfa <- filter(x.sim[,1],fore.udfa[[1]][1,1,],method="convolution",sides=1)
+
+# compare in-sample performance
+print(c(mean((x.sim[(q+1):T,1] - x.fore.mdfa[q:(T-1)])^2),
+	mean((x.sim[(q+1):T,1] - x.fore.udfa[q:(T-1)])^2)))
+
+# compare to criterion value
+print(c(fore.mdfa[[2]][1,1],fore.udfa[[2]][1,1]))
 @ 
 
 <<echo=False>>=
@@ -1222,35 +1215,26 @@ x.fore.udfa <- filter(x.sim[,1],fore.udfa[[1]][1,1,],method="convolution",sides=
 file = paste("mdfa_bimdfa-udfa.pdf", sep = "")
 pdf(file = paste(path.out,file,sep=""), paper = "special", 
     width = 6, height = 2)
-par(mar=c(4,4,2,2)+0.1,cex.lab=.8)
-plot(ts(x.sim[-1,1]),ylab="",xlab="Time",yaxt="n",xaxt="n")
+par(mar=c(4,4,2,2)+0.1,cex.lab=.8,mfrow=c(1,1))
+plot(ts(x.sim[-1,1]),ylab="",xlab="Time",yaxt="n",xaxt="n",col=grey(.7))
 axis(1,cex.axis=.5)
 axis(2,cex.axis=.5)
-lines(x.fore.mdfa,col=3)
-lines(x.fore.udfa,col=4)
+lines(x.fore.mdfa,col=grey(.5),lty=1)
+lines(x.fore.udfa,col=1,lty=2)
 invisible(dev.off())
 @
+ 
 
-<<Echo=True>>=
-# compare in-sample performance
-print(c(mean((x.sim[(q+1):T,1] - x.fore.mdfa[q:(T-1)])^2),
-	mean((x.sim[(q+1):T,1] - x.fore.udfa[q:(T-1)])^2)))
-
-# compare to criterion value
-print(c(fore.mdfa[[2]][1,1],fore.udfa[[2]][1,1]))
-@
-
-<<exercise_mdfa_bimdfa-udfa,echo=False>>=
-file = paste("mdfa_bimdfa-udfa.pdf", sep = "")
-cat("\\begin{figure}[htb!]")
-cat("\\begin{center}")
-cat("\\includegraphics[]{", file, "}\n",sep = "")
-cat("\\caption{One-step ahead forecasts
- based upon MDFA (green) and univariate DFA (blue), with target in black.", sep = "")
-cat("\\label{fig:easing1}}", sep = "")
-cat("\\end{center}")
-cat("\\end{figure}")
-@
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{mdfa_bimdfa-udfa.pdf}
+\caption{One-step ahead forecasts
+ based upon MDFA (black solid) and univariate DFA (dashed dark grey), 
+ with target in solid light grey.}
+\label{fig:easing1}
+\end{center}
+\end{figure} 
+  
 
 We see that there is a substantial improvement to performance of the MDFA over
  the univariate DFA; this can be visualized by the tracking of the target
@@ -1303,7 +1287,7 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 # Set up loops over delta and sigma
 sigma.vals <- c(0,.1,.5,1,2)
 critmdfa.mat <- matrix(0,5,5,dimnames=list(c(0,1,2,3,4)/4,sigma.vals))
-critudfa.mat <- matrix(0,5,5)
+critudfa.mat <- matrix(0,5,5,dimnames=list(c(0,1,2,3,4)/4,sigma.vals))
 for(delta in c(0,1,2,3,4)/4) {
 for(j in 1:5) {
 
@@ -1373,26 +1357,24 @@ critudfa.mat[i,j] <- fore.udfa[[2]][1,1]
 }}
 @
 
-<<exercise_mdfa_nowmdfa-udfa,echo=False>>=
+<<exercise_mdfa_nowmdfa-udfa,echo=False,results=tex>>=
  xtb <- xtable(critmdfa.mat, dec = 1,digits=rep(3,dim(critmdfa.mat)[2]+1),
   paste("Effect of lead and  inverse signal-to-noise ratio on MDFA filter MSE",sep=""),
   label=paste("tab:critmdfa.mat",sep=""),
   center = "centering", file = "", floating = FALSE)
 addtorow <- list()
-addtorow$pos <- list(0)
+addtorow$pos <- list(-1)
 addtorow$command <- paste0(paste0('$','\\','delta$','& \\multicolumn{5}{c}{Sigma values}', collapse=''), '\\\\')
-print(xtb, add.to.row=addtorow, include.colnames=F)
-@
+print(xtb, add.to.row=addtorow, include.colnames=T)
 
-<<exercise_mdfa_nowmdfa-udfa,echo=False>>=
 xtb <-  xtable(critudfa.mat, dec = 1,digits=rep(3,dim(critudfa.mat)[2]+1),
   paste("Effect of lead and  inverse signal-to-noise ratio on DFA filter MSE",sep=""),
   label=paste("tab:critudfa.mat",sep=""),
   center = "centering", file = "", floating = FALSE)
 addtorow <- list()
-addtorow$pos <- list(0)
+addtorow$pos <- list(-1)
 addtorow$command <- paste0(paste0('$','\\','delta$','& \\multicolumn{5}{c}{Sigma values}', collapse=''), '\\\\')
-print(xtb, add.to.row=addtorow, include.colnames=F)
+print(xtb, add.to.row=addtorow, include.colnames=T)
 @
 
  The results for MDFA and univariate DFA, respectively, are given in 

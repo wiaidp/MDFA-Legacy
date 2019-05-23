@@ -829,8 +829,8 @@ via application of (\ref{eq:xi-def}).  Next,
  (L)$, which are given by $\zeta^{-t}$ for non-repeated roots $\zeta$
   of $\delta (z)$ (when the roots are repeated, we instead consider
   functions $t \, \zeta{-t}$, etc.).  
-    Let the basis  functions be denotes 
-    $\phi_j (t) $ for $1 \leq j \leq d$; see Brockwell and Davis (1991)
+    Let the basis  functions be denoted
+    $\phi_k (t) $ for $1 \leq k \leq d$; see Brockwell and Davis (1991)
      for additional details about difference equations.  Then we can
  write $A_{h} (t) = \sum_{k=1}^d \alpha_{hk} \phi_k (t)$ for each $0 \leq
  h \leq d-1$, for some coefficients $\alpha_{hk}$.  It follows that
@@ -985,7 +985,7 @@ Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
  numerically compute and plot the trend extraction filter's frf.
 \end{Exercise}
 
-<<exercise_trend-i1,Echo=True>>=
+<<exercise_trend-i1,echo=True>>=
 psi.sim <- c(2.17150287559847, -8.36795922528, -6.04133725367594, 
              0.0648981656699, -6.80849700177184, -6.66004335288479, 
              -0.00016098322952, 0.00051984185863)
@@ -997,23 +997,44 @@ mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),10,Inf)
 Sigma.mu <- mu.sim[[2]]
 irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),10,Inf)
 Sigma.irr <- irr.sim[[2]]
-print(Sigma.mu)
-print(Sigma.irr)
+#print(Sigma.mu)
+#print(Sigma.irr)
 
 iden <- array(diag(N),c(N,N,1))
 f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
 f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
 trend.frf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+@
 
-par(mfrow=c(N,N))
+<<echo=False>>=
+# visualize
+file = paste("llm_frf.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 4)
+par(mar=c(2,2,2,2)+0.1,cex.lab=.8,mfrow=c(N,N))
 for(i in 1:N)
 {
   for(j in 1:N)
   {
-    plot(ts(Re(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(0,1),ylab="")
+    plot(ts(Re(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(0,1),ylab="",
+         xlab="Cycles",yaxt="n",xaxt="n")
+    axis(1,cex.axis=.5)
+    axis(2,cex.axis=.5)
   }
 }
+invisible(dev.off())
 @
+
+
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{llm_frf.pdf}
+\caption{Frequency response function for model-based trend
+ extraction filter from the Local Level Model.}
+\label{fig:llm-frf}
+\end{center}
+\end{figure} 
+
 
 \begin{Example} {\bf Model-Based Integrated Random Walk Trend.} \rm
 \label{exam:trend-i2}
@@ -1046,7 +1067,7 @@ for(i in 1:N)
 \end{Exercise}
 
 
-<<exercise_trend-i2,Echo=True>>=
+<<exercise_trend-i2,echo=True>>=
 psi.sim <- c(1.8905590615422, -11.9288577633298, -12.0809347541079, 
              0.660897814610799, -8.2863379601304, -5.66645335346871, 
              -1.34743227511595e-05, -1.41207967213544e-05)
@@ -1058,23 +1079,42 @@ mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),10,Inf)
 Sigma.mu <- mu.sim[[2]]
 irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),10,Inf)
 Sigma.irr <- irr.sim[[2]]
-print(Sigma.mu)
-print(Sigma.irr)
+#print(Sigma.mu)
+#print(Sigma.irr)
 
 iden <- array(diag(N),c(N,N,1))
 f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
 f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
 trend.frf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+@
 
-par(mfrow=c(N,N))
+<<echo=False>>=
+# visualize
+file = paste("stm_frf.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 4)
+par(mar=c(2,2,2,2)+0.1,cex.lab=.8,mfrow=c(N,N))
 for(i in 1:N)
 {
   for(j in 1:N)
   {
-    plot(ts(Re(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(0,1),ylab="")
+    plot(ts(Re(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(0,1),ylab="",
+         xlab="Cycles",yaxt="n",xaxt="n")
+    axis(1,cex.axis=.5)
+    axis(2,cex.axis=.5)
   }
 }
+invisible(dev.off())
 @
+
+ \begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{stm_frf.pdf}
+\caption{Frequency response function for model-based trend
+ extraction filter from the Smooth Trend Model.}
+\label{fig:stm-frf}
+\end{center}
+\end{figure} 
 
 
 \begin{Example} {\bf Model-Based Seasonal Adjustment.} \rm
@@ -1164,7 +1204,7 @@ for(i in 1:N)
  Numerically compute and plot the  filter frf for seasonal adjustment.
 \end{Exercise}
 
-<<exercise_sa,Echo=True>>=
+<<exercise_sa,echo=True>>=
 psi.sim <- c(0.493586093056948, 0.178487258592539, 0.341217399125708, 
              0.399177274154249, 0.848325304642642, 0.68306879252262, 
              -2.3494687111314, -5.47534663726587, -6.69385117951384, 
@@ -1212,14 +1252,14 @@ seas6.sim <- mdfa.wnsim(psi.sim[61:70],rep(1,N),10,Inf)
 Sigma.seas6 <- seas6.sim[[2]]
 irr.sim <- mdfa.wnsim(psi.sim[71:80],rep(1,N),10,Inf)
 Sigma.irr <- irr.sim[[2]]
-print(Sigma.mu)
-print(Sigma.seas1)
-print(Sigma.seas2)
-print(Sigma.seas3)
-print(Sigma.seas4)
-print(Sigma.seas5)
-print(Sigma.seas6)
-print(Sigma.irr)
+#print(Sigma.mu)
+#print(Sigma.seas1)
+#print(Sigma.seas2)
+#print(Sigma.seas3)
+#print(Sigma.seas4)
+#print(Sigma.seas5)
+#print(Sigma.seas6)
+#print(Sigma.irr)
 
 iden <- array(diag(N),c(N,N,1))
 dpoly.1 <- c(1,-2*cos(pi/6),1)
@@ -1253,18 +1293,36 @@ f.irr <- mdfa.spectra(iden,delta.c,Sigma.irr,grid)
 f.signal <- f.mu + f.irr
 f.noise <- f.seas1 + f.seas2 + f.seas3 + f.seas4 + f.seas5 + f.seas6
 sa.frf <- mdfa.wkfrf(delta.seas,delta.c,f.noise,f.signal)
+@
 
-par(mfrow=c(N,N))
+<<echo=False>>=
+# visualize
+file = paste("sauc_frf.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 4)
+par(mar=c(2,2,2,2)+0.1,cex.lab=.8,mfrow=c(N,N))
 for(i in 1:N)
 {
   for(j in 1:N)
   {
-    plot(ts(Re(sa.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(-.5,1),ylab="")
+    plot(ts(Re(sa.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(-.5,1),ylab="",
+         xlab="Cycles",yaxt="n",xaxt="n")
     abline(h=0,col=grey(.7))
+    axis(1,cex.axis=.5)
+    axis(2,cex.axis=.5)
   }
 }
+invisible(dev.off())
 @
 
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{sauc_frf.pdf}
+\caption{Frequency response function for model-based seasonal adjustment
+  filter from the Structural Model.}
+\label{fig:sauc-frf}
+\end{center}
+\end{figure} 
 
 
 
@@ -1435,12 +1493,14 @@ To verify this, observe that
   Proposition \ref{prop:filter-decompose} that $L-\zeta$ can be factored from
   $\Psi (L)$.  Similarly, ${(L- \zeta)}^2$ can be factored 
    from $\Psi (L)$ if $\Psi(\zeta) = \partial \Psi (\zeta) =0$.
+  Next, we introduce the concept of $\omega$-dynamics, which correspond
+  to basis functions $\phi_k (t) = e^{i \omega t}$.
 
 \begin{Definition} \rm
 \label{def:filter-noise}
  For $\omega \in [-\pi, \pi]$, a filter $\Psi (L)$ annihilates 
- $\omega$-noise of order $1$ if $\Psi (e^{-i \omega}) = 0$,
- and annihilates $\omega$-noise of order $2$ if in addition 
+ $\omega$-dynamics of order $1$ if $\Psi (e^{-i \omega}) = 0$,
+ and annihilates $\omega$-dynamics of order $2$ if in addition 
  $\partial \Psi (e^{-i \omega}) = 0$.
 \end{Definition}
 
@@ -1450,12 +1510,12 @@ Proposition \ref{prop:filter-decompose}.
 
 \begin{Corollary}
  \label{cor:filter-noise}
-  If a filter $\Psi (L)$ annihilates $\omega$-noise of order $1$ 
+  If a filter $\Psi (L)$ annihilates $\omega$-dynamics of order $1$ 
   and $\partial \Psi (L)$ is absolutely convergent, then
 \[
   \Psi (L) = (L- e^{-i \omega}) \, \Psi^{\sharp} (L).
 \]
- If a filter $\Psi (L)$ annihilate $\omega$-noise of order $2$,  
+ If a filter $\Psi (L)$ annihilate $\omega$-dynamics of order $2$,  
  and $\partial \partial \Psi (L)$ is absolutely convergent, then
 \[
   \Psi (L) = {(L- e^{-i \omega}) }^2 \, \Psi^{\flat} (L).
@@ -1464,8 +1524,8 @@ Proposition \ref{prop:filter-decompose}.
 
  We can apply Corollary \ref{cor:filter-noise} to factor a 
  noise-differencing polynomial $\delta^N (L)$ from $\Delta (L)$:
- for each $\omega$ such that the target filter $\Psi (L)$ annihilate
- $\omega$-noise of order $d$, we impose the constraint
+ for each $\omega$ such that the target filter $\Psi (L)$ annihilates
+ $\omega$-dynamics of order $d$, we impose the constraint
  that $\widehat{\Psi} (L)$ shall have the same property, and hence 
  ${(L- e^{-i \omega})}^d$ can be factored from both
  filters.   For instance, if noise frequencies are $\omega_{\ell}$
@@ -1476,7 +1536,7 @@ Proposition \ref{prop:filter-decompose}.
    = \delta^N (L) \, \Psi^{\star} (L)
 \]
  for some residual filter $\Psi^{\natural} (L)$, where 
- $\Psi^{\star} (L) = \prod_{\ell} -e^{-i \omega_{\ell} d_{\ell}} \, \Psi^{\natural} (L)$
+ $\Psi^{\star} (L) = \prod_{\ell} (-e^{-i \omega_{\ell} d_{\ell}}) \, \Psi^{\natural} (L)$
  and $\delta^N (L) = \prod_{\ell} (1 - e^{i \omega_{\ell}} \, L)$.
  By imposing the same linear constraints on $\widehat{\Psi} (L)$, 
  we likewise obtain $\widehat{\Psi} (L) = \delta^N (L) \, \widehat{\Psi}^{\star} (L)$,
@@ -1492,52 +1552,93 @@ Proposition \ref{prop:filter-decompose}.
  which correspond to noise and signal dynamics
  respectively -- see Bell (1984) and McElroy (2008). 
  Many  signal extraction filters $\Psi (L)$   have the property that they
- annihilate $\omega$-noise of the appropriate order, 
+ annihilate $\omega$-dynamics of the appropriate order, 
  such that $\delta^N (L)$ can be factored.
- 
- HERE
- 
- 
- in addition, the noise filter $1_N - \Psi (L)$
- has the same property with respect to the signal frequencies, i.e., $\delta^S (L)$ can be factored from $1_N - \Psi (L)$ in the same manner.
- Hence  $1_N -  \Psi (L) =   \delta^S (L) \, \Psi^{\diamond} (L)$ for
- some factor $\Psi^{\diamond} (L)$,
- and imposing the same constraints on the concurrent filter yields
-\[
-  \Delta (L) = (1_N - \widehat{\Psi} (L)) - (1_N - \Psi (L)) = 
-  \left(  \widehat{\Psi}^{\diamond} (L) - \Psi^{\diamond} (L)  \right) \, \delta^S (L).
-\]
-  However, (\ref{eq:delta-noise}) also holds, and the roots of $\delta^S (z)$ and $\delta^N (z)$ are distinct (because the polynomials
- are relatively prime by assumption), and hence $\delta (L) = \delta^N (L) \, \delta^S (L)$ must be a factor.  Therefore,
- $\widetilde{\Delta} (L) =  (  \widehat{\Psi}^{\diamond} (L) - \Psi^{\diamond} (L)   )/ \delta^N (L)$, and (\ref{eq:delta.factor}) holds.
-
-In summary, given a factorization of $\delta (z)$ into signal and noise differencing polynomials, the noise constraints and signal constraints
- on $\Psi (L)$ must also be imposed upon $\widehat{\Psi} (L)$, and this ensures that $\{ E_t \}$ will be stationary with mean zero.
- If $\omega$ satisfies $\delta^N (e^{-i \omega}) = 0$, then we impose that $\widehat{\Psi} (L)$ annihilates $\omega$-noise of order
- given by the multiplicity of the root in $\delta^N (z)$.  Otherwise, if $\omega$ satisfies $\delta^S (e^{-i \omega})$ then we impose
- that $\widehat{\Psi} (e^{-i \omega}) = \Psi (e^{-i \omega})$ (if the root is simple -- if a double root, then also impose that
- $\partial \widehat{\Psi} (e^{-i \omega}) = \partial \Psi (e^{-i \omega})$).  In practice, we must determine the real and imaginary  parts of each such constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ in the form $A = [J \otimes 1_N] \, \vartheta$ for
-  filters of form (\ref{eq:conc.filter}), applying the methodology of the previous subsection.
-  With these constraints in play, the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$ replaced by $\widetilde{\Delta} (z)$
- and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., we define the nonstationary MDFA criterion
+ By imposing that 
+\begin{equation}
+\label{eq:non-stat.constraint.single}
+ \widehat{\Psi} (e^{-i \omega}) = \Psi (e^{-i \omega})
+ \end{equation}
+ for  all simple roots $\zeta = e^{-i \omega}$ of $\delta (z)$, we ensure that
+  (\ref{eq:delta.factor}) holds. If there is a double root, then we also impose
+ \begin{equation}
+\label{eq:non-stat.constraint.double}
+ \partial \widehat{\Psi} (e^{-i \omega}) = \partial \Psi (e^{-i \omega}).
+ \end{equation}
+   This conditions are sufficient, because 
+  (\ref{eq:non-stat.constraint.single}) and  (\ref{eq:non-stat.constraint.double})
+    imply $\Delta (e^{-i \omega}) = 0$
+  for all the roots of $\delta (z)$, so that by repeated application of Corollary 
+ \ref{cor:filter-noise} we can factor out $\delta (z)$, labelling the
+ remaining factor as $\widetilde{\Delta } (L)$.  
+   Note that if $\omega$ corresponds to noise, i.e., $\delta^N (e^{-i \omega}) = 0$,
+    then (\ref{eq:non-stat.constraint}) becomes 
+  $ \widehat{\Psi} (e^{-i \omega}) = 0$, but if $\omega$ corresponds to signal
+  then $\Psi (e^{-i \omega}) \neq 0$. 
+  
+  In fact, this characterization actually
+  defines signal and noise.   Given a non-stationary process with differencing
+  polynomial $\delta (z)$ and a target filter $\Psi (L)$, we define $\delta^N (z)$
+  as consisting of those factors of $\delta (z)$ such that
+   $ \widehat{\Psi} (e^{-i \omega}) = 0$, and set $\delta^S (z) = \delta (z)/ \delta^N (z)$.
+  For either signal or noise $\omega$-dynamics, we know that 
+  (\ref{eq:delta.factor}) holds if we impose  (\ref{eq:non-stat.constraint.single}) for all
+   the single roots of $\delta (z)$
+   (and for double roots, also impose  (\ref{eq:non-stat.constraint.double})).
+ In practice, we must determine the real and imaginary  parts of each such 
+ constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ 
+ in the form $A = [J \otimes 1_n] \, \vartheta$ for
+  filters of form (\ref{eq:conc.filter}), applying the methodology 
+  of this chapter's first section.  With these constraints in play, 
+   the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$
+   replaced by $\widetilde{\Delta} (z)$
+ and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., 
+ we define the nonstationary MDFA criterion
  function as $\det D_{\Psi } (\vartheta, G)$ for
 \begin{equation}
 \label{eq:mdfa-criterion-nonstat}
- D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Delta} (z)   \,   G \,  {\widetilde{\Delta} (z) }^*   \rangle }_0
- = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \,   G \, {|\delta (z) |}^{-2} \,
+ D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Delta} (z)   \, 
+ G \,  {\widetilde{\Delta} (z) }^*   \rangle }_0
+ = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \, 
+ G \, {|\delta (z) |}^{-2} \,
   {  \left[ \Psi (z) -  \widehat{\Psi}_{\vartheta} (z) \right] }^{*} \rangle }_0.
 \end{equation}
-  The second expression in (\ref{eq:mdfa-criterion-nonstat}) utilizes (\ref{eq:delta.factor}), and employs the understanding
- that poles in ${\delta (z) }^{-1}$ are exactly canceled out by the corresponding zeros in $\Psi (z) - \widehat{\Psi} (z)$.
-  Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\delta (z) = \widetilde{\Delta} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
- as the previous discussion guarantees.  As a matter of convenience, given that the frequencies of singularity in
- ${|\delta (z) |}^{-2}$ are a set of Lebesgue measure zero, calculation of $D_{\Psi} (\vartheta, G)$ can proceed by using
- the second expression, computing the numerical integration over only those frequencies where $\delta (z)$ is nonzero.
-  Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, with $F$ being the spectral density of $\{ \partial X_t \}$,
- for estimation we approximate the integral over Fourier frequencies, and utilize the periodogram of the differenced data for $G$.
- Again, we omit any contributions to the sum arising from Fourier frequencies that correspond to zeros of $\delta (z)$, as such an omission
- only results in a loss of order $T^{-1}$.  (The alternative is to compute the quantities $\widetilde{\Delta} (z)$ at Fourier frequencies,
- using the factorization results of Corollary  \ref{cor:filter-noise}; this is not worth the effort in practical applications.)
+  The second expression in (\ref{eq:mdfa-criterion-nonstat}) 
+  utilizes (\ref{eq:delta.factor}), and employs the understanding
+ that poles in ${\delta (z) }^{-1}$ are exactly canceled out by the 
+ corresponding zeros in $\Psi (z) - \widehat{\Psi} (z)$.
+  Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\delta (z) = 
+  \widetilde{\Delta} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
+ as the previous discussion guarantees. 
+ 
+ For computation, it is convenient to calculate the integrand given in the
+  right-hand expression of (\ref{eq:mdfa-criterion-nonstat}), which involves
+   the pseudo-spectrum $ G \, {|\delta (z) |}^{-2}$.  Numerical
+    evaluation of this integrand will yield $0/0$ at $\omega$-dynamics such
+  that $\delta (e^{-i \omega}) = 0$, and L'Hopital's rule could be used
+  to resolve this quotient into an expression for
+  $\widetilde{\Delta} (z)   \,  G \,  {\widetilde{\Delta} (z) }^* \vert_{z= e^{-i \omega}}$.
+  However, as there are only a finite number of such resolvable singularities,
+   and such points constitute a set of   Lebesgue measure zero, 
+   calculation of $D_{\Psi} (\vartheta, G)$ can proceed by 
+   integrating over $\omega \in [-\pi, \pi]$ such that a neighborhood containing
+    each singularity is omitted.  This procedure can yield an expression arbitarily
+     close to $D_{\Psi} (\vartheta, G)$ (by taking the neighborhoods sufficiently small),
+    while allowing for easy calculation, since $\Delta (z)$ and 
+    $ G \, {|\delta (z) |}^{-2}$ are easily computed.  
+   
+   
+  Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, 
+  with $F$ being the spectral density of $\{ \partial X_t \}$,
+ for estimation we approximate the integral over Fourier frequencies, 
+ and utilize the periodogram of the differenced data for $G$.
+ We omit any contributions to the sum arising from Fourier frequencies
+ that correspond to zeros of $\delta (z)$, as such an omission
+ only results in a loss of order $T^{-1}$, which is of the same order
+ as the Riemann sum approximation over Fourier frequencies to the exact integral.
+
+
+
 
 HERE revisit section 1 exercises now with RW and diff - VAR(1), using LTSC.  Petrol ex
 
