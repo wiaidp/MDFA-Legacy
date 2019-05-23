@@ -23,15 +23,21 @@
 
 \bibitem{}  Brockwell and Davis 1991
 
+\bibitem{} Christiano and Fitzgerald (2003)
+
 \bibitem{} Golub and Van Loan, 1996
 
 \bibitem{} Harvey 1989
+
+\bibitem{} Hodrick and Prescott 1997
 
 \bibitem{} Hosoya and Taniguchi 1982
 
 \bibitem{}  Lutkepohl 2007
 
 \bibitem{} McElroy 2008 ET
+
+\bibitem{} McElroy 2008 EJ
 
 \bibitem{} McElroy 2017 JBES
 

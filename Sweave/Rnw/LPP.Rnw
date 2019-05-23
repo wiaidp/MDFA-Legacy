@@ -303,6 +303,25 @@ the stop-band.  To understand this terminology of pass-band and stop-band, obser
  for $\ell \neq 0$ and $\psi (0) = \mu/\pi \, e_1^{\prime}$.   
 \end{Example}
 
+\begin{Example} {\bf Ideal Band-Pass.} \rm
+\label{exam:ideal-bp}
+  To extract  the business cycle, or
+  some other mid-range dynamics present in the time series,
+  we can screen out all lower and higher frequencies while preserving
+   the given band.  This can be accomplished by adapting the
+   low-pass filter: we seek a filter $\Psi (z)$  that is zero unless 
+   $|\omega| \in  [\mu, \eta]$ with $0 < \mu < \eta$,
+   which can be constructed by taking the difference of two low-pass
+   filters with cutoffs $\mu$ and $\eta$.  For a scalar target, we have
+  \[
+  \Psi (z) = \left( 1_{ [ -\eta, \et ]} (\omega) - 
+    1_{ [ -\mu, \mu ]} (\omega) \right) \, e_1^{\prime}.
+\]
+Then $\{ Y_t \}$ will only be composed of frequencies 
+between $\mu$ and $\eta$.  This is called the ideal band-pass filter,
+ and has been advocated for use in econometrics by Christiano and Fitzgerald (2003).
+\end{Example}
+
 \begin{Example} {\bf HP Low-pass.} \rm
 \label{exam:hp-low}
  The Hodrick-Prescott (HP) filter (Hodrick
@@ -347,7 +366,7 @@ The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
   \Psi (z) = e_1^{\prime} \, Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}.
 \]
  There are no known analytical formulas for the coefficients in the multivariate case,
- although in the univariate case they are available in McElroy (2008).
+ although in the univariate case they are available in McElroy (2008, EJ).
 \end{Example}
 
 \begin{Example} {\bf HP High-pass.} \rm
