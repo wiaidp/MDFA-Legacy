@@ -41,6 +41,8 @@
 
 \bibitem{} McElroy 2017 JBES
 
+\bibitem{} McElroy 2017 JTSA
+
 \bibitem{} McElroy and Findley 2015
 
 \bibitem{} McElroy and Trimbur 2015

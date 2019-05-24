@@ -57,187 +57,154 @@ HERE Marc's material, VAR(1) coint example
 HERE examples from paper Petrol and Ndc revisted with coint constraints
 
 \section{A General Treatment of Co-integration}
-\label{sec:coint-zero}
+\label{sec:coint-gen}
  
-% 
-%  We first illustrate this point through dynamic factor component models.  Let
-%  the differencing polynomial be $\delta (B) = \prod_{\ell=1}^p {(1 -
-%  e^{i \omega_{\ell}} B )}^{q_{\ell}}$, where $q_{\ell}$ is the
-%  multiplicity of each unit root at frequency $\omega_{\ell}$.  When $\omega_{\ell}$ is not $0$ or $\pi$,
-%  we know a conjugate factor must appear in $\delta (B)$.  By a convenient abuse of notation, we denote
-% the pairing of such conjugate factors by ${(1 - e^{i \omega_{\ell} } B)}^{q_{\ell}}$, with the understanding that
-%  $q_{\ell} $ is even and denotes the produce of conjugate factors.
-% 
-% Suppose that the data process can be written as the sum of
-%  non-stationary latent processes, each of which has differencing
-%  polynomial ${(1 - e^{i \omega_{\ell}} B )}^{q_{\ell}}$, plus a
-%  residual stationary process.  We write this as
-% \begin{equation}
-%  \label{eq:chapnstat_structural}
-%  x_t = \sum_{\ell=1}^p s^{(\ell)}_t + s^{(0)}_t,
-% \end{equation}
-%  where ${(1 - e^{i \omega_{\ell}} B )}^{q_{\ell}} s^{(\ell)}_t$ is
-%  stationary for each $1 \leq \ell \leq p$, and $s^{(0)}_t$ is
-%  stationary as well.  Let the
-%  reduced polynomials $\delta^{(\ell)} (B) = \delta (B) \, {(1 -
-%  e^{i \omega_{\ell}} B )}^{-q_{\ell}}$ be defined.  Then applying
-%  $\delta (B)$ to the structural equation (\ref{eq:chapnstat_structural}) yields
-% \[
-%  \partial x_t  : = \delta^{(\ell)} (B) x_t = \sum_{\ell=1}^p \, \delta^{(\ell)} (B) \partial
-%  s^{(\ell)}_t + \delta (B) s^{(0)}_t.
-% \]
-%  Here the $\partial$ notation before a process refers to the
-%  suitably differenced version of that process, which is stationary.
-%   Each stationary latent process $\partial s^{(\ell)}_t$ may have
-%   singularities in its spectral density matrix, such that it can be
-%   represented as $\Lambda^{(\ell)}$ times some $c^{(\ell)}_t$, a
-%  stationary process of reduced dimension with spectral density
-%  matrix invertible at all frequencies.  Such a latent process is
-%  governed by a dynamic factor model (DFM), with $\Lambda^{(\ell)} =
-%  I_m$ recovering the general case.  We actually require
-%  $\Lambda^{(0)} = I_m$ in order to guarantee that the spectrum of
-%  $\partial x_t$ is non-singular except at a finite number of
-%  frequencies.
-% 
-%  Suppose that $\beta$ is a vector such that $\beta^{\prime}
-%  \Lambda^{(k)} = 0$ for some $1 \leq k \leq p$.  Then
-% \[
-%  \beta^{\prime} \, \partial x_t = \sum_{\ell \neq k} \,
-%  \beta^{\prime} \Lambda^{(\ell)} \, \delta^{(\ell)} (B)
-%  c^{(\ell)}_t + \beta^{\prime} \delta (B) s^{(0)}_t,
-% \]
-%  and note that ${(1 - e^{i \omega_{k}} B )}^{q_{k}}$ can be factored
-%  out of all terms on the right hand side.  Hence $\beta^{\prime}
-%  x_t$ only requires $\delta^{(k)} (B)$ differencing to become
-%  stationary; the frequency $\omega_k$ co-integrating vector $\beta$
-%  reduces the order of non-stationarity by the factor ${(1 - e^{i \omega_{k}} B
-%  )}^{q_{k}}$.  Moreover, if $\beta$ is in the left null space of
-%  several factor loadings $\Lambda^{(\ell)}$, the order of
-%  non-stationarity can be reduced further.  In an extreme case,
-%  $\beta^{\prime} \Lambda^{(\ell)} = 0$ for $1 \leq \ell \leq p$, so
-%  that $\beta^{\prime} x_t$ is stationary; however, whether or not
-%  the factor loadings have a non-trivial intersection of left null
-%  space depends on each process.
-% 
-%  We now proceed with a general treatment of vector non-stationary
-%  processes to explore what types of filter constraints are necessary
-%  when co-integrating vectors are present.  Crucially supposing that the
-%  differencing operator $\delta (B)$ is the same for each component
-%  series, we can write
-% \[
-%  x_t = \sum_{j=1}^d A_{j, t+d} \, x_{j-d} + \int_{-\pi}^{\pi}
-%  \frac{ e^{i \omega t} - \sum_{j=1}^d A_{j,t+d} \, e^{-i \omega
-%  (d-j)} }{ \delta (e^{-i \omega}) } \; d \ZZ (\omega),
-% \]
-%  where $d = \sum_{\ell=1}^m q_{\ell}$ and each $A_{j, t+d}$ is a
-%  time varying function for each $j$, and the $x_{j-d}$ are initial
-%  values.  This representation is chiefly useful when $t > 1$, though
-%  it is still valid when $t \leq 0$.  The $\ZZ (\omega)$ is the
-%  orthogonal increments process in the spectral representation of
-%  $\partial x_t$. 
-% 
-%  Each of the time-varying functions is in the null
-%  space of $\delta (B)$, i.e., $\delta (B) A_{j, t+d} = 0$ for $1 \leq
-%  j \leq d$, where the backshift operator works on the $t+d$ index.
-%  As a consequence, we can rewrite each $A_{j,t+d}$ as a linear
-%  combination of the basis functions of the null space of $\delta
-%  (B)$, which yields a more convenient representation.  Let the basis
-%  functions be $\phi_j (t) $ for $1 \leq j \leq d$; the existence and
-%  form of such functions are a basic staple of difference equation
-%  theory, treated briefly in Brockwell and Davis (1991).  Then we can
-%  write $A_{j,t+d} = \sum_{k=1}^d G_{jk} \phi_k (t)$ for each $1 \leq
-%  j \leq d$, for some coefficients $G_{jk}$.  It follows that
-% \[
-%  \sum_{j=1}^d A_{j,t+d} B^{d-j} = \sum_{k=1}^d \phi_k (t)  \; \left(
-%  \sum_{j=1}^d G_{jk} B^{d-j} \right).
-% \]
-%  Each expression in parentheses on the right hand side is a degree
-%  $d-1$ polynomial in $B$, and will henceforth be denoted as $p^{(k)}
-%  (B)$.   Substituting the new formulation, we obtain
-% \[
-%  x_t = \sum_{j=1}^d \phi_j (t) p^{(j)} (B) \, x_{0} + \int_{-\pi}^{\pi}
-%  \frac{ e^{i \omega t} - \sum_{j=1}^d \phi_j (t) \, p^{(j)} ( e^{-i \omega
-%  } )}{ \delta (e^{-i \omega}) } \; d \ZZ (\omega),
-% \]
-%  where $p^{(j)} (B)$ acts on $x_0$ by shifting the time index $t=0$
-%  back in time for each power of $B$.  This representation is now
-%  extremely convenient, because application of any factor of
-%  $\delta(B)$ will annihilate a corresponding basis function (when
-%  roots are repeated, some basis functions will also be transformed
-%  into others that are instead annihilated). 
-% 
-%  Suppose that we left multiply by $\beta^{\prime}$,
-%  which is a co-integrating vector at frequency $\omega_k$:
-% \begin{equation}
-%  \label{eq:co-intRep}
-%   \beta^{\prime} x_t = \sum_{j=1}^d \phi_j (t) p^{(j)} (B) \, \beta^{\prime} \, x_{0} + \int_{-\pi}^{\pi}
-%  \frac{ e^{i \omega t} - \sum_{j=1}^d \phi_j (t) \, p^{(j)} ( e^{-i \omega
-%  } )}{ \delta (e^{-i \omega}) } \; \beta^{\prime} \, d \ZZ
-%  (\omega).
-% \end{equation}
-%   From our previous discussion, we know that the result is a non-stationary
-%  process with differencing operator $\delta^{(k)} (B)$; this implies
-%  that there should be a cancelation of $\beta^{\prime} \, d\ZZ
-%  (\omega)$ with the ${(1 - e^{i \omega_{k}} e^{-i\omega}
-%  )}^{q_{k}}$ term in $\delta (e^{-i \omega})$.  As a result, we
-%  have the following spectral formalization of the co-integrating
-%  relation:
-% \begin{equation}
-% \label{eq:co-intRel}
-%  \beta^{\prime} \, d\ZZ (\omega) = {(1 - e^{i \omega_{k}} e^{-i\omega}
-%  )}^{q_{k}} \, d\ZZ^{(k)} (\omega),
-% \end{equation}
-%  where $d \ZZ^{(k)} (\omega)$ is the orthogonal increments measure
-%  of another stationary invertible process.  This condition
-%  (\ref{eq:co-intRel}) is readily satisfied by the latent dynamic
-%  factor process discussed earlier, which is exemplary of the general
-%  situation of interest.  The extreme case, where the co-integrating
-%  vector lies in all the left null spaces of the component processes,
-%  allows us to factor $\delta (e^{-i \omega})$ completely from
-%  $\beta^{\prime} d \ZZ (\omega)$, though such a property need not
-%  hold in practice.  
-% 
-% In order to see the full effect of condition
-%  (\ref{eq:co-intRel}) on $\beta^{\prime} x_t$, we re-organize terms
-%  in equation (\ref{eq:co-intRep}).  Let us suppose, without loss of
-%  generality, that frequency $\omega_k$ has corresponding basis
-%  functions $\phi_1, \cdots, \phi_{q_k}$, so that the first $q_k$
-%  basis functions are annihilated by ${(1 - e^{i \omega_k}
-%  B)}^{q_k}$.  Then we can write
-% \begin{align*}
-%  \beta^{\prime} x_t & = \sum_{j= q_k + 1}^d \phi_j (t) p^{(j)} (B) \, \beta^{\prime} \, x_{0}
-%   + \int_{-\pi}^{\pi} \frac{ e^{i \omega t} - \sum_{j= q_k + 1}^d \phi_j (t) \, p^{(j)} ( e^{-i \omega
-%  } )}{ \delta^{(k)} (e^{-i \omega}) } \, d \ZZ^{(k)}
-%  (\omega) \\
-%  & + \sum_{j=1}^{q_k} \phi_j (t) \,  \left(p^{(j)}
-%  (B)  \beta^{\prime} \,  x_0 - \int_{-\pi}^{\pi} \frac{ p^{(j)} (e^{-i \omega}) }{
-%  \delta^{(k)} (e^{-i \omega}) } \, d\ZZ^{(k)} (\omega) \right).
-% \end{align*}
-%  The first two terms are immediately recognized as the deterministic
-%  and stochastic portions respectively of a non-stationary process
-%  that has $\delta^{(k)} (B)$ for differencing operator.  The third
-%  term is left over, and consists of deterministic time series that
-%  are in the null space of ${(1 - e^{i \omega_k}
-%  B)}^{q_k}$.  To see this, observe that for the third term the expression in parentheses is
-% stochastic, but does not depend on time $t$, so that the resulting series is predictable.
-% 
-% 
-%  It is true that $\delta^{(k)} (B)$
-%  always divides $p^{(j)} (B)$, and hence the stochastic portion of
-%  the third term is well-defined.  We cannot prove that the
-%  coefficients of the $\phi_j (t)$ for $1 \leq j \leq q_k$ must be
-%  zero, as counter-examples are easy to construct; consider two series that
-%  have a common stochastic trend with null vector $\beta^{\prime} =
-%  [1, \, 1]$, but whose underlying linear deterministic trends have
-% different slopes.  
-% %(Such a bivariate series might not be considered
-% % co-integrated, because $\beta^{\prime} x_t$ equals a stationary
-% % process plus a linear drift term.)
-%   In our analysis henceforth, we
-%  will assume that this third term is identically zero.
-%  
-% 
-% 
+The general treatment of co-integration is complicated when 
+  multiple unit roots are present.
+For example, if there are trend and seasonal roots present, 
+ application of a co-integrating vector to
+the data process may only reduce the order of non-stationarity somewhat,
+ rather than making the series stationary;
+  this is unlike the simple case considered in the first section of the chapter.
+  We first illustrate this point through the case of 
+ dynamic factor component models.  
+ 
+\begin{Illustration} {\bf Latent Dynamic Factor Processes.} \rm
+\label{ill:dyn-fact}
+ Consider a non-stationary process with differencing polynomial 
+ $\delta (z) = \prod_{\ell=1}^p {(1 - e^{i \omega_{\ell}} z )}^{q_{\ell}}$, 
+ where $q_{\ell}$ is the  multiplicity of each unit root at 
+  frequency $\omega_{\ell}$.  When $\omega_{\ell}$ is not $0$ or $\pi$,
+ a conjugate factor must appear in $\delta (z)$.  
+  By a convenient abuse of notation, we denote
+the pairing of such conjugate factors by ${(1 - e^{i \omega_{\ell} } z)}^{q_{\ell}}$, 
+  with the understanding that
+ $q_{\ell} $ is even and denotes the product of conjugate factors.
+
+Suppose that the data process can be written as the sum of
+ non-stationary latent processes, each of which has differencing
+ polynomial ${(1 - e^{i \omega_{\ell}} z )}^{q_{\ell}}$, plus a
+ residual stationary process.  We write this as
+\begin{equation}
+ \label{eq:chapnstat_structural}
+ X_t = \sum_{\ell=1}^p S^{(\ell)}_t + S^{(0)}_t,
+\end{equation}
+ where ${(1 - e^{i \omega_{\ell}} L )}^{q_{\ell}} S^{(\ell)}_t$ is
+ stationary for each $1 \leq \ell \leq p$, and $S^{(0)}_t$ is
+ stationary as well.  Let the
+ reduced polynomials $\delta^{(\ell)} (z) = \delta (z) \, {(1 -
+ e^{i \omega_{\ell}} z )}^{-q_{\ell}}$ be defined.  Then applying
+ $\delta (L)$ to the structural equation (\ref{eq:chapnstat_structural}) yields
+\[
+ \partial X_t   = \sum_{\ell=1}^p \, \delta^{(\ell)} (L) \partial
+ S^{(\ell)}_t + \delta (L) S^{(0)}_t.
+\]
+   Each stationary latent process $\partial S^{(\ell)}_t$ may have
+  singularities in its spectral density matrix, such that it can be
+  represented as $\Lambda^{(\ell)}$ times some $C^{(\ell)}_t$, a
+ stationary process of reduced dimension with spectral density
+ matrix invertible at all frequencies.  Such a latent process is
+ governed by a dynamic factor model (DFM), with $\Lambda^{(\ell)} =
+ 1_n$ recovering the general case.  We actually require
+ $\Lambda^{(0)} = 1_n$ in order to guarantee that the spectrum of
+ $\{ \partial X_t \}$ is non-singular except at a finite number of
+ frequencies.
+
+ Suppose that $\beta$ is a vector such that $\beta^{\prime}
+ \Lambda^{(k)} = 0$ for some $1 \leq k \leq p$.  Then
+\[
+ \beta^{\prime} \, \partial X_t = \sum_{\ell \neq k} \,
+ \beta^{\prime} \Lambda^{(\ell)} \, \delta^{(\ell)} (L)
+ C^{(\ell)}_t + \beta^{\prime} \delta (L) S^{(0)}_t,
+\]
+ and note that ${(1 - e^{i \omega_{k}} L )}^{q_{k}}$ can be factored
+ out of all terms on the right hand side.  Hence $\beta^{\prime}
+ X_t$ only requires $\delta^{(k)} (L)$ differencing to become
+ stationary; the frequency $\omega_k$ co-integrating vector $\beta$
+ reduces the order of non-stationarity by the factor
+ ${(1 - e^{i \omega_{k}} L )}^{q_{k}}$.  Moreover, if $\beta$ is in the left null space of
+ several factor loadings $\Lambda^{(\ell)}$, the order of
+ non-stationarity can be reduced further.  In an extreme case,
+ $\beta^{\prime} \Lambda^{(\ell)} = 0$ for $1 \leq \ell \leq p$, so
+ that $\beta^{\prime} X_t$ is stationary; however, whether or not
+ the factor loadings have a non-trivial intersection of left null
+ space depends on each process.
+\end{Illustration}
+
+ We now proceed with a general treatment of co-integrated  non-stationary
+ processes, generalizing the basic non-stationary case discussed
+  in  Chapter \ref{chap:int}.  Suppose that we left multiply 
+ (\ref{eq:nonstat.rep-basis})  by $\beta^{\prime}$,
+ which is a co-integrating vector at frequency $\omega_{j}$,
+  and take $\mu = 0$ for simplicity; then we obtain
+\begin{equation}
+ \label{eq:co-intRep}
+  \beta^{\prime} X_t = \sum_{k=1}^d \phi_k (t) p^{(k)} (L) \, \beta^{\prime} \, X_{0} 
+   + \int_{-\pi}^{\pi}
+ \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_k (t) \, p^{(k)} 
+  ( e^{-i \omega } )}{ \delta (e^{-i \omega}) } \; \beta^{\prime} \,  \ZZ
+ (d\omega).
+\end{equation}
+  From our previous discussion, we know that this result should be a non-stationary
+ process with differencing operator $\delta^{(j)} (z)$; this implies
+ that there should be a cancellation of 
+ $\beta^{\prime} \, d\ZZ (\omega)$ with the 
+ ${(1 - e^{i \omega_{j}} e^{-i\omega} )}^{q_{j}}$ term in
+ $\delta (e^{-i \omega})$.  As a result, we
+ have the following spectral formalization of the co-integrating
+ relation:
+\begin{equation}
+\label{eq:co-intRel}
+ \beta^{\prime} \, \ZZ (d\omega) = 
+ {(1 - e^{i \omega_{j}} e^{-i\omega} )}^{q_{j}} \, \ZZ^{(j)} (d\omega),
+\end{equation}
+ where $ \ZZ^{(j)} (\omega)$ is the orthogonal increments measure
+ of another stationary invertible process.  This condition
+ (\ref{eq:co-intRel}) is readily satisfied by the latent dynamic
+ factor process discussed earlier, which is exemplary of the general
+ situation of interest.  The extreme case, where the co-integrating
+ vector lies in all the left null spaces of the component processes,
+ allows us to factor $\delta (e^{-i \omega})$ completely from
+ $\beta^{\prime}  \ZZ (d\omega)$, though such a property need not
+ hold in practice.
+
+In order to see the full effect of condition
+ (\ref{eq:co-intRel}) on $\beta^{\prime} X_t$, we re-organize terms
+ in equation (\ref{eq:co-intRep}).  Let us suppose, without loss of
+ generality, that frequency $\omega_j$ has corresponding basis
+ functions $\phi_1, \ldots, \phi_{q_j}$, so that the first $q_j$
+ basis functions are annihilated by 
+ ${(1 - e^{i \omega_j} L)}^{q_j}$.  Then we can write
+\begin{align*}
+ \beta^{\prime} X_t & = \sum_{k= q_j + 1}^d \phi_k (t) p^{(k)} (L) \, 
+  \beta^{\prime} \, X_{0}
+  + \int_{-\pi}^{\pi} \frac{ e^{i \omega t} - \sum_{k= q_j + 1}^d \phi_k (t) 
+    \, p^{(k)} ( e^{-i \omega  } )}{ \delta^{(j)} (e^{-i \omega}) } \,  \ZZ^{(j)}
+ (d\omega) \\
+ & + \sum_{k=1}^{q_j} \phi_k (t) \,  \left(p^{(k)} (L)  
+   \beta^{\prime} \,  X_0 - \int_{-\pi}^{\pi} \frac{ p^{(k)} (e^{-i \omega}) }{
+ \delta^{(j)} (e^{-i \omega}) } \, \ZZ^{(j)} (d\omega) \right).
+\end{align*}
+ The first two terms are immediately recognized as the deterministic
+ and stochastic portions respectively of a non-stationary process
+ that has $\delta^{(j)} (z)$ for differencing operator.  The third
+ term is left over, and consists of deterministic time series that
+ are in the null space of ${(1 - e^{i \omega_j} L)}^{q_j}$.  
+  To see this, observe that for the third term the expression in parentheses is
+stochastic, but does not depend on time $t$, so that the resulting series is predictable.
+
+
+Now $\delta^{(j)} (z)$  divides $p^{(k)} (z)$ for $1 \leq k \leq q_j$,
+  and hence the stochastic portion of
+ the third term is well-defined.   The
+ coefficients of the $\phi_k (t)$ for $1 \leq k \leq q_j$ need not be
+ zero, as counter-examples are easy to construct; consider two series that
+ have a common stochastic trend with null vector $\beta^{\prime} =
+ [1, \, 1]$, but whose underlying linear deterministic trends have
+different slopes.  
+%    In our analysis henceforth, we
+% will assume that this third term is identically zero.
+%
 %  This is the general treatment of co-integration.  Now consider the
 %  filter error $\epsilon_t = y_t - \widehat{y}_t$.  Let $\Delta(z) = \Gamma
 %  (z) - \widehat{\Gamma} (z)$, so that
@@ -258,8 +225,8 @@ HERE examples from paper Petrol and Ndc revisted with coint constraints
 %   a $1 \times m$ multivariate filter) and $\epsilon_t
 %   = \int_{-\pi}^{\pi} e^{i \lambda t } \, \tau (e^{-i \lambda}) \,
 %   d\ZZ (\lambda)$.  This is the case of full filter constraints,
-%   analogous to the stationary case considered above. 
-% 
+%   analogous to the stationary case considered above.
+
 % We next consider some natural properties of target and
 % concurrent filters.  Let us first factor $\delta (B) = \delta^S (B)
 % \delta^N (B)$ according to signal and noise unit roots.  We will
@@ -275,7 +242,7 @@ HERE examples from paper Petrol and Ndc revisted with coint constraints
 %  \frac{ \Gamma (z) - \Gamma (\zeta_k) }{ {( z- \zeta_k)}^{q_k} }
 %  \qquad  \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma} (\zeta_k) }{ {( z- \zeta_k)}^{q_k} }
 % \]
-%  are both bounded in $z$.  Equivalently, the differences $\Gamma (z) - \Gamma (\zeta_k)$ and 
+%  are both bounded in $z$.  Equivalently, the differences $\Gamma (z) - \Gamma (\zeta_k)$ and
 % $  \widehat{\Gamma} (z) - \widehat{\Gamma} (\zeta_k)$ are each
 %  divisible by $\delta^S (z)$.  We call this the {\it  signal preservation}
 %  property of the filters.  For example, the signal extraction
@@ -284,7 +251,7 @@ HERE examples from paper Petrol and Ndc revisted with coint constraints
 %  must eradicate all basis functions associated with noise
 %  frequencies, it follows that $\delta^N (z)$ must be a factor of
 %  $\Gamma (z) $ and $\widehat{\Gamma} (z)$.  We call this the {\it noise annihilation}
-%  property of the filters.  Introduce the notation 
+%  property of the filters.  Introduce the notation
 % \[
 %  \Gamma^{N,k} (z) = \Gamma (\zeta_k)  \delta^N (z) / \delta^N
 %   (\zeta_k)  \qquad \widehat{\Gamma}^{N,k} =  \widehat{\Gamma} (\zeta_k)  \delta^N (z) / \delta^N
@@ -295,7 +262,7 @@ HERE examples from paper Petrol and Ndc revisted with coint constraints
 % \label{eq:deltaErrdecomp}
 %  \Delta (z)  =
 %   \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z) }{ \delta (z) } \right) \; \delta (z)
-%   - \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) } \right) \; \delta (z)  
+%   - \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) } \right) \; \delta (z)
 %   + \left( \frac{ \Gamma (\zeta_k) - \widehat{\Gamma} (\zeta_k) }{ \delta^N
 %   (\zeta_k) } \right) \; \delta^N (z).
 % \end{equation}
@@ -351,7 +318,7 @@ HERE examples from paper Petrol and Ndc revisted with coint constraints
 % \[
 %  \epsilon_t  = \int_{-\pi}^{\pi} e^{i \omega t} \,
 %   \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z)   }{ \delta (z) } \right) \; d\ZZ (\omega)  - \int_{-\pi}^{\pi} e^{i \omega t} \,
-%   \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) } \right) \; d\ZZ (\omega) 
+%   \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) } \right) \; d\ZZ (\omega)
 %  + \int_{-\pi}^{\pi} e^{i \omega t} \; d  \ZZ^{(k)} (\omega).
 % \]
 %  Its variance involves a spectral density matrix that combines
@@ -370,7 +337,7 @@ HERE examples from paper Petrol and Ndc revisted with coint constraints
 %   Then the signal extraction variance is ${(2\pi)}^{-1}$ times the
 %   integral of
 % \[
-%  \left[ 1, - \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z) }{ \delta (z) } \right) + 
+%  \left[ 1, - \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z) }{ \delta (z) } \right) +
 %    \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) } \right)  \right] \; h (\omega) \;
 %   { \left[ 1, - \left( \frac{ \Gamma (\overline{z}) - \overline{\Gamma^{N,k}} (\overline{z})  }{ \delta (\overline{z}) } \right) +
 %  \left( \frac{ \widehat{ \Gamma} (\overline{z}) -
@@ -392,7 +359,7 @@ HERE examples from paper Petrol and Ndc revisted with coint constraints
 %  \langle   \left[   \Gamma^{\delta, k} (z) -  \widehat{\Gamma}^{\delta, k} (z)  \right]   \; h_{\partial x} \;
 %   { \left[  \Gamma^{\delta, k} (\overline{z}) -  \widehat{\Gamma}^{\delta, k} (\overline{z})    \right] }^{\prime} \rangle.
 % \]
-%  The filter conditions can be rephrased in terms of coefficient constraints, as in the stationary case.  
+%  The filter conditions can be rephrased in terms of coefficient constraints, as in the stationary case.
 
 
  

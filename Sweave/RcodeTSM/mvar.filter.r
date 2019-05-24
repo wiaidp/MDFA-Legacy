@@ -18,7 +18,7 @@ mvar.filter <- function(data.ts,psi.filter)
   
   N <- dim(data.ts)[2]
   T <- dim(data.ts)[1]
-  L <- dim(psi.array)[3]
+  L <- dim(psi.filter)[3]
   
   out.ts <- NULL
   for(j in 1:N) 
