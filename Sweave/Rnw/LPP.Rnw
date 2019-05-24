@@ -362,9 +362,10 @@ The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
  zero, corresponding to the case that $\Sigma_{\mu}$ has reduced rank -- this has the
  effect of generating trends that are collinear.  In the case of a scalar target,
  where we seek a trend for the first input series $\{ X_{t,1} \}$,  we have 
-\[
+\begin{equation}
+\label{eq:hp.mvar-def}
   \Psi (z) = e_1^{\prime} \, Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}.
-\]
+\end{equation}
  There are no known analytical formulas for the coefficients in the multivariate case,
  although in the univariate case they are available in McElroy (2008, EJ).
 \end{Example}

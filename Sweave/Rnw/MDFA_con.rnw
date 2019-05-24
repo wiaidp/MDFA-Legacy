@@ -1674,7 +1674,7 @@ z.sim <- mdfa.wnsim(rep(0,3),rep(1,N),T.sim+burn,Inf)
 Sigma <- z.sim[[2]]
 x.sim <- mdfa.ucsim(delta,z.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
    
-# construct and apply low pass filter
+# construct and apply ideal low-pass filter
 mu <- pi/6
 len <- 1000
 lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
@@ -1748,18 +1748,105 @@ N <- 2
 rho <- .95
 theta <- pi/24
 phi <- matrix(c(rho*cos(theta),rho*sin(theta),-rho*sin(theta),rho*cos(theta)),c(2,2))
+phi.array <- array(cbind(diag(N),-1*phi),c(N,N,2))
 dpoly <- c(1,-1)
 delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
 d <- length(dpoly) - 1
 z.sim <- mdfa.wnsim(rep(0,3),rep(1,N),T.sim+burn,Inf)
 Sigma <- z.sim[[2]]
-var.sim <- mdfa.ucsim(phi,z.sim[[1]])
-
-HERE
-
-x.sim <- mdfa.ucsim(delta,z.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+var.sim <- mdfa.ucsim(phi.array,z.sim[[1]])
+x.sim <- mdfa.ucsim(delta,var.sim)[(burn+1-d-2):(T.sim+burn-d-2),]
    
-# construct and apply low pass filter
+# construct and apply ideal band-pass filter
+mu <- pi/60
+eta <- pi/12
+len <- 1000
+bp.filter <- c(eta/pi,sin(seq(1,len)*eta)/(pi*seq(1,len))) - 
+  c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+bp.filter <- c(rev(bp.filter),bp.filter[-1])
+x.cycle.ideal <- filter(x.sim,bp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+
+# get MDFA concurrent filter
+q <- 30
+x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,dpoly)
+grid <- T.sim - d
+m <- floor(grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+# frf for ideal band-pass
+frf.psi <- rep(0,grid)
+frf.psi[(abs(freq.ft) >= mu) & (abs(freq.ft) <= eta)] <- 1
+frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+frf.psi <- array(frf.psi,c(N,N,grid))
+constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,0*diag(N),q)
+bw.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+
+# apply the MDFA concurrent filter
+x.cycle.mdfa11 <- filter(x.sim[,1],bw.mdfa[[1]][1,1,],method="convolution",sides=1)
+x.cycle.mdfa12 <- filter(x.sim[,2],bw.mdfa[[1]][1,2,],method="convolution",sides=1)
+x.cycle.mdfa21 <- filter(x.sim[,1],bw.mdfa[[1]][2,1,],method="convolution",sides=1)
+x.cycle.mdfa22 <- filter(x.sim[,2],bw.mdfa[[1]][2,2,],method="convolution",sides=1)
+x.cycle.mdfa <- cbind(x.cycle.mdfa11 + x.cycle.mdfa12,x.cycle.mdfa21 + x.cycle.mdfa22)
+x.cycle.mdfa <- x.cycle.mdfa[(len+1):(T.sim-len),] 
+ 
+# compare in-sample performance
+print(c(mean((x.cycle.ideal[,1] - x.cycle.mdfa[,1])^2),
+	mean((x.cycle.ideal[,2] - x.cycle.mdfa[,2])^2)))
+
+# compare to criterion value
+diag(bw.mdfa[[2]])
+@
+ 
+
+
+
+\begin{Exercise} {\bf  Hodrick-Prescott Filter for an $I(2)$ Process.} \rm
+\label{exer:hptrend-mdfa}
+This exercise takes as target the HP low-pass filter of Example
+ \ref{exam:hp-low} applied to a STM process (Example \ref{exam:trend-i2}).
+ Simulate a sample of size $T=5000$ from an STM process with parameters
+ given in Exercise \ref{exer:trend-i2}.   Apply the HP low-pass filter
+ using formula (\ref{eq:hp.mvar-def}) with
+\[
+ Q = 10^{-2} \, \left[ \begin{array}{ll}  2.46  & 0.23 \\
+  4.55 & 0.61  \end{array} \right]
+\]
+(truncate the filter to $1000$ coefficients on each side).
+ Use the moving average filter  MDFA  for an $I(2)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+   Apply this concurrent filter
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
+\end{Exercise}
+
+
+<<exercise_hptrend-mdfa,echo=True>>=
+# Simulate a Gaussian STM  of sample size 5000:
+set.seed(1234)
+T.sim <- 5000
+burn <- 1000
+N <- 2
+psi.sim <- c(1.8905590615422, -11.9288577633298, -12.0809347541079, 
+             0.660897814610799, -8.2863379601304, -5.66645335346871, 
+             -1.34743227511595e-05, -1.41207967213544e-05)
+psi.sim[7:8] <- c(0,0)
+len <- 1000
+dpoly <- c(1,-2,1)
+delta <- array(t(dpoly) %x% diag(N),c(N,N,3))
+d <- length(dpoly) - 1
+mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
+Sigma.mu <- mu.sim[[2]]
+mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+plot(ts(x.sim))
+Q.snr <- Sigma.mu %*% solve(Sigma.irr)
+ 
+# construct and apply low-pass HP filter
 mu <- pi/6
 len <- 1000
 lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
@@ -1798,29 +1885,6 @@ print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 diag(bw.mdfa[[2]])
 @
  
-
-
-% 
-% \begin{Exercise} {\bf  Hodrick-Prescott Filter for an $I(2)$ Process.} \rm
-% \label{exer:rwtrend-mdfa}
-% This exercise applies the constrained MDFA in the case of an ideal low-pass filter
-%  (cf. Example \ref{exam:ideal-low}) 
-%  applied to a random walk process that exhibits a linear trend.
-%  Simulate a sample of size $T=5000$ from a
-%   bivariate random walk process with 
-%   $\Sigma$ equal to the identity.  
-%       Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
-%   $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
-%  Use the moving average filter  MDFA  for an $I(1)$ process  to find the best
-%  concurrent filter, setting $q= 30$. 
-%    Apply this concurrent filter 
-%  to the simulation, and compare the relevant portions to the ideal trend.
-%  Also determine the in-sample performance, in comparison to the criterion value
-%  (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
-% \end{Exercise}
-% 
-%  
-    
 
 \section{Replication and Efficiency Gain Over Model-Based Filters}
 
@@ -1961,34 +2025,7 @@ HERE  Seasonal UC replicate, MDFA for mis-sec, and Starts
 % 
 % 
 
-% 
-<<exercise_llm-mdfa,echo=True>>=
-##########################################################
-### Exercise 2: replication - simulate bivariate LLM and apply MDFA
  
-# Simulate a Gaussian LLM  
-set.seed(1234)
-psi.sim <- c(2.17150287559847, -8.36795922528, -6.04133725367594, 
-             0.0648981656699, -6.80849700177184, -6.66004335288479, 
-             -0.00016098322952, 0.00051984185863)
-psi.sim[7:8] <- c(0,0)
-len <- 1000
-T.sim <- 500 + 2*len
-burn <- 1000
-N <- 2
-delta <- array(t(c(1,-1)) %x% diag(N),c(N,N,2))
-d <- dim(delta)[3] - 1
-mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
-Sigma.mu <- mu.sim[[2]]
-mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
-irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
-Sigma.irr <- irr.sim[[2]]
-irr.sim <- irr.sim[[1]] 
-x.sim <- mu.sim + irr.sim
-plot(ts(x.sim))
-@
-
-
 
 % # construct and apply BW filter
 % bw.filter <- wk.trend[[1]]
