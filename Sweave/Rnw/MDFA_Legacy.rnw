@@ -112,16 +112,16 @@
 
 %----------------------------------------
 
-%\SweaveInput{LPP}
+\SweaveInput{LPP}
 
 %----------------------------------------
 
-%\SweaveInput{MDFA_basic}
+\SweaveInput{MDFA_basic}
 %  note: MDFA_basic replaces Mean_square
 
 %----------------------------------------
 
-\SweaveInput{MDFA_con}
+%\SweaveInput{MDFA_con}
 %  note: MDFA_con replaces Constraints,
 %    includes material from Replication
 
@@ -150,7 +150,7 @@
 
 %--------------------------------------------------------------------
 
-\SweaveInput{Summary}
+%\SweaveInput{Summary}
 
 
 \end{document}

@@ -314,7 +314,7 @@ the stop-band.  To understand this terminology of pass-band and stop-band, obser
    which can be constructed by taking the difference of two low-pass
    filters with cutoffs $\mu$ and $\eta$.  For a scalar target, we have
   \[
-  \Psi (z) = \left( 1_{ [ -\eta, \et ]} (\omega) - 
+  \Psi (z) = \left( 1_{ [ -\eta, \eta ]} (\omega) - 
     1_{ [ -\mu, \mu ]} (\omega) \right) \, e_1^{\prime}.
 \]
 Then $\{ Y_t \}$ will only be composed of frequencies 

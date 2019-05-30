@@ -22,8 +22,8 @@
 \contentsline {subsection}{\numberline {2.2.1}The Linear Prediction Problem}{16}{subsection.2.2.1}
 \contentsline {subsection}{\numberline {2.2.2}Solution to the Linear Prediction Problem}{19}{subsection.2.2.2}
 \contentsline {paragraph}{Proof of Proposition \ref {prop:GPP}.}{20}{section*.10}
-\contentsline {section}{\numberline {2.3}Model Fitting via LPP MSE Minimization}{21}{section.2.3}
-\contentsline {paragraph}{Proof of Proposition \ref {prop:PTV-truth}.}{22}{section*.11}
+\contentsline {section}{\numberline {2.3}Model Fitting via LPP MSE Minimization}{22}{section.2.3}
+\contentsline {paragraph}{Proof of Proposition \ref {prop:PTV-truth}.}{23}{section*.11}
 \contentsline {paragraph}{Proof of Theorem \ref {thm:LPP-Clt}.}{24}{section*.12}
 \contentsline {chapter}{\numberline {3}Introduction to the Multivariate Direct Filter Analysis}{37}{chapter.3}
 \contentsline {section}{\numberline {3.1}Background on Multivariate Filtering}{37}{section.3.1}
@@ -33,19 +33,6 @@
 \contentsline {paragraph}{Proof of Theorem \ref {thm:MDFAasymp}.}{42}{section*.15}
 \contentsline {section}{\numberline {3.3}Computation of the Linear Prediction Filter}{43}{section.3.3}
 \contentsline {paragraph}{Proof of Proposition \ref {prop:dft-unitary}.}{44}{section*.16}
-\contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{55}{section.3.4}
+\contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{54}{section.3.4}
 \contentsline {subsection}{\numberline {3.4.1}Bivariate MDFA versus Univariate DFA}{55}{subsection.3.4.1}
-\contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{57}{subsection.3.4.2}
-\contentsline {chapter}{\numberline {4}Multivariate Direct Filter Analysis for Non-stationary Processes}{61}{chapter.4}
-\contentsline {section}{\numberline {4.1}Constrained MDFA}{61}{section.4.1}
-\contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln-constrain}.}{66}{section*.17}
-\contentsline {section}{\numberline {4.2}Background on Non-stationary Vector Time Series }{72}{section.4.2}
-\contentsline {paragraph}{Proof of Theorem \ref {thm:nonstat-rep}.}{74}{section*.18}
-\contentsline {section}{\numberline {4.3}Error Criterion and Computation}{84}{section.4.3}
-\contentsline {paragraph}{Proof of Proposition \ref {prop:filter-decompose}.}{85}{section*.19}
-\contentsline {chapter}{\numberline {5}Summary and Links}{91}{chapter.5}
-\contentsline {section}{\numberline {5.1}Survey of MDFA Optimization Criteria}{91}{section.5.1}
-\contentsline {section}{\numberline {5.2}Consistency and Efficiency: a Tale of Two Philosophies}{91}{section.5.2}
-\contentsline {subsection}{\numberline {5.2.1}Knowing the Truth: Omniscience}{91}{subsection.5.2.1}
-\contentsline {subsection}{\numberline {5.2.2}Believing in Truth: Faith and Fatalism}{91}{subsection.5.2.2}
-\contentsline {subsection}{\numberline {5.2.3}From Truth to Effectiveness: Emphasizing Performances}{91}{subsection.5.2.3}
+\contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{56}{subsection.3.4.2}
