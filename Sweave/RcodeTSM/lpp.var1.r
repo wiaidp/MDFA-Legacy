@@ -11,7 +11,8 @@ lpp.var1 <- function(theta,psi.array,acf.array,delta)
 
 	N <- dim(psi.array)[2]
 	L <- dim(psi.array)[3]
-	phi.matrix <- var1.psi2par(theta,delta)
+#	phi.matrix <- var1.psi2par(theta,delta)
+	phi.matrix <- sigex.varpar(theta,1,N,delta)
 	phi.next <- phi.matrix
 	A.psi.phi <- matrix(0,1,N)
 	sum.single <- matrix(0,1,N)
@@ -29,6 +30,5 @@ lpp.var1 <- function(theta,psi.array,acf.array,delta)
 	}
 	lpp.criterion <- sum.double - A.psi.phi %*% t(sum.single) - 
 		sum.single %*% t(A.psi.phi) + A.psi.phi %*% acf.array[,,1] %*% t(A.psi.phi)
-#	print(lpp.criterion)
 	return(lpp.criterion)
 }
