@@ -1,6 +1,42 @@
+\def\pf{{\bf Proof. }}
+\def\logimplies{\Rightarrow}
+\def\convinlaw{\stackrel{{\cal L}}{\Longrightarrow }}
+\def\convinp{\stackrel{P}{\longrightarrow }}
+\def\convas{\stackrel{a.s.}{\longrightarrow }}
+\def\convv{\stackrel{v}{\longrightarrow}}
+\def\asymp{\stackrel{{\mathbb P}}{\sim}}
+\def\RR{\mathbb R}
+\def\ZZ{\mathbb Z}
+\def\QQ{\mathbb Q}
+\def\NN{\mathbb N}
+\def\MM{\mathbb M}
+\def\LL{\mathbb L}
+\def\EE{\mathbb E}
+\def\PP{\mathbb P}
+\def\DD{\mathbb D}
+\def\WW{\mathbb W}
+\def\FF{\mathbb F}
+\def\II{\mathbb I}
+\def\FF{\mathbb F}
+\def\ttheta{\widetilde{\theta}}
+\def\tTheta{\widetilde{\Theta}}
+\def\tsig{\widetilde{\sigma}^2}
+\def\tc{\widetilde{c}}
+\def\etheta{\widehat{\theta}}
+\def\eTheta{\widehat{\Theta}}
+\def\esig{\widehat{\sigma}^2}
+\def\ptheta{\underline{\theta}}
+\def\pTheta{\underline{\Theta}}
+\def\psig{\underline{\sigma}^2}
+
+\def\eqinlaw{\stackrel{{\cal L}}{=}}
+\def\tends{\rightarrow}
+\def\tendsinf{\rightarrow\infty}
+\def\isodynamo{\Leftrightarrow}
 
 
-\chapter{ATS-Trilemma: the Multivariate Case}\label{atsm_sec}
+
+\chapter{Customization for the Multivariate DFA}\label{atsm_sec}
 
 
 In this chapter, the ATS-trilemma and the customized optimization principle are generalized to a multivariate MDFA-framework. Section \ref{ats_trilemma_and_cust} briefly reviews previously available criteria and derives all relevant concepts: multivariate ATS-trilemma, customized criterion, quadratic criterion and the corresponding closed-form solution; section \ref{mul_ats_tr_i_a} analyzes the effects obtained by emphasizing Timeliness and/or Smoothness in the new multivariate framework; finally, section \ref{emp_con_m_d} concludes by an empirical contest, comparing performances of univariate and multivariate MSE- and customized designs.
@@ -917,3 +953,125 @@ invisible(dev.off())
 \item Empirical examples illustrate efficiency gains of MDFA vs. DFA in the context of the bivariate leading-indicator design. Multivariate designs (MSE/balanced customized) outperform their univariate siblings on all accounts: Timeliness, Curvature and MSE, in-sample as well as out-of-sample.
 \item All previous optimization criteria are nested in the proposed multivariate closed-form solution.
 \end{itemize}
+
+
+Chapter ? discussed the multivariate DFA, giving the treatment of stationary, non-stationary, and co-integrated processes.  It was shown how filter constraints were related to non-stationary properties of the processes, and could be imposed in order to ensure that the filter error was stationary; and also how co-integration constraints could also achieve this.  Here we generalize the ATS-trilemma of stationary univariate DFA to the multivariate case, which allows for customization of multivariate filters.
+
+
+\section{Multivariate Customization}
+We begin with the M-DFA MSE and 
+ rewrite the signal extraction variance in a way that decomposes the
+ MSE into amplitude and phase comparisons, much like in the
+ univariate case.  This will reveal at once how a user can re-weight
+ these two contributions in order to emphasize amplitude match at
+ the expense of phase match, and vice versa.  Define
+\begin{align*}
+ \Gamma^* (z) & = \left[ 0, \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z) }{ \delta (z) } \right) \right] \\
+  \widehat{\Gamma}^* (z) & = \left[ 1, \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z)  }{ \delta (z) } \right)  \right].
+\end{align*}
+ Then the M-DFA variance is the weighted integral of
+\begin{align*}
+ & \left[\Gamma^* (z) - \widehat{\Gamma}^* (z) \right] \,
+ h(\omega)  \, \left[  \Gamma^{* \prime} (\overline{z}) -
+ \widehat{\Gamma}^{* \prime} (\overline{z}) \right] \\
+ & = \Gamma^* (z) \, f (\omega) \,  \Gamma^{* \prime}
+ (\overline{z}) - \widehat{\Gamma}^* (z) \, f (\omega) \,
+  \Gamma^{* \prime} (\overline{z})
+  - \Gamma^* (z) \, f (\omega) \,
+  \widehat{\Gamma}^{* \prime} (\overline{z}) +
+  \widehat{\Gamma}^* (z) \, f (\omega) \,
+  \widehat{\Gamma}^{* \prime} (\overline{z}) \\
+  & = { \left( A^* (\omega) -\widehat{A}^* (\omega)
+  \right) }^2 + 2 \, A^* (\omega) \, \widehat{A}^*
+  (\omega) \, \left( 1 -  \frac{ \Re \, \widehat{\Gamma}^* (z) \, f (\omega) \,
+  \Gamma^{* \prime} (\overline{z}) }{ A^*
+  (\omega) \, \widehat{A}^*  (\omega) } \right),
+\end{align*}
+ where the functions $A^*$ and $\widehat{A}^*$ are
+ aggregate amplitude functions defined by
+\[
+  A^* (\omega) = \sqrt{\Gamma^* (z) \, f (\omega) \,  \Gamma^{* \prime}
+ (\overline{z})  } \qquad \widehat{A}^* (\omega) =
+  \sqrt{  \widehat{\Gamma}^{*} (z) \, f (\omega) \,
+  \widehat{\Gamma}^{*\prime} (\overline{z}) }.
+\]
+ The phase expression in the parentheses is always positive by the
+ Cauchy-Schwarz inequality:
+\begin{align*}
+ \left|  \widehat{\Gamma}^* (z) \, f (\omega) \,
+  \Gamma^{* \prime} (\overline{z})  \right|
+ & = \left| \EE \left[ \widehat{\Gamma}^* (z) d\widetilde{\ZZ} (\omega) \,
+  d\widetilde{\ZZ}^{\prime} (\overline{\omega}) \Gamma^{* \prime}
+ (\overline{z}) \right] \right| \\
+ & \leq \sqrt{ \EE  \left[ \widehat{\Gamma}^* (z) d\widetilde{\ZZ} (\omega)  \,
+  d\widetilde{\ZZ}^{\prime} (\overline{\omega}) \widehat{\Gamma}^{* \prime}
+ (\overline{z}) \right] \cdot \EE  \left[ \Gamma^* (z) d\widetilde{\ZZ} (\omega) \,
+  d\widetilde{\ZZ}^{\prime} (\overline{\omega}) \Gamma^{* \prime}
+ (\overline{z}) \right] } \\
+ & = A^* (\omega) \cdot \widehat{A}^* (\omega).
+\end{align*}
+ This shows that MSE breaks into two non-negative terms
+ corresponding to aggregate amplitude match and aggregate phase
+ match, taking co-integration into account.  We note in passing that
+ the target $A^{* }$ does not involve $f_c$, but the estimate
+ $\widehat{A}^*$ does involve $f_c$ and $f_{c \partial x}$.
+
+Now we consider the topic of estimation, where the periodogram $I$
+is substituted for $f$.  This shall be the periodogram of the
+noise-differenced co-integrated series $C_t$ together with the fully
+differenced data $\partial X_t$.  Let the DFT of a stationary series
+$Y_t$ be denoted $Z_Y (\omega) = \frac{1}{ \sqrt{n}} \sum_{t=1}^n
+Y_t z^t$.  Then $I(\omega) $ is the outer product of $[Z_C
+(\omega), Z^{\prime}_{\partial X} (\omega) ]$ with itself.  Let us
+denote the joint vector ${[C_t, \partial X_t^{\prime}]}^{\prime}$ by
+$W_t$ for short, so that $I(\omega) = Z_W (\omega) \, Z_W^{\prime}
+(-\omega)$.  These quantities are easily computed.  When we
+substitute $I$ for $f$ in the above expressions, we exchange $\,
+\widetilde{} \,$ for $\, \widehat{} \,$. Then
+\[
+   \widehat{H} (\omega) = \left| \widetilde{\Psi} (z) \, Z_W
+   (\omega) \right| \qquad \widehat{G} (\omega) =
+ \left| \widetilde{\Gamma} (z) \, Z_W (\omega) \right| \qquad
+ \widetilde{\Gamma} (z) \, I (\omega) \,
+  \widetilde{\Psi}^{\prime} (\overline{z}) = \widetilde{\Gamma} (z)
+  \, Z_W (\omega) \cdot \widetilde{\Psi} (\overline{z}) \, Z_W
+  (-\omega).
+\]
+This latter expression can be decomposed in terms of amplitude and
+phase fairly neatly.  Let
+\[
+  \widetilde{\Gamma} (z)  \, Z_W (\omega)
+  = \widehat{G} (\omega) \cdot \exp \{ i \widehat{\Phi} (\omega) \}
+  \qquad  \widetilde{\Psi} (z)  \, Z_W (\omega)
+  = \widehat{H} (\omega) \cdot \exp \{ i \widehat{\Omega} (\omega)
+  \},
+\]
+ so that the signal extraction MSE is estimated by the weighted
+ integral of
+\begin{equation}
+ \label{eq:empCrit}
+ { \left( \widehat{H} (\omega) - \widehat{G} (\omega) \right) }^2
+  + 2 \, \widehat{H} (\omega) \, \widehat{G} (\omega) \,
+  \left( 1- \cos \left[ \widehat{\Omega} (\omega) - \widehat{\Phi}
+  (\omega) \right] \right).
+\end{equation}
+  Algorithmically, we select the multivariate $\Gamma$ from a class
+  that satisfies the signal preservation property, the noise
+  annihilation property, and any feasible co-integrating relations
+  -- which relate the estimating filters to the known target
+  filters.  To do this, one must first know co-integrating relations
+  for an appropriate signal frequency; otherwise, when $\beta$ is
+  mis-construed, a non-stationary signal extraction error could
+  result, which will interfere with consistency of the integrated
+  periodogram for the joint spectrum.  Having narrowed down the
+  class of admissible estimating filters, one computes
+  (\ref{eq:empCrit}) by integrating over Fourier frequencies, after
+  the DFTs of $C_t$ and $\partial X_t$ have been determined.  (In
+  practice the sample size of these series will differ, because
+  $\partial X_t$ requires more temporal differencing than $C_t$, but
+  this is irrelevant asymptotically.)
+
+\section{Examples of M-DFA Customization}
+
+HERE: use multivariate HP as target filter
+
