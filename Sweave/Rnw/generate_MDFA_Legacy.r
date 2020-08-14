@@ -3,7 +3,6 @@
 rm(list=ls())
 
 
-
 library(xts)
 # State-space models (will be replicated by MDFA) 
 library(dlm)
@@ -22,14 +21,16 @@ library(stringr)  # For str_trim() to trip whitespace from strings
 library(Quandl)
 require (Quandl)
 #Quandl.api_key("ivVdJGV57TXA1RX5jgvp")
+library(expm)
+library(R.utils)
 
+path.main <- paste(getwd(),"/Sweave/",sep="")
+path.pgm <- paste(path.main,"Rnw/",sep="")
+path.out <- paste(path.main,"Latex/",sep="")
 
-
-path.main<-paste(getwd(),"/Sweave/",sep="")
-path.pgm<-paste(path.main,"Rnw/",sep="")
-path.out<-paste(path.main,"Latex/",sep="")
-
-
+## Load MDFA R codes #
+sourceDirectory(path=paste(path.main,"RcodeTSM/",sep=""), modifiedOnly=TRUE)
+    
 
 script <- paste(path.pgm,"MDFA_Legacy",sep="")
 

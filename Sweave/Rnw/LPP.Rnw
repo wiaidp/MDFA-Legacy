@@ -1,12 +1,4 @@
-<<load_functions_for_LPP,echo=True>>=
-setwd(paste(path.main,"RcodeTSM/",sep=""))
-# requires package expm
-library(expm)
-source("sqrtm.r")
-source("var1.psi2par.r")
-source("var1.par2psi.r")
-source("lpp.var1.r")
-@
+
 
 \chapter{Linear Prediction Problems}
 \label{lpp_chap}
@@ -845,7 +837,8 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 T <- 100
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
-true.psidelta <- var1.par2psi(phi.matrix,100)
+#true.psidelta <- var1.par2psi(phi.matrix,100)
+true.psidelta <- sigex.ivarpar(array(phi.matrix,c(2,2,1),drop=FALSE))
 gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
 	matrix(innovar.matrix,ncol=1),nrow=2)
 x.init <- t(chol(gamma.0)) %*% rnorm(2)
