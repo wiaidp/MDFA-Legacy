@@ -29,7 +29,7 @@ path.pgm <- paste(path.main,"Rnw/",sep="")
 path.out <- paste(path.main,"Latex/",sep="")
 
 ## Load MDFA R codes #
-sourceDirectory(path=paste(path.main,"RcodeTSM/",sep=""), modifiedOnly=TRUE)
+sourceDirectory(path=paste(path.main,"RcodeTSM/",sep=""), modifiedOnly=FALSE)
     
 
 script <- paste(path.pgm,"MDFA_Legacy",sep="")
