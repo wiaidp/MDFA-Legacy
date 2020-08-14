@@ -16,3 +16,12 @@
 \contentsline {subsubsection}{A Versatile User Interface}{10}{section*.7}%
 \contentsline {subsubsection}{Default Settings}{10}{section*.8}%
 \contentsline {subsubsection}{Selected Calls: Classic MSE, Customization and Regularization}{11}{section*.9}%
+\contentsline {chapter}{\numberline {2}Linear Prediction Problems}{13}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Background on Stationary Vector Time Series}{13}{section.2.1}%
+\contentsline {section}{\numberline {2.2}MSE Optimal Prediction Problems}{16}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}The Linear Prediction Problem}{16}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Solution to the Linear Prediction Problem}{19}{subsection.2.2.2}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:GPP}.}{20}{section*.10}%
+\contentsline {section}{\numberline {2.3}Model Fitting via LPP MSE Minimization}{21}{section.2.3}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:PTV-truth}.}{22}{section*.11}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:LPP-Clt}.}{24}{section*.12}%

@@ -39,6 +39,9 @@
 \newtheorem{Corollary}{Corollary}
 \newtheorem{Proposition}{Proposition}
 \newtheorem{Definition}{Definition}
+\newtheorem{Example}{Example}
+\newtheorem{Illustration}{Illustration}
+\newtheorem{Exercise}{Exercise}
 \newtheorem{Remark}{Remark}
 \newcommand{\mbf}[1]{\mbox{\boldmath $#1$}}
 

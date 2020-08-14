@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.8.11)  14 AUG 2020 12:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.8.11)  14 AUG 2020 13:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -427,146 +427,521 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.149 
+l.150 
        [1
 
 ]pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.195 
+l.196 
        [2]
 
-LaTeX Warning: Reference `mse_sec' on page 3 undefined on input line 231.
+LaTeX Warning: Reference `mse_sec' on page 3 undefined on input line 232.
 
 
-LaTeX Warning: Reference `ats_sec' on page 3 undefined on input line 231.
+LaTeX Warning: Reference `ats_sec' on page 3 undefined on input line 232.
 
 
-LaTeX Warning: Reference `fil_sec' on page 3 undefined on input line 232.
+LaTeX Warning: Reference `fil_sec' on page 3 undefined on input line 233.
 
 
-LaTeX Warning: Reference `int_sec' on page 3 undefined on input line 233.
+LaTeX Warning: Reference `int_sec' on page 3 undefined on input line 234.
 
 
-LaTeX Warning: Reference `con_sec' on page 3 undefined on input line 233.
+LaTeX Warning: Reference `con_sec' on page 3 undefined on input line 234.
 
 
-LaTeX Warning: Reference `coint_sec' on page 3 undefined on input line 234.
+LaTeX Warning: Reference `coint_sec' on page 3 undefined on input line 235.
 
 
-LaTeX Warning: Reference `rep_sec' on page 3 undefined on input line 235.
+LaTeX Warning: Reference `rep_sec' on page 3 undefined on input line 236.
 
 
-LaTeX Warning: Reference `exo_sec' on page 3 undefined on input line 235.
+LaTeX Warning: Reference `exo_sec' on page 3 undefined on input line 236.
 
 
-LaTeX Warning: Reference `inf_sec' on page 3 undefined on input line 236.
+LaTeX Warning: Reference `inf_sec' on page 3 undefined on input line 237.
 
 
-LaTeX Warning: Reference `reg_sec' on page 3 undefined on input line 236.
+LaTeX Warning: Reference `reg_sec' on page 3 undefined on input line 237.
 
 
-LaTeX Warning: Reference `rev_sec' on page 3 undefined on input line 236.
+LaTeX Warning: Reference `rev_sec' on page 3 undefined on input line 237.
 
 
-LaTeX Warning: Reference `mix_sec' on page 3 undefined on input line 237.
+LaTeX Warning: Reference `mix_sec' on page 3 undefined on input line 238.
 
 
-LaTeX Warning: Reference `ada_sec' on page 3 undefined on input line 237.
+LaTeX Warning: Reference `ada_sec' on page 3 undefined on input line 238.
 
 [3]
 LaTeX Font Info:    Trying to load font information for T1+aett on input line 2
-50.
+51.
  (c:/texlive/2020/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 ) [4] [5] [6]
 
-LaTeX Warning: Reference `ex_rep_dfa' on page 7 undefined on input line 409.
+LaTeX Warning: Reference `ex_rep_dfa' on page 7 undefined on input line 410.
 
 
-LaTeX Warning: Reference `ats_sec' on page 7 undefined on input line 433.
+LaTeX Warning: Reference `ats_sec' on page 7 undefined on input line 434.
 
 
-LaTeX Warning: Reference `con_sec' on page 7 undefined on input line 434.
+LaTeX Warning: Reference `con_sec' on page 7 undefined on input line 435.
 
 LaTeX Font Info:    Trying to load font information for TS1+aer on input line 4
-48.
-LaTeX Font Info:    No file TS1aer.fd. on input line 448.
+49.
+LaTeX Font Info:    No file TS1aer.fd. on input line 449.
 
 LaTeX Font Warning: Font shape `TS1/aer/m/n' undefined
 (Font)              using `TS1/cmr/m/n' instead
-(Font)              for symbol `textbullet' on input line 448.
+(Font)              for symbol `textbullet' on input line 449.
 
 [7]
 
-LaTeX Warning: Reference `mix_sec' on page 8 undefined on input line 506.
+LaTeX Warning: Reference `mix_sec' on page 8 undefined on input line 507.
 
 
-LaTeX Warning: Reference `int_sec' on page 8 undefined on input line 507.
+LaTeX Warning: Reference `int_sec' on page 8 undefined on input line 508.
 
 [8] [9]
 
-LaTeX Warning: Reference `reg_sec' on page 10 undefined on input line 555.
+LaTeX Warning: Reference `reg_sec' on page 10 undefined on input line 556.
 
 
-LaTeX Warning: Reference `rev_sec' on page 10 undefined on input line 556.
+LaTeX Warning: Reference `rev_sec' on page 10 undefined on input line 557.
 
 
-LaTeX Warning: Reference `mix_sec' on page 10 undefined on input line 556.
+LaTeX Warning: Reference `mix_sec' on page 10 undefined on input line 557.
 
 
-LaTeX Warning: Reference `int_sec' on page 10 undefined on input line 557.
+LaTeX Warning: Reference `int_sec' on page 10 undefined on input line 558.
 
 
-LaTeX Warning: Reference `coint_sec' on page 10 undefined on input line 557.
+LaTeX Warning: Reference `coint_sec' on page 10 undefined on input line 558.
 
 [10]
 
-LaTeX Warning: Reference `mse_sec' on page 11 undefined on input line 616.
+LaTeX Warning: Reference `mse_sec' on page 11 undefined on input line 617.
 
-[11]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 792.
- [12]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 792.
+[11] [12]
+Chapter 2.
+[13
+
+] [14]
+
+LaTeX Warning: Reference `eq:spec2acf' on page 15 undefined on input line 909.
+
+[15]
+
+LaTeX Warning: Reference `int_sec' on page 16 undefined on input line 934.
+
+
+! LaTeX Error: Environment Example undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.955 \begin{Example}
+                      {\bf  Multi-step Ahead Forecasting.}   \rm
+? 
+
+! LaTeX Error: \begin{document} ended by \end{Example}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.968 \end{Example}
+                   
+? 
+
+! LaTeX Error: Environment Example undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.970 \begin{Example}
+                      {\bf Ideal Low-Pass.} \rm
+? 
+[16]
+
+! LaTeX Error: \begin{document} ended by \end{Example}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.998 \end{Example}
+                   
+? 
+
+! LaTeX Error: Environment Example undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1000 \begin{Example}
+                       {\bf HP Low-pass.} \rm
+? 
+
+! LaTeX Error: \begin{document} ended by \end{Example}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1045 \end{Example}
+                    
+? 
+
+! LaTeX Error: Environment Example undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1047 \begin{Example}
+                       {\bf HP High-pass.} \rm
+? 
+[17]
+
+! LaTeX Error: \begin{document} ended by \end{Example}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1059 \end{Example}
+                    
+? 
+
+LaTeX Warning: Reference `exam:multi-step.fore' on page 18 undefined on input l
+ine 1066.
+
+
+LaTeX Warning: Reference `exam:ideal-low' on page 18 undefined on input line 10
+66.
+
+
+LaTeX Warning: Reference `exam:hp-low' on page 18 undefined on input line 1068.
+
+
+
+LaTeX Warning: Reference `exam:hp-high' on page 18 undefined on input line 1068
+.
+
+[18]
+
+! LaTeX Error: Environment Example undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1134 \begin{Example}
+                       {\bf Multi-step Ahead Forecasting.}   \rm
+? 
+
+! LaTeX Error: \begin{document} ended by \end{Example}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1141 \end{Example}
+                    
+? 
+
+! LaTeX Error: Environment Example undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1143 \begin{Example}
+                       {\bf HP Low-pass.}   \rm
+? 
+
+! LaTeX Error: \begin{document} ended by \end{Example}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1149 \end{Example}
+                    
+? 
+
+LaTeX Warning: Reference `eq:specRep' on page 19 undefined on input line 1176.
+
+
+LaTeX Warning: Reference `prop:GPP' on page 19 undefined on input line 1195.
+
+[19]
+
+LaTeX Warning: Reference `eq:minimalMSE' on page 20 undefined on input line 122
+1.
+
+
+LaTeX Warning: Reference `rem:GPPsoln' on page 20 undefined on input line 1225.
+
+
+
+LaTeX Warning: Reference `prop:GPP' on page 20 undefined on input line 1225.
+
+
+! LaTeX Error: Environment Illustration undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1234 \begin{Illustration}
+                            {\bf  VAR(1).} \rm
+? 
+
+LaTeX Warning: Reference `eq:GPPsoln' on page 20 undefined on input line 1250.
+
+[20]
+
+! LaTeX Error: \begin{document} ended by \end{Illustration}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1288 \end{Illustration}
+                         
+? 
+
+LaTeX Warning: Reference `prop:GPP' on page 21 undefined on input line 1316.
+
+[21]
+
+LaTeX Warning: Reference `prop:PTV-truth' on page 22 undefined on input line 13
+79.
+
+[22]
+
+LaTeX Warning: Reference `prop:PTV-truth' on page 23 undefined on input line 14
+00.
+
+
+! LaTeX Error: Environment Example undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1409 \begin{Example}
+                       {\bf Multi-step Ahead Forecasting.}  \rm
+? q
+OK, entering \batchmode...
+
+! LaTeX Error: \begin{document} ended by \end{Example}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1429 \end{Example}
+                    
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `thm:LPP-Clt' on page 23 undefined on input line 1465.
+
+
+ [23]
+
+! LaTeX Error: Environment Illustration undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1477 \begin{Illustration}
+                            {\bf  VAR(1).}  \rm
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: \begin{document} ended by \end{Illustration}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1525 \end{Illustration}
+                         
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Environment Exercise undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1530 \begin{Exercise}
+                        {\bf Correct VAR(1) LPP.} \rm
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `exam:multi-step.fore' on page 24 undefined on input l
+ine 1540.
+
+
+LaTeX Warning: Reference `exam:ideal-low' on page 24 undefined on input line 15
+41.
+
+
+! LaTeX Error: \begin{document} ended by \end{Exercise}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1547 \end{Exercise}
+                     
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+ [24] [25] [26] [27]
+
+! LaTeX Error: Environment Exercise undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1728 \begin{Exercise}
+                        {\bf Incorrect VAR(1) LPP.} \rm
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `exer:var1lpp-correct' on page 28 undefined on input l
+ine 1740.
+
+
+! LaTeX Error: \begin{document} ended by \end{Exercise}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1747 \end{Exercise}
+                     
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+ [28] [29] [30]
+
+! LaTeX Error: Environment Exercise undefined.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1927 \begin{Exercise}
+                        {\bf Incorrect VAR(1) Forecasting.} \rm
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `exer:var1lpp-correct' on page 31 undefined on input l
+ine 1940.
+
+
+! LaTeX Error: \begin{document} ended by \end{Exercise}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.1945 \end{Exercise}
+                     
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+ [31] [32] [33] [34]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2191.
+ [35]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2191.
  (./MDFA_Legacy.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 792.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 792.
-Package rerunfilecheck Info: File `MDFA_Legacy.out' has not changed.
-(rerunfilecheck)             Checksum: 48E5183A5B6F12F3D81BD7E5627ABAE3;645.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2191.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2191.
 
+
+Package rerunfilecheck Warning: File `MDFA_Legacy.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `MDFA_Legacy.out':
+(rerunfilecheck)             Before: 48E5183A5B6F12F3D81BD7E5627ABAE3;645
+(rerunfilecheck)             After:  81F72C0E0B84822FAFE94AF623DB4E33;1138.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 792.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 2191.
  ) 
 Here is how much of TeX's memory you used:
- 7416 strings out of 480893
- 107009 string characters out of 5911972
- 372390 words of memory out of 5000000
- 22778 multiletter control sequences out of 15000+600000
+ 7500 strings out of 480893
+ 108002 string characters out of 5911972
+ 374390 words of memory out of 5000000
+ 22814 multiletter control sequences out of 15000+600000
  574282 words of font info for 112 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,6n,37p,228b,494s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,14n,37p,228b,504s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/tex
 live/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb><c:/texlive/2020/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2020/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2020/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr12.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmr17.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmsl10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsltt
-10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c
-:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texlive
-/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2020/tex
-mf-dist/fonts/type1/public/amsfonts/latxfont/lasy10.pfb><c:/texlive/2020/texmf-
-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on MDFA_Legacy.pdf (16 pages, 183922 bytes).
+texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2020/texmf-dis
+t/fonts/type1/public/amsfonts/cmextra/cmex7.pfb><c:/texlive/2020/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi5.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmmi7.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mr10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><
+c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb><c:/texlive
+/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2020/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2020/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmsl10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsltt10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmsy5.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
+><c:/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/texl
+ive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/texlive/2020/
+texmf-dist/fonts/type1/public/amsfonts/latxfont/lasy10.pfb><c:/texlive/2020/tex
+mf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2020/texmf-d
+ist/fonts/type1/public/amsfonts/symbols/msbm7.pfb><c:/texlive/2020/texmf-dist/f
+onts/type1/public/cm-super/sfrm1000.pfb>
+Output written on MDFA_Legacy.pdf (39 pages, 347164 bytes).
 PDF statistics:
- 197 PDF objects out of 1000 (max. 8388607)
- 165 compressed objects within 2 object streams
- 34 named destinations out of 1000 (max. 500000)
+ 373 PDF objects out of 1000 (max. 8388607)
+ 306 compressed objects within 4 object streams
+ 82 named destinations out of 1000 (max. 500000)
  81 words of extra memory for PDF output out of 10000 (max. 10000000)
 
