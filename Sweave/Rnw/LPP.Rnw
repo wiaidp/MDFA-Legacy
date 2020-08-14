@@ -837,8 +837,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 T <- 100
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
-#true.psidelta <- var1.par2psi(phi.matrix,100)
-true.psidelta <- sigex.ivarpar(array(phi.matrix,c(2,2,1),drop=FALSE))
+true.psidelta <- sigex.ivarpar(array(phi.matrix,c(2,2,1)))
 gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
 	matrix(innovar.matrix,ncol=1),nrow=2)
 x.init <- t(chol(gamma.0)) %*% rnorm(2)
@@ -855,7 +854,7 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 
 # Yule-Walker fit
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-yw.psidelta <- var1.par2psi(phi.yw,100)
+yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
@@ -959,7 +958,7 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
  
 # Yule-Walker
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-yw.psidelta <- var1.par2psi(phi.yw,100)
+yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
@@ -1069,7 +1068,7 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
  
 # Yule-Walker
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-yw.psidelta <- var1.par2psi(phi.yw,100)
+yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
@@ -1115,10 +1114,11 @@ print(var1.psi2par(var1.fit.2step.Neg$par,-1))
 print(phi.yw)
 # select choices of phi from above
 if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
+	phi.lpp <- sigex.varpar(var1.fit.2step.Pos$par,1,2,1) 
 } else {
-	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
+	phi.lpp <- sigex.varpar(var1.fit.2step.Neg$par,1,2,-1)
 }
+phi.lpp <- phi.lpp[,,1]
 
 # LPP case
 fore.lpp <- phi.lpp %^% 2

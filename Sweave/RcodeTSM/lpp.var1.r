@@ -11,7 +11,6 @@ lpp.var1 <- function(theta,psi.array,acf.array,delta)
 
 	N <- dim(psi.array)[2]
 	L <- dim(psi.array)[3]
-#	phi.matrix <- var1.psi2par(theta,delta)
 	phi.matrix <- sigex.varpar(theta,1,N,delta)
 	phi.matrix <- phi.matrix[,,1]
 	phi.next <- phi.matrix

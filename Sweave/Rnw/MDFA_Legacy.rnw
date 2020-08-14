@@ -104,19 +104,21 @@
 
 %-----------------------------------------------
 
+% Chapter 1
 \SweaveInput{Introduction}
 
 %----------------------------------------
 
+% Chapter 2
 \SweaveInput{LPP}
 
 %----------------------------------------
 
+% Chapter 3
 %\SweaveInput{MDFA_basic}
 
-%----------------------------------------
-
-%\SweaveInput{Mean_square}
+% This is deprecated, essentially incorporated into MDFA_basic
+%%\SweaveInput{Mean_square}
 
 %----------------------------------------
 
