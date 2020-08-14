@@ -585,24 +585,7 @@ With this justification, we see that the entries of the matrix $B$ in
  by focusing upon the first row, the applications of this chapter 
  can be obtained. 
 
-
-<<exercise_lpp_var1.illustration1,echo=True>>=
-setwd("C:\\Users\\Tucker\\Documents\\MDFAbook\\RcodeTSM")
-# requires packages expm and xtable
-library(expm)
-library(xtable)
-source("sqrtm.r")
-source("var1.psi2par.r")
-source("var1.par2psi.r")
-source("lpp.var1.r")
-source("mdfa.dft.r")
-source("mdfa.idft.r")
-source("mdfa.pergram.r")
-source("mdfa.frf.r")
-source("mdfa.coeff.r")
-source("mdfa.filter.r")
-source("mdfa.unconstrained.r")
-@
+ 
 
 
 \begin{Exercise} {\bf Correct VAR(1) LPP.} \rm
@@ -629,7 +612,7 @@ T <- 100
 N <- 2
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
-true.psidelta <- var1.par2psi(phi.matrix,100)
+true.psidelta <- sigex.ivarpar(array(phi.matrix,c(2,2,1)))
 gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
 	matrix(innovar.matrix,ncol=1),nrow=2)
 x.init <- t(chol(gamma.0)) %*% rnorm(2)
@@ -656,10 +639,11 @@ var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
 	acf.array=acf.array,delta=-1,method="BFGS")
 # select choices of phi from above
 if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
+	phi.lpp <- sigex.varpar(var1.fit.2step.Pos$par,1,2,1) 
 } else {
-	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
+	phi.lpp <- sigex.varpar(var1.fit.2step.Neg$par,1,2,-1)
 }
+phi.lpp <- phi.lpp[,,1]
 
 # LPP case
 fore.lpp <- phi.lpp %^% 2
@@ -675,7 +659,7 @@ lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
 # frf for 2-step ahead forecasting
 frf.psi <- matrix(lambda.ft^{-2},nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
  
 # compare LPP and MDFA first coefficients
@@ -738,10 +722,11 @@ var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
 print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
 # select choices of phi from above
 if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
+	phi.lpp <- sigex.varpar(var1.fit.2step.Pos$par,1,2,1) 
 } else {
-	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
+	phi.lpp <- sigex.varpar(var1.fit.2step.Neg$par,1,2,-1)
 }
+phi.lpp <- phi.lpp[,,1]
 
 # LPP case
 fore.lpp <- phi.lpp %^% 2
@@ -757,7 +742,7 @@ lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
 # frf for 2-step ahead forecasting
 frf.psi <- matrix(lambda.ft^{-2},nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
  
 # compare LPP and MDFA first coefficients
@@ -795,7 +780,7 @@ T <- 2500
 N <- 2
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(N)
-true.psidelta <- var1.par2psi(phi.matrix,100)
+true.psidelta <- sigex.ivarpar(array(phi.matrix,c(2,2,1)))
 gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
 	matrix(innovar.matrix,ncol=1),nrow=N)
 x.init <- t(chol(gamma.0)) %*% rnorm(N)
@@ -815,7 +800,8 @@ mu <- pi/6
 len <- 1000
 lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
 lp.filter <- c(rev(lp.filter),lp.filter[-1])
-x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",
+                        sides=2)[(len+1):(T-len),]
 
 # get MDFA concurrent filter
 q <- 20
@@ -829,7 +815,7 @@ frf.psi <- rep(0,Grid)
 frf.psi[abs(freq.ft) <= mu] <- 1
 frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim)	
+spec.hat <- mdfa.pergram(x.sim,1)	
 lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
  
 # apply the MDFA concurrent filter
@@ -841,7 +827,7 @@ x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.m
 x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
 
 # visualize
-file = paste("mdfa_var1_filtering.pdf", sep = "")
+file <- paste("mdfa_var1_filtering.pdf", sep = "")
 pdf(file = paste(path.out,file,sep=""), paper = "special", 
     width = 6, height = 4)
 par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
@@ -866,7 +852,7 @@ diag(lp.mdfa[[2]])
 @
 
 <<exercise_mdfa_var1.filtering,echo=True>>=
-file = paste("mdfa_var1_filtering.pdf", sep = "")
+file <- paste("mdfa_var1_filtering.pdf", sep = "")
 cat("\\begin{figure}[htb!]")
 cat("\\begin{center}")
 cat("\\includegraphics[]{", file, "}\n",sep = "")
@@ -920,7 +906,7 @@ T <- 2500
 N <- 3
 phi.matrix <- rbind(c(.9,0,0),c(0,.1,0),c(0,0,-.9))
 innovar.matrix <- diag(N)
-true.psidelta <- var1.par2psi(phi.matrix,100)
+true.psidelta <- sigex.ivarpar(array(phi.matrix,c(3,3,1)))
 gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
 	matrix(innovar.matrix,ncol=1),nrow=N)
 x.init <- t(chol(gamma.0)) %*% rnorm(N)

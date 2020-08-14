@@ -125,23 +125,46 @@
 
 %----------------------------------------
 
-%\SweaveInput{Filter_revisions}
+% Chapter 4 
+% non-stationary MDFA plus constraints
+%\SweaveInput{Integrated}
+
+% These are deprecated, will be incorporated into Integrated
+%%\SweaveInput{Constraints}
+%%\SweaveInput{Replication}
+
+%------------------------------------------------------------------
+
+% Chapter 5
+% co-integration, frequency zero and general case
+%\SweaveInput{Cointegrated}
 
 %----------------------------------------
 
-%\SweaveInput{Constraints}
-
-%----------------------------------------
-
+% Chapter 6
+%  customization, scalar and vector cases
 %\SweaveInput{ATS}
 
-%-------------------------------------------
+% will be incorporated
+%%\SweaveInput{ATS_multivariate}
 
-%\SweaveInput{ATS_multivariate}
+%------------------------------------------
 
-%-------------------------------------------
+% Chapter 7
+%  regularization, shrinkage towards null specification
+%\SweaveInput{Regularization}
 
-%\SweaveInput{Replication}
+%-------------------------------------------------------------
+
+%  Chapter 8
+%\SweaveInput{Filter_revisions}
+
+
+%----------------------------------------
+
+%  Chapter 9
+% embedding in SVF,  backcasting GDP
+%\SweaveInput{Mixed}
 
 %-------------------------------------------
 
@@ -155,25 +178,11 @@
 
 %\SweaveInput{Inference}
 
-%------------------------------------------
-
-%\SweaveInput{Regularization}
 
 %----------------------------------------------
 
 %\SweaveInput{Vintage}
 
-%-------------------------------------------------------------
-
-%\SweaveInput{Mixed}
-
-%------------------------------------------------------------------
-
-%\SweaveInput{Integrated}
-
-%------------------------------------------------------------------
-
-%\SweaveInput{Cointegrated}
 
 %-------------------------------------------------------------------
 

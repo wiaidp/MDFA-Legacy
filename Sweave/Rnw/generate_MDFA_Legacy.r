@@ -21,8 +21,10 @@ library(stringr)  # For str_trim() to trip whitespace from strings
 library(Quandl)
 require (Quandl)
 #Quandl.api_key("ivVdJGV57TXA1RX5jgvp")
+#  Tucker's libraries
 library(expm)
 library(R.utils)
+library(xtable)
 
 path.main <- paste(getwd(),"/Sweave/",sep="")
 path.pgm <- paste(path.main,"Rnw/",sep="")
