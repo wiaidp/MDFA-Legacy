@@ -837,12 +837,9 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 T <- 100
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
-#true.psidelta <- sigex.ivarpar(array(phi.matrix,c(2,2,1)))
 true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
 gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
 gamma.0 <- gamma[,,1]
-#gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
-#	matrix(innovar.matrix,ncol=1),nrow=2)
 x.init <- t(chol(gamma.0)) %*% rnorm(2)
 x.next <- x.init
 x.sim <- NULL
@@ -858,24 +855,19 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 # Yule-Walker fit
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
 yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
-#yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
 psi.array[,,1] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 1-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 1-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+theta <- rnorm(4)
+var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.1step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 1-step LPP 
+print(var.pre2par(var1.fit.1step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -884,18 +876,14 @@ psi.array <- array(0,c(1,2,2))
 psi.array[,,1] <- c(0,0)
 psi.array[,,2] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 2-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 2-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
+theta <- rnorm(4)
+var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.2step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 2-step LPP 
+print(var.pre2par(var1.fit.2step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -904,18 +892,14 @@ mu <- pi/24
 psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
 psi.array <- aperm(psi.array,c(1,3,2))
 acf.array <- x.acf
-theta <- rep(0,4)
-var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
-lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
-# phi coefficient from low-pass LPP, delta = 1
-print(var1.psi2par(var1.fit.bk.Pos$par,1))	
-# phi coefficient from low-pass LPP, delta = -1
-print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
+theta <- rnorm(4)
+var1.fit.bk <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.bk$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from low-pass LPP 
+print(var.pre2par(var1.fit.bk$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -962,24 +946,20 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
  
 # Yule-Walker
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
+yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
 psi.array[,,1] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 1-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 1-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+theta <- rnorm(4)
+var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.1step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 1-step LPP 
+print(var.pre2par(var1.fit.1step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -988,18 +968,14 @@ psi.array <- array(0,c(1,2,2))
 psi.array[,,1] <- c(0,0)
 psi.array[,,2] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 2-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 2-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
+theta <- rnorm(4)
+var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.2step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 2-step LPP 
+print(var.pre2par(var1.fit.2step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -1008,18 +984,14 @@ mu <- pi/24
 psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
 psi.array <- aperm(psi.array,c(1,3,2))
 acf.array <- x.acf
-theta <- rep(0,4)
-var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
-lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
-# phi coefficient from low-pass LPP, delta = 1
-print(var1.psi2par(var1.fit.bk.Pos$par,1))	
-# phi coefficient from low-pass LPP, delta = -1
-print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
+theta <- rnorm(4)
+var1.fit.bk <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.bk$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from low-pass LPP 
+print(var.pre2par(var1.fit.bk$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -1072,26 +1044,20 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
  
 # Yule-Walker
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
+yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
 psi.array[,,1] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
-	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
-	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 1-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 1-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+theta <- rnorm(4)
+var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.1step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 1-step LPP 
+print(var.pre2par(var1.fit.1step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -1100,30 +1066,18 @@ psi.array <- array(0,c(1,2,2))
 psi.array[,,1] <- c(0,0)
 psi.array[,,2] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
-	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
-	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 1-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 1-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+theta <- rnorm(4)
+var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.2step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 2-step LPP 
+print(var.pre2par(var1.fit.2step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
-# select choices of phi from above
-if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-	phi.lpp <- sigex.varpar(var1.fit.2step.Pos$par,1,2,1) 
-} else {
-	phi.lpp <- sigex.varpar(var1.fit.2step.Neg$par,1,2,-1)
-}
-phi.lpp <- phi.lpp[,,1]
-
+phi.lpp <- var.pre2par(var1.fit.2step$par,1,2)[,,1]
+  
 # LPP case
 fore.lpp <- phi.lpp %^% 2
 fore.lpp <- fore.lpp[1,]
