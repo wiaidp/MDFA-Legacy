@@ -36,4 +36,7 @@
 \contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{52}{section.3.4}%
 \contentsline {subsection}{\numberline {3.4.1}Bivariate MDFA versus Univariate DFA}{52}{subsection.3.4.1}%
 \contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{54}{subsection.3.4.2}%
-\contentsline {section}{\numberline {3.5}Replicating and Generalizing Model-Based Solutions}{58}{section.3.5}%
+\contentsline {section}{\numberline {3.5}Multivariate DFA with Multiple Targets}{57}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}LPP with Multiple Targets}{58}{subsection.3.5.1}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:GPP}.}{59}{section*.17}%
+\contentsline {subsection}{\numberline {3.5.2}MDFA for Multiple Targets}{59}{subsection.3.5.2}%
