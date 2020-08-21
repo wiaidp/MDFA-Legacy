@@ -33,7 +33,7 @@
 \contentsline {paragraph}{Proof of Theorem \ref {thm:MDFAasymp}.}{40}{section*.15}%
 \contentsline {section}{\numberline {3.3}Computation of the Linear Prediction Filter}{41}{section.3.3}%
 \contentsline {paragraph}{Proof of Proposition \ref {prop:dft-unitary}.}{42}{section*.16}%
-\contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{54}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Bivariate MDFA versus Univariate DFA}{54}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{57}{subsection.3.4.2}%
-\contentsline {section}{\numberline {3.5}Replicating and Generalizing Model-Based Solutions}{62}{section.3.5}%
+\contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{52}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Bivariate MDFA versus Univariate DFA}{52}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{54}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Replicating and Generalizing Model-Based Solutions}{58}{section.3.5}%

@@ -11,6 +11,9 @@ model to enforce stationarity.
 
 \bibitem{} Baxter, M., and King, R. G. (1999). Measuring business cycles: approximate band-pass filters for economic time series. Review of economics and statistics, 81(4), 575-593.
 
+\bibitem{} Brockwell, P.J., and Davis, R.A. (1991).  
+  Time Series: Theory and Methods, second edition.   Springer. New York.
+
 \bibitem{} Golub, G. H., and Van Loan, C. F. (1996). Matrix Computations Johns Hopkins University Press. Baltimore and London.
 
 

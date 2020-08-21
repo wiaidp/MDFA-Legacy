@@ -106,7 +106,8 @@ covariance involves conjugation of
   \, d\omega = \Gamma (h).
 \]
  As an example -- that furnishes a basic building block for subsequent processes --
- we have {\em white noise}, which refers to a mean zero $\{ X_t \}$ where $F$ is constant, i.e.,
+ we have {\em white noise}, which refers to a mean zero $\{ X_t \}$ 
+ where $F$ is constant, i.e.,
  $F(\omega) = \Sigma$ for all $\omega$, where $\Sigma $ is real and symmetric and
  non-negative definite.  Clearly, $\Gamma (h) = 0$ for $h \neq 0$ and $\Gamma (0) = \Sigma$.
  We denote this type of process with the notation $\mbox{WN} (\Sigma)$.
@@ -422,7 +423,8 @@ $\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
 \label{exam:multi-step.fore.2}
 The LPP corresponds to
   optimal $h$-step
- forecasting, and the forecast error is $[L^{-h} \, e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
+ forecasting, and the forecast error is $[L^{-h} \, 
+ e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
   Note that although $\Psi (L)$ only involves one component series $\{ X_{t,1} \}$,
   the real-time concurrent filter $\widehat{\Psi} (L)$ can involve all $n$ component series.
 \end{Example}
@@ -465,7 +467,8 @@ The LPP corresponds to
  to the LPP posed by a scalar target $Y_t = \Psi (L) \, X_t$ is given by
 \begin{equation}
  \label{eq:GPPsoln}
- \widehat{\Psi} (L) = \sum_{\ell \geq 0 } \psi (\ell) \, L^{\ell} + \sum_{\ell < 0 } \psi (\ell)
+ \widehat{\Psi} (L) = \sum_{\ell \geq 0 } \psi (\ell) \,
+ L^{\ell} + \sum_{\ell < 0 } \psi (\ell)
  \,  { [ \Theta (L) ]}_{-\ell}^{ \infty  } \, L^{\ell} \, {\Theta (L) }^{-1}.
 \end{equation}
  Moreover, the minimal MSE is given by
@@ -522,9 +525,10 @@ The LPP corresponds to
 \label{ill:var1}
  Consider an LPP where the true process $\{ X_t \}$
  is a Vector Autoregression (VAR) of order 1.  This process can be described via
-\[
+\begin{equation}
+\label{eq:var1-def}
   X_t = \Phi \, X_{t-1} + \epsilon_t
-\]
+\end{equation}
  for a matrix $\Phi$ that is stable, i.e., has 
  all eigenvalues bounded by one in modulus (L\"utkepohl, 2007). 
 It is known that the VAR(1) has the causal representation  
