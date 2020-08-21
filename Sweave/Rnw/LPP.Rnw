@@ -299,7 +299,8 @@ and Prescott, 1997) is a low-pass filter appropriate for producing trends.
  but note that the frf is a continuous matrix-valued function of $\omega$.
 The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
  of the econometric concept of trend co-integration, which is further explored
- in Chapter REF???.  It is always assumed that $\Sigma_{\iota}$ has full rank, and hence 
+ in Chapter \ref{coint_sec}.  It is always assumed that
+ $\Sigma_{\iota}$ has full rank, and hence 
  we can rewrite as
 \[
   \Psi (z) = Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}
@@ -542,35 +543,37 @@ It is known that the VAR(1) has the causal representation
  concurrent filter is determined by applying the filter to past data and modifying the
  present weight $\psi (0)$ by adding the quantity $A_{\Psi} (\Phi)$.  In the case of
  $h$-step ahead forecasting of the first time series (Example 1), $\widehat{\Psi} (L)
- = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$.  This formula demonstrates that it is 
+ = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$.  
+ 
+ This formula demonstrates that it is 
  essential that $\Phi$ be stable, and if fitting a VAR(1) we must parametrize $\Phi$
- such that stability is guaranteed.  The following parametrization 
- (Roy, McElroy, and Linton, 2017) provides a bijection from $\RR^{n^2} \times \{ \pm 1 \}$
- to the space of stable $n \times n $ matrices:
+ such that stability is guaranteed.  We describe a parameterization based upon
+ Ansley and Newbold (1979) and Ansley and Kohn (1986), as summarized by Heaps (2020),
+  which  provides a bijection from $\RR^{n^2} $
+ to the space of stable $n \times n $ matrices.
+ For any positive definite symmetric matrix $\Sigma$, the Generalized Cholesky Decomposition
+  (GCD) takes the form $\Sigma = L \, D \, L^{\prime}$, where
+    $L$ is  unit lower triangular and $D$ is diagonal with positive entries --
+    see Golub and Van Loan (1996).
+    In such as case, we let $\Sigma^{1/2}$ denote $L \, D^{1/2}$, which is lower triangular
+    with non-unit positive entries on the diagonal.
+  Then the forward mapping takes a matrix $A$ with arbitary real entries to
+  a matrix $\Phi$ with eigenvalues of magnitude less than one:
 \begin{align*}
-  (\phi, \delta) & \tends (V, Q) \\
- 	V & = L \, D \, L^{\prime} \\
-	Q & = E \, ( 1_n - S ) \, {(1_n + S )}^{-1} \\
- 	\Phi & = V^{1/2} \, Q \, {(1_n + V )}^{-1/2}
+  A & \tends \Phi \\
+  P & = { \left( { \left[  1_n + A \, A^{\prime} \right] }^{1/2} \right)}^{-1} \, A \\
+  S & = { \left( { \left[ 1_n - P \, P^{\prime} \right] }^{1/2} \right) }^{-1} \\
+  \Phi & = S \, P \, S^{-1}.
 \end{align*}
- provides the map from the parameters to $\Phi$.  Here $V$ is  a positive definite 
- matrix with Cholesky decomposition in terms of a unit lower triangular matrix $L$ and
- a positive diagonal matrix $D$; any such matrix can be described by $\binom{n}{2}$
- arbitrary real entries in the lower portion of $L$, and by the exponential of $n$ arbitrary
- real numbers for $D$.  The matrix $Q$ is orthogonal, given by the Cayley representation,
- where $S$ is anti-symmetric -- and hence can be described by $\binom{n}{2}$ arbitrary
- real numbers -- and $E$ is diagonal, with the first entry given by $\delta $ (which equals
- $\pm 1$) and the remaining $n-1$ entries are equal to one.  The inverse transformation is 
- given by
+    The inverse transformation is  given by
 \begin{align*}
-   \Phi & \tends (V, Q) \\
-	V & = \sum_{j \geq 1} \Phi^j \, \Phi^{j \prime} \\
-	Q & = V^{-1/2} \, \Phi \, {(1_n + V )}^{1/2} \\
-	S & = {(1_n + E \, Q)}^{-1} \, (1_n - E \, Q) \\
-	\delta & = \det Q,
+   \Phi & \tends A \\
+  \mbox{vec} \Gamma & = { \left( 1_{n^2} - \Phi \otimes \Phi \right) }^{-1} \, 
+  \mbox{vec} 1_n \\
+  S & = \Gamma^{1/2} \\
+  P & = S^{-1} \, \Phi \, S \\
+  A & = { \left( { \left[ 1_n - P \, P^{\prime} \right] }^{1/2} \right) }^{-1} \, P.
 \end{align*}
- where $\phi$ can be recovered from the entries of $L$ and $D$ in the Cholesky decomposition
- of $V$, along with the lower left entries of $S$.
 \end{Illustration}
 
 
@@ -582,7 +585,7 @@ It is known that the VAR(1) has the causal representation
 
  Here we study the mechanics of fitting a parametric model such that the LPP MSE
  is minimized.  In the case of the one-step ahead forecasting MSE, this is related
- to Whittle estimation of vector time series models (c.f.,  Taniguchi and Kakizawa (2000)).
+ to Whittle estimation of vector time series models (c.f.,  Taniguchi and Kakizawa (2012)).
   We will focus on the class of separable causal linear models, wherein the innovation variance
  $\Sigma$ is governed by a separate set of parameters from those describing the power
  series $\Theta (L)$.  The model is essentially described through a particular class of
@@ -735,7 +738,7 @@ causal filter of a higher-order martingale difference.
 \label{thm:LPP-Clt}
  Suppose that $\vartheta (\widetilde{F}) $ exists uniquely in the interior of the model 
  parameter space,   and that $H(\vartheta (\widetilde{F}))$ is 
- positive definite.  Suppose that $\{ X_t \}$ has finite fourth moments, conditions (HT1)-(HT6) of Taniguchi and Kakizawa (2000, pp.55-56)
+ positive definite.  Suppose that $\{ X_t \}$ has finite fourth moments, conditions (HT1)-(HT6) of Taniguchi and Kakizawa (2012)
  hold, and that the fourth order cumulant function of $\{ X_t \}$ is zero.  Then the estimator is consistent for the PTV, and
 \[
  \sqrt{T} \, \left( \vartheta( \widehat{F} ) - \vartheta (\widetilde{F}) \right) 
@@ -755,7 +758,7 @@ causal filter of a higher-order martingale difference.
    - { H (\vartheta( \widetilde{F} )) }^{-1} \,  \mbox{tr} \, \{  {  \langle (\widehat{F} - \widetilde{F}) \, \nabla K_{\vartheta} \rangle }_0 \},
 \]
  where the trace operator acts upon the spectral matrices, for each component of the gradient operator.  Our assumptions allow
- us to apply Lemma 3.1.1 of Taniguchi and Kakizawa (2000) to the right hand expression, yielding the stated central limit theorem.
+ us to apply Lemma 3.1.1 of Taniguchi and Kakizawa (2012) to the right hand expression, yielding the stated central limit theorem.
  $\quad \Box$
 
 \vspace{.5cm}

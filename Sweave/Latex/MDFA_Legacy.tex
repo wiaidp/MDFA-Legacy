@@ -1555,9 +1555,9 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > T <- 100
 > phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 > innovar.matrix <- diag(2)
-> true.psidelta <- sigex.ivarpar(array(phi.matrix,c(2,2,1)))
-> gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
-+ 	matrix(innovar.matrix,ncol=1),nrow=2)
+> true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+> gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+> gamma.0 <- gamma[,,1]
 > x.init <- t(chol(gamma.0)) %*% rnorm(2)
 > x.next <- x.init
 > x.sim <- NULL
@@ -1571,46 +1571,37 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 > # Yule-Walker fit
 > phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-> yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
+> yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 > # 1-step ahead forecasting
 > psi.array <- array(0,c(1,2,1))
 > psi.array[,,1] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.1step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 1.430235 1.430235
+[1] 1.430235
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 1.430235
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 1-step LPP 
+> print(var.pre2par(var1.fit.1step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-           [,1]      [,2]
-[1,]  0.9348059 0.5314934
-[2,] -0.5589701 0.2793141
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
-\end{Sinput}
-\begin{Soutput}
-           [,1]       [,2]
-[1,]  0.9347882  0.5313741
-[2,] -1.5157224 -1.0416827
+, , 1
+
+          [,1]       [,2]
+[1,] 0.9348056  0.5314924
+[2,] 0.1954642 -0.9116264
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -1627,41 +1618,32 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array[,,1] <- c(0,0)
 > psi.array[,,2] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.2step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 3.007243 3.007242
+[1] 3.007242
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 3.017099
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 2-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 2-step LPP 
+> print(var.pre2par(var1.fit.2step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-           [,1]      [,2]
-[1,]  0.9183654 0.3693359
-[2,] -0.2318667 0.5703253
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 2-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
-\end{Sinput}
-\begin{Soutput}
+, , 1
+
            [,1]       [,2]
-[1,] -0.3842571 -2.3329655
-[2,] -0.2614505  0.1487464
+[1,]  0.3846346 -3.5038937
+[2,] -0.1739981 -0.5414464
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -1678,41 +1660,32 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
 > psi.array <- aperm(psi.array,c(1,3,2))
 > acf.array <- x.acf
-> theta <- rep(0,4)
-> var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
+> theta <- rnorm(4)
+> var1.fit.bk <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.bk$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 0.7782000 0.8039344
+[1] 0.7782
 \end{Soutput}
 \begin{Sinput}
-> lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
           [,1]
 [1,] 0.7784239
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from low-pass LPP, delta = 1
-> print(var1.psi2par(var1.fit.bk.Pos$par,1))	
+> # phi coefficient from low-pass LPP 
+> print(var.pre2par(var1.fit.bk$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
+, , 1
+
             [,1]      [,2]
-[1,]  0.82390589 0.2256008
-[2,] -0.02389912 0.7338540
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from low-pass LPP, delta = -1
-> print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
-\end{Sinput}
-\begin{Soutput}
-          [,1]          [,2]
-[1,] 0.7708965 -1.432228e-05
-[2,] 2.8936879 -9.986220e-01
+[1,] 0.805951637  1.396900
+[2,] 0.002764688 -0.868039
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -1769,55 +1742,46 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 > # Yule-Walker
 > phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-> yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
+> yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 > # 1-step ahead forecasting
 > psi.array <- array(0,c(1,2,1))
 > psi.array[,,1] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.1step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 1.865806 1.865806
+[1] 1.895944
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
-[1,] 1.865806
+[1,] 1.895944
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 1-step LPP 
+> print(var.pre2par(var1.fit.1step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-          [,1]        [,2]
-[1,] 0.4088079 -0.09822759
-[2,] 0.1398298  0.71881066
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
-\end{Sinput}
-\begin{Soutput}
-           [,1]        [,2]
-[1,]  0.4088452 -0.09821484
-[2,] -0.9785868 -0.56418264
+, , 1
+
+           [,1]       [,2]
+[1,]  0.4410898 -0.1065025
+[2,] -1.4966475 -0.4463414
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
 > print(phi.yw)
 \end{Sinput}
 \begin{Soutput}
-            [,1]        [,2]
-[1,]  0.40880769 -0.09822759
-[2,] -0.05899914  0.33755351
+           [,1]       [,2]
+[1,]  0.4410890 -0.1065025
+[2,] -0.1033734  0.3395703
 \end{Soutput}
 \begin{Sinput}
 > # 2-step ahead forecasting
@@ -1825,50 +1789,41 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array[,,1] <- c(0,0)
 > psi.array[,,2] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.2step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 2.230713 2.296949
+[1] 2.393244
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
-[1,] 2.467927
+[1,] 2.620266
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 2-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 2-step LPP 
+> print(var.pre2par(var1.fit.2step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-          [,1]       [,2]
-[1,] 0.0758301 -0.2361368
-[2,] 0.6490909  0.1834502
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 2-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
-\end{Sinput}
-\begin{Soutput}
-            [,1]        [,2]
-[1,] -0.05185665 -0.02473491
-[2,] -0.06786026  0.45889028
+, , 1
+
+           [,1]       [,2]
+[1,]  0.7488429  0.5310041
+[2,] -1.2416727 -0.8918677
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
 > print(phi.yw)
 \end{Sinput}
 \begin{Soutput}
-            [,1]        [,2]
-[1,]  0.40880769 -0.09822759
-[2,] -0.05899914  0.33755351
+           [,1]       [,2]
+[1,]  0.4410890 -0.1065025
+[2,] -0.1033734  0.3395703
 \end{Soutput}
 \begin{Sinput}
 > # low-pass LPP
@@ -1876,50 +1831,41 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
 > psi.array <- aperm(psi.array,c(1,3,2))
 > acf.array <- x.acf
-> theta <- rep(0,4)
-> var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
+> theta <- rnorm(4)
+> var1.fit.bk <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.bk$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 0.04783541 0.04782558
+[1] 0.06186779
 \end{Soutput}
 \begin{Sinput}
-> lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
            [,1]
-[1,] 0.05092779
+[1,] 0.06708074
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from low-pass LPP, delta = 1
-> print(var1.psi2par(var1.fit.bk.Pos$par,1))	
+> # phi coefficient from low-pass LPP 
+> print(var.pre2par(var1.fit.bk$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-            [,1]        [,2]
-[1,] -0.06199006  0.07558949
-[2,] -0.98694748 -0.38815893
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from low-pass LPP, delta = -1
-> print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
-\end{Sinput}
-\begin{Soutput}
-           [,1]      [,2]
-[1,] -0.1448381 0.0455870
-[2,]  0.7773915 0.5006811
+, , 1
+
+            [,1]       [,2]
+[1,] -0.03636414  0.4078041
+[2,]  0.40329900 -0.7586160
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
 > print(phi.yw)
 \end{Sinput}
 \begin{Soutput}
-            [,1]        [,2]
-[1,]  0.40880769 -0.09822759
-[2,] -0.05899914  0.33755351
+           [,1]       [,2]
+[1,]  0.4410890 -0.1065025
+[2,] -0.1033734  0.3395703
 \end{Soutput}
 \begin{Sinput}
 > 
@@ -1973,48 +1919,37 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 > # Yule-Walker
 > phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-> yw.psidelta <- sigex.ivarpar(array(phi.yw,c(2,2,1)))
+> yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 > # 1-step ahead forecasting
 > psi.array <- array(0,c(1,2,1))
 > psi.array[,,1] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
-+ 	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
-+ 	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.1step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 8.036465 8.036465
+[1] 8.001462
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
-[1,] 8.036465
+[1,] 8.001462
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 1-step LPP 
+> print(var.pre2par(var1.fit.1step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-           [,1]       [,2]
-[1,] -0.0220511  2.3982423
-[2,] -0.1852666 -0.5516525
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
-\end{Sinput}
-\begin{Soutput}
-            [,1]        [,2]
-[1,] -0.02205007  2.39823878
-[2,]  0.19520816 -0.09218997
+, , 1
+
+            [,1]     [,2]
+[1,] -0.02253471 2.408483
+[2,] -0.39186220 0.467513
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -2022,8 +1957,8 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 \end{Sinput}
 \begin{Soutput}
             [,1]      [,2]
-[1,] -0.02205180 2.3982434
-[2,] -0.08104211 0.7708112
+[1,] -0.02253441 2.4084808
+[2,] -0.07949052 0.7665047
 \end{Soutput}
 \begin{Sinput}
 > # 2-step ahead forecasting
@@ -2031,43 +1966,32 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array[,,1] <- c(0,0)
 > psi.array[,,2] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
-+ 	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
-+ 	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.2step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 10.44909 13.36460
+[1] 10.35327
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
-         [,1]
-[1,] 11.67957
+        [,1]
+[1,] 11.5961
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 2-step LPP 
+> print(var.pre2par(var1.fit.2step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-            [,1]     [,2]
-[1,]  0.08169268 1.852166
-[2,] -0.26545460 1.355849
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
-\end{Sinput}
-\begin{Soutput}
-           [,1]     [,2]
-[1,] -0.4381731 1.348005
-[2,] -0.3903974 1.365920
+, , 1
+
+           [,1]      [,2]
+[1,] -0.2453877 -1.686126
+[2,]  0.3213919 -1.341229
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -2075,17 +1999,11 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 \end{Sinput}
 \begin{Soutput}
             [,1]      [,2]
-[1,] -0.02205180 2.3982434
-[2,] -0.08104211 0.7708112
+[1,] -0.02253441 2.4084808
+[2,] -0.07949052 0.7665047
 \end{Soutput}
 \begin{Sinput}
-> # select choices of phi from above
-> if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-+ 	phi.lpp <- sigex.varpar(var1.fit.2step.Pos$par,1,2,1) 
-+ } else {
-+ 	phi.lpp <- sigex.varpar(var1.fit.2step.Neg$par,1,2,-1)
-+ }
-> phi.lpp <- phi.lpp[,,1]
+> phi.lpp <- var.pre2par(var1.fit.2step$par,1,2)[,,1]
 > # LPP case
 > fore.lpp <- phi.lpp %^% 2
 > fore.lpp <- fore.lpp[1,]
@@ -2095,7 +2013,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > sum((x.sim[3:T,1] - fore.casts)^2)/(T-2)
 \end{Sinput}
 \begin{Soutput}
-[1] 10.38676
+[1] 10.37425
 \end{Soutput}
 \begin{Sinput}
 > # YW case
@@ -2107,7 +2025,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > sum((x.sim[3:T,1] - fore.casts)^2)/(T-2)
 \end{Sinput}
 \begin{Soutput}
-[1] 11.62949
+[1] 11.61701
 \end{Soutput}
 \begin{Sinput}
 > 
@@ -2124,23 +2042,46 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 
 %----------------------------------------
 
-%\SweaveInput{Filter_revisions}
+% Chapter 4 
+% non-stationary MDFA plus constraints
+%\SweaveInput{Integrated}
+
+% These are deprecated, will be incorporated into Integrated
+%%\SweaveInput{Constraints}
+%%\SweaveInput{Replication}
+
+%------------------------------------------------------------------
+
+% Chapter 5
+% co-integration, frequency zero and general case
+%\SweaveInput{Cointegrated}
 
 %----------------------------------------
 
-%\SweaveInput{Constraints}
-
-%----------------------------------------
-
+% Chapter 6
+%  customization, scalar and vector cases
 %\SweaveInput{ATS}
 
-%-------------------------------------------
+% will be incorporated
+%%\SweaveInput{ATS_multivariate}
 
-%\SweaveInput{ATS_multivariate}
+%------------------------------------------
 
-%-------------------------------------------
+% Chapter 7
+%  regularization, shrinkage towards null specification
+%\SweaveInput{Regularization}
 
-%\SweaveInput{Replication}
+%-------------------------------------------------------------
+
+%  Chapter 8
+%\SweaveInput{Filter_revisions}
+
+
+%----------------------------------------
+
+%  Chapter 9
+% embedding in SVF,  backcasting GDP
+%\SweaveInput{Mixed}
 
 %-------------------------------------------
 
@@ -2154,25 +2095,11 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 
 %\SweaveInput{Inference}
 
-%------------------------------------------
-
-%\SweaveInput{Regularization}
 
 %----------------------------------------------
 
 %\SweaveInput{Vintage}
 
-%-------------------------------------------------------------
-
-%\SweaveInput{Mixed}
-
-%------------------------------------------------------------------
-
-%\SweaveInput{Integrated}
-
-%------------------------------------------------------------------
-
-%\SweaveInput{Cointegrated}
 
 %-------------------------------------------------------------------
 
