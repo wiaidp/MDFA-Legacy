@@ -3,9 +3,10 @@
 
 The univariate DFA was introduced in Chapter 2 for the case of a stationary time series.  
 However, most economic series are non-stationary, requiring suitable differencing to be
-rendered stationary.  Such time series are called {\it integrated processes}.  This chapter discusses the
-DFA methodology for multivariate integrated processes.  We also give a thorough and novel treatment
-of co-integration, and how this is related to DFA filter constraints.
+rendered stationary.  Such time series are called {\it integrated processes}.  This chapter discusses the  MDFA methodology for non-stationary processes, discussing how
+ filter constraints can be handled.
+ 
+%\section{}
 
 \section{Stationary Multivariate DFA}
 

@@ -25,3 +25,15 @@
 \contentsline {section}{\numberline {2.3}Model Fitting via LPP MSE Minimization}{21}{section.2.3}%
 \contentsline {paragraph}{Proof of Proposition \ref {prop:PTV-truth}.}{22}{section*.11}%
 \contentsline {paragraph}{Proof of Theorem \ref {thm:LPP-Clt}.}{24}{section*.12}%
+\contentsline {chapter}{\numberline {3}Introduction to the Multivariate Direct Filter Analysis}{35}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Background on Multivariate Filtering}{35}{section.3.1}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:phase-delay}.}{37}{section*.13}%
+\contentsline {section}{\numberline {3.2}Multivariate Direct Filter Analysis of the LPP}{37}{section.3.2}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln}.}{39}{section*.14}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:MDFAasymp}.}{40}{section*.15}%
+\contentsline {section}{\numberline {3.3}Computation of the Linear Prediction Filter}{41}{section.3.3}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:dft-unitary}.}{42}{section*.16}%
+\contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{54}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Bivariate MDFA versus Univariate DFA}{54}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{57}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Replicating and Generalizing Model-Based Solutions}{62}{section.3.5}%

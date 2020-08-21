@@ -805,9 +805,11 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 \[
    e_1^{\prime} \, \left( \Gamma (0) - \Phi^h \, \Gamma (0) \, {\Phi}^{h \prime} \right) \, e_1.
 \]
- It is known that Whittle estimation corresponds to the $h=1$ case, with a criterion function given
- by the determinant of the forecast MSE matrix (McElroy and Findley, 2015), and in essence
- incorporates forecast error from all $n$ series.  In the above, the criterion only depends on the
+ It is known that Whittle estimation corresponds to the $h=1$ case, 
+ with a criterion function given  by the determinant of the forecast MSE 
+ matrix (McElroy and Findley, 2015), and in essence
+ incorporates forecast error from all $n$ series.  In the above, 
+ the criterion only depends on the
  performance of the first series, which allows a practitioner to focus on parameter values
  that sacrifice performance on the other $n-1$ series in order to achieve superior results for
  the first series.
@@ -905,7 +907,6 @@ print(lpp.var1(yw.psi,psi.array,acf.array))
 print(var.pre2par(var1.fit.bk$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
-
 @
 
 \begin{Exercise} {\bf Incorrect VAR(1) LPP.} \rm
@@ -997,7 +998,6 @@ print(lpp.var1(yw.psi,psi.array,acf.array))
 print(var.pre2par(var1.fit.bk$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
-
 @
 
 
@@ -1096,5 +1096,4 @@ fore.casts <- fore.yw %*% t(x.sim[1:(T-2),])
 plot(ts(as.vector(x.sim[3:T,1])))
 lines(ts(as.vector(fore.casts)),col=2)
 sum((x.sim[3:T,1] - fore.casts)^2)/(T-2)
-
 @

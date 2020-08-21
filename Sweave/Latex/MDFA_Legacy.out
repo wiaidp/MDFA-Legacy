@@ -14,3 +14,11 @@
 \BOOKMARK [2][-]{subsection.2.2.1}{The Linear Prediction Problem}{section.2.2}% 14
 \BOOKMARK [2][-]{subsection.2.2.2}{Solution to the Linear Prediction Problem}{section.2.2}% 15
 \BOOKMARK [1][-]{section.2.3}{Model Fitting via LPP MSE Minimization}{chapter.2}% 16
+\BOOKMARK [0][-]{chapter.3}{Introduction to the Multivariate Direct Filter Analysis}{}% 17
+\BOOKMARK [1][-]{section.3.1}{Background on Multivariate Filtering}{chapter.3}% 18
+\BOOKMARK [1][-]{section.3.2}{Multivariate Direct Filter Analysis of the LPP}{chapter.3}% 19
+\BOOKMARK [1][-]{section.3.3}{Computation of the Linear Prediction Filter}{chapter.3}% 20
+\BOOKMARK [1][-]{section.3.4}{Qualitative Easing by Leading Indicators: an Empirical Study}{chapter.3}% 21
+\BOOKMARK [2][-]{subsection.3.4.1}{Bivariate MDFA versus Univariate DFA}{section.3.4}% 22
+\BOOKMARK [2][-]{subsection.3.4.2}{Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{section.3.4}% 23
+\BOOKMARK [1][-]{section.3.5}{Replicating and Generalizing Model-Based Solutions}{chapter.3}% 24
