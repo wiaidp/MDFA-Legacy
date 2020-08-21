@@ -1,9 +1,8 @@
-lpp.var1 <- function(theta,psi.array,acf.array,delta)
+lpp.var1 <- function(theta,psi.array,acf.array)
 {
 	###  lpp.var1
 	#		theta: pre-parameters, N^2 vector of real numbers ;
-	#			uses var1.psi2par to generate phi matrix
-	#		delta: \pm 1, used with theta to generate phi matrix
+	#			uses var.pre2par to generate phi matrix
 	#		psi.array: the target filter at lags -1 through -L,
 	#			as an 1 x N x L array object
 	#		acf.array: given acf at lags 0 through L,
@@ -11,7 +10,7 @@ lpp.var1 <- function(theta,psi.array,acf.array,delta)
 
 	N <- dim(psi.array)[2]
 	L <- dim(psi.array)[3]
-	phi.matrix <- sigex.varpar(theta,1,N,delta)
+	phi.matrix <- var.pre2par(theta,1,N)
 	phi.matrix <- phi.matrix[,,1]
 	phi.next <- phi.matrix
 	A.psi.phi <- matrix(0,1,N)
