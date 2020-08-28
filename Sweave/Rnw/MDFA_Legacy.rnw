@@ -29,6 +29,16 @@
 \def\XX{\mathbb X}
 \def\CC{\mathbb C}
 \def\sige{\sigma_{\epsilon}}
+\def\ttheta{\widetilde{\theta}}
+\def\tTheta{\widetilde{\Theta}}
+\def\tsig{\widetilde{\sigma}^2}
+\def\tc{\widetilde{c}}
+\def\etheta{\widehat{\theta}}
+\def\eTheta{\widehat{\Theta}}
+\def\esig{\widehat{\sigma}^2}
+\def\ptheta{\underline{\theta}}
+\def\pTheta{\underline{\Theta}}
+\def\psig{\underline{\sigma}^2}
 
 \def\eqinlaw{\stackrel{{\cal L}}{=}}
 \def\tends{\rightarrow}
@@ -151,6 +161,10 @@
 %--------------------------------------------------------------------
 
 %\SweaveInput{Summary}
+
+%--------------------------------------------------------------------
+
+\SweaveInput{Bibliography}
 
 
 \end{document}
