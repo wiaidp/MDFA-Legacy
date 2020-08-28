@@ -31,6 +31,8 @@ Springer-Verlag.
 \bibitem{} McElroy, T., and Trimbur, T. (2015). Signal Extraction for Non-Stationary Multivariate Time Series with Illustrations for Trend Inflation. Journal of Time 
 Series Analysis, 36(2), 209-227.
 
+\bibitem{} McElroy, T. S. and Wildi, M. (2020). The multivariate linear prediction problem: model-based and direct filtering solutions. Econometrics and Statistics, 14, 112-130.
+
 \bibitem{} Self, S. G., and Liang, K. Y. (1987). Asymptotic properties of maximum likelihood estimators and likelihood ratio tests under nonstandard conditions. Journal of the American Statistical Association, 82(398), 605-610.
 
 \bibitem{} Taniguchi, M., and Kakizawa, Y. (2012). Asymptotic theory of statistical inference for time series. Springer Science \& Business Media.

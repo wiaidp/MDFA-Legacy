@@ -103,57 +103,69 @@ Take the Time Shift constraint formula for $\widehat{\psi} (1)$,
 		\otimes 1_n \qquad
 	Q = \left[ \begin{array}{c} \Psi (1) - \partial {\Psi} (1)  \\  \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
 \]
- 
- 
-   
-   %HERE
-   
-   
- More generally, we can envision an LPP involving $M$ linear constraints on each scalar filter in $\Xi$, taking the form
- $   K = [ J \otimes I_N ] \, \Xi$, where $J$ is $M \times q$ dimensional ($M < q$) and $K$ is $N M \times N$ dimensional.
- (The LC, TSC, and LTSC examples all have this form.)  In order to express this constraint in the form 
- (\ref{eq:concurrent-constrain}), we use the Q-R decomposition (Golub and Van Loan, 1996) of $J$, writing
- $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $M \times M$ dimensional), a rectangular upper triangular matrix $G$
- (which is $M \times q$ dimensional), and a permuation matrix $\Pi$ (which is $q \times q$ dimensional).  
- Standard matrix software will provide the Q-R decomposition $J$, and should produce the rank of $J$ as  a by-product --
- if this rank  is less than $M$, then there are redundancies in the constraints that should first be eliminated.  Hence
- proceeding with a full rank $J$, we partition $G$ as $G = [ G_1 \, G_2]$ such that $G_1$ has $M$ columns and $G_2$
- has $q-M$ columns.  This quantity $q-M$ corresponds to the number of free coefficient matrices, and is therefore the same as $r$.
- The Q-R decomposition guarantees that $G_1$ is an upper triangular matrix, and moreover it is invertible.  Therefore
+ %
+ More generally, we can envision an LPP involving $m$ linear constraints
+ on each scalar filter in $\Xi$, taking the form
+ $   K = [ J \otimes 1_n ] \, \Xi$, where $J$ is $m \times q$ dimensional
+ ($m < q$) and $K$ is $n m \times n$ dimensional.
+ (The LC, TSC, and LTSC examples all have this form.) 
+ In order to express this constraint in the form 
+ (\ref{eq:concurrent-constrain}), we use the Q-R decomposition 
+ (Golub and Van Loan, 1996) of $J$, writing
+ $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $m \times m$ dimensional), 
+ a rectangular upper triangular matrix $G$
+ (which is $m \times q$ dimensional), and a permutation matrix 
+ $\Pi$ (which is $q \times q$ dimensional).  
+ Standard matrix software will provide the Q-R decomposition $J$, 
+ and should produce the rank of $J$ as  a by-product --
+ if this rank  is less than $m$, then there are redundancies
+ in the constraints that should first be eliminated.  Hence
+ proceeding with a full rank $J$, we partition $G$ as $G = [ G_1 \, G_2]$ 
+ such that $G_1$ has $m$ columns and $G_2$
+ has $q-m$ columns.  This quantity $q-m$ corresponds
+ to the number of free coefficient matrices, and is therefore the same as $r$.
+ The Q-R decomposition guarantees that $G_1$ is an upper triangular matrix, 
+ and moreover it is invertible.  Therefore
 \[
-  \left[ G_1^{-1} \, C^{-1} \otimes I_N \right] \, K  = \left( \left[ I_M , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes I_N  \right) \, \Xi,
+  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, K  = 
+  \left( \left[ 1_m , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_n  \right) \, \Xi,
 \]
- and the action of $\Pi$ (together with the tensor product) amounts to a block-wise permutation of the elements of $\Xi$.
+ and the action of $\Pi$ (together with the tensor product) amounts
+ to a block-wise permutation of the elements of $\Xi$.
   Let the output of this permutation be denoted
 \[
    { \left[ { \Xi^{\sharp} }^{\prime},  {  \Xi^{\flat} }^{\prime}  \right] }^{\prime} =
 %   \left[ \begin{array}{l} \overline{\Xi} \\ \underline{\Xi} \end{array} \right] = 
  \left( \Pi \otimes I_N \right) \, \Xi,
 \]
- where $ {\Xi}^{\sharp}$ is $N M \times N$ dimensional and $ {\Xi}^{\flat}$ is $N r \times N$ dimensional.  
+ where $ {\Xi}^{\sharp}$ is $n m \times n$ dimensional and 
+ $ {\Xi}^{\flat}$ is $n r \times n$ dimensional.  
  Then  by substitution we can solve for ${\Xi}^{\sharp}$ in terms of ${\Xi}^{\flat}$:
 \[
-  {\Xi}^{\sharp} =  \left[ G_1^{-1} \, C^{-1} \otimes I_N \right] \, K - \left[  G_1^{-1} \, G_2  \otimes I_N   \right] \, {\Xi}^{\flat}.
+  {\Xi}^{\sharp} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, 
+  K - \left[  G_1^{-1} \, G_2  \otimes 1_n   \right] \, {\Xi}^{\flat}.
 \]
- Therefore we recognize the free variables $\Phi = {\Xi}^{\flat}$, and obtain $R$ and $Q$ in 
-(\ref{eq:concurrent-constrain}) via
+ Therefore we recognize the free variables $\Phi = {\Xi}^{\flat}$,
+ and obtain $R$ and $Q$ in (\ref{eq:concurrent-constrain}) via
 \begin{align*}
-   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ I_{r} \end{array} \right] \otimes I_N  \\
-  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes I_N  \right) \, K.
+   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 1_{r} \end{array} \right] \otimes 1_n  \\
+  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_n  \right) \, K.
 \end{align*}
-  These formulas allow one to compute the   form (\ref{eq:concurrent-constrain})  from given constraints, and
+  These formulas allow one to compute the   form (\ref{eq:concurrent-constrain}) 
+  from given constraints, and
  an analytical solution to the resulting MDFA criterion  be obtained from the following result.
 
 \begin{Proposition}
 \label{prop:mdfa.quadsoln-constrain}
- The minimizer of the  MDFA criterion given by the determinant of  (\ref{eq:mdfa-criterion}),
+ The minimizer of the  MDFA criterion given by the determinant of  (\ref{eq:mdfa-criterion2}),
  with respect to  $\mathcal{G}$ consists of all length $q$ concurrent filters subject to 
  linear constraints of the form (\ref{eq:concurrent-constrain}),  is
 \begin{equation}
 \label{eq:phi.soln-constained}
- \Phi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, \left( A - B \, Q \right).
+ \Phi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, 
+ \left( A - B \, Q \right).
 \end{equation}
-  Letting $H = I_{Nq} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, B$, the minimal value is the determinant of
+  Letting $H = 1_{nq} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, B$, the minimal value is the determinant of
 \begin{equation}
 \label{eq:opt.val.mdfa-constrained}
 { \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0 -
@@ -162,11 +174,77 @@ Take the Time Shift constraint formula for $\widehat{\psi} (1)$,
 \end{equation}
 \end{Proposition}
 
-For computation, we utilize the same approximations to $B$ and $A$ as discussed in the previous subsection,
+For computation, we utilize the same approximations to $B$ and 
+$A$ as discussed previously,
  obtaining the constrained MDFA filter $\Xi$ via (\ref{eq:phi.soln-constained}) followed by (\ref{eq:concurrent-constrain}).
+ 
+\begin{Exercise} {\bf VAR($1$) LPP by Constrained MDFA. }  \rm
+\label{exer:var1.mdfa-constraint}
+ This exercise compares basic MDFA to constrained MDFA for a VAR(1) LPP.
+ Simulate a sample of size $T=2500$ from a
+ bivariate VAR(1) process with 
+\[
+  \Phi = \left[ \begin{array}{ll} 1 & .5 \\ -.2 & .3 \end{array} \right]
+\]
+ and $\Sigma$ equal to the identity.  The eigenvalues are $.8$ and $.5$.
+  Apply the   ideal low-pass filter  with 
+  $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
+ Use the moving average filter
+ MDFA  (Proposition \ref{prop:mdfa.quadsoln2}) to find the best
+ concurrent filter, setting $q= 20$.   Determine constrained MDFA results, using
+  LC, TSC, and LTSC constraints.  
+ Compare and contrast the results obtained.
+\end{Exercise}
+      
+<<exercise_integrated_var1.filtering,echo=True>>=
+# Simulate a Gaussian VAR(1) of sample size 2500:
+T <- 2500
+N <- 2
+phi.matrix <- rbind(c(1,.5),c(-.2,.3))
+innovar.matrix <- diag(N)
+true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+gamma.0 <- gamma[,,1]
+x.init <- t(chol(gamma.0)) %*% rnorm(N)
+x.next <- x.init
+x.sim <- NULL
+for(t in 1:T)
+{
+	x.next <- phi.matrix %*% x.next + rnorm(N)
+	x.sim <- cbind(x.sim,x.next)
+}
+x.sim <- ts(t(x.sim))
+x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
+x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+  
+# construct and apply low pass filter
+mu <- pi/6
+len <- 1000
+lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+lp.filter <- c(rev(lp.filter),lp.filter[-1])
+x.trend.ideal <- mvar.filter(x.sim,lp.filter)
+
+# get MDFA concurrent filter
+q <- 20
+Grid <- T
+m <- floor(Grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*Grid^{-1}*(seq(1,Grid) - (m+1))
+
+# frf for ideal low-pass
+frf.psi <- rep(0,Grid)
+frf.psi[abs(freq.ft) <= mu] <- 1
+frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+frf.psi <- array(frf.psi,c(N,N,Grid))
+spec.hat <- mdfa.pergram(x.sim,1)	
+lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
+  
 
 
 
+
+
+@
 
 \section{Integrated Multivariate Processes}
 

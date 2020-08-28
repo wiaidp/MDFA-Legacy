@@ -554,7 +554,7 @@ To compute the quantities given in Proposition \ref{prop:mdfa.quadsoln}, and mor
  $E_t = Y_t - \widehat{Y}_t$ has variance given by (\ref{eq:dfa-mvar}), the sample 
  variance is
 \[
-  T^{-1} \, \sum_{t=1}^T E_t \, E_t^{\prime} = T^{-1} \sum_{j=1}^T \widehat{F}_E (\omega_{j-[T/2]-1}),
+  T^{-1} \, \sum_{t=1}^T E_t^2   = T^{-1} \sum_{j=1}^T \widehat{F}_E (\omega_{j-[T/2]-1}),
 \]
  where $\widehat{F}_E$ is the periodogram of the filter errors.  This equality
  is a discrete version of the Plancherel identity; the right hand side is approximated
@@ -1488,7 +1488,7 @@ The filter error variance matrix is referred to as the filter MSE;
  with multiple targets.
 
 \begin{Proposition}
- \label{prop:GPP}
+ \label{prop:GPP2}
  Suppose that $\{ X_t \}$ is mean zero and weakly stationary 
  with  causal Wold decomposition expressed as $X_t = \Theta (L) \, \epsilon_t$,
  where $\Theta (L)$ is invertible.    Then the solution
@@ -1511,7 +1511,7 @@ The filter error variance matrix is referred to as the filter MSE;
 
   
 
-\paragraph{Proof of Proposition \ref{prop:GPP}.}
+\paragraph{Proof of Proposition \ref{prop:GPP2}.}
  In order for a linear solution to be MSE optimal, it is sufficient that the
  resulting error process be uncorrelated with the present and past data, denoted $X_{t:}$.
    If we can show that the real-time signal extraction error process $\{ E_t \}$
@@ -1538,59 +1538,52 @@ The filter error variance matrix is referred to as the filter MSE;
  
 \subsection{MDFA for Multiple Targets}
 
-HERE: needs revision
-
 Suppose that the causal filters of interest belong to a class
   $\mathcal{G}$  described by a vector parameter $\vartheta$ belonging to a 
- parameter manifold.  Because we seek elements of $\mathcal{G}$ that will solve
- an LPP, i.e., be a good concurrent approximation to $\Psi $, we use the notation
+ parameter manifold.  We now generalize the definition of $\mathcal{G}$ given
+  by (\ref{eq:filter-set}),  where now the filters are $n \times n$.
+  Likewise, we generalize the real-time estimation error   given in (\ref{eq:dfa-error})
+ by noting that now $E_t$ is an $n$-dimensional vector.  
+  Hence (\ref{eq:dfa-mvar}) becomes
 \begin{equation}
- \label{eq:filter-set}
- \mathcal{G} = \{
- \widehat{\Psi}_{\vartheta}   : \vartheta \; \mbox{belongs to a
-  parameter space} \}.
-\end{equation}
-  First suppose that $\{ X_t \}$ is weakly stationary with mean zero and spectral density $F$.
-  The real-time estimation error is given in (\ref{eq:dfa-error}),
- which has mean zero and $N \times N$ variance matrix
-\begin{equation}
- \label{eq:dfa-mvar}
-   \EE [ \varepsilon_t \, \varepsilon_t^{\prime} ]  = { \langle  \left[ \Psi ( e^{-i \omega} ) -  \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \, 
-  F (\omega) \,
+ \label{eq:dfa-mvar2}
+   \EE [ \varepsilon_t \, \varepsilon_t^{\prime} ]  = 
+   { \langle  \left[ \Psi ( e^{-i \omega} ) -  
+   \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   F (\omega) \,
   {  \left[ \Psi (e^{i \omega}) -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
 \end{equation}
-   This suggests the criterion function  $\det D_{\Psi} (\vartheta, G)$ for
+   This suggests as a generalization of (\ref{eq:mdfa-criterion})
+   the criterion function  $\det D_{\Psi} (\vartheta, G)$ for
  any Hermitian function $G$, defined via
 \begin{equation}
-\label{eq:mdfa-criterion}
+\label{eq:mdfa-criterion2}
  D_{\Psi} (\vartheta, G) = { \langle  \left[ \Psi (e^{-i \omega}) - 
   \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   G (\omega) \,
   {  \left[ \Psi (e^{i \omega}) -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
 \end{equation}
   In the following development, setting $G = F$ yields an ideal criterion based on the process,
- whereas setting $G =  \widehat{F}$ (the periodogram) yields an empirical criterion, providing estimates
- that we can compute from data.  
- Taking the determinant of (\ref{eq:mdfa-criterion}) yields
- the MDFA criterion function.  
- In the case $N=1$ we recover the univariate DFA; Proposition \ref{prop:dfa-mdfa} of Appendix A in the Supplement shows
+ whereas setting $G =  \widehat{F}$ (the periodogram) yields an empirical criterion,
+ providing estimates  that we can compute from data.  
+ Taking the determinant of (\ref{eq:mdfa-criterion2}) yields
+ the MDFA criterion function.   In the case $n=1$ we recover the univariate DFA; 
+ Proposition A.3 of McElroy and Wildi (2020)  shows
 that by including additional time series the MDFA will  improve over DFA for any filter class $\mathcal{G}$.
 
 The  best possible concurrent filter is  given by
  $\widehat{\Psi}_{\vartheta (F)}$,
   where $\vartheta (F)$ is a minimizer of
-  $\det D_{\Psi} (\vartheta, F)$.  This
- $\vartheta (F)$ is the
- Pseudo-True Value  for the filter parameter, in analogy with the
- terminology for model parameters.   
+  $\det D_{\Psi} (\vartheta, F)$.  This $\vartheta (F)$ is the
+ Pseudo-True Value  for the filter parameter.
 A   case of interest arises from taking a very broad class $\mathcal{G}$, namely
   let $\mathcal{G}$ consist of all length $q$ concurrent filters, with 
 $\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and 
 \begin{equation}
 \label{eq:conc.filter}
-  \Xi^{}  =  {\left[  \widehat{\Psi}_{0}, \widehat{\Psi}_{1}, \ldots,   \widehat{\Psi}_{q-1} \right] }^{\prime}.
+  \Xi^{}  =  {\left[  \widehat{\psi} (0), \widehat{\psi} (1), \ldots, 
+  \widehat{\psi} (q-1) \right] }^{\prime}.
 \end{equation}
- So $\Xi$ is  a   $ q N \times N$ dimensional matrix.  Then the criterion (\ref{eq:mdfa-criterion})
- can be rewritten as
+ So $\Xi$ is  a   $ q n \times n$ dimensional matrix.
+ Then the criterion (\ref{eq:mdfa-criterion2}) can be rewritten as
 \begin{equation}
 \label{eq:mdfa-crit.linear}
  D_{\Psi} (\vartheta, G)  = \Xi^{\prime} \, B \, \Xi -
@@ -1600,64 +1593,67 @@ $\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and
  where 
 \begin{equation}
  \label{eq:bstar-expression}
-  A^{\prime}  = \left[ { \langle \Psi (e^{-i \omega}) \, G (\omega)  \rangle }_{0}, { \langle \Psi (e^{-i \omega}) \, G (\omega) \rangle }_{1},
+  A^{\prime}  = \left[ { \langle \Psi (e^{-i \omega}) \, G (\omega) 
+  \rangle }_{0}, { \langle \Psi (e^{-i \omega}) \, G (\omega) \rangle }_{1},
   \ldots, { \langle \Psi (e^{-i \omega}) \, G (\omega) \rangle }_{q-1} \right],
 \end{equation}
-  and $B$ is a block matrix such that  the $jk$th $N \times N$ block of $B$  is 
+  and $B$ is a block matrix such that  the $jk$th $n \times n$ block of $B$  is 
   ${ \langle G \rangle }_{k-j}$ for $1 \leq j,k \leq q$.  (Because $G$ is Hermitian,
  ${ \langle G \rangle }_{k-j}$ is real, and it follows that $A$ is real as well.)
 
 
 
 \begin{Proposition}
-\label{prop:mdfa.quadsoln}
- The minimizer of the   MDFA criterion given by the determinant of (\ref{eq:mdfa-criterion}),
+\label{prop:mdfa.quadsoln2}
+ The minimizer of the   MDFA criterion given by the determinant of (\ref{eq:mdfa-criterion2}),
   with respect to $\mathcal{G}$ consisting of all length $q$ concurrent filters,  is
   $ \Xi (G) = B^{-1} \, A$,
  where the $jk$th  block of $B$   is    ${ \langle G \rangle }_{k-j}$,
  and $A$ is given by (\ref{eq:bstar-expression}).
  The minimal value is the determinant of
 \begin{equation}
-\label{eq:opt.val.mdfa}
+\label{eq:opt.val.mdfa2}
 { \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0 - A^{\prime} \, B^{-1} \, A.
 \end{equation}
 \end{Proposition}
 
-
-
-\begin{Remark} \rm
-\label{rem:matrix.mdfa.soln}
- To implement Proposition \ref{prop:mdfa.quadsoln} in practice, $G$ is given by the
- periodogram so that ${ \langle G \rangle }_h = \widehat{\Gamma}_h$ by (\ref{eq:per2acf}).
-  It is necessary to compute $A$, given by (\ref{eq:bstar-expression}), 
-  and we can proceed by approximating the integrals over a Riemann mesh corresponding
- to Fourier frequencies, i.e., for $0 \leq j \leq q-1$ compute
-\[
-     { \langle \Psi (z) \, \widehat{F}  \rangle }_{j}  \approx 
- T^{-1} \sum_{j=-[T/2]}^{T-[T/2]-1}    \Psi (e^{-i  \omega_j }) \, \widehat{F} (\omega_j)
-\]
- for $\omega_j = 2 \pi j / T$.
-\end{Remark}
-
+\paragraph{Proof of Proposition \ref{prop:mdfa.quadsoln2}.}
+ First note that the typical component of $A$ has the form
+\begin{equation}
+ \label{eq:psi.g.comp2}
+   { \langle \Psi (z) \, G \rangle }_{\ell} = \sum_{k = - \infty}^{\infty} \psi (k) \,
+	 { \langle G \rangle }_{\ell-k}
+\end{equation}
+ for $0 \leq \ell < q$,  which shows that $A$ is real-valued. 
+ The argument follows the same method as in McElroy and Findley (2015);
+ each entry of the matrix objective function is a quadratic in $\Xi$, and therefore
+  the minimizer is obtained 
+ by computing the gradient and Hessian, which are 
+  $-2 A + 2 B \, \Xi$ and   $2 B$ respectively,
+  yielding the solution.  Plugging back into $D_{\Psi}$ yields (\ref{eq:opt.val.mdfa2}).
+$\quad \Box$
 
 
  
 \begin{Example} {\bf One-step Ahead Forecasting.}  \rm
-\label{exam:multi-step.fore.4}
-  Suppose we consider the   one-step ahead forecasting of stationary time series and
+\label{exam:multi-step.fore.4-alt}
+ We now generalize the result of Example \ref{exam:multi-step.fore.4} by considering
+  multiple series at once.   Consider the   one-step ahead forecasting of 
+  stationary time series, where 
  $\mathcal{G} $ corresponds to   all VMA filters of   order $q$
   (i.e., the filter corresponds to a VMA($q-1$) polynomial), where  
- $ \vartheta  = \mbox{vec} [{\widehat{\Psi}_{0} }^{\prime},
- {\widehat{\Psi}_1 }^{\prime},   \ldots,
-  {\widehat{\Psi}_{q-1} }^{\prime} ]$.
- With $\Psi (z) = z^{-1}$ from (\ref{eq:mdfa-criterion}) we have 
+ $ \vartheta  = \mbox{vec} [{\widehat{\psi} (0) }^{\prime},
+ {\widehat{\psi} (1) }^{\prime},   \ldots,
+  {\widehat{\psi} (q-1) }^{\prime} ]$.
+ With $\Psi (z) = z^{-1} 1_n$, from (\ref{eq:mdfa-criterion2}) we have 
 \begin{align*}
  D_{\Psi} (\vartheta, G) & = 
- { \langle  \left[  e^{i \omega}  I_N -  \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   G (\omega) \,
-  {  \left[ e^{-i \omega}  I_N  -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0 \\
- & = { \langle  \left[ I_N -  \sum_{\ell = 0}^{q-1} \widehat{\Psi}_{\ell}
+ { \langle  \left[  e^{i \omega} 1_n -  \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   G (\omega) \,
+  {  \left[ e^{-i \omega}  1_n  -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0 \\
+ & = { \langle  \left[ 1_n -  \sum_{\ell = 0}^{q-1} \widehat{\psi} (\ell)
     \, e^{-i \omega  (\ell+1) } \right] \, 
-  G \,   {  \left[ I_N  -   \sum_{\ell = 0}^{q-1} \widehat{\Psi}_{\ell} \, e^{i \omega (\ell+1 ) } \right]
+  G \,   {  \left[ 1_n  -   \sum_{\ell = 0}^{q-1} \widehat{\psi} (\ell) 
+  \, e^{i \omega (\ell+1 ) } \right]
   }^{\prime} \rangle }_0 \\
  & = { \langle G \rangle }_0 - 2 \, \Xi^{\prime} \, { \langle G \rangle }_{1:q} 
     + \Xi^{\prime} \, B \, \Xi.
@@ -1666,7 +1662,7 @@ $\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and
  which is the first component of the solution to the Yule-Walker system of order 
   $q$ determined by $G$.
   Therefore the MDFA solution is the same as the fit of a VAR($q$) using 
- Proposition \ref{prop:GPP}.
+ Proposition \ref{prop:GPP2}.
 \end{Example}
  
 
@@ -1676,77 +1672,53 @@ $\widehat{\Psi}_{ {\vartheta} (G)}$  as  a {\em Linear
 Prediction Filter} (LPF).   Again, when $G=F$ this LPF is a theoretical
  object, but when $G = \widehat{F}$ the LPF can be constructed directly from the sample.
   When $\mathcal{G}$ is large enough to include the optimal MB filter
- $\widehat{\Psi}  $ of Proposition  \ref{prop:GPP},  then
- $\widehat{\Psi}_{ {\vartheta} (F)} $ corresponds to  this $\widehat{\Psi}$ (assuming  the model 
- is correctly specified);  in such a case, using the parametric model generally
- provides a more efficicient estimation of $\widehat{\Psi}$, especially
- for small samples.    However, if we construct $\widehat{\Psi}$ from
- parameter estimates obtained from the Whittle likelihood, then
- $\widehat{\Psi}_{ {\vartheta} ( \widehat{F})}$ is identical to the fitted optimal filter,
-  and therefore is asymptotically efficient as well.
-  Because $\mathcal{G}$ may be too narrow to include the optimal filter
- (for example, the set of length $q$ concurrent filters will not include 
- any optimal filters with infinitely many coefficients),  it may be
- advantageous to use a parametric model (i.e., proceed according
- to Proposition  \ref{prop:GPP}) if one is confident in having a 
- correct specification.   This paper's advocacy of MDFA is hinged
- upon cases where the practitioner does not have this certainty.
-
+ $\widehat{\Psi}  $ of Proposition  \ref{prop:GPP2},  then
+ $\widehat{\Psi}_{ {\vartheta} (F)} $ corresponds to  this 
+ $\widehat{\Psi}$ (assuming  the model 
+ is correctly specified).
+ 
+  
 
 \begin{Illustration} {\bf VAR($1$).}  \rm
-\label{ill:var1.3}
- Again consider a VAR($1$) process,
- and suppose we wish to use MDFA to approximate the optimal LPP
- solution -- even though we don't know the true dynamics.
-   Let $\mathcal{G}$ denote the set of moving average filters of
- length $q$, and $G$ is the spectral density of the VAR($1$);
-  the solution given by Proposition \ref{prop:mdfa.quadsoln}
+\label{ill:var1.3-alt}
+  We revisit the VAR(1) Illustration \ref{ill:var1.3}.
+  Now  the solution given by Proposition \ref{prop:mdfa.quadsoln2}
  can be compared to that of the LPP, which has the first $q$ components
- given by $  \Upsilon^{\prime} = [ \Psi_{0} + L_{\Psi} (\Phi), \Psi_{1},
- \ldots, \Psi_{q-1}  ]$.
+ given by $  \Upsilon^{\prime} = [ \psi (0) + A_{\Psi} (\Phi), \psi (1),
+ \ldots, \psi (q-1)  ]$.
  This is an approximate solution to the system $\Xi^{\prime} \, B
  =  A^{\prime}$, because
  $  \Upsilon^{\prime} \, B $ has $j+1$th component, for $0 \leq j \leq q-1$,
- equal to  $   \sum_{\ell=0}^{q-1} \Psi_{\ell} \, {\langle G \rangle }_{j-\ell}
- + L_{\Psi} (\Phi) \, \Gamma_j$.
-  Noting that
+ equal to  $   \sum_{\ell=0}^{q-1} \psi (\ell) \, {\langle G \rangle }_{j-\ell}
+ + A_{\Psi} (\Phi) \, \Gamma_j$.  Noting that
 \[
- L_{\Psi} (\Phi) \, \Gamma_j
- = \sum_{\ell = -1 }^{-\infty} \Psi_{-\ell} \, \Phi^{-\ell} \, \Gamma_j
- = \sum_{\ell = -1}^{\infty} \Psi_{-\ell} \, \Gamma_{j- \ell},
+ A_{\Psi} (\Phi) \, \Gamma_j
+ = \sum_{\ell = -1 }^{-\infty} \psi (-\ell) \, \Phi^{-\ell} \, \Gamma_j
+ = \sum_{\ell = -1}^{\infty} \psi (-\ell) \, \Gamma_{j- \ell},
 \]
  because for a VAR($1$) process $\Gamma_h = \Phi^h \, \Gamma_0$ when
  $h \geq 0$, we see that component $j+1$ of $\Upsilon^{\prime} \, B$ is
 \[
-  \sum_{\ell =0 }^{ q-1} \Psi_{\ell} \, \Gamma_{j-\ell}
-  =  {[   A^{\prime} ]}_{j+1} - \sum_{\ell = q}^{\infty} \Psi_{\ell} \, \Gamma_{j-\ell}.
+  \sum_{\ell =0 }^{ q-1} \psi (\ell) \, \Gamma_{j-\ell}
+  =  {[   A^{\prime} ]}_{j+1} - \sum_{\ell = q}^{\infty} \psi (\ell) \, \Gamma_{j-\ell}.
 \]
  As $q \tends \infty$ the error term vanishes (for each $j$), indicating
  that $\Upsilon^{\prime} \, B \approx  A^{\prime}$, or
  $\Xi \approx \Upsilon$.
 \end{Illustration}
  
-
-
-To compute the quantities given in Proposition \ref{prop:mdfa.quadsoln}, and more
- generally to compute the MDFA criterion (\ref{eq:mdfa-criterion}), we propose 
- to approximate each integral by an average over Fourier frequencies.  
- Although finer meshes could clearly be implemented, the Fourier frequency mesh
- is sufficient for statistical purposes -- this is because when considering
- the asymptotic properties of linear functionals of the periodogram (i.e.,
- weighted linear combinations of periodogram ordinates), there is no difference
- between averaging over Fourier frequencies or integrating over every frequency.
- Moreover, using the Fourier frequencies produces an empirical criterion function
- that is a closer approximation to the sample mean squared error, which is shown
- by the following heuristic arguments.  Recalling that the real-time filter error
- $\varepsilon_t = Y_t - \widehat{Y}_t$ has variance given by (\ref{eq:dfa-mvar}), the sample 
- variance is
+ For computation, we update the treatment given earlier to now discuss the 
+ case of a multivariate filter output.
+To compute the quantities given in Proposition \ref{prop:mdfa.quadsoln2} and  
+the MDFA criterion (\ref{eq:mdfa-criterion2}), we 
+approximate each integral by an average over Fourier frequencies: 
 \[
-  T^{-1} \, \sum_{t=1}^T \varepsilon_t \, \varepsilon_t^{\prime} = T^{-1} \sum_{j=-[T/2]}^{T-[T/2]-1}   \widehat{F}_{\varepsilon} (\omega_{j}),
+  T^{-1} \, \sum_{t=1}^T E_t \, E_t^{\prime} =
+  T^{-1} \sum_{j=-[T/2]}^{T-[T/2]-1}   \widehat{F}_{E} (\omega_{j}),
 \]
- where $  \widehat{F}_{\varepsilon}$ is the periodogram of the filter errors and $\omega_j = 2 \pi \, j/T $ is
- a Fourier frequency.    This equality
- is a discrete version of the Plancherel identity; the right hand side
+ where $  \widehat{F}_{E}$ is the periodogram of the 
+ filter errors and $\omega_j = 2 \pi \, j/T $ is
+ a Fourier frequency.   The right hand side
  (with $ \widehat{F}_X$ the periodogram of the process)  is approximated  by 
 \[
  T^{-1} \sum_{j=-[T/2]}^{T-[T/2]-1}  \left[ \Psi (e^{-i \omega_{j} }) - \widehat{\Psi} (e^{-i \omega_{j} }) \right] \,
@@ -1754,11 +1726,11 @@ To compute the quantities given in Proposition \ref{prop:mdfa.quadsoln}, and mor
  {\left[ \Psi (e^{i \omega_{j} }) - \widehat{\Psi}( e^{i \omega_{j} }) \right]}^{\prime}.
 \]
    This is exactly the   criterion $D_{\Psi} (\vartheta,  \widehat{F}_X)$ of
- (\ref{eq:mdfa-criterion}) with the integrals replaced by Riemann
+ (\ref{eq:mdfa-criterion2}) with the integrals replaced by Riemann
  sums over the Fourier frequencies.
 
 With this justification, we see that the entries of the matrix $B$ in 
- Proposition \ref{prop:mdfa.quadsoln} are approximately computed via
+ Proposition \ref{prop:mdfa.quadsoln2} are approximately computed via
 \[
   B_{j,k} \approx T^{-1} \sum_{\ell=-[T/2]}^{T-[T/2]-1} G (\omega_{\ell}) \,
    \exp \{ i \, (k-j) (\omega_{\ell}) \}
