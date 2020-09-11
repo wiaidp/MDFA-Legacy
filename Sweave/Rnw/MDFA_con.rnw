@@ -1,38 +1,4 @@
 
-
-<<loading_code,echo=False>>=
-path.main <- getwd()
-#load_code(paste(path.main,"/Sweave/Sigex",sep=""))
-setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
-# requires packages expm and xtable
-library(devtools)
-library(expm)
-library(xtable)
-source("sqrtm.r")
-source("polymult.r")
-source("var1.psi2par.r")
-source("var1.par2psi.r")
-source("lpp.var1.r")
-source("mdfa.dft.r")
-source("mdfa.pergram.r")
-source("mdfa.frf.r")
-source("mdfa.coeff.r")
-source("mdfa.filter.r")
-source("mdfa.getconstraints.r")
-source("mdfa.unconstrained.r")
-source("mdfa.levelconstraint.r")
-source("mdfa.tsconstraint.r")
-source("mdfa.ltsconstraint.r")
-source("mdfa.wnsim.r")
-source("mdfa.ucsim.r")
-source("mdfa.spectra.r")
-source("mdfa.wkfrf.r")
-source("mdfa.whfrf.r")
-source("mvar.filter.r")
-source("mvar.specfact.r")
-setwd(path.main)
-@
-
 \chapter{Multivariate Direct Filter Analysis for Non-stationary Processes}
 \label{chap:int}
 
@@ -164,20 +130,19 @@ arising from time-varying means, a form of non-stationarity.
 \]
 \end{Illustration}
 
-
-
- More generally, we can envision an LPP involving $m$ linear constraints on 
-  $\vartheta$, taking the form
- $   A = [ J \otimes 1_n ] \, \vartheta$, where $J$ is $m \times q$ 
- dimensional ($m < q$) and $A$ is $n m \times 1$ dimensional.
- (The LC, TSC, and LTSC examples all have this form.)  In order to express 
- this constraint in the form 
+ 
+  More generally, we can envision an LPP involving $m$ linear constraints
+ on each scalar filter in $\Xi$, taking the form
+ $   K = [ J \otimes 1_n ] \, \Xi$, where $J$ is $m \times q$ dimensional
+ ($m < q$) and $K$ is $n m \times n$ dimensional.
+ (The LC, TSC, and LTSC examples all have this form.) 
+ In order to express this constraint in the form 
  (\ref{eq:concurrent-constrain}), we use the Q-R decomposition 
  (Golub and Van Loan, 1996) of $J$, writing
- $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $m \times m$ dimensional),
+ $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $m \times m$ dimensional), 
  a rectangular upper triangular matrix $G$
- (which is $m \times q$ dimensional), and a permuation matrix $\Pi$ 
- (which is $q \times q$ dimensional).  
+ (which is $m \times q$ dimensional), and a permutation matrix 
+ $\Pi$ (which is $q \times q$ dimensional).  
  Standard matrix software such as $\textsc{R}$ will provide the Q-R decomposition $J$,
  and should produce the rank of $J$ as  a by-product --
  if this is less than $m$, then there are redundancies in the 
@@ -189,39 +154,37 @@ arising from time-varying means, a form of non-stationarity.
  has $q-m$ columns.  This quantity $q-m$ corresponds to the number 
  of free coefficient matrices, and is therefore the same as $r$.
  The Q-R decomposition guarantees that $G_1$ is an upper triangular matrix, 
- and moreover it is invertible.  Therefore
-\[
-  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, A  = 
-  \left( \left[ 1_m , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_n  \right) \, \vartheta,
+ and moreover it is invertible.   Therefore
+ \[
+  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, K  = 
+  \left( \left[ 1_m , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_n  \right) \, \Xi,
 \]
- and the action of $\Pi$ (together with the tensor product) amounts 
- to a   permutation of the elements of $\vartheta$.
+ and the action of $\Pi$ (together with the tensor product) amounts
+ to a block-wise permutation of the elements of $\Xi$.
   Let the output of this permutation be denoted
 \[
-   \left[ \begin{array}{l} \overline{\vartheta} \\ \underline{\vartheta} \end{array} \right]
-   = \left( \Pi \otimes 1_n \right) \, \vartheta,
+   { \left[ { \Xi^{\sharp} }^{\prime},  {  \Xi^{\flat} }^{\prime}  \right] }^{\prime} =
+%   \left[ \begin{array}{l} \overline{\Xi} \\ \underline{\Xi} \end{array} \right] = 
+ \left( \Pi \otimes I_N \right) \, \Xi,
 \]
- where $\overline{\vartheta}$ is $n m \times 1$ dimensional and
- $\underline{\vartheta}$ is $n r \times 1$ dimensional.  
- Then  by substitution we can solve for $\overline{\vartheta}$ in terms 
- of $\underline{\vartheta}$:
+ where $ {\Xi}^{\sharp}$ is $n m \times n$ dimensional and 
+ $ {\Xi}^{\flat}$ is $n r \times n$ dimensional.  
+ Then  by substitution we can solve for ${\Xi}^{\sharp}$ in terms of ${\Xi}^{\flat}$:
 \[
-   \overline{\vartheta} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, A - 
-   \left[  G_1^{-1} \, G_2  \otimes 1_n   \right] \, \underline{\vartheta}.
+  {\Xi}^{\sharp} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, 
+  K - \left[  G_1^{-1} \, G_2  \otimes 1_n   \right] \, {\Xi}^{\flat}.
 \]
- Therefore we recognize the free variables $\varphi = \underline{\vartheta}$, 
+ Therefore we recognize the free variables $\Phi = {\Xi}^{\flat}$,
  and obtain $R$ and $Q$ in (\ref{eq:concurrent-constrain}) via
 \begin{align*}
-   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 
-   1_{r} \end{array} \right] \otimes 1_n  \\
-  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_n  \right) \, A.
+   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 1_{r} \end{array} \right] \otimes 1_n  \\
+  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_n  \right) \, K.
 \end{align*}
-
-
+   
  \begin{Exercise} {\bf QR Decomposition.} \rm
  \label{exer:qr.constraint}
-  Consider an arbitrary set of constraints $J$ on $\vartheta$, such that
-    $   A = [ J \otimes 1_n ] \, \vartheta$ for a given vector $A$.  
+  Consider an arbitrary set of constraints $J$ on $\Xi$, such that
+    $   K = [ J \otimes 1_n ] \, \Xi$ for a given matrix $K$.  
     Encode the procedure that obtains $R$ and $Q$, and apply this
     to the cases of the LC, TSC, and LTSC scenarios with $n=1$, verifying the results
     given in Illustrations \ref{ill:lc}, \ref{ill:tsc}, and \ref{ill:ltsc}.
@@ -292,36 +255,39 @@ arising from time-varying means, a form of non-stationarity.
 
 \begin{Proposition}
 \label{prop:mdfa.quadsoln-constrain}
- The minimizer of the  MDFA criterion given by   (\ref{eq:mdfa-criterion})
- with respect to  $\mathcal{G}$ -- consisting of all length $q$ concurrent filters 
+ The minimizer of the  MDFA criterion given by the determinant of  (\ref{eq:mdfa-criterion2}),
+ with respect to  $\mathcal{G}$  -- consisting of all length $q$ concurrent filters 
  subject to  linear constraints of the form (\ref{eq:concurrent-constrain}) -- is
 \begin{equation}
-\label{eq:phi.soln-constrained}
- \varphi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,
- \left( b - B \, Q \right).
+\label{eq:phi.soln-constained}
+ \Phi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, 
+ \left( A - B \, Q \right).
 \end{equation}
- The minimal value is  
+  Letting $H = 1_{nq} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \,
+  R^{\prime} \, B$, the minimal value is the determinant of
 \begin{equation}
 \label{eq:opt.val.mdfa-constrained}
-{ \langle \Psi (z) \, G \, { \Psi (z) }^* \rangle }_0 
-  + {(b - B \, Q)}^{\prime} \, \left( 
-  R \, { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} 
-  + B^{-1} \right) \, ( b - B \, Q) -   b^{\prime} \, B^{-1} \, b.
+{ \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0 -
+ A^{\prime} \, R \, { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,  A
+	+ Q^{\prime} \, B \, H \, Q - 2 \, A^{\prime} \, H \, Q.
 \end{equation}
 \end{Proposition}
 
+ 
+  
 \paragraph{Proof of Proposition \ref{prop:mdfa.quadsoln-constrain}.}
  Substituting (\ref{eq:concurrent-constrain}) in (\ref{eq:mdfa-crit.linear}) yields
 \begin{align*}
-  D_{\Psi} (\vartheta, G) &  = \varphi^{\prime} \,  \left[ R^{\prime} \, B \, R \right] \,  \varphi 
-  + \left[ Q^{\prime} \, B \, R - b^{\prime} \, R \right] \, \varphi + \varphi^{\prime} \,
-   \left[ R^{\prime} \, B \, Q - R^{\prime} \, b \right]  \\
- & + Q^{\prime} \, B \, Q  - Q^{\prime} \, b - b^{\prime} \, Q  + { \langle \Psi (z) \, G \, { \Psi (z) }^* \rangle }_0.
+  D_{\Psi} (\vartheta, G) &  = \Phi^{\prime} \,  \left[ R^{\prime} \, B \, R \right] \,  \Phi 
+  + \left[ Q^{\prime} \, B \, R - A^{\prime} \, R \right] \, \Phi + \Phi^{\prime} \,
+   \left[ R^{\prime} \, B \, Q - R^{\prime} \, A \right]  \\
+ & + Q^{\prime} \, B \, Q  - Q^{\prime} \, A - A^{\prime} \, Q  + 
+{ \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0.
 \end{align*}
   Now by applying the method of proof in Proposition \ref{prop:mdfa.quadsoln}, we obtain 
-  the formula (\ref{eq:phi.soln-constrained}) for $\varphi$.  Plugging back into $D_{\Psi} (\vartheta, G)$
- yields the minimal value (\ref{eq:opt.val.mdfa-constrained}).  $\quad \Box$
-
+  the formula (\ref{eq:phi.soln-constained}) for $\Phi$.  Plugging back into
+  $D_{\Psi} (\vartheta, G)$ yields the minimal value 
+  (\ref{eq:opt.val.mdfa-constrained}).  $\quad \Box$
 
 \vspace{.5cm}
 
@@ -330,6 +296,8 @@ in  Chapter \ref{chap:basic},
  obtaining the constrained MDFA filter $\vartheta$ via (\ref{eq:phi.soln-constained})
  followed by (\ref{eq:concurrent-constrain}).
 
+ 
+ 
 % \begin{Exercise} {\bf  Constrained MDFA for White Noise with Linear Trend.} \rm
 % \label{exer:wntrend-mdfa}
 % This exercise applies the constrained MDFA in the case of an ideal low-pass filter
@@ -505,8 +473,9 @@ levels <- c(1,2)
 slopes <- c(-2,1)/1000
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(N)
-gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*%
- 	matrix(innovar.matrix,ncol=1),nrow=N)
+true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+gamma.0 <- gamma[,,1]
 x.init <- t(chol(gamma.0)) %*% rnorm(N)
 x.next <- x.init
 x.sim <- NULL
@@ -526,7 +495,8 @@ mu <- pi/6
 len <- 1000
 lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
 lp.filter <- c(rev(lp.filter),lp.filter[-1])
-x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+#x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+x.trend.ideal <- mvar.filter(x.sim,lp.filter)
 
 # get MDFA concurrent filter
 q <- 30
@@ -1562,7 +1532,7 @@ Proposition \ref{prop:filter-decompose}.
   holds at once.  More generally, a given process' differencing polynomial
  may be factored into relatively prime polynomials $\delta^N (z)$ and $\delta^S (z)$, 
  which correspond to noise and signal dynamics
- respectively -- see Bell (1984) and McElroy (2008). 
+ respectively -- see Bell (1984) and McElroy (2008a). 
  Many  signal extraction filters $\Psi (L)$   have the property that they
  annihilate $\omega$-dynamics of the appropriate order, 
  such that $\delta^N (L)$ can be factored.
@@ -1599,7 +1569,7 @@ Proposition \ref{prop:filter-decompose}.
    (and for double roots, also impose  (\ref{eq:non-stat.constraint.double})).
  In practice, we must determine the real and imaginary  parts of each such 
  constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ 
- in the form $A = [J \otimes 1_n] \, \vartheta$ for
+ in the form $K = [J \otimes 1_n] \, \vartheta$ for
   filters of form (\ref{eq:conc.filter}), applying the methodology 
   of this chapter's first section.  With these constraints in play, 
    the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$
