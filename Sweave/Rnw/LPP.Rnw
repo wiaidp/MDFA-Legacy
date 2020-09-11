@@ -1,18 +1,3 @@
-
-
-<<loading_code,echo=False>>=
-path.main <- getwd()
-setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
-# requires package expm
-library(expm)
-source("sqrtm.r")
-source("var1.psi2par.r")
-source("var1.par2psi.r")
-source("lpp.var1.r")
-setwd(path.main)
-@
-
-
 \chapter{Linear Prediction Problems}
 \label{chap:lpp}
 

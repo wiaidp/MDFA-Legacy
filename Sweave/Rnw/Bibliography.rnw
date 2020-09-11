@@ -1,0 +1,42 @@
+\begin{thebibliography}{99}
+
+\bibitem{} Ansley, C. F. and R. Kohn (1986).
+A note on reparameterizing a vector autoregressive moving average
+model to enforce stationarity. 
+  Journal of Statistical Computation and Simulation 24, 99-106.
+  
+\bibitem{}  Ansley, C. F. and P. Newbold (1979). Multivariate partial autocorrelations. 
+  In Proceedings of the Businessand Economics Section, pp. 349-353.
+  American Statistical Association.
+
+\bibitem{} Baxter, M., and King, R. G. (1999). Measuring business cycles: approximate band-pass filters for economic time series. Review of economics and statistics, 81(4), 575-593.
+
+\bibitem{} Brockwell, P.J., and Davis, R.A. (1991).  
+  Time Series: Theory and Methods, second edition.   Springer. New York.
+
+\bibitem{} Golub, G. H., and Van Loan, C. F. (1996). Matrix Computations Johns Hopkins University Press. Baltimore and London.
+
+
+\bibitem{} Heaps, S.E., 2020. Enforcing stationarity through the prior in vector autoregressions. arXiv preprint arXiv:2004.09455.
+
+\bibitem{} Hosoya, Y., and Taniguchi, M. (1982). A central limit theorem for stationary processes and the parameter estimation of linear processes. The Annals of Statistics, 132-153.
+
+\bibitem{} L\"utkepohl, H. (2007).  New Introduction to Multiple Time Series Analysis. 
+Springer-Verlag. 
+
+\bibitem{} McElroy, T. (2008). Matrix formulas for nonstationary ARIMA signal extraction. Econometric Theory, 988-1009.
+
+\bibitem{} McElroy, T., and Findley, D. (2015). Fitting constrained vector autoregression models. In Empirical Economic and Financial Research (pp. 451-470). Springer, Cham.
+
+\bibitem{} McElroy, T., and Trimbur, T. (2015). Signal Extraction for Non-Stationary Multivariate Time Series with Illustrations for Trend Inflation. Journal of Time 
+Series Analysis, 36(2), 209-227.
+
+\bibitem{} McElroy, T. S. and Wildi, M. (2020). The multivariate linear prediction problem: model-based and direct filtering solutions. Econometrics and Statistics, 14, 112-130.
+
+\bibitem{} Self, S. G., and Liang, K. Y. (1987). Asymptotic properties of maximum likelihood estimators and likelihood ratio tests under nonstandard conditions. Journal of the American Statistical Association, 82(398), 605-610.
+
+\bibitem{} Taniguchi, M., and Kakizawa, Y. (2012). Asymptotic theory of statistical inference for time series. Springer Science \& Business Media.
+
+\bibitem{} Wildi, M. (2007). Real-Time Signal Extraction.
+
+\end{thebibliography}
