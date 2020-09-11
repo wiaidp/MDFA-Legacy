@@ -1,3 +1,5 @@
+
+
 \chapter{Linear Prediction Problems}
 \label{chap:lpp}
 
@@ -72,10 +74,8 @@ The reader should have a basic familiarity with multivariate time
  and can be interpreted as having coefficients $A_j$ given by an  
  identity matrix $1_n$ multiplied by a scalar coefficient $a_j$.
  
-
  The spectral representation of a stationary square integrable vector 
-time series is particularly useful (see Brockwell and Davis (1991) for 
- further details). Assuming that $\EE X_t = 0$ (the
+time series is particularly useful.  Assuming that $\EE X_t = 0$ (the
  zero vector in $\RR^n$) so that no fixed effects are present, we describe
  the stochastic process via
 \begin{equation}
@@ -352,7 +352,7 @@ The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
   \Psi (z) = e_1^{\prime} \, Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}.
 \end{equation}
  There are no known analytical formulas for the coefficients in the multivariate case,
- although in the univariate case they are available in McElroy (2008, EJ).
+ although in the univariate case they are available in McElroy (2008b).
 \end{Example}
 
 \begin{Example} {\bf HP High-pass.} \rm
@@ -446,7 +446,8 @@ $\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
 \label{exam:multi-step.fore.2}
 The LPP corresponds to
   optimal $h$-step
- forecasting, and the forecast error is $[L^{-h} \, e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
+ forecasting, and the forecast error is $[L^{-h} \,
+ e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
   Note that although $\Psi (L)$ only involves one component series $\{ X_{t,1} \}$,
   the real-time concurrent filter $\widehat{\Psi} (L)$ can involve all $n$ component series.
 \end{Example}
@@ -489,7 +490,8 @@ The LPP corresponds to
  to the LPP posed by a scalar target $Y_t = \Psi (L) \, X_t$ is given by
 \begin{equation}
  \label{eq:GPPsoln}
- \widehat{\Psi} (L) = \sum_{\ell \geq 0 } \psi (\ell) \, L^{\ell} + \sum_{\ell < 0 } \psi (\ell)
+ \widehat{\Psi} (L) = \sum_{\ell \geq 0 } \psi (\ell) \,
+ L^{\ell} + \sum_{\ell < 0 } \psi (\ell)
  \,  { [ \Theta (L) ]}_{-\ell}^{ \infty  } \, L^{\ell} \, {\Theta (L) }^{-1}.
 \end{equation}
  Moreover, the minimal MSE is given by
@@ -546,9 +548,10 @@ The LPP corresponds to
 \label{ill:var1}
  Consider an LPP where the true process $\{ X_t \}$
  is a Vector Autoregression (VAR) of order 1.  This process can be described via
-\[
+\begin{equation}
+\label{eq:var1-def}
   X_t = \Phi \, X_{t-1} + \epsilon_t
-\]
+\end{equation}
  for a matrix $\Phi$ that is stable, i.e., has 
  all eigenvalues bounded by one in modulus (L\"utkepohl, 2007). 
 It is known that the VAR(1) has the causal representation  
@@ -567,37 +570,38 @@ It is known that the VAR(1) has the causal representation
  concurrent filter is determined by applying the filter to past data and modifying the
  present weight $\psi (0)$ by adding the quantity $A_{\Psi} (\Phi)$.  In the case of
  $h$-step ahead forecasting of the first time series (Example 1), $\widehat{\Psi} (L)
- = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$.  This formula demonstrates that it is 
+ = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$. 
+ 
+ This formula demonstrates that it is 
  essential that $\Phi$ be stable, and if fitting a VAR(1) we must parametrize $\Phi$
- such that stability is guaranteed.  The following parametrization 
- (Roy, McElroy, and Linton (2019) provides a bijection from $\RR^{n^2} \times \{ \pm 1 \}$
- to the space of stable $n \times n $ matrices:
+ such that stability is guaranteed.  We describe a parameterization based upon
+ Ansley and Newbold (1979) and Ansley and Kohn (1986), as summarized by Heaps (2020),
+  which  provides a bijection from $\RR^{n^2} $
+ to the space of stable $n \times n $ matrices.
+ For any positive definite symmetric matrix $\Sigma$, the Generalized Cholesky Decomposition
+  (GCD) takes the form $\Sigma = L \, D \, L^{\prime}$, where
+    $L$ is  unit lower triangular and $D$ is diagonal with positive entries --
+    see Golub and Van Loan (1996).
+    In such as case, we let $\Sigma^{1/2}$ denote $L \, D^{1/2}$, which is lower triangular
+    with non-unit positive entries on the diagonal.
+  Then the forward mapping takes a matrix $A$ with arbitary real entries to
+  a matrix $\Phi$ with eigenvalues of magnitude less than one:
 \begin{align*}
-  (\phi, \delta) & \tends (V, Q) \\
- 	V & = L \, D \, L^{\prime} \\
-	Q & = E \, ( 1_n - S ) \, {(1_n + S )}^{-1} \\
- 	\Phi & = V^{1/2} \, Q \, {(1_n + V )}^{-1/2}
+  A & \tends \Phi \\
+  P & = { \left( { \left[  1_n + A \, A^{\prime} \right] }^{1/2} \right)}^{-1} \, A \\
+  S & = { \left( { \left[ 1_n - P \, P^{\prime} \right] }^{1/2} \right) }^{-1} \\
+  \Phi & = S \, P \, S^{-1}.
 \end{align*}
- provides the map from the parameters to $\Phi$.  Here $V$ is  a positive definite 
- matrix with Cholesky decomposition in terms of a unit lower triangular matrix $L$ and
- a positive diagonal matrix $D$; any such matrix can be described by $\binom{n}{2}$
- arbitrary real entries in the lower portion of $L$, and by the exponential of $n$ arbitrary
- real numbers for $D$.  The matrix $Q$ is orthogonal, given by the Cayley representation,
- where $S$ is anti-symmetric -- and hence can be described by $\binom{n}{2}$ arbitrary
- real numbers -- and $E$ is diagonal, with the first entry given by $\delta $ (which equals
- $\pm 1$) and the remaining $n-1$ entries are equal to one.  The inverse transformation is 
- given by
+    The inverse transformation is  given by
 \begin{align*}
-   \Phi & \tends (V, Q) \\
-	V & = \sum_{j \geq 1} \Phi^j \, \Phi^{j \prime} \\
-	Q & = V^{-1/2} \, \Phi \, {(1_n + V )}^{1/2} \\
-	S & = {(1_n + E \, Q)}^{-1} \, (1_n - E \, Q) \\
-	\delta & = \det Q,
+   \Phi & \tends A \\
+  \mbox{vec} \Gamma & = { \left( 1_{n^2} - \Phi \otimes \Phi \right) }^{-1} \, 
+  \mbox{vec} 1_n \\
+  S & = \Gamma^{1/2} \\
+  P & = S^{-1} \, \Phi \, S \\
+  A & = { \left( { \left[ 1_n - P \, P^{\prime} \right] }^{1/2} \right) }^{-1} \, P.
 \end{align*}
- where $\phi$ can be recovered from the entries of $L$ and $D$ in the Cholesky decomposition
- of $V$, along with the lower left entries of $S$.
 \end{Illustration}
-
 
 
 
@@ -650,13 +654,15 @@ It is known that the VAR(1) has the causal representation
    K_{\vartheta} (z) & =  {{ \Theta_{\vartheta} (z) }^{-1} }^* \, { \Xi (z) }^* \,  \Xi (z) \, 
  { \Theta_{\vartheta} (z) }^{-1}.
 \end{align*}
- Then $\mbox{Var} [ E_t ] = J_{\Psi} (\vartheta, \widetilde{F})$.  As we seek to minimize the variability in the filter errors,
- we can take $J_{\Psi} (\vartheta, \widetilde{F})$ as our criterion function.  However, this will only
- determine the proximity of the model to the true sdf, which is unavailable to us -- in order to compute actual
+ Then $\mbox{Var} [ E_t ] = J_{\Psi} (\vartheta, \widetilde{F})$.  As we seek to
+ minimize the variability in the filter errors,
+ we can take $J_{\Psi} (\vartheta, \widetilde{F})$ as our criterion function. 
+ However, this will only determine the proximity of the model to the true sdf,
+ which is unavailable to us -- in order to compute actual
  parameter estimates, we must utilize the data to approximate the true sdf. 
  There are basic results giving asymptotic normality for simple functionals 
- of the periodogram,
- and therefore this crude  estimator of the true sdf is sufficient for our purposes.  We propose 
+ of the periodogram, and therefore this crude  estimator of the true sdf is sufficient 
+ for our purposes.  We propose 
 $J_{\Psi} (\vartheta, \widehat{F})$ as
  an estimator of $J_{\Psi} (\vartheta, \widetilde{F})$, and intend that the respective minimizers have the same relationship.
  Namely, if $\vartheta (\widetilde{F}) $ is the unique minimizer of 
@@ -697,10 +703,11 @@ $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 \]
  which for $\vartheta = \widetilde{\vartheta}$ achieves the minimal value:
 \[
-  J_{\Psi} (\widetilde{\vartheta}, \widetilde{F})  ={ \langle \Xi (z) \,   \widetilde{\Sigma} \, 
-   { \Xi (z) }^* \rangle }_0.
+  J_{\Psi} (\widetilde{\vartheta}, \widetilde{F})  ={ \langle \Xi (z) \, 
+  \widetilde{\Sigma} \,    { \Xi (z) }^* \rangle }_0.
 \]
-  Because the minimizer is unique by assumption, $\vartheta (\widetilde{F}) = \widetilde{\vartheta} $. 
+  Because the minimizer is unique by assumption, 
+  $\vartheta (\widetilde{F}) = \widetilde{\vartheta} $. 
   Plugging this into the formula
  for $\Sigma (\widetilde{F})$, we see that it equals $\widetilde{\Sigma}$.  $\quad \Box$
 
@@ -747,7 +754,7 @@ It is possible to conduct inference from the PTVs on the basis of the estimates
 $\vartheta (\widehat{F})$, and thereby assess model fit.  
  In order to formulate our result, we assume that the PTVs are not on the
  boundary of the parameter set (otherwise the limit theory
- is non-standard; c.f., Self and Liang (1987)), and  that they are unique. 
+ is non-standard; cf. Self and Liang (1987)), and  that they are unique. 
 We also assume that the  Hessian  $H(\vartheta) = \nabla \nabla^{\prime}
   J_{\Psi} (\vartheta, \widetilde{F}) $  of $J_{\Psi} $ is positive definite at the PTV.
   The so-called Hosoya-Taniguchi (HT) conditions of Hosoya and Taniguchi (1982) 
@@ -780,8 +787,9 @@ causal filter of a higher-order martingale difference.
   \sqrt{T} \, \left( \vartheta( \widehat{F} ) - \vartheta (\widetilde{F}) \right)  = o_P (1) 
    - { H (\vartheta( \widetilde{F} )) }^{-1} \,  \mbox{tr} \, \{  {  \langle (\widehat{F} - \widetilde{F}) \, \nabla K_{\vartheta} \rangle }_0 \},
 \]
- where the trace operator acts upon the spectral matrices, for each component of the gradient operator.  Our assumptions allow
- us to apply Lemma 3.1.1 of Taniguchi and Kakizawa (2000) to the right hand expression, yielding the stated central limit theorem.
+ where the trace operator acts upon the spectral matrices, for each component 
+ of the gradient operator.  Our assumptions allow us to apply Lemma 3.1.1 of Taniguchi
+ and Kakizawa (2012) to the right hand expression, yielding the stated central limit theorem.
  $\quad \Box$
 
 \vspace{.5cm}
@@ -865,9 +873,9 @@ set.seed(1234)
 T <- 100
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
-true.psidelta <- var1.par2psi(phi.matrix,100)
-gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
-	matrix(innovar.matrix,ncol=1),nrow=2)
+true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+gamma.0 <- gamma[,,1]
 x.init <- t(chol(gamma.0)) %*% rnorm(2)
 x.next <- x.init
 x.sim <- NULL
@@ -882,24 +890,20 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 
 # Yule-Walker fit
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-yw.psidelta <- var1.par2psi(phi.yw,100)
+yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
 psi.array[,,1] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 1-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 1-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+theta <- rnorm(4)
+var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.1step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 1-step LPP 
+print(var.pre2par(var1.fit.1step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -908,18 +912,14 @@ psi.array <- array(0,c(1,2,2))
 psi.array[,,1] <- c(0,0)
 psi.array[,,2] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 2-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 2-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
+theta <- rnorm(4)
+var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.2step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 2-step LPP 
+print(var.pre2par(var1.fit.2step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -928,18 +928,14 @@ mu <- pi/24
 psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
 psi.array <- aperm(psi.array,c(1,3,2))
 acf.array <- x.acf
-theta <- rep(0,4)
-var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
-lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
-# phi coefficient from low-pass LPP, delta = 1
-print(var1.psi2par(var1.fit.bk.Pos$par,1))	
-# phi coefficient from low-pass LPP, delta = -1
-print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
+theta <- rnorm(4)
+var1.fit.bk <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.bk$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from low-pass LPP 
+print(var.pre2par(var1.fit.bk$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 @
@@ -986,24 +982,20 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
  
 # Yule-Walker
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-yw.psidelta <- var1.par2psi(phi.yw,100)
+yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
 psi.array[,,1] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 1-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 1-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+theta <- rnorm(4)
+var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.1step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 1-step LPP 
+print(var.pre2par(var1.fit.1step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -1012,18 +1004,14 @@ psi.array <- array(0,c(1,2,2))
 psi.array[,,1] <- c(0,0)
 psi.array[,,2] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 2-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 2-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
+theta <- rnorm(4)
+var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.2step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 2-step LPP 
+print(var.pre2par(var1.fit.2step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -1032,18 +1020,14 @@ mu <- pi/24
 psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
 psi.array <- aperm(psi.array,c(1,3,2))
 acf.array <- x.acf
-theta <- rep(0,4)
-var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,method="BFGS")
-var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,method="BFGS")
-# fits using both delta values, compared
-print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
-lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
-# phi coefficient from low-pass LPP, delta = 1
-print(var1.psi2par(var1.fit.bk.Pos$par,1))	
-# phi coefficient from low-pass LPP, delta = -1
-print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
+theta <- rnorm(4)
+var1.fit.bk <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.bk$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from low-pass LPP 
+print(var.pre2par(var1.fit.bk$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 @
@@ -1096,26 +1080,20 @@ x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
  
 # Yule-Walker
 phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-yw.psidelta <- var1.par2psi(phi.yw,100)
+yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 
 # 1-step ahead forecasting
 psi.array <- array(0,c(1,2,1))
 psi.array[,,1] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
-	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
-	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 1-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 1-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+theta <- rnorm(4)
+var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.1step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 1-step LPP 
+print(var.pre2par(var1.fit.1step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
 
@@ -1124,28 +1102,17 @@ psi.array <- array(0,c(1,2,2))
 psi.array[,,1] <- c(0,0)
 psi.array[,,2] <- c(1,0)
 acf.array <- x.acf[,,1:3]
-theta <- rep(0,4)
-var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
-	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
-	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-# fits using both delta values, compared
-print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
-print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
-# phi coefficient from 1-step LPP, delta = 1
-print(var1.psi2par(var1.fit.2step.Pos$par,1))	
-# phi coefficient from 1-step LPP, delta = -1
-print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
+theta <- rnorm(4)
+var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
+	acf.array=acf.array,method="BFGS")
+# fit output
+print(var1.fit.2step$value)		
+print(lpp.var1(yw.psi,psi.array,acf.array))
+# phi coefficient from 2-step LPP 
+print(var.pre2par(var1.fit.2step$par,1,2))	
 # phi coefficient from Yule-Walker
 print(phi.yw)
-# select choices of phi from above
-if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
-} else {
-	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
-}
+phi.lpp <- var.pre2par(var1.fit.2step$par,1,2)[,,1]
 
 # LPP case
 fore.lpp <- phi.lpp %^% 2

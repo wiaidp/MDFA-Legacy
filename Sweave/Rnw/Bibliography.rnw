@@ -14,6 +14,9 @@ model to enforce stationarity.
 \bibitem{} Brockwell, P.J., and Davis, R.A. (1991).  
   Time Series: Theory and Methods, second edition.   Springer. New York.
 
+\bibitem{} Christiano, L.J., and Fitzgerald, T.J.(2003). 
+  The band pass filter.  International economic review 44 (2), 435-465.
+
 \bibitem{} Golub, G. H., and Van Loan, C. F. (1996). Matrix Computations Johns Hopkins University Press. Baltimore and London.
 
 
@@ -24,7 +27,10 @@ model to enforce stationarity.
 \bibitem{} L\"utkepohl, H. (2007).  New Introduction to Multiple Time Series Analysis. 
 Springer-Verlag. 
 
-\bibitem{} McElroy, T. (2008). Matrix formulas for nonstationary ARIMA signal extraction. Econometric Theory, 988-1009.
+\bibitem{} McElroy, T. (2008a). Matrix formulas for nonstationary ARIMA signal extraction. Econometric Theory, 988-1009.
+
+\bibitem{} McElroy, T. (2008b). Exact formulas for the Hodrick-Prescott filter.
+  The Econometrics Journal, 11(1), pp.209-217.
 
 \bibitem{} McElroy, T., and Findley, D. (2015). Fitting constrained vector autoregression models. In Empirical Economic and Financial Research (pp. 451-470). Springer, Cham.
 
