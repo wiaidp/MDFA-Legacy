@@ -29,6 +29,16 @@
 \def\XX{\mathbb X}
 \def\CC{\mathbb C}
 \def\sige{\sigma_{\epsilon}}
+\def\ttheta{\widetilde{\theta}}
+\def\tTheta{\widetilde{\Theta}}
+\def\tsig{\widetilde{\sigma}^2}
+\def\tc{\widetilde{c}}
+\def\etheta{\widehat{\theta}}
+\def\eTheta{\widehat{\Theta}}
+\def\esig{\widehat{\sigma}^2}
+\def\ptheta{\underline{\theta}}
+\def\pTheta{\underline{\Theta}}
+\def\psig{\underline{\sigma}^2}
 
 \def\eqinlaw{\stackrel{{\cal L}}{=}}
 \def\tends{\rightarrow}
@@ -109,6 +119,7 @@
 
 %-----------------------------------------------
 
+% Chapter 1
 % Parallelized computation chapters customization and replication
 % simanz<-100 chapters customization and replication
 % Load all chapters
@@ -230,7 +241,7 @@ Model mis-specification is always present; the issue is whether it has a signifi
  understood.  By building the timeliness-accuracy tradeoff directly into the DFA criterion, the optimality of an LPP solution for a
  customized application is assured.
 
-These topics have been treated in Wildi and McElroy (2016, JTSE) in the case of univariate time series, which discusses at length
+These topics have been treated in Wildi and McElroy (2016) in the case of univariate time series, which discusses at length
  the basic \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} (Sweave environment: replication).  This book presents
  the generalized treatment of the multivariate LPP in   Chapter \ref{mse_sec}. But before discussing customization in Chapter \ref{ats_sec},
  we discuss the applications of forecasting and nowcasting, as well as the impact of data vintage, in  Chapter \ref{fil_sec}).
@@ -540,7 +551,7 @@ function (insamp, x, d)
     colnames(weight_func) <- colnames(x)
     return(list(weight_func = weight_func))
 }
-<bytecode: 0x000000c203527d10>
+<bytecode: 0x0000018c246cafa0>
 <environment: namespace:MDFA>
 \end{Soutput}
 \end{Schunk}
@@ -688,7 +699,7 @@ Selected calls of the classic MSE  criterion -- as well as calls utilizing the c
 \end{Sinput}
 \begin{Soutput}
 1 function (L, weight_func, Lag, Gamma, cutoff, lambda, eta, lambda_cross,    
-2     lambda_decay, lambda_smooth, troikaner = F)                             
+2     lambda_decay, lambda_smooth, troikaner = F, b0_H0 = NULL)               
 3 {                                                                           
 4     lin_eta <- F                                                            
 5     weight_constraint <- rep(1/(ncol(weight_func) - 1), ncol(weight_func) - 
@@ -700,7 +711,7 @@ Selected calls of the classic MSE  criterion -- as well as calls utilizing the c
 \begin{Soutput}
 1 function (L, weight_func, Lag, Gamma, cutoff, lambda, eta, lambda_cross,      
 2     lambda_decay, lambda_smooth, i1, i2, weight_constraint, shift_constraint, 
-3     troikaner = F)                                                            
+3     troikaner = F, b0_H0 = NULL)                                              
 4 {                                                                             
 5     lin_eta <- F                                                              
 6     lin_expweight <- F                                                        
@@ -714,8 +725,7 @@ when going from specific (MSE) to generic (reg).  The following chapters of the 
 
 %----------------------------------------
 
-
-
+% Chapter 2
 
 
 \chapter{Linear Prediction Problems}
@@ -792,10 +802,8 @@ The reader should have a basic familiarity with multivariate time
  and can be interpreted as having coefficients $A_j$ given by an  
  identity matrix $1_n$ multiplied by a scalar coefficient $a_j$.
  
-
  The spectral representation of a stationary square integrable vector 
-time series is particularly useful (see Brockwell and Davis (1991) for 
- further details). Assuming that $\EE X_t = 0$ (the
+time series is particularly useful.  Assuming that $\EE X_t = 0$ (the
  zero vector in $\RR^n$) so that no fixed effects are present, we describe
  the stochastic process via
 \begin{equation}
@@ -1072,7 +1080,7 @@ The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
   \Psi (z) = e_1^{\prime} \, Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}.
 \end{equation}
  There are no known analytical formulas for the coefficients in the multivariate case,
- although in the univariate case they are available in McElroy (2008, EJ).
+ although in the univariate case they are available in McElroy (2008b).
 \end{Example}
 
 \begin{Example} {\bf HP High-pass.} \rm
@@ -1166,7 +1174,8 @@ $\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
 \label{exam:multi-step.fore.2}
 The LPP corresponds to
   optimal $h$-step
- forecasting, and the forecast error is $[L^{-h} \, e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
+ forecasting, and the forecast error is $[L^{-h} \,
+ e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
   Note that although $\Psi (L)$ only involves one component series $\{ X_{t,1} \}$,
   the real-time concurrent filter $\widehat{\Psi} (L)$ can involve all $n$ component series.
 \end{Example}
@@ -1209,7 +1218,8 @@ The LPP corresponds to
  to the LPP posed by a scalar target $Y_t = \Psi (L) \, X_t$ is given by
 \begin{equation}
  \label{eq:GPPsoln}
- \widehat{\Psi} (L) = \sum_{\ell \geq 0 } \psi (\ell) \, L^{\ell} + \sum_{\ell < 0 } \psi (\ell)
+ \widehat{\Psi} (L) = \sum_{\ell \geq 0 } \psi (\ell) \,
+ L^{\ell} + \sum_{\ell < 0 } \psi (\ell)
  \,  { [ \Theta (L) ]}_{-\ell}^{ \infty  } \, L^{\ell} \, {\Theta (L) }^{-1}.
 \end{equation}
  Moreover, the minimal MSE is given by
@@ -1266,9 +1276,10 @@ The LPP corresponds to
 \label{ill:var1}
  Consider an LPP where the true process $\{ X_t \}$
  is a Vector Autoregression (VAR) of order 1.  This process can be described via
-\[
+\begin{equation}
+\label{eq:var1-def}
   X_t = \Phi \, X_{t-1} + \epsilon_t
-\]
+\end{equation}
  for a matrix $\Phi$ that is stable, i.e., has 
  all eigenvalues bounded by one in modulus (L\"utkepohl, 2007). 
 It is known that the VAR(1) has the causal representation  
@@ -1287,37 +1298,38 @@ It is known that the VAR(1) has the causal representation
  concurrent filter is determined by applying the filter to past data and modifying the
  present weight $\psi (0)$ by adding the quantity $A_{\Psi} (\Phi)$.  In the case of
  $h$-step ahead forecasting of the first time series (Example 1), $\widehat{\Psi} (L)
- = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$.  This formula demonstrates that it is 
+ = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$. 
+ 
+ This formula demonstrates that it is 
  essential that $\Phi$ be stable, and if fitting a VAR(1) we must parametrize $\Phi$
- such that stability is guaranteed.  The following parametrization 
- (Roy, McElroy, and Linton (2019) provides a bijection from $\RR^{n^2} \times \{ \pm 1 \}$
- to the space of stable $n \times n $ matrices:
+ such that stability is guaranteed.  We describe a parameterization based upon
+ Ansley and Newbold (1979) and Ansley and Kohn (1986), as summarized by Heaps (2020),
+  which  provides a bijection from $\RR^{n^2} $
+ to the space of stable $n \times n $ matrices.
+ For any positive definite symmetric matrix $\Sigma$, the Generalized Cholesky Decomposition
+  (GCD) takes the form $\Sigma = L \, D \, L^{\prime}$, where
+    $L$ is  unit lower triangular and $D$ is diagonal with positive entries --
+    see Golub and Van Loan (1996).
+    In such as case, we let $\Sigma^{1/2}$ denote $L \, D^{1/2}$, which is lower triangular
+    with non-unit positive entries on the diagonal.
+  Then the forward mapping takes a matrix $A$ with arbitary real entries to
+  a matrix $\Phi$ with eigenvalues of magnitude less than one:
 \begin{align*}
-  (\phi, \delta) & \tends (V, Q) \\
- 	V & = L \, D \, L^{\prime} \\
-	Q & = E \, ( 1_n - S ) \, {(1_n + S )}^{-1} \\
- 	\Phi & = V^{1/2} \, Q \, {(1_n + V )}^{-1/2}
+  A & \tends \Phi \\
+  P & = { \left( { \left[  1_n + A \, A^{\prime} \right] }^{1/2} \right)}^{-1} \, A \\
+  S & = { \left( { \left[ 1_n - P \, P^{\prime} \right] }^{1/2} \right) }^{-1} \\
+  \Phi & = S \, P \, S^{-1}.
 \end{align*}
- provides the map from the parameters to $\Phi$.  Here $V$ is  a positive definite 
- matrix with Cholesky decomposition in terms of a unit lower triangular matrix $L$ and
- a positive diagonal matrix $D$; any such matrix can be described by $\binom{n}{2}$
- arbitrary real entries in the lower portion of $L$, and by the exponential of $n$ arbitrary
- real numbers for $D$.  The matrix $Q$ is orthogonal, given by the Cayley representation,
- where $S$ is anti-symmetric -- and hence can be described by $\binom{n}{2}$ arbitrary
- real numbers -- and $E$ is diagonal, with the first entry given by $\delta $ (which equals
- $\pm 1$) and the remaining $n-1$ entries are equal to one.  The inverse transformation is 
- given by
+    The inverse transformation is  given by
 \begin{align*}
-   \Phi & \tends (V, Q) \\
-	V & = \sum_{j \geq 1} \Phi^j \, \Phi^{j \prime} \\
-	Q & = V^{-1/2} \, \Phi \, {(1_n + V )}^{1/2} \\
-	S & = {(1_n + E \, Q)}^{-1} \, (1_n - E \, Q) \\
-	\delta & = \det Q,
+   \Phi & \tends A \\
+  \mbox{vec} \Gamma & = { \left( 1_{n^2} - \Phi \otimes \Phi \right) }^{-1} \, 
+  \mbox{vec} 1_n \\
+  S & = \Gamma^{1/2} \\
+  P & = S^{-1} \, \Phi \, S \\
+  A & = { \left( { \left[ 1_n - P \, P^{\prime} \right] }^{1/2} \right) }^{-1} \, P.
 \end{align*}
- where $\phi$ can be recovered from the entries of $L$ and $D$ in the Cholesky decomposition
- of $V$, along with the lower left entries of $S$.
 \end{Illustration}
-
 
 
 
@@ -1370,13 +1382,15 @@ It is known that the VAR(1) has the causal representation
    K_{\vartheta} (z) & =  {{ \Theta_{\vartheta} (z) }^{-1} }^* \, { \Xi (z) }^* \,  \Xi (z) \, 
  { \Theta_{\vartheta} (z) }^{-1}.
 \end{align*}
- Then $\mbox{Var} [ E_t ] = J_{\Psi} (\vartheta, \widetilde{F})$.  As we seek to minimize the variability in the filter errors,
- we can take $J_{\Psi} (\vartheta, \widetilde{F})$ as our criterion function.  However, this will only
- determine the proximity of the model to the true sdf, which is unavailable to us -- in order to compute actual
+ Then $\mbox{Var} [ E_t ] = J_{\Psi} (\vartheta, \widetilde{F})$.  As we seek to
+ minimize the variability in the filter errors,
+ we can take $J_{\Psi} (\vartheta, \widetilde{F})$ as our criterion function. 
+ However, this will only determine the proximity of the model to the true sdf,
+ which is unavailable to us -- in order to compute actual
  parameter estimates, we must utilize the data to approximate the true sdf. 
  There are basic results giving asymptotic normality for simple functionals 
- of the periodogram,
- and therefore this crude  estimator of the true sdf is sufficient for our purposes.  We propose 
+ of the periodogram, and therefore this crude  estimator of the true sdf is sufficient 
+ for our purposes.  We propose 
 $J_{\Psi} (\vartheta, \widehat{F})$ as
  an estimator of $J_{\Psi} (\vartheta, \widetilde{F})$, and intend that the respective minimizers have the same relationship.
  Namely, if $\vartheta (\widetilde{F}) $ is the unique minimizer of 
@@ -1417,10 +1431,11 @@ $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 \]
  which for $\vartheta = \widetilde{\vartheta}$ achieves the minimal value:
 \[
-  J_{\Psi} (\widetilde{\vartheta}, \widetilde{F})  ={ \langle \Xi (z) \,   \widetilde{\Sigma} \, 
-   { \Xi (z) }^* \rangle }_0.
+  J_{\Psi} (\widetilde{\vartheta}, \widetilde{F})  ={ \langle \Xi (z) \, 
+  \widetilde{\Sigma} \,    { \Xi (z) }^* \rangle }_0.
 \]
-  Because the minimizer is unique by assumption, $\vartheta (\widetilde{F}) = \widetilde{\vartheta} $. 
+  Because the minimizer is unique by assumption, 
+  $\vartheta (\widetilde{F}) = \widetilde{\vartheta} $. 
   Plugging this into the formula
  for $\Sigma (\widetilde{F})$, we see that it equals $\widetilde{\Sigma}$.  $\quad \Box$
 
@@ -1467,7 +1482,7 @@ It is possible to conduct inference from the PTVs on the basis of the estimates
 $\vartheta (\widehat{F})$, and thereby assess model fit.  
  In order to formulate our result, we assume that the PTVs are not on the
  boundary of the parameter set (otherwise the limit theory
- is non-standard; c.f., Self and Liang (1987)), and  that they are unique. 
+ is non-standard; cf. Self and Liang (1987)), and  that they are unique. 
 We also assume that the  Hessian  $H(\vartheta) = \nabla \nabla^{\prime}
   J_{\Psi} (\vartheta, \widetilde{F}) $  of $J_{\Psi} $ is positive definite at the PTV.
   The so-called Hosoya-Taniguchi (HT) conditions of Hosoya and Taniguchi (1982) 
@@ -1500,8 +1515,9 @@ causal filter of a higher-order martingale difference.
   \sqrt{T} \, \left( \vartheta( \widehat{F} ) - \vartheta (\widetilde{F}) \right)  = o_P (1) 
    - { H (\vartheta( \widetilde{F} )) }^{-1} \,  \mbox{tr} \, \{  {  \langle (\widehat{F} - \widetilde{F}) \, \nabla K_{\vartheta} \rangle }_0 \},
 \]
- where the trace operator acts upon the spectral matrices, for each component of the gradient operator.  Our assumptions allow
- us to apply Lemma 3.1.1 of Taniguchi and Kakizawa (2000) to the right hand expression, yielding the stated central limit theorem.
+ where the trace operator acts upon the spectral matrices, for each component 
+ of the gradient operator.  Our assumptions allow us to apply Lemma 3.1.1 of Taniguchi
+ and Kakizawa (2012) to the right hand expression, yielding the stated central limit theorem.
  $\quad \Box$
 
 \vspace{.5cm}
@@ -1586,9 +1602,9 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > T <- 100
 > phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 > innovar.matrix <- diag(2)
-> true.psidelta <- var1.par2psi(phi.matrix,100)
-> gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
-+ 	matrix(innovar.matrix,ncol=1),nrow=2)
+> true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+> gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+> gamma.0 <- gamma[,,1]
 > x.init <- t(chol(gamma.0)) %*% rnorm(2)
 > x.next <- x.init
 > x.sim <- NULL
@@ -1602,46 +1618,37 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 > # Yule-Walker fit
 > phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-> yw.psidelta <- var1.par2psi(phi.yw,100)
+> yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 > # 1-step ahead forecasting
 > psi.array <- array(0,c(1,2,1))
 > psi.array[,,1] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.1step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 1.023043 1.023043
+[1] 1.023043
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 1.023043
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 1-step LPP 
+> print(var.pre2par(var1.fit.1step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-          [,1]      [,2]
-[1,]  1.029733 0.6310298
-[2,] -0.411762 0.3440929
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
-\end{Sinput}
-\begin{Soutput}
-          [,1]      [,2]
-[1,]  1.029734  0.631041
-[2,] -1.382905 -1.071446
+, , 1
+
+           [,1]      [,2]
+[1,]  1.0297320 0.6310257
+[2,] -0.1752084 0.7950063
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -1658,41 +1665,32 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array[,,1] <- c(0,0)
 > psi.array[,,2] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.2step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 2.674102 2.674102
+[1] 2.674102
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 2.680453
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 2-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 2-step LPP 
+> print(var.pre2par(var1.fit.2step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-           [,1]      [,2]
-[1,]  1.0822622 0.5237107
-[2,] -0.4293269 0.3509603
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 2-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
-\end{Sinput}
-\begin{Soutput}
+, , 1
+
             [,1]       [,2]
-[1,] -0.98471399 -1.7618564
-[2,]  0.01320693  0.5588173
+[1,]  1.00935074  1.0897652
+[2,] -0.06643582 -0.3207922
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -1709,41 +1707,32 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
 > psi.array <- aperm(psi.array,c(1,3,2))
 > acf.array <- x.acf
-> theta <- rep(0,4)
-> var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
+> theta <- rnorm(4)
+> var1.fit.bk <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.bk$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 1.237577 1.237577
+[1] 1.237577
 \end{Soutput}
 \begin{Sinput}
-> lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 1.247483
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from low-pass LPP, delta = 1
-> print(var1.psi2par(var1.fit.bk.Pos$par,1))	
+> # phi coefficient from low-pass LPP 
+> print(var.pre2par(var1.fit.bk$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-             [,1]      [,2]
-[1,]  0.922765701 0.2783565
-[2,] -0.008387922 0.7268689
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from low-pass LPP, delta = -1
-> print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
-\end{Sinput}
-\begin{Soutput}
-          [,1]      [,2]
-[1,]  3.007823  3.166735
-[2,] -2.555982 -2.804916
+, , 1
+
+           [,1]       [,2]
+[1,]  1.0307633  1.6213611
+[2,] -0.1411693 -0.9133959
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -1798,46 +1787,37 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 > # Yule-Walker
 > phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-> yw.psidelta <- var1.par2psi(phi.yw,100)
+> yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 > # 1-step ahead forecasting
 > psi.array <- array(0,c(1,2,1))
 > psi.array[,,1] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.1step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 1.582355 1.582355
+[1] 1.582355
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 1.582355
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 1-step LPP 
+> print(var.pre2par(var1.fit.1step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-            [,1]        [,2]
-[1,] 0.527735961 -0.02835286
-[2,] 0.002445085  0.71087515
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
-\end{Sinput}
-\begin{Soutput}
+, , 1
+
           [,1]        [,2]
-[1,] 0.5277356 -0.02835284
-[2,] 0.8974411 -0.66017282
+[1,] 0.5277372 -0.02835277
+[2,] 0.4551157  0.54786138
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -1854,41 +1834,32 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array[,,1] <- c(0,0)
 > psi.array[,,2] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.2step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 2.152178 2.154095
+[1] 2.152178
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 2.333771
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 2-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 2-step LPP 
+> print(var.pre2par(var1.fit.2step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-            [,1]        [,2]
-[1,] -0.03188988 -0.02238268
-[2,]  1.38085694 -0.46507842
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 2-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1))	
-\end{Sinput}
-\begin{Soutput}
-            [,1]        [,2]
-[1,] -0.03202751 0.002372358
-[2,]  0.10492919 0.691091355
+, , 1
+
+          [,1]        [,2]
+[1,] 0.2712374 -0.06877529
+[2,] 1.5027544 -0.43234968
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -1905,41 +1876,32 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array <- array(c(1,0) %x% sin(seq(1,T-1)*mu)/(pi*seq(1,T-1)),c(1,T-1,2))
 > psi.array <- aperm(psi.array,c(1,3,2))
 > acf.array <- x.acf
-> theta <- rep(0,4)
-> var1.fit.bk.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.bk.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.bk.Pos$value,var1.fit.bk.Neg$value))			
+> theta <- rnorm(4)
+> var1.fit.bk <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.bk$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 0.06285471 0.06285468
+[1] 0.06285465
 \end{Soutput}
 \begin{Sinput}
-> lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]])
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
            [,1]
 [1,] 0.06687517
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from low-pass LPP, delta = 1
-> print(var1.psi2par(var1.fit.bk.Pos$par,1))	
+> # phi coefficient from low-pass LPP 
+> print(var.pre2par(var1.fit.bk$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-           [,1]      [,2]
-[1,]  0.2798003 0.1483641
-[2,] -0.4755813 0.6170460
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from low-pass LPP, delta = -1
-> print(var1.psi2par(var1.fit.bk.Neg$par,-1))	
-\end{Sinput}
-\begin{Soutput}
-           [,1]      [,2]
-[1,] -0.3066946 0.3377563
-[2,]  1.0903832 0.1156086
+, , 1
+
+           [,1]       [,2]
+[1,]  0.5542183  0.7716562
+[2,] -1.1922801 -1.0272790
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -2000,48 +1962,37 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 > # Yule-Walker
 > phi.yw <- x.acf[,,2] %*% solve(x.acf[,,1])	# phi coefficient from YW
-> yw.psidelta <- var1.par2psi(phi.yw,100)
+> yw.psi <- var.par2pre(array(phi.yw,c(2,2,1)))
 > # 1-step ahead forecasting
 > psi.array <- array(0,c(1,2,1))
 > psi.array[,,1] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
-+ 	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
-+ 	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.1step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.1step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 7.365224 7.365224
+[1] 7.365224
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 7.365224
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 1-step LPP 
+> print(var.pre2par(var1.fit.1step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-            [,1]       [,2]
-[1,] -0.03871456  2.4744944
-[2,] -0.17378232 -0.5289425
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
-\end{Sinput}
-\begin{Soutput}
-            [,1]       [,2]
-[1,] -0.03871371  2.4744914
-[2,]  0.18446156 -0.1003886
+, , 1
+
+            [,1]        [,2]
+[1,] -0.03870737  2.47447161
+[2,] -0.40279868 -0.03484045
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -2058,43 +2009,32 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 > psi.array[,,1] <- c(0,0)
 > psi.array[,,2] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,lower = c(-Inf,-30,-30,-Inf),
-+ 	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,lower = c(-Inf,-30,-30,-Inf),
-+ 	upper = c(Inf,20,20,Inf),method="L-BFGS-B")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.2step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 9.647333 9.647333
+[1] 9.647333
 \end{Soutput}
 \begin{Sinput}
-> print(lpp.var1(yw.psidelta[[1]],psi.array,acf.array,yw.psidelta[[2]]))
+> print(lpp.var1(yw.psi,psi.array,acf.array))
 \end{Sinput}
 \begin{Soutput}
          [,1]
 [1,] 10.67907
 \end{Soutput}
 \begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = 1
-> print(var1.psi2par(var1.fit.2step.Pos$par,1))	
+> # phi coefficient from 2-step LPP 
+> print(var.pre2par(var1.fit.2step$par,1,2))	
 \end{Sinput}
 \begin{Soutput}
-           [,1]     [,2]
-[1,]  0.0544628 1.907806
-[2,] -0.2652771 1.365024
-\end{Soutput}
-\begin{Sinput}
-> # phi coefficient from 1-step LPP, delta = -1
-> print(var1.psi2par(var1.fit.2step.Neg$par,-1)) 	
-\end{Sinput}
-\begin{Soutput}
-          [,1]     [,2]
-[1,] -6.288798 16.98512
-[2,] -2.358070  6.44824
+, , 1
+
+           [,1]      [,2]
+[1,] -0.2693490 -1.863847
+[2,]  0.3088747 -1.183593
 \end{Soutput}
 \begin{Sinput}
 > # phi coefficient from Yule-Walker
@@ -2106,12 +2046,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 [2,] -0.09029793 0.7870244
 \end{Soutput}
 \begin{Sinput}
-> # select choices of phi from above
-> if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-+ 	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
-+ } else {
-+ 	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
-+ }
+> phi.lpp <- var.pre2par(var1.fit.2step$par,1,2)[,,1]
 > # LPP case
 > fore.lpp <- phi.lpp %^% 2
 > fore.lpp <- fore.lpp[1,]
@@ -2139,8 +2074,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 
 %----------------------------------------
 
-
-
+% Chapter 3
 
 \chapter{Introduction to the Multivariate Direct Filter Analysis}
 \label{chap:basic}
@@ -2283,7 +2217,8 @@ The amplitude effects can be understood as dilations of the input spectral densi
   {| A_j (\omega) |}^2 \, F_{jj} (\omega).
 \]
  There are approximate empirical versions of these relations, which can be described in  
- terms of the DFT.  Applying the definition (\ref{eq:dft-def}) to the scalar output $\{ Y_t \}$,
+ terms of the DFT.  Applying the definition (\ref{eq:dft-def}) to the 
+ scalar output $\{ Y_t \}$,
   and utilizing (\ref{eq:spec-rep.partial}), we obtain
 \[
   \widetilde{Y} (\xi) = \int_{-\pi}^{\pi} T^{-1/2} \, \sum_{t=1}^T e^{i (\omega - \xi) t}
@@ -2530,7 +2465,7 @@ Filtering with  $\widehat{\Psi}_{\vartheta (\widehat{F})}$ instead
  interior of the filter parameter space, and that
  $H(\vartheta (\widetilde{F}))$ is 
  positive definite.  Suppose that $\{ X_t \}$ has finite fourth moments, 
-conditions (HT1)-(HT6) of Taniguchi and Kakizawa (2000, pp.55-56)
+conditions (HT1)-(HT6) of Taniguchi and Kakizawa (2012)
  hold, and that the fourth order cumulant function of $\{ X_t \}$ is zero.  
  Then the estimator is consistent for the PTV, and
 \[
@@ -2603,15 +2538,24 @@ Prediction Filter} (LPF).
 More generally, suppose that for some $r > 0$
  we have ${ \langle G \rangle }_h = 0$ for all $|h| \geq r$.  Then 
 (\ref{eq:psi.g.comp}) can be written in matrix form as
-\begin{align*}
- b^{\prime}  = & [ \psi (1-r), \ldots, \psi(0), \ldots, \psi (r-1), \ldots, \psi (r+q-2) ] \\
-	& \cdot \left[ \begin{array}{ccc} { \langle G \rangle }_{r-1} & \ddots & 0 \\
-		\vdots & \ddots & \vdots \\ { \langle G \rangle }_{0} & \vdots & 
-	{ \langle G \rangle }_{q-1} \\ \vdots & \ddots & \vdots \\
-	{ \langle G \rangle }_{1-r} & \vdots & { \langle G \rangle }_{q-r} \\
-	0 & \ddots & \vdots \\ 0 & \ddots & { \langle G \rangle }_{1-q} \end{array} \right].
-\end{align*}
- The matrix in this product has $2r+q-2$ block rows, and $q$ block columns.
+%\begin{align*}
+% b^{\prime}  = & [ \psi (1-r), \ldots, \psi(0), \ldots, \psi (r-1), \ldots, \psi (r+q-2) ] \\
+%	& \cdot \left[ \begin{array}{ccc} { \langle G \rangle }_{r-1} & \ddots & 0 \\
+%		\vdots & \ddots & \vdots \\ { \langle G \rangle }_{0} & \vdots & 
+%	{ \langle G \rangle }_{q-1} \\ \vdots & \ddots & \vdots \\
+%	{ \langle G \rangle }_{1-r} & \vdots & { \langle G \rangle }_{q-r} \\
+%	0 & \ddots & \vdots \\ 0 & \ddots & { \langle G \rangle }_{1-q} \end{array} \right].
+%\end{align*}
+\[
+ b  =  \left[ \begin{array}{cccccccc} { \langle G \rangle }_{1-r} & \ldots &
+    { \langle G \rangle }_0 & \ldots & { \langle G \rangle }_{r-1} &  0 & \ldots & 0 \\
+    		\ddots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots & \ddots \\
+    		0  &  \ldots & 0 & {\langle G \rangle}_{1-q} & \ldots & { \langle G \rangle }_{r-q} &
+    		\ldots &  { \langle G \rangle }_{q-1}  \end{array} \right] \,
+    \left[ \begin{array}{c} {\psi (1-r) }^{\prime} \\   \vdots \\ {\psi (r+q-2) }^{\prime}
+     \end{array} \right].
+\]
+ The matrix in this product has $2r+q-2$ block columns, and $q$ block rows.
  The dimension of $B$ is similarly $rn \times rn$.  This formulation requires
  a time-domain specification of the target filter, whereas in applications it is
  often more convenient to utilize the frequency-domain.  To that end, we discuss the 
@@ -2760,9 +2704,10 @@ With this justification, we see that the entries of the matrix $B$ in
 > N <- 2
 > phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 > innovar.matrix <- diag(N)
-> gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
-+ 	matrix(innovar.matrix,ncol=1),nrow=N)
-> x.init <- t(chol(gamma.0)) %*% rnorm(N)
+> true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+> gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+> gamma.0 <- gamma[,,1]
+> x.init <- t(chol(gamma.0)) %*% rnorm(2)
 > x.next <- x.init
 > x.sim <- NULL
 > for(t in 1:T)
@@ -2778,36 +2723,36 @@ With this justification, we see that the entries of the matrix $B$ in
 > psi.array[,,1] <- c(0,0)
 > psi.array[,,2] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # select choices of phi from above
-> if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-+ 	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
-+ } else {
-+ 	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
-+ }
+> theta <- rnorm(4)
+> var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.2step$value)		
+\end{Sinput}
+\begin{Soutput}
+[1] 2.674102
+\end{Soutput}
+\begin{Sinput}
+> phi.lpp <- var.pre2par(var1.fit.2step$par,1,2)[,,1]
 > # LPP case
 > fore.lpp <- phi.lpp %^% 2
 > fore.lpp <- fore.lpp[1,]
 > # MDFA
 > q <- 20
-> Grid <- T
-> m <- floor(Grid/2)
+> grid <- T
+> m <- floor(grid/2)
 > # The Fourier frequencies
-> lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
+> lambda.ft <- exp(-1i*2*pi*grid^{-1}*(seq(1,grid) - (m+1)))
 > # frf for 2-step ahead forecasting
 > frf.psi <- matrix(lambda.ft^{-2},nrow=1) %x% diag(N) 	  
-> frf.psi <- array(frf.psi,c(N,N,Grid))
+> frf.psi <- array(frf.psi,c(N,N,grid))
 > spec.hat <- mdfa.pergram(x.sim,1)	
 > fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
 > # compare LPP and MDFA first coefficients
 > print(fore.lpp)
 \end{Sinput}
 \begin{Soutput}
-[1] 0.9463929 0.7503688
+[1] 0.9463902 0.7503591
 \end{Soutput}
 \begin{Sinput}
 > print(fore.mdfa[[1]][1,,1])
@@ -2863,43 +2808,36 @@ With this justification, we see that the entries of the matrix $B$ in
 > psi.array[,,1] <- c(0,0)
 > psi.array[,,2] <- c(1,0)
 > acf.array <- x.acf[,,1:3]
-> theta <- rep(0,4)
-> var1.fit.2step.Pos <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=1,method="BFGS")
-> var1.fit.2step.Neg <- optim(theta,lpp.var1,psi.array=psi.array,
-+ 	acf.array=acf.array,delta=-1,method="BFGS")
-> # fits using both delta values, compared
-> print(c(var1.fit.2step.Pos$value,var1.fit.2step.Neg$value))		
+> theta <- rnorm(4)
+> var1.fit.2step <- optim(theta,lpp.var1,psi.array=psi.array,
++ 	acf.array=acf.array,method="BFGS")
+> # fit output
+> print(var1.fit.2step$value)		
 \end{Sinput}
 \begin{Soutput}
-[1] 2.152178 2.154095
+[1] 2.152178
 \end{Soutput}
 \begin{Sinput}
-> # select choices of phi from above
-> if(var1.fit.2step.Pos$value < var1.fit.2step.Neg$value) {
-+ 	phi.lpp <- var1.psi2par(var1.fit.2step.Pos$par,1) 
-+ } else {
-+ 	phi.lpp <- var1.psi2par(var1.fit.2step.Neg$par,-1)
-+ }
+> phi.lpp <- var.pre2par(var1.fit.2step$par,1,2)[,,1]
 > # LPP case
 > fore.lpp <- phi.lpp %^% 2
 > fore.lpp <- fore.lpp[1,]
 > # MDFA
 > q <- 20
-> Grid <- T
-> m <- floor(Grid/2)
+> grid <- T
+> m <- floor(grid/2)
 > # The Fourier frequencies
-> lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
+> lambda.ft <- exp(-1i*2*pi*grid^{-1}*(seq(1,grid) - (m+1)))
 > # frf for 2-step ahead forecasting
 > frf.psi <- matrix(lambda.ft^{-2},nrow=1) %x% diag(N) 	  
-> frf.psi <- array(frf.psi,c(N,N,Grid))
+> frf.psi <- array(frf.psi,c(N,N,grid))
 > spec.hat <- mdfa.pergram(x.sim,1)	
 > fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
 > # compare LPP and MDFA first coefficients
 > print(fore.lpp)
 \end{Sinput}
 \begin{Soutput}
-[1] -0.02989031  0.01112348
+[1] -0.02977640  0.01096917
 \end{Soutput}
 \begin{Sinput}
 > print(fore.mdfa[[1]][1,,1])
@@ -2940,8 +2878,9 @@ Simulate a sample of size $T=5000$ from a
 > N <- 2
 > phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 > innovar.matrix <- diag(N)
-> gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
-+ 	matrix(innovar.matrix,ncol=1),nrow=N)
+> true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+> gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+> gamma.0 <- gamma[,,1]
 > x.init <- t(chol(gamma.0)) %*% rnorm(N)
 > x.next <- x.init
 > x.sim <- NULL
@@ -3046,8 +2985,9 @@ Also determine the in-sample performance, in comparison to the criterion value
 > N <- 3
 > phi.matrix <- rbind(c(.9,0,0),c(0,.1,0),c(0,0,-.9))
 > innovar.matrix <- diag(N)
-> gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
-+ 	matrix(innovar.matrix,ncol=1),nrow=N)
+> true.psi <- var.par2pre(array(phi.matrix,c(N,N,1)))
+> gamma <- VARMAauto(array(phi.matrix,c(N,N,1)),NULL,innovar.matrix,10)
+> gamma.0 <- gamma[,,1]
 > x.init <- t(chol(gamma.0)) %*% rnorm(N)
 > x.next <- x.init
 > x.sim <- NULL
@@ -3120,6 +3060,7 @@ Also determine the in-sample performance, in comparison to the criterion value
 \label{fig:trivar1.trends} 
 \end{center}
 \end{figure}
+
 
 \begin{figure}[htb!]
 \begin{center}
@@ -3337,10 +3278,11 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 \begin{Schunk}
 \begin{Sinput}
 > # Set up loops over delta and sigma
+> delta.vals <- c(0,1,2,3,4)/4
 > sigma.vals <- c(0,.1,.5,1,2)
 > critmdfa.mat <- matrix(0,5,5,dimnames=list(c(0,1,2,3,4)/4,sigma.vals))
 > critudfa.mat <- matrix(0,5,5,dimnames=list(c(0,1,2,3,4)/4,sigma.vals))
-> for(delta in c(0,1,2,3,4)/4) {
+> for(delta in delta.vals) {
 + for(j in 1:5) {
 + 
 + sigma <- sigma.vals[j]
@@ -3359,13 +3301,13 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 + 	x.sim <- c(x.sim,x.next)
 + }
 + 
-+ Grid <- T
-+ m <- floor(Grid/2)
++ grid <- T
++ m <- floor(grid/2)
 + # define complex exponential at Fourier frequencies
-+ lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
++ lambda.ft <- exp(-1i*2*pi*grid^{-1}*(seq(1,grid) - (m+1)))
 + # frf for delta-step ahead forecasting
 + frf.psi <- matrix(lambda.ft^{-delta},nrow=1) 
-+ frf.psi <- array(frf.psi,c(1,1,Grid))
++ frf.psi <- array(frf.psi,c(1,1,grid))
 + nowcast.filter <- mdfa.coeff(frf.psi,-len,len)
 + x.target <- filter(x.sim,nowcast.filter[1,1,],method="convolution",sides=2)[(len+1):(T-len)]
 + w.sim <- x.target + sigma*rnorm(T-2*len)
@@ -3373,20 +3315,18 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 + 
 + # MDFA
 + q <- 20
-+ Grid <- T - 2*len
-+ m <- floor(Grid/2)
++ grid <- T - 2*len
++ m <- floor(grid/2)
 + # The Fourier frequencies (recompute with smaller sample size)
-+ lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))
++ lambda.ft <- exp(-1i*2*pi*grid^{-1}*(seq(1,grid) - (m+1)))
 + # frf for delta-step ahead forecasting
 + frf.psi <- matrix(lambda.ft^{-delta},nrow=1) %x% diag(N)
-+ frf.psi <- array(frf.psi,c(N,N,Grid))
++ frf.psi <- array(frf.psi,c(N,N,grid))
 + spec.hat <- mdfa.pergram(x.sim,1)	
 + fore.udfa <- mdfa.unconstrained(frf.psi[1,1,,drop=FALSE],spec.hat[1,1,,drop=FALSE],q)
 + if(j > 1) { 
 + 	fore.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q) 
-+ } else {
-+ 	fore.mdfa <- fore.udfa 
-+ }
++ } else { fore.mdfa <- fore.udfa }
 +   
 + # apply the MDFA concurrent filter
 + x.fore.mdfa11 <- filter(x.sim[,1],fore.mdfa[[1]][1,1,],method="convolution",sides=1)
@@ -3399,8 +3339,8 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 + x.fore.udfa <- filter(x.sim[,1],fore.udfa[[1]][1,1,],method="convolution",sides=1)
 + 
 + # compare in-sample performance
-+ print(c(mean((x.target[-seq(1,q-1)] - x.fore.mdfa[-seq(1,q-1)])^2),
-+ 	mean((x.target[-seq(1,q-1)] - x.fore.udfa[-seq(1,q-1)])^2)))
++ #print(c(mean((x.target[-seq(1,q-1)] - x.fore.mdfa[-seq(1,q-1)])^2),
++ #	mean((x.target[-seq(1,q-1)] - x.fore.udfa[-seq(1,q-1)])^2)))
 + 
 + # store criterion value
 + i <- delta*4 + 1
@@ -3408,70 +3348,48 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 + critudfa.mat[i,j] <- fore.udfa[[2]][1,1]
 + }}
 \end{Sinput}
-\begin{Soutput}
-[1] 2.802362e-27 2.802362e-27
-[1] 1.427359e-23 2.802362e-27
-[1] 2.905156e-27 2.802362e-27
-[1] 2.882633e-27 2.802362e-27
-[1] 2.808209e-27 2.802362e-27
-[1] 0.05078962 0.05078962
-[1] 0.005970153 0.050789616
-[1] 0.03457852 0.05078962
-[1] 0.04335656 0.05078962
-[1] 0.04677115 0.05078962
-[1] 0.2377793 0.2377793
-[1] 0.008471453 0.237779309
-[1] 0.0952848 0.2377793
-[1] 0.1638133 0.2377793
-[1] 0.2037506 0.2377793
-[1] 0.5331737 0.5331737
-[1] 0.009759302 0.533173748
-[1] 0.1416053 0.5331737
-[1] 0.2988843 0.5331737
-[1] 0.4237369 0.5331737
-[1] 0.8413718 0.8413718
-[1] 0.01048854 0.84137183
-[1] 0.1676030 0.8413718
-[1] 0.3987859 0.8413718
-[1] 0.6258851 0.8413718
-\end{Soutput}
 \end{Schunk}
 
-% latex table generated in R 3.5.0 by xtable 1.8-3 package
-% Thu May 30 11:58:55 2019
-\begin{table}[ht]
+% OLD way of generating table
+%xtb <- xtable(critmdfa.mat, dec = 1,digits=rep(3,dim(critmdfa.mat)[2]+1),
+%  paste("Effect of lead and  inverse signal-to-noise ratio on MDFA filter MSE",sep=""),
+%  label=paste("tab:critmdfa.mat",sep=""),
+%  center = "centering", file = "", floating = FALSE)
+%addtorow <- list()
+%addtorow$pos <- list(-1)
+%addtorow$command <- paste0(paste0('$','\\','delta$','& \\multicolumn{5}{c}{Sigma values}', %collapse=''), '\\\\')
+%print(xtb, add.to.row=addtorow, include.colnames=T)
+%
+%xtb <-  xtable(critudfa.mat, dec = 1,digits=rep(3,dim(critudfa.mat)[2]+1),
+%  paste("Effect of lead and  inverse signal-to-noise ratio on DFA filter MSE",sep=""),
+%  label=paste("tab:critudfa.mat",sep=""),
+%  center = "centering", file = "", floating = FALSE)
+%addtorow <- list()
+%addtorow$pos <- list(-1)
+%addtorow$command <- paste0(paste0('$','\\','delta$','& \\multicolumn{5}{c}{Sigma values}', %collapse=''), '\\\\')
+%print(xtb, add.to.row=addtorow, include.colnames=T)
+
+\begin{table}[]
 \centering
-\begin{tabular}{rrrrrr}
-  $\delta$& \multicolumn{5}{c}{Sigma values}\\ \hline
- & 0 & 0.1 & 0.5 & 1 & 2 \\ 
-  \hline
-0 & -0.000 & 0.000 & -0.000 & -0.000 & 0.000 \\ 
-  0.25 & 0.052 & 0.009 & 0.035 & 0.044 & 0.047 \\ 
-  0.5 & 0.242 & 0.024 & 0.100 & 0.165 & 0.205 \\ 
-  0.75 & 0.543 & 0.040 & 0.158 & 0.305 & 0.428 \\ 
-  1 & 0.857 & 0.051 & 0.195 & 0.415 & 0.635 \\ 
-   \hline
-\end{tabular}
-\caption{Effect of lead and  inverse signal-to-noise ratio on MDFA filter MSE} 
+\caption{Effect of lead and  inverse signal-to-noise ratio on MDFA filter MSE.}
 \label{tab:critmdfa.mat}
-\end{table}% latex table generated in R 3.5.0 by xtable 1.8-3 package
-% Thu May 30 11:58:55 2019
-\begin{table}[ht]
-\centering
-\begin{tabular}{rrrrrr}
-  $\delta$& \multicolumn{5}{c}{Sigma values}\\ \hline
- & 0 & 0.1 & 0.5 & 1 & 2 \\ 
-  \hline
-0 & -0.000 & -0.000 & -0.000 & -0.000 & -0.000 \\ 
-  0.25 & 0.052 & 0.052 & 0.052 & 0.052 & 0.052 \\ 
-  0.5 & 0.242 & 0.242 & 0.242 & 0.242 & 0.242 \\ 
-  0.75 & 0.543 & 0.543 & 0.543 & 0.543 & 0.543 \\ 
-  1 & 0.857 & 0.857 & 0.857 & 0.857 & 0.857 \\ 
-   \hline
+\begin{tabular}{llllll}
+  & 0    & 0.25   & 0.5  
+   & 0.75  & 1  \\ \hline
+0        & -3.5527136788005e-15  & 2.22044604925031e-13 
+    & -1.77635683940025e-15 & -8.88178419700125e-16 & 3.5527136788005e-15  \\
+0.1        & 0.0515333063544694  & 0.00927538700613129 
+    & 0.0347401278748989 & 0.0435319652609754 & 0.047145822050028  \\
+0.5        & 0.24160844893295  & 0.0240008079865022 
+    & 0.100443415264753 & 0.164859934734334 & 0.204834451331773  \\
+1        & 0.54284235518345  & 0.0398437844476653 
+    & 0.157774326108716 & 0.305402560379077 & 0.427518962824753  \\
+2        & 0.857285264133202  & 0.0505989535031648 
+    & 0.19502275802409 & 0.414781672651307 & 0.635241666441922  \\
+\hline      
 \end{tabular}
-\caption{Effect of lead and  inverse signal-to-noise ratio on DFA filter MSE} 
-\label{tab:critudfa.mat}
 \end{table}
+ 
  The results for MDFA and univariate DFA, respectively, are given in 
 Tables \ref{tab:critmdfa.mat} and \ref{tab:critudfa.mat}.
 Regarding the design of Exercise \ref{exer:nowmdfa-udfa}, we make the following 
@@ -3512,40 +3430,447 @@ These results suggest the pertinence of a mixed-frequency approach,
  this is further discussed in Chapter \ref{chap:mix}. 
  
 
+
+\section{Multivariate DFA with Multiple Targets}
+ 
+  
+ We now consider a slight generalization of the LPP, where the target is also multivariate.
+ 
+\subsection{LPP with Multiple Targets} 
+ 
+\begin{Definition} \rm
+\label{def:target}
+ A {\bf target} is defined to be the output of any known linear
+ filter acting on the data process, i.e.,  $\{Y_t \}$ is a target
+ time series corresponding to a given filter $\Psi (L)$ acting on a 
+given observed time series
+ $\{ X_t \}$ if and only if we can write $ Y_t = \Psi (L) \, X_t$
+ for all integers $t$.
+\end{Definition}
+
+ We revisit the examples considered in Chapter \ref{lpp_chap}, but
+ now incorporated with multiple targets.
+
+\begin{Example} {\bf  Multi-step Ahead Forecasting.}   \rm
+\label{exam:multi-step.fore2}
+  Suppose that our goal is to forecast all of the component series 
+ $h$ steps ahead, where $h \geq 1$ is the given {\em forecast lead}.
+  Hence the target is expressed as  $  Y_t = X_{t+h}$
+  for all $ t \in \ZZ$.  This target corresponds to
+  $\Psi (L) = L^{-h} \, 1_n$.   Thus,   $\psi (\ell)$  is a $n \times n$
+  matrix, each of which are zero except $\psi (-h)$,
+ which is given by $1_n$.
+\end{Example}
+
+\begin{Example} {\bf Ideal Low-Pass.} \rm
+\label{exam:ideal-low2}
+  The ideal low-pass target is the same for each series, and hence
+\[
+  \Psi (z) = \chi_{ [ -\mu, \mu ]} (\omega) \,1_n
+\]
+ for some cutoff $\mu \in (0, \pi)$ that separates the pass-band from
+the stop-band.   The coefficients are given by 
+\[ 
+  \psi (\ell) = \frac{ \sin (\ell \mu) }{ \pi \ell } \, 1_n
+\]
+ for $\ell \neq 0$ and $\psi (0) = \mu/\pi \, 1_n$.   
+\end{Example}
+
+\begin{Example} {\bf The Future VAR(1) Shock.}\rm
+\label{exam:var1-shock}
+  Consider the VAR(1) process (\ref{eq:var1-def}), and suppose our target is the future shock
+  (or innovation), so that
+\[
+  Y_t = X_{t+1} - \Phi \, X_{t}.
+\]
+  Hence $\Psi (L) = L^{-1} 1_n - \Phi$.  Note that this target is model-based;
+  one must know the process to compute the target.   Also, each component of
+  the multivariate target depends on all the series:
+\[
+  Y_{t,j} = X_{t+1,j} -  \sum_{k=1}^n \Phi_{jk} X_{t,k}
+\]
+ for $1 \leq j \leq n$.
+\end{Example}
+
+As we see from these examples, the targets of real-time signal 
+ extraction  are features of the stochastic process that are of interest to 
+ a particular user.   Targets can be {\em ad hoc} 
+ (cf. Example \ref{exam:ideal-low}2) or {\em model-based} (cf. Example \ref{exam:var1-shock}),
+   and may   depend upon  all the components   of $X_t$.    
+ 
+
+\begin{Definition} \rm
+\label{def:lpp2}
+ The {\bf Linear Prediction Problem} (LPP) seeks a linear estimate
+    such that the filter error (\ref{eq:dfa-error})
+ has mean zero, and  such that the determinant of the filter 
+    error variance $\mbox{Var} [ E_t ]$ is minimized.
+\end{Definition}
+
+The filter error variance matrix is referred to as the filter MSE;
+ the diagonal entries correspond to the scalar LPPs considered
+ earlier in this book.   We now state the   solution to the general LPP
+ with multiple targets.
+
+\begin{Proposition}
+ \label{prop:GPP2}
+ Suppose that $\{ X_t \}$ is mean zero and weakly stationary 
+ with  causal Wold decomposition expressed as $X_t = \Theta (L) \, \epsilon_t$,
+ where $\Theta (L)$ is invertible.    Then the solution
+ to the LPP posed by a   target $Y_t = \Psi (L) \, X_t$ is given by
+\begin{equation}
+ \label{eq:GPPsoln}
+ \widehat{\Psi} (L) = \sum_{\ell \geq 0 } \psi (\ell) \, L^{\ell} + 
+ \sum_{\ell < 0 } \psi (\ell)
+ \,  { [ \Theta (L) ]}_{-\ell}^{ \infty  } \, L^{\ell} \, {\Theta (L) }^{-1}.
+\end{equation}
+ Moreover, the   MSE  corresponding to this solution is given by
+\begin{equation} 
+\label{eq:minimalMSE}
+ \frac{1}{ 2 \pi} \int_{-\pi}^{\pi}   \sum_{\ell, k > 0 } \psi (-\ell) \,
+  {[ \Theta  (e^{-i \omega}) ]}_0^{\ell-1}   \,  \Sigma \,
+  { {[ \Theta  (e^{i \omega}) ]}_0^{ k-1} }^{\prime}  \,
+   {\psi (-k) }^{\prime} \,  e^{i \omega (\ell - k) }   \, d\omega.
+\end{equation}
+ \end{Proposition}
+
+  
+
+\paragraph{Proof of Proposition \ref{prop:GPP2}.}
+ In order for a linear solution to be MSE optimal, it is sufficient that the
+ resulting error process be uncorrelated with the present and past data, denoted $X_{t:}$.
+   If we can show that the real-time signal extraction error process $\{ E_t \}$
+  depends only on future innovations, then by the causality of $\{ X_t \}$ the error process 
+  must be uncorrelated   with $X_{t:}$, establishing optimality.  
+ The filter error of the putative solution is  
+  given by
+\begin{align*}
+ \Psi (L) - \widehat{\Psi} (L) & = \sum_{\ell < 0 } \psi (\ell) \, L^{\ell} \,
+   \left( 1 -   {[ \Theta (L) ]}_{-\ell}^{\infty} \, { \Theta (L) }^{-1} \right) \\
+  & =  \sum_{\ell < 0 } \psi (\ell) \, L^{\ell} \, 
+  {[ \Theta (L) ]}_{0}^{ -(\ell + 1)} \, { \Theta (L) }^{-1}.
+\end{align*}
+ Applying this to $\{ X_t \}$ yields
+\[
+  E_t = \sum_{\ell =1 }^{\infty} \psi (-\ell) \, {[ \Theta (L) ]}_0^{\ell - 1} \, 
+   \epsilon_{t + \ell }.
+\]
+  Noting that ${[ \Theta (L) ]}_0^{\ell - 1}$ is an order $\ell-1$ polynomial in $L$,
+ and is applied to $\epsilon_{t+ \ell}$, it is apparent that $E_t$ is a linear function
+ of future innovations $\{ \epsilon_{t+1}, \epsilon_{t+2}, \ldots \}$.  Computing
+ the variance of $E_t$ yields the expression for the minimal MSE.  $\quad \Box$
+
+ 
+\subsection{MDFA for Multiple Targets}
+
+Suppose that the causal filters of interest belong to a class
+  $\mathcal{G}$  described by a vector parameter $\vartheta$ belonging to a 
+ parameter manifold.  We now generalize the definition of $\mathcal{G}$ given
+  by (\ref{eq:filter-set}),  where now the filters are $n \times n$.
+  Likewise, we generalize the real-time estimation error   given in (\ref{eq:dfa-error})
+ by noting that now $E_t$ is an $n$-dimensional vector.  
+  Hence (\ref{eq:dfa-mvar}) becomes
+\begin{equation}
+ \label{eq:dfa-mvar2}
+   \EE [ \varepsilon_t \, \varepsilon_t^{\prime} ]  = 
+   { \langle  \left[ \Psi ( e^{-i \omega} ) -  
+   \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   F (\omega) \,
+  {  \left[ \Psi (e^{i \omega}) -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
+\end{equation}
+   This suggests as a generalization of (\ref{eq:mdfa-criterion})
+   the criterion function  $\det D_{\Psi} (\vartheta, G)$ for
+ any Hermitian function $G$, defined via
+\begin{equation}
+\label{eq:mdfa-criterion2}
+ D_{\Psi} (\vartheta, G) = { \langle  \left[ \Psi (e^{-i \omega}) - 
+  \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   G (\omega) \,
+  {  \left[ \Psi (e^{i \omega}) -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
+\end{equation}
+  In the following development, setting $G = F$ yields an ideal criterion based on the process,
+ whereas setting $G =  \widehat{F}$ (the periodogram) yields an empirical criterion,
+ providing estimates  that we can compute from data.  
+ Taking the determinant of (\ref{eq:mdfa-criterion2}) yields
+ the MDFA criterion function.   In the case $n=1$ we recover the univariate DFA; 
+ Proposition A.3 of McElroy and Wildi (2020)  shows
+that by including additional time series the MDFA will  improve over DFA for any filter class $\mathcal{G}$.
+
+The  best possible concurrent filter is  given by
+ $\widehat{\Psi}_{\vartheta (F)}$,
+  where $\vartheta (F)$ is a minimizer of
+  $\det D_{\Psi} (\vartheta, F)$.  This $\vartheta (F)$ is the
+ Pseudo-True Value  for the filter parameter.
+A   case of interest arises from taking a very broad class $\mathcal{G}$, namely
+  let $\mathcal{G}$ consist of all length $q$ concurrent filters, with 
+$\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and 
+\begin{equation}
+\label{eq:conc.filter}
+  \Xi^{}  =  {\left[  \widehat{\psi} (0), \widehat{\psi} (1), \ldots, 
+  \widehat{\psi} (q-1) \right] }^{\prime}.
+\end{equation}
+ So $\Xi$ is  a   $ q n \times n$ dimensional matrix.
+ Then the criterion (\ref{eq:mdfa-criterion2}) can be rewritten as
+\begin{equation}
+\label{eq:mdfa-crit.linear}
+ D_{\Psi} (\vartheta, G)  = \Xi^{\prime} \, B \, \Xi -
+   \Xi^{\prime} \, A - 
+   A^{\prime} \, \Xi + { \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0,
+\end{equation}
+ where 
+\begin{equation}
+ \label{eq:bstar-expression}
+  A^{\prime}  = \left[ { \langle \Psi (e^{-i \omega}) \, G (\omega) 
+  \rangle }_{0}, { \langle \Psi (e^{-i \omega}) \, G (\omega) \rangle }_{1},
+  \ldots, { \langle \Psi (e^{-i \omega}) \, G (\omega) \rangle }_{q-1} \right],
+\end{equation}
+  and $B$ is a block matrix such that  the $jk$th $n \times n$ block of $B$  is 
+  ${ \langle G \rangle }_{k-j}$ for $1 \leq j,k \leq q$.  (Because $G$ is Hermitian,
+ ${ \langle G \rangle }_{k-j}$ is real, and it follows that $A$ is real as well.)
+
+
+
+\begin{Proposition}
+\label{prop:mdfa.quadsoln2}
+ The minimizer of the   MDFA criterion given by the determinant of (\ref{eq:mdfa-criterion2}),
+  with respect to $\mathcal{G}$ consisting of all length $q$ concurrent filters,  is
+  $ \Xi (G) = B^{-1} \, A$,
+ where the $jk$th  block of $B$   is    ${ \langle G \rangle }_{k-j}$,
+ and $A$ is given by (\ref{eq:bstar-expression}).
+ The minimal value is the determinant of
+\begin{equation}
+\label{eq:opt.val.mdfa2}
+{ \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0 - A^{\prime} \, B^{-1} \, A.
+\end{equation}
+\end{Proposition}
+
+\paragraph{Proof of Proposition \ref{prop:mdfa.quadsoln2}.}
+ First note that the typical component of $A$ has the form
+\begin{equation}
+ \label{eq:psi.g.comp2}
+   { \langle \Psi (z) \, G \rangle }_{\ell} = \sum_{k = - \infty}^{\infty} \psi (k) \,
+	 { \langle G \rangle }_{\ell-k}
+\end{equation}
+ for $0 \leq \ell < q$,  which shows that $A$ is real-valued. 
+ The argument follows the same method as in McElroy and Findley (2015);
+ each entry of the matrix objective function is a quadratic in $\Xi$, and therefore
+  the minimizer is obtained 
+ by computing the gradient and Hessian, which are 
+  $-2 A + 2 B \, \Xi$ and   $2 B$ respectively,
+  yielding the solution.  Plugging back into $D_{\Psi}$ yields (\ref{eq:opt.val.mdfa2}).
+$\quad \Box$
+
+
+ 
+\begin{Example} {\bf One-step Ahead Forecasting.}  \rm
+\label{exam:multi-step.fore.4-alt}
+ We now generalize the result of Example \ref{exam:multi-step.fore.4} by considering
+  multiple series at once.   Consider the   one-step ahead forecasting of 
+  stationary time series, where 
+ $\mathcal{G} $ corresponds to   all VMA filters of   order $q$
+  (i.e., the filter corresponds to a VMA($q-1$) polynomial), where  
+ $ \vartheta  = \mbox{vec} [{\widehat{\psi} (0) }^{\prime},
+ {\widehat{\psi} (1) }^{\prime},   \ldots,
+  {\widehat{\psi} (q-1) }^{\prime} ]$.
+ With $\Psi (z) = z^{-1} 1_n$, from (\ref{eq:mdfa-criterion2}) we have 
+\begin{align*}
+ D_{\Psi} (\vartheta, G) & = 
+ { \langle  \left[  e^{i \omega} 1_n -  \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   G (\omega) \,
+  {  \left[ e^{-i \omega}  1_n  -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0 \\
+ & = { \langle  \left[ 1_n -  \sum_{\ell = 0}^{q-1} \widehat{\psi} (\ell)
+    \, e^{-i \omega  (\ell+1) } \right] \, 
+  G \,   {  \left[ 1_n  -   \sum_{\ell = 0}^{q-1} \widehat{\psi} (\ell) 
+  \, e^{i \omega (\ell+1 ) } \right]
+  }^{\prime} \rangle }_0 \\
+ & = { \langle G \rangle }_0 - 2 \, \Xi^{\prime} \, { \langle G \rangle }_{1:q} 
+    + \Xi^{\prime} \, B \, \Xi.
+\end{align*}
+ Hence the  optimizer is   $ \Xi (G) = B^{-1} \,    { \langle G \rangle }_{1:q}$,
+ which is the first component of the solution to the Yule-Walker system of order 
+  $q$ determined by $G$.
+  Therefore the MDFA solution is the same as the fit of a VAR($q$) using 
+ Proposition \ref{prop:GPP2}.
+\end{Example}
+ 
+
+ 
+  We designate the resulting   prediction function
+$\widehat{\Psi}_{ {\vartheta} (G)}$  as  a {\em Linear
+Prediction Filter} (LPF).   Again, when $G=F$ this LPF is a theoretical
+ object, but when $G = \widehat{F}$ the LPF can be constructed directly from the sample.
+  When $\mathcal{G}$ is large enough to include the optimal MB filter
+ $\widehat{\Psi}  $ of Proposition  \ref{prop:GPP2},  then
+ $\widehat{\Psi}_{ {\vartheta} (F)} $ corresponds to  this 
+ $\widehat{\Psi}$ (assuming  the model 
+ is correctly specified).
+ 
+  
+
+\begin{Illustration} {\bf VAR($1$).}  \rm
+\label{ill:var1.3-alt}
+  We revisit the VAR(1) Illustration \ref{ill:var1.3}.
+  Now  the solution given by Proposition \ref{prop:mdfa.quadsoln2}
+ can be compared to that of the LPP, which has the first $q$ components
+ given by $  \Upsilon^{\prime} = [ \psi (0) + A_{\Psi} (\Phi), \psi (1),
+ \ldots, \psi (q-1)  ]$.
+ This is an approximate solution to the system $\Xi^{\prime} \, B
+ =  A^{\prime}$, because
+ $  \Upsilon^{\prime} \, B $ has $j+1$th component, for $0 \leq j \leq q-1$,
+ equal to  $   \sum_{\ell=0}^{q-1} \psi (\ell) \, {\langle G \rangle }_{j-\ell}
+ + A_{\Psi} (\Phi) \, \Gamma_j$.  Noting that
+\[
+ A_{\Psi} (\Phi) \, \Gamma_j
+ = \sum_{\ell = -1 }^{-\infty} \psi (-\ell) \, \Phi^{-\ell} \, \Gamma_j
+ = \sum_{\ell = -1}^{\infty} \psi (-\ell) \, \Gamma_{j- \ell},
+\]
+ because for a VAR($1$) process $\Gamma_h = \Phi^h \, \Gamma_0$ when
+ $h \geq 0$, we see that component $j+1$ of $\Upsilon^{\prime} \, B$ is
+\[
+  \sum_{\ell =0 }^{ q-1} \psi (\ell) \, \Gamma_{j-\ell}
+  =  {[   A^{\prime} ]}_{j+1} - \sum_{\ell = q}^{\infty} \psi (\ell) \, \Gamma_{j-\ell}.
+\]
+ As $q \tends \infty$ the error term vanishes (for each $j$), indicating
+ that $\Upsilon^{\prime} \, B \approx  A^{\prime}$, or
+ $\Xi \approx \Upsilon$.
+\end{Illustration}
+ 
+ For computation, we update the treatment given earlier to now discuss the 
+ case of a multivariate filter output.
+To compute the quantities given in Proposition \ref{prop:mdfa.quadsoln2} and  
+the MDFA criterion (\ref{eq:mdfa-criterion2}), we 
+approximate each integral by an average over Fourier frequencies: 
+\[
+  T^{-1} \, \sum_{t=1}^T E_t \, E_t^{\prime} =
+  T^{-1} \sum_{j=-[T/2]}^{T-[T/2]-1}   \widehat{F}_{E} (\omega_{j}),
+\]
+ where $  \widehat{F}_{E}$ is the periodogram of the 
+ filter errors and $\omega_j = 2 \pi \, j/T $ is
+ a Fourier frequency.   The right hand side
+ (with $ \widehat{F}_X$ the periodogram of the process)  is approximated  by 
+\[
+ T^{-1} \sum_{j=-[T/2]}^{T-[T/2]-1}  \left[ \Psi (e^{-i \omega_{j} }) - \widehat{\Psi} (e^{-i \omega_{j} }) \right] \,
+     \widehat{F}_X (\omega_{j}) \,
+ {\left[ \Psi (e^{i \omega_{j} }) - \widehat{\Psi}( e^{i \omega_{j} }) \right]}^{\prime}.
+\]
+   This is exactly the   criterion $D_{\Psi} (\vartheta,  \widehat{F}_X)$ of
+ (\ref{eq:mdfa-criterion2}) with the integrals replaced by Riemann
+ sums over the Fourier frequencies.
+
+With this justification, we see that the entries of the matrix $B$ in 
+ Proposition \ref{prop:mdfa.quadsoln2} are approximately computed via
+\[
+  B_{j,k} \approx T^{-1} \sum_{\ell=-[T/2]}^{T-[T/2]-1} G (\omega_{\ell}) \,
+   \exp \{ i \, (k-j) (\omega_{\ell}) \}
+\]
+ for $1 \leq j,k \leq T$.  Moreover, for $0 \leq k \leq T-1$
+\[
+  A_k^{\prime} \approx T^{-1}  \sum_{\ell=-[T/2]}^{T-[T/2]-1} \Psi 
+	( e^{ -i \omega_{\ell} }) \,     G (\omega_{\ell}) \,
+   e^{ i  k \omega_{\ell} },
+\]
+ where $A^{\prime} = [ A_0^{\prime}, \ldots, A_{T-1}^{\prime} ]$.  Finally,
+\[
+  { \langle \Psi (e^{-i \omega}) \, G (\omega)  \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0 \approx
+  T^{-1}  \sum_{\ell=-[T/2]}^{T-[T/2]-1}  \Psi 
+	( e^{ -i  \omega_{\ell} } ) \,
+     G (\omega_{\ell}) \,  {\Psi  ( e^{ i \omega_{\ell} } ) }^{\prime}.
+\]
+ 
+ 
 %  note: MDFA_basic replaces Mean_square
 
 %----------------------------------------
 
+% Chapter 4
 %\SweaveInput{MDFA_con}
 %  note: MDFA_con replaces Constraints,
 %    includes material from Replication
 
 %------------------------------------------------------------------
 
+% Chapter 5
 %\SweaveInput{Integrated}
 %  note: includes material from Cointegrated
 
 %----------------------------------------
 
+% Chapter 6
 %\SweaveInput{Custom}
 %  note: Custom replaces ATS and ATS_multivariate
 
 %------------------------------------------
 
+% Chapter 7
+%  regularization, shrinkage towards null specification
 %\SweaveInput{Regularization}
 
-%----------------------------------------
+%-------------------------------------------------------------
 
+%  Chapter 8
+%\SweaveInput{Filter_revisions}
 %\SweaveInput{Vintage}
 %  note: Vintage replaces Filter_revisions
 
 %----------------------------------------------
 
+%  Chapter 9
+% embedding in SVF,  backcasting GDP
 %\SweaveInput{Mixed}
 
 %--------------------------------------------------------------------
 
 %\SweaveInput{Summary}
+
+%--------------------------------------------------------------------
+
+\begin{thebibliography}{99}
+
+\bibitem{} Ansley, C. F. and R. Kohn (1986).
+A note on reparameterizing a vector autoregressive moving average
+model to enforce stationarity. 
+  Journal of Statistical Computation and Simulation 24, 99-106.
+  
+\bibitem{}  Ansley, C. F. and P. Newbold (1979). Multivariate partial autocorrelations. 
+  In Proceedings of the Businessand Economics Section, pp. 349-353.
+  American Statistical Association.
+
+\bibitem{} Baxter, M., and King, R. G. (1999). Measuring business cycles: approximate band-pass filters for economic time series. Review of economics and statistics, 81(4), 575-593.
+
+\bibitem{} Brockwell, P.J., and Davis, R.A. (1991).  
+  Time Series: Theory and Methods, second edition.   Springer. New York.
+
+\bibitem{} Christiano, L.J., and Fitzgerald, T.J.(2003). 
+  The band pass filter.  International economic review 44 (2), 435-465.
+
+\bibitem{} Golub, G. H., and Van Loan, C. F. (1996). Matrix Computations Johns Hopkins University Press. Baltimore and London.
+
+
+\bibitem{} Heaps, S.E., 2020. Enforcing stationarity through the prior in vector autoregressions. arXiv preprint arXiv:2004.09455.
+
+\bibitem{} Hosoya, Y., and Taniguchi, M. (1982). A central limit theorem for stationary processes and the parameter estimation of linear processes. The Annals of Statistics, 132-153.
+
+\bibitem{} L\"utkepohl, H. (2007).  New Introduction to Multiple Time Series Analysis. 
+Springer-Verlag. 
+
+\bibitem{} McElroy, T. (2008a). Matrix formulas for nonstationary ARIMA signal extraction. Econometric Theory, 988-1009.
+
+\bibitem{} McElroy, T. (2008b). Exact formulas for the Hodrick-Prescott filter.
+  The Econometrics Journal, 11(1), pp.209-217.
+
+\bibitem{} McElroy, T., and Findley, D. (2015). Fitting constrained vector autoregression models. In Empirical Economic and Financial Research (pp. 451-470). Springer, Cham.
+
+\bibitem{} McElroy, T., and Trimbur, T. (2015). Signal Extraction for Non-Stationary Multivariate Time Series with Illustrations for Trend Inflation. Journal of Time 
+Series Analysis, 36(2), 209-227.
+
+\bibitem{} Wildi, M. and McElroy, T. (2016). Optimal real-time filters for linear prediction problems. Journal of Time Series Econometrics, 8(2), pp.155-192.
+
+\bibitem{} McElroy, T. S. and Wildi, M. (2020). The multivariate linear prediction problem: model-based and direct filtering solutions. Econometrics and Statistics, 14, 112-130.
+
+\bibitem{} Self, S. G., and Liang, K. Y. (1987). Asymptotic properties of maximum likelihood estimators and likelihood ratio tests under nonstandard conditions. Journal of the American Statistical Association, 82(398), 605-610.
+
+\bibitem{} Taniguchi, M., and Kakizawa, Y. (2012). Asymptotic theory of statistical inference for time series. Springer Science \& Business Media.
+
+\bibitem{} Wildi, M. (2007). Real-Time Signal Extraction.
+
+\end{thebibliography}
 
 
 \end{document}

@@ -495,8 +495,7 @@ mu <- pi/6
 len <- 1000
 lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
 lp.filter <- c(rev(lp.filter),lp.filter[-1])
-#x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
-x.trend.ideal <- mvar.filter(x.sim,lp.filter)
+x.trend.ideal <- mvar.filter(x.sim,array(t(lp.filter) %x% diag(N),c(N,N,(2*len+1))))
 
 # get MDFA concurrent filter
 q <- 30
@@ -517,12 +516,6 @@ lp.mdfa.tsc <- mdfa.tsconstraint(frf.psi,spec.hat,q)
 lp.mdfa.ltsc <- mdfa.ltsconstraint(frf.psi,spec.hat,q)
 
 # case 1: apply the unconstrained MDFA concurrent filter 
-# x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.uc[[1]][1,1,],method="convolution",sides=1)
-# x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.uc[[1]][1,2,],method="convolution",sides=1)
-# x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.uc[[1]][2,1,],method="convolution",sides=1)
-# x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.uc[[1]][2,2,],method="convolution",sides=1)
-# x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-# x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
 x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa.uc[[1]])[(len-q+2):(T-q+1-len),]
 
 # compare in-sample performance
@@ -533,12 +526,6 @@ print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 diag(lp.mdfa.uc[[2]])
 
 # case 2: apply the lc MDFA concurrent filter 
-# x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.lc[[1]][1,1,],method="convolution",sides=1)
-# x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.lc[[1]][1,2,],method="convolution",sides=1)
-# x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.lc[[1]][2,1,],method="convolution",sides=1)
-# x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.lc[[1]][2,2,],method="convolution",sides=1)
-# x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-# x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
 x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa.lc[[1]])[(len-q+2):(T-q+1-len),]
  
 # compare in-sample performance
@@ -549,12 +536,6 @@ print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 diag(lp.mdfa.lc[[2]])
 
 # case 3: apply the tsc MDFA concurrent filter 
-# x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][1,1,],method="convolution",sides=1)
-# x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][1,2,],method="convolution",sides=1)
-# x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][2,1,],method="convolution",sides=1)
-# x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][2,2,],method="convolution",sides=1)
-# x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-# x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
 x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa.tsc[[1]])[(len-q+2):(T-q+1-len),]
  
 # compare in-sample performance
@@ -565,12 +546,6 @@ print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 diag(lp.mdfa.tsc[[2]])
 
 # case 4: apply the ltsc MDFA concurrent filter 
-# x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][1,1,],method="convolution",sides=1)
-# x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][1,2,],method="convolution",sides=1)
-# x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][2,1,],method="convolution",sides=1)
-# x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][2,2,],method="convolution",sides=1)
-# x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-# x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
 x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa.ltsc[[1]])[(len-q+2):(T-q+1-len),]
  
 # compare in-sample performance
@@ -990,7 +965,7 @@ trend.frf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
 
 <<echo=False>>=
 # visualize
-file = paste("llm_frf.pdf", sep = "")
+file <- paste("llm_frf.pdf", sep = "")
 pdf(file = paste(path.out,file,sep=""), paper = "special", 
     width = 6, height = 4)
 par(mar=c(2,2,2,2)+0.1,cex.lab=.8,mfrow=c(N,N))
@@ -1072,7 +1047,7 @@ trend.frf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
 
 <<echo=False>>=
 # visualize
-file = paste("stm_frf.pdf", sep = "")
+file <- paste("stm_frf.pdf", sep = "")
 pdf(file = paste(path.out,file,sep=""), paper = "special", 
     width = 6, height = 4)
 par(mar=c(2,2,2,2)+0.1,cex.lab=.8,mfrow=c(N,N))
@@ -1279,7 +1254,7 @@ sa.frf <- mdfa.wkfrf(delta.seas,delta.c,f.noise,f.signal)
 
 <<echo=False>>=
 # visualize
-file = paste("sauc_frf.pdf", sep = "")
+file <- paste("sauc_frf.pdf", sep = "")
 pdf(file = paste(path.out,file,sep=""), paper = "special", 
     width = 6, height = 4)
 par(mar=c(2,2,2,2)+0.1,cex.lab=.8,mfrow=c(N,N))
@@ -1638,6 +1613,7 @@ This exercise considers the case of an ideal low-pass filter
  (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
 \end{Exercise}
 
+% HERE
 
 <<exercise_rwtrend-mdfa,echo=True>>=
 # Simulate a Gaussian RW of sample size 5000:
@@ -1657,7 +1633,7 @@ mu <- pi/6
 len <- 1000
 lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
 lp.filter <- c(rev(lp.filter),lp.filter[-1])
-x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+x.trend.ideal <- mvar.filter(x.sim,array(t(lp.filter) %x% diag(N),c(N,N,(2*len+1))))
 
 # get MDFA concurrent filter
 q <- 30
