@@ -1664,14 +1664,6 @@ frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N)
 frf.psi <- array(frf.psi,c(N,N,grid))
 constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,0*diag(N),q)
 bw.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
-
-# apply the MDFA concurrent filter
-# x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[[1]][1,1,],method="convolution",sides=1)
-# x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[[1]][1,2,],method="convolution",sides=1)
-# x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[[1]][2,1,],method="convolution",sides=1)
-# x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[[1]][2,2,],method="convolution",sides=1)
-# x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-# x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
 x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T-q+1-len),]
  
 # compare in-sample performance
@@ -1750,14 +1742,6 @@ frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N)
 frf.psi <- array(frf.psi,c(N,N,grid))
 constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,0*diag(N),q)
 bp.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
-
-# apply the MDFA concurrent filter
-# x.cycle.mdfa11 <- filter(x.sim[,1],bw.mdfa[[1]][1,1,],method="convolution",sides=1)
-# x.cycle.mdfa12 <- filter(x.sim[,2],bw.mdfa[[1]][1,2,],method="convolution",sides=1)
-# x.cycle.mdfa21 <- filter(x.sim[,1],bw.mdfa[[1]][2,1,],method="convolution",sides=1)
-# x.cycle.mdfa22 <- filter(x.sim[,2],bw.mdfa[[1]][2,2,],method="convolution",sides=1)
-# x.cycle.mdfa <- cbind(x.cycle.mdfa11 + x.cycle.mdfa12,x.cycle.mdfa21 + x.cycle.mdfa22)
-# x.cycle.mdfa <- x.cycle.mdfa[(len+1):(T.sim-len),] 
 x.cycle.mdfa <- mvar.filter(x.sim,bp.mdfa[[1]])[(len-q+2):(T-q+1-len),]
 
 # compare in-sample performance
@@ -1813,7 +1797,6 @@ irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
 Sigma.irr <- irr.sim[[2]]
 irr.sim <- irr.sim[[1]] 
 x.sim <- mu.sim + irr.sim
-#plot(ts(x.sim))
 #Q.snr <- Sigma.mu %*% solve(Sigma.irr)
 Q.snr <- (1/1600) * diag(N)
  

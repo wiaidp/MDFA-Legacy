@@ -135,7 +135,7 @@
 %----------------------------------------
 
 % Chapter 4
-%\SweaveInput{MDFA_con}
+\SweaveInput{MDFA_con}
 %  note: MDFA_con replaces Constraints,
 %    includes material from Replication
 
