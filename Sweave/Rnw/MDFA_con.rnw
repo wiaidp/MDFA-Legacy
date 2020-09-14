@@ -556,7 +556,21 @@ print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 diag(lp.mdfa.ltsc[[2]])
 @
   
-
+In Exercise \ref{exer:var1trend-mdfa} the in-sample empirical MSE for
+ unconstrained MDFA can be higher than that of the LC MDFA, and this is
+  because $q < \infty$.  As $q$ is taken larger, the unconstrained MDFA 
+  incorporates filters that satisfy level and time shift constraints,
+  and so the in-sample empirical MSE will better approximate the
+  theoretical MSE (\ref{eq:opt.val.mdfa-constrained}) as $q \tends \infty$.  
+  On the other hand,
+  the LC MDFA can have much lower in-sample empirical MSE,  and will be
+  a better approximation of the theoretical MSE -- which, however, is 
+  higher than that of the unconstrained case.   This is an instance of
+  the phenomenon of regularization, whereby improved performance is obtained --
+  equivalent to taking a much larger space of filters -- by imposing a 
+  constraint on the filter coefficients.
+  
+  
 
 
 
@@ -1613,7 +1627,7 @@ This exercise considers the case of an ideal low-pass filter
  (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
 \end{Exercise}
 
-% HERE
+
 
 <<exercise_rwtrend-mdfa,echo=True>>=
 # Simulate a Gaussian RW of sample size 5000:

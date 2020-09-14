@@ -8,11 +8,11 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 	#	computes filter constraints needed for nonstationary series,
 	#		based on sigfreqs and noisefreqs.
 	#	inputs:
-	#		sigfreqs lists frequencies lambda=pi*x, with x in [-1,1], 
+	#		sigfreqs lists frequencies x in [-1,1] such that lambda=pi*x, 
 	#			with repeats for double roots, 
 	#			such that exp(-i*lambda) is a root
 	#			of the signal differencing polynomial
-	#		noisefreqs lists frequencies lambda=pi*x, with x in [-1,1], 
+	#		noisefreqs lists frequencies x in [-1,1] such that lambda=pi*x,  
 	#			with repeats for double roots, 
 	#			such that exp(-i*lambda) is a root
 	#			of the noise differencing polynomial
@@ -22,7 +22,7 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 	#		frf is array N x N x Grid of complex entries, the target
 	#			frequency response function Psi(e^{-i lambda})
 	#			for lambda given by Grid number of Fourier frequencies 
-  	#           q: desired order of MA filter
+  #   q: desired order of MA filter
 	#	outputs:
 	#		R is array N x q x N x M of q-M constraints on the moving 
 	#			average filter solution.
@@ -69,6 +69,7 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 	  } 
 	}
 
+	delta.noise <- 1
 	noise.lambdas <- unique(noisefreqs)
 	noise.mults <- NULL
 	if(length(noisefreqs)>0) 

@@ -26,11 +26,6 @@ mdfa.ucsim <- function(delta,innovations)
   }
   sims <- t(sims[,seq(T-d,1)])
                   
-  #delta.recurse <- -delta[-1]/delta[1]
-  #sims <- filter(innovations[(d+1):T,,drop=FALSE],
-#                 delta.recurse,method="recursive",
-#                 innovations[1:d,,drop=FALSE])
-  
   return(sims)
 }
 
