@@ -41,3 +41,11 @@
 \contentsline {paragraph}{Proof of Proposition \ref {prop:GPP2}.}{58}{section*.17}%
 \contentsline {subsection}{\numberline {3.5.2}MDFA for Multiple Targets}{58}{subsection.3.5.2}%
 \contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln2}.}{59}{section*.18}%
+\contentsline {chapter}{\numberline {4}Multivariate Direct Filter Analysis for Non-stationary Processes}{63}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Constrained MDFA}{63}{section.4.1}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln-constrain}.}{68}{section*.19}%
+\contentsline {section}{\numberline {4.2}Background on Non-stationary Vector Time Series }{71}{section.4.2}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:nonstat-rep}.}{73}{section*.20}%
+\contentsline {section}{\numberline {4.3}Error Criterion and Computation}{83}{section.4.3}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:filter-decompose}.}{84}{section*.21}%
+\contentsline {section}{\numberline {4.4}Replication and Efficiency Gain Over Model-Based Filters}{91}{section.4.4}%

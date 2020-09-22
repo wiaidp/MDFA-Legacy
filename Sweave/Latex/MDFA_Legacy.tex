@@ -551,7 +551,7 @@ function (insamp, x, d)
     colnames(weight_func) <- colnames(x)
     return(list(weight_func = weight_func))
 }
-<bytecode: 0x0000018c246cafa0>
+<bytecode: 0x0000012e7e406d80>
 <environment: namespace:MDFA>
 \end{Soutput}
 \end{Schunk}
@@ -3780,7 +3780,2132 @@ With this justification, we see that the entries of the matrix $B$ in
 %----------------------------------------
 
 % Chapter 4
-%\SweaveInput{MDFA_con}
+
+\chapter{Multivariate Direct Filter Analysis for Non-stationary Processes}
+\label{chap:int}
+
+ We now extend the basic MDFA of Chapter \ref{chap:basic}  by considering
+ the method's application to  non-stationary processes.  
+ Section \ref{sec:constraint} introduces the idea of filter constraints
+arising from time-varying means, a form of non-stationarity.
+ This treatment is generalized in Section \ref{sec:non-stat}
+  by the definition of non-stationary processes, and theory for the corresponding
+   model-based filters is developed.  Finally, the MDFA criterion for
+    non-stationary processes is discussed in Section \ref{sec:mdfa-nonstat}.
+ 
+
+\section{Constrained MDFA}
+\label{sec:constraint}
+
+ Various constraints upon the concurrent filter can be envisioned, 
+   and imposing such strictures results in  a constrained MDFA. 
+   A chief case of interest arises when the 
+    data process has a time-varying mean (which is a form of  non-stationarity);
+  then it is necessary to impose additional filter constraints -- otherwise
+   the filter error will not have mean zero.    To see why, 
+   Write $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$ as the discrepancy filter,
+   so that we see  from (\ref{eq:dfa-error})  
+   that $\EE [ E_t ] = \Delta (L) \, \EE [ X_t ]$; 
+   by Definition \ref{def:lpp}, we require
+ that $\EE [ E_t ] = 0$ for any LPP.  
+  If $\EE [ X_t] = 0$ then this condition is always satisfied, but
+   for most time series of interest the mean will be nonzero, and is typically
+    time-varying.  For such cases additional constraints on $\Delta (L)$ must be imposed,
+    which implicitly amount to constraints on $\widehat{\Psi} (L)$.
+    
+\begin{Example}    {\bf Constant Mean.}  \rm
+\label{exam:constant.mean}
+  If $\EE [ X_t ] = \mu$, some nonzero constant,  then we require $\Delta (1) = 0$.
+  This is because the mean of the filter error is
+  \[
+   \Delta (B) \, \EE [ X_t] = \Delta(B) \, \mu = \sum_j \delta (j) \, \mu =
+   \Delta (1) \, \mu,
+  \]
+  and this is zero only if $\Delta (1) = 0$.  This is called a Level Constraint (LC).
+\end{Example}  
+
+\begin{Example}    {\bf Linear Mean.}  \rm
+\label{exam:linear.mean}
+  Suppose that $\EE [ X_t ] = \mu \, t$, where $\mu$ is a nonzero slope
+ of a linear time trend.  Then it is required that  $\partial {\Delta} (1) = 0$
+  in addition to the LC,  which is seen as follows:
+  \[
+   \Delta (B) \, \EE [ X_t] = \Delta(B) \, \mu \, t =   \mu \, \sum_j \delta (j) \, (t-j)
+   = \mu \, \left(t \, \sum_j \delta (j) - \sum_j j \,\delta (j) \right)
+    = \mu \, t \, \Delta(1) - \mu \, \partial \Delta (1).
+  \]
+  This mean of the filter error  is zero only if both $\Delta(1)=0$ and
+  $\partial \Delta (1)=0$; the latter condition is called the
+   Time-Shift Constraint (TSC).  
+\end{Example}  
+
+     Hence, for linear means we obtain
+ three fundamental types of constraints: LC, TSC, and Level plus 
+ Time-Shift Constraint (LTSC), which combines both LC and TSC.
+  Using the fact that $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$,
+   these three constaints can be described as follows:
+\begin{align*}
+ \mbox{LC} : &  \;  \Delta (1) = 0 \quad \mbox{or} \quad \Psi (1) = \widehat{\Psi} (1) \\
+ \mbox{TSC} : &  \;   \partial {\Delta} (1) = 0 \quad \mbox{or} \quad 
+ \partial {\Psi} (1) = \partial {\widehat{\Psi}} (1)  \\
+ \mbox{LTSC} : &  \;  \Delta (1) = 0,  \,  \partial {\Delta} (1) = 0 \quad 
+ \mbox{or} \quad \Psi (1) = \widehat{\Psi} (1), \; \partial {\Psi} (1) =
+ \partial {\widehat{\Psi}} (1).
+\end{align*}
+ In the case of  concurrent filters of form  (\ref{eq:conc.filter}), 
+ LC is accomplished by demanding that 
+  $\sum_{j=0}^{q-1} \widehat{\psi} (j) = \Psi(1)$.   More generally, we consider  linear constraints  formulated via
+\begin{equation}
+\label{eq:concurrent-constrain}
+  \vartheta = R \, \varphi + Q,
+\end{equation}
+ where $R$ is $n q \times n r$ and $\varphi$ is $n r \times 1$ dimensional, consisting of 
+ free parameters; $Q$ is a matrix of constants, and is $n q \times 1$ dimensional.
+
+
+\begin{Illustration}  {\bf Level Constraint (LC).}   \rm
+\label{ill:lc}
+ Note that $\sum_{j=0}^{q-1} \widehat{\psi} (j) = \Psi(1)$ implies that
+\begin{equation}
+\label{eq:lc-gamma0}
+ \widehat{\psi} (0) = \Psi(1) - \sum_{j=1}^{q-1} \widehat{\psi} (j).
+\end{equation}
+ Hence  $ \varphi^{\prime}  = [ \widehat{\psi} (1), \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1) ] $ and
+\[
+	R  = \left[ \begin{array}{ccc} -1 & \ldots & -1 \\ 1 & 0 & 0 \\
+		\vdots & \ddots & \vdots \\ 0 & 0 & 1  \end{array} \right]  \otimes 1_n \qquad
+	Q = \left[ \begin{array}{c} \Psi (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+\]
+\end{Illustration}
+ 
+ 
+\begin{Illustration}  {\bf Time Shift Constraint (TSC).}   \rm
+\label{ill:tsc}
+   The constraint is $\partial {\Psi} (1) = \partial \widehat{\Psi} (1)
+   = \sum_{j=0}^{q-1} j \, \widehat{\psi} (j)$,
+ or $\widehat{\psi} (1)  = \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j \, \widehat{\psi} (j) $.
+ Hence  $ \varphi^{\prime}  = [ \widehat{\psi} (0), \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1) ] $ and
+\[
+	R  = \left[ \begin{array}{cccc} 1 & 0 &  \ldots &  0  \\  0 & -2  &  -3  & \ldots  \\
+		0 & 1 & 0 & \ldots \\ 
+		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right] \otimes 1_n \qquad
+	Q = \left[ \begin{array}{c} 0 \\ \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+\]
+\end{Illustration}
+ 
+ 
+\begin{Illustration}  {\bf Level and Time Shift Constraint (LTSC).}  \rm
+\label{ill:ltsc}
+   Take the Time Shift Constraint formula for $\widehat{\psi} (1)$,
+ and plug this into (\ref{eq:lc-gamma0}), to obtain
+\begin{align*}
+ \widehat{\psi} (0)  & = \Psi (1) - \left( \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j  \, \widehat{\psi} (j) \right) -  \sum_{j=2}^{q-1} 
+ \widehat{\psi} (j)  \\
+	& = \Psi (1) -  \partial {\Psi} (1)  +  \sum_{j=2}^{q-1} (j-1)  \, \widehat{\psi} (j).
+\end{align*}
+ Hence  $ \varphi^{\prime}  = [  \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1)  ] $ and
+\[
+	R  = \left[ \begin{array}{cccc} 1 & 2  &  3  &   \ldots    \\  -2  & -3  &  -4  & \ldots  \\
+		 1  & 0 & \ldots & 0 \\ 
+		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right]  \otimes 1_n \qquad
+	Q = \left[ \begin{array}{c} \Psi (1) - \partial {\Psi} (1)  \\  \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+\]
+\end{Illustration}
+
+ 
+  More generally, we can envision an LPP involving $m$ linear constraints
+ on each scalar filter in $\Xi$, taking the form
+ $   K = [ J \otimes 1_n ] \, \Xi$, where $J$ is $m \times q$ dimensional
+ ($m < q$) and $K$ is $n m \times n$ dimensional.
+ (The LC, TSC, and LTSC examples all have this form.) 
+ In order to express this constraint in the form 
+ (\ref{eq:concurrent-constrain}), we use the Q-R decomposition 
+ (Golub and Van Loan, 1996) of $J$, writing
+ $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $m \times m$ dimensional), 
+ a rectangular upper triangular matrix $G$
+ (which is $m \times q$ dimensional), and a permutation matrix 
+ $\Pi$ (which is $q \times q$ dimensional).  
+ Standard matrix software such as $\textsc{R}$ will provide the Q-R decomposition $J$,
+ and should produce the rank of $J$ as  a by-product --
+ if this is less than $m$, then there are redundancies in the 
+ constraints that should first be eliminated. 
+ 
+
+ Hence  proceeding with a full rank $J$, we partition $G$ as $G = [ G_1 \, G_2]$ 
+ such that $G_1$ has $m$ columns and $G_2$
+ has $q-m$ columns.  This quantity $q-m$ corresponds to the number 
+ of free coefficient matrices, and is therefore the same as $r$.
+ The Q-R decomposition guarantees that $G_1$ is an upper triangular matrix, 
+ and moreover it is invertible.   Therefore
+ \[
+  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, K  = 
+  \left( \left[ 1_m , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_n  \right) \, \Xi,
+\]
+ and the action of $\Pi$ (together with the tensor product) amounts
+ to a block-wise permutation of the elements of $\Xi$.
+  Let the output of this permutation be denoted
+\[
+   { \left[ { \Xi^{\sharp} }^{\prime},  {  \Xi^{\flat} }^{\prime}  \right] }^{\prime} =
+%   \left[ \begin{array}{l} \overline{\Xi} \\ \underline{\Xi} \end{array} \right] = 
+ \left( \Pi \otimes I_N \right) \, \Xi,
+\]
+ where $ {\Xi}^{\sharp}$ is $n m \times n$ dimensional and 
+ $ {\Xi}^{\flat}$ is $n r \times n$ dimensional.  
+ Then  by substitution we can solve for ${\Xi}^{\sharp}$ in terms of ${\Xi}^{\flat}$:
+\[
+  {\Xi}^{\sharp} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, 
+  K - \left[  G_1^{-1} \, G_2  \otimes 1_n   \right] \, {\Xi}^{\flat}.
+\]
+ Therefore we recognize the free variables $\Phi = {\Xi}^{\flat}$,
+ and obtain $R$ and $Q$ in (\ref{eq:concurrent-constrain}) via
+\begin{align*}
+   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 1_{r} \end{array} \right] \otimes 1_n  \\
+  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_n  \right) \, K.
+\end{align*}
+   
+ \begin{Exercise} {\bf QR Decomposition.} \rm
+ \label{exer:qr.constraint}
+  Consider an arbitrary set of constraints $J$ on $\Xi$, such that
+    $   K = [ J \otimes 1_n ] \, \Xi$ for a given matrix $K$.  
+    Encode the procedure that obtains $R$ and $Q$, and apply this
+    to the cases of the LC, TSC, and LTSC scenarios with $n=1$, verifying the results
+    given in Illustrations \ref{ill:lc}, \ref{ill:tsc}, and \ref{ill:ltsc}.
+    Use one-step ahead forecasting as the target filter.
+ \end{Exercise}
+ 
+\begin{Schunk}
+\begin{Sinput}
+>   N <- 1
+>   q <- 10
+>   ## level constraint case
+> 	constraint.mat <- matrix(rep(1,q),nrow=1)
+> 	constraint.vec <- diag(N)
+> 	constraint.qr <- qr(constraint.mat)
+> 	constraint.q <- qr.Q(constraint.qr)
+> 	constraint.r <- qr.R(constraint.qr)
+> 	constraint.pivot <- constraint.qr$pivot
+> 	constraint.ipivot <- sort.list(constraint.pivot)
+> 	M <- q - dim(constraint.r)[2] + dim(constraint.q)[2]
+> 	R.mat <- rbind(-solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE],
++ 		constraint.r[,(dim(constraint.q)[2]+1):q,drop=FALSE]),diag(q-M))
+> 	R.mat <- R.mat[constraint.ipivot,] %x% diag(N)
+> 	Q.mat <- rbind(solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE]) %*% 
++ 		solve(constraint.q),matrix(0,q-M,M)) 
+> 	Q.mat <- (Q.mat[constraint.ipivot,] %x% diag(N)) %*% constraint.vec
+>   print(R.mat)
+\end{Sinput}
+\begin{Soutput}
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+ [1,]   -1   -1   -1   -1   -1   -1   -1   -1   -1
+ [2,]    1    0    0    0    0    0    0    0    0
+ [3,]    0    1    0    0    0    0    0    0    0
+ [4,]    0    0    1    0    0    0    0    0    0
+ [5,]    0    0    0    1    0    0    0    0    0
+ [6,]    0    0    0    0    1    0    0    0    0
+ [7,]    0    0    0    0    0    1    0    0    0
+ [8,]    0    0    0    0    0    0    1    0    0
+ [9,]    0    0    0    0    0    0    0    1    0
+[10,]    0    0    0    0    0    0    0    0    1
+\end{Soutput}
+\begin{Sinput}
+>   ## time shift constraint case
+> 	constraint.mat <- matrix(seq(0,q-1),nrow=1)
+> 	constraint.vec <- -diag(N)
+> 	constraint.qr <- qr(constraint.mat)
+> 	constraint.q <- qr.Q(constraint.qr)
+> 	constraint.r <- qr.R(constraint.qr)
+> 	constraint.pivot <- constraint.qr$pivot
+> 	constraint.ipivot <- sort.list(constraint.pivot)
+> 	M <- q - dim(constraint.r)[2] + dim(constraint.q)[2]
+> 	R.mat <- rbind(-solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE],
++ 		constraint.r[,(dim(constraint.q)[2]+1):q,drop=FALSE]),diag(q-M))
+> 	R.mat <- R.mat[constraint.ipivot,] %x% diag(N)
+> 	Q.mat <- rbind(solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE]) %*% 
++ 		solve(constraint.q),matrix(0,q-M,M)) 
+> 	Q.mat <- (Q.mat[constraint.ipivot,] %x% diag(N)) %*% constraint.vec
+>   print(R.mat)
+\end{Sinput}
+\begin{Soutput}
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9]
+ [1,]    0    0    0    0    0    0    0    0    1
+ [2,]   -2   -3   -4   -5   -6   -7   -8   -9    0
+ [3,]    1    0    0    0    0    0    0    0    0
+ [4,]    0    1    0    0    0    0    0    0    0
+ [5,]    0    0    1    0    0    0    0    0    0
+ [6,]    0    0    0    1    0    0    0    0    0
+ [7,]    0    0    0    0    1    0    0    0    0
+ [8,]    0    0    0    0    0    1    0    0    0
+ [9,]    0    0    0    0    0    0    1    0    0
+[10,]    0    0    0    0    0    0    0    1    0
+\end{Soutput}
+\begin{Sinput}
+> 	## level and time shift constraint case
+> 	constraint.mat <- rbind(rep(1,q),seq(0,q-1))
+> 	constraint.vec <- rbind(diag(N),-diag(N))
+> 	constraint.qr <- qr(constraint.mat)
+> 	constraint.q <- qr.Q(constraint.qr)
+> 	constraint.r <- qr.R(constraint.qr)
+> 	constraint.pivot <- constraint.qr$pivot
+> 	constraint.ipivot <- sort.list(constraint.pivot)
+> 	M <- q - dim(constraint.r)[2] + dim(constraint.q)[2]
+> 	R.mat <- rbind(-solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE],
++ 		constraint.r[,(dim(constraint.q)[2]+1):q,drop=FALSE]),diag(q-M))
+> 	R.mat <- R.mat[constraint.ipivot,] %x% diag(N)
+> 	Q.mat <- rbind(solve(constraint.r[,1:(dim(constraint.q)[2]),drop=FALSE]) %*% 
++ 		solve(constraint.q),matrix(0,q-M,M)) 
+> 	Q.mat <- (Q.mat[constraint.ipivot,] %x% diag(N)) %*% constraint.vec
+>   print(R.mat)
+\end{Sinput}
+\begin{Soutput}
+      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+ [1,]    1    2    3    4    5    6    7    8
+ [2,]   -2   -3   -4   -5   -6   -7   -8   -9
+ [3,]    1    0    0    0    0    0    0    0
+ [4,]    0    1    0    0    0    0    0    0
+ [5,]    0    0    1    0    0    0    0    0
+ [6,]    0    0    0    1    0    0    0    0
+ [7,]    0    0    0    0    1    0    0    0
+ [8,]    0    0    0    0    0    1    0    0
+ [9,]    0    0    0    0    0    0    1    0
+[10,]    0    0    0    0    0    0    0    1
+\end{Soutput}
+\end{Schunk}
+
+
+  These formulas allow one to compute the   form (\ref{eq:concurrent-constrain}) 
+   from given constraints, and
+ an analytical solution to the resulting MDFA criterion 
+ be obtained from the following result.
+
+\begin{Proposition}
+\label{prop:mdfa.quadsoln-constrain}
+ The minimizer of the  MDFA criterion given by the determinant of  (\ref{eq:mdfa-criterion2}),
+ with respect to  $\mathcal{G}$  -- consisting of all length $q$ concurrent filters 
+ subject to  linear constraints of the form (\ref{eq:concurrent-constrain}) -- is
+\begin{equation}
+\label{eq:phi.soln-constained}
+ \Phi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, 
+ \left( A - B \, Q \right).
+\end{equation}
+  Letting $H = 1_{nq} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \,
+  R^{\prime} \, B$, the minimal value is the determinant of
+\begin{equation}
+\label{eq:opt.val.mdfa-constrained}
+{ \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0 -
+ A^{\prime} \, R \, { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,  A
+	+ Q^{\prime} \, B \, H \, Q - 2 \, A^{\prime} \, H \, Q.
+\end{equation}
+\end{Proposition}
+
+ 
+  
+\paragraph{Proof of Proposition \ref{prop:mdfa.quadsoln-constrain}.}
+ Substituting (\ref{eq:concurrent-constrain}) in (\ref{eq:mdfa-crit.linear}) yields
+\begin{align*}
+  D_{\Psi} (\vartheta, G) &  = \Phi^{\prime} \,  \left[ R^{\prime} \, B \, R \right] \,  \Phi 
+  + \left[ Q^{\prime} \, B \, R - A^{\prime} \, R \right] \, \Phi + \Phi^{\prime} \,
+   \left[ R^{\prime} \, B \, Q - R^{\prime} \, A \right]  \\
+ & + Q^{\prime} \, B \, Q  - Q^{\prime} \, A - A^{\prime} \, Q  + 
+{ \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0.
+\end{align*}
+  Now by applying the method of proof in Proposition \ref{prop:mdfa.quadsoln}, we obtain 
+  the formula (\ref{eq:phi.soln-constained}) for $\Phi$.  Plugging back into
+  $D_{\Psi} (\vartheta, G)$ yields the minimal value 
+  (\ref{eq:opt.val.mdfa-constrained}).  $\quad \Box$
+
+\vspace{.5cm}
+
+For computation, we utilize the same approximations to $B$ and $b$ as discussed 
+in  Chapter \ref{chap:basic},
+ obtaining the constrained MDFA filter $\vartheta$ via (\ref{eq:phi.soln-constained})
+ followed by (\ref{eq:concurrent-constrain}).
+
+ 
+ 
+% \begin{Exercise} {\bf  Constrained MDFA for White Noise with Linear Trend.} \rm
+% \label{exer:wntrend-mdfa}
+% This exercise applies the constrained MDFA in the case of an ideal low-pass filter
+%  (cf. Example \ref{exam:ideal-low}) 
+%  applied to a white noise process that exhibits a linear trend.
+%  Simulate a sample of size $T=5000$ from a
+%   bivariate white noise process with 
+%   $\Sigma$ equal to the identity, but with a linear trend  given by
+%   \begin{equation}
+%   \label{eq:wntrend-lin.trend}
+%    \left[ \begin{array}{c} 1 \\ 2 \end{array} \right] + t \, 
+%    \left[ \begin{array}{c} -.002 \\ .001 \end{array} \right].
+%   \end{equation}
+%    Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
+%   $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
+%  Use the moving average filter  MDFA  with LC, TSC, and LTSC constraints
+%   (Proposition \ref{prop:mdfa.quadsoln-constrain}),
+%   as well as unconstrained MDFA  (Proposition \ref{prop:mdfa.quadsoln}), to find the best
+%  concurrent filter, setting $q= 30$. 
+%   (Hint: compute the periodogram from OLS residuals obtained by regressing the simulation
+%    on a constant plus time.)
+%  Apply this concurrent filter 
+%  to the simulation, and compare the relevant portions to the ideal trend.
+%  Also determine the in-sample performance, in comparison to the criterion value
+%  (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
+% \end{Exercise}
+
+% # Simulate a Gaussian WN of sample size 5000:
+% set.seed(1234)
+% T <- 5000
+% N <- 2
+% levels <- c(1,2)
+% slopes <- c(-2,1)/1000
+% innovar.matrix <- diag(N)
+% x.sim <- NULL
+% for(t in 1:T)
+% {
+% 	x.next <- levels + slopes*t + t(chol(innovar.matrix)) %*% rnorm(N)
+% 	x.sim <- cbind(x.sim,x.next)
+% }
+% x.sim <- ts(t(x.sim))
+% time.trend <- seq(1,T)
+% sim.ols <- lm(x.sim ~ time.trend)
+% x.resid <- sim.ols$residuals
+% 
+% # construct and apply low pass filter
+% mu <- pi/6
+% len <- 1000
+% lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+% lp.filter <- c(rev(lp.filter),lp.filter[-1])
+% x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+% 
+% # get MDFA concurrent filter
+% q <- 30
+% Grid <- T
+% m <- floor(Grid/2)
+% # The Fourier frequencies
+% freq.ft <- 2*pi*Grid^{-1}*(seq(1,Grid) - (m+1))
+% 
+% # frf for ideal low-pass
+% frf.psi <- rep(0,Grid)
+% frf.psi[abs(freq.ft) <= mu] <- 1
+% frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+% frf.psi <- array(frf.psi,c(N,N,Grid))
+% spec.hat <- mdfa.pergram(x.resid,1)	
+% lp.mdfa.uc <- mdfa.unconstrained(frf.psi,spec.hat,q)
+% lp.mdfa.lc <- mdfa.levelconstraint(frf.psi,spec.hat,q)
+% lp.mdfa.tsc <- mdfa.tsconstraint(frf.psi,spec.hat,q)
+% lp.mdfa.ltsc <- mdfa.ltsconstraint(frf.psi,spec.hat,q)
+% 
+% # case 1: apply the unconstrained MDFA concurrent filter 
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.uc[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.uc[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.uc[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.uc[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+%  
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa.uc[[2]])
+% 
+% # case 2: apply the lc MDFA concurrent filter 
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.lc[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.lc[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.lc[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.lc[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+%  
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa.lc[[2]])
+% 
+% # case 3: apply the tsc MDFA concurrent filter 
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.tsc[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.tsc[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+%  
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa.tsc[[2]])
+% 
+% # case 4: apply the ltsc MDFA concurrent filter 
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa.ltsc[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa.ltsc[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+%  
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa.ltsc[[2]])
+
+ 
+ 
+
+\begin{Exercise} {\bf  Constrained MDFA for VAR(1) with Linear Trend.} \rm
+\label{exer:var1trend-mdfa}
+This exercise applies the constrained MDFA in the case of an ideal low-pass filter
+ (cf. Example \ref{exam:ideal-low}) 
+ applied to a VAR(1) process that exhibits a linear trend.
+ Simulate a sample of size $T=5000$ of a
+   bivariate VAR(1) process with linear trend  given by
+   \begin{equation}
+   \label{eq:wntrend-lin.trend}
+    \left[ \begin{array}{c} 1 \\ 2 \end{array} \right] + t \, 
+    \left[ \begin{array}{c} -.002 \\ .001 \end{array} \right],
+   \end{equation}
+    such that the demeaned process satisfies
+\[
+  X_t =  \left[ \begin{array}{cc}  1  & 1/2 \\    -1/5  &  3/10
+    \end{array} \right] \, X_{t-1} + \epsilon_t,
+\]
+ with stationary initialization, and $\{ \epsilon_t \}$ a Gaussian white noise of identity innovation variance.   Apply the   ideal low-pass filter
+  (cf. Example \ref{exam:ideal-low}) with 
+  $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
+ Use the moving average filter  MDFA  with LC, TSC, and LTSC constraints
+  (Proposition \ref{prop:mdfa.quadsoln-constrain}),
+  as well as unconstrained MDFA  (Proposition \ref{prop:mdfa.quadsoln}), to find the best
+ concurrent filter, setting $q= 30$. 
+  (Hint: compute the periodogram from OLS residuals obtained by regressing the simulation
+   on a constant plus time.)
+ Apply this concurrent filter 
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
+\end{Exercise}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate a VAR(1) of sample size 5000:
+> set.seed(1234)
+> T <- 5000
+> N <- 2
+> levels <- c(1,2)
+> slopes <- c(-2,1)/1000
+> phi.matrix <- rbind(c(1,.5),c(-.2,.3))
+> innovar.matrix <- diag(N)
+> true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+> gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+> gamma.0 <- gamma[,,1]
+> x.init <- t(chol(gamma.0)) %*% rnorm(N)
+> x.next <- x.init
+> x.sim <- NULL
+> for(t in 1:T)
++ {
++  	x.next <- phi.matrix %*% x.next + t(chol(innovar.matrix)) %*% rnorm(N)
++  	x.sim <- cbind(x.sim,x.next)
++ }
+> x.sim <- ts(t(x.sim))
+> time.trend <- seq(1,T)
+> x.sim <- t(levels) %x% rep(1,T) + t(slopes) %x% seq(1,T) + x.sim
+> sim.ols <- lm(x.sim ~ time.trend)
+> x.resid <- sim.ols$residuals
+> # construct and apply low pass filter
+> mu <- pi/6
+> len <- 1000
+> lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+> lp.filter <- c(rev(lp.filter),lp.filter[-1])
+> x.trend.ideal <- mvar.filter(x.sim,array(t(lp.filter) %x% diag(N),c(N,N,(2*len+1))))
+> # get MDFA concurrent filter
+> q <- 30
+> grid <- T
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> # frf for ideal low-pass
+> frf.psi <- rep(0,grid)
+> frf.psi[abs(freq.ft) <= mu] <- 1
+> frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+> frf.psi <- array(frf.psi,c(N,N,grid))
+> spec.hat <- mdfa.pergram(x.resid,1)	
+> lp.mdfa.uc <- mdfa.unconstrained(frf.psi,spec.hat,q)
+> lp.mdfa.lc <- mdfa.levelconstraint(frf.psi,spec.hat,q)
+> lp.mdfa.tsc <- mdfa.tsconstraint(frf.psi,spec.hat,q)
+> lp.mdfa.ltsc <- mdfa.ltsconstraint(frf.psi,spec.hat,q)
+> # case 1: apply the unconstrained MDFA concurrent filter 
+> x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa.uc[[1]])[(len-q+2):(T-q+1-len),]
+> # compare in-sample performance
+> print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+\end{Sinput}
+\begin{Soutput}
+[1] 1.751825 1.147235
+\end{Soutput}
+\begin{Sinput}
+> # compare to criterion value
+> diag(lp.mdfa.uc[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.4235386 0.1327707
+\end{Soutput}
+\begin{Sinput}
+> # case 2: apply the lc MDFA concurrent filter 
+> x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa.lc[[1]])[(len-q+2):(T-q+1-len),]
+> # compare in-sample performance
+> print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.4341617 0.1477676
+\end{Soutput}
+\begin{Sinput}
+> # compare to criterion value
+> diag(lp.mdfa.lc[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.433979 0.138771
+\end{Soutput}
+\begin{Sinput}
+> # case 3: apply the tsc MDFA concurrent filter 
+> x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa.tsc[[1]])[(len-q+2):(T-q+1-len),]
+> # compare in-sample performance
+> print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+\end{Sinput}
+\begin{Soutput}
+[1] 1.896865 2.516518
+\end{Soutput}
+\begin{Sinput}
+> # compare to criterion value
+> diag(lp.mdfa.tsc[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.4260567 0.1341826
+\end{Soutput}
+\begin{Sinput}
+> # case 4: apply the ltsc MDFA concurrent filter 
+> x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa.ltsc[[1]])[(len-q+2):(T-q+1-len),]
+> # compare in-sample performance
+> print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.4720341 0.1820247
+\end{Soutput}
+\begin{Sinput}
+> # compare to criterion value
+> diag(lp.mdfa.ltsc[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.4700269 0.1712509
+\end{Soutput}
+\end{Schunk}
+  
+In Exercise \ref{exer:var1trend-mdfa} the in-sample empirical MSE for
+ unconstrained MDFA can be higher than that of the LC MDFA, and this is
+  because $q < \infty$.  As $q$ is taken larger, the unconstrained MDFA 
+  incorporates filters that satisfy level and time shift constraints,
+  and so the in-sample empirical MSE will better approximate the
+  theoretical MSE (\ref{eq:opt.val.mdfa-constrained}) as $q \tends \infty$.  
+  On the other hand,
+  the LC MDFA can have much lower in-sample empirical MSE,  and will be
+  a better approximation of the theoretical MSE -- which, however, is 
+  higher than that of the unconstrained case.   This is an instance of
+  the phenomenon of regularization, whereby improved performance is obtained --
+  equivalent to taking a much larger space of filters -- by imposing a 
+  constraint on the filter coefficients.
+  
+  
+
+
+
+\section{Background on Non-stationary Vector Time Series }
+\label{sec:non-stat}
+
+We next consider processes that when differenced are 
+stationary, which are the most common type occuring in econometrics and finance.  
+ This type of non-stationary process substantially broadens
+  the possible types of applications over the stationary processes
+   considered in Chapters \ref{chap:lpp} and \ref{chap:basic}.
+  Also, as such processes typically can have a time-varying mean,
+  they also necessitate the use of filter constraints such as those
+   considered in Section \ref{sec:constraint}.
+  
+ We suppose that there exists a degree $d$ scalar polynomial $\delta (L)$
+  that reduces each component series of $\{ X_t \}$ to a stationary
+   time series (which is allowed to have a non-zero constant mean $\mu$),
+   and suppose this is the minimal degree polynomial that accomplishes
+    this reduction.  For convenience, and without loss of generality,
+    we suppose that $\delta_0 = 1$, or $\delta (0) = 1$.
+    We write $\partial X_t = \delta (L) \, X_t$ for
+  the stationary, differenced time series,
+   where $\partial X_t = \mu + Z_t$ and $\{ Z_t \}$ has a spectral
+    representation (\ref{eq:specRep}).  Then it is possible
+   to give time-domain and frequency-domain representations of
+    the original process $\{ X_t \}$ in terms of the stationary
+  ``increments" $\{ \partial X_t \}$, together with deterministic functions
+  of time that depend on ``initial values" of the process.
+   These deterministic functions can be obtained from 
+   the theory of Ordinary Difference Equations (ODE): 
+  all solutions to   $\delta (L) X_t = \partial X_t$
+   must include a homogeneous solution, i.e., solutions to
+    $\delta (L) X_t = 0$,   which include all functions of 
+    $t$ that are annihilated by $\delta (L)$.  Below we develop
+  a general method of solution, but We first provide a few
+   illustrations through specific cases.
+ 
+ \begin{Example} {\bf Representation for an $I(1)$ Process.}  \rm
+ \label{exam:I1-rep}
+    Letting $\delta (L)= 1-L$, we obtain a once-integrated process,
+  denoted as $I(1)$ for short.    
+  Because  the constant function (which up to proportionality, is the function $1$)
+  is annihilated by $1-L$, we expect the solution to take the form
+   of a constant plus some function of the increments $\partial X_t$.
+   Proceeding recursively, we obtain
+\[
+  X_t =    X_{t-1} + \partial X_t = X_{t-2} + \partial X_t + \partial X_{t-1} = \ldots
+\]
+    Let us suppose an initial time of $t=0$ for this process, so that the
+      solution is expressed as 
+\[
+ X_t = X_0 + \sum_{j=1}^t \partial X_j
+\]
+    for $t \geq 1$ (and can be extended to $t=0$ by taking the sum to be empty in that case).
+  Note that this involves a constant function of time,
+  the term $X_0$.  Moreover, applying $X_j = \mu + Z_j$ and the spectral representation,
+  we obtain
+\begin{equation*}
+ X_t = X_0 + t \, \mu +   \int_{-\pi}^{\pi} \sum_{j=1}^t e^{i \omega j}
+   \, \mathcal{Z} (d\omega).  
+\end{equation*}
+  The summation inside the integral can be re-expressed when $\omega \neq 0$ as
+  $(1 - e^{i \omega (t+1)})/(1-e^{i \omega})$.
+\end{Example}   
+
+
+\begin{Example} {\bf Representation for an $I(2)$ Process.} \rm
+\label{exam:i2-rep}
+  Now we set  $\delta (L)= {(1-L)}^2$  for a twice-integrated process,
+  denoted as $I(2)$ for short.    So first differences of $\{ X_t \}$ 
+  have a representation as an $I(1)$ process, and the expression for
+   $X_t$ will involve a linear function of time $t$, because $t$ is
+  annihilated by $\delta (L)$.  Applying the recursive technique of 
+  Example \ref{exam:i1-rep} twice, we obtain
+ \[
+ X_t = (t+1) \, X_0 - t \, X_{-1}  + \sum_{j=1}^t (t+1-j) \, \partial X_j,
+\]
+ which holds for $t \geq 1$  (but can be extended to $t=0,-1$ by setting
+  the summation to zero).  The linear function of time has slope
+  $X_0 - X_{-1}$ and intercept $X_0$.
+ Applying $X_j = \mu + Z_j$ and the spectral representation,
+  we obtain
+\begin{equation*}
+ X_t =(t+1) \, X_0 - t \, X_{-1}  + \binom{t+1}{2} \, \mu
+ +  \int_{-\pi}^{\pi} \sum_{j=1}^t (t+1-j) \, e^{i \omega j}
+   \, \mathcal{Z} (d\omega).  
+\end{equation*}
+ It can be verified that $(1-L) X_t$ is an $I(1)$ process with level
+ $X_0 - X_{-1}$.
+\end{Example}
+
+A general technique for obtaining the representation for non-stationary 
+processes involves the     inverse of the polynomial of $\delta(L)$, which is
+ denoted by $\xi (z)$:
+\begin{equation}
+\label{eq:xi-def}
+ \xi (L) = 1/ \delta (L) = \sum_{j \geq 0 }  \xi_j \, L^j.
+\end{equation}
+ This $\xi (z)$ is a power series that converges on a disk inside the unit circle.
+  Because $\delta (z) \, \xi (z) = 1$, one can recursively solve for the
+   coefficients $\xi_j$ in terms of past coefficients, using the $\delta_k$.
+  In particular, the $j$th coefficient of $\delta (z) \, \xi (z)$ is given by
+  the convolution formula:
+\begin{equation}
+\label{eq:delta.xi-conv}
+  \sum_{k \geq 0} \delta_k \, \xi_{j-k} = 1_{ \{ j=0 \} }.
+\end{equation}
+  In this formula, the equality is due to the fact that the $j$th coefficient of
+   the constant function $1$ (viewed as a power series in $z$) is zero unless $j=0$,
+   in which case it equals one.  On the left hand side of (\ref{eq:delta.xi-conv})
+   the sum runs from $0$ to  $j \wedge d$.  From the assumption that $\delta (0) =1$,
+ it is immediate that $\xi_0 = 1$ and 
+  \[
+  \xi_j = - \sum_{k \geq 1} \delta_k \, \xi_{j-k}
+  \]
+for $j > 0$.  Next, for any $ 0 \leq h \leq d-1$ we define
+\begin{equation}
+\label{eq:init.cond-fcns}
+  A_{t} (h) = \sum_{k=0}^h \delta_k \, \xi_{h+t-k}.
+\end{equation}
+ Note that for $h \geq d$ the formula (\ref{eq:init.cond-fcns}) equals 
+ (\ref{eq:delta.xi-conv}), and hence equals zero unless $h+t = 0$; but because
+$h < d$ in the definition of $A_t (h)$, the function is non-zero.
+  Also, when $ t \leq 0$ we have $\xi_{h+t-k} = 0$ for $ k > h$, so that
+\[
+ A_t (h) = \sum_{k=0}^d \delta_k \, \xi_{h+t-k} = 1_{ \{ h+t = 0 \} } = 1_{ \{ t = -h \}}.
+\]
+ Using these definitions, we can state the following result.
+ 
+ \begin{Theorem}
+ \label{thm:nonstat-rep}
+ The solution for $t \geq 1-d$ to $\delta (L) X_t = \partial X_t$ is given by
+\begin{equation}
+ \label{eq:nonstatCausalRep}
+ X_t  = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
+  \sum_{j=0}^{t-1} \xi_j \, \partial X_{t-j},
+\end{equation}
+ where the coefficients $\xi_j$ are defined recursively through (\ref{eq:delta.xi-conv}),
+  and the time-varying functions $A_t (h)$ are defined via (\ref{eq:init.cond-fcns}).
+  Moreover, the algebraic identity 
+\begin{equation}
+ \label{eq:Identity1}
+  1 - \sum_{h=0}^{d-1} A_{h} (t) \, z^{t+h} = \sum_{k=0}^{t-1} \xi_k \, z^k
+  \, \delta (B)
+\end{equation}
+holds, and hence the   spectral representation for
+ $\{ X_t\}$ is
+\begin{equation}
+ \label{eq:nonstatRep-spec}
+  X_t = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h}  +
+   \sum_{k=0}^{t-1} \xi_k \, \mu +
+  \int_{-\pi}^{\pi}
+   \frac{ e^{i \omega t} - \sum_{h=0}^{d-1} A_{t} (h) \,  e^{-i \omega h } 
+    }{ \delta (e^{-i \omega}) } \, \ZZ (d\omega).
+\end{equation}
+\end{Theorem}  
+  
+\paragraph{Proof of Theorem  \ref{thm:nonstat-rep}.}  
+  We begin by proving (\ref{eq:Identity1}), from which the other results follow.
+ First write
+ \[
+  \xi (z) = {[ \xi (z) ]}_0^{t-1} + {[ \xi (z)]}_t^{\infty}
+ \]
+  and multiply by $\delta (z)$, yielding
+\[
+  {[ \xi (z) ]}_0^{t-1} \, \delta (z) = 1 -  {[ \xi (z)]}_t^{\infty}  \, \delta (z)
+\]
+via application of (\ref{eq:xi-def}).  Next, 
+\begin{align*}
+  {[ \xi (z)]}_t^{\infty}  \, \delta (z) & = 
+     \sum_{\ell \geq t} \xi_{\ell} \, z^{\ell}
+     \, \sum_{k=0}^d \delta_k \, z^k \\
+  & =   \sum_{k, \ell \geq 0} \delta_k \, \xi_{\ell+t} \, z^{k+\ell+t}  \\
+  & = z^t \, \sum_{h \geq 0}  \left( \sum_{\ell \geq 0} 
+  \delta_{h-\ell} \, \xi_{\ell+t} \right) \, z^h \\
+    & = z^t \, \sum_{h \geq 0}  \left( \sum_{k=0}^h 
+  \delta_{k} \, \xi_{h+t-k} \right) \, z^h.
+\end{align*}
+ We see that the coefficient of $z^h$ is either $1_{ \{ h+t =0 \} }$ for $h \geq d$
+  or equals $A_h (t)$ for $0 \leq h \leq d-1$.  Hence for $t \geq 1-d$ the calculation
+  simplifies to
+\[
+ {[ \xi (z)]}_t^{\infty}  \, \delta (z) =  z^t \sum_{h=0}^{d-1} A_h (t) \, z^h,
+\]
+ from which  (\ref{eq:Identity1}) follows. 
+ Next, multiply both sides of (\ref{eq:Identity1}) by $\delta (z)$, replace $z$ by $L$,
+  and apply the resulting power series to $\{ X_t \}$.  Using
+  $\delta (L) X_t = \partial X_t$, this yields
+  \[
+   \sum_{j=0}^{t-1} \xi_j \, \partial X_{t-j} = 
+    X_t - \sum_{h=0}^{d-1} A_{h} (t) \, X_{-h},
+\]
+ from which (\ref{eq:nonstatCausalRep}) follows.  The spectral representation is
+  obtained from (\ref{eq:nonstatCausalRep}) as follows:
+\begin{align*}
+ X_t  & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
+  \sum_{j=0}^{t-1} \xi_j \,  \left( \mu + 
+  \int_{-\pi}^{\pi} e^{i \omega (t-j)}  \, \ZZ (d\omega) \right) \\
+  & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
+  \sum_{j=0}^{t-1} \xi_j \, \mu  +
+    \int_{-\pi}^{\pi} e^{i \omega t } \, \sum_{j=0}^{t-1} \xi_j \,e^{-i \omega j}
+    \, \ZZ (d\omega),
+\end{align*}
+  from which (\ref{eq:nonstatRep-spec}) follows.  $\quad \Box$
+ 
+  
+  Theorem  \ref{thm:nonstat-rep} shows how a non-stationary process
+  can be represented in  terms of a predictable
+  portion -- determined by the functions $A_{h} (t)$ and the
+  variables $X_{1-d}, \ldots, X_{-1}, X_0$ -- and a
+  non-predictable portion involving a time-varying filter of the $\{
+  \partial X_t \}$ series. 
+  The time-varying function $\sum_{k=0}^{t-1} \xi_k $ can be computed
+  by evaluating (\ref{eq:Identity1}) at $z=1$ and dividing by $\delta (1)$
+   so long as this is non-zero.  Otherwise, if $\delta (1) = 0$ we can
+   use L'Hopital's rule to obtain
+  \[
+   \sum_{k=0}^{t-1} \xi_k = \sum_{k=0}^{t-1} \xi_k \, z^k \vert_{z = 1}
+   = \frac{ - \sum_{h=0}^{d-1} A_h (t) \, (t+h) }{ \dot{\delta} (1)}.
+  \]
+     Each of the time-varying functions $A_h (t)$ is annihilated
+ by $\delta (L)$, i.e., $\delta (L) A_{h} (t) = 0$ for $0 \leq
+ h \leq d-1$.   As a consequence, we can rewrite each $A_{h} (t)$ as a linear
+ combination of the basis functions of the null space of $\delta
+ (L)$, which are given by $\zeta^{-t}$ for non-repeated roots $\zeta$
+  of $\delta (z)$ (when the roots are repeated, we instead consider
+  functions $t \, \zeta{-t}$, etc.).  
+    Let the basis  functions be denoted
+    $\phi_k (t) $ for $1 \leq k \leq d$; see Brockwell and Davis (1991)
+     for additional details about difference equations.  Then we can
+ write $A_{h} (t) = \sum_{k=1}^d \alpha_{hk} \phi_k (t)$ for each $0 \leq
+ h \leq d-1$, for some coefficients $\alpha_{hk}$.  It follows that
+\[
+ \sum_{h=0}^{d-1} A_{h}(t) \, z^h = \sum_{k=1}^d \left(
+ \sum_{h=0}^{d-1} \alpha_{hk} z^h \right)  \, \phi_k (t).
+\]
+ Each expression in parentheses on the right hand side is a degree
+ $d-1$ polynomial in $z$, and will henceforth be denoted as $p^{(k)}
+ (z)$.   Substituting the new formulation, we obtain
+\begin{equation}
+\label{eq:nonstat.rep-basis}
+ X_t = \sum_{k=1}^d \phi_k (t) p^{(k)} (L) \, X_{0} + 
+  \sum_{k=0}^{t-1} \xi_k \, \mu  +  \int_{-\pi}^{\pi}
+ \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_k (t) \, 
+ p^{(k)} ( e^{-i \omega  } )}{ \delta (e^{-i \omega}) } \,  \ZZ (d\omega),
+\end{equation}
+ where $p^{(k)} (L)$ acts on $x_0$ by shifting the time index $t=0$
+ back in time for each power of $L$.  
+  This representation allows us to 
+  understand the action of a filter on a non-stationary time series,
+  as the following result demonstrates.
+  
+\begin{Proposition}
+  \label{prop:filter-nonstat}
+  The application of a filter $\Psi (L)$ to a non-stationary process $\{ X_t \}$
+  with representation  (\ref{eq:nonstat.rep-basis}) has spectral representation
+ \begin{align*}
+ \Psi (B) X_t & =   \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (L) \, X_{0}  +
+   \sum_{k \geq 1}  \Psi (L)  \xi_{t-k} \, \mu \\
+   & +   \int_{-\pi}^{\pi}
+   \frac{ e^{i \omega t} \, \Psi (e^{-i \omega}) 
+   - \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (e^{-i \omega}) 
+    }{ \delta (e^{-i \omega}) } \, \ZZ (d\omega).
+ \end{align*}
+ \end{Proposition}
+  
+  
+Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
+ integration for the output process can be less than that of $\{ X_t \}$.
+ For instance, if $\Psi (\zeta) = 0$ for some root $\zeta$ of $\delta (z)$,
+  then at least one of the basis functions $\phi_k (t)$ is annihilated by
+   $\Psi (L)$, which means we can rewrite the representation in 
+   Proposition \ref{prop:filter-nonstat} in terms of $d-1$ instead of $d$ basis
+   functions.  We now consider a class of filters known as model-based (MB) filters,
+  since they arise as MSE optimal linear filters for a certain class of linear
+  signal extraction problems.
+  
+  Suppose that the process $\{ X_t \}$ is viewed as the sum of two latent processes
+  $\{ S_t \}$ and $\{ N_t \}$, labelled as signal and noise respectively.
+   These patronymics indicate merely that the signal is a process one desires
+  to estimate, or extract, whereas the noise is to be expunged.  There is no necessity
+  that trend non-stationarity must pertain to the signal -- in fact, for the problem
+  of business cycle analysis, where one wishes to extract a stationary business cycle
+  component, the noise will include trend as well as seasonal effects.
+  In general, because
+\[
+ X_t = S_t + N_t
+\]
+ and $\delta (L) X_t$ is stationary, it is necessary that $\delta (L) S_t$ and 
+  $\delta (L) N_t$ are stationary, although these not need be the minimal degree
+  differencing operators.  We assume there is a relatively prime factorization of
+  $\delta (z)$ into components $\delta^S (z)$ and $\delta^N (z)$, which are polynomials
+  of degrees $d_S$ and $d_N$ that reduce signal and noise to stationarity:
+\[
+  \partial S_t = \delta^S (L) S_t \qquad \partial N_t = \delta^N (L) N_t.
+\]
+  These time series are all $n$-dimensional, but we assume that the same differencing
+  operators are relevant for each component series.  It then follows that
+\[
+ \partial X_t = \delta^N (L) \, \partial S_t + \delta^S (L) \, \partial N_t,
+\]
+ which allows us to relate the spectral density $f_{\partial X}$ of $\{ \partial X_t \}$
+ to the spectral densities $f_{\partial S}$
+  and $f_{\partial N}$ of $\{ \partial S_t \}$ and $\{ \partial N_t \}$:
+ \begin{equation}
+ \label{eq:sig-and-noise.sdf}
+ f_{\partial X} (\omega) = {| \delta^N (e^{-i \omega}) |}^2 \, f_{\partial S} (\omega)
+  + {| \delta^S (e^{-i \omega}) |}^2 \, f_{\partial N} (\omega).
+ \end{equation}
+  Each of these spectral densities
+   is an $n \times n$-dimensional Hermitian function of $\omega$.
+   Next, dividing (\ref{eq:sig-and-noise.sdf}) through by ${| \delta (e^{-i\omega}) |}^2$,
+  and defining the pseudo-spectral densities by
+\begin{equation}
+\label{eq:pseudo-sdf}
+  f_X (\omega) = \frac{ f_{\partial X} (\omega)}{ {| \delta (e^{-i\omega}) |}^2 }
+  \quad   f_S (\omega) = \frac{ f_{\partial S} (\omega)}{ {| \delta^S (e^{-i\omega}) |}^2 }
+  \quad   f_N (\omega) = \frac{ f_{\partial N} (\omega)}{ {| \delta^N (e^{-i\omega}) |}^2 },
+\end{equation}
+  we obtain the relation
+\[
+  f_X = f_S + f_N.
+\]
+ Next, the objective of MB signal extraction is to find a linear estimator 
+ for the $j$th component  of $S_t$, for each $1 \leq j \leq n$.  That is,
+ we seek to find a filter $\Psi (L)$ such that
+  $\widehat{S}_{t,j} = \Psi (L) X_t$ has minimal mean squared estimation error of
+   $S_{t,j}$.  The key result of McElroy and Trimbur (2015) is that the filter is
+   obtained by the formula
+  \begin{equation}
+  \label{eq:wk.frf-gen}
+    \Psi (e^{-i \omega}) =  e_j^{\prime} \, f_{\partial S} (\omega) \, 
+    { f_{\partial X} (\omega) }^{-1} \, {| \delta^N (e^{-i \omega}) |}^2.
+  \end{equation}
+  This presumes that $f_{\partial X} (\omega) $ is invertible; given this condition,
+  one computes each filter coefficient by Fourier inversion of the frf.  
+  Furthermore, we can use (\ref{eq:pseudo-sdf})   to obtain a simpler expression:
+\[
+   \Psi (e^{-i \omega}) =  e_j^{\prime} \, f_{ S} (\omega) \, 
+    { f_{ X} (\omega) }^{-1}.
+  \]
+  It is interesting that we do not require that $f_{\partial S} (\omega)$ be 
+  invertible -- this will be further explored in Chapter \ref{chap:coint}.
+  We now discuss several examples of MB filters.
+
+\begin{Example} {\bf Model-Based Random Walk Trend.} \rm
+\label{exam:trend-i1}
+  The Local Level Model (LLM) discussed in Harvey (1989) is capable
+  of modeling a time series consisting
+ of a  random walk trend $\{ S_t \}$ and a     white noise irregular
+ $\{ N_t \}$, such  that $X_t = S_t + N_t$. 
+  Hence $\{ S_t \}$ is $I(1)$, and $\partial S_t = (1-L) S_t$.
+  Thus $\delta^S (z) = 1- z$, but $\{ N_t \}$ is stationary so that
+  $\delta^N (z) = 1$.  
+ Both the multivariate trend and  irregular are driven by independent 
+ white noise processes, with respective covariance matrices
+   $\Sigma_{S}$ and $\Sigma_{N}$,
+  and it follows that the spectra for the differenced processes 
+   are
+  \[
+    f_{\partial S} (\omega) = \Sigma_S \qquad f_{N} (\omega) = \Sigma_N.
+\]
+  Therefore  the frf for the optimal trend extraction filter is
+\[ 
+ \Psi (e^{-i \omega}) = e_j^{\prime} \, \Sigma_{S} \, 
+ { \left[ \Sigma_{S} + (2 - 2 \, \cos (\omega)) \, \Sigma_{N} \right] }^{-1},
+\]
+ which utilizes (\ref{eq:sig-and-noise.sdf}).
+ \end{Example}
+
+\begin{Exercise} {\bf LLM Model-Based Trend Filter.} \rm
+\label{exer:trend-i1}
+ For a bivariate LLM of Example \ref{exer:trend-i1} with parameters 
+\[
+ \Sigma_{S} = 10^{-4} \,\left[ \begin{array}{ll} 
+   2.32  &  5.04  \\
+   5.04  & 34.73   \end{array}  \right]
+ \qquad  \Sigma_{N} = 10^{-5} \, \left[ \begin{array}{ll}
+        110.44   &  7.17  \\
+        7.17     & 128.57   \end{array} \right],
+\]
+ numerically compute and plot the trend extraction filter's frf.
+\end{Exercise}
+
+\begin{Schunk}
+\begin{Sinput}
+> psi.sim <- c(2.17150287559847, -8.36795922528, -6.04133725367594, 
++              0.0648981656699, -6.80849700177184, -6.66004335288479, 
++              -0.00016098322952, 0.00051984185863)
+> psi.sim[7:8] <- c(0,0)
+> N <- 2
+> grid <- 1000
+> delta <- array(t(c(1,-1)) %x% diag(N),c(N,N,2))
+> mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),10,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),10,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> #print(Sigma.mu)
+> #print(Sigma.irr)
+> 
+> iden <- array(diag(N),c(N,N,1))
+> f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+> f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
+> trend.frf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+\end{Sinput}
+\end{Schunk}
+
+
+
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{llm_frf.pdf}
+\caption{Frequency response function for model-based trend
+ extraction filter from the Local Level Model.}
+\label{fig:llm-frf}
+\end{center}
+\end{figure} 
+
+
+\begin{Example} {\bf Model-Based Integrated Random Walk Trend.} \rm
+\label{exam:trend-i2}
+  Example \ref{exam:trend-i1} can be generalized to the Smooth 
+  Trend Model (STM) developed in Harvey (1989),
+ where now the trend $\{ S_t \}$ is an integrated random walk, 
+ i.e., ${(1-L)}^2 S_t$ is white noise of
+ covariance matrix $\Sigma_{S}$.   Then the frf for the optimal 
+ trend extraction filter -- which also coincides
+ with the multivariate HP filter  -- is given by
+\[ 
+ \Psi (e^{-i \omega}) = e_j^{\prime} \, \Sigma_{S} \, 
+ { \left[ \Sigma_{S} + {(2 - 2 \, \cos (\omega))}^2 \, \Sigma_{N} \right] }^{-1}.
+\]
+ The chief difference with the frf of the LLM is that the sinusoidal factor is now squared.  
+\end{Example}
+
+\begin{Exercise} {\bf STM Model-Based Trend Filter.} \rm
+\label{exer:trend-i2}
+ For a bivariate STM of Example \ref{exer:trend-i2} with parameters 
+\[
+ \Sigma_{S} = 10^{-5} \, \left[ \begin{array}{ll} 
+   .66   &  1.25   \\
+   1.25  &  2.92   \end{array}  \right]
+ \qquad  \Sigma_{N} =  10^{-4} \, \left[ \begin{array}{ll}
+        2.52  &  1.67    \\
+        1.67 &  35.70   \end{array} \right],
+\]
+ numerically compute and plot the trend extraction filter's frf.
+\end{Exercise}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> psi.sim <- c(1.8905590615422, -11.9288577633298, -12.0809347541079, 
++              0.660897814610799, -8.2863379601304, -5.66645335346871, 
++              -1.34743227511595e-05, -1.41207967213544e-05)
+> psi.sim[7:8] <- c(0,0)
+> N <- 2
+> grid <- 1000
+> delta <- array(t(c(1,-2,1)) %x% diag(N),c(N,N,3))
+> mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),10,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),10,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> #print(Sigma.mu)
+> #print(Sigma.irr)
+> 
+> iden <- array(diag(N),c(N,N,1))
+> f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+> f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
+> trend.frf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+\end{Sinput}
+\end{Schunk}
+
+
+ \begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{stm_frf.pdf}
+\caption{Frequency response function for model-based trend
+ extraction filter from the Smooth Trend Model.}
+\label{fig:stm-frf}
+\end{center}
+\end{figure} 
+
+
+\begin{Example} {\bf Model-Based Seasonal Adjustment.} \rm
+\label{exam:sa}
+  Flexible structural models were discussed in McElroy (2017), 
+  with atomic components for each distinct unit root
+ (with any conjugate roots) in the differencing operator.  
+ For monthly data  where $\delta (L) = (1-L)(1-L^{12})$,
+ we obtain an integrated random walk trend component $\{ C_t \}$ 
+ (identical to the trend discussed in Example \ref{exam:trend-i2})
+ and six atomic seasonal components that combine into a single 
+ seasonal component $\{ P_t \}$ with differencing
+ operator $U(L) = 1 + L + L^2 + \ldots + L^{11}$, along with the
+ irregular $\{ I_t \}$, which is a white noise. 
+  Six separate covariance matrices govern the dynamics of the seasonal
+  component, allowing for different degrees of
+ smoothness at each of the six seasonal frequencies. 
+ In particular, we have $P_t = \sum_{\ell=1}^6 P^{(\ell)}_t$ and
+\begin{align*}
+  {(1-L)}^2 C_t & = \partial C_t \\
+   (1 - 2 \cos (\pi/6) L + L^2) P^{(1)}_t & = \partial P^{(1)}_t \\
+  (1 - 2 \cos (2\pi/6) L + L^2) P^{(2)}_t & = \partial P^{(2)}_t \\
+  (1 - 2 \cos (3\pi/6) L + L^2) P^{(3)}_t & = \partial P^{(3)}_t \\
+  (1 - 2 \cos (4\pi/6) L + L^2) P^{(4)}_t & = \partial P^{(4)}_t \\
+  (1 - 2 \cos (5\pi/6) L + L^2) P^{(5)}_t & = \partial P^{(5)}_t \\
+  (1 +L) P^{(6)}_t & = \partial P^{(6)}_t. 
+ \end{align*}
+ Each of the stationary processes is assumed to be an independent white noise,
+ where the covariance matrices are denoted by $\Sigma_C$, $\Sigma_{1}$,
+  $\Sigma_2$, $\Sigma_3$, $\Sigma_4$, $\Sigma_5$, $\Sigma_6$, and 
+  $\Sigma_I$ respectively.   For seasonal adjustment we seek to suppress
+  seasonality, so $S_t = C_t + I_t$ and $N_t = P_t$.  Thus $\delta^S (z) = {(1-z)}^2$
+  and $\delta^N (z) = U(z)$, and the MB seasonal adjustment filter   has frf
+\[
+  \Psi (e^{-i \omega}) = e_j^{\prime} \, \left( \Sigma_{C} + {|1 - e^{-i \omega}|}^4
+   \Sigma_I \right) \, 
+    { f_{\partial X} (\omega) }^{-1} \, {| U (e^{-i \omega}) |}^2.
+\]
+\end{Example}
+
+
+\begin{Exercise} {\bf Structural Model-Based Seasonal Adjustment.} \rm
+\label{exer:sa}
+ Consider a quadvariate structural model of Example \ref{exer:sa} with parameters 
+\begin{align*}
+ \Sigma_C & = 10^{-2} \, \left[ \begin{array}{llll} 
+  9.54 & 4.71 & 1.70 &  3.26  \\
+  4.71 & 2.74 & 1.01 & 1.96  \\
+  1.70 & 1.01 & 0.49 & 0.81 \\
+  3.26 & 1.96 & 0.81 &  1.70  \end{array} \right] \\
+  \Sigma_1 & = 10^{-2} \, \left[ \begin{array}{llll} 
+ 7.97 & 6.98 & 1.77 & 3.99 \\
+ 6.98 & 7.47 & 2.01 & 4.57 \\
+ 1.77 & 2.01 & 0.80 & 1.50 \\
+ 3.99 & 4.57 & 1.50 & 3.85 \end{array} \right] \\
+   \Sigma_2 & = 10^{-2} \, \left[ \begin{array}{llll} 
+ 1.76 & 0.17 & 0.35 & 1.49 \\
+ 0.17 & 0.94 & 0.48 & 0.72 \\
+ 0.35 & 0.48 & 1.17 & 1.58 \\
+ 1.49 & 0.72 & 1.58 & 4.49 \end{array} \right] \\
+    \Sigma_3 & = 10^{-2} \, \left[ \begin{array}{llll} 
+  4.71 &  4.35 & -1.87 &  1.15 \\
+  4.35 &  4.89 & -2.04 &  1.38 \\
+ -1.87 & -2.04 &  1.55 & -0.04 \\
+  1.15 &  1.38 & -0.04 &  1.43 \end{array} \right] \\
+    \Sigma_4 & = 10^{-2} \, \left[ \begin{array}{llll} 
+ 12.56 &  3.30 & -2.28  & 1.88 \\
+  3.30 &  3.49 & -0.88 &  1.06 \\
+ -2.28 & -0.88 &  0.78 & -0.45 \\
+  1.88 &  1.06 & -0.45 &  0.88 \end{array} \right] \\
+     \Sigma_5 & = 10^{-2} \, \left[ \begin{array}{llll} 
+ 1.07 & 1.51 & -0.01 & -0.24  \\
+ 1.51 & 3.04 &  0.01  & 0.79 \\
+-0.01 & 0.01  & 0.09  & 0.05 \\
+-0.24 & 0.79  & 0.05  & 1.69 \end{array} \right] \\
+     \Sigma_6 & = 10^{-2} \, \left[ \begin{array}{llll} 
+ 11.79 & -1.17 &   1.38 &  1.86 \\
+ -1.17 &   2.77 & -0.23 & 0.30 \\
+  1.38 & -0.23 &   0.77 & 0.40 \\
+  1.86  & 0.30  & 0.40 & 3.11 \end{array} \right] \\
+      \Sigma_I & =  \left[ \begin{array}{llll} 
+  6.53 & 0.81 & 0.19 & -0.57 \\
+  0.81 & 1.26 & 0.23  & 0.49 \\
+  0.19 & 0.23 & 0.30  & 0.15 \\
+ -0.57 & 0.49 & 0.15  & 1.08 \end{array} \right].
+\end{align*} 
+ Numerically compute and plot the  filter frf for seasonal adjustment.
+\end{Exercise}
+
+\begin{Schunk}
+\begin{Sinput}
+> psi.sim <- c(0.493586093056948, 0.178487258592539, 0.341217399125708, 
++              0.399177274154249, 0.848325304642642, 0.68306879252262, 
++              -2.3494687111314, -5.47534663726587, -6.69385117951384, 
++              -6.08364145983965, 0.875100150810273, 0.221971271148611, 
++              0.500866759201029, 0.340625016984097, 0.791037805495801, 
++              0.985440262768576, -2.52890913740106, -4.29524634814519, 
++              -5.98519527750281, -4.88659954275053, 0.0957466327314851, 
++              0.201313350626488, 0.849351809157598, 0.48420520104336, 
++              0.62643997675928, 1.13945063379914, -4.04217214895869, 
++              -4.68919816059416, -4.73313805629826, -4.0627015759002,
++              0.923495751608401, -0.396067294450726, 0.244665046194039, 
++              -0.36570474542918, 0.363995718736632, 0.758715172737758, 
++              -3.05567431351817, -4.74337970092605, -4.96364133429136, 
++              -5.06144086942249, 0.262963683605793, -0.181599400661918, 
++              0.149795833258992, -0.105991649100357, 0.21503766242974, 
++              -0.141649861043968, -2.07489346121933, -3.64302004053168, 
++              -5.69277788172285, -5.3689470753418, 1.40718934367933,
++              -0.0085452878747676, -0.219886337273936, 0.0283662345070971,
++              1.23786259577472, 0.199834135215749, -4.53336362894347, 
++              -4.70016052568401, -7.07530853221777, -6.03054443735399, 
++              -0.0995506040524902, 0.116607848697947, 0.157899802233636, 
++              -0.0363184981547607, 0.18385749297074, 0.329351477585333, 
++              -2.1377604820296, -3.62882764786239, -5.11279846492415, 
++              -3.62475631527416, 0.124305286145147, 0.0292507920421885, 
++              -0.0873349194845382, 0.178977764316143, 0.484389128732254,
++              0.265835976421986, 1.87566939226944, 0.1445002084775, 
++              -1.34264222816582, -0.305367634014929, -0.00488431480035087, 
++              -0.000945659564684563, -0.00106126820173145, -0.000413658838890233)
+> psi.sim[81:84] <- c(0,0,0,0)
+> N <- 4
+> grid <- 1000
+> mu.sim <- mdfa.wnsim(psi.sim[1:10],rep(1,N),10,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> seas1.sim <- mdfa.wnsim(psi.sim[11:20],rep(1,N),10,Inf)
+> Sigma.seas1 <- seas1.sim[[2]]
+> seas2.sim <- mdfa.wnsim(psi.sim[21:30],rep(1,N),10,Inf)
+> Sigma.seas2 <- seas2.sim[[2]]
+> seas3.sim <- mdfa.wnsim(psi.sim[31:40],rep(1,N),10,Inf)
+> Sigma.seas3 <- seas3.sim[[2]]
+> seas4.sim <- mdfa.wnsim(psi.sim[41:50],rep(1,N),10,Inf)
+> Sigma.seas4 <- seas4.sim[[2]]
+> seas5.sim <- mdfa.wnsim(psi.sim[51:60],rep(1,N),10,Inf)
+> Sigma.seas5 <- seas5.sim[[2]]
+> seas6.sim <- mdfa.wnsim(psi.sim[61:70],rep(1,N),10,Inf)
+> Sigma.seas6 <- seas6.sim[[2]]
+> irr.sim <- mdfa.wnsim(psi.sim[71:80],rep(1,N),10,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> #print(Sigma.mu)
+> #print(Sigma.seas1)
+> #print(Sigma.seas2)
+> #print(Sigma.seas3)
+> #print(Sigma.seas4)
+> #print(Sigma.seas5)
+> #print(Sigma.seas6)
+> #print(Sigma.irr)
+> 
+> iden <- array(diag(N),c(N,N,1))
+> dpoly.1 <- c(1,-2*cos(pi/6),1)
+> dpoly.2 <- c(1,-2*cos(2*pi/6),1)
+> dpoly.3 <- c(1,-2*cos(3*pi/6),1)
+> dpoly.4 <- c(1,-2*cos(4*pi/6),1)
+> dpoly.5 <- c(1,-2*cos(5*pi/6),1)
+> dpoly.6 <- c(1,1)
+> dpoly.but1 <- polymult(dpoly.2,polymult(dpoly.3,polymult(dpoly.4,polymult(dpoly.5,dpoly.6))))
+> dpoly.but2 <- polymult(dpoly.1,polymult(dpoly.3,polymult(dpoly.4,polymult(dpoly.5,dpoly.6))))
+> dpoly.but3 <- polymult(dpoly.1,polymult(dpoly.2,polymult(dpoly.4,polymult(dpoly.5,dpoly.6))))
+> dpoly.but4 <- polymult(dpoly.1,polymult(dpoly.2,polymult(dpoly.3,polymult(dpoly.5,dpoly.6))))
+> dpoly.but5 <- polymult(dpoly.1,polymult(dpoly.2,polymult(dpoly.3,polymult(dpoly.4,dpoly.6))))
+> dpoly.but6 <- polymult(dpoly.1,polymult(dpoly.2,polymult(dpoly.3,polymult(dpoly.4,dpoly.5))))
+> delta.c <- array(t(c(1,-2,1)) %x% diag(N),c(N,N,3))
+> delta.but1 <- array(t(dpoly.but1) %x% diag(N),c(N,N,10))
+> delta.but2 <- array(t(dpoly.but2) %x% diag(N),c(N,N,10))
+> delta.but3 <- array(t(dpoly.but3) %x% diag(N),c(N,N,10))
+> delta.but4 <- array(t(dpoly.but4) %x% diag(N),c(N,N,10))
+> delta.but5 <- array(t(dpoly.but5) %x% diag(N),c(N,N,10))
+> delta.but6 <- array(t(dpoly.but6) %x% diag(N),c(N,N,11))
+> delta.seas <- array(t(rep(1,12)) %x% diag(N),c(N,N,12))
+> f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+> f.seas1 <- mdfa.spectra(iden,delta.but1,Sigma.seas1,grid)
+> f.seas2 <- mdfa.spectra(iden,delta.but2,Sigma.seas2,grid)
+> f.seas3 <- mdfa.spectra(iden,delta.but3,Sigma.seas3,grid)
+> f.seas4 <- mdfa.spectra(iden,delta.but4,Sigma.seas4,grid)
+> f.seas5 <- mdfa.spectra(iden,delta.but5,Sigma.seas5,grid)
+> f.seas6 <- mdfa.spectra(iden,delta.but6,Sigma.seas6,grid)
+> f.irr <- mdfa.spectra(iden,delta.c,Sigma.irr,grid)
+> f.signal <- f.mu + f.irr
+> f.noise <- f.seas1 + f.seas2 + f.seas3 + f.seas4 + f.seas5 + f.seas6
+> sa.frf <- mdfa.wkfrf(delta.seas,delta.c,f.noise,f.signal)
+\end{Sinput}
+\end{Schunk}
+
+
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{sauc_frf.pdf}
+\caption{Frequency response function for model-based seasonal adjustment
+  filter from the Structural Model.}
+\label{fig:sauc-frf}
+\end{center}
+\end{figure} 
+
+
+
+\section{Error Criterion and Computation}
+\label{sec:mdfa-nonstat}
+
+ Now supposing that $\{ X_t \}$ is non-stationary,
+ examination of (\ref{eq:dfa-error}) indicates that the error process is 
+ not stationary unless we make certain assumptions
+ about $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$.    
+ In order to remove the time-varying functions it is necessary that 
+ we can factor $\delta (L)$ from $\Delta (L)$, i.e., we require the existence of
+ $\widetilde{\Delta } (L)$ such that
+\begin{equation}
+ \label{eq:delta.factor}
+  \Delta (L) = \widetilde{\Delta } (L) \, \delta (L),
+\end{equation}
+ as otherwise we cannot guarantee that $\{ E_t \}$ will be stationary. 
+  Moreover, if $\mu =0$ then (\ref{eq:delta.factor}) is also sufficient to guarantee
+ that the filter error be stationary, because
+\[
+  E_t = \widetilde{\Delta} (L) \, \partial X_t
+\]
+ in such a case.   We next discuss a set of filter 
+ constraints that guarantee (\ref{eq:delta.factor}), beginning with a result
+ that discusses the factorization of filters.  
+ We say a filter $\Psi (L)$ is absolutely convergent 
+ if $\sum_{j \in \ZZ} \| \psi (j) \| < \infty$
+ for a given matrix norm $\| \cdot \|$.
+
+\begin{Proposition}
+\label{prop:filter-decompose}
+ Any linear filter $\Psi (L)$ can be expressed as
+\[
+  \Psi (L) = \Psi (\zeta) + (L - \zeta) \, \Psi^{\sharp} (L)
+\]
+ for any $\zeta \in \CC$  such that $| \zeta | = 1$,
+  and an absolutely convergent filter $\Psi^{\sharp} (L)$,
+  so long as  $\partial \Psi (L) $ is absolutely convergent.
+ If in addition $ \partial \partial \Psi (L) =
+ \sum_{ j \in \ZZ} j (j-1) \, \psi (j) \, L^j$
+   is absolutely convergent, then there also exists an absolutely
+   convergent filter $\Psi^{\flat} (L)$  such that
+\[
+ \Psi (L) = \Psi (\zeta) + \partial \Psi (\zeta) \, 
+ (L- \zeta) \, \overline{\zeta} + {(L - \zeta)}^2 \, \Psi^{\flat} (L).
+\]
+\end{Proposition}
+
+
+\paragraph{Proof of Proposition \ref{prop:filter-decompose}.}
+ We claim that $\Psi^{\sharp} (L) = \sum_{j \in \ZZ} \psi^{\sharp} (j) \, L^j$ with
+\[
+ \psi^{\sharp} (j) = \begin{cases}  {\zeta}^{-(j+1)} \,  
+ \sum_{k \geq j+1} \psi (k) \, \zeta^k  \quad j \geq 0 \\
+					-\zeta^{-(j+1)} \, \sum_{k \geq -j} \psi (-k) \,  
+					{\zeta}^{-k} \quad j \leq -1.	
+		\end{cases}
+\]
+To show this, first observe that 
+\[
+  \Psi (L) - \Psi (\zeta) = \sum_{j \geq 1} \psi (j) \, 
+  (L^j - \zeta^j) + \sum_{j \leq -1} \psi (j) \, (L^j - \zeta^j).
+\]
+ Beginning with the first term, so that $j \geq 1$, we write 
+ $L^j - \zeta^j = \zeta^j \, (L/\zeta - 1) \, p_{j-1} (L/\zeta)$
+ where $p_k (z) = \sum_{\ell=0}^k z^{\ell}$.   Next, by coefficient
+ matching we can verify that
+\begin{align*}
+   \sum_{j \geq 1} \psi (j) \, (L^j - \zeta^j) & = (L/\zeta - 1) \,
+   \sum_{j \geq 1} \psi (j) \, \zeta^j \, p_{j-1} (L/\zeta) \\
+ & = (L/\zeta -1) \, \sum_{j \geq 0}  \sum_{k \geq j+1} \psi (k) \,
+ \zeta^k \, {(L/\zeta)}^{j}
+ = (L - \zeta) \,  \sum_{j \geq 0}  \psi^{\sharp} (j) \, L^j.
+\end{align*}
+ Next, take $j \leq -1$, and use the symbol $F = L^{-1}$:
+\begin{align*}
+  \sum_{j \leq -1} \psi (j) \, (L^j - \zeta^j) & = \sum_{j \geq 1}
+  \psi (-j) \, (F^j - \zeta^{-j}) 
+   =   (F \zeta - 1) \, \sum_{j \geq 1} \psi (-j) \, \zeta^{-j} \, p_{j-1} (F \zeta) \\
+ & =  (F \zeta - 1) \, \sum_{j \geq 0} \sum_{k \geq j+1}  
+  \psi (-k) \, \zeta^{-k} \, {(F \zeta)}^{j}  \\
+ &  =  - F\,  (L - \zeta ) \, \sum_{j \geq 1}  \zeta^{j-1} 
+ \, \sum_{k \geq j}  \psi (-k) \, \zeta^{-k} \,  F^{j-1}  \\
+ &= (L - \zeta) \, \sum_{j \leq -1}  \psi^{\sharp} (j) \, L^j.
+\end{align*}
+ This establishes algebraically that $\Psi^{\sharp} (L)$ 
+ with coefficients as defined above equals
+ $(\Psi (L) - \Psi (\zeta))/(L- \zeta)$, whenever the Laurent
+ series converges.  Based on the above calculations, we can write
+\[
+  \frac{ \Psi (L) - \Psi (\zeta) }{ L - \zeta} 
+  = \sum_{j \geq 1} \left( \psi (j) \, \zeta^{j-1} \, p_{j-1}
+  (L/\zeta) - \psi (-j) \, \zeta^{-j} \, F \, p_{j-1} (F \zeta) \right).
+\]
+ To check the absolute convergence, it suffices to set $L = 1$;  
+ note that $| p_k  (\zeta) | \leq (k+1)$
+ if $|\zeta| = 1$.  Thus  we obtain the bound
+\[
+ \left\|   \frac{ \Psi (L) - \Psi (\zeta) }{ L - \zeta}  \right\| 
+ \leq \sum_{j \geq 1}  j \, \left( \| \psi (j) \|  +\| \psi (-j) \| \right),
+\]
+ which is finite by the assumption that $\partial \Psi (L)$ 
+ is absolutely convergent.   Next, we claim that
+$\Psi^{\flat} (L) = \sum_{j \in \ZZ} \psi^{\flat} (j) \, L^j$ with
+\[
+ \psi^{\flat} (j) = \begin{cases}  {\zeta}^{-(j+2)} \, 
+ \sum_{k \geq j+2} (k-1-j) \, \psi (k) \, \zeta^k  \quad j \geq 0 \\
+					\zeta^{-(j+2)} \, \sum_{k \geq -j} (k+j+1) \,
+					\psi (-k) \,  {\zeta}^{-k} \quad j \leq -1.	
+		\end{cases}
+\]
+To verify this, observe that
+\begin{align*}
+  \Psi (L) - \Psi (\zeta)  - \partial \Psi (\zeta) \, (L- \zeta) \, \zeta^{-1} 
+ & = \sum_{j \geq 1} \psi (j) \, \left[ (L^j - \zeta^j)  
+ - j \, \zeta^{j-1}   \, (L- \zeta) \right]  \\
+& + \sum_{j \leq -1} \psi (j) \, \left[ (L^j - \zeta^j)  
+- j \, \zeta^{j-1}   \, (L- \zeta) \right].
+\end{align*}
+ First assuming that $j \geq 1$, note that $p_{\ell-1} (z) - \ell$
+ equals zero unless $\ell \geq 2$, 
+ and otherwise   equals $\sum_{k=1}^{\ell-1} p_{k-1} (z) \, (z -1)$. Therefore 
+\begin{align*}
+ \sum_{j \geq 1} \psi (j) \, \left[ (L^j - \zeta^j)  
+ - j \, \zeta^{j-1}  \, (L- \zeta) \right]    & 
+ = (L- \zeta) \, \sum_{j \geq 1} \psi (j) \, 
+ \zeta^{j-1} \, \left[   p_{j-1} (L/\zeta) 	  - j   \right]   \\
+ & =  {(L - \zeta)}^2 \, \sum_{j \geq 2} \psi (j) \, 
+ \zeta^{j-2} \, \sum_{k=1}^{j-1} p_{k-1} (L/\zeta)   \\
+ & =  {(L - \zeta)}^2 \, \sum_{j \geq 0} \psi^{\flat} (j) \,  L^j 
+\end{align*}
+ by coefficient matching in the final step.  Similarly, letting $j \leq -1$ 
+ and using $z p_{\ell-1} (z) - \ell = (z-1) \, 
+ \sum_{k=1}^{\ell} p_{k-1} (z)$, we have
+\begin{align*}
+ \sum_{j \leq -1} \psi (j) \, \left[ (L^j - \zeta^j) 
+ - j \, \zeta^{j-1}  \, (L- \zeta) \right]    & 
+  =  (L- \zeta) \, \sum_{j \geq 1} \psi (-j) \, \zeta^{-j} \,
+  \left[ - F \,  p_{j-1} (F \zeta)  +  j  \, \zeta^{-1} \right]   \\
+ & =  {(L- \zeta)}^2 \, F \, \sum_{j \geq 1} \psi(-j) \, 
+ \zeta^{-(j+1)} \, \sum_{k=1}^{j} p_{k-1} (F \zeta)  \\
+ & = {(L- \zeta)}^2 \, F \, \zeta^{-1} \, \sum_{j \geq 0} 
+ \sum_{k \geq j+1}  (k-j) \, \psi (-k) \, \zeta^{-k} \, {(F \zeta)}^j \\
+ & = {(L-\zeta)}^2 \,  \sum_{j \leq -1}  \psi^{\flat} (j) \, L^j
+\end{align*}
+ by matching coefficients.  To establish convergence of the 
+ Laurent series for $\Psi^{\flat} (L)$,  observe that
+\[
+ \frac{  \Psi (L) - \Psi (\zeta)  - \partial \Psi (\zeta) 
+ \, (L- \zeta) \, \zeta^{-1}  }{ {(L- \zeta)}^2 } =
+    \sum_{j \geq 2} \psi (j) \, \zeta^{j-2} \, \sum_{k=1}^{j-1} p_{k-1} (L/\zeta) +
+     F \, \sum_{j \geq 1} \psi(-j) \, \zeta^{-(j+1)} \, \sum_{k=1}^{j} p_{k-1} (F \zeta).
+\]
+ Hence the matrix norm has   the bound (setting $L=1$ and taking $|\zeta| = 1$) of
+\[
+ \left\|   \frac{  \Psi (L) - \Psi (\zeta) 
+ - \partial \Psi (\zeta) \, (L- \zeta) \, \zeta^{-1}  }{ {(L- \zeta)}^2 }  \right\|
+  \leq  \sum_{j \geq 2} \| \psi (j)  \|  \, \binom{j}{2} + 
+  \sum_{j \geq 1} \| \psi(-j)  \|  \, \binom{j+1}{2},
+\]
+ using $| \sum_{k=1}^j p_{k-1} (\zeta) | \leq \binom{j+1}{2}$.  
+ Because $\partial \partial \Psi (L)$ is 
+ absolutely convergent, the above norm is finite.  $\quad \Box$
+
+
+ Note that if $\Psi (\zeta) = 0$, it follows from 
+  Proposition \ref{prop:filter-decompose} that $L-\zeta$ can be factored from
+  $\Psi (L)$.  Similarly, ${(L- \zeta)}^2$ can be factored 
+   from $\Psi (L)$ if $\Psi(\zeta) = \partial \Psi (\zeta) =0$.
+  Next, we introduce the concept of $\omega$-dynamics, which correspond
+  to basis functions $\phi_k (t) = e^{i \omega t}$.
+
+\begin{Definition} \rm
+\label{def:filter-noise}
+ For $\omega \in [-\pi, \pi]$, a filter $\Psi (L)$ annihilates 
+ $\omega$-dynamics of order $1$ if $\Psi (e^{-i \omega}) = 0$,
+ and annihilates $\omega$-dynamics of order $2$ if in addition 
+ $\partial \Psi (e^{-i \omega}) = 0$.
+\end{Definition}
+
+
+Hence, we have the following immediate corollary of 
+Proposition \ref{prop:filter-decompose}.
+
+\begin{Corollary}
+ \label{cor:filter-noise}
+  If a filter $\Psi (L)$ annihilates $\omega$-dynamics of order $1$ 
+  and $\partial \Psi (L)$ is absolutely convergent, then
+\[
+  \Psi (L) = (L- e^{-i \omega}) \, \Psi^{\sharp} (L).
+\]
+ If a filter $\Psi (L)$ annihilate $\omega$-dynamics of order $2$,  
+ and $\partial \partial \Psi (L)$ is absolutely convergent, then
+\[
+  \Psi (L) = {(L- e^{-i \omega}) }^2 \, \Psi^{\flat} (L).
+\]
+\end{Corollary}
+
+ We can apply Corollary \ref{cor:filter-noise} to factor a 
+ noise-differencing polynomial $\delta^N (L)$ from $\Delta (L)$:
+ for each $\omega$ such that the target filter $\Psi (L)$ annihilates
+ $\omega$-dynamics of order $d$, we impose the constraint
+ that $\widehat{\Psi} (L)$ shall have the same property, and hence 
+ ${(L- e^{-i \omega})}^d$ can be factored from both
+ filters.   For instance, if noise frequencies are $\omega_{\ell}$
+ with multiplicities $d_{\ell}$, then repeated application of
+ Corollary \ref{cor:filter-noise} yields
+\[
+ \Psi (L) = \prod_{\ell} {(L -  e^{-i \omega_{\ell}})}^{d_{\ell}} \, \Psi^{\natural} (L)
+   = \delta^N (L) \, \Psi^{\star} (L)
+\]
+ for some residual filter $\Psi^{\natural} (L)$, where 
+ $\Psi^{\star} (L) = \prod_{\ell} (-e^{-i \omega_{\ell} d_{\ell}}) \, \Psi^{\natural} (L)$
+ and $\delta^N (L) = \prod_{\ell} (1 - e^{i \omega_{\ell}} \, L)$.
+ By imposing the same linear constraints on $\widehat{\Psi} (L)$, 
+ we likewise obtain $\widehat{\Psi} (L) = \delta^N (L) \, \widehat{\Psi}^{\star} (L)$,
+ and hence
+\begin{equation}
+ \label{eq:delta-noise}
+\Delta (L) = \left(  {\Psi}^{\star} (L) - 
+\widehat{\Psi}^{\star} (L) \right) \, \delta^N (L).
+\end{equation}
+  So if $\delta (L) = \delta^N (L)$, then (\ref{eq:delta.factor}) 
+  holds at once.  More generally, a given process' differencing polynomial
+ may be factored into relatively prime polynomials $\delta^N (z)$ and $\delta^S (z)$, 
+ which correspond to noise and signal dynamics
+ respectively -- see Bell (1984) and McElroy (2008a). 
+ Many  signal extraction filters $\Psi (L)$   have the property that they
+ annihilate $\omega$-dynamics of the appropriate order, 
+ such that $\delta^N (L)$ can be factored.
+ By imposing that 
+\begin{equation}
+\label{eq:non-stat.constraint.single}
+ \widehat{\Psi} (e^{-i \omega}) = \Psi (e^{-i \omega})
+ \end{equation}
+ for  all simple roots $\zeta = e^{-i \omega}$ of $\delta (z)$, we ensure that
+  (\ref{eq:delta.factor}) holds. If there is a double root, then we also impose
+ \begin{equation}
+\label{eq:non-stat.constraint.double}
+ \partial \widehat{\Psi} (e^{-i \omega}) = \partial \Psi (e^{-i \omega}).
+ \end{equation}
+   This conditions are sufficient, because 
+  (\ref{eq:non-stat.constraint.single}) and  (\ref{eq:non-stat.constraint.double})
+    imply $\Delta (e^{-i \omega}) = 0$
+  for all the roots of $\delta (z)$, so that by repeated application of Corollary 
+ \ref{cor:filter-noise} we can factor out $\delta (z)$, labelling the
+ remaining factor as $\widetilde{\Delta } (L)$.  
+   Note that if $\omega$ corresponds to noise, i.e., $\delta^N (e^{-i \omega}) = 0$,
+    then (\ref{eq:non-stat.constraint}) becomes 
+  $ \widehat{\Psi} (e^{-i \omega}) = 0$, but if $\omega$ corresponds to signal
+  then $\Psi (e^{-i \omega}) \neq 0$. 
+  
+  In fact, this characterization actually
+  defines signal and noise.   Given a non-stationary process with differencing
+  polynomial $\delta (z)$ and a target filter $\Psi (L)$, we define $\delta^N (z)$
+  as consisting of those factors of $\delta (z)$ such that
+   $ \widehat{\Psi} (e^{-i \omega}) = 0$, and set $\delta^S (z) = \delta (z)/ \delta^N (z)$.
+  For either signal or noise $\omega$-dynamics, we know that 
+  (\ref{eq:delta.factor}) holds if we impose  (\ref{eq:non-stat.constraint.single}) for all
+   the single roots of $\delta (z)$
+   (and for double roots, also impose  (\ref{eq:non-stat.constraint.double})).
+ In practice, we must determine the real and imaginary  parts of each such 
+ constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ 
+ in the form $K = [J \otimes 1_n] \, \vartheta$ for
+  filters of form (\ref{eq:conc.filter}), applying the methodology 
+  of this chapter's first section.  With these constraints in play, 
+   the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$
+   replaced by $\widetilde{\Delta} (z)$
+ and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., 
+ we define the nonstationary MDFA criterion
+ function as $\det D_{\Psi } (\vartheta, G)$ for
+\begin{equation}
+\label{eq:mdfa-criterion-nonstat}
+ D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Delta} (z)   \, 
+ G \,  {\widetilde{\Delta} (z) }^*   \rangle }_0
+ = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \, 
+ G \, {|\delta (z) |}^{-2} \,
+  {  \left[ \Psi (z) -  \widehat{\Psi}_{\vartheta} (z) \right] }^{*} \rangle }_0.
+\end{equation}
+  The second expression in (\ref{eq:mdfa-criterion-nonstat}) 
+  utilizes (\ref{eq:delta.factor}), and employs the understanding
+ that poles in ${\delta (z) }^{-1}$ are exactly canceled out by the 
+ corresponding zeros in $\Psi (z) - \widehat{\Psi} (z)$.
+  Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\delta (z) = 
+  \widetilde{\Delta} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
+ as the previous discussion guarantees. 
+ 
+ For computation, it is convenient to calculate the integrand given in the
+  right-hand expression of (\ref{eq:mdfa-criterion-nonstat}), which involves
+   the pseudo-spectrum $ G \, {|\delta (z) |}^{-2}$.  Numerical
+    evaluation of this integrand will yield $0/0$ at $\omega$-dynamics such
+  that $\delta (e^{-i \omega}) = 0$, and L'Hopital's rule could be used
+  to resolve this quotient into an expression for
+  $\widetilde{\Delta} (z)   \,  G \,  {\widetilde{\Delta} (z) }^* \vert_{z= e^{-i \omega}}$.
+  However, as there are only a finite number of such resolvable singularities,
+   and such points constitute a set of   Lebesgue measure zero, 
+   calculation of $D_{\Psi} (\vartheta, G)$ can proceed by 
+   integrating over $\omega \in [-\pi, \pi]$ such that a neighborhood containing
+    each singularity is omitted.  This procedure can yield an expression arbitarily
+     close to $D_{\Psi} (\vartheta, G)$ (by taking the neighborhoods sufficiently small),
+    while allowing for easy calculation, since $\Delta (z)$ and 
+    $ G \, {|\delta (z) |}^{-2}$ are easily computed.  
+   
+   
+  Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, 
+  with $F$ being the spectral density of $\{ \partial X_t \}$,
+ for estimation we approximate the integral over Fourier frequencies, 
+ and utilize the periodogram of the differenced data for $G$.
+ We omit any contributions to the sum arising from Fourier frequencies
+ that correspond to zeros of $\delta (z)$, as such an omission
+ only results in a loss of order $T^{-1}$, which is of the same order
+ as the Riemann sum approximation over Fourier frequencies to the exact integral.
+
+
+\begin{Exercise} {\bf  Ideal Low-Pass Filter for a Random Walk.} \rm
+\label{exer:rwtrend-mdfa}
+This exercise considers the case of an ideal low-pass filter
+ (cf. Example \ref{exam:ideal-low}) 
+ applied to a random walk process.
+ Simulate a sample of size $T=5000$ from a
+  bivariate random walk process with 
+  $\Sigma$ equal to the identity.  
+      Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
+  $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
+ Use the moving average filter  MDFA  for an $I(1)$ process  to find the best
+ concurrent filter, setting $q= 30$. 
+   Apply this concurrent filter 
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
+\end{Exercise}
+
+
+
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate a Gaussian RW of sample size 5000:
+> set.seed(1234)
+> T.sim <- 5000
+> burn <- 1000
+> N <- 2
+> dpoly <- c(1,-1)
+> delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+> d <- length(dpoly) - 1
+> z.sim <- mdfa.wnsim(rep(0,3),rep(1,N),T.sim+burn,Inf)
+> Sigma <- z.sim[[2]]
+> x.sim <- mdfa.ucsim(delta,z.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+> # construct and apply ideal low-pass filter
+> mu <- pi/6
+> len <- 1000
+> lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+> lp.filter <- c(rev(lp.filter),lp.filter[-1])
+> x.trend.ideal <- mvar.filter(x.sim,array(t(lp.filter) %x% diag(N),c(N,N,(2*len+1))))
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> grid <- T.sim - d
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> # frf for ideal low-pass
+> frf.psi <- rep(0,grid)
+> frf.psi[abs(freq.ft) <= mu] <- 1
+> frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+> frf.psi <- array(frf.psi,c(N,N,grid))
+> constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T-q+1-len),]
+> # compare in-sample performance
+> print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.2973332 0.3004432
+\end{Soutput}
+\begin{Sinput}
+> # compare to criterion value
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.2911886 0.3094911
+\end{Soutput}
+\end{Schunk}
+ 
+
+\begin{Exercise} {\bf Ideal Band-Pass Filter for an $I(1)$ Process.} \rm
+\label{exer:bandpass.i1-mdfa}
+This exercise considers   an ideal band-pass filter
+ (cf. Example \ref{exam:ideal-low}) 
+ applied to an $I(1)$ process that exhibits cyclical dynamics.
+Consider a non-stationary bivariate  process such that the first differences
+ are a stationary VAR(1) with matrix
+\[
+    \left[ \begin{array}{ll} .942 & -.124 \\ .124 & .942 \end{array} \right].
+\]
+  Simulate a sample of size $T=5000$ from a
+ such a process with innovation variance matrix
+  $\Sigma$ equal to the identity.  
+      Apply the   ideal band-pass filter (cf. Example \ref{exam:ideal-bp}) with 
+  $\mu = \pi/60$ and $\eta = \pi/12$ 
+    to the sample (truncate the filter to $1000$ coefficients on each side).  
+ Use the moving average filter  MDFA  for an $I(1)$ process  to find the best
+ concurrent filter, setting $q= 30$. 
+   Apply this concurrent filter 
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa}).   Target the cycles for both time series.
+\end{Exercise}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate an integrated VAR(1) of sample size 5000:
+> set.seed(1234)
+> T.sim <- 5000
+> burn <- 1000
+> N <- 2
+> rho <- .95
+> theta <- pi/24
+> phi <- matrix(c(rho*cos(theta),rho*sin(theta),-rho*sin(theta),rho*cos(theta)),c(2,2))
+> phi.array <- array(cbind(diag(N),-1*phi),c(N,N,2))
+> dpoly <- c(1,-1)
+> delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+> d <- length(dpoly) - 1
+> z.sim <- mdfa.wnsim(rep(0,3),rep(1,N),T.sim+burn,Inf)
+> Sigma <- z.sim[[2]]
+> var.sim <- mdfa.ucsim(phi.array,z.sim[[1]])
+> x.sim <- mdfa.ucsim(delta,var.sim)[(burn+1-d-2):(T.sim+burn-d-2),]
+> # construct and apply ideal band-pass filter
+> mu <- pi/60
+> eta <- pi/12
+> len <- 1000
+> bp.filter <- c(eta/pi,sin(seq(1,len)*eta)/(pi*seq(1,len))) - 
++   c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+> bp.filter <- c(rev(bp.filter),bp.filter[-1])
+> x.cycle.ideal <- filter(x.sim,bp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> grid <- T.sim - d
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> # frf for ideal band-pass
+> frf.psi <- rep(0,grid)
+> frf.psi[(abs(freq.ft) >= mu) & (abs(freq.ft) <= eta)] <- 1
+> frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+> frf.psi <- array(frf.psi,c(N,N,grid))
+> constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,0*diag(N),q)
+> bp.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.cycle.mdfa <- mvar.filter(x.sim,bp.mdfa[[1]])[(len-q+2):(T-q+1-len),]
+> # compare in-sample performance
+> print(c(mean((x.cycle.ideal[,1] - x.cycle.mdfa[,1])^2),
++ 	mean((x.cycle.ideal[,2] - x.cycle.mdfa[,2])^2)))
+\end{Sinput}
+\begin{Soutput}
+[1] 209.0416 177.7501
+\end{Soutput}
+\begin{Sinput}
+> # compare to criterion value
+> diag(bp.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 195.4538 160.5396
+\end{Soutput}
+\end{Schunk}
+ 
+
+
+
+\begin{Exercise} {\bf  Hodrick-Prescott Filter for an $I(2)$ Process.} \rm
+\label{exer:hptrend-mdfa}
+This exercise takes as target the HP low-pass filter of Example
+ \ref{exam:hp-low} applied to a STM process (Example \ref{exam:trend-i2}).
+ Simulate a sample of size $T=5000$ from an STM process with parameters
+ given in Exercise \ref{exer:trend-i2}.   Apply the HP low-pass filter
+ using formula (\ref{eq:hp.mvar-def}) with $ Q = (1/1600) \, 1_2 $
+%\[
+ % Q = 10^{-2} \, \left[ \begin{array}{ll}  2.46  & 0.23 \\
+ %  4.55 & 0.61  \end{array} \right]
+%\]
+(truncate the filter to $1000$ coefficients on each side).
+ Use the moving average filter  MDFA  for an $I(2)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+   Apply this concurrent filter
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
+\end{Exercise}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate a Gaussian STM  of sample size 5000:
+> set.seed(1234)
+> T.sim <- 5000
+> burn <- 1000
+> N <- 2
+> psi.sim <- c(1.8905590615422, -11.9288577633298, -12.0809347541079, 
++              0.660897814610799, -8.2863379601304, -5.66645335346871, 
++              -1.34743227511595e-05, -1.41207967213544e-05)
+> psi.sim[7:8] <- c(0,0)
+> len <- 1000
+> dpoly <- c(1,-2,1)
+> delta <- array(t(dpoly) %x% diag(N),c(N,N,3))
+> d <- length(dpoly) - 1
+> mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+> irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> irr.sim <- irr.sim[[1]] 
+> x.sim <- mu.sim + irr.sim
+> #Q.snr <- Sigma.mu %*% solve(Sigma.irr)
+> Q.snr <- (1/1600) * diag(N)
+> # construct and apply low-pass HP filter
+> grid <- T.sim - d
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> hp.frf <- array(0,c(N,N,grid))
+> for(i in 1:grid)
++ {
++   hp.frf[,,i] <- Q.snr %*% solve(Q.snr + (2 - 2*cos(freq.ft[i]))^2*diag(N))
++ }
+> hp.filter <- mdfa.coeff(hp.frf,-len,len)
+> x.trend.hp <- mvar.filter(x.sim,hp.filter)
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> constraints.mdfa <- mdfa.getconstraints(hp.frf,c(0,0),NULL,0*diag(N),q)
+> hp.mdfa <- mdfa.filter(hp.frf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> # apply the MDFA concurrent filter
+> x.trend.mdfa <- mvar.filter(x.sim,hp.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+> # compare in-sample performance
+> print(c(mean((x.trend.hp[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.hp[,2] - x.trend.mdfa[,2])^2)))
+\end{Sinput}
+\begin{Soutput}
+[1] 0.0002574379 0.0015270279
+\end{Soutput}
+\begin{Sinput}
+> # compare to criterion value
+> diag(hp.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.0002559027 0.0014757658
+\end{Soutput}
+\end{Schunk}
+ 
+
+
+
+\section{Replication and Efficiency Gain Over Model-Based Filters}
+
+In this final section of the chapter, we proceed through several examples
+ in some detail.  We consider the main examples from the second section of the
+  chapter, where the parameters are based upon models fitted to real series.
+  First we show that MDFA can replicate the optimal model-based concurrent filters
+  when the model is correctly specified, and secondly that it out-performs
+  when the model is incorrectly specified.
+  Finally, we show the actual performance of MDFA on each of the real series.
+  
+In order to understand the topic of model-based replication, we proceed
+to determine the optimal concurrent filter for the LPP determined by a model-based
+target.  When the model is correctly specified, the best concurrent filter 
+ approximation to the symmetric model-based filter given by
+ (\ref{eq:wk.frf-gen}) is the causal filter that extracts the signal $S_t$ from
+  present and past data $X_t, X_{t-1}, \ldots$.  Alternatively, the formula
+   for the LPP solution can be used.  This optimal concurrent filter can be
+   compactly expressed in terms of the pseudo-spectral densities $f_S$ and $f_X$.
+ Let $\Theta (z)$ be a matrix power series such that
+ \[
+  f_{\partial X} (\omega) = \Theta (e^{-i \omega}) \, \Sigma \, 
+    {\Theta (e^{i \omega})}^{\prime}.
+ \]
+ This decomposition is known as a spectral factorization, and can be computed
+ with known algorithms, as discussed in McElroy (2017).
+  Let $\gamma_{\partial S} (z)$ denote the autocovariance generating function
+  of $\{ \partial S_t \}$, so that 
+   $\gamma_{\partial S} (e^{-i \omega}) = f_{\partial S} (\omega)$.  Then
+  the optimal concurrent filter for the $j$th series expressed as a power series is 
+\begin{equation}
+\label{eq:wiener-hopf}
+  \widehat{\Psi} (z) = e_j^{\prime} \,
+    { \left[  \gamma_{\partial S} (z) \, {| \delta^N (z) |}^2 \,
+     { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
+     { \Theta (z) }^{-1}. 
+\end{equation}
+ 
+ 
+
+HERE LLM replicate, MDFA for mis-spec, and Petrol
+
+
+HERE  STM replicate, MDFA for mis-spec, and Ndc.  Connect to HP
+ 
+
+HERE  Seasonal UC replicate, MDFA for mis-sec, and Starts
+
+
+% Exercise 1
+% 
+% # Simulate a Gaussian VAR(1)  
+% T.sim <- 500 + 2*len
+% N <- 2
+% phi.matrix <- rbind(c(1,.5),c(-.2,.3))
+% innovar.matrix <- diag(N)
+% true.psidelta <- var1.par2psi(phi.matrix,100)
+% gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
+% 	matrix(innovar.matrix,ncol=1),nrow=N)
+% x.init <- t(chol(gamma.0)) %*% rnorm(N)
+% x.next <- x.init
+% x.sim <- NULL
+% for(t in 1:T.sim)
+% {
+% 	x.next <- phi.matrix %*% x.next + rnorm(N)
+% 	x.sim <- cbind(x.sim,x.next)
+% }
+% x.sim <- ts(t(x.sim))
+% x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T.sim)[[1]]
+% x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+% 
+% # construct and apply BW filter
+% bw.filter <- wk.trend[[1]]
+% x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)
+% x.trend.bw12 <- filter(x.sim[,2],bw.filter[1,2,],method="convolution",sides=2)
+% x.trend.bw21 <- filter(x.sim[,1],bw.filter[2,1,],method="convolution",sides=2)
+% x.trend.bw22 <- filter(x.sim[,2],bw.filter[2,2,],method="convolution",sides=2)
+% x.trend.bw <- cbind(x.trend.bw11 + x.trend.bw12,x.trend.bw21 + x.trend.bw22)
+% x.trend.bw <- x.trend.bw[(len+1):(T.sim-len),] 
+%  
+% 
+% # visualize
+% pdf(file="petrolVAR1trends.pdf",width=4, height=4.6)
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
+% plot(ts(x.sim[(len+1):(T.sim-len),1]),ylab="Series 1",xlab="",yaxt="n",xaxt="n",col=grey(.7))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.bw[,1],col=1,lwd=2)
+% #lines(ts(x.sim[(len+1):(T.sim-len),1]))
+% plot(ts(x.sim[(len+1):(T.sim-len),2]),ylab="Series 2",xlab="",yaxt="n",xaxt="n",col=grey(.7))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.bw[,2],col=1,lwd=2)
+% #lines(ts(x.sim[(len+1):(T.sim-len),2]))
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+% dev.off()
+% 
+% # get LPP soln using true VAR(1)
+% A.next <- diag(2)
+% A.phi <- matrix(0,2,2)
+% for(j in 1:len)
+% {
+% 	A.next <- A.next %*% phi.matrix
+% 	A.phi <- A.phi + bw.filter[,,(len+1-j)] %*% A.next
+% }
+% bw.lpp <- bw.filter[,,(len+1):(2*len+1)]
+% bw.lpp[,,1] <- bw.lpp[,,1] + A.phi
+% 
+% 
+% # get MDFA concurrent filter
+% q <- 30
+% Grid <- T.sim
+% frf.trend <- mdfa.frf(wk.trend[[1]],len,Grid)
+% spec.hat <- mdfa.pergram(x.sim,1)
+% # choose one of the four constraint scenarios for MDFA	
+% bw.mdfa <- mdfa.unconstrained(frf.trend,spec.hat,q)
+% bw.mdfa <- mdfa.levelconstraint(frf.trend,spec.hat,q)
+% bw.mdfa <- mdfa.tsconstraint(frf.trend,spec.hat,q)
+% bw.mdfa <- mdfa.ltsconstraint(frf.trend,spec.hat,q)
+%  
+% # apply the MDFA concurrent filter
+% x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
+% 
+% # construct and apply concurrent BW filter
+% conc.filter <- conc.trend
+% x.trend.conc11 <- filter(x.sim[,1],rev(conc.filter[1,1,]),method="convolution",sides=1)
+% x.trend.conc12 <- filter(x.sim[,2],rev(conc.filter[1,2,]),method="convolution",sides=1)
+% x.trend.conc21 <- filter(x.sim[,1],rev(conc.filter[2,1,]),method="convolution",sides=1)
+% x.trend.conc22 <- filter(x.sim[,2],rev(conc.filter[2,2,]),method="convolution",sides=1)
+% x.trend.conc <- cbind(x.trend.conc11 + x.trend.conc12,x.trend.conc21 + x.trend.conc22)
+% x.trend.conc <- x.trend.conc[(len+1):(T.sim-len),] 
+% 
+% # construct and apply optimal LPP filter
+% x.trend.lpp11 <- filter(x.sim[,1],bw.lpp[1,1,],method="convolution",sides=1)
+% x.trend.lpp12 <- filter(x.sim[,2],bw.lpp[1,2,],method="convolution",sides=1)
+% x.trend.lpp21 <- filter(x.sim[,1],bw.lpp[2,1,],method="convolution",sides=1)
+% x.trend.lpp22 <- filter(x.sim[,2],bw.lpp[2,2,],method="convolution",sides=1)
+% x.trend.lpp <- cbind(x.trend.lpp11 + x.trend.lpp12,x.trend.lpp21 + x.trend.lpp22)
+% x.trend.lpp <- x.trend.lpp[(len+1):(T.sim-len),] 
+% 
+% 
+% 
+% # visualize
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
+% plot(ts(x.trend.bw[,1]),ylab="",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
+% 	ylim=c(min(x.trend.bw[,1])-4,max(x.trend.bw[,1])))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,1]-2,col=grey(.4),lwd=1,lty=1)
+% lines(x.trend.lpp[,1]-4,col=grey(.6),lwd=1,lty=1)
+% plot(ts(x.trend.bw[,2]),ylab="",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
+% 	ylim=c(min(x.trend.bw[,2])-4,max(x.trend.bw[,2])))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,2]-2,col=grey(.4),lwd=1,lty=1)
+% lines(x.trend.lpp[,2]-4,col=grey(.6),lwd=1,lty=1)
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+%  
+% # compare in-sample performance: MDFA for series, and then Conc for series
+% print(c(mean((x.trend.bw[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.mdfa[,2])^2)))
+% print(c(mean((x.trend.bw[,1] - x.trend.conc[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.conc[,2])^2)))
+% print(c(mean((x.trend.bw[,1] - x.trend.lpp[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.lpp[,2])^2)))
+% 
+% # compare to criterion value
+% print(diag(bw.mdfa[[2]]))
+% 
+% 
+
+ 
+
+% # construct and apply BW filter
+% bw.filter <- wk.trend[[1]]
+% x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)
+% x.trend.bw12 <- filter(x.sim[,2],bw.filter[1,2,],method="convolution",sides=2)
+% x.trend.bw21 <- filter(x.sim[,1],bw.filter[2,1,],method="convolution",sides=2)
+% x.trend.bw22 <- filter(x.sim[,2],bw.filter[2,2,],method="convolution",sides=2)
+% x.trend.bw <- cbind(x.trend.bw11 + x.trend.bw12,x.trend.bw21 + x.trend.bw22)
+% x.trend.bw <- x.trend.bw[(len+1):(T.sim-len),] 
+% 
+% # visualize
+% pdf(file="petrolLLMtrendsNull.pdf",width=4, height=4.6)
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
+% plot(ts(x.sim[(len+1):(T.sim-len),1]),ylab="Consumption",xlab="",yaxt="n",xaxt="n",col=grey(.7))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.bw[,1],col=1,lwd=1)
+% plot(ts(x.sim[(len+1):(T.sim-len),2]),ylab="Imports",xlab="",yaxt="n",xaxt="n",col=grey(.7))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.bw[,2],col=1,lwd=1)
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+% dev.off()
+% 
+% # get MDFA concurrent filter for I(1) case
+% q <- 30
+% x.diff <- diff(x.sim)
+% spec.hat <- mdfa.pergram(x.diff,c(1,-1))
+% Grid <- T.sim - 1
+% frf.trend <- mdfa.frf(wk.trend[[1]],len,Grid)
+% #bw.mdfa <- mdfa.levelconstraint(frf.trend,spec.hat,q)[[1]]
+% constraints.mdfa <- mdfa.getconstraints(frf.trend,0,NULL,q)
+% bw.mdfa <- mdfa.filter(frf.trend,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])[[1]]
+% 
+% # apply the MDFA concurrent filter
+% x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[1,2,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[2,2,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
+% 
+% # construct and apply concurrent BW filter
+% conc.filter <- conc.trend
+% x.trend.conc11 <- filter(x.sim[,1],rev(conc.filter[1,1,]),method="convolution",sides=1)
+% x.trend.conc12 <- filter(x.sim[,2],rev(conc.filter[1,2,]),method="convolution",sides=1)
+% x.trend.conc21 <- filter(x.sim[,1],rev(conc.filter[2,1,]),method="convolution",sides=1)
+% x.trend.conc22 <- filter(x.sim[,2],rev(conc.filter[2,2,]),method="convolution",sides=1)
+% x.trend.conc <- cbind(x.trend.conc11 + x.trend.conc12,x.trend.conc21 + x.trend.conc22)
+% x.trend.conc <- x.trend.conc[(len+1):(T.sim-len),] 
+% 
+% # visualize
+% pdf(file="petrolLLMrealtimeNull.pdf",width=4, height=4.6)
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
+% plot(ts(x.trend.bw[,1]),ylab="Consumption",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
+% 	ylim=c(min(x.trend.bw[,1])-2/2,max(x.trend.bw[,1])))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,1]-1/2,col=grey(.4),lwd=1,lty=1)
+% lines(x.trend.conc[,1]-2/2,col=grey(.6),lwd=1,lty=1)
+% plot(ts(x.trend.bw[,2]),ylab="Imports",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
+% 	ylim=c(min(x.trend.bw[,2])-2,max(x.trend.bw[,2])))
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,2]-1,col=grey(.4),lwd=1,lty=1)
+% lines(x.trend.conc[,2]-2,col=grey(.6),lwd=1,lty=1)
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+% dev.off()
+%  
+% # compare in-sample performance: MDFA for series, and then Conc for series
+% print(c(mean((x.trend.bw[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.mdfa[,2])^2)))
+% print(c(mean((x.trend.bw[,1] - x.trend.conc[,1])^2),
+% 	mean((x.trend.bw[,2] - x.trend.conc[,2])^2)))
+% 
+% 
+
+
+
 %  note: MDFA_con replaces Constraints,
 %    includes material from Replication
 

@@ -11,6 +11,12 @@ model to enforce stationarity.
 
 \bibitem{} Baxter, M., and King, R. G. (1999). Measuring business cycles: approximate band-pass filters for economic time series. Review of economics and statistics, 81(4), 575-593.
 
+\bibitem{} Bell, W. (1984). Signal extraction for nonstationary time series. The Annals of Statistics, 12(2), 646-664.
+
+\bibitem{}  Bell, W. and Martin, D. (2004) Computation of asymmetric signal 
+ extraction filters and mean  squared error for ARIMA component models.  
+ {\it Journal of Time Series Analysis} {\bf 25}, 603--625.
+
 \bibitem{} Brockwell, P.J., and Davis, R.A. (1991).  
   Time Series: Theory and Methods, second edition.   Springer. New York.
 
@@ -32,12 +38,13 @@ Springer-Verlag.
 \bibitem{} McElroy, T. (2008b). Exact formulas for the Hodrick-Prescott filter.
   The Econometrics Journal, 11(1), pp.209-217.
 
+\bibitem{} McElroy, T. (2018). Recursive Computation for Block-Nested Covariance Matrices. Journal of Time Series Analysis, 39(3), pp.299-312.
+
 \bibitem{} McElroy, T., and Findley, D. (2015). Fitting constrained vector autoregression models. In Empirical Economic and Financial Research (pp. 451-470). Springer, Cham.
 
 \bibitem{} McElroy, T., and Trimbur, T. (2015). Signal Extraction for Non-Stationary Multivariate Time Series with Illustrations for Trend Inflation. Journal of Time 
 Series Analysis, 36(2), 209-227.
 
-\bibitem{} Wildi, M. and McElroy, T. (2016). Optimal real-time filters for linear prediction problems. Journal of Time Series Econometrics, 8(2), pp.155-192.
 
 \bibitem{} McElroy, T. S. and Wildi, M. (2020). The multivariate linear prediction problem: model-based and direct filtering solutions. Econometrics and Statistics, 14, 112-130.
 
@@ -46,5 +53,7 @@ Series Analysis, 36(2), 209-227.
 \bibitem{} Taniguchi, M., and Kakizawa, Y. (2012). Asymptotic theory of statistical inference for time series. Springer Science \& Business Media.
 
 \bibitem{} Wildi, M. (2007). Real-Time Signal Extraction.
+
+\bibitem{} Wildi, M. and McElroy, T. (2016). Optimal real-time filters for linear prediction problems. Journal of Time Series Econometrics, 8(2), pp.155-192.
 
 \end{thebibliography}

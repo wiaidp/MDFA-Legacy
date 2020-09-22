@@ -24,3 +24,8 @@
 \BOOKMARK [1][-]{section.3.5}{Multivariate DFA with Multiple Targets}{chapter.3}% 24
 \BOOKMARK [2][-]{subsection.3.5.1}{LPP with Multiple Targets}{section.3.5}% 25
 \BOOKMARK [2][-]{subsection.3.5.2}{MDFA for Multiple Targets}{section.3.5}% 26
+\BOOKMARK [0][-]{chapter.4}{Multivariate Direct Filter Analysis for Non-stationary Processes}{}% 27
+\BOOKMARK [1][-]{section.4.1}{Constrained MDFA}{chapter.4}% 28
+\BOOKMARK [1][-]{section.4.2}{Background on Non-stationary Vector Time Series }{chapter.4}% 29
+\BOOKMARK [1][-]{section.4.3}{Error Criterion and Computation}{chapter.4}% 30
+\BOOKMARK [1][-]{section.4.4}{Replication and Efficiency Gain Over Model-Based Filters}{chapter.4}% 31

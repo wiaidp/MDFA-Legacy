@@ -117,7 +117,8 @@ arising from time-varying means, a form of non-stationarity.
    Take the Time Shift Constraint formula for $\widehat{\psi} (1)$,
  and plug this into (\ref{eq:lc-gamma0}), to obtain
 \begin{align*}
- \widehat{\psi} (0)  & = \Psi (1) - \left( \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j  \, \widehat{\psi} (j) \right) -  \sum_{j=2}^{q-1} 
+ \widehat{\psi} (0)  & = \Psi (1) - \left( \partial {\Psi} (1)  
+ -  \sum_{j=2}^{q-1} j  \, \widehat{\psi} (j) \right) -  \sum_{j=2}^{q-1} 
  \widehat{\psi} (j)  \\
 	& = \Psi (1) -  \partial {\Psi} (1)  +  \sum_{j=2}^{q-1} (j-1)  \, \widehat{\psi} (j).
 \end{align*}
@@ -125,8 +126,10 @@ arising from time-varying means, a form of non-stationarity.
 \[
 	R  = \left[ \begin{array}{cccc} 1 & 2  &  3  &   \ldots    \\  -2  & -3  &  -4  & \ldots  \\
 		 1  & 0 & \ldots & 0 \\ 
-		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right]  \otimes 1_n \qquad
-	Q = \left[ \begin{array}{c} \Psi (1) - \partial {\Psi} (1)  \\  \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right] 
+		\otimes 1_n \qquad
+	Q = \left[ \begin{array}{c} \Psi (1) - \partial {\Psi} (1)  \\ 
+	\partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
 \]
 \end{Illustration}
 
@@ -777,6 +780,7 @@ via application of (\ref{eq:xi-def}).  Next,
 \end{align*}
   from which (\ref{eq:nonstatRep-spec}) follows.  $\quad \Box$
  
+\vspace{.5cm}
   
   Theorem  \ref{thm:nonstat-rep} shows how a non-stationary process
   can be represented in  terms of a predictable
@@ -857,9 +861,10 @@ Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
   of business cycle analysis, where one wishes to extract a stationary business cycle
   component, the noise will include trend as well as seasonal effects.
   In general, because
-\[
+\begin{equation}
+\label{eq:signal-noise-decomp}
  X_t = S_t + N_t
-\]
+\end{equation}
  and $\delta (L) X_t$ is stationary, it is necessary that $\delta (L) S_t$ and 
   $\delta (L) N_t$ are stationary, although these not need be the minimal degree
   differencing operators.  We assume there is a relatively prime factorization of
@@ -896,26 +901,58 @@ Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
   f_X = f_S + f_N.
 \]
  Next, the objective of MB signal extraction is to find a linear estimator 
- for the $j$th component  of $S_t$, for each $1 \leq j \leq n$.  That is,
- we seek to find a filter $\Psi (L)$ such that
-  $\widehat{S}_{t,j} = \Psi (L) X_t$ has minimal mean squared estimation error of
-   $S_{t,j}$.  The key result of McElroy and Trimbur (2015) is that the filter is
+   of $S_t$.  That is,  we seek to find a filter $\Psi (L)$ such that
+  $\widehat{S}_{t} = \Psi (L) X_t$ has minimal mean squared estimation error of
+   $S_{t}$.   This $\Psi (L)$ is called the Wiener-Kolmogorov (WK) signal extraction filter.
+   The solution to this problem is not well-defined unless 
+   additional assumptions about the signal and noise processes are made.  
+   Extending the approach of Bell (1984) to the multivariate case,
+   we assume that the initial values of $\{ X_t \}$ are uncorrelated with
+    the differenced signal and noise processes; this is called Assumption A.
+    
+   {\bf Assumption A.}  The initial values   $X_0, \ldots, X_{1-d}$
+   of the stochastic process  $\{ X_t \}$ (cf. Theorem  \ref{thm:nonstat-rep})
+      are uncorrelated with $\{ \partial S_t \}$ and $\{ \partial N_t \}$.
+
+\vspace{.25cm}
+ 
+   
+   The key result of McElroy and Trimbur (2015) is that the WK filter is
    obtained by the formula
   \begin{equation}
   \label{eq:wk.frf-gen}
-    \Psi (e^{-i \omega}) =  e_j^{\prime} \, f_{\partial S} (\omega) \, 
+    \Psi (e^{-i \omega}) =   f_{\partial S} (\omega) \, 
     { f_{\partial X} (\omega) }^{-1} \, {| \delta^N (e^{-i \omega}) |}^2.
   \end{equation}
   This presumes that $f_{\partial X} (\omega) $ is invertible; given this condition,
-  one computes each filter coefficient by Fourier inversion of the frf.  
-  Furthermore, we can use (\ref{eq:pseudo-sdf})   to obtain a simpler expression:
+    one computes each filter coefficient by Fourier inversion of the frf.  
+    
+\begin{Theorem}
+\label{thm:wk}
+ Suppose that $\{ X_t \}$ is  a non-stationary stochastic process
+ with representation (\ref{eq:nonstatCausalRep}), such that
+ (\ref{eq:signal-noise-decomp}) holds and $f_{\partial X}$ is invertible.
+ If the signal and noise differencing operators
+ $\delta^S (L)$ and $\delta^N (L)$ are relatively prime, and Assumption A holds,
+ then the WK filter has frf given by (\ref{eq:wk.frf-gen}).
+\end{Theorem}
+ 
+ 
+\paragraph{Proof of Theorem \ref{thm:wk}.} 
+
+HERE
+
+\vspace{.5cm}
+
+ 
+
+ We can use (\ref{eq:pseudo-sdf})   to obtain a simpler expression for the WK filter's frf:
 \[
-   \Psi (e^{-i \omega}) =  e_j^{\prime} \, f_{ S} (\omega) \, 
-    { f_{ X} (\omega) }^{-1}.
+   \Psi (e^{-i \omega}) =    f_{ S} (\omega) \,     { f_{ X} (\omega) }^{-1}.
   \]
   It is interesting that we do not require that $f_{\partial S} (\omega)$ be 
   invertible -- this will be further explored in Chapter \ref{chap:coint}.
-  We now discuss several examples of MB filters.
+  We now discuss several examples of WK filters.
 
 \begin{Example} {\bf Model-Based Random Walk Trend.} \rm
 \label{exam:trend-i1}
@@ -936,7 +973,7 @@ Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
 \]
   Therefore  the frf for the optimal trend extraction filter is
 \[ 
- \Psi (e^{-i \omega}) = e_j^{\prime} \, \Sigma_{S} \, 
+ \Psi (e^{-i \omega}) = \Sigma_{S} \, 
  { \left[ \Sigma_{S} + (2 - 2 \, \cos (\omega)) \, \Sigma_{N} \right] }^{-1},
 \]
  which utilizes (\ref{eq:sig-and-noise.sdf}).
@@ -1459,6 +1496,7 @@ To verify this, observe that
  Because $\partial \partial \Psi (L)$ is 
  absolutely convergent, the above norm is finite.  $\quad \Box$
 
+\vspace{.5cm}
 
  Note that if $\Psi (\zeta) = 0$, it follows from 
   Proposition \ref{prop:filter-decompose} that $L-\zeta$ can be factored from
@@ -1843,37 +1881,324 @@ In this final section of the chapter, we proceed through several examples
   when the model is correctly specified, and secondly that it out-performs
   when the model is incorrectly specified.
   Finally, we show the actual performance of MDFA on each of the real series.
+   
   
 In order to understand the topic of model-based replication, we proceed
 to determine the optimal concurrent filter for the LPP determined by a model-based
 target.  When the model is correctly specified, the best concurrent filter 
- approximation to the symmetric model-based filter given by
+ approximation to the symmetric model-based filter (i.e., the WK filter) given by
  (\ref{eq:wk.frf-gen}) is the causal filter that extracts the signal $S_t$ from
   present and past data $X_t, X_{t-1}, \ldots$.  Alternatively, the formula
    for the LPP solution can be used.  This optimal concurrent filter can be
-   compactly expressed in terms of the pseudo-spectral densities $f_S$ and $f_X$.
- Let $\Theta (z)$ be a matrix power series such that
- \[
+   compactly expressed in terms of the spectral factorizations of the 
+      pseudo-spectral densities $f_S$ and $f_X$.
+    Spectral factorization is defined as follows: 
+    let $\Theta (z)$ be a matrix power series such that
+ \begin{equation}
+ \label{eq:spectral-factor}
   f_{\partial X} (\omega) = \Theta (e^{-i \omega}) \, \Sigma \, 
     {\Theta (e^{i \omega})}^{\prime}.
- \]
+ \end{equation}
  This decomposition is known as a spectral factorization, and can be computed
- with known algorithms, as discussed in McElroy (2017).
+ with known algorithms, as discussed in McElroy (2018).
   Let $\gamma_{\partial S} (z)$ denote the autocovariance generating function
   of $\{ \partial S_t \}$, so that 
-   $\gamma_{\partial S} (e^{-i \omega}) = f_{\partial S} (\omega)$.  Then
-  the optimal concurrent filter for the $j$th series expressed as a power series is 
+   $\gamma_{\partial S} (e^{-i \omega}) = f_{\partial S} (\omega)$.  
+    Then by adapting the results of Bell and Martin (2004) to the multivariate case, 
+    the optimal concurrent filter  expressed as a power series is 
 \begin{equation}
 \label{eq:wiener-hopf}
-  \widehat{\Psi} (z) = e_j^{\prime} \,
+  \widehat{\Psi} (z) =  
     { \left[  \gamma_{\partial S} (z) \, {| \delta^N (z) |}^2 \,
      { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
      { \Theta (z) }^{-1}. 
 \end{equation}
+  It is clear that (\ref{eq:wiener-hopf}) is a causal filter,
+  as it only involves non-negative powers of $z$.
+ Recall that our notion of optimality is the minimization of the determinant
+ of the mean square error matrix.
+
+ HERE
  
+%\begin{equation}
+% \label{eq:opt.wk}
+% \Psi (z) = \Theta^s (z) \, \Sigma_s \, { \Theta^s (z^{-1}) }^{\prime}  \, 
+%    { \Theta^x (z^{-1}) }^{- \prime} \, \Sigma_x^{-1} \, { \Theta^x (z) }^{-1}.
+%\end{equation}
+
+%\begin{equation}
+% \label{eq:opt.conc.sigex}
+%  \widehat{\Psi} (z) =   { [  \Theta^s (z) \, \Sigma_s \, { \Theta^s (z^{-1}) }^{\prime}  \, 
+%    { \Theta^x (z^{-1}) }^{- \prime}  ]}_0^{\infty}  \, \Sigma_x^{-1} \, 
+%  { \Theta^x (z) }^{-1}.
+%\end{equation}
+ 
+ 
+ 
+\begin{proposition}
+\label{prop:asym.sigex}
+ Suppose that $\{ X_t \}$ is  a non-stationary stochastic process
+ with representation (\ref{eq:nonstatCausalRep}), such that
+ (\ref{eq:signal-noise-decomp}) and (\ref{eq:spectral-factor}) hold,
+  and $\Theta (z)$ is invertible.
+ If the signal and noise differencing operators
+ $\delta^S (L)$ and $\delta^N (L)$ are relatively prime, and Assumption A holds,
+ then  the  optimal linear estimator $\widehat{S}_t$   of $S_t$ given data 
+  $\{ X_{t-j}, j \geq 0 \}$ is   given by
+ applying the filter $\widehat{\Psi} $  to $\{  X_t \}$, 
+ with $\widehat{\Psi} (z)$  given by (\ref{eq:wiener-hopf}). 
+ Moreover, this concurrent filter is identical with
+ the LPP solution of Proposition \ref{prop:GPP2}, where the target 
+ $\Psi (z)$ is the WK filter with frf (\ref{eq:wk.frf-gen}).
+\end{proposition}
  
 
-HERE LLM replicate, MDFA for mis-spec, and Petrol
+\paragraph{Proof of Proposition \ref{prop:asym.sigex}.}
+  The filter error is $S_t - \widehat{S}_t$, and it suffices to 
+  show that this is uncorrelated with $X_{t-j}$ for each $j \geq 0$.
+  Thus we need to verify that
+ $\mbox{Cov} [ S_t, X_{t-j} ] = \mbox{Cov} [ \widehat{S}_t, X_{t-j}]$.
+ Because the signal and noise processes have mean zero, 
+ the former quantity is $\Gamma^s_j$, the lag $j$ autocovariance 
+ for the signal process.  The latter quantity is
+\begin{align*}
+   \EE [   { \{ \widehat{\Psi} * X \} }_t   \, X_{t-j}^{\prime} ] & = 
+   \sum_{\ell = -\infty}^{\infty}
+    \widehat{\Psi}_{\ell}  \, \EE [ X_{t-\ell} \, X_{t-j}^{\prime} ] \\
+	& = \sum_{\ell = -\infty}^{\infty}  \widehat{\Psi}_{\ell}  \,  \Gamma^x_{j-\ell}  \\
+	& = \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}   \widehat{\Psi} (e^{-i \omega}) \, 
+	\Theta^x (e^{-i \omega}) \, \Sigma_x \, { \Theta^x (e^{i \omega}) }^{\prime} \,
+		 e^{i \omega j} \, d\omega \\
+	& =  \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}   
+	 { [  \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
+    {  \Theta^x (e^{i \omega}) }^{- \prime}  ]}_0^{\infty}  \, 
+    {  \Theta^x (e^{i \omega}) }^{\prime} \,
+		 e^{i \omega j} \, d\omega   \\
+& =  \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}   
+	   \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
+    		 e^{i \omega j} \, d\omega   \\
+& -   \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}   
+	 { [   \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
+    {  \Theta^x (e^{i \omega}) }^{- \prime}  ]}_{-\infty}^{-1}  \, 
+    {  \Theta^x (e^{i \omega}) }^{\prime} \,
+		 e^{i \omega j} \, d\omega, 
+\end{align*}
+  where the last quantity follows from writing the power series
+  ${ [  A(z)  ]}_0^{\infty} = A(z) - {[ A(z) ]}_{-\infty}^{-1}$, and
+ cancelling terms.   Now observe that the second summand in the last 
+ line involves only positive powers of $e^{i \omega}$
+  in the integrand, because ${[ A(z) ]}_{-\infty}^{-1}$ only involves
+  positive powers of $z^{-1}$; hence this second summand
+ is zero for any $j \geq 0$.   The first summand has the signal's spectral
+ density as the integrand, and hence equals $\Gamma^s_{j}$.
+ This proves optimality.
+To prove the second assertion,   the LPP solution of  (\ref{eq:GPPsoln}) can be written
+\begin{align*}
+    &  \sum_{\ell = 0 }^{\infty} \Psi_{\ell} \, z^{\ell} +
+    \sum_{\ell = -1}^{-\infty} \Psi_{\ell}
+ \,  { [  \Theta^x (z) ]}_{-\ell}^{ \infty  } \, z^{\ell} \, { \Theta^x (z) }^{-1} \\
+ & = \sum_{\ell = 0 }^{\infty}  \Psi_{\ell} \, z^{\ell} +
+ \sum_{\ell =-1 }^{-\infty} \Psi_{\ell}
+ \,  \left(   \Theta^x (z) -   { [  \Theta^x (z) ]}_0^{-\ell-1}  
+ \right) \, z^{\ell} \, { \Theta^x (z) }^{-1} \\
+ & = \sum_{\ell = -\infty}^{\infty}  \Psi_{\ell} \, z^{\ell} -  
+ \sum_{\ell =-1}^{-\infty}  \Psi_{\ell}
+ \,     { [  \Theta^x (z) ]}_0^{-\ell-1}     \, z^{\ell} \, { \Theta^x (z) }^{-1}.
+\end{align*}
+  The first summand is $\Psi (z)$.    Noting that
+\[
+    { [  \Theta^x (z) ]}_0^{-\ell-1}  =  \sum_{k=0}^{-\ell-1}  \Theta^x_k \, z^k =
+   \sum_{k \geq 0}  \Theta^x_{-\ell-1-k} \, z^{-\ell-1-k},
+\]
+for the second summand we have
+\begin{align*}
+&  \sum_{\ell = -1}^{-\infty}  \Psi_{\ell}   \,     { [  \Theta^x (z) ]}_0^{-\ell-1} 
+\, z^{\ell}   \\
+& = \sum_{\ell = -1}^{-\infty}   \Psi_{\ell}   \,   \sum_{k = 0}^{\infty} 
+  \Theta^{x}_{-\ell-1-k} \, z^{-1-k} \\
+ & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} \Psi_{\ell} \, 
+   \Theta^x_{-\ell-1-k}   \\
+  & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} 
+  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  \Psi (e^{-i \omega}) \, e^{i \omega \ell} \, d\omega 
+\,  \Theta^x_{ -\ell-1-k}   \\
+ & =  \sum_{k = 0}^{\infty}    z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
+ \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
+    {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \, 
+    {  \Theta^x (e^{-i \omega}) }^{-1}
+\, \sum_{\ell = -1}^{-\infty}  \Theta^x_{ -\ell-1-k}   \, e^{i \omega \ell} \, d\omega   \\
+ & =  \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
+ \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
+    {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \, 
+    {  \Theta^x (e^{-i \omega}) }^{-1}
+\,  \sum_{h = 0}^{\infty}   \Theta^x_{h-k}   \, e^{-i \omega (h+1)} \, d\omega  \\
+ & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
+ \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
+    {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
+    {  \Theta^x (e^{-i \omega}) }^{-1}
+\,   \Theta^x (e^{-i \omega}) \, e^{-i \omega (k+1) }  \, d\omega  \\
+ & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
+ \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
+    {  \Theta^x (e^{i \omega}) }^{- \prime}  \, e^{-i \omega (k+1) } 
+    \, d\omega   \, \Sigma_x^{-1}  \\
+ & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  { \langle   \Theta^s ( e^{-i \omega}) \,
+ \Sigma_s \, {  \Theta^s ( e^{i \omega} }^{\prime}  \, 
+    {  \Theta^x (e^{i \omega}) }^{- \prime}   \rangle  }_{-(k+1) }  \, \Sigma_x^{-1}  \\
+ & =   { [  \Theta^s (z) \, \Sigma_s \, {  \Theta^s (z^{-1}) }^{\prime}  \, 
+    {  \Theta^x (z^{-1}) }^{- \prime}   ]}_{-\infty}^{-1}  \, \Sigma_x^{-1}.
+\end{align*}
+ On the other hand, the optimal concurrent filter can be expressed as 
+\begin{align*}
+ \widehat{\Psi} (z) & =  \left(      \Theta^s (z) \, \Sigma_s \, 
+ {  \Theta^s (z^{-1}) }^{\prime}  \, 
+    {  \Theta^x (z^{-1}) }^{- \prime}  -  
+ { [   \Theta^s (z) \, \Sigma_s \, {  \Theta^s (z^{-1}) }^{\prime}  \, 
+    {  \Theta^x (z^{-1}) }^{- \prime}  ]}_{-\infty}^{-1}  \right)  \,
+    \Sigma_x^{-1} \, {  \Theta^x (z) }^{-1}  \\
+ & = \Psi (z) -  { [   \Theta^s (z) \, \Sigma_s \, {  \Theta^s (z^{-1}) }^{\prime}  \, 
+    {  \Theta^x (z^{-1}) }^{- \prime}  ]}_{-\infty}^{-1}   \, \Sigma_x^{-1} \, 
+    {  \Theta^x (z) }^{-1}.
+\end{align*}
+  This verifies that the LPP solution indeed equals the optimal concurrent
+  filter when $\Psi $ is the WK filter.
+$\quad \Box$
+ 
+
+
+\begin{Example} {\bf Petrol MB Replication.}
+\label{exam:petrol-mb}
+We now  study the  MB trend filter arising from a LLM  
+(cf. Example \ref{exam:trend-i1}) fitted
+ to a   bivariate petroleum series:
+  Industrial Petroleum Consumption and OPEC Oil Imports, Jan 1973 through December 2016,
+ both seasonally adjusted  (displayed in Figure \ref{fig:petroldata}).
+   The MLEs for the model parameters are  given by
+\[
+ \Sigma_{W} = \left[ \begin{array}{ll} 
+   2.32 \cdot 10^{-4} &  5.04 \cdot 10^{-4} \\
+   5.04 \cdot 10^{-4}  & 34.73 \cdot 10^{-4}  \end{array}  \right]
+ \qquad  \Sigma_{Z} = \left[ \begin{array}{ll}
+        110.44 \cdot 10^{-5} &  7.17 \cdot 10^{-5}  \\
+        7.17 \cdot 10^{-5} & 128.57 \cdot 10^{-5}   \end{array} \right].
+\]
+  Because the trend variance for the second component is $15$ times 
+  larger than that of the first component,
+ the correspoding trend filter  does less smoothing.  
+
+\end{Example}
+
+\begin{Exercise} {\bf Petrol MB Replication.}
+\label{exer:petrol-mb}
+ 
+
+\end{Exercise}
+
+HERE   Petrol figure
+ 
+
+   
+
+ We are interested in the performance of MDFA relative to the MB concurrent filter.
+ We begin with a specification of the LLM exactly corresponding to the model fitted to the Petrol data, so that the MB concurrent filter
+ $\widehat{\Psi} $ solves  the LPP.  (We refer to this as the null specification of the LLM.)
+ We show that MDFA  (with appropriate constraints) can   replicate this optimal filter. 
+ The optimal concurrent MB filter can be computed analytically -- see (\ref{eq:opt.conc.sigex}) of Appendix A for the 
+stationary case.  If model mis-specification is anticipated, one could improve on this MB filter by using forecast
+extensions from a fitted VAR (or co-integrated VAR), which is a flexible model class;  in contrast,   MDFA implicitly generates
+forecast extensions nonparametrically.
+
+ As with the VAR($1$) simulation
+ we truncate the target MB filter to length $4001$ and generate a simulated LLM of length $4500$.   
+ The simulations, together with the target trends (given by the WK trend filters), are displayed in  Figure \ref{fig:petrol.llmtrends}.
+
+<<exercise_llmpetrol-mdfa,echo=True>>=
+#
+
+
+@
+
+
+
+
+
+\begin{table}[!htb]
+\centering
+\begin{tabular}{cllllll}
+\hline
+& \multicolumn{2}{c}{Null LLM} &\multicolumn{2}{c}{Alternative LLM} & \multicolumn{2}{c}{Petrol Data} \\
+\hline
+  Series 	 &  MB    &  MDFA  &  MB    &  MDFA    &  MB    &  MDFA   \\
+  Consumption &   .1285 & .1268 &  1.3224  &  .9841    &   .1295 &   .1176 \\
+  Imports	 &  .1728 & .1691 &   .8433  &  .6603    &   2.1691  &   2.2033 \\
+\hline
+\end{tabular}
+\caption{\baselineskip=10pt Empirical LPP MSE for real-time trend estimators (MB Concurrent filter versus
+ MDFA filter) applied to bivariate LLM null process,  LLM alternative process,
+ and Petrol data,  with target trend
+ given by the null LLM MB trend. (Units of $10^{-3}$.) }
+\label{tab:petrol.llm.mdfa}
+\end{table}
+
+We apply MDFA in the manner described in Section 4.3,  where $\delta^S (z) = 1-z$ and $\delta^N (z) = 1$.
+ By  extracting the bottom row (corresponding to $T=528$, the length of the petrol sample)
+ of the matrix formula for the finite-sample filter (McElroy and Trimbur, 2015), we obtain a very close approximation to the MB concurrent filter,
+  which we denote by $\widehat{\Psi} $.     Results are displayed in Figure \ref{fig:llm.nullmdfa} of the Appendix, with the target trend in black
+ (these are the same black trend lines as displayed in Figure \ref{fig:petrol.llmtrends}, but here shown without the underlying simulation)
+ and the MDFA real-time trend in dark grey; MDFA does a good job of tracking the real trend, although with some loss to smoothness in 
+ addition to a lag effect -- this is to be expected of a concurrent filter, to some degree.  Indeed, the optimal concurrent filter
+ (light grey) is exactly matched by the MDFA filter.
+ The first column block of  Table \ref{tab:petrol.llm.mdfa} shows the in-sample MSE for 
+ the two concurrent filters (MB versus MDFA), showing small discrepancies due to finite-sample effects,
+   i.e., the MDFA filter replicates the optimal concurrent filter.
+
+\begin{figure}[htb!]
+\centering
+\includegraphics[]{petrolLLMtrendsAlt}
+\caption{\baselineskip=10pt Bivariate  trend  filter applied to alternative LLM simulation (grey), with trends in black. 
+ The simulation is obtained from altering the paramteres of an 
+ LLM fitted to bivariate Petrol (Consumption and Imports), so the component
+ series of the simulation are labelled accordingly.}
+\label{fig:llm.alttrends}
+\end{figure}
+
+Next, we alter the specification to illustrate that MDFA can out-perform the MB concurrent filter.    We do this by substantially increasing the
+ variability in the irregular, producing a noisier simulation -- now the MB concurrent will do too little smoothing.  The new irregular
+ covariance matrix is
+\[
+   \qquad  \Sigma_{Z} = \left[ \begin{array}{ll}
+       18.32 \cdot 10^{-3}  &  1.19 \cdot 10^{-3}   \\
+       1.19 \cdot 10^{-3}  &  18.39 \cdot 10^{-3}  \end{array} \right].
+\]
+ We refer to this as the alternative LLM process. 
+ The resulting simulation with trends
+ is shown in Figure \ref{fig:llm.alttrends}.
+Application of MDFA yields   the  trends plotted in Figure \ref{fig:llm.altmdfa} of the Appendix.  For the first series, MDFA tracks the
+ MB trend better than the MB concurrent filter does;  the second block of columns in
+ Table \ref{tab:petrol.llm.mdfa} shows the in-sample MSE for 
+ the two concurrent filters, showing substantial improvements 
+for MDFA ($26 \%$ and $22 \%$ reductions to MSE, respectively for the two series).
+
+
+
+\begin{figure}[htb!]
+\centering
+\includegraphics[]{petrolLLMrealtimeData}
+\caption{\baselineskip=10pt  Monthly Petroleum data:  LLM bivariate  trend  output (black), 
+with non-stationary MDFA trend (dark grey) and MB concurrent trend (light grey). 
+The trend lines have been vertically staggered for easier visualization.}
+\label{fig:llm.datamdfa}
+\end{figure}
+
+ 
+
+
+Finally, we conduct a comparison on the Petroleum data itself, recognizing that the LLM might be mis-specified.  We do not have the long samples
+ available considered before, so we compute a series of MB trends based on the matrix formulas for signal extraction, based on the specified
+ model, and delete the first and last five years of such trends.  The result is a trend that approximately corresponds to the output of the
+ symmetric MB filter $\Psi $.  Taking the same MB filter as target, we compute the non-stationary MDFA solution to the LPP, and compare to the
+ concurrent MB filter output.  The resulting trends are plotted in Figure \ref{fig:llm.datamdfa}.  The in-sample MSE is displayed in
+ the final block of columns in  Table    \ref{tab:petrol.llm.mdfa}, showing a modest improvement for MDFA
+ on the first series, and similar performance on the second series. 
+ 
 
 
 HERE  STM replicate, MDFA for mis-spec, and Ndc.  Connect to HP
