@@ -875,9 +875,10 @@ Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
 \]
   These time series are all $n$-dimensional, but we assume that the same differencing
   operators are relevant for each component series.  It then follows that
-\[
+\begin{equation}
+\label{eq:diff-x.signoise}
  \partial X_t = \delta^N (L) \, \partial S_t + \delta^S (L) \, \partial N_t,
-\]
+\end{equation}
  which allows us to relate the spectral density $f_{\partial X}$ of $\{ \partial X_t \}$
  to the spectral densities $f_{\partial S}$
   and $f_{\partial N}$ of $\{ \partial S_t \}$ and $\{ \partial N_t \}$:
@@ -939,12 +940,59 @@ Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
  
  
 \paragraph{Proof of Theorem \ref{thm:wk}.} 
+ Because of the factor $\delta^N (e^{-i \omega})$  in the filter's frf,
+  the corresponding filter $\Psi (L)$ can be expressed as
+  $\Omega (L) \delta^N (L)$, where $\Omega (e^{-i \omega})$ has bounded modulus
+   for $\omega \in [-\pi, \pi]$.  Also, it follows from
+   (\ref{eq:sig-and-noise.sdf}) that the noise filter's frf is
+\[
+ 1 - \Psi (e^{-i \omega}) = f_{\partial N} (\omega) \, 
+    { f_{\partial X} (\omega) }^{-1} \, {| \delta^S (e^{-i \omega}) |}^2.
+\]
+ Hence, $1 - \Psi (L) = \Phi (L) \delta^S (L)$ for some $\Phi (e^{-i \omega})$
+ with bounded modulus.  As a result, we can write the error process as
+\[
+ \varepsilon_t = S_t - \Psi (L) X_t = (1 - \Psi (L)) S_t - \Psi (L) N_t 
+  = \Phi (L) \partial S_t - \Theta (L) \partial N_t.
+\]
+ This shows that the error process $\{ \varepsilon_t \}$ is covariance stationary
+  with mean zero.   Optimality is proved if we can show that $\varepsilon_t$
+  is uncorrelated with $X_{t-h}$ for all $h \in \ZZ$.  
+ Using (\ref{eq:nonstatCausalRep}), it suffices to show that $\varepsilon_t$
+  is uncorrelated with $\partial X_{t-h}$ for all $h \in \ZZ$, since by Assumption
+  A the initial values of $\{ X_t \}$ are uncorrelated with $\{ \partial S_t \}$ and
+   $\{ \partial N_t \}$.  Next, using (\ref{eq:diff-x.signoise}) we obtain
+\begin{align*}
+  \EE [ \varepsilon_t { \partial X_{t-h}}^{\prime} ]
+  & = \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h} \Phi (e^{-i \omega})
+    f_{\partial S} (\omega) \delta^N (e^{i \omega}) \, d\omega
+    - \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h} \Omega (e^{-i \omega})
+    f_{\partial N} (\omega) \delta^S (e^{i \omega}) \, d\omega  \\
+  & = \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
+    f_{\partial N} (\omega) \, 
+    { f_{\partial X} (\omega) }^{-1} \,  \delta^S (e^{i \omega})
+      f_{\partial S} (\omega) \delta^N (e^{i \omega}) \, d\omega
+      - \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
+            f_{\partial S} (\omega) \, 
+    { f_{\partial X} (\omega) }^{-1} \,  \delta^N (e^{i \omega})
+      f_{\partial N} (\omega) \delta^S (e^{i \omega}) \, d\omega  \\
+  & =    \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h} \left(
+     f_{\partial N} (\omega) \, { f_{\partial X} (\omega) }^{-1} \,  
+     f_{\partial S} (\omega)   
+   -  f_{\partial S} (\omega) \, 
+    { f_{\partial X} (\omega) }^{-1} \,  
+      f_{\partial N} (\omega) \right) \delta (e^{i \omega}) \, d\omega.
+\end{align*}
+ Lastly, it can be shown that
+\[ f_{\partial N} (\omega) \, { f_{\partial X} (\omega) }^{-1} \,  
+     f_{\partial S} (\omega) = f_{\partial S} (\omega) \, 
+    { f_{\partial X} (\omega) }^{-1} \,  
+      f_{\partial N} (\omega),
+\]
+ which concludes the proof.  $\quad \Box$
 
-HERE
 
 \vspace{.5cm}
-
- 
 
  We can use (\ref{eq:pseudo-sdf})   to obtain a simpler expression for the WK filter's frf:
 \[
@@ -1336,6 +1384,47 @@ invisible(dev.off())
 
 \section{Error Criterion and Computation}
 \label{sec:mdfa-nonstat}
+
+We now consider LPPs for non-stationary processes. 
+ The definition of target is the same as that given in Definition \ref{def:target2},
+ and the LPP is still defined via Definition \ref{def:lpp2},
+ but now the underlying process is non-stationary.  This changes
+  slightly the solution, because forecasting must take the non-stationarity
+  into account.
+
+% HERE : need to rewrite in terms of initial values....using Wildi-McElroy (2016)
+
+
+\begin{Proposition}
+ \label{prop:GPP-nonstat}
+ Suppose that $\{ X_t \}$ is  a non-stationary stochastic process
+ with representation (\ref{eq:nonstatCausalRep}), such that
+ $\{ \partial X_t \}$ is mean zero and weakly stationary 
+ with  causal Wold decomposition expressed as $\partial X_t = \Theta (L) \, \epsilon_t$,
+ where $\Theta (L)$ is invertible.    Then the solution
+ to the LPP posed by a   target $Y_t = \Psi (L) \, X_t$ is given by
+\begin{equation}
+ \label{eq:GPPsoln-nonstat}
+ \widehat{\Psi} (L) = \sum_{\ell = -\infty }^{\infty} \psi (\ell) \, L^{\ell} - 
+ \sum_{\ell < 0 } \psi (\ell)
+ \,  { [ \Theta (L) / \delta (L) ]}_{0}^{ -\ell-1  } \, L^{\ell} \,
+ {\Theta (L) }^{-1} \delta(L).
+\end{equation}
+ Moreover, the   MSE  corresponding to this solution is given by
+\begin{equation} 
+\label{eq:minimalMSE}
+ \frac{1}{ 2 \pi} \int_{-\pi}^{\pi}   \sum_{\ell, k > 0 } \psi (-\ell) \,
+  {[ \Theta  (e^{-i \omega}) / \delta (e^{-i \omega}) ]}_0^{\ell-1}   \,  \Sigma \,
+  { {[ \Theta  (e^{i \omega}) / \delta (e^{i \omega}) ]}_0^{ k-1} }^{\prime}  \,
+   {\psi (-k) }^{\prime} \,  e^{i \omega (\ell - k) }   \, d\omega.
+\end{equation}
+ \end{Proposition}
+ 
+\paragraph{Proof of Proposition \ref{prop:GPP-nonstat}.} 
+ 
+ 
+ 
+\vspace{.5cm}
 
  Now supposing that $\{ X_t \}$ is non-stationary,
  examination of (\ref{eq:dfa-error}) indicates that the error process is 
@@ -1901,6 +1990,9 @@ target.  When the model is correctly specified, the best concurrent filter
  \end{equation}
  This decomposition is known as a spectral factorization, and can be computed
  with known algorithms, as discussed in McElroy (2018).
+  Corresponding to this decomposition is the Wold representation for $\{ \partial X_t \}$,
+   i.e., $X_t = \Theta (L) \epsilon_t$,  where $\{ \epsilon_t \}$ is a multivariate 
+   white noise sequence with covariance matrix $\Sigma$. 
   Let $\gamma_{\partial S} (z)$ denote the autocovariance generating function
   of $\{ \partial S_t \}$, so that 
    $\gamma_{\partial S} (e^{-i \omega}) = f_{\partial S} (\omega)$.  
@@ -1909,16 +2001,15 @@ target.  When the model is correctly specified, the best concurrent filter
 \begin{equation}
 \label{eq:wiener-hopf}
   \widehat{\Psi} (z) =  
-    { \left[  \gamma_{\partial S} (z) \, {| \delta^N (z) |}^2 \,
+    { \left[  \gamma_{\partial S} (z) \,  \delta^N (z^{-1}) \, {\delta^S (z)}^{-1}
      { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
-     { \Theta (z) }^{-1}. 
+     { \Theta (z) }^{-1} \delta (z). 
 \end{equation}
   It is clear that (\ref{eq:wiener-hopf}) is a causal filter,
   as it only involves non-negative powers of $z$.
  Recall that our notion of optimality is the minimization of the determinant
  of the mean square error matrix.
 
- HERE
  
 %\begin{equation}
 % \label{eq:opt.wk}
@@ -1935,8 +2026,8 @@ target.  When the model is correctly specified, the best concurrent filter
  
  
  
-\begin{proposition}
-\label{prop:asym.sigex}
+\begin{theorem}
+\label{thm:asym.sigex}
  Suppose that $\{ X_t \}$ is  a non-stationary stochastic process
  with representation (\ref{eq:nonstatCausalRep}), such that
  (\ref{eq:signal-noise-decomp}) and (\ref{eq:spectral-factor}) hold,
@@ -1950,114 +2041,129 @@ target.  When the model is correctly specified, the best concurrent filter
  Moreover, this concurrent filter is identical with
  the LPP solution of Proposition \ref{prop:GPP2}, where the target 
  $\Psi (z)$ is the WK filter with frf (\ref{eq:wk.frf-gen}).
-\end{proposition}
+\end{theorem}
  
 
-\paragraph{Proof of Proposition \ref{prop:asym.sigex}.}
-  The filter error is $S_t - \widehat{S}_t$, and it suffices to 
-  show that this is uncorrelated with $X_{t-j}$ for each $j \geq 0$.
-  Thus we need to verify that
- $\mbox{Cov} [ S_t, X_{t-j} ] = \mbox{Cov} [ \widehat{S}_t, X_{t-j}]$.
- Because the signal and noise processes have mean zero, 
- the former quantity is $\Gamma^s_j$, the lag $j$ autocovariance 
- for the signal process.  The latter quantity is
+\paragraph{Proof of Theorem \ref{thm:asym.sigex}.}
+  The filter error is $\varepsilon_t = S_t - \widehat{S}_t$, and it suffices to 
+  show that this is uncorrelated with $X_{t-h}$ for each $h \geq 0$.
+  The filter error can be expressed as
+\[
+ \varepsilon_t =  ( S_t  - \Psi (L) X_t) +  (\Psi (L) - \widehat{\Psi} (L)) X_t.
+\]
+  The first term on the right hand side is the WK filter error, which
+   has already been shown to be uncorrelated with $\{ X_t \}$ by
+   Theorem \ref{thm:wk}.  For the second term, the difference in the two filters' frfs is
+\[
+  -{ \left[  \gamma_{\partial S} (z) \,  \delta^N (z^{-1}) \, {\delta^S (z)}^{-1}
+     { \Theta (z^{-1})}^{-1 \prime} \right] }_{-\infty}^{-1} \, \Sigma^{-1} \,
+     { \Theta (z) }^{-1} \delta (z).
+\]
+   This  frfcorresponds to a filter of the form $\Phi (L)  { \Theta (L) }^{-1} \delta (L)$,
+   where $\Phi (e^{-i \omega})$ is a function of bounded modulus.
+   Furthermore,  the Laurent series expansion of $\Phi (z)$ only involves negative powers 
+   of $z$, which means that the fitler $\Phi (L)$ only involves negative powers of $L$.
+   Such a filter is purely anti-causal, meaning that the output of such a filter only
+   depends on future values.  
+   Therefore, its application to $\{ X_t \}$ yields
+\[
+ (\Psi (L) - \widehat{\Psi} (L)) X_t = \Phi (L)  \epsilon_t,
+\]
+  and $\Phi (L) \epsilon_t$ is a linear combination of
+  $\epsilon_{t+1}, \epsilon_{t+2}, \ldots$.
+  Hence, this filter error is uncorrelated with $X_{t-h}$ for all $h \geq 0$, 
+  and the first assertion of the Theorem is proved.
+    It can be shown that the concurrent signal filter, when added
+  to the noise filter, yields unity:
 \begin{align*}
-   \EE [   { \{ \widehat{\Psi} * X \} }_t   \, X_{t-j}^{\prime} ] & = 
-   \sum_{\ell = -\infty}^{\infty}
-    \widehat{\Psi}_{\ell}  \, \EE [ X_{t-\ell} \, X_{t-j}^{\prime} ] \\
-	& = \sum_{\ell = -\infty}^{\infty}  \widehat{\Psi}_{\ell}  \,  \Gamma^x_{j-\ell}  \\
-	& = \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}   \widehat{\Psi} (e^{-i \omega}) \, 
-	\Theta^x (e^{-i \omega}) \, \Sigma_x \, { \Theta^x (e^{i \omega}) }^{\prime} \,
-		 e^{i \omega j} \, d\omega \\
-	& =  \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}   
-	 { [  \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
-    {  \Theta^x (e^{i \omega}) }^{- \prime}  ]}_0^{\infty}  \, 
-    {  \Theta^x (e^{i \omega}) }^{\prime} \,
-		 e^{i \omega j} \, d\omega   \\
-& =  \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}   
-	   \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
-    		 e^{i \omega j} \, d\omega   \\
-& -   \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}   
-	 { [   \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
-    {  \Theta^x (e^{i \omega}) }^{- \prime}  ]}_{-\infty}^{-1}  \, 
-    {  \Theta^x (e^{i \omega}) }^{\prime} \,
-		 e^{i \omega j} \, d\omega, 
+  \widehat{\Psi} (z) & = 
+   { \left[  \gamma_{\partial S} (z) \,  \delta^N (z) \delta^N (z^{-1}) 
+   \, {\delta (z)}^{-1} 
+     { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
+     { \Theta (z) }^{-1} \delta (z)   \\
+    & =  { \left[  \left(  \gamma_{\partial X} (z) -
+    \gamma_{\partial N} (z) \,  \delta^S (z) \delta^S (z^{-1}) \right)
+   \, {\delta (z)}^{-1} 
+     { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
+     { \Theta (z) }^{-1} \delta (z)   \\
+& = { \left[  \Theta (z) \, \Sigma \, {\delta (z)}^{-1} \right] }_0^{\infty}
+ \, \Sigma^{-1} \, { \Theta (z) }^{-1} \delta (z) -
+    { \left[ \gamma_{\partial N} (z) \,  \delta^S (z^{-1}) \, {\delta^N (z)}^{-1} 
+     { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
+     { \Theta (z) }^{-1} \delta (z).
 \end{align*}
-  where the last quantity follows from writing the power series
-  ${ [  A(z)  ]}_0^{\infty} = A(z) - {[ A(z) ]}_{-\infty}^{-1}$, and
- cancelling terms.   Now observe that the second summand in the last 
- line involves only positive powers of $e^{i \omega}$
-  in the integrand, because ${[ A(z) ]}_{-\infty}^{-1}$ only involves
-  positive powers of $z^{-1}$; hence this second summand
- is zero for any $j \geq 0$.   The first summand has the signal's spectral
- density as the integrand, and hence equals $\Gamma^s_{j}$.
- This proves optimality.
-To prove the second assertion,   the LPP solution of  (\ref{eq:GPPsoln}) can be written
-\begin{align*}
-    &  \sum_{\ell = 0 }^{\infty} \Psi_{\ell} \, z^{\ell} +
-    \sum_{\ell = -1}^{-\infty} \Psi_{\ell}
- \,  { [  \Theta^x (z) ]}_{-\ell}^{ \infty  } \, z^{\ell} \, { \Theta^x (z) }^{-1} \\
- & = \sum_{\ell = 0 }^{\infty}  \Psi_{\ell} \, z^{\ell} +
- \sum_{\ell =-1 }^{-\infty} \Psi_{\ell}
- \,  \left(   \Theta^x (z) -   { [  \Theta^x (z) ]}_0^{-\ell-1}  
- \right) \, z^{\ell} \, { \Theta^x (z) }^{-1} \\
- & = \sum_{\ell = -\infty}^{\infty}  \Psi_{\ell} \, z^{\ell} -  
- \sum_{\ell =-1}^{-\infty}  \Psi_{\ell}
- \,     { [  \Theta^x (z) ]}_0^{-\ell-1}     \, z^{\ell} \, { \Theta^x (z) }^{-1}.
-\end{align*}
+  The second term is the concurrent noise filter.  In the first term,
+  the expressions within the brackets are all power series, and hence
+  the bracket can be discarded, i.e.,
+\[
+ { \left[  \Theta (z) \, \Sigma \, {\delta (z)}^{-1} \right] }_0^{\infty}
+ \, \Sigma^{-1} \, { \Theta (z) }^{-1} \delta (z)
+ =  \Theta (z) \, \Sigma \, {\delta (z)}^{-1} 
+ \, \Sigma^{-1} \, { \Theta (z) }^{-1} \delta (z) = 1_n.
+\]
+To prove the second assertion, let $\Phi^x (z) = \Theta^x (z) / \delta (z)$.
+ Then the LPP solution given by (\ref{eq:GPPsoln-nonstat}) can be written
+\[
+   \sum_{\ell = -\infty}^{\infty}  \psi  (\ell) \, z^{\ell} -  
+ \sum_{\ell =-1}^{-\infty}  \psi  (\ell)  \,    
+ { [  \Phi^x (z) ]}_0^{-\ell-1}     \, z^{\ell} \, { \Phi^x (z) }^{-1}.
+\]
   The first summand is $\Psi (z)$.    Noting that
 \[
-    { [  \Theta^x (z) ]}_0^{-\ell-1}  =  \sum_{k=0}^{-\ell-1}  \Theta^x_k \, z^k =
-   \sum_{k \geq 0}  \Theta^x_{-\ell-1-k} \, z^{-\ell-1-k},
+    { [  \Phi^x (z) ]}_0^{-\ell-1}  =  \sum_{k=0}^{-\ell-1}  \phi^x (k) \, z^k =
+   \sum_{k \geq 0}  \phi^x (-\ell-1-k) \, z^{-\ell-1-k},
 \]
 for the second summand we have
 \begin{align*}
-&  \sum_{\ell = -1}^{-\infty}  \Psi_{\ell}   \,     { [  \Theta^x (z) ]}_0^{-\ell-1} 
+&  \sum_{\ell = -1}^{-\infty}  \psi  (\ell)   \, { [  \Phi^x (z) ]}_0^{-\ell-1} 
 \, z^{\ell}   \\
-& = \sum_{\ell = -1}^{-\infty}   \Psi_{\ell}   \,   \sum_{k = 0}^{\infty} 
-  \Theta^{x}_{-\ell-1-k} \, z^{-1-k} \\
- & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} \Psi_{\ell} \, 
-   \Theta^x_{-\ell-1-k}   \\
+& = \sum_{\ell = -1}^{-\infty}   \psi (\ell)   \,   \sum_{k = 0}^{\infty} 
+  \phi^{x}  (-\ell-1-k) \, z^{-1-k} \\
+ & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} \psi (\ell) \, 
+   \phi^x  (-\ell-1-k)   \\
   & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} 
   \frac{1}{2 \pi} \int_{-\pi}^{\pi}  \Psi (e^{-i \omega}) \, e^{i \omega \ell} \, d\omega 
-\,  \Theta^x_{ -\ell-1-k}   \\
+\,  \phi^x  (-\ell-1-k)   \\
  & =  \sum_{k = 0}^{\infty}    z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
- \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
-    {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \, 
-    {  \Theta^x (e^{-i \omega}) }^{-1}
-\, \sum_{\ell = -1}^{-\infty}  \Theta^x_{ -\ell-1-k}   \, e^{i \omega \ell} \, d\omega   \\
+ f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
+  {| \delta^N (e^{-i \omega}) |}^2 \, 
+   \sum_{\ell = -1}^{-\infty}  \phi^x (-\ell-1-k)   \, e^{i \omega \ell} \, d\omega   \\
  & =  \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
- \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
-    {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \, 
-    {  \Theta^x (e^{-i \omega}) }^{-1}
-\,  \sum_{h = 0}^{\infty}   \Theta^x_{h-k}   \, e^{-i \omega (h+1)} \, d\omega  \\
+f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
+  {| \delta^N (e^{-i \omega}) |}^2 
+\,  \sum_{h = 0}^{\infty}   \phi^x (h-k)   \, e^{-i \omega (h+1)} \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
- \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
-    {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
+f_{ \partial S}(\omega)   \,  {| \delta^N (e^{-i \omega}) |}^2 \, 
+     {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
     {  \Theta^x (e^{-i \omega}) }^{-1}
-\,   \Theta^x (e^{-i \omega}) \, e^{-i \omega (k+1) }  \, d\omega  \\
+\,   \Phi^x (e^{-i \omega}) \, e^{-i \omega (k+1) }  \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
- \Theta^s (e^{-i \omega}) \, \Sigma_s \, {  \Theta^s (e^{i \omega}) }^{\prime}  \, 
-    {  \Theta^x (e^{i \omega}) }^{- \prime}  \, e^{-i \omega (k+1) } 
-    \, d\omega   \, \Sigma_x^{-1}  \\
- & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  { \langle   \Theta^s ( e^{-i \omega}) \,
- \Sigma_s \, {  \Theta^s ( e^{i \omega} }^{\prime}  \, 
-    {  \Theta^x (e^{i \omega}) }^{- \prime}   \rangle  }_{-(k+1) }  \, \Sigma_x^{-1}  \\
- & =   { [  \Theta^s (z) \, \Sigma_s \, {  \Theta^s (z^{-1}) }^{\prime}  \, 
-    {  \Theta^x (z^{-1}) }^{- \prime}   ]}_{-\infty}^{-1}  \, \Sigma_x^{-1}.
+f_{ \partial S}(\omega) \,  { \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
+  \delta^N (e^{i \omega})/ \delta^S (e^{-i \omega})
+\,  e^{-i \omega (k+1) }  \, d\omega  \\
+ & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  { \langle    f_{ \partial S}(\omega) \, 
+    {  \Theta^x (e^{i \omega}) }^{-1 \prime} 
+    \delta^N (e^{i \omega})/ \delta^S (e^{-i \omega})  \rangle  }_{-(k+1) } 
+     \, \Sigma_x^{-1}  \\
+ & =   { [  \gamma_{\partial S} (z)  \, 
+    {  \Theta^x (z^{-1}) }^{-1 \prime} 
+    \delta^N (z^{-1})/ \delta^S (z) ]}_{-\infty}^{-1}  \, \Sigma_x^{-1}.
 \end{align*}
- On the other hand, the optimal concurrent filter can be expressed as 
+ Hence, the LPP solution is
 \begin{align*}
- \widehat{\Psi} (z) & =  \left(      \Theta^s (z) \, \Sigma_s \, 
- {  \Theta^s (z^{-1}) }^{\prime}  \, 
-    {  \Theta^x (z^{-1}) }^{- \prime}  -  
- { [   \Theta^s (z) \, \Sigma_s \, {  \Theta^s (z^{-1}) }^{\prime}  \, 
-    {  \Theta^x (z^{-1}) }^{- \prime}  ]}_{-\infty}^{-1}  \right)  \,
-    \Sigma_x^{-1} \, {  \Theta^x (z) }^{-1}  \\
- & = \Psi (z) -  { [   \Theta^s (z) \, \Sigma_s \, {  \Theta^s (z^{-1}) }^{\prime}  \, 
-    {  \Theta^x (z^{-1}) }^{- \prime}  ]}_{-\infty}^{-1}   \, \Sigma_x^{-1} \, 
-    {  \Theta^x (z) }^{-1}.
+  & \Psi (z) - { [  \gamma_{\partial S} (z)  \, 
+    {  \Theta^x (z^{-1}) }^{-1 \prime} \delta^N (z^{-1})/ \delta^S (z)
+    ]}_{-\infty}^{-1}  \, \Sigma_x^{-1} \,     { \Phi^x (z) }^{-1}  \\
+  & =  \Psi (z) -  \gamma_{\partial S} (z)  \, 
+    {  \Theta^x (z^{-1}) }^{-1 \prime}  \, \delta^N (z^{-1})/ \delta^S (z) \,
+     \Sigma_x^{-1} \,
+    { \Theta^x (z) }^{-1} \delta (z) +
+    { [  \gamma_{\partial S} (z)  \, 
+    {  \Theta^x (z^{-1}) }^{-1 \prime}  \delta^N (z^{-1})/ \delta^S (z)
+     ]}_{0}^{\infty}  \, \Sigma_x^{-1} \,
+    { \Theta^x (z) }^{-1} \delta (z),
 \end{align*}
+  which equals $\widehat{\Psi} (z)$.
   This verifies that the LPP solution indeed equals the optimal concurrent
   filter when $\Psi $ is the WK filter.
 $\quad \Box$
@@ -2092,7 +2198,7 @@ We now  study the  MB trend filter arising from a LLM
 
 \end{Exercise}
 
-HERE   Petrol figure
+%HERE   Petrol figure
  
 
    

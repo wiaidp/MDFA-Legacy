@@ -1410,7 +1410,7 @@ These results suggest the pertinence of a mixed-frequency approach,
 \subsection{LPP with Multiple Targets} 
  
 \begin{Definition} \rm
-\label{def:target}
+\label{def:target2}
  A {\bf target} is defined to be the output of any known linear
  filter acting on the data process, i.e.,  $\{Y_t \}$ is a target
  time series corresponding to a given filter $\Psi (L)$ acting on a 
