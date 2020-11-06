@@ -46,6 +46,9 @@
 \contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln-constrain}.}{68}{section*.19}%
 \contentsline {section}{\numberline {4.2}Background on Non-stationary Vector Time Series }{71}{section.4.2}%
 \contentsline {paragraph}{Proof of Theorem \ref {thm:nonstat-rep}.}{73}{section*.20}%
-\contentsline {section}{\numberline {4.3}Error Criterion and Computation}{83}{section.4.3}%
-\contentsline {paragraph}{Proof of Proposition \ref {prop:filter-decompose}.}{84}{section*.21}%
-\contentsline {section}{\numberline {4.4}Replication and Efficiency Gain Over Model-Based Filters}{91}{section.4.4}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:wk}.}{76}{section*.21}%
+\contentsline {section}{\numberline {4.3}Error Criterion and Computation}{84}{section.4.3}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:GPP-nonstat}.}{84}{section*.22}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:filter-decompose}.}{86}{section*.23}%
+\contentsline {section}{\numberline {4.4}Replication and Efficiency Gain Over Model-Based Filters}{93}{section.4.4}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:asym.sigex}.}{94}{section*.24}%

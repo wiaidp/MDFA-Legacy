@@ -141,7 +141,7 @@
 \newlabel{tab:critmdfa.mat}{{3.1}{56}{Effect of lead and inverse signal-to-noise ratio on MDFA filter MSE}{table.3.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}Multivariate DFA with Multiple Targets}{57}{section.3.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.5.1}LPP with Multiple Targets}{57}{subsection.3.5.1}\protected@file@percent }
-\newlabel{def:target}{{4}{57}{LPP with Multiple Targets}{Definition.4}{}}
+\newlabel{def:target2}{{4}{57}{LPP with Multiple Targets}{Definition.4}{}}
 \newlabel{exam:multi-step.fore2}{{10}{57}{LPP with Multiple Targets}{Example.10}{}}
 \newlabel{exam:ideal-low2}{{11}{57}{LPP with Multiple Targets}{Example.11}{}}
 \newlabel{exam:var1-shock}{{12}{57}{LPP with Multiple Targets}{Example.12}{}}
@@ -196,37 +196,57 @@
 \@writefile{toc}{\contentsline {paragraph}{Proof of Theorem \ref  {thm:nonstat-rep}.}{73}{section*.20}\protected@file@percent }
 \newlabel{eq:nonstat.rep-basis}{{4.12}{75}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.12}{}}
 \newlabel{prop:filter-nonstat}{{9}{75}{Proof of Theorem \ref {thm:nonstat-rep}}{Proposition.9}{}}
-\newlabel{eq:sig-and-noise.sdf}{{4.13}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.13}{}}
-\newlabel{eq:pseudo-sdf}{{4.14}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.14}{}}
-\newlabel{eq:wk.frf-gen}{{4.15}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.15}{}}
-\newlabel{exam:trend-i1}{{18}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{Example.18}{}}
-\newlabel{exer:trend-i1}{{12}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{Exercise.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Frequency response function for model-based trend extraction filter from the Local Level Model.}}{77}{figure.4.1}\protected@file@percent }
-\newlabel{fig:llm-frf}{{4.1}{77}{Frequency response function for model-based trend extraction filter from the Local Level Model}{figure.4.1}{}}
-\newlabel{exam:trend-i2}{{19}{77}{Proof of Theorem \ref {thm:nonstat-rep}}{Example.19}{}}
-\newlabel{exer:trend-i2}{{13}{78}{Proof of Theorem \ref {thm:nonstat-rep}}{Exercise.13}{}}
-\newlabel{exam:sa}{{20}{78}{Proof of Theorem \ref {thm:nonstat-rep}}{Example.20}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Frequency response function for model-based trend extraction filter from the Smooth Trend Model.}}{79}{figure.4.2}\protected@file@percent }
-\newlabel{fig:stm-frf}{{4.2}{79}{Frequency response function for model-based trend extraction filter from the Smooth Trend Model}{figure.4.2}{}}
-\newlabel{exer:sa}{{14}{79}{Proof of Theorem \ref {thm:nonstat-rep}}{Exercise.14}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Frequency response function for model-based seasonal adjustment filter from the Structural Model.}}{83}{figure.4.3}\protected@file@percent }
-\newlabel{fig:sauc-frf}{{4.3}{83}{Frequency response function for model-based seasonal adjustment filter from the Structural Model}{figure.4.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Error Criterion and Computation}{83}{section.4.3}\protected@file@percent }
-\newlabel{sec:mdfa-nonstat}{{4.3}{83}{Error Criterion and Computation}{section.4.3}{}}
-\newlabel{eq:delta.factor}{{4.16}{83}{Error Criterion and Computation}{equation.4.3.16}{}}
-\newlabel{prop:filter-decompose}{{10}{83}{Error Criterion and Computation}{Proposition.10}{}}
-\@writefile{toc}{\contentsline {paragraph}{Proof of Proposition \ref  {prop:filter-decompose}.}{84}{section*.21}\protected@file@percent }
-\newlabel{def:filter-noise}{{6}{85}{Proof of Proposition \ref {prop:filter-decompose}}{Definition.6}{}}
-\newlabel{cor:filter-noise}{{1}{86}{Proof of Proposition \ref {prop:filter-decompose}}{Corollary.1}{}}
-\newlabel{eq:delta-noise}{{4.17}{86}{Proof of Proposition \ref {prop:filter-decompose}}{equation.4.3.17}{}}
-\newlabel{eq:non-stat.constraint.single}{{4.18}{86}{Proof of Proposition \ref {prop:filter-decompose}}{equation.4.3.18}{}}
-\newlabel{eq:non-stat.constraint.double}{{4.19}{86}{Proof of Proposition \ref {prop:filter-decompose}}{equation.4.3.19}{}}
-\newlabel{eq:mdfa-criterion-nonstat}{{4.20}{87}{Proof of Proposition \ref {prop:filter-decompose}}{equation.4.3.20}{}}
-\newlabel{exer:rwtrend-mdfa}{{15}{87}{Proof of Proposition \ref {prop:filter-decompose}}{Exercise.15}{}}
-\newlabel{exer:bandpass.i1-mdfa}{{16}{88}{Proof of Proposition \ref {prop:filter-decompose}}{Exercise.16}{}}
-\newlabel{exer:hptrend-mdfa}{{17}{90}{Proof of Proposition \ref {prop:filter-decompose}}{Exercise.17}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Replication and Efficiency Gain Over Model-Based Filters}{91}{section.4.4}\protected@file@percent }
-\newlabel{eq:wiener-hopf}{{4.21}{92}{Replication and Efficiency Gain Over Model-Based Filters}{equation.4.4.21}{}}
+\newlabel{eq:signal-noise-decomp}{{4.13}{75}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.13}{}}
+\newlabel{eq:diff-x.signoise}{{4.14}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.14}{}}
+\newlabel{eq:sig-and-noise.sdf}{{4.15}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.15}{}}
+\newlabel{eq:pseudo-sdf}{{4.16}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.16}{}}
+\newlabel{eq:wk.frf-gen}{{4.17}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{equation.4.2.17}{}}
+\newlabel{thm:wk}{{4}{76}{Proof of Theorem \ref {thm:nonstat-rep}}{Theorem.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{Proof of Theorem \ref  {thm:wk}.}{76}{section*.21}\protected@file@percent }
+\newlabel{exam:trend-i1}{{18}{77}{Proof of Theorem \ref {thm:wk}}{Example.18}{}}
+\newlabel{exer:trend-i1}{{12}{77}{Proof of Theorem \ref {thm:wk}}{Exercise.12}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Frequency response function for model-based trend extraction filter from the Local Level Model.}}{78}{figure.4.1}\protected@file@percent }
+\newlabel{fig:llm-frf}{{4.1}{78}{Frequency response function for model-based trend extraction filter from the Local Level Model}{figure.4.1}{}}
+\newlabel{exam:trend-i2}{{19}{78}{Proof of Theorem \ref {thm:wk}}{Example.19}{}}
+\newlabel{exer:trend-i2}{{13}{79}{Proof of Theorem \ref {thm:wk}}{Exercise.13}{}}
+\newlabel{exam:sa}{{20}{79}{Proof of Theorem \ref {thm:wk}}{Example.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Frequency response function for model-based trend extraction filter from the Smooth Trend Model.}}{80}{figure.4.2}\protected@file@percent }
+\newlabel{fig:stm-frf}{{4.2}{80}{Frequency response function for model-based trend extraction filter from the Smooth Trend Model}{figure.4.2}{}}
+\newlabel{exer:sa}{{14}{80}{Proof of Theorem \ref {thm:wk}}{Exercise.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Frequency response function for model-based seasonal adjustment filter from the Structural Model.}}{84}{figure.4.3}\protected@file@percent }
+\newlabel{fig:sauc-frf}{{4.3}{84}{Frequency response function for model-based seasonal adjustment filter from the Structural Model}{figure.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Error Criterion and Computation}{84}{section.4.3}\protected@file@percent }
+\newlabel{sec:mdfa-nonstat}{{4.3}{84}{Error Criterion and Computation}{section.4.3}{}}
+\newlabel{prop:GPP-nonstat}{{10}{84}{Error Criterion and Computation}{Proposition.10}{}}
+\newlabel{eq:GPPsoln-nonstat}{{4.18}{84}{Error Criterion and Computation}{equation.4.3.18}{}}
+\newlabel{eq:minimalMSE}{{4.19}{84}{Error Criterion and Computation}{equation.4.3.19}{}}
+\@writefile{toc}{\contentsline {paragraph}{Proof of Proposition \ref  {prop:GPP-nonstat}.}{84}{section*.22}\protected@file@percent }
+\newlabel{eq:diffop-algid}{{4.20}{85}{Proof of Proposition \ref {prop:GPP-nonstat}}{equation.4.3.20}{}}
+\newlabel{eq:delta.factor}{{4.21}{85}{Proof of Proposition \ref {prop:GPP-nonstat}}{equation.4.3.21}{}}
+\newlabel{prop:filter-decompose}{{11}{86}{Proof of Proposition \ref {prop:GPP-nonstat}}{Proposition.11}{}}
+\@writefile{toc}{\contentsline {paragraph}{Proof of Proposition \ref  {prop:filter-decompose}.}{86}{section*.23}\protected@file@percent }
+\newlabel{def:filter-noise}{{6}{88}{Proof of Proposition \ref {prop:filter-decompose}}{Definition.6}{}}
+\newlabel{cor:filter-noise}{{1}{88}{Proof of Proposition \ref {prop:filter-decompose}}{Corollary.1}{}}
+\newlabel{eq:delta-noise}{{4.22}{88}{Proof of Proposition \ref {prop:filter-decompose}}{equation.4.3.22}{}}
+\newlabel{eq:non-stat.constraint.single}{{4.23}{88}{Proof of Proposition \ref {prop:filter-decompose}}{equation.4.3.23}{}}
+\newlabel{eq:non-stat.constraint.double}{{4.24}{88}{Proof of Proposition \ref {prop:filter-decompose}}{equation.4.3.24}{}}
+\newlabel{eq:mdfa-criterion-nonstat}{{4.25}{89}{Proof of Proposition \ref {prop:filter-decompose}}{equation.4.3.25}{}}
+\newlabel{exer:rwtrend-mdfa}{{15}{89}{Proof of Proposition \ref {prop:filter-decompose}}{Exercise.15}{}}
+\newlabel{exer:bandpass.i1-mdfa}{{16}{90}{Proof of Proposition \ref {prop:filter-decompose}}{Exercise.16}{}}
+\newlabel{exer:hptrend-mdfa}{{17}{92}{Proof of Proposition \ref {prop:filter-decompose}}{Exercise.17}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Replication and Efficiency Gain Over Model-Based Filters}{93}{section.4.4}\protected@file@percent }
+\newlabel{eq:spectral-factor}{{4.26}{94}{Replication and Efficiency Gain Over Model-Based Filters}{equation.4.4.26}{}}
+\newlabel{eq:wiener-hopf}{{4.27}{94}{Replication and Efficiency Gain Over Model-Based Filters}{equation.4.4.27}{}}
+\newlabel{thm:asym.sigex}{{5}{94}{Replication and Efficiency Gain Over Model-Based Filters}{Theorem.5}{}}
+\@writefile{toc}{\contentsline {paragraph}{Proof of Theorem \ref  {thm:asym.sigex}.}{94}{section*.24}\protected@file@percent }
+\newlabel{exam:petrol-mb}{{21}{96}{Proof of Theorem \ref {thm:asym.sigex}}{Example.21}{}}
+\newlabel{exer:petrol-mb}{{18}{96}{Proof of Theorem \ref {thm:asym.sigex}}{Exercise.18}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces \baselineskip =10pt Empirical LPP MSE for real-time trend estimators (MB Concurrent filter versus MDFA filter) applied to bivariate LLM null process, LLM alternative process, and Petrol data, with target trend given by the null LLM MB trend. (Units of $10^{-3}$.) }}{97}{table.4.1}\protected@file@percent }
+\newlabel{tab:petrol.llm.mdfa}{{4.1}{97}{\baselineskip =10pt Empirical LPP MSE for real-time trend estimators (MB Concurrent filter versus MDFA filter) applied to bivariate LLM null process, LLM alternative process, and Petrol data, with target trend given by the null LLM MB trend. (Units of $10^{-3}$.)}{table.4.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces \baselineskip =10pt Bivariate trend filter applied to alternative LLM simulation (grey), with trends in black. The simulation is obtained from altering the paramteres of an LLM fitted to bivariate Petrol (Consumption and Imports), so the component series of the simulation are labelled accordingly.}}{97}{figure.4.4}\protected@file@percent }
+\newlabel{fig:llm.alttrends}{{4.4}{97}{\baselineskip =10pt Bivariate trend filter applied to alternative LLM simulation (grey), with trends in black. The simulation is obtained from altering the paramteres of an LLM fitted to bivariate Petrol (Consumption and Imports), so the component series of the simulation are labelled accordingly}{figure.4.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces \baselineskip =10pt Monthly Petroleum data: LLM bivariate trend output (black), with non-stationary MDFA trend (dark grey) and MB concurrent trend (light grey). The trend lines have been vertically staggered for easier visualization.}}{98}{figure.4.5}\protected@file@percent }
+\newlabel{fig:llm.datamdfa}{{4.5}{98}{\baselineskip =10pt Monthly Petroleum data: LLM bivariate trend output (black), with non-stationary MDFA trend (dark grey) and MB concurrent trend (light grey). The trend lines have been vertically staggered for easier visualization}{figure.4.5}{}}
 \bibcite{}{1}
 \bibcite{}{2}
 \bibcite{}{3}
@@ -245,3 +265,7 @@
 \bibcite{}{16}
 \bibcite{}{17}
 \bibcite{}{18}
+\bibcite{}{19}
+\bibcite{}{20}
+\bibcite{}{21}
+\bibcite{}{22}

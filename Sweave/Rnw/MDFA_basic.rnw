@@ -1361,6 +1361,28 @@ critudfa.mat[i,j] <- fore.udfa[[2]][1,1]
 \end{tabular}
 \end{table}
  
+ 
+ \begin{table}[]
+\centering
+\caption{Effect of lead and  inverse signal-to-noise ratio on DFA filter MSE.}
+\label{tab:critudfa.mat}
+\begin{tabular}{llllll}
+  & \Sexpr{delta.vals[1]}    & \Sexpr{delta.vals[2]}   & \Sexpr{delta.vals[3]}  
+   & \Sexpr{delta.vals[4]}  & \Sexpr{delta.vals[5]}  \\ \hline
+\Sexpr{sigma.vals[1]}        & \Sexpr{critudfa.mat[1,1]}  & \Sexpr{critudfa.mat[1,2]} 
+    & \Sexpr{critudfa.mat[1,3]} & \Sexpr{critudfa.mat[1,4]} & \Sexpr{critudfa.mat[1,5]}  \\
+\Sexpr{sigma.vals[2]}        & \Sexpr{critudfa.mat[2,1]}  & \Sexpr{critudfa.mat[2,2]} 
+    & \Sexpr{critudfa.mat[2,3]} & \Sexpr{critudfa.mat[2,4]} & \Sexpr{critudfa.mat[2,5]}  \\
+\Sexpr{sigma.vals[3]}        & \Sexpr{critudfa.mat[3,1]}  & \Sexpr{critudfa.mat[3,2]} 
+    & \Sexpr{critudfa.mat[3,3]} & \Sexpr{critudfa.mat[3,4]} & \Sexpr{critudfa.mat[3,5]}  \\
+\Sexpr{sigma.vals[4]}        & \Sexpr{critudfa.mat[4,1]}  & \Sexpr{critudfa.mat[4,2]} 
+    & \Sexpr{critudfa.mat[4,3]} & \Sexpr{critudfa.mat[4,4]} & \Sexpr{critudfa.mat[4,5]}  \\
+\Sexpr{sigma.vals[5]}        & \Sexpr{critudfa.mat[5,1]}  & \Sexpr{critudfa.mat[5,2]} 
+    & \Sexpr{critudfa.mat[5,3]} & \Sexpr{critudfa.mat[5,4]} & \Sexpr{critudfa.mat[5,5]}  \\
+\hline      
+\end{tabular}
+\end{table}
+
  The results for MDFA and univariate DFA, respectively, are given in 
 Tables \ref{tab:critmdfa.mat} and \ref{tab:critudfa.mat}.
 Regarding the design of Exercise \ref{exer:nowmdfa-udfa}, we make the following 
