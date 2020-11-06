@@ -40,6 +40,10 @@ Springer-Verlag.
 
 \bibitem{} McElroy, T. (2018). Recursive Computation for Block-Nested Covariance Matrices. Journal of Time Series Analysis, 39(3), pp.299-312.
 
+\bibitem{} McElroy, T. and Findley, D. (2010). 
+   Discerning Between Models Through Multi-Step Ahead
+Forecasting Errors. Journal of Statistical Planning and Inference 140, 3655-3675.
+
 \bibitem{} McElroy, T., and Findley, D. (2015). Fitting constrained vector autoregression models. In Empirical Economic and Financial Research (pp. 451-470). Springer, Cham.
 
 \bibitem{} McElroy, T., and Trimbur, T. (2015). Signal Extraction for Non-Stationary Multivariate Time Series with Illustrations for Trend Inflation. Journal of Time 

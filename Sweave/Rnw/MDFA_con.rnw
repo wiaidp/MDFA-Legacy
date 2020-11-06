@@ -258,8 +258,9 @@ arising from time-varying means, a form of non-stationarity.
 
 \begin{Proposition}
 \label{prop:mdfa.quadsoln-constrain}
- The minimizer of the  MDFA criterion given by the determinant of  (\ref{eq:mdfa-criterion2}),
- with respect to  $\mathcal{G}$  -- consisting of all length $q$ concurrent filters 
+ The minimizer of the  MDFA criterion given by the determinant of
+ (\ref{eq:mdfa-criterion2}),  with respect to  $\mathcal{G}$  -- consisting 
+ of all length $q$ concurrent filters 
  subject to  linear constraints of the form (\ref{eq:concurrent-constrain}) -- is
 \begin{equation}
 \label{eq:phi.soln-constained}
@@ -717,8 +718,8 @@ $h < d$ in the definition of $A_t (h)$, the function is non-zero.
   Moreover, the algebraic identity 
 \begin{equation}
  \label{eq:Identity1}
-  1 - \sum_{h=0}^{d-1} A_{h} (t) \, z^{t+h} = \sum_{k=0}^{t-1} \xi_k \, z^k
-  \, \delta (B)
+  1 - \sum_{h=0}^{d-1} A_{t} (h) \, z^{t+h} = \sum_{k=0}^{t-1} \xi_k \, z^k
+  \, \delta (z)
 \end{equation}
 holds, and hence the   spectral representation for
  $\{ X_t\}$ is
@@ -754,10 +755,10 @@ via application of (\ref{eq:xi-def}).  Next,
   \delta_{k} \, \xi_{h+t-k} \right) \, z^h.
 \end{align*}
  We see that the coefficient of $z^h$ is either $1_{ \{ h+t =0 \} }$ for $h \geq d$
-  or equals $A_h (t)$ for $0 \leq h \leq d-1$.  Hence for $t \geq 1-d$ the calculation
+  or equals $A_t (h)$ for $0 \leq h \leq d-1$.  Hence for $t \geq 1-d$ the calculation
   simplifies to
 \[
- {[ \xi (z)]}_t^{\infty}  \, \delta (z) =  z^t \sum_{h=0}^{d-1} A_h (t) \, z^h,
+ {[ \xi (z)]}_t^{\infty}  \, \delta (z) =  z^t \sum_{h=0}^{d-1} A_t (h) \, z^h,
 \]
  from which  (\ref{eq:Identity1}) follows. 
  Next, multiply both sides of (\ref{eq:Identity1}) by $\delta (z)$, replace $z$ by $L$,
@@ -765,7 +766,7 @@ via application of (\ref{eq:xi-def}).  Next,
   $\delta (L) X_t = \partial X_t$, this yields
   \[
    \sum_{j=0}^{t-1} \xi_j \, \partial X_{t-j} = 
-    X_t - \sum_{h=0}^{d-1} A_{h} (t) \, X_{-h},
+    X_t - \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h},
 \]
  from which (\ref{eq:nonstatCausalRep}) follows.  The spectral representation is
   obtained from (\ref{eq:nonstatCausalRep}) as follows:
@@ -784,7 +785,7 @@ via application of (\ref{eq:xi-def}).  Next,
   
   Theorem  \ref{thm:nonstat-rep} shows how a non-stationary process
   can be represented in  terms of a predictable
-  portion -- determined by the functions $A_{h} (t)$ and the
+  portion -- determined by the functions $A_{t} (h)$ and the
   variables $X_{1-d}, \ldots, X_{-1}, X_0$ -- and a
   non-predictable portion involving a time-varying filter of the $\{
   \partial X_t \}$ series. 
@@ -794,32 +795,32 @@ via application of (\ref{eq:xi-def}).  Next,
    use L'Hopital's rule to obtain
   \[
    \sum_{k=0}^{t-1} \xi_k = \sum_{k=0}^{t-1} \xi_k \, z^k \vert_{z = 1}
-   = \frac{ - \sum_{h=0}^{d-1} A_h (t) \, (t+h) }{ \dot{\delta} (1)}.
+   = \frac{ - \sum_{h=0}^{d-1} A_t (h) \, (t+h) }{ \dot{\delta} (1)}.
   \]
-     Each of the time-varying functions $A_h (t)$ is annihilated
- by $\delta (L)$, i.e., $\delta (L) A_{h} (t) = 0$ for $0 \leq
- h \leq d-1$.   As a consequence, we can rewrite each $A_{h} (t)$ as a linear
+     Each of the time-varying functions $A_t (h)$ is annihilated
+ by $\delta (L)$, i.e., $\delta (L) A_{t} (h) = 0$ for $0 \leq
+ h \leq d-1$.   As a consequence, we can rewrite each $A_{t} (h)$ as a linear
  combination of the basis functions of the null space of $\delta
  (L)$, which are given by $\zeta^{-t}$ for non-repeated roots $\zeta$
   of $\delta (z)$ (when the roots are repeated, we instead consider
   functions $t \, \zeta{-t}$, etc.).  
     Let the basis  functions be denoted
-    $\phi_k (t) $ for $1 \leq k \leq d$; see Brockwell and Davis (1991)
+    $\phi_t (k) $ for $1 \leq k \leq d$; see Brockwell and Davis (1991)
      for additional details about difference equations.  Then we can
- write $A_{h} (t) = \sum_{k=1}^d \alpha_{hk} \phi_k (t)$ for each $0 \leq
+ write $A_{t} (h) = \sum_{k=1}^d \alpha_{hk} \phi_t (k)$ for each $0 \leq
  h \leq d-1$, for some coefficients $\alpha_{hk}$.  It follows that
 \[
- \sum_{h=0}^{d-1} A_{h}(t) \, z^h = \sum_{k=1}^d \left(
- \sum_{h=0}^{d-1} \alpha_{hk} z^h \right)  \, \phi_k (t).
+ \sum_{h=0}^{d-1} A_{t}(h) \, z^h = \sum_{k=1}^d \left(
+ \sum_{h=0}^{d-1} \alpha_{hk} z^h \right)  \, \phi_t (k).
 \]
  Each expression in parentheses on the right hand side is a degree
  $d-1$ polynomial in $z$, and will henceforth be denoted as $p^{(k)}
  (z)$.   Substituting the new formulation, we obtain
 \begin{equation}
 \label{eq:nonstat.rep-basis}
- X_t = \sum_{k=1}^d \phi_k (t) p^{(k)} (L) \, X_{0} + 
+ X_t = \sum_{k=1}^d \phi_t (k) p^{(k)} (L) \, X_{0} + 
   \sum_{k=0}^{t-1} \xi_k \, \mu  +  \int_{-\pi}^{\pi}
- \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_k (t) \, 
+ \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_t (k) \, 
  p^{(k)} ( e^{-i \omega  } )}{ \delta (e^{-i \omega}) } \,  \ZZ (d\omega),
 \end{equation}
  where $p^{(k)} (L)$ acts on $x_0$ by shifting the time index $t=0$
@@ -833,20 +834,20 @@ via application of (\ref{eq:xi-def}).  Next,
   The application of a filter $\Psi (L)$ to a non-stationary process $\{ X_t \}$
   with representation  (\ref{eq:nonstat.rep-basis}) has spectral representation
  \begin{align*}
- \Psi (B) X_t & =   \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (L) \, X_{0}  +
+ \Psi (B) X_t & =   \sum_{k=1}^d \Psi (L) \phi_t (k) \, p^{(k)} (L) \, X_{0}  +
    \sum_{k \geq 1}  \Psi (L)  \xi_{t-k} \, \mu \\
    & +   \int_{-\pi}^{\pi}
    \frac{ e^{i \omega t} \, \Psi (e^{-i \omega}) 
-   - \sum_{k=1}^d \Psi (L) \phi_k (t) \, p^{(k)} (e^{-i \omega}) 
+   - \sum_{k=1}^d \Psi (L) \phi_t (k) \, p^{(k)} (e^{-i \omega}) 
     }{ \delta (e^{-i \omega}) } \, \ZZ (d\omega).
  \end{align*}
  \end{Proposition}
   
   
-Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
+Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
  integration for the output process can be less than that of $\{ X_t \}$.
  For instance, if $\Psi (\zeta) = 0$ for some root $\zeta$ of $\delta (z)$,
-  then at least one of the basis functions $\phi_k (t)$ is annihilated by
+  then at least one of the basis functions $\phi_t (k)$ is annihilated by
    $\Psi (L)$, which means we can rewrite the representation in 
    Proposition \ref{prop:filter-nonstat} in terms of $d-1$ instead of $d$ basis
    functions.  We now consider a class of filters known as model-based (MB) filters,
@@ -855,7 +856,7 @@ Depending on the action of $\Psi (L) $ on each $\phi_k (t)$, the order of
   
   Suppose that the process $\{ X_t \}$ is viewed as the sum of two latent processes
   $\{ S_t \}$ and $\{ N_t \}$, labelled as signal and noise respectively.
-   These patronymics indicate merely that the signal is a process one desires
+   This nomenclature indicates merely that the signal is a process one desires
   to estimate, or extract, whereas the noise is to be expunged.  There is no necessity
   that trend non-stationarity must pertain to the signal -- in fact, for the problem
   of business cycle analysis, where one wishes to extract a stationary business cycle
@@ -1391,9 +1392,7 @@ We now consider LPPs for non-stationary processes.
  but now the underlying process is non-stationary.  This changes
   slightly the solution, because forecasting must take the non-stationarity
   into account.
-
-% HERE : need to rewrite in terms of initial values....using Wildi-McElroy (2016)
-
+ 
 
 \begin{Proposition}
  \label{prop:GPP-nonstat}
@@ -1401,14 +1400,17 @@ We now consider LPPs for non-stationary processes.
  with representation (\ref{eq:nonstatCausalRep}), such that
  $\{ \partial X_t \}$ is mean zero and weakly stationary 
  with  causal Wold decomposition expressed as $\partial X_t = \Theta (L) \, \epsilon_t$,
- where $\Theta (L)$ is invertible.    Then the solution
+ where $\Theta (L)$ is invertible and
+  $\{ \epsilon_t \}$ is white noise of covariance $\Sigma$.
+  Then the solution
  to the LPP posed by a   target $Y_t = \Psi (L) \, X_t$ is given by
 \begin{equation}
  \label{eq:GPPsoln-nonstat}
- \widehat{\Psi} (L) = \sum_{\ell = -\infty }^{\infty} \psi (\ell) \, L^{\ell} - 
- \sum_{\ell < 0 } \psi (\ell)
- \,  { [ \Theta (L) / \delta (L) ]}_{0}^{ -\ell-1  } \, L^{\ell} \,
- {\Theta (L) }^{-1} \delta(L).
+  \widehat{\Psi} (L) = \sum_{\ell = 0}^{\infty} \psi (\ell) \, L^{\ell}
+    + \sum_{ \ell = -1}^{- \infty} \psi (\ell) \, 
+\left(  \sum_{h=0 }^{d-1} A_{-\ell} (h) L^{h} + \sum_{k=1}^{-\ell} \xi_{-\ell-k}
+  { [  \Theta (L) ] }_{k}^{\infty} L^{-k} \delta (L) { \Theta (L)}^{-1} 
+ \right).
 \end{equation}
  Moreover, the   MSE  corresponding to this solution is given by
 \begin{equation} 
@@ -1421,14 +1423,65 @@ We now consider LPPs for non-stationary processes.
  \end{Proposition}
  
 \paragraph{Proof of Proposition \ref{prop:GPP-nonstat}.} 
- 
- 
+ We show that the filter error $\Delta (z) = \Psi (z) - \widehat{\Psi} (z)$
+  is divisible by $\delta (z)$, so that we can write
+   $\Delta (z) = \widetilde{\Delta} (z) \delta (z)$, from which it follows
+    that the error process must be stationary.
+  We make use of an algebraic identity proved in McElroy and Findley (2010):
+  for any $j \geq 0$
+\begin{equation}
+ \label{eq:diffop-algid}
+  {[ \Theta (z)/ \delta (z)]}_0^{j} = \sum_{k=0}^j \xi_k z^k { [ \Theta (z) ] }_0^{j-k}.
+\end{equation}
+ Then using the definition of $\widehat{\Psi}(L)$ in (\ref{eq:GPPsoln-nonstat}),
+\begin{align*}    
+  \Delta (z) & =  \sum_{\ell = -1}^{- \infty} \psi (\ell) 
+   \left( z^{\ell} - \sum_{h=0}^{d-1} A_{-\ell} (h) z^h  - \sum_{k=1}^{-\ell} \xi_{-\ell-k}
+    {[ \Theta (z)]}_k^{\infty} z^{-k} \delta (z) { \Theta (z)}^{-1}  \right) \\
+    & = \sum_{\ell = -1}^{- \infty} \psi (\ell) 
+   \left( \sum_{k=0}^{-\ell-1} \xi_k z^{k+\ell} \Theta (z) -
+     \sum_{k=0}^{-\ell-1} \xi_{k}
+    {[ \Theta (z)]}_{-\ell-k}^{\infty} z^{k+\ell} \delta (z) { \Theta (z)}^{-1} \right) \\
+  & = \sum_{\ell = -1}^{- \infty} \psi (\ell) 
+   \left( \sum_{k=0}^{-\ell-1} \xi_k z^{k+\ell} 
+    {[ \Theta (z)]}_0^{-\ell-k-1}   \right) \delta (z) { \Theta (z)}^{-1} \\
+   & = \sum_{\ell = -1}^{- \infty} \psi (\ell) z^{\ell}
+    { [ \Theta (z) / \delta (z)]}_0^{-\ell-1} 
+    \delta (z) { \Theta (z)}^{-1},
+\end{align*}    
+   where the second equality follows from (\ref{eq:Identity1}), 
+    and the fourth equality  follows from (\ref{eq:diffop-algid}).
+    Hence, we find that
+\[
+ \widetilde{\Delta} (z) = \sum_{\ell = -1}^{- \infty} \psi (\ell) z^{\ell}
+    { [ \Theta (z) / \delta (z)]}_0^{-\ell-1}  { \Theta (z)}^{-1},
+\]
+ which is well-defined under the invertibility assumption.  
+ The real-time error process is then
+\[
+  \Delta (L) X_t = \widetilde{\Delta} (L) \, \partial X_t
+    = \sum_{\ell = -1}^{- \infty} \psi (\ell)  
+    { [ \Theta (L) / \delta (L)]}_0^{-\ell-1}\, \epsilon_{t-\ell},
+\]
+ which only involves future innovations.  Hence the error process is 
+  uncorrelated with present and past values of the process $\{ X_t \}$,
+   demonstrating optimality.  The MSE is computed 
+ by taking the variance of the error process.  $\qquad \Box$
+
+% \widehat{\Psi} (L) = \sum_{\ell = -\infty }^{\infty} \psi (\ell) \, L^{\ell} - 
+% \sum_{\ell < 0 } \psi (\ell)
+% \,  { [ \Theta (L) / \delta (L) ]}_{0}^{ -\ell-1  } \, L^{\ell} \,
+% {\Theta (L) }^{-1} \delta(L).
+
  
 \vspace{.5cm}
 
- Now supposing that $\{ X_t \}$ is non-stationary,
- examination of (\ref{eq:dfa-error}) indicates that the error process is 
- not stationary unless we make certain assumptions
+ Proposition  \ref{prop:GPP-nonstat} gives the optimal concurrent filter in 
+  the non-stationary case, and the answer depends upon knowing the process'
+   dynamics.  However, for MDFA we wish to proceed without such an assumed
+   knowledge.   From the proof of Proposition  \ref{prop:GPP-nonstat}, it
+  is clear that  the error process will  
+ not be stationary unless we make certain assumptions
  about $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$.    
  In order to remove the time-varying functions it is necessary that 
  we can factor $\delta (L)$ from $\Delta (L)$, i.e., we require the existence of
@@ -1438,7 +1491,10 @@ We now consider LPPs for non-stationary processes.
   \Delta (L) = \widetilde{\Delta } (L) \, \delta (L),
 \end{equation}
  as otherwise we cannot guarantee that $\{ E_t \}$ will be stationary. 
-  Moreover, if $\mu =0$ then (\ref{eq:delta.factor}) is also sufficient to guarantee
+ (This condition (\ref{eq:delta.factor}) is indeed satisfied by the optimal 
+ concurrent filter of Proposition \ref{prop:GPP-nonstat}, as is shown in the 
+  proof.)  Moreover, if $\mu =0$ then (\ref{eq:delta.factor}) is also 
+  sufficient to guarantee
  that the filter error be stationary, because
 \[
   E_t = \widetilde{\Delta} (L) \, \partial X_t
@@ -2189,7 +2245,6 @@ We now  study the  MB trend filter arising from a LLM
   Because the trend variance for the second component is $15$ times 
   larger than that of the first component,
  the correspoding trend filter  does less smoothing.  
-
 \end{Example}
 
 \begin{Exercise} {\bf Petrol MB Replication.}
