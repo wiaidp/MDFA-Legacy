@@ -1,9 +1,9 @@
-mvar.specffact <- function(x.acf)
+mvar.specfact <- function(x.acf)
 {
   
   ##########################################################################
   #
-  #	specFactmvar
+  #	mvar.specfact
   # 	    Copyright (C) 2017  Tucker McElroy
   #
   #    This program is free software: you can redistribute it and/or modify

@@ -1,0 +1,54 @@
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Overview}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Signals and Extraction}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}The Classic Model-Based Paradigm}{2}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}The Scope of MDFA}{3}{subsection.1.1.3}%
+\contentsline {section}{\numberline {1.2}The Style of the Book}{4}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Setting the Paths}{4}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}DFA}{5}{subsection.1.2.2}%
+\contentsline {subsubsection}{DFT and Periodogram}{5}{section*.2}%
+\contentsline {subsubsection}{Basic DFA}{6}{section*.3}%
+\contentsline {subsubsection}{Customized DFA}{7}{section*.4}%
+\contentsline {subsection}{\numberline {1.2.3}MDFA}{7}{subsection.1.2.3}%
+\contentsline {subsubsection}{Data Matrix}{7}{section*.5}%
+\contentsline {subsubsection}{DFT}{9}{section*.6}%
+\contentsline {subsection}{\numberline {1.2.4}Using MDFA}{10}{subsection.1.2.4}%
+\contentsline {subsubsection}{A Versatile User Interface}{10}{section*.7}%
+\contentsline {subsubsection}{Default Settings}{10}{section*.8}%
+\contentsline {subsubsection}{Selected Calls: Classic MSE, Customization and Regularization}{11}{section*.9}%
+\contentsline {chapter}{\numberline {2}Linear Prediction Problems}{13}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Background on Stationary Vector Time Series}{13}{section.2.1}%
+\contentsline {section}{\numberline {2.2}MSE Optimal Prediction Problems}{16}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}The Linear Prediction Problem}{16}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Solution to the Linear Prediction Problem}{19}{subsection.2.2.2}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:GPP}.}{20}{section*.10}%
+\contentsline {section}{\numberline {2.3}Model Fitting via LPP MSE Minimization}{22}{section.2.3}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:PTV-truth}.}{23}{section*.11}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:LPP-Clt}.}{24}{section*.12}%
+\contentsline {chapter}{\numberline {3}Introduction to the Multivariate Direct Filter Analysis}{35}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Background on Multivariate Filtering}{35}{section.3.1}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:phase-delay}.}{37}{section*.13}%
+\contentsline {section}{\numberline {3.2}Multivariate Direct Filter Analysis of the LPP}{37}{section.3.2}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln}.}{39}{section*.14}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:MDFAasymp}.}{40}{section*.15}%
+\contentsline {section}{\numberline {3.3}Computation of the Linear Prediction Filter}{41}{section.3.3}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:dft-unitary}.}{42}{section*.16}%
+\contentsline {section}{\numberline {3.4}Qualitative Easing by Leading Indicators: an Empirical Study}{52}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Bivariate MDFA versus Univariate DFA}{52}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Measuring Lead and Signal-to-Noise Effects of a Leading Indicator}{54}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}Multivariate DFA with Multiple Targets}{57}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}LPP with Multiple Targets}{57}{subsection.3.5.1}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:GPP2}.}{58}{section*.17}%
+\contentsline {subsection}{\numberline {3.5.2}MDFA for Multiple Targets}{58}{subsection.3.5.2}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln2}.}{59}{section*.18}%
+\contentsline {chapter}{\numberline {4}Multivariate Direct Filter Analysis for Non-stationary Processes}{63}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Constrained MDFA}{63}{section.4.1}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:mdfa.quadsoln-constrain}.}{68}{section*.19}%
+\contentsline {section}{\numberline {4.2}Background on Non-stationary Vector Time Series }{71}{section.4.2}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:nonstat-rep}.}{73}{section*.20}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:wk}.}{76}{section*.21}%
+\contentsline {section}{\numberline {4.3}Error Criterion and Computation}{84}{section.4.3}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:GPP-nonstat}.}{84}{section*.22}%
+\contentsline {paragraph}{Proof of Proposition \ref {prop:filter-decompose}.}{86}{section*.23}%
+\contentsline {section}{\numberline {4.4}Replication and Efficiency Gain Over Model-Based Filters}{93}{section.4.4}%
+\contentsline {paragraph}{Proof of Theorem \ref {thm:asym.sigex}.}{94}{section*.24}%
