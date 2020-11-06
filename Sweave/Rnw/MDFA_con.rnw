@@ -2186,10 +2186,11 @@ f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
 trend.wkfrf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
 trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
 x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
-trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
-trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
- 
 
+## HERE :  need to debug mdfa.whfrf
+#trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
+#trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+ 
 # get MDFA concurrent filter
 q <- 30
 x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]

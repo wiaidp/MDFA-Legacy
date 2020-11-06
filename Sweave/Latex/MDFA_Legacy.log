@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.8.11)  6 NOV 2020 17:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.8.11)  6 NOV 2020 18:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -746,7 +746,7 @@ IS FOR NON-STATIONARY PROCESSES
 
 [70] [71]
 
-LaTeX Warning: Reference `exam:i1-rep' on page 72 undefined on input line 4523.
+LaTeX Warning: Reference `exam:i1-rep' on page 72 undefined on input line 4388.
 
 
 
@@ -768,18 +768,18 @@ IS FOR NON-STATIONARY PROCESSES
  []
 
 [76]
-Overfull \hbox (127.7587pt too wide) detected at line 4857
+Overfull \hbox (127.7587pt too wide) detected at line 4722
 []
  []
 
 
-LaTeX Warning: Reference `chap:coint' on page 77 undefined on input line 4874.
+LaTeX Warning: Reference `chap:coint' on page 77 undefined on input line 4739.
 
 [77]
 <llm_frf.pdf, id=883, 433.62pt x 289.08pt>
 File: llm_frf.pdf Graphic file (type pdf)
 <use llm_frf.pdf>
-Package pdftex.def Info: llm_frf.pdf  used on input line 4943.
+Package pdftex.def Info: llm_frf.pdf  used on input line 4808.
 (pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
 
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
@@ -792,12 +792,12 @@ IS FOR NON-STATIONARY PROCESSES
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.4963 \]
+l.4828 \]
           <./llm_frf.pdf>]
 <stm_frf.pdf, id=897, 433.62pt x 289.08pt>
 File: stm_frf.pdf Graphic file (type pdf)
 <use stm_frf.pdf>
-Package pdftex.def Info: stm_frf.pdf  used on input line 5008.
+Package pdftex.def Info: stm_frf.pdf  used on input line 4873.
 (pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
 
 Underfull \vbox (badness 1371) has occurred while \output is active []
@@ -816,7 +816,7 @@ IS FOR NON-STATIONARY PROCESSES
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5099 \end{align*}
+l.4964 \end{align*}
                     <./stm_frf.pdf>] [81]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -833,7 +833,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 <sauc_frf.pdf, id=930, 433.62pt x 289.08pt>
 File: sauc_frf.pdf Graphic file (type pdf)
 <use sauc_frf.pdf>
-Package pdftex.def Info: sauc_frf.pdf  used on input line 5199.
+Package pdftex.def Info: sauc_frf.pdf  used on input line 5064.
 (pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
 
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
@@ -846,9 +846,9 @@ IS FOR NON-STATIONARY PROCESSES
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.5257 \end{equation}
+l.5122 \end{equation}
                       <./sauc_frf.pdf>] [85]
-Overfull \hbox (5.31406pt too wide) in paragraph at lines 5386--5391
+Overfull \hbox (5.31406pt too wide) in paragraph at lines 5251--5256
 \T1/aer/m/n/10 This es-tab-lishes al-ge-braically that $\OT1/cmr/m/n/10 	[](\OM
 L/cmm/m/it/10 L\OT1/cmr/m/n/10 )$ \T1/aer/m/n/10 with co-ef-fi-cients as de-fin
 ed above equals $\OT1/cmr/m/n/10 (	(\OML/cmm/m/it/10 L\OT1/cmr/m/n/10 ) \OMS/cm
@@ -863,7 +863,7 @@ IS FOR NON-STATIONARY PROCESSES
  []
 
 [86]
-Overfull \hbox (16.36378pt too wide) detected at line 5454
+Overfull \hbox (16.36378pt too wide) detected at line 5319
 [] \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 j\O
 T1/cmr/m/n/10 ) \OML/cmm/m/it/10 ^^P[]  [] p[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10
  L=^^P\OT1/cmr/m/n/10 ) + \OML/cmm/m/it/10 F  []  \OT1/cmr/m/n/10 (\OMS/cmsy/m/
@@ -872,11 +872,6 @@ cmr/m/n/10 (\OML/cmm/m/it/10 F^^P\OT1/cmr/m/n/10 )\OML/cmm/m/it/10 :
  []
 
 [87]
-
-LaTeX Warning: Reference `eq:non-stat.constraint' on page 88 undefined on input
- line 5551.
-
-
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 88 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
@@ -901,7 +896,7 @@ IS FOR NON-STATIONARY PROCESSES
  []
 
 [94]
-Overfull \hbox (8.90442pt too wide) detected at line 5989
+Overfull \hbox (8.90442pt too wide) detected at line 5854
 []
  []
 
@@ -909,10 +904,10 @@ Overfull \hbox (8.90442pt too wide) detected at line 5989
 Underfull \vbox (badness 4967) has occurred while \output is active []
 
  [95]
-<petrol_data.pdf, id=1061, 433.62pt x 289.08pt>
+<petrol_data.pdf, id=1062, 433.62pt x 289.08pt>
 File: petrol_data.pdf Graphic file (type pdf)
 <use petrol_data.pdf>
-Package pdftex.def Info: petrol_data.pdf  used on input line 6073.
+Package pdftex.def Info: petrol_data.pdf  used on input line 5938.
 (pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
 
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
@@ -925,159 +920,165 @@ IS FOR NON-STATIONARY PROCESSES
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6089 \[
+l.5953 \[
           <./petrol_data.pdf>] [97]
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 98 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[98] [99
+[98] [99]
+Overfull \hbox (48.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 100 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
+SIS FOR NON-STATIONARY PROCESSES
+ []
 
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
+[100
+
+] [101pdfTeX warning (ext4): destination with the same identifier (name{cite.})
+ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).]pdfTeX warning (ext4): de
 stination with the same identifier (name{cite.}) has been already used, duplica
 te ignored
 <to be read again> 
                    \relax 
-l.6517 \bibitem{}
+l.6433 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <to be read again> 
                    \relax 
-l.6521 \bibitem{}
+l.6437 \bibitem{}
                   McElroy, T., and Findley, D. (2015). Fitting constrained v...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6523 \bibitem{}
+l.6439 \bibitem{}
                   McElroy, T., and Trimbur, T. (2015). Signal Extraction for...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6527 \bibitem{}
+l.6443 \bibitem{}
                   McElroy, T. S. and Wildi, M. (2020). The multivariate line...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6529 \bibitem{}
+l.6445 \bibitem{}
                   Self, S. G., and Liang, K. Y. (1987). Asymptotic propertie...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6531 \bibitem{}
+l.6447 \bibitem{}
                   Taniguchi, M., and Kakizawa, Y. (2012). Asymptotic theory ...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6533 \bibitem{}
+l.6449 \bibitem{}
                   Wildi, M. (2007). Real-Time Signal Extraction.pdfTeX warning 
 (ext4): destination with the same identifier (name{cite.}) has been already use
 d, duplicate ignored
 <to be read again> 
                    \relax 
-l.6535 \bibitem{}
+l.6451 \bibitem{}
                   Wildi, M. and McElroy, T. (2016). Optimal real-time filter...
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 6540.
-[100pdfTeX warning (ext4): destination with the same identifier (name{cite.}) h
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 6456.
+[102pdfTeX warning (ext4): destination with the same identifier (name{cite.}) h
 as been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.6540 \end{document}
+l.6456 \end{document}
                      ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 6540.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 6456.
  (./MDFA_Legacy.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 6540.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 6540.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 6456.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 6456.
 
 Package rerunfilecheck Info: File `MDFA_Legacy.out' has not changed.
 (rerunfilecheck)             Checksum: F5A96D53370DB30C4095EBC11467D7C7;2493.
@@ -1091,13 +1092,13 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 6540.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 6456.
  ) 
 Here is how much of TeX's memory you used:
- 7963 strings out of 480893
- 114509 string characters out of 5911972
+ 7964 strings out of 480893
+ 114501 string characters out of 5911972
  392142 words of memory out of 5000000
- 23041 multiletter control sequences out of 15000+600000
+ 23040 multiletter control sequences out of 15000+600000
  582555 words of font info for 118 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  43i,15n,37p,335b,508s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1123,10 +1124,10 @@ st/fonts/type1/public/amsfonts/latxfont/lasy10.pfb><c:/texlive/2020/texmf-dist/
 fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2020/texmf-dist/font
 s/type1/public/amsfonts/symbols/msbm7.pfb><c:/texlive/2020/texmf-dist/fonts/typ
 e1/public/cm-super/sfrm1000.pfb>
-Output written on MDFA_Legacy.pdf (104 pages, 1121196 bytes).
+Output written on MDFA_Legacy.pdf (106 pages, 1124164 bytes).
 PDF statistics:
- 1251 PDF objects out of 1440 (max. 8388607)
- 1095 compressed objects within 11 object streams
- 306 named destinations out of 1000 (max. 500000)
+ 1262 PDF objects out of 1440 (max. 8388607)
+ 1103 compressed objects within 12 object streams
+ 308 named destinations out of 1000 (max. 500000)
  289 words of extra memory for PDF output out of 10000 (max. 10000000)
 
