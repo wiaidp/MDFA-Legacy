@@ -2230,19 +2230,24 @@ $\quad \Box$
 
 <<echo=False>>=
 # visualize
-
-load("/Sweave/Data/petrol.RData")
- 
-
+load("Sweave/Data/petrol.RData")
+petrol <- ts(petrol[,c(1,2)],start=c(1973,1),frequency=12,
+             names=c("Consumption","Imports")) 
+plot(petrol,xlab="Year")
 file <- paste("petrol_data.pdf", sep = "")
 pdf(file = paste(path.out,file,sep=""), paper = "special", 
     width = 6, height = 4)
- 
 invisible(dev.off())
 @
   
-HERE   need code chunk to generate Petrol figure, with WK and WH filters applied
-
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{petrol_data.pdf}
+\caption{Plot of monthly  Industrial Petroleum Consumption and OPEC Oil Imports, 
+  Jan 1973 through December 2016 (seasonally adjusted). }
+\label{fig:petroldata}
+\end{center}
+\end{figure}  
 
 \begin{Example} {\bf Petrol MB Replication.} \rm
 \label{exam:petrol-mb}
@@ -2287,9 +2292,28 @@ We now  study the  MB trend filter arising from a LLM
 
 
 <<exercise_llmpetrol-mdfa,echo=True>>=
-#
+# Simulate a Gaussian LLM  of sample size 5000:
+set.seed(1234)
+T.sim <- 5000
+burn <- 1000
+N <- 2
+psi.sim <- c(2.17150287559847, -8.36795922528, -6.04133725367594, 
+             0.0648981656699, -6.80849700177184, -6.66004335288479, 
+             -0.00016098322952, 0.00051984185863)
+psi.sim[7:8] <- c(0,0)
 
-
+len <- 1000
+dpoly <- c(1,-1)
+delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+d <- length(dpoly) - 1
+mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
+Sigma.mu <- mu.sim[[2]]
+mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+ 
 @
 
 

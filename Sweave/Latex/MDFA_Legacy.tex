@@ -3390,6 +3390,28 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 \end{tabular}
 \end{table}
  
+ 
+ \begin{table}[]
+\centering
+\caption{Effect of lead and  inverse signal-to-noise ratio on DFA filter MSE.}
+\label{tab:critudfa.mat}
+\begin{tabular}{llllll}
+  & 0    & 0.25   & 0.5  
+   & 0.75  & 1  \\ \hline
+0        & -3.5527136788005e-15  & -3.5527136788005e-15 
+    & -3.5527136788005e-15 & -3.5527136788005e-15 & -3.5527136788005e-15  \\
+0.1        & 0.0515333063544694  & 0.0515333063544694 
+    & 0.0515333063544694 & 0.0515333063544694 & 0.0515333063544694  \\
+0.5        & 0.24160844893295  & 0.24160844893295 
+    & 0.24160844893295 & 0.24160844893295 & 0.24160844893295  \\
+1        & 0.54284235518345  & 0.54284235518345 
+    & 0.54284235518345 & 0.54284235518345 & 0.54284235518345  \\
+2        & 0.857285264133202  & 0.857285264133202 
+    & 0.857285264133202 & 0.857285264133202 & 0.857285264133202  \\
+\hline      
+\end{tabular}
+\end{table}
+
  The results for MDFA and univariate DFA, respectively, are given in 
 Tables \ref{tab:critmdfa.mat} and \ref{tab:critudfa.mat}.
 Regarding the design of Exercise \ref{exer:nowmdfa-udfa}, we make the following 
@@ -5932,10 +5954,10 @@ target.  When the model is correctly specified, the best concurrent filter
      { \Theta (z^{-1})}^{-1 \prime} \right] }_{-\infty}^{-1} \, \Sigma^{-1} \,
      { \Theta (z) }^{-1} \delta (z).
 \]
-   This  frfcorresponds to a filter of the form $\Phi (L)  { \Theta (L) }^{-1} \delta (L)$,
+   This  frf corresponds to a filter of the form $\Phi (L)  { \Theta (L) }^{-1} \delta (L)$,
    where $\Phi (e^{-i \omega})$ is a function of bounded modulus.
    Furthermore,  the Laurent series expansion of $\Phi (z)$ only involves negative powers 
-   of $z$, which means that the fitler $\Phi (L)$ only involves negative powers of $L$.
+   of $z$, which means that the filter $\Phi (L)$ only involves negative powers of $L$.
    Such a filter is purely anti-causal, meaning that the output of such a filter only
    depends on future values.  
    Therefore, its application to $\{ X_t \}$ yields
@@ -5996,7 +6018,10 @@ for the second summand we have
    \phi^x  (-\ell-1-k)   \\
   & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} 
   \frac{1}{2 \pi} \int_{-\pi}^{\pi}  \Psi (e^{-i \omega}) \, e^{i \omega \ell} \, d\omega 
-\,  \phi^x  (-\ell-1-k)   \\
+\,  \phi^x  (-\ell-1-k).
+\end{align*}
+Substituting the expression for the frf of the WK filter yields
+\begin{align*}
  & =  \sum_{k = 0}^{\infty}    z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
  f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
   {| \delta^N (e^{-i \omega}) |}^2 \, 
@@ -6030,8 +6055,8 @@ f_{ \partial S}(\omega) \,  { \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{
   & =  \Psi (z) -  \gamma_{\partial S} (z)  \, 
     {  \Theta^x (z^{-1}) }^{-1 \prime}  \, \delta^N (z^{-1})/ \delta^S (z) \,
      \Sigma_x^{-1} \,
-    { \Theta^x (z) }^{-1} \delta (z) +
-    { [  \gamma_{\partial S} (z)  \, 
+    { \Theta^x (z) }^{-1} \delta (z)  \\
+ &    +  { [  \gamma_{\partial S} (z)  \, 
     {  \Theta^x (z^{-1}) }^{-1 \prime}  \delta^N (z^{-1})/ \delta^S (z)
      ]}_{0}^{\infty}  \, \Sigma_x^{-1} \,
     { \Theta^x (z) }^{-1} \delta (z),
@@ -6040,10 +6065,19 @@ f_{ \partial S}(\omega) \,  { \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{
   This verifies that the LPP solution indeed equals the optimal concurrent
   filter when $\Psi $ is the WK filter.
 $\quad \Box$
- 
 
 
-\begin{Example} {\bf Petrol MB Replication.}
+  
+%\begin{figure}[htb!]
+%\begin{center}
+%\includegraphics[]{petrol_data.pdf}
+%\caption{Plot of monthly  Industrial Petroleum Consumption and OPEC Oil Imports, 
+%  Jan 1973 through December 2016 (seasonally adjusted). }
+%\label{fig:petroldata}
+%\end{center}
+%\end{figure}  
+
+\begin{Example} {\bf Petrol MB Replication.} \rm
 \label{exam:petrol-mb}
 We now  study the  MB trend filter arising from a LLM  
 (cf. Example \ref{exam:trend-i1}) fitted
@@ -6061,32 +6095,29 @@ We now  study the  MB trend filter arising from a LLM
 \]
   Because the trend variance for the second component is $15$ times 
   larger than that of the first component,
- the correspoding trend filter  does less smoothing.  
+ the corresponding trend filter  does less smoothing. 
+ From this fitted model,  we can construct both the WK filter -- recall Exercise
+  \ref{exer:trend-i1}, and the plot of the WK filter's frf in Figure \ref{fig:llm-frf} --
+  and the optimal concurrent filter via (\ref{eq:wiener-hopf}).
 \end{Example}
 
-\begin{Exercise} {\bf Petrol MB Replication.}
+\begin{Exercise} {\bf Petrol MB Replication.}  \rm
 \label{exer:petrol-mb}
- 
-
+ The purpose of this exercise is to demonstrate that MDFA can replicate
+ a MB concurrent filter, and even have superior performance when the 
+ model is mis-specified. 
+ Simulate a sample of size $T=5000$ from an LLM process with parameters
+ given in Example \ref{exam:petrol-mb}.   Apply the WK trend filter
+(truncate the filter to $1000$ coefficients on each side) and the 
+ optimal concurrent trend filter.  
+ Use the moving average filter  MDFA  for an $I(1)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+    Apply both concurrent filters (MB and MDFA)
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
 
-%HERE   Petrol figure
- 
-
-   
-
- We are interested in the performance of MDFA relative to the MB concurrent filter.
- We begin with a specification of the LLM exactly corresponding to the model fitted to the Petrol data, so that the MB concurrent filter
- $\widehat{\Psi} $ solves  the LPP.  (We refer to this as the null specification of the LLM.)
- We show that MDFA  (with appropriate constraints) can   replicate this optimal filter. 
- The optimal concurrent MB filter can be computed analytically -- see (\ref{eq:opt.conc.sigex}) of Appendix A for the 
-stationary case.  If model mis-specification is anticipated, one could improve on this MB filter by using forecast
-extensions from a fitted VAR (or co-integrated VAR), which is a flexible model class;  in contrast,   MDFA implicitly generates
-forecast extensions nonparametrically.
-
- As with the VAR($1$) simulation
- we truncate the target MB filter to length $4001$ and generate a simulated LLM of length $4500$.   
- The simulations, together with the target trends (given by the WK trend filters), are displayed in  Figure \ref{fig:petrol.llmtrends}.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -6097,88 +6128,94 @@ forecast extensions nonparametrically.
 \end{Schunk}
 
 
-
-
-
-\begin{table}[!htb]
-\centering
-\begin{tabular}{cllllll}
-\hline
-& \multicolumn{2}{c}{Null LLM} &\multicolumn{2}{c}{Alternative LLM} & \multicolumn{2}{c}{Petrol Data} \\
-\hline
-  Series 	 &  MB    &  MDFA  &  MB    &  MDFA    &  MB    &  MDFA   \\
-  Consumption &   .1285 & .1268 &  1.3224  &  .9841    &   .1295 &   .1176 \\
-  Imports	 &  .1728 & .1691 &   .8433  &  .6603    &   2.1691  &   2.2033 \\
-\hline
-\end{tabular}
-\caption{\baselineskip=10pt Empirical LPP MSE for real-time trend estimators (MB Concurrent filter versus
- MDFA filter) applied to bivariate LLM null process,  LLM alternative process,
- and Petrol data,  with target trend
- given by the null LLM MB trend. (Units of $10^{-3}$.) }
-\label{tab:petrol.llm.mdfa}
-\end{table}
-
-We apply MDFA in the manner described in Section 4.3,  where $\delta^S (z) = 1-z$ and $\delta^N (z) = 1$.
- By  extracting the bottom row (corresponding to $T=528$, the length of the petrol sample)
- of the matrix formula for the finite-sample filter (McElroy and Trimbur, 2015), we obtain a very close approximation to the MB concurrent filter,
-  which we denote by $\widehat{\Psi} $.     Results are displayed in Figure \ref{fig:llm.nullmdfa} of the Appendix, with the target trend in black
- (these are the same black trend lines as displayed in Figure \ref{fig:petrol.llmtrends}, but here shown without the underlying simulation)
- and the MDFA real-time trend in dark grey; MDFA does a good job of tracking the real trend, although with some loss to smoothness in 
- addition to a lag effect -- this is to be expected of a concurrent filter, to some degree.  Indeed, the optimal concurrent filter
- (light grey) is exactly matched by the MDFA filter.
- The first column block of  Table \ref{tab:petrol.llm.mdfa} shows the in-sample MSE for 
- the two concurrent filters (MB versus MDFA), showing small discrepancies due to finite-sample effects,
-   i.e., the MDFA filter replicates the optimal concurrent filter.
-
-\begin{figure}[htb!]
-\centering
-\includegraphics[]{petrolLLMtrendsAlt}
-\caption{\baselineskip=10pt Bivariate  trend  filter applied to alternative LLM simulation (grey), with trends in black. 
- The simulation is obtained from altering the paramteres of an 
- LLM fitted to bivariate Petrol (Consumption and Imports), so the component
- series of the simulation are labelled accordingly.}
-\label{fig:llm.alttrends}
-\end{figure}
-
-Next, we alter the specification to illustrate that MDFA can out-perform the MB concurrent filter.    We do this by substantially increasing the
- variability in the irregular, producing a noisier simulation -- now the MB concurrent will do too little smoothing.  The new irregular
- covariance matrix is
+\begin{Exercise} {\bf Petrol MB Out-Performance.}  \rm
+\label{exer:petrol-mb2}
+ Now we alter the specification of the LLM for the Petrol series,
+  to illustrate that MDFA can out-perform the MB concurrent filter.  
+  We do this by substantially increasing the
+ variability in the irregular, producing a noisier simulation -- now the MB concurrent will do too little smoothing.  Consider the same MLE for the trend covariance
+  matrix as in Exercise \ref{exam:petrol-mb}, but now set the irregular
+ covariance matrix to be
 \[
    \qquad  \Sigma_{Z} = \left[ \begin{array}{ll}
        18.32 \cdot 10^{-3}  &  1.19 \cdot 10^{-3}   \\
        1.19 \cdot 10^{-3}  &  18.39 \cdot 10^{-3}  \end{array} \right].
 \]
- We refer to this as the alternative LLM process. 
- The resulting simulation with trends
- is shown in Figure \ref{fig:llm.alttrends}.
-Application of MDFA yields   the  trends plotted in Figure \ref{fig:llm.altmdfa} of the Appendix.  For the first series, MDFA tracks the
- MB trend better than the MB concurrent filter does;  the second block of columns in
- Table \ref{tab:petrol.llm.mdfa} shows the in-sample MSE for 
- the two concurrent filters, showing substantial improvements 
-for MDFA ($26 \%$ and $22 \%$ reductions to MSE, respectively for the two series).
+ Simulate a sample of size $T=5000$ from an LLM process with these parameters,
+ but apply  the WK trend filter
+(truncate the filter to $1000$ coefficients on each side) and the 
+ optimal concurrent trend filter  corresponding to the parameters
+  given in Example \ref{exam:petrol-mb}.  
+ Use the moving average filter  MDFA  for an $I(1)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+    Apply both concurrent filters (MB and MDFA)
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
+\end{Exercise}
+
+\begin{Exercise} {\bf Petrol MB Empirical Performance.}  \rm
+\label{exer:petrol-mb3}
+ We now examine the performance of MDFA   on the Petroleum data itself,
+ recognizing that the LLM might be mis-specified.  
+ Use the target filter resulting from the MLEs of the fitted LLM,
+  from Example \ref{exam:petrol-mb}, truncating five years of observations at either end
+   of the series.  
+ Apply the  MDFA  for an $I(1)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+  Apply both concurrent filters (MB and MDFA)
+ to the data, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
+\end{Exercise}
+    
+   
+HERE  some discussion, and tables summarizing the results    
+   
+% \begin{table}[!htb]
+% \centering
+% \begin{tabular}{cllllll}
+% \hline
+% & \multicolumn{2}{c}{Null LLM} &\multicolumn{2}{c}{Alternative LLM} & \multicolumn{2}{c}{Petrol Data} \\
+% \hline
+%   Series 	 &  MB    &  MDFA  &  MB    &  MDFA    &  MB    &  MDFA   \\
+%   Consumption &   .1285 & .1268 &  1.3224  &  .9841    &   .1295 &   .1176 \\
+%   Imports	 &  .1728 & .1691 &   .8433  &  .6603    &   2.1691  &   2.2033 \\
+% \hline
+% \end{tabular}
+% \caption{\baselineskip=10pt Empirical LPP MSE for real-time trend estimators (MB Concurrent filter versus
+%  MDFA filter) applied to bivariate LLM null process,  LLM alternative process,
+%  and Petrol data,  with target trend
+%  given by the null LLM MB trend. (Units of $10^{-3}$.) }
+% \label{tab:petrol.llm.mdfa}
+% \end{table}
+
+
+% \begin{figure}[htb!]
+% \centering
+% \includegraphics[]{petrolLLMtrendsAlt}
+% \caption{\baselineskip=10pt Bivariate  trend  filter applied to alternative LLM simulation (grey), with trends in black. 
+%  The simulation is obtained from altering the paramteres of an 
+%  LLM fitted to bivariate Petrol (Consumption and Imports), so the component
+%  series of the simulation are labelled accordingly.}
+% \label{fig:llm.alttrends}
+% \end{figure}
 
 
 
-\begin{figure}[htb!]
-\centering
-\includegraphics[]{petrolLLMrealtimeData}
-\caption{\baselineskip=10pt  Monthly Petroleum data:  LLM bivariate  trend  output (black), 
-with non-stationary MDFA trend (dark grey) and MB concurrent trend (light grey). 
-The trend lines have been vertically staggered for easier visualization.}
-\label{fig:llm.datamdfa}
-\end{figure}
+% 
+% \begin{figure}[htb!]
+% \centering
+% \includegraphics[]{petrolLLMrealtimeData}
+% \caption{\baselineskip=10pt  Monthly Petroleum data:  LLM bivariate  trend  output (black), 
+% with non-stationary MDFA trend (dark grey) and MB concurrent trend (light grey). 
+% The trend lines have been vertically staggered for easier visualization.}
+% \label{fig:llm.datamdfa}
+% \end{figure}
 
  
 
 
-Finally, we conduct a comparison on the Petroleum data itself, recognizing that the LLM might be mis-specified.  We do not have the long samples
- available considered before, so we compute a series of MB trends based on the matrix formulas for signal extraction, based on the specified
- model, and delete the first and last five years of such trends.  The result is a trend that approximately corresponds to the output of the
- symmetric MB filter $\Psi $.  Taking the same MB filter as target, we compute the non-stationary MDFA solution to the LPP, and compare to the
- concurrent MB filter output.  The resulting trends are plotted in Figure \ref{fig:llm.datamdfa}.  The in-sample MSE is displayed in
- the final block of columns in  Table    \ref{tab:petrol.llm.mdfa}, showing a modest improvement for MDFA
- on the first series, and similar performance on the second series. 
- 
 
 
 HERE  STM replicate, MDFA for mis-spec, and Ndc.  Connect to HP
