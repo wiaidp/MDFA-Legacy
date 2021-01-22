@@ -1594,19 +1594,20 @@ The  best possible concurrent filter is  given by
  Pseudo-True Value  for the filter parameter.
 A   case of interest arises from taking a very broad class $\mathcal{G}$, namely
   let $\mathcal{G}$ consist of all length $q$ concurrent filters, with 
-$\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and 
+$\vartheta =  \mbox{vec} [ P^{\prime}]$ and 
 \begin{equation}
 \label{eq:conc.filter}
-  \Xi^{}  =  {\left[  \widehat{\psi} (0), \widehat{\psi} (1), \ldots, 
+  P  =  {\left[  \widehat{\psi} (0), \widehat{\psi} (1), \ldots, 
   \widehat{\psi} (q-1) \right] }^{\prime}.
 \end{equation}
- So $\Xi$ is  a   $ q n \times n$ dimensional matrix.
+ So $P$ is  a   $ q n \times n$ dimensional matrix.
  Then the criterion (\ref{eq:mdfa-criterion2}) can be rewritten as
 \begin{equation}
 \label{eq:mdfa-crit.linear}
- D_{\Psi} (\vartheta, G)  = \Xi^{\prime} \, B \, \Xi -
-   \Xi^{\prime} \, A - 
-   A^{\prime} \, \Xi + { \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0,
+ D_{\Psi} (\vartheta, G)  = P^{\prime} \, B \, P -
+   P^{\prime} \, A - 
+   A^{\prime} \, P + { \langle \Psi (e^{-i \omega}) \, 
+   G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0,
 \end{equation}
  where 
 \begin{equation}
@@ -1623,9 +1624,10 @@ $\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and
 
 \begin{Proposition}
 \label{prop:mdfa.quadsoln2}
- The minimizer of the   MDFA criterion given by the determinant of (\ref{eq:mdfa-criterion2}),
+ The minimizer of the   MDFA criterion given by the determinant 
+ of (\ref{eq:mdfa-criterion2}),
   with respect to $\mathcal{G}$ consisting of all length $q$ concurrent filters,  is
-  $ \Xi (G) = B^{-1} \, A$,
+  $ P (G) = B^{-1} \, A$ (expressing $P$ as a function of $G$),
  where the $jk$th  block of $B$   is    ${ \langle G \rangle }_{k-j}$,
  and $A$ is given by (\ref{eq:bstar-expression}).
  The minimal value is the determinant of
@@ -1644,10 +1646,10 @@ $\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and
 \end{equation}
  for $0 \leq \ell < q$,  which shows that $A$ is real-valued. 
  The argument follows the same method as in McElroy and Findley (2015);
- each entry of the matrix objective function is a quadratic in $\Xi$, and therefore
+ each entry of the matrix objective function is a quadratic in $P$, and therefore
   the minimizer is obtained 
  by computing the gradient and Hessian, which are 
-  $-2 A + 2 B \, \Xi$ and   $2 B$ respectively,
+  $-2 A + 2 B \, P$ and   $2 B$ respectively,
   yielding the solution.  Plugging back into $D_{\Psi}$ yields (\ref{eq:opt.val.mdfa2}).
 $\quad \Box$
 
@@ -1673,10 +1675,10 @@ $\quad \Box$
   G \,   {  \left[ 1_n  -   \sum_{\ell = 0}^{q-1} \widehat{\psi} (\ell) 
   \, e^{i \omega (\ell+1 ) } \right]
   }^{\prime} \rangle }_0 \\
- & = { \langle G \rangle }_0 - 2 \, \Xi^{\prime} \, { \langle G \rangle }_{1:q} 
-    + \Xi^{\prime} \, B \, \Xi.
+ & = { \langle G \rangle }_0 - 2 \, P^{\prime} \, { \langle G \rangle }_{1:q} 
+    + P^{\prime} \, B \, P.
 \end{align*}
- Hence the  optimizer is   $ \Xi (G) = B^{-1} \,    { \langle G \rangle }_{1:q}$,
+ Hence the  optimizer is   $ P (G) = B^{-1} \,    { \langle G \rangle }_{1:q}$,
  which is the first component of the solution to the Yule-Walker system of order 
   $q$ determined by $G$.
   Therefore the MDFA solution is the same as the fit of a VAR($q$) using 
@@ -1704,7 +1706,7 @@ Prediction Filter} (LPF).   Again, when $G=F$ this LPF is a theoretical
  can be compared to that of the LPP, which has the first $q$ components
  given by $  \Upsilon^{\prime} = [ \psi (0) + A_{\Psi} (\Phi), \psi (1),
  \ldots, \psi (q-1)  ]$.
- This is an approximate solution to the system $\Xi^{\prime} \, B
+ This is an approximate solution to the system $P^{\prime} \, B
  =  A^{\prime}$, because
  $  \Upsilon^{\prime} \, B $ has $j+1$th component, for $0 \leq j \leq q-1$,
  equal to  $   \sum_{\ell=0}^{q-1} \psi (\ell) \, {\langle G \rangle }_{j-\ell}
@@ -1722,7 +1724,7 @@ Prediction Filter} (LPF).   Again, when $G=F$ this LPF is a theoretical
 \]
  As $q \tends \infty$ the error term vanishes (for each $j$), indicating
  that $\Upsilon^{\prime} \, B \approx  A^{\prime}$, or
- $\Xi \approx \Upsilon$.
+ $P \approx \Upsilon$.
 \end{Illustration}
  
  For computation, we update the treatment given earlier to now discuss the 

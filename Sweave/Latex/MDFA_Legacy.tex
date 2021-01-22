@@ -551,7 +551,7 @@ function (insamp, x, d)
     colnames(weight_func) <- colnames(x)
     return(list(weight_func = weight_func))
 }
-<bytecode: 0x000001ea32507de8>
+<bytecode: 0x0000027fe35c7078>
 <environment: namespace:MDFA>
 \end{Soutput}
 \end{Schunk}
@@ -3825,52 +3825,52 @@ arising from time-varying means, a form of non-stationarity.
     data process has a time-varying mean (which is a form of  non-stationarity);
   then it is necessary to impose additional filter constraints -- otherwise
    the filter error will not have mean zero.    To see why, 
-   Write $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$ as the discrepancy filter,
+   Write $\Lambda (L) = \Psi (L) - \widehat{\Psi} (L)$ as the discrepancy filter,
    so that we see  from (\ref{eq:dfa-error})  
-   that $\EE [ E_t ] = \Delta (L) \, \EE [ X_t ]$; 
+   that $\EE [ E_t ] = \Lambda (L) \, \EE [ X_t ]$; 
    by Definition \ref{def:lpp}, we require
  that $\EE [ E_t ] = 0$ for any LPP.  
   If $\EE [ X_t] = 0$ then this condition is always satisfied, but
    for most time series of interest the mean will be nonzero, and is typically
-    time-varying.  For such cases additional constraints on $\Delta (L)$ must be imposed,
+    time-varying.  For such cases additional constraints on $\Lambda (L)$ must be imposed,
     which implicitly amount to constraints on $\widehat{\Psi} (L)$.
     
 \begin{Example}    {\bf Constant Mean.}  \rm
 \label{exam:constant.mean}
-  If $\EE [ X_t ] = \mu$, some nonzero constant,  then we require $\Delta (1) = 0$.
+  If $\EE [ X_t ] = \mu$, some nonzero constant,  then we require $\Lambda (1) = 0$.
   This is because the mean of the filter error is
   \[
-   \Delta (B) \, \EE [ X_t] = \Delta(B) \, \mu = \sum_j \delta (j) \, \mu =
-   \Delta (1) \, \mu,
+   \Lambda (B) \, \EE [ X_t] = \Lambda(B) \, \mu = \sum_j \delta (j) \, \mu =
+   \Lambda (1) \, \mu,
   \]
-  and this is zero only if $\Delta (1) = 0$.  This is called a Level Constraint (LC).
+  and this is zero only if $\Lambda (1) = 0$.  This is called a Level Constraint (LC).
 \end{Example}  
 
 \begin{Example}    {\bf Linear Mean.}  \rm
 \label{exam:linear.mean}
   Suppose that $\EE [ X_t ] = \mu \, t$, where $\mu$ is a nonzero slope
- of a linear time trend.  Then it is required that  $\partial {\Delta} (1) = 0$
+ of a linear time trend.  Then it is required that  $\partial {\Lambda} (1) = 0$
   in addition to the LC,  which is seen as follows:
   \[
-   \Delta (B) \, \EE [ X_t] = \Delta(B) \, \mu \, t =   \mu \, \sum_j \delta (j) \, (t-j)
+   \Lambda (B) \, \EE [ X_t] = \Lambda(B) \, \mu \, t =   \mu \, \sum_j \delta (j) \, (t-j)
    = \mu \, \left(t \, \sum_j \delta (j) - \sum_j j \,\delta (j) \right)
-    = \mu \, t \, \Delta(1) - \mu \, \partial \Delta (1).
+    = \mu \, t \, \Lambda(1) - \mu \, \partial \Lambda (1).
   \]
-  This mean of the filter error  is zero only if both $\Delta(1)=0$ and
-  $\partial \Delta (1)=0$; the latter condition is called the
+  This mean of the filter error  is zero only if both $\Lambda(1)=0$ and
+  $\partial \Lambda (1)=0$; the latter condition is called the
    Time-Shift Constraint (TSC).  
 \end{Example}  
 
      Hence, for linear means we obtain
  three fundamental types of constraints: LC, TSC, and Level plus 
  Time-Shift Constraint (LTSC), which combines both LC and TSC.
-  Using the fact that $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$,
+  Using the fact that $\Lambda (L) = \Psi (L) - \widehat{\Psi} (L)$,
    these three constaints can be described as follows:
 \begin{align*}
- \mbox{LC} : &  \;  \Delta (1) = 0 \quad \mbox{or} \quad \Psi (1) = \widehat{\Psi} (1) \\
- \mbox{TSC} : &  \;   \partial {\Delta} (1) = 0 \quad \mbox{or} \quad 
+ \mbox{LC} : &  \;  \Lambda (1) = 0 \quad \mbox{or} \quad \Psi (1) = \widehat{\Psi} (1) \\
+ \mbox{TSC} : &  \;   \partial {\Lambda} (1) = 0 \quad \mbox{or} \quad 
  \partial {\Psi} (1) = \partial {\widehat{\Psi}} (1)  \\
- \mbox{LTSC} : &  \;  \Delta (1) = 0,  \,  \partial {\Delta} (1) = 0 \quad 
+ \mbox{LTSC} : &  \;  \Lambda (1) = 0,  \,  \partial {\Lambda} (1) = 0 \quad 
  \mbox{or} \quad \Psi (1) = \widehat{\Psi} (1), \; \partial {\Psi} (1) =
  \partial {\widehat{\Psi}} (1).
 \end{align*}
@@ -5110,9 +5110,9 @@ We now consider LPPs for non-stationary processes.
  \end{Proposition}
  
 \paragraph{Proof of Proposition \ref{prop:GPP-nonstat}.} 
- We show that the filter error $\Delta (z) = \Psi (z) - \widehat{\Psi} (z)$
+ We show that the filter error $\Lambda (z) = \Psi (z) - \widehat{\Psi} (z)$
   is divisible by $\delta (z)$, so that we can write
-   $\Delta (z) = \widetilde{\Delta} (z) \delta (z)$, from which it follows
+   $\Lambda (z) = \widetilde{\Lambda} (z) \delta (z)$, from which it follows
     that the error process must be stationary.
   We make use of an algebraic identity proved in McElroy and Findley (2010):
   for any $j \geq 0$
@@ -5122,7 +5122,7 @@ We now consider LPPs for non-stationary processes.
 \end{equation}
  Then using the definition of $\widehat{\Psi}(L)$ in (\ref{eq:GPPsoln-nonstat}),
 \begin{align*}    
-  \Delta (z) & =  \sum_{\ell = -1}^{- \infty} \psi (\ell) 
+  \Lambda (z) & =  \sum_{\ell = -1}^{- \infty} \psi (\ell) 
    \left( z^{\ell} - \sum_{h=0}^{d-1} A_{-\ell} (h) z^h  - \sum_{k=1}^{-\ell} \xi_{-\ell-k}
     {[ \Theta (z)]}_k^{\infty} z^{-k} \delta (z) { \Theta (z)}^{-1}  \right) \\
     & = \sum_{\ell = -1}^{- \infty} \psi (\ell) 
@@ -5140,13 +5140,13 @@ We now consider LPPs for non-stationary processes.
     and the fourth equality  follows from (\ref{eq:diffop-algid}).
     Hence, we find that
 \[
- \widetilde{\Delta} (z) = \sum_{\ell = -1}^{- \infty} \psi (\ell) z^{\ell}
+ \widetilde{\Lambda} (z) = \sum_{\ell = -1}^{- \infty} \psi (\ell) z^{\ell}
     { [ \Theta (z) / \delta (z)]}_0^{-\ell-1}  { \Theta (z)}^{-1},
 \]
  which is well-defined under the invertibility assumption.  
  The real-time error process is then
 \[
-  \Delta (L) X_t = \widetilde{\Delta} (L) \, \partial X_t
+  \Lambda (L) X_t = \widetilde{\Lambda} (L) \, \partial X_t
     = \sum_{\ell = -1}^{- \infty} \psi (\ell)  
     { [ \Theta (L) / \delta (L)]}_0^{-\ell-1}\, \epsilon_{t-\ell},
 \]
@@ -5169,13 +5169,13 @@ We now consider LPPs for non-stationary processes.
    knowledge.   From the proof of Proposition  \ref{prop:GPP-nonstat}, it
   is clear that  the error process will  
  not be stationary unless we make certain assumptions
- about $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$.    
+ about $\Lambda (L) = \Psi (L) - \widehat{\Psi} (L)$.    
  In order to remove the time-varying functions it is necessary that 
- we can factor $\delta (L)$ from $\Delta (L)$, i.e., we require the existence of
- $\widetilde{\Delta } (L)$ such that
+ we can factor $\delta (L)$ from $\Lambda (L)$, i.e., we require the existence of
+ $\widetilde{\Lambda } (L)$ such that
 \begin{equation}
  \label{eq:delta.factor}
-  \Delta (L) = \widetilde{\Delta } (L) \, \delta (L),
+  \Lambda (L) = \widetilde{\Lambda } (L) \, \delta (L),
 \end{equation}
  as otherwise we cannot guarantee that $\{ E_t \}$ will be stationary. 
  (This condition (\ref{eq:delta.factor}) is indeed satisfied by the optimal 
@@ -5184,7 +5184,7 @@ We now consider LPPs for non-stationary processes.
   sufficient to guarantee
  that the filter error be stationary, because
 \[
-  E_t = \widetilde{\Delta} (L) \, \partial X_t
+  E_t = \widetilde{\Lambda} (L) \, \partial X_t
 \]
  in such a case.   We next discuss a set of filter 
  constraints that guarantee (\ref{eq:delta.factor}), beginning with a result
@@ -5364,7 +5364,7 @@ Proposition \ref{prop:filter-decompose}.
 \end{Corollary}
 
  We can apply Corollary \ref{cor:filter-noise} to factor a 
- noise-differencing polynomial $\delta^N (L)$ from $\Delta (L)$:
+ noise-differencing polynomial $\delta^N (L)$ from $\Lambda (L)$:
  for each $\omega$ such that the target filter $\Psi (L)$ annihilates
  $\omega$-dynamics of order $d$, we impose the constraint
  that $\widehat{\Psi} (L)$ shall have the same property, and hence 
@@ -5384,7 +5384,7 @@ Proposition \ref{prop:filter-decompose}.
  and hence
 \begin{equation}
  \label{eq:delta-noise}
-\Delta (L) = \left(  {\Psi}^{\star} (L) - 
+\Lambda (L) = \left(  {\Psi}^{\star} (L) - 
 \widehat{\Psi}^{\star} (L) \right) \, \delta^N (L).
 \end{equation}
   So if $\delta (L) = \delta^N (L)$, then (\ref{eq:delta.factor}) 
@@ -5408,10 +5408,10 @@ Proposition \ref{prop:filter-decompose}.
  \end{equation}
    These conditions are sufficient, because 
   (\ref{eq:non-stat.constraint.single}) and  (\ref{eq:non-stat.constraint.double})
-    imply $\Delta (e^{-i \omega}) = 0$
+    imply $\Lambda (e^{-i \omega}) = 0$
   for all the roots of $\delta (z)$, so that by repeated application of Corollary 
  \ref{cor:filter-noise} we can factor out $\delta (z)$, labelling the
- remaining factor as $\widetilde{\Delta } (L)$.  
+ remaining factor as $\widetilde{\Lambda } (L)$.  
    Note that if $\omega$ corresponds to noise, i.e., $\delta^N (e^{-i \omega}) = 0$,
     then (\ref{eq:non-stat.constraint.single}) becomes 
   $ \widehat{\Psi} (e^{-i \omega}) = 0$, but if $\omega$ corresponds to signal
@@ -5432,14 +5432,14 @@ Proposition \ref{prop:filter-decompose}.
   filters of form (\ref{eq:conc.filter}), applying the methodology 
   of this chapter's first section.  With these constraints in play, 
    the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$
-   replaced by $\widetilde{\Delta} (z)$
+   replaced by $\widetilde{\Lambda} (z)$
  and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., 
  we define the nonstationary MDFA criterion
  function as $\det D_{\Psi } (\vartheta, G)$ for
 \begin{equation}
 \label{eq:mdfa-criterion-nonstat}
- D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Delta} (z)   \, 
- G \,  {\widetilde{\Delta} (z) }^*   \rangle }_0
+ D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Lambda} (z)   \, 
+ G \,  {\widetilde{\Lambda} (z) }^*   \rangle }_0
  = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \, 
  G \, {|\delta (z) |}^{-2} \,
   {  \left[ \Psi (z) -  \widehat{\Psi}_{\vartheta} (z) \right] }^{*} \rangle }_0.
@@ -5449,7 +5449,7 @@ Proposition \ref{prop:filter-decompose}.
  that poles in ${\delta (z) }^{-1}$ are exactly canceled out by the 
  corresponding zeros in $\Psi (z) - \widehat{\Psi} (z)$.
   Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\delta (z) = 
-  \widetilde{\Delta} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
+  \widetilde{\Lambda} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
  as the previous discussion guarantees. 
  
  For computation, it is convenient to calculate the integrand given in the
@@ -5458,14 +5458,15 @@ Proposition \ref{prop:filter-decompose}.
     evaluation of this integrand will yield $0/0$ at $\omega$-dynamics such
   that $\delta (e^{-i \omega}) = 0$, and L'Hopital's rule could be used
   to resolve this quotient into an expression for
-  $\widetilde{\Delta} (z)   \,  G \,  {\widetilde{\Delta} (z) }^* \vert_{z= e^{-i \omega}}$.
+  $\widetilde{\Lambda} (z)   \,  G \, 
+  {\widetilde{\Lambda} (z) }^* \vert_{z= e^{-i \omega}}$.
   However, as there are only a finite number of such resolvable singularities,
    and such points constitute a set of   Lebesgue measure zero, 
    calculation of $D_{\Psi} (\vartheta, G)$ can proceed by 
    integrating over $\omega \in [-\pi, \pi]$ such that a neighborhood containing
     each singularity is omitted.  This procedure can yield an expression arbitarily
      close to $D_{\Psi} (\vartheta, G)$ (by taking the neighborhoods sufficiently small),
-    while allowing for easy calculation, since $\Delta (z)$ and 
+    while allowing for easy calculation, since $\Lambda (z)$ and 
     $ G \, {|\delta (z) |}^{-2}$ are easily computed.  
    
    
@@ -5931,6 +5932,33 @@ f_{ \partial S}(\omega) \,  { \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{
   filter when $\Psi $ is the WK filter.
 $\quad \Box$
 
+\vspace{.5cm}
+
+ It is not clear how to compute (\ref{eq:wiener-hopf}) because of the presence of
+  ${\delta^S (z)}^{-1}$ in the bracket.  In Bell and Martin (2004) this issue was
+  addressed by computing a partial fraction decomposition; here we take a similar
+  approach, but adapted for multivariate time series.  The goal is to construct
+  a matrix power series $D(z)= \sum_{k=0}^{\infty} d (k) z^k$ 
+  and a strictly anti-causal $C(z^{-1}) = \sum_{k=-\infty}^{-1}  c (k) z^k$ such that
+\[
+    \gamma_{\partial S} (z) \,  \delta^N (z^{-1}) \, {\delta^S (z)}^{-1}
+     { \Theta (z^{-1})}^{-1 \prime}  =  C ( z^{-1}) \, { \Theta (z^{-1})}^{-1 \prime}
+     + D(z)  \, {\delta^S (z)}^{-1}.
+\]
+ Once we have computed $D(z)$, we obtain a simple expression for the concurrent filter.
+ 
+\begin{Corollary}
+\label{cor:asym.sigex}
+  Under the assumptions of Theorem \ref{thm:asym.sigex}, the optimal concurrent 
+ filter  can be expressed as
+ $\widehat{\Psi} (z) = D (z) \Sigma^{-1} \,
+     { \Theta (z) }^{-1} \delta^N (z)$, where $D(z)$ is given by
+\begin{align*}
+  D(z) &=    { \left[  \gamma_{\partial S} (z) \,  \delta^N (z^{-1}) 
+     { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \\
+     & - \sum_{j=0}^{d_S} 
+\end{align*}
+\end{Corollary}
 
   
 \begin{figure}[htb!]
@@ -6014,35 +6042,32 @@ We now  study the  MB trend filter arising from a LLM
 > trend.wkfrf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
 > trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
 > x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
+> 
+> 
 > ## HERE :  need to debug mdfa.whfrf
 > #trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
 > #trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
->  
-> # get MDFA concurrent filter
-> q <- 30
-> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
-> spec.hat <- mdfa.pergram(x.diff,dpoly)
-> m <- floor(grid/2)
-> # The Fourier frequencies
-> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
-> constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
-> bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
-> x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T-q+1-len),]
-> # compare in-sample performance
-> print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
-+ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
 \end{Sinput}
-\begin{Soutput}
-[1] 0.0001415281 0.0001757378
-\end{Soutput}
-\begin{Sinput}
-> # compare to criterion value
-> diag(bw.mdfa[[2]])
-\end{Sinput}
-\begin{Soutput}
-[1] 0.0001414576 0.0001794452
-\end{Soutput}
 \end{Schunk}
+
+% # get MDFA concurrent filter
+% q <- 30
+% x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+% spec.hat <- mdfa.pergram(x.diff,dpoly)
+% m <- floor(grid/2)
+% # The Fourier frequencies
+% freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+% constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
+% bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+% x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T-q+1-len),]
+% 
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+% 
+% # compare to criterion value
+% diag(bw.mdfa[[2]])
+
 
 
 \begin{Exercise} {\bf Petrol MB Out-Performance.}  \rm

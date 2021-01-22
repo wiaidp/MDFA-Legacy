@@ -630,29 +630,29 @@ It is known that the VAR(1) has the causal representation
  described below provide for estimates of $\Sigma$ in terms of $\vartheta$ and the process.
  From the proof of Proposition \ref{prop:GPP} we know that the filter error satisfies
 \[
-  E_t = \sum_{\ell =1 }^{\infty} \psi (-\ell) \, L^{-\ell} \,  {[ \Theta (L) ]}_0^{\ell - 1} \, 
+  E_t = \sum_{\ell =1 }^{\infty} \psi (-\ell) 
+  \, L^{-\ell} \,  {[ \Theta_{\vartheta} (L) ]}_0^{\ell - 1} \, 
    { \Theta_{\vartheta} (L) }^{-1} \, X_t.
 \] 
- In other words, we have an error filter $ \Xi_{\vartheta} (L) \,  
-  { \Theta_{\vartheta} (L) }^{-1}  $,
- where
+ In other words, we have an error filter $ \Lamba_{\vartheta} (L)  $ such that
+  $E_t = \Lambda_{\vartheta} (L) X_t$,  where
 \[
-  \Xi_{\vartheta} (L)  = \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
-   {[ \Theta (L) ]}_0^{\ell - 1},
+  \Lambda_{\vartheta} (z)  = \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  z^{-\ell} \,
+   {[ \Theta_{\vartheta} (z) ]}_0^{\ell - 1} { \Theta_{\vartheta} (z) }^{-1}. 
 \]
-  such that for any choice of $\vartheta $ we can compute filter errors $\{ E_t \}$.
+  So,  for any choice of $\vartheta $ we can compute filter errors $\{ E_t \}$.
  Note that these are not in general to be interpreted as residuals, and they need not be white noise.
   But we can seek to minimize their variance.  In practice,
  the calculation of such filter errors  may require a truncation of the error filter, because the finite
  sample $X_1, X_2, \ldots, X_T$ is available, not the entire infinite past.  The error filter is
  $1 \times n$, and for any $\vartheta $ and any Hermitian function $G$ we can compute
 \begin{align*}
-  J_{\Psi} (\vartheta, G) & 	= \frac{1}{2 \pi} \, \int_{-\pi}^{\pi} \Xi (z) \,
-  { \Theta_{\vartheta} (z) }^{-1} \, G(\omega)
-  \,  {{ \Theta_{\vartheta} (z) }^{-1} }^* \, { \Xi (z) }^* \, d\omega  = \mbox{tr} \{ 
+  J_{\Psi} (\vartheta, G) & 	= \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}
+  \Lambda_{\vartheta} (z) \,    G(\omega)
+  \,  { \Lambda_{\vartheta} (z) }^*   \, d\omega  = \mbox{tr} \{ 
  { \langle G \, K_{\vartheta} \rangle }_0 \} \\
-   K_{\vartheta} (z) & =  {{ \Theta_{\vartheta} (z) }^{-1} }^* \, { \Xi (z) }^* \,  \Xi (z) \, 
- { \Theta_{\vartheta} (z) }^{-1}.
+   K_{\vartheta} (z) & =  { \Lambda_{\vartheta} (z)  }^* \, 
+  \Lambda_{\vartheta} (z).
 \end{align*}
  Then $\mbox{Var} [ E_t ] = J_{\Psi} (\vartheta, \widetilde{F})$.  As we seek to
  minimize the variability in the filter errors,
@@ -696,16 +696,12 @@ $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 \paragraph{Proof of Proposition \ref{prop:PTV-truth}.}
  Because the model is correct, the criterion function becomes
 \[
-  J_{\Psi} (\vartheta, \widetilde{F}) = { \langle \Xi (z) \, { \Theta_{\vartheta   } (z) }^{-1} \, 
+  J_{\Psi} (\vartheta, \widetilde{F}) = { \langle  \Lambda_{\vartheta   } (z)  \, 
    \Theta_{\widetilde{\vartheta}} (z) \, \widetilde{\Sigma} \, 
-  {\Theta_{\widetilde{\vartheta}} (z)  }^* \, { { \Theta_{\vartheta  } (z) }^{-1} }^*
- \, { \Xi (z) }^* \rangle }_0,
+  {\Theta_{\widetilde{\vartheta}} (z)  }^* \, {  \Lambda_{\vartheta  } (z)  }^*
+  \rangle }_0,
 \]
- which for $\vartheta = \widetilde{\vartheta}$ achieves the minimal value:
-\[
-  J_{\Psi} (\widetilde{\vartheta}, \widetilde{F})  ={ \langle \Xi (z) \, 
-  \widetilde{\Sigma} \,    { \Xi (z) }^* \rangle }_0.
-\]
+ which for $\vartheta = \widetilde{\vartheta}$ achieves the minimal value.
   Because the minimizer is unique by assumption, 
   $\vartheta (\widetilde{F}) = \widetilde{\vartheta} $. 
   Plugging this into the formula
@@ -729,7 +725,8 @@ $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 \label{exam:multi-step.fore.3}
  For $h$-step ahead forecasting, only $\psi (-h)$
   is nonzero, so that
- $\Xi (L) =  L^{-h} \,  e_1^{\prime} \, {[ \Theta (L) ]}_0^{ h - 1}$. 
+ $\Lambda (L) =  L^{-h} \,  e_1^{\prime} \, {[ \Theta (L) ]}_0^{ h - 1} \, 
+ { \Theta (L) }^{-1}$. 
   Hence, the criterion function $J_{\Psi} $ fits models so as to minimize
  (in the frequency domain)  $h$-step ahead forecast error of the first series. 
  In the special case that $h=1$, the criterion function is
@@ -801,13 +798,12 @@ When the model is a VAR(1), the parameter vector $\vartheta$
  as described previously.  The error filter can be 
  expressed
 \begin{align*}
-    \Xi (L) & =   \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
-   \sum_{k=0}^{\ell-1} \Phi^k \, L^k \\
+    \Lambda (L) & =   \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
+   \sum_{k=0}^{\ell-1} \Phi^k \, L^k \, ( 1 - \Phi \, L )\\
   & =  \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
-   \left( 1 - \Phi^{\ell} \, L^{\ell} \right) \, {( 1 - \Phi \, L )}^{-1} \\
- & =  \left( \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} -
-    A_{\Psi} (\Phi) \right)  
-    \, {( 1 - \Phi \, L )}^{-1}.
+   \left( 1 - \Phi^{\ell} \, L^{\ell} \right)   \\
+ & =   \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} -
+    A_{\Psi} (\Phi).
 \end{align*}
   It follows that 
 \begin{align*}

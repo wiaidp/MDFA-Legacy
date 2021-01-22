@@ -10,7 +10,7 @@
 \contentsline {subsubsection}{Basic DFA}{6}{section*.3}%
 \contentsline {subsubsection}{Customized DFA}{7}{section*.4}%
 \contentsline {subsection}{\numberline {1.2.3}MDFA}{7}{subsection.1.2.3}%
-\contentsline {subsubsection}{Data Matrix}{7}{section*.5}%
+\contentsline {subsubsection}{Data Matrix}{8}{section*.5}%
 \contentsline {subsubsection}{DFT}{9}{section*.6}%
 \contentsline {subsection}{\numberline {1.2.4}Using MDFA}{10}{subsection.1.2.4}%
 \contentsline {subsubsection}{A Versatile User Interface}{10}{section*.7}%

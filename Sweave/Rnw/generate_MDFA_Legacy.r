@@ -27,6 +27,7 @@ library(R.utils)
 library(xtable)
 
 # set directory to GitHub/MDFA-Legacy
+setwd("C:/Users/neide/Documents/GitHub/MDFA-Legacy")
 path.main <- paste(getwd(),"/Sweave/",sep="")
 path.pgm <- paste(path.main,"Rnw/",sep="")
 path.out <- paste(path.main,"Latex/",sep="")
