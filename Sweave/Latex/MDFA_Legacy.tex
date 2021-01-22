@@ -1358,29 +1358,29 @@ It is known that the VAR(1) has the causal representation
  described below provide for estimates of $\Sigma$ in terms of $\vartheta$ and the process.
  From the proof of Proposition \ref{prop:GPP} we know that the filter error satisfies
 \[
-  E_t = \sum_{\ell =1 }^{\infty} \psi (-\ell) \, L^{-\ell} \,  {[ \Theta (L) ]}_0^{\ell - 1} \, 
+  E_t = \sum_{\ell =1 }^{\infty} \psi (-\ell) 
+  \, L^{-\ell} \,  {[ \Theta_{\vartheta} (L) ]}_0^{\ell - 1} \, 
    { \Theta_{\vartheta} (L) }^{-1} \, X_t.
 \] 
- In other words, we have an error filter $ \Xi_{\vartheta} (L) \,  
-  { \Theta_{\vartheta} (L) }^{-1}  $,
- where
+ In other words, we have an error filter $ \Lamba_{\vartheta} (L)  $ such that
+  $E_t = \Lambda_{\vartheta} (L) X_t$,  where
 \[
-  \Xi_{\vartheta} (L)  = \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
-   {[ \Theta (L) ]}_0^{\ell - 1},
+  \Lambda_{\vartheta} (z)  = \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  z^{-\ell} \,
+   {[ \Theta_{\vartheta} (z) ]}_0^{\ell - 1} { \Theta_{\vartheta} (z) }^{-1}. 
 \]
-  such that for any choice of $\vartheta $ we can compute filter errors $\{ E_t \}$.
+  So,  for any choice of $\vartheta $ we can compute filter errors $\{ E_t \}$.
  Note that these are not in general to be interpreted as residuals, and they need not be white noise.
   But we can seek to minimize their variance.  In practice,
  the calculation of such filter errors  may require a truncation of the error filter, because the finite
  sample $X_1, X_2, \ldots, X_T$ is available, not the entire infinite past.  The error filter is
  $1 \times n$, and for any $\vartheta $ and any Hermitian function $G$ we can compute
 \begin{align*}
-  J_{\Psi} (\vartheta, G) & 	= \frac{1}{2 \pi} \, \int_{-\pi}^{\pi} \Xi (z) \,
-  { \Theta_{\vartheta} (z) }^{-1} \, G(\omega)
-  \,  {{ \Theta_{\vartheta} (z) }^{-1} }^* \, { \Xi (z) }^* \, d\omega  = \mbox{tr} \{ 
+  J_{\Psi} (\vartheta, G) & 	= \frac{1}{2 \pi} \, \int_{-\pi}^{\pi}
+  \Lambda_{\vartheta} (z) \,    G(\omega)
+  \,  { \Lambda_{\vartheta} (z) }^*   \, d\omega  = \mbox{tr} \{ 
  { \langle G \, K_{\vartheta} \rangle }_0 \} \\
-   K_{\vartheta} (z) & =  {{ \Theta_{\vartheta} (z) }^{-1} }^* \, { \Xi (z) }^* \,  \Xi (z) \, 
- { \Theta_{\vartheta} (z) }^{-1}.
+   K_{\vartheta} (z) & =  { \Lambda_{\vartheta} (z)  }^* \, 
+  \Lambda_{\vartheta} (z).
 \end{align*}
  Then $\mbox{Var} [ E_t ] = J_{\Psi} (\vartheta, \widetilde{F})$.  As we seek to
  minimize the variability in the filter errors,
@@ -1424,16 +1424,12 @@ $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 \paragraph{Proof of Proposition \ref{prop:PTV-truth}.}
  Because the model is correct, the criterion function becomes
 \[
-  J_{\Psi} (\vartheta, \widetilde{F}) = { \langle \Xi (z) \, { \Theta_{\vartheta   } (z) }^{-1} \, 
+  J_{\Psi} (\vartheta, \widetilde{F}) = { \langle  \Lambda_{\vartheta   } (z)  \, 
    \Theta_{\widetilde{\vartheta}} (z) \, \widetilde{\Sigma} \, 
-  {\Theta_{\widetilde{\vartheta}} (z)  }^* \, { { \Theta_{\vartheta  } (z) }^{-1} }^*
- \, { \Xi (z) }^* \rangle }_0,
+  {\Theta_{\widetilde{\vartheta}} (z)  }^* \, {  \Lambda_{\vartheta  } (z)  }^*
+  \rangle }_0,
 \]
- which for $\vartheta = \widetilde{\vartheta}$ achieves the minimal value:
-\[
-  J_{\Psi} (\widetilde{\vartheta}, \widetilde{F})  ={ \langle \Xi (z) \, 
-  \widetilde{\Sigma} \,    { \Xi (z) }^* \rangle }_0.
-\]
+ which for $\vartheta = \widetilde{\vartheta}$ achieves the minimal value.
   Because the minimizer is unique by assumption, 
   $\vartheta (\widetilde{F}) = \widetilde{\vartheta} $. 
   Plugging this into the formula
@@ -1457,7 +1453,8 @@ $\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
 \label{exam:multi-step.fore.3}
  For $h$-step ahead forecasting, only $\psi (-h)$
   is nonzero, so that
- $\Xi (L) =  L^{-h} \,  e_1^{\prime} \, {[ \Theta (L) ]}_0^{ h - 1}$. 
+ $\Lambda (L) =  L^{-h} \,  e_1^{\prime} \, {[ \Theta (L) ]}_0^{ h - 1} \, 
+ { \Theta (L) }^{-1}$. 
   Hence, the criterion function $J_{\Psi} $ fits models so as to minimize
  (in the frequency domain)  $h$-step ahead forecast error of the first series. 
  In the special case that $h=1$, the criterion function is
@@ -1529,13 +1526,12 @@ When the model is a VAR(1), the parameter vector $\vartheta$
  as described previously.  The error filter can be 
  expressed
 \begin{align*}
-    \Xi (L) & =   \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
-   \sum_{k=0}^{\ell-1} \Phi^k \, L^k \\
+    \Lambda (L) & =   \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
+   \sum_{k=0}^{\ell-1} \Phi^k \, L^k \, ( 1 - \Phi \, L )\\
   & =  \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
-   \left( 1 - \Phi^{\ell} \, L^{\ell} \right) \, {( 1 - \Phi \, L )}^{-1} \\
- & =  \left( \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} -
-    A_{\Psi} (\Phi) \right)  
-    \, {( 1 - \Phi \, L )}^{-1}.
+   \left( 1 - \Phi^{\ell} \, L^{\ell} \right)   \\
+ & =   \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} -
+    A_{\Psi} (\Phi).
 \end{align*}
   It follows that 
 \begin{align*}
@@ -3623,19 +3619,20 @@ The  best possible concurrent filter is  given by
  Pseudo-True Value  for the filter parameter.
 A   case of interest arises from taking a very broad class $\mathcal{G}$, namely
   let $\mathcal{G}$ consist of all length $q$ concurrent filters, with 
-$\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and 
+$\vartheta =  \mbox{vec} [ P^{\prime}]$ and 
 \begin{equation}
 \label{eq:conc.filter}
-  \Xi^{}  =  {\left[  \widehat{\psi} (0), \widehat{\psi} (1), \ldots, 
+  P  =  {\left[  \widehat{\psi} (0), \widehat{\psi} (1), \ldots, 
   \widehat{\psi} (q-1) \right] }^{\prime}.
 \end{equation}
- So $\Xi$ is  a   $ q n \times n$ dimensional matrix.
+ So $P$ is  a   $ q n \times n$ dimensional matrix.
  Then the criterion (\ref{eq:mdfa-criterion2}) can be rewritten as
 \begin{equation}
 \label{eq:mdfa-crit.linear}
- D_{\Psi} (\vartheta, G)  = \Xi^{\prime} \, B \, \Xi -
-   \Xi^{\prime} \, A - 
-   A^{\prime} \, \Xi + { \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0,
+ D_{\Psi} (\vartheta, G)  = P^{\prime} \, B \, P -
+   P^{\prime} \, A - 
+   A^{\prime} \, P + { \langle \Psi (e^{-i \omega}) \, 
+   G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0,
 \end{equation}
  where 
 \begin{equation}
@@ -3652,9 +3649,10 @@ $\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and
 
 \begin{Proposition}
 \label{prop:mdfa.quadsoln2}
- The minimizer of the   MDFA criterion given by the determinant of (\ref{eq:mdfa-criterion2}),
+ The minimizer of the   MDFA criterion given by the determinant 
+ of (\ref{eq:mdfa-criterion2}),
   with respect to $\mathcal{G}$ consisting of all length $q$ concurrent filters,  is
-  $ \Xi (G) = B^{-1} \, A$,
+  $ P (G) = B^{-1} \, A$ (expressing $P$ as a function of $G$),
  where the $jk$th  block of $B$   is    ${ \langle G \rangle }_{k-j}$,
  and $A$ is given by (\ref{eq:bstar-expression}).
  The minimal value is the determinant of
@@ -3673,10 +3671,10 @@ $\vartheta =  \mbox{vec} [\Xi^{\prime}]$ and
 \end{equation}
  for $0 \leq \ell < q$,  which shows that $A$ is real-valued. 
  The argument follows the same method as in McElroy and Findley (2015);
- each entry of the matrix objective function is a quadratic in $\Xi$, and therefore
+ each entry of the matrix objective function is a quadratic in $P$, and therefore
   the minimizer is obtained 
  by computing the gradient and Hessian, which are 
-  $-2 A + 2 B \, \Xi$ and   $2 B$ respectively,
+  $-2 A + 2 B \, P$ and   $2 B$ respectively,
   yielding the solution.  Plugging back into $D_{\Psi}$ yields (\ref{eq:opt.val.mdfa2}).
 $\quad \Box$
 
@@ -3702,10 +3700,10 @@ $\quad \Box$
   G \,   {  \left[ 1_n  -   \sum_{\ell = 0}^{q-1} \widehat{\psi} (\ell) 
   \, e^{i \omega (\ell+1 ) } \right]
   }^{\prime} \rangle }_0 \\
- & = { \langle G \rangle }_0 - 2 \, \Xi^{\prime} \, { \langle G \rangle }_{1:q} 
-    + \Xi^{\prime} \, B \, \Xi.
+ & = { \langle G \rangle }_0 - 2 \, P^{\prime} \, { \langle G \rangle }_{1:q} 
+    + P^{\prime} \, B \, P.
 \end{align*}
- Hence the  optimizer is   $ \Xi (G) = B^{-1} \,    { \langle G \rangle }_{1:q}$,
+ Hence the  optimizer is   $ P (G) = B^{-1} \,    { \langle G \rangle }_{1:q}$,
  which is the first component of the solution to the Yule-Walker system of order 
   $q$ determined by $G$.
   Therefore the MDFA solution is the same as the fit of a VAR($q$) using 
@@ -3733,7 +3731,7 @@ Prediction Filter} (LPF).   Again, when $G=F$ this LPF is a theoretical
  can be compared to that of the LPP, which has the first $q$ components
  given by $  \Upsilon^{\prime} = [ \psi (0) + A_{\Psi} (\Phi), \psi (1),
  \ldots, \psi (q-1)  ]$.
- This is an approximate solution to the system $\Xi^{\prime} \, B
+ This is an approximate solution to the system $P^{\prime} \, B
  =  A^{\prime}$, because
  $  \Upsilon^{\prime} \, B $ has $j+1$th component, for $0 \leq j \leq q-1$,
  equal to  $   \sum_{\ell=0}^{q-1} \psi (\ell) \, {\langle G \rangle }_{j-\ell}
@@ -3751,7 +3749,7 @@ Prediction Filter} (LPF).   Again, when $G=F$ this LPF is a theoretical
 \]
  As $q \tends \infty$ the error term vanishes (for each $j$), indicating
  that $\Upsilon^{\prime} \, B \approx  A^{\prime}$, or
- $\Xi \approx \Upsilon$.
+ $P \approx \Upsilon$.
 \end{Illustration}
  
  For computation, we update the treatment given earlier to now discuss the 
@@ -3840,7 +3838,7 @@ arising from time-varying means, a form of non-stationarity.
   If $\EE [ X_t ] = \mu$, some nonzero constant,  then we require $\Lambda (1) = 0$.
   This is because the mean of the filter error is
   \[
-   \Lambda (B) \, \EE [ X_t] = \Lambda(B) \, \mu = \sum_j \delta (j) \, \mu =
+   \Lambda (B) \, \EE [ X_t] = \Lambda(B) \, \mu = \sum_j \lambda (j) \, \mu =
    \Lambda (1) \, \mu,
   \]
   and this is zero only if $\Lambda (1) = 0$.  This is called a Level Constraint (LC).
@@ -3852,8 +3850,8 @@ arising from time-varying means, a form of non-stationarity.
  of a linear time trend.  Then it is required that  $\partial {\Lambda} (1) = 0$
   in addition to the LC,  which is seen as follows:
   \[
-   \Lambda (B) \, \EE [ X_t] = \Lambda(B) \, \mu \, t =   \mu \, \sum_j \delta (j) \, (t-j)
-   = \mu \, \left(t \, \sum_j \delta (j) - \sum_j j \,\delta (j) \right)
+   \Lambda (B) \, \EE [ X_t] = \Lambda(B) \, \mu \, t =   \mu \, \sum_j \lambda (j) \, (t-j)
+   = \mu \, \left(t \, \sum_j \lambda (j) - \sum_j j \, \lambda (j) \right)
     = \mu \, t \, \Lambda(1) - \mu \, \partial \Lambda (1).
   \]
   This mean of the filter error  is zero only if both $\Lambda(1)=0$ and
@@ -3939,9 +3937,10 @@ arising from time-varying means, a form of non-stationarity.
 
  
   More generally, we can envision an LPP involving $m$ linear constraints
- on each scalar filter in $\Xi$, taking the form
- $   K = [ J \otimes 1_n ] \, \Xi$, where $J$ is $m \times q$ dimensional
- ($m < q$) and $K$ is $n m \times n$ dimensional.
+ on each scalar filter in $\mathcal{G}$ corresponding to (\ref{eq:conc.filter}),
+  taking the form  $   K = [ J \otimes 1_n ] \, P$, where $J$ is $m \times q$ dimensional
+ ($m < q$), $K$ is $n m \times n$ dimensional, and $P$ is given by 
+  (\ref{eq:conc.filter}).
  (The LC, TSC, and LTSC examples all have this form.) 
  In order to express this constraint in the form 
  (\ref{eq:concurrent-constrain}), we use the Q-R decomposition 
@@ -3964,24 +3963,23 @@ arising from time-varying means, a form of non-stationarity.
  and moreover it is invertible.   Therefore
  \[
   \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, K  = 
-  \left( \left[ 1_m , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_n  \right) \, \Xi,
+  \left( \left[ 1_m , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_n  \right) \, P,
 \]
  and the action of $\Pi$ (together with the tensor product) amounts
- to a block-wise permutation of the elements of $\Xi$.
+ to a block-wise permutation of the elements of $P$.
   Let the output of this permutation be denoted
 \[
-   { \left[ { \Xi^{\sharp} }^{\prime},  {  \Xi^{\flat} }^{\prime}  \right] }^{\prime} =
-%   \left[ \begin{array}{l} \overline{\Xi} \\ \underline{\Xi} \end{array} \right] = 
- \left( \Pi \otimes I_N \right) \, \Xi,
+   { \left[ { P^{\sharp} }^{\prime},  {  P^{\flat} }^{\prime}  \right] }^{\prime} =
+ \left( \Pi \otimes I_N \right) \, P,
 \]
- where $ {\Xi}^{\sharp}$ is $n m \times n$ dimensional and 
- $ {\Xi}^{\flat}$ is $n r \times n$ dimensional.  
- Then  by substitution we can solve for ${\Xi}^{\sharp}$ in terms of ${\Xi}^{\flat}$:
+ where $ {P}^{\sharp}$ is $n m \times n$ dimensional and 
+ $ P^{\flat}$ is $n r \times n$ dimensional.  
+ Then  by substitution we can solve for $P^{\sharp}$ in terms of $P^{\flat}$:
 \[
-  {\Xi}^{\sharp} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, 
-  K - \left[  G_1^{-1} \, G_2  \otimes 1_n   \right] \, {\Xi}^{\flat}.
+  P^{\sharp} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, 
+  K - \left[  G_1^{-1} \, G_2  \otimes 1_n   \right] \, P^{\flat}.
 \]
- Therefore we recognize the free variables $\Phi = {\Xi}^{\flat}$,
+ Therefore we recognize the free variables $\Phi = P^{\flat}$,
  and obtain $R$ and $Q$ in (\ref{eq:concurrent-constrain}) via
 \begin{align*}
    R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 1_{r} \end{array} \right] \otimes 1_n  \\
@@ -3990,8 +3988,8 @@ arising from time-varying means, a form of non-stationarity.
    
  \begin{Exercise} {\bf QR Decomposition.} \rm
  \label{exer:qr.constraint}
-  Consider an arbitrary set of constraints $J$ on $\Xi$, such that
-    $   K = [ J \otimes 1_n ] \, \Xi$ for a given matrix $K$.  
+  Consider an arbitrary set of constraints $J$ on $P$, such that
+    $   K = [ J \otimes 1_n ] \, P$ for a given matrix $K$.  
     Encode the procedure that obtains $R$ and $Q$, and apply this
     to the cases of the LC, TSC, and LTSC scenarios with $n=1$, verifying the results
     given in Illustrations \ref{ill:lc}, \ref{ill:tsc}, and \ref{ill:ltsc}.
@@ -4128,7 +4126,8 @@ arising from time-varying means, a form of non-stationarity.
 \paragraph{Proof of Proposition \ref{prop:mdfa.quadsoln-constrain}.}
  Substituting (\ref{eq:concurrent-constrain}) in (\ref{eq:mdfa-crit.linear}) yields
 \begin{align*}
-  D_{\Psi} (\vartheta, G) &  = \Phi^{\prime} \,  \left[ R^{\prime} \, B \, R \right] \,  \Phi 
+  D_{\Psi} (\vartheta, G) &  = \Phi^{\prime} \,  
+  \left[ R^{\prime} \, B \, R \right] \,  \Phi 
   + \left[ Q^{\prime} \, B \, R - A^{\prime} \, R \right] \, \Phi + \Phi^{\prime} \,
    \left[ R^{\prime} \, B \, Q - R^{\prime} \, A \right]  \\
  & + Q^{\prime} \, B \, Q  - Q^{\prime} \, A - A^{\prime} \, Q  + 
@@ -4326,13 +4325,13 @@ stationary, which are the most common type occuring in econometrics and finance.
   they also necessitate the use of filter constraints such as those
    considered in Section \ref{sec:constraint}.
   
- We suppose that there exists a degree $d$ scalar polynomial $\delta (L)$
+ We suppose that there exists a degree $d$ scalar polynomial $\Delta (L)$
   that reduces each component series of $\{ X_t \}$ to a stationary
    time series (which is allowed to have a non-zero constant mean $\mu$),
    and suppose this is the minimal degree polynomial that accomplishes
     this reduction.  For convenience, and without loss of generality,
-    we suppose that $\delta_0 = 1$, or $\delta (0) = 1$.
-    We write $\partial X_t = \delta (L) \, X_t$ for
+    we suppose that $\delta (0) = 1$, or $\Delta (0) = 1$.
+    We write $\partial X_t = \Delta (L) \, X_t$ for
   the stationary, differenced time series,
    where $\partial X_t = \mu + Z_t$ and $\{ Z_t \}$ has a spectral
     representation (\ref{eq:specRep}).  Then it is possible
@@ -4342,16 +4341,16 @@ stationary, which are the most common type occuring in econometrics and finance.
   of time that depend on ``initial values" of the process.
    These deterministic functions can be obtained from 
    the theory of Ordinary Difference Equations (ODE): 
-  all solutions to   $\delta (L) X_t = \partial X_t$
+  all solutions to   $\Delta (L) X_t = \partial X_t$
    must include a homogeneous solution, i.e., solutions to
-    $\delta (L) X_t = 0$,   which include all functions of 
-    $t$ that are annihilated by $\delta (L)$.  Below we develop
+    $\Delta (L) X_t = 0$,   which include all functions of 
+    $t$ that are annihilated by $\Delta (L)$.  Below we develop
   a general method of solution, but We first provide a few
    illustrations through specific cases.
  
  \begin{Example} {\bf Representation for an $I(1)$ Process.}  \rm
  \label{exam:I1-rep}
-    Letting $\delta (L)= 1-L$, we obtain a once-integrated process,
+    Letting $\Delta (L)= 1-L$, we obtain a once-integrated process,
   denoted as $I(1)$ for short.    
   Because  the constant function (which up to proportionality, is the function $1$)
   is annihilated by $1-L$, we expect the solution to take the form
@@ -4380,11 +4379,11 @@ stationary, which are the most common type occuring in econometrics and finance.
 
 \begin{Example} {\bf Representation for an $I(2)$ Process.} \rm
 \label{exam:i2-rep}
-  Now we set  $\delta (L)= {(1-L)}^2$  for a twice-integrated process,
+  Now we set  $\Delta (L)= {(1-L)}^2$  for a twice-integrated process,
   denoted as $I(2)$ for short.    So first differences of $\{ X_t \}$ 
   have a representation as an $I(1)$ process, and the expression for
    $X_t$ will involve a linear function of time $t$, because $t$ is
-  annihilated by $\delta (L)$.  Applying the recursive technique of 
+  annihilated by $\Delta (L)$.  Applying the recursive technique of 
   Example \ref{exam:i1-rep} twice, we obtain
  \[
  X_t = (t+1) \, X_0 - t \, X_{-1}  + \sum_{j=1}^t (t+1-j) \, \partial X_j,
@@ -4404,68 +4403,69 @@ stationary, which are the most common type occuring in econometrics and finance.
 \end{Example}
 
 A general technique for obtaining the representation for non-stationary 
-processes involves the     inverse of the polynomial of $\delta(L)$, which is
- denoted by $\xi (z)$:
+processes involves the     inverse of the polynomial of $\Delta(z)$, which is
+ denoted by $\Xi (z)$:
 \begin{equation}
 \label{eq:xi-def}
- \xi (L) = 1/ \delta (L) = \sum_{j \geq 0 }  \xi_j \, L^j.
+ \Xi (L) = {\Delta (L) }^{-1} = \sum_{j \geq 0 }  \xi (j) \, L^j.
 \end{equation}
  This $\xi (z)$ is a power series that converges on a disk inside the unit circle.
-  Because $\delta (z) \, \xi (z) = 1$, one can recursively solve for the
-   coefficients $\xi_j$ in terms of past coefficients, using the $\delta_k$.
-  In particular, the $j$th coefficient of $\delta (z) \, \xi (z)$ is given by
+  Because $\Delta (z) \, \Xi (z) = 1$, one can recursively solve for the
+   coefficients $\xi (j)$ in terms of past coefficients, using the $\delta (k)$.
+  In particular, the $j$th coefficient of $\Delta (z) \, \Xi (z)$ is given by
   the convolution formula:
 \begin{equation}
 \label{eq:delta.xi-conv}
-  \sum_{k \geq 0} \delta_k \, \xi_{j-k} = 1_{ \{ j=0 \} }.
+  \sum_{k \geq 0} \delta (k) \, \xi (j-k) = 1_{ \{ j=0 \} }.
 \end{equation}
   In this formula, the equality is due to the fact that the $j$th coefficient of
    the constant function $1$ (viewed as a power series in $z$) is zero unless $j=0$,
    in which case it equals one.  On the left hand side of (\ref{eq:delta.xi-conv})
    the sum runs from $0$ to  $j \wedge d$.  From the assumption that $\delta (0) =1$,
- it is immediate that $\xi_0 = 1$ and 
+ it is immediate that $\xi (0) = 1$ and 
   \[
-  \xi_j = - \sum_{k \geq 1} \delta_k \, \xi_{j-k}
+  \xi (j) = - \sum_{k \geq 1} \delta (k) \, \xi (j-k)
   \]
 for $j > 0$.  Next, for any $ 0 \leq h \leq d-1$ we define
 \begin{equation}
 \label{eq:init.cond-fcns}
-  A_{t} (h) = \sum_{k=0}^h \delta_k \, \xi_{h+t-k}.
+  A_{t} (h) = \sum_{k=0}^h \delta (k) \, \xi (h+t-k).
 \end{equation}
  Note that for $h \geq d$ the formula (\ref{eq:init.cond-fcns}) equals 
  (\ref{eq:delta.xi-conv}), and hence equals zero unless $h+t = 0$; but because
 $h < d$ in the definition of $A_t (h)$, the function is non-zero.
-  Also, when $ t \leq 0$ we have $\xi_{h+t-k} = 0$ for $ k > h$, so that
+  Also, when $ t \leq 0$ we have $\xi (h+t-k) = 0$ for $ k > h$, so that
 \[
- A_t (h) = \sum_{k=0}^d \delta_k \, \xi_{h+t-k} = 1_{ \{ h+t = 0 \} } = 1_{ \{ t = -h \}}.
+ A_t (h) = \sum_{k=0}^d \delta (k) \, \xi (h+t-k)
+ = 1_{ \{ h+t = 0 \} } = 1_{ \{ t = -h \}}.
 \]
  Using these definitions, we can state the following result.
  
  \begin{Theorem}
  \label{thm:nonstat-rep}
- The solution for $t \geq 1-d$ to $\delta (L) X_t = \partial X_t$ is given by
+ The solution for $t \geq 1-d$ to $\Delta (L) X_t = \partial X_t$ is given by
 \begin{equation}
  \label{eq:nonstatCausalRep}
  X_t  = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
-  \sum_{j=0}^{t-1} \xi_j \, \partial X_{t-j},
+  \sum_{j=0}^{t-1} \xi (j) \, \partial X_{t-j},
 \end{equation}
- where the coefficients $\xi_j$ are defined recursively through (\ref{eq:delta.xi-conv}),
+ where the coefficients $\xi (j)$ are defined recursively through (\ref{eq:delta.xi-conv}),
   and the time-varying functions $A_t (h)$ are defined via (\ref{eq:init.cond-fcns}).
   Moreover, the algebraic identity 
 \begin{equation}
  \label{eq:Identity1}
-  1 - \sum_{h=0}^{d-1} A_{t} (h) \, z^{t+h} = \sum_{k=0}^{t-1} \xi_k \, z^k
-  \, \delta (z)
+  1 - \sum_{h=0}^{d-1} A_{t} (h) \, z^{t+h} = \sum_{k=0}^{t-1} \xi (k) \, z^k
+  \, \Delta (z)
 \end{equation}
 holds, and hence the   spectral representation for
  $\{ X_t\}$ is
 \begin{equation}
  \label{eq:nonstatRep-spec}
   X_t = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h}  +
-   \sum_{k=0}^{t-1} \xi_k \, \mu +
+   \sum_{k=0}^{t-1} \xi (k) \, \mu +
   \int_{-\pi}^{\pi}
    \frac{ e^{i \omega t} - \sum_{h=0}^{d-1} A_{t} (h) \,  e^{-i \omega h } 
-    }{ \delta (e^{-i \omega}) } \, \ZZ (d\omega).
+    }{ \Delta (e^{-i \omega}) } \, \ZZ (d\omega).
 \end{equation}
 \end{Theorem}  
   
@@ -4473,46 +4473,46 @@ holds, and hence the   spectral representation for
   We begin by proving (\ref{eq:Identity1}), from which the other results follow.
  First write
  \[
-  \xi (z) = {[ \xi (z) ]}_0^{t-1} + {[ \xi (z)]}_t^{\infty}
+  \Xi (z) = {[ \Xi (z) ]}_0^{t-1} + {[ \Xi (z)]}_t^{\infty}
  \]
-  and multiply by $\delta (z)$, yielding
+  and multiply by $\Delta (z)$, yielding
 \[
-  {[ \xi (z) ]}_0^{t-1} \, \delta (z) = 1 -  {[ \xi (z)]}_t^{\infty}  \, \delta (z)
+  {[ \Xi (z) ]}_0^{t-1} \, \Delta (z) = 1 -  {[ \Xi (z)]}_t^{\infty}  \, \Delta (z)
 \]
 via application of (\ref{eq:xi-def}).  Next, 
 \begin{align*}
-  {[ \xi (z)]}_t^{\infty}  \, \delta (z) & = 
-     \sum_{\ell \geq t} \xi_{\ell} \, z^{\ell}
-     \, \sum_{k=0}^d \delta_k \, z^k \\
-  & =   \sum_{k, \ell \geq 0} \delta_k \, \xi_{\ell+t} \, z^{k+\ell+t}  \\
+  {[ \Xi (z)]}_t^{\infty}  \, \Delta (z) & = 
+     \sum_{\ell \geq t} \xi (\ell) \, z^{\ell}
+     \, \sum_{k=0}^d \delta (k) \, z^k \\
+  & =   \sum_{k, \ell \geq 0} \delta (k) \, \xi (\ell+t) \, z^{k+\ell+t}  \\
   & = z^t \, \sum_{h \geq 0}  \left( \sum_{\ell \geq 0} 
-  \delta_{h-\ell} \, \xi_{\ell+t} \right) \, z^h \\
+  \delta (h-\ell) \, \xi (\ell+t) \right) \, z^h \\
     & = z^t \, \sum_{h \geq 0}  \left( \sum_{k=0}^h 
-  \delta_{k} \, \xi_{h+t-k} \right) \, z^h.
+  \delta (k) \, \xi (h+t-k) \right) \, z^h.
 \end{align*}
  We see that the coefficient of $z^h$ is either $1_{ \{ h+t =0 \} }$ for $h \geq d$
   or equals $A_t (h)$ for $0 \leq h \leq d-1$.  Hence for $t \geq 1-d$ the calculation
   simplifies to
 \[
- {[ \xi (z)]}_t^{\infty}  \, \delta (z) =  z^t \sum_{h=0}^{d-1} A_t (h) \, z^h,
+ {[ \Xi (z)]}_t^{\infty}  \, \Delta (z) =  z^t \sum_{h=0}^{d-1} A_t (h) \, z^h,
 \]
  from which  (\ref{eq:Identity1}) follows. 
- Next, multiply both sides of (\ref{eq:Identity1}) by $\delta (z)$, replace $z$ by $L$,
+ Next, multiply both sides of (\ref{eq:Identity1}) by $\Delta (z)$, replace $z$ by $L$,
   and apply the resulting power series to $\{ X_t \}$.  Using
-  $\delta (L) X_t = \partial X_t$, this yields
+  $\Delta (L) X_t = \partial X_t$, this yields
   \[
-   \sum_{j=0}^{t-1} \xi_j \, \partial X_{t-j} = 
+   \sum_{j=0}^{t-1} \xi (j) \, \partial X_{t-j} = 
     X_t - \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h},
 \]
  from which (\ref{eq:nonstatCausalRep}) follows.  The spectral representation is
   obtained from (\ref{eq:nonstatCausalRep}) as follows:
 \begin{align*}
  X_t  & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
-  \sum_{j=0}^{t-1} \xi_j \,  \left( \mu + 
+  \sum_{j=0}^{t-1} \xi (j) \,  \left( \mu + 
   \int_{-\pi}^{\pi} e^{i \omega (t-j)}  \, \ZZ (d\omega) \right) \\
   & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
-  \sum_{j=0}^{t-1} \xi_j \, \mu  +
-    \int_{-\pi}^{\pi} e^{i \omega t } \, \sum_{j=0}^{t-1} \xi_j \,e^{-i \omega j}
+  \sum_{j=0}^{t-1} \xi (j) \, \mu  +
+    \int_{-\pi}^{\pi} e^{i \omega t } \, \sum_{j=0}^{t-1} \xi (j) \,e^{-i \omega j}
     \, \ZZ (d\omega),
 \end{align*}
   from which (\ref{eq:nonstatRep-spec}) follows.  $\quad \Box$
@@ -4525,20 +4525,20 @@ via application of (\ref{eq:xi-def}).  Next,
   variables $X_{1-d}, \ldots, X_{-1}, X_0$ -- and a
   non-predictable portion involving a time-varying filter of the $\{
   \partial X_t \}$ series. 
-  The time-varying function $\sum_{k=0}^{t-1} \xi_k $ can be computed
-  by evaluating (\ref{eq:Identity1}) at $z=1$ and dividing by $\delta (1)$
-   so long as this is non-zero.  Otherwise, if $\delta (1) = 0$ we can
+  The time-varying function $\sum_{k=0}^{t-1} \xi (k)$ can be computed
+  by evaluating (\ref{eq:Identity1}) at $z=1$ and dividing by $\Delta (1)$
+   so long as this is non-zero.  Otherwise, if $\Delta (1) = 0$ we can
    use L'Hopital's rule to obtain
   \[
-   \sum_{k=0}^{t-1} \xi_k = \sum_{k=0}^{t-1} \xi_k \, z^k \vert_{z = 1}
-   = \frac{ - \sum_{h=0}^{d-1} A_t (h) \, (t+h) }{ \dot{\delta} (1)}.
+   \sum_{k=0}^{t-1} \xi (k) = \sum_{k=0}^{t-1} \xi (k) \, z^k \vert_{z = 1}
+   = \frac{ - \sum_{h=0}^{d-1} A_t (h) \, (t+h) }{ \dot{\Delta} (1)}.
   \]
      Each of the time-varying functions $A_t (h)$ is annihilated
- by $\delta (L)$, i.e., $\delta (L) A_{t} (h) = 0$ for $0 \leq
+ by $\Delta (L)$, i.e., $\Delta (L) A_{t} (h) = 0$ for $0 \leq
  h \leq d-1$.   As a consequence, we can rewrite each $A_{t} (h)$ as a linear
- combination of the basis functions of the null space of $\delta
+ combination of the basis functions of the null space of $\Delta
  (L)$, which are given by $\zeta^{-t}$ for non-repeated roots $\zeta$
-  of $\delta (z)$ (when the roots are repeated, we instead consider
+  of $\Delta (z)$ (when the roots are repeated, we instead consider
   functions $t \, \zeta{-t}$, etc.).  
     Let the basis  functions be denoted
     $\phi_t (k) $ for $1 \leq k \leq d$; see Brockwell and Davis (1991)
@@ -4555,9 +4555,9 @@ via application of (\ref{eq:xi-def}).  Next,
 \begin{equation}
 \label{eq:nonstat.rep-basis}
  X_t = \sum_{k=1}^d \phi_t (k) p^{(k)} (L) \, X_{0} + 
-  \sum_{k=0}^{t-1} \xi_k \, \mu  +  \int_{-\pi}^{\pi}
+  \sum_{k=0}^{t-1} \xi (k) \, \mu  +  \int_{-\pi}^{\pi}
  \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_t (k) \, 
- p^{(k)} ( e^{-i \omega  } )}{ \delta (e^{-i \omega}) } \,  \ZZ (d\omega),
+ p^{(k)} ( e^{-i \omega  } )}{ \Delta (e^{-i \omega}) } \,  \ZZ (d\omega),
 \end{equation}
  where $p^{(k)} (L)$ acts on $x_0$ by shifting the time index $t=0$
  back in time for each power of $L$.  
@@ -4571,18 +4571,18 @@ via application of (\ref{eq:xi-def}).  Next,
   with representation  (\ref{eq:nonstat.rep-basis}) has spectral representation
  \begin{align*}
  \Psi (B) X_t & =   \sum_{k=1}^d \Psi (L) \phi_t (k) \, p^{(k)} (L) \, X_{0}  +
-   \sum_{k \geq 1}  \Psi (L)  \xi_{t-k} \, \mu \\
+   \sum_{k \geq 1}  \Psi (L)  \xi (t-k) \, \mu \\
    & +   \int_{-\pi}^{\pi}
    \frac{ e^{i \omega t} \, \Psi (e^{-i \omega}) 
    - \sum_{k=1}^d \Psi (L) \phi_t (k) \, p^{(k)} (e^{-i \omega}) 
-    }{ \delta (e^{-i \omega}) } \, \ZZ (d\omega).
+    }{ \Delta (e^{-i \omega}) } \, \ZZ (d\omega).
  \end{align*}
  \end{Proposition}
   
   
 Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
  integration for the output process can be less than that of $\{ X_t \}$.
- For instance, if $\Psi (\zeta) = 0$ for some root $\zeta$ of $\delta (z)$,
+ For instance, if $\Psi (\zeta) = 0$ for some root $\zeta$ of $\Delta (z)$,
   then at least one of the basis functions $\phi_t (k)$ is annihilated by
    $\Psi (L)$, which means we can rewrite the representation in 
    Proposition \ref{prop:filter-nonstat} in terms of $d-1$ instead of $d$ basis
@@ -4602,37 +4602,37 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
 \label{eq:signal-noise-decomp}
  X_t = S_t + N_t
 \end{equation}
- and $\delta (L) X_t$ is stationary, it is necessary that $\delta (L) S_t$ and 
-  $\delta (L) N_t$ are stationary, although these not need be the minimal degree
+ and $\Delta (L) X_t$ is stationary, it is necessary that $\Delta (L) S_t$ and 
+  $\Delta (L) N_t$ are stationary, although these not need be the minimal degree
   differencing operators.  We assume there is a relatively prime factorization of
-  $\delta (z)$ into components $\delta^S (z)$ and $\delta^N (z)$, which are polynomials
+  $\Delta (z)$ into components $\Delta^S (z)$ and $\Delta^N (z)$, which are polynomials
   of degrees $d_S$ and $d_N$ that reduce signal and noise to stationarity:
 \[
-  \partial S_t = \delta^S (L) S_t \qquad \partial N_t = \delta^N (L) N_t.
+  \partial S_t = \Delta^S (L) S_t \qquad \partial N_t = \Delta^N (L) N_t.
 \]
   These time series are all $n$-dimensional, but we assume that the same differencing
   operators are relevant for each component series.  It then follows that
 \begin{equation}
 \label{eq:diff-x.signoise}
- \partial X_t = \delta^N (L) \, \partial S_t + \delta^S (L) \, \partial N_t,
+ \partial X_t = \Delta^N (L) \, \partial S_t + \Delta^S (L) \, \partial N_t,
 \end{equation}
  which allows us to relate the spectral density $f_{\partial X}$ of $\{ \partial X_t \}$
  to the spectral densities $f_{\partial S}$
   and $f_{\partial N}$ of $\{ \partial S_t \}$ and $\{ \partial N_t \}$:
  \begin{equation}
  \label{eq:sig-and-noise.sdf}
- f_{\partial X} (\omega) = {| \delta^N (e^{-i \omega}) |}^2 \, f_{\partial S} (\omega)
-  + {| \delta^S (e^{-i \omega}) |}^2 \, f_{\partial N} (\omega).
+ f_{\partial X} (\omega) = {| \Delta^N (e^{-i \omega}) |}^2 \, f_{\partial S} (\omega)
+  + {| \Delta^S (e^{-i \omega}) |}^2 \, f_{\partial N} (\omega).
  \end{equation}
   Each of these spectral densities
    is an $n \times n$-dimensional Hermitian function of $\omega$.
-   Next, dividing (\ref{eq:sig-and-noise.sdf}) through by ${| \delta (e^{-i\omega}) |}^2$,
+   Next, dividing (\ref{eq:sig-and-noise.sdf}) through by ${| \Delta (e^{-i\omega}) |}^2$,
   and defining the pseudo-spectral densities by
 \begin{equation}
 \label{eq:pseudo-sdf}
-  f_X (\omega) = \frac{ f_{\partial X} (\omega)}{ {| \delta (e^{-i\omega}) |}^2 }
-  \quad   f_S (\omega) = \frac{ f_{\partial S} (\omega)}{ {| \delta^S (e^{-i\omega}) |}^2 }
-  \quad   f_N (\omega) = \frac{ f_{\partial N} (\omega)}{ {| \delta^N (e^{-i\omega}) |}^2 },
+  f_X (\omega) = \frac{ f_{\partial X} (\omega)}{ {| \Delta (e^{-i\omega}) |}^2 }
+  \quad   f_S (\omega) = \frac{ f_{\partial S} (\omega)}{ {| \Delta^S (e^{-i\omega}) |}^2 }
+  \quad   f_N (\omega) = \frac{ f_{\partial N} (\omega)}{ {| \Delta^N (e^{-i\omega}) |}^2 },
 \end{equation}
   we obtain the relation
 \[
@@ -4660,7 +4660,7 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
   \begin{equation}
   \label{eq:wk.frf-gen}
     \Psi (e^{-i \omega}) =   f_{\partial S} (\omega) \, 
-    { f_{\partial X} (\omega) }^{-1} \, {| \delta^N (e^{-i \omega}) |}^2.
+    { f_{\partial X} (\omega) }^{-1} \, {| \Delta^N (e^{-i \omega}) |}^2.
   \end{equation}
   This presumes that $f_{\partial X} (\omega) $ is invertible; given this condition,
     one computes each filter coefficient by Fourier inversion of the frf.  
@@ -4671,22 +4671,22 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
  with representation (\ref{eq:nonstatCausalRep}), such that
  (\ref{eq:signal-noise-decomp}) holds and $f_{\partial X}$ is invertible.
  If the signal and noise differencing operators
- $\delta^S (L)$ and $\delta^N (L)$ are relatively prime, and Assumption A holds,
+ $\Delta^S (L)$ and $\Delta^N (L)$ are relatively prime, and Assumption A holds,
  then the WK filter has frf given by (\ref{eq:wk.frf-gen}).
 \end{Theorem}
  
  
 \paragraph{Proof of Theorem \ref{thm:wk}.} 
- Because of the factor $\delta^N (e^{-i \omega})$  in the filter's frf,
+ Because of the factor $\Delta^N (e^{-i \omega})$  in the filter's frf,
   the corresponding filter $\Psi (L)$ can be expressed as
-  $\Omega (L) \delta^N (L)$, where $\Omega (e^{-i \omega})$ has bounded modulus
+  $\Omega (L) \Delta^N (L)$, where $\Omega (e^{-i \omega})$ has bounded modulus
    for $\omega \in [-\pi, \pi]$.  Also, it follows from
    (\ref{eq:sig-and-noise.sdf}) that the noise filter's frf is
 \[
  1 - \Psi (e^{-i \omega}) = f_{\partial N} (\omega) \, 
-    { f_{\partial X} (\omega) }^{-1} \, {| \delta^S (e^{-i \omega}) |}^2.
+    { f_{\partial X} (\omega) }^{-1} \, {| \Delta^S (e^{-i \omega}) |}^2.
 \]
- Hence, $1 - \Psi (L) = \Phi (L) \delta^S (L)$ for some $\Phi (e^{-i \omega})$
+ Hence, $1 - \Psi (L) = \Phi (L) \Delta^S (L)$ for some $\Phi (e^{-i \omega})$
  with bounded modulus.  As a result, we can write the error process as
 \[
  \varepsilon_t = S_t - \Psi (L) X_t = (1 - \Psi (L)) S_t - \Psi (L) N_t 
@@ -4702,23 +4702,23 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
 \begin{align*}
   \EE [ \varepsilon_t { \partial X_{t-h}}^{\prime} ]
   & = \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h} \Phi (e^{-i \omega})
-    f_{\partial S} (\omega) \delta^N (e^{i \omega}) \, d\omega
+    f_{\partial S} (\omega) \Delta^N (e^{i \omega}) \, d\omega
     - \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h} \Omega (e^{-i \omega})
-    f_{\partial N} (\omega) \delta^S (e^{i \omega}) \, d\omega  \\
+    f_{\partial N} (\omega) \Delta^S (e^{i \omega}) \, d\omega  \\
   & = \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
     f_{\partial N} (\omega) \, 
-    { f_{\partial X} (\omega) }^{-1} \,  \delta^S (e^{i \omega})
-      f_{\partial S} (\omega) \delta^N (e^{i \omega}) \, d\omega
+    { f_{\partial X} (\omega) }^{-1} \,  \Delta^S (e^{i \omega})
+      f_{\partial S} (\omega) \Delta^N (e^{i \omega}) \, d\omega
       - \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
             f_{\partial S} (\omega) \, 
-    { f_{\partial X} (\omega) }^{-1} \,  \delta^N (e^{i \omega})
-      f_{\partial N} (\omega) \delta^S (e^{i \omega}) \, d\omega  \\
+    { f_{\partial X} (\omega) }^{-1} \,  \Delta^N (e^{i \omega})
+      f_{\partial N} (\omega) \Delta^S (e^{i \omega}) \, d\omega  \\
   & =    \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h} \left(
      f_{\partial N} (\omega) \, { f_{\partial X} (\omega) }^{-1} \,  
      f_{\partial S} (\omega)   
    -  f_{\partial S} (\omega) \, 
     { f_{\partial X} (\omega) }^{-1} \,  
-      f_{\partial N} (\omega) \right) \delta (e^{i \omega}) \, d\omega.
+      f_{\partial N} (\omega) \right) \Delta (e^{i \omega}) \, d\omega.
 \end{align*}
  Lastly, it can be shown that
 \[ f_{\partial N} (\omega) \, { f_{\partial X} (\omega) }^{-1} \,  
@@ -4746,8 +4746,8 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
  of a  random walk trend $\{ S_t \}$ and a     white noise irregular
  $\{ N_t \}$, such  that $X_t = S_t + N_t$. 
   Hence $\{ S_t \}$ is $I(1)$, and $\partial S_t = (1-L) S_t$.
-  Thus $\delta^S (z) = 1- z$, but $\{ N_t \}$ is stationary so that
-  $\delta^N (z) = 1$.  
+  Thus $\Delta^S (z) = 1- z$, but $\{ N_t \}$ is stationary so that
+  $\Delta^N (z) = 1$.  
  Both the multivariate trend and  irregular are driven by independent 
  white noise processes, with respective covariance matrices
    $\Sigma_{S}$ and $\Sigma_{N}$,
@@ -4883,7 +4883,7 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
   Flexible structural models were discussed in McElroy (2017), 
   with atomic components for each distinct unit root
  (with any conjugate roots) in the differencing operator.  
- For monthly data  where $\delta (L) = (1-L)(1-L^{12})$,
+ For monthly data  where $\Delta (L) = (1-L)(1-L^{12})$,
  we obtain an integrated random walk trend component $\{ C_t \}$ 
  (identical to the trend discussed in Example \ref{exam:trend-i2})
  and six atomic seasonal components that combine into a single 
@@ -4907,8 +4907,8 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
  where the covariance matrices are denoted by $\Sigma_C$, $\Sigma_{1}$,
   $\Sigma_2$, $\Sigma_3$, $\Sigma_4$, $\Sigma_5$, $\Sigma_6$, and 
   $\Sigma_I$ respectively.   For seasonal adjustment we seek to suppress
-  seasonality, so $S_t = C_t + I_t$ and $N_t = P_t$.  Thus $\delta^S (z) = {(1-z)}^2$
-  and $\delta^N (z) = U(z)$, and the MB seasonal adjustment filter   has frf
+  seasonality, so $S_t = C_t + I_t$ and $N_t = P_t$.  Thus $\Delta^S (z) = {(1-z)}^2$
+  and $\Delta^N (z) = U(z)$, and the MB seasonal adjustment filter   has frf
 \[
   \Psi (e^{-i \omega}) = e_j^{\prime} \, \left( \Sigma_{C} + {|1 - e^{-i \omega}|}^4
    \Sigma_I \right) \, 
@@ -5095,60 +5095,60 @@ We now consider LPPs for non-stationary processes.
  \label{eq:GPPsoln-nonstat}
   \widehat{\Psi} (L) = \sum_{\ell = 0}^{\infty} \psi (\ell) \, L^{\ell}
     + \sum_{ \ell = -1}^{- \infty} \psi (\ell) \, 
-\left(  \sum_{h=0 }^{d-1} A_{-\ell} (h) L^{h} + \sum_{k=1}^{-\ell} \xi_{-\ell-k}
-  { [  \Theta (L) ] }_{k}^{\infty} L^{-k} \delta (L) { \Theta (L)}^{-1} 
+\left(  \sum_{h=0 }^{d-1} A_{-\ell} (h) L^{h} + \sum_{k=1}^{-\ell} \xi (-\ell-k)
+  { [  \Theta (L) ] }_{k}^{\infty} L^{-k} \Delta (L) { \Theta (L)}^{-1} 
  \right).
 \end{equation}
  Moreover, the   MSE  corresponding to this solution is given by
 \begin{equation} 
 \label{eq:minimalMSE}
  \frac{1}{ 2 \pi} \int_{-\pi}^{\pi}   \sum_{\ell, k > 0 } \psi (-\ell) \,
-  {[ \Theta  (e^{-i \omega}) / \delta (e^{-i \omega}) ]}_0^{\ell-1}   \,  \Sigma \,
-  { {[ \Theta  (e^{i \omega}) / \delta (e^{i \omega}) ]}_0^{ k-1} }^{\prime}  \,
+  {[ \Theta  (e^{-i \omega}) / \Delta (e^{-i \omega}) ]}_0^{\ell-1}   \,  \Sigma \,
+  { {[ \Theta  (e^{i \omega}) / \Delta (e^{i \omega}) ]}_0^{ k-1} }^{\prime}  \,
    {\psi (-k) }^{\prime} \,  e^{i \omega (\ell - k) }   \, d\omega.
 \end{equation}
  \end{Proposition}
  
 \paragraph{Proof of Proposition \ref{prop:GPP-nonstat}.} 
  We show that the filter error $\Lambda (z) = \Psi (z) - \widehat{\Psi} (z)$
-  is divisible by $\delta (z)$, so that we can write
-   $\Lambda (z) = \widetilde{\Lambda} (z) \delta (z)$, from which it follows
+  is divisible by $\Delta (z)$, so that we can write
+   $\Lambda (z) = \widetilde{\Lambda} (z) \Delta (z)$, from which it follows
     that the error process must be stationary.
   We make use of an algebraic identity proved in McElroy and Findley (2010):
   for any $j \geq 0$
 \begin{equation}
  \label{eq:diffop-algid}
-  {[ \Theta (z)/ \delta (z)]}_0^{j} = \sum_{k=0}^j \xi_k z^k { [ \Theta (z) ] }_0^{j-k}.
+  {[ \Theta (z)/ \Delta (z)]}_0^{j} = \sum_{k=0}^j \xi (k) z^k { [ \Theta (z) ] }_0^{j-k}.
 \end{equation}
  Then using the definition of $\widehat{\Psi}(L)$ in (\ref{eq:GPPsoln-nonstat}),
 \begin{align*}    
   \Lambda (z) & =  \sum_{\ell = -1}^{- \infty} \psi (\ell) 
-   \left( z^{\ell} - \sum_{h=0}^{d-1} A_{-\ell} (h) z^h  - \sum_{k=1}^{-\ell} \xi_{-\ell-k}
-    {[ \Theta (z)]}_k^{\infty} z^{-k} \delta (z) { \Theta (z)}^{-1}  \right) \\
+   \left( z^{\ell} - \sum_{h=0}^{d-1} A_{-\ell} (h) z^h  - \sum_{k=1}^{-\ell} \xi (-\ell-k)
+    {[ \Theta (z)]}_k^{\infty} z^{-k} \Delta (z) { \Theta (z)}^{-1}  \right) \\
     & = \sum_{\ell = -1}^{- \infty} \psi (\ell) 
-   \left( \sum_{k=0}^{-\ell-1} \xi_k z^{k+\ell} \Theta (z) -
-     \sum_{k=0}^{-\ell-1} \xi_{k}
-    {[ \Theta (z)]}_{-\ell-k}^{\infty} z^{k+\ell} \delta (z) { \Theta (z)}^{-1} \right) \\
+   \left( \sum_{k=0}^{-\ell-1} \xi (k) z^{k+\ell} \Theta (z) -
+     \sum_{k=0}^{-\ell-1} \xi (k)
+    {[ \Theta (z)]}_{-\ell-k}^{\infty} z^{k+\ell} \Delta (z) { \Theta (z)}^{-1} \right) \\
   & = \sum_{\ell = -1}^{- \infty} \psi (\ell) 
-   \left( \sum_{k=0}^{-\ell-1} \xi_k z^{k+\ell} 
-    {[ \Theta (z)]}_0^{-\ell-k-1}   \right) \delta (z) { \Theta (z)}^{-1} \\
+   \left( \sum_{k=0}^{-\ell-1} \xi (k)  z^{k+\ell} 
+    {[ \Theta (z)]}_0^{-\ell-k-1}   \right) \Delta (z) { \Theta (z)}^{-1} \\
    & = \sum_{\ell = -1}^{- \infty} \psi (\ell) z^{\ell}
-    { [ \Theta (z) / \delta (z)]}_0^{-\ell-1} 
-    \delta (z) { \Theta (z)}^{-1},
+    { [ \Theta (z) / \Delta (z)]}_0^{-\ell-1} 
+    \Delta (z) { \Theta (z)}^{-1},
 \end{align*}    
    where the second equality follows from (\ref{eq:Identity1}), 
     and the fourth equality  follows from (\ref{eq:diffop-algid}).
     Hence, we find that
 \[
  \widetilde{\Lambda} (z) = \sum_{\ell = -1}^{- \infty} \psi (\ell) z^{\ell}
-    { [ \Theta (z) / \delta (z)]}_0^{-\ell-1}  { \Theta (z)}^{-1},
+    { [ \Theta (z) / \Delta (z)]}_0^{-\ell-1}  { \Theta (z)}^{-1},
 \]
  which is well-defined under the invertibility assumption.  
  The real-time error process is then
 \[
   \Lambda (L) X_t = \widetilde{\Lambda} (L) \, \partial X_t
     = \sum_{\ell = -1}^{- \infty} \psi (\ell)  
-    { [ \Theta (L) / \delta (L)]}_0^{-\ell-1}\, \epsilon_{t-\ell},
+    { [ \Theta (L) / \Delta (L)]}_0^{-\ell-1}\, \epsilon_{t-\ell},
 \]
  which only involves future innovations.  Hence the error process is 
   uncorrelated with present and past values of the process $\{ X_t \}$,
@@ -5157,8 +5157,8 @@ We now consider LPPs for non-stationary processes.
 
 % \widehat{\Psi} (L) = \sum_{\ell = -\infty }^{\infty} \psi (\ell) \, L^{\ell} - 
 % \sum_{\ell < 0 } \psi (\ell)
-% \,  { [ \Theta (L) / \delta (L) ]}_{0}^{ -\ell-1  } \, L^{\ell} \,
-% {\Theta (L) }^{-1} \delta(L).
+% \,  { [ \Theta (L) / \Delta (L) ]}_{0}^{ -\ell-1  } \, L^{\ell} \,
+% {\Theta (L) }^{-1} \Delta(L).
 
  
 \vspace{.5cm}
@@ -5171,11 +5171,11 @@ We now consider LPPs for non-stationary processes.
  not be stationary unless we make certain assumptions
  about $\Lambda (L) = \Psi (L) - \widehat{\Psi} (L)$.    
  In order to remove the time-varying functions it is necessary that 
- we can factor $\delta (L)$ from $\Lambda (L)$, i.e., we require the existence of
+ we can factor $\Delta (L)$ from $\Lambda (L)$, i.e., we require the existence of
  $\widetilde{\Lambda } (L)$ such that
 \begin{equation}
  \label{eq:delta.factor}
-  \Lambda (L) = \widetilde{\Lambda } (L) \, \delta (L),
+  \Lambda (L) = \widetilde{\Lambda } (L) \, \Delta (L),
 \end{equation}
  as otherwise we cannot guarantee that $\{ E_t \}$ will be stationary. 
  (This condition (\ref{eq:delta.factor}) is indeed satisfied by the optimal 
@@ -5364,7 +5364,7 @@ Proposition \ref{prop:filter-decompose}.
 \end{Corollary}
 
  We can apply Corollary \ref{cor:filter-noise} to factor a 
- noise-differencing polynomial $\delta^N (L)$ from $\Lambda (L)$:
+ noise-differencing polynomial $\Delta^N (L)$ from $\Lambda (L)$:
  for each $\omega$ such that the target filter $\Psi (L)$ annihilates
  $\omega$-dynamics of order $d$, we impose the constraint
  that $\widehat{\Psi} (L)$ shall have the same property, and hence 
@@ -5374,33 +5374,33 @@ Proposition \ref{prop:filter-decompose}.
  Corollary \ref{cor:filter-noise} yields
 \[
  \Psi (L) = \prod_{\ell} {(L -  e^{-i \omega_{\ell}})}^{d_{\ell}} \, \Psi^{\natural} (L)
-   = \delta^N (L) \, \Psi^{\star} (L)
+   = \Delta^N (L) \, \Psi^{\star} (L)
 \]
  for some residual filter $\Psi^{\natural} (L)$, where 
  $\Psi^{\star} (L) = \prod_{\ell} (-e^{-i \omega_{\ell} d_{\ell}}) \, \Psi^{\natural} (L)$
- and $\delta^N (L) = \prod_{\ell} (1 - e^{i \omega_{\ell}} \, L)$.
+ and $\Delta^N (L) = \prod_{\ell} (1 - e^{i \omega_{\ell}} \, L)$.
  By imposing the same linear constraints on $\widehat{\Psi} (L)$, 
- we likewise obtain $\widehat{\Psi} (L) = \delta^N (L) \, \widehat{\Psi}^{\star} (L)$,
+ we likewise obtain $\widehat{\Psi} (L) = \Delta^N (L) \, \widehat{\Psi}^{\star} (L)$,
  and hence
 \begin{equation}
  \label{eq:delta-noise}
 \Lambda (L) = \left(  {\Psi}^{\star} (L) - 
-\widehat{\Psi}^{\star} (L) \right) \, \delta^N (L).
+\widehat{\Psi}^{\star} (L) \right) \, \Delta^N (L).
 \end{equation}
-  So if $\delta (L) = \delta^N (L)$, then (\ref{eq:delta.factor}) 
+  So if $\Delta (L) = \Delta^N (L)$, then (\ref{eq:delta.factor}) 
   holds at once.  More generally, a given process' differencing polynomial
- may be factored into relatively prime polynomials $\delta^N (z)$ and $\delta^S (z)$, 
+ may be factored into relatively prime polynomials $\Delta^N (z)$ and $\Delta^S (z)$, 
  which correspond to noise and signal dynamics
  respectively -- see Bell (1984) and McElroy (2008a). 
  Many  signal extraction filters $\Psi (L)$   have the property that they
  annihilate $\omega$-dynamics of the appropriate order, 
- such that $\delta^N (L)$ can be factored.
+ such that $\Delta^N (L)$ can be factored.
  By imposing that 
 \begin{equation}
 \label{eq:non-stat.constraint.single}
  \widehat{\Psi} (e^{-i \omega}) = \Psi (e^{-i \omega})
  \end{equation}
- for  all simple roots $\zeta = e^{-i \omega}$ of $\delta (z)$, we ensure that
+ for  all simple roots $\zeta = e^{-i \omega}$ of $\Delta (z)$, we ensure that
   (\ref{eq:delta.factor}) holds. If there is a double root, then we also impose
  \begin{equation}
 \label{eq:non-stat.constraint.double}
@@ -5409,22 +5409,22 @@ Proposition \ref{prop:filter-decompose}.
    These conditions are sufficient, because 
   (\ref{eq:non-stat.constraint.single}) and  (\ref{eq:non-stat.constraint.double})
     imply $\Lambda (e^{-i \omega}) = 0$
-  for all the roots of $\delta (z)$, so that by repeated application of Corollary 
- \ref{cor:filter-noise} we can factor out $\delta (z)$, labelling the
+  for all the roots of $\Delta (z)$, so that by repeated application of Corollary 
+ \ref{cor:filter-noise} we can factor out $\Delta (z)$, labelling the
  remaining factor as $\widetilde{\Lambda } (L)$.  
-   Note that if $\omega$ corresponds to noise, i.e., $\delta^N (e^{-i \omega}) = 0$,
+   Note that if $\omega$ corresponds to noise, i.e., $\Delta^N (e^{-i \omega}) = 0$,
     then (\ref{eq:non-stat.constraint.single}) becomes 
   $ \widehat{\Psi} (e^{-i \omega}) = 0$, but if $\omega$ corresponds to signal
   then $\Psi (e^{-i \omega}) \neq 0$. 
   
   In fact, this characterization actually
   defines signal and noise.   Given a non-stationary process with differencing
-  polynomial $\delta (z)$ and a target filter $\Psi (L)$, we define $\delta^N (z)$
-  as consisting of those factors of $\delta (z)$ such that
-   $ \widehat{\Psi} (e^{-i \omega}) = 0$, and set $\delta^S (z) = \delta (z)/ \delta^N (z)$.
+  polynomial $\Delta (z)$ and a target filter $\Psi (L)$, we define $\Delta^N (z)$
+  as consisting of those factors of $\Delta (z)$ such that
+   $ \widehat{\Psi} (e^{-i \omega}) = 0$, and set $\Delta^S (z) = \Delta (z)/ \Delta^N (z)$.
   For either signal or noise $\omega$-dynamics, we know that 
   (\ref{eq:delta.factor}) holds if we impose  (\ref{eq:non-stat.constraint.single}) for all
-   the single roots of $\delta (z)$
+   the single roots of $\Delta (z)$
    (and for double roots, also impose  (\ref{eq:non-stat.constraint.double})).
  In practice, we must determine the real and imaginary  parts of each such 
  constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ 
@@ -5441,22 +5441,22 @@ Proposition \ref{prop:filter-decompose}.
  D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Lambda} (z)   \, 
  G \,  {\widetilde{\Lambda} (z) }^*   \rangle }_0
  = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \, 
- G \, {|\delta (z) |}^{-2} \,
+ G \, {|\Delta (z) |}^{-2} \,
   {  \left[ \Psi (z) -  \widehat{\Psi}_{\vartheta} (z) \right] }^{*} \rangle }_0.
 \end{equation}
   The second expression in (\ref{eq:mdfa-criterion-nonstat}) 
   utilizes (\ref{eq:delta.factor}), and employs the understanding
- that poles in ${\delta (z) }^{-1}$ are exactly canceled out by the 
+ that poles in ${\Delta (z) }^{-1}$ are exactly canceled out by the 
  corresponding zeros in $\Psi (z) - \widehat{\Psi} (z)$.
-  Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\delta (z) = 
+  Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\Delta (z) = 
   \widetilde{\Lambda} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
  as the previous discussion guarantees. 
  
  For computation, it is convenient to calculate the integrand given in the
   right-hand expression of (\ref{eq:mdfa-criterion-nonstat}), which involves
-   the pseudo-spectrum $ G \, {|\delta (z) |}^{-2}$.  Numerical
+   the pseudo-spectrum $ G \, {|\Delta (z) |}^{-2}$.  Numerical
     evaluation of this integrand will yield $0/0$ at $\omega$-dynamics such
-  that $\delta (e^{-i \omega}) = 0$, and L'Hopital's rule could be used
+  that $\Delta (e^{-i \omega}) = 0$, and L'Hopital's rule could be used
   to resolve this quotient into an expression for
   $\widetilde{\Lambda} (z)   \,  G \, 
   {\widetilde{\Lambda} (z) }^* \vert_{z= e^{-i \omega}}$.
@@ -5467,7 +5467,7 @@ Proposition \ref{prop:filter-decompose}.
     each singularity is omitted.  This procedure can yield an expression arbitarily
      close to $D_{\Psi} (\vartheta, G)$ (by taking the neighborhoods sufficiently small),
     while allowing for easy calculation, since $\Lambda (z)$ and 
-    $ G \, {|\delta (z) |}^{-2}$ are easily computed.  
+    $ G \, {|\Delta (z) |}^{-2}$ are easily computed.  
    
    
   Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, 
@@ -5475,7 +5475,7 @@ Proposition \ref{prop:filter-decompose}.
  for estimation we approximate the integral over Fourier frequencies, 
  and utilize the periodogram of the differenced data for $G$.
  We omit any contributions to the sum arising from Fourier frequencies
- that correspond to zeros of $\delta (z)$, as such an omission
+ that correspond to zeros of $\Delta (z)$, as such an omission
  only results in a loss of order $T^{-1}$, which is of the same order
  as the Riemann sum approximation over Fourier frequencies to the exact integral.
 
@@ -5762,9 +5762,9 @@ target.  When the model is correctly specified, the best concurrent filter
 \begin{equation}
 \label{eq:wiener-hopf}
   \widehat{\Psi} (z) =  
-    { \left[  \gamma_{\partial S} (z) \,  \delta^N (z^{-1}) \, {\delta^S (z)}^{-1}
+    { \left[  \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) \, {\Delta^S (z)}^{-1}
      { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
-     { \Theta (z) }^{-1} \delta (z). 
+     { \Theta (z) }^{-1} \Delta (z). 
 \end{equation}
   It is clear that (\ref{eq:wiener-hopf}) is a causal filter,
   as it only involves non-negative powers of $z$.
@@ -5794,7 +5794,7 @@ target.  When the model is correctly specified, the best concurrent filter
  (\ref{eq:signal-noise-decomp}) and (\ref{eq:spectral-factor}) hold,
   and $\Theta (z)$ is invertible.
  If the signal and noise differencing operators
- $\delta^S (L)$ and $\delta^N (L)$ are relatively prime, and Assumption A holds,
+ $\Delta^S (L)$ and $\Delta^N (L)$ are relatively prime, and Assumption A holds,
  then  the  optimal linear estimator $\widehat{S}_t$   of $S_t$ given data 
   $\{ X_{t-j}, j \geq 0 \}$ is   given by
  applying the filter $\widehat{\Psi} $  to $\{  X_t \}$, 
@@ -5816,11 +5816,11 @@ target.  When the model is correctly specified, the best concurrent filter
    has already been shown to be uncorrelated with $\{ X_t \}$ by
    Theorem \ref{thm:wk}.  For the second term, the difference in the two filters' frfs is
 \[
-  -{ \left[  \gamma_{\partial S} (z) \,  \delta^N (z^{-1}) \, {\delta^S (z)}^{-1}
+  -{ \left[  \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) \, {\Delta^S (z)}^{-1}
      { \Theta (z^{-1})}^{-1 \prime} \right] }_{-\infty}^{-1} \, \Sigma^{-1} \,
-     { \Theta (z) }^{-1} \delta (z).
+     { \Theta (z) }^{-1} \Delta (z).
 \]
-   This  frf corresponds to a filter of the form $\Phi (L)  { \Theta (L) }^{-1} \delta (L)$,
+   This  frf corresponds to a filter of the form $\Phi (L)  { \Theta (L) }^{-1} \Delta (L)$,
    where $\Phi (e^{-i \omega})$ is a function of bounded modulus.
    Furthermore,  the Laurent series expansion of $\Phi (z)$ only involves negative powers 
    of $z$, which means that the filter $\Phi (L)$ only involves negative powers of $L$.
@@ -5838,31 +5838,31 @@ target.  When the model is correctly specified, the best concurrent filter
   to the noise filter, yields unity:
 \begin{align*}
   \widehat{\Psi} (z) & = 
-   { \left[  \gamma_{\partial S} (z) \,  \delta^N (z) \delta^N (z^{-1}) 
-   \, {\delta (z)}^{-1} 
+   { \left[  \gamma_{\partial S} (z) \,  \Delta^N (z) \Delta^N (z^{-1}) 
+   \, {\Delta (z)}^{-1} 
      { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
-     { \Theta (z) }^{-1} \delta (z)   \\
+     { \Theta (z) }^{-1} \Delta (z)   \\
     & =  { \left[  \left(  \gamma_{\partial X} (z) -
-    \gamma_{\partial N} (z) \,  \delta^S (z) \delta^S (z^{-1}) \right)
-   \, {\delta (z)}^{-1} 
+    \gamma_{\partial N} (z) \,  \Delta^S (z) \Delta^S (z^{-1}) \right)
+   \, {\Delta (z)}^{-1} 
      { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
-     { \Theta (z) }^{-1} \delta (z)   \\
-& = { \left[  \Theta (z) \, \Sigma \, {\delta (z)}^{-1} \right] }_0^{\infty}
- \, \Sigma^{-1} \, { \Theta (z) }^{-1} \delta (z) -
-    { \left[ \gamma_{\partial N} (z) \,  \delta^S (z^{-1}) \, {\delta^N (z)}^{-1} 
+     { \Theta (z) }^{-1} \Delta (z)   \\
+& = { \left[  \Theta (z) \, \Sigma \, {\Delta (z)}^{-1} \right] }_0^{\infty}
+ \, \Sigma^{-1} \, { \Theta (z) }^{-1} \Delta (z) -
+    { \left[ \gamma_{\partial N} (z) \,  \Delta^S (z^{-1}) \, {\Delta^N (z)}^{-1} 
      { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \, \Sigma^{-1} \,
-     { \Theta (z) }^{-1} \delta (z).
+     { \Theta (z) }^{-1} \Delta (z).
 \end{align*}
   The second term is the concurrent noise filter.  In the first term,
   the expressions within the brackets are all power series, and hence
   the bracket can be discarded, i.e.,
 \[
- { \left[  \Theta (z) \, \Sigma \, {\delta (z)}^{-1} \right] }_0^{\infty}
- \, \Sigma^{-1} \, { \Theta (z) }^{-1} \delta (z)
- =  \Theta (z) \, \Sigma \, {\delta (z)}^{-1} 
- \, \Sigma^{-1} \, { \Theta (z) }^{-1} \delta (z) = 1_n.
+ { \left[  \Theta (z) \, \Sigma \, {\Delta (z)}^{-1} \right] }_0^{\infty}
+ \, \Sigma^{-1} \, { \Theta (z) }^{-1} \Delta (z)
+ =  \Theta (z) \, \Sigma \, {\Delta (z)}^{-1} 
+ \, \Sigma^{-1} \, { \Theta (z) }^{-1} \Delta (z) = 1_n.
 \]
-To prove the second assertion, let $\Phi^x (z) = \Theta^x (z) / \delta (z)$.
+To prove the second assertion, let $\Phi^x (z) = \Theta^x (z) / \Delta (z)$.
  Then the LPP solution given by (\ref{eq:GPPsoln-nonstat}) can be written
 \[
    \sum_{\ell = -\infty}^{\infty}  \psi  (\ell) \, z^{\ell} -  
@@ -5890,42 +5890,42 @@ Substituting the expression for the frf of the WK filter yields
 \begin{align*}
  & =  \sum_{k = 0}^{\infty}    z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
  f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
-  {| \delta^N (e^{-i \omega}) |}^2 \, 
+  {| \Delta^N (e^{-i \omega}) |}^2 \, 
    \sum_{\ell = -1}^{-\infty}  \phi^x (-\ell-1-k)   \, e^{i \omega \ell} \, d\omega   \\
  & =  \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
 f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
-  {| \delta^N (e^{-i \omega}) |}^2 
+  {| \Delta^N (e^{-i \omega}) |}^2 
 \,  \sum_{h = 0}^{\infty}   \phi^x (h-k)   \, e^{-i \omega (h+1)} \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
-f_{ \partial S}(\omega)   \,  {| \delta^N (e^{-i \omega}) |}^2 \, 
+f_{ \partial S}(\omega)   \,  {| \Delta^N (e^{-i \omega}) |}^2 \, 
      {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
     {  \Theta^x (e^{-i \omega}) }^{-1}
 \,   \Phi^x (e^{-i \omega}) \, e^{-i \omega (k+1) }  \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
 f_{ \partial S}(\omega) \,  { \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
-  \delta^N (e^{i \omega})/ \delta^S (e^{-i \omega})
+  \Delta^N (e^{i \omega})/ \Delta^S (e^{-i \omega})
 \,  e^{-i \omega (k+1) }  \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  { \langle    f_{ \partial S}(\omega) \, 
     {  \Theta^x (e^{i \omega}) }^{-1 \prime} 
-    \delta^N (e^{i \omega})/ \delta^S (e^{-i \omega})  \rangle  }_{-(k+1) } 
+    \Delta^N (e^{i \omega})/ \Delta^S (e^{-i \omega})  \rangle  }_{-(k+1) } 
      \, \Sigma_x^{-1}  \\
  & =   { [  \gamma_{\partial S} (z)  \, 
     {  \Theta^x (z^{-1}) }^{-1 \prime} 
-    \delta^N (z^{-1})/ \delta^S (z) ]}_{-\infty}^{-1}  \, \Sigma_x^{-1}.
+    \Delta^N (z^{-1})/ \Delta^S (z) ]}_{-\infty}^{-1}  \, \Sigma_x^{-1}.
 \end{align*}
  Hence, the LPP solution is
 \begin{align*}
   & \Psi (z) - { [  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime} \delta^N (z^{-1})/ \delta^S (z)
+    {  \Theta^x (z^{-1}) }^{-1 \prime} \Delta^N (z^{-1})/ \Delta^S (z)
     ]}_{-\infty}^{-1}  \, \Sigma_x^{-1} \,     { \Phi^x (z) }^{-1}  \\
   & =  \Psi (z) -  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime}  \, \delta^N (z^{-1})/ \delta^S (z) \,
+    {  \Theta^x (z^{-1}) }^{-1 \prime}  \, \Delta^N (z^{-1})/ \Delta^S (z) \,
      \Sigma_x^{-1} \,
-    { \Theta^x (z) }^{-1} \delta (z)  \\
+    { \Theta^x (z) }^{-1} \Delta (z)  \\
  &    +  { [  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime}  \delta^N (z^{-1})/ \delta^S (z)
+    {  \Theta^x (z^{-1}) }^{-1 \prime}  \Delta^N (z^{-1})/ \Delta^S (z)
      ]}_{0}^{\infty}  \, \Sigma_x^{-1} \,
-    { \Theta^x (z) }^{-1} \delta (z),
+    { \Theta^x (z) }^{-1} \Delta (z),
 \end{align*}
   which equals $\widehat{\Psi} (z)$.
   This verifies that the LPP solution indeed equals the optimal concurrent
@@ -5935,15 +5935,15 @@ $\quad \Box$
 \vspace{.5cm}
 
  It is not clear how to compute (\ref{eq:wiener-hopf}) because of the presence of
-  ${\delta^S (z)}^{-1}$ in the bracket.  In Bell and Martin (2004) this issue was
+  ${\Delta^S (z)}^{-1}$ in the bracket.  In Bell and Martin (2004) this issue was
   addressed by computing a partial fraction decomposition; here we take a similar
   approach, but adapted for multivariate time series.  The goal is to construct
   a matrix power series $D(z)= \sum_{k=0}^{\infty} d (k) z^k$ 
   and a strictly anti-causal $C(z^{-1}) = \sum_{k=-\infty}^{-1}  c (k) z^k$ such that
 \[
-    \gamma_{\partial S} (z) \,  \delta^N (z^{-1}) \, {\delta^S (z)}^{-1}
+    \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) \, {\Delta^S (z)}^{-1}
      { \Theta (z^{-1})}^{-1 \prime}  =  C ( z^{-1}) \, { \Theta (z^{-1})}^{-1 \prime}
-     + D(z)  \, {\delta^S (z)}^{-1}.
+     + D(z)  \, {\Delta^S (z)}^{-1}.
 \]
  Once we have computed $D(z)$, we obtain a simple expression for the concurrent filter.
  
@@ -5952,9 +5952,9 @@ $\quad \Box$
   Under the assumptions of Theorem \ref{thm:asym.sigex}, the optimal concurrent 
  filter  can be expressed as
  $\widehat{\Psi} (z) = D (z) \Sigma^{-1} \,
-     { \Theta (z) }^{-1} \delta^N (z)$, where $D(z)$ is given by
+     { \Theta (z) }^{-1} \Delta^N (z)$, where $D(z)$ is given by
 \begin{align*}
-  D(z) &=    { \left[  \gamma_{\partial S} (z) \,  \delta^N (z^{-1}) 
+  D(z) &=    { \left[  \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) 
      { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \\
      & - \sum_{j=0}^{d_S} 
 \end{align*}

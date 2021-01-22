@@ -634,7 +634,7 @@ It is known that the VAR(1) has the causal representation
   \, L^{-\ell} \,  {[ \Theta_{\vartheta} (L) ]}_0^{\ell - 1} \, 
    { \Theta_{\vartheta} (L) }^{-1} \, X_t.
 \] 
- In other words, we have an error filter $ \Lamba_{\vartheta} (L)  $ such that
+ In other words, we have an error filter $ \Lambda_{\vartheta} (L)  $ such that
   $E_t = \Lambda_{\vartheta} (L) X_t$,  where
 \[
   \Lambda_{\vartheta} (z)  = \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  z^{-\ell} \,

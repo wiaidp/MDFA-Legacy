@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.1.11)  22 JAN 2021 12:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.1.11)  22 JAN 2021 14:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -837,6 +837,11 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 1275.
 
 [20] [21]
+! Undefined control sequence.
+l.1365 ... words, we have an error filter $ \Lamba
+                                                  _{\vartheta} (L)  $ such that
+
+? 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 1399.
@@ -848,178 +853,178 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 1445.
+(Font)              using `T1/aer/m/sl' instead on input line 1441.
+
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 1448.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 1452.
 
-
-LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 1456.
-
 [23]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 1496.
+(Font)              using `T1/aer/m/sl' instead on input line 1493.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 1525.
+(Font)              using `T1/aer/m/sl' instead on input line 1522.
 
 [24]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 1579.
+(Font)              using `T1/aer/m/sl' instead on input line 1575.
 
 [25] [26] [27]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 1748.
+(Font)              using `T1/aer/m/sl' instead on input line 1744.
 
 [28] [29] [30]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 1918.
+(Font)              using `T1/aer/m/sl' instead on input line 1914.
 
-[31] [32] [33] [34]
+[31] [32] [33] [34
+
+]
 Chapter 3.
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2109.
+(Font)              using `T1/aer/m/sl' instead on input line 2105.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2115.
+(Font)              using `T1/aer/m/sl' instead on input line 2111.
 
-[35
-
-]
+[35]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2173.
+(Font)              using `T1/aer/m/sl' instead on input line 2169.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2178.
+(Font)              using `T1/aer/m/sl' instead on input line 2174.
 
 [36] [37] [38]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2362.
+(Font)              using `T1/aer/m/sl' instead on input line 2358.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2396.
+(Font)              using `T1/aer/m/sl' instead on input line 2392.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2409.
+(Font)              using `T1/aer/m/sl' instead on input line 2405.
 
 [39]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2463.
+(Font)              using `T1/aer/m/sl' instead on input line 2459.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2489.
+(Font)              using `T1/aer/m/sl' instead on input line 2485.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2492.
+(Font)              using `T1/aer/m/sl' instead on input line 2488.
 
 [40]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2567.
+(Font)              using `T1/aer/m/sl' instead on input line 2563.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2574.
+(Font)              using `T1/aer/m/sl' instead on input line 2570.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2605.
+(Font)              using `T1/aer/m/sl' instead on input line 2601.
 
 [41] [42]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2681.
+(Font)              using `T1/aer/m/sl' instead on input line 2677.
 
 [43]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2767.
+(Font)              using `T1/aer/m/sl' instead on input line 2763.
 
 [44] [45]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2852.
+(Font)              using `T1/aer/m/sl' instead on input line 2848.
 
 [46]
 <mdfa_var1_filtering.pdf, id=547, 433.62pt x 289.08pt>
 File: mdfa_var1_filtering.pdf Graphic file (type pdf)
 <use mdfa_var1_filtering.pdf>
-Package pdftex.def Info: mdfa_var1_filtering.pdf  used on input line 2936.
+Package pdftex.def Info: mdfa_var1_filtering.pdf  used on input line 2932.
 (pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 2955.
+(Font)              using `T1/aer/m/sl' instead on input line 2951.
 
 [47] [48pdfTeX warning (ext4): destination with the same identifier (name{figur
 e.3.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.3002 > # construct and apply low pass filter
+l.2998 > # construct and apply low pass filter
                                                <./mdfa_var1_filtering.pdf>]
 [49]
 <mdfa_trivar1_filtering.pdf, id=570, 433.62pt x 433.62pt>
 File: mdfa_trivar1_filtering.pdf Graphic file (type pdf)
 <use mdfa_trivar1_filtering.pdf>
-Package pdftex.def Info: mdfa_trivar1_filtering.pdf  used on input line 3056.
+Package pdftex.def Info: mdfa_trivar1_filtering.pdf  used on input line 3052.
 (pdftex.def)             Requested size: 339.67029pt x 339.68448pt.
 <mdfa_trivar1_freqdomain.pdf, id=571, 433.62pt x 433.62pt>
 File: mdfa_trivar1_freqdomain.pdf Graphic file (type pdf)
 <use mdfa_trivar1_freqdomain.pdf>
-Package pdftex.def Info: mdfa_trivar1_freqdomain.pdf  used on input line 3067.
+Package pdftex.def Info: mdfa_trivar1_freqdomain.pdf  used on input line 3063.
 (pdftex.def)             Requested size: 339.67029pt x 339.68448pt.
 
 
-LaTeX Warning: Reference `chap:ats' on page 50 undefined on input line 3104.
+LaTeX Warning: Reference `chap:ats' on page 50 undefined on input line 3100.
 
 [50pdfTeX warning (ext4): destination with the same identifier (name{figure.3.2
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.3107 
+l.3103 
         <./mdfa_trivar1_filtering.pdf>] [51pdfTeX warning (ext4): destination w
 ith the same identifier (name{figure.3.3}) has been already used, duplicate ign
 ored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.3134 \end{align}
+l.3130 \end{align}
                    <./mdfa_trivar1_freqdomain.pdf>]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3150.
+(Font)              using `T1/aer/m/sl' instead on input line 3146.
 
 [52]
 <mdfa_bimdfa-udfa.pdf, id=607, 433.62pt x 144.54pt>
 File: mdfa_bimdfa-udfa.pdf Graphic file (type pdf)
 <use mdfa_bimdfa-udfa.pdf>
-Package pdftex.def Info: mdfa_bimdfa-udfa.pdf  used on input line 3222.
+Package pdftex.def Info: mdfa_bimdfa-udfa.pdf  used on input line 3218.
 (pdftex.def)             Requested size: 339.67029pt x 113.22813pt.
  [53pdfTeX warning (ext4): destination with the same identifier (name{figure.3.
 4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.3254 \[
+l.3250 \[
           <./mdfa_bimdfa-udfa.pdf>]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3262.
+(Font)              using `T1/aer/m/sl' instead on input line 3258.
 
 [54]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1027,19 +1032,19 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [55]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 3372.
+               Default added (so using `tbp') on input line 3368.
 
 
-Overfull \hbox (137.84964pt too wide) in paragraph at lines 3376--3391
+Overfull \hbox (137.84964pt too wide) in paragraph at lines 3372--3387
  [][] 
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 3394.
+               Default added (so using `tbp') on input line 3390.
 
 
-Overfull \hbox (129.51834pt too wide) in paragraph at lines 3398--3413
+Overfull \hbox (129.51834pt too wide) in paragraph at lines 3394--3409
  [][] 
  []
 
@@ -1047,73 +1052,73 @@ Overfull \hbox (129.51834pt too wide) in paragraph at lines 3398--3413
 ) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.3446 
+l.3442 
        pdfTeX warning (ext4): destination with the same identifier (name{table.
 3.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.3446 
+l.3442 
        ]
 
-LaTeX Warning: Reference `chap:mix' on page 57 undefined on input line 3452.
+LaTeX Warning: Reference `chap:mix' on page 57 undefined on input line 3448.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3463.
+(Font)              using `T1/aer/m/sl' instead on input line 3459.
 
 
-LaTeX Warning: Reference `lpp_chap' on page 57 undefined on input line 3473.
-
-
-LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3476.
+LaTeX Warning: Reference `lpp_chap' on page 57 undefined on input line 3469.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3479.
+(Font)              using `T1/aer/m/sl' instead on input line 3472.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3487.
+(Font)              using `T1/aer/m/sl' instead on input line 3475.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3501.
+(Font)              using `T1/aer/m/sl' instead on input line 3483.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3519.
+(Font)              using `T1/aer/m/sl' instead on input line 3497.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3520.
+(Font)              using `T1/aer/m/sl' instead on input line 3515.
+
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 3516.
 
 [57]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3524.
+(Font)              using `T1/aer/m/sl' instead on input line 3520.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3538.
+(Font)              using `T1/aer/m/sl' instead on input line 3534.
 
 [58]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3654.
+(Font)              using `T1/aer/m/sl' instead on input line 3651.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3685.
+(Font)              using `T1/aer/m/sl' instead on input line 3683.
 
 [59]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3718.
+(Font)              using `T1/aer/m/sl' instead on input line 3716.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3729.
+(Font)              using `T1/aer/m/sl' instead on input line 3727.
 
 [60] [61] [62
 
@@ -1121,24 +1126,24 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 Chapter 4.
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3838.
+(Font)              using `T1/aer/m/sl' instead on input line 3836.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3849.
+(Font)              using `T1/aer/m/sl' instead on input line 3847.
 
 [63]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3888.
+(Font)              using `T1/aer/m/sl' instead on input line 3886.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3904.
+(Font)              using `T1/aer/m/sl' instead on input line 3902.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3919.
+(Font)              using `T1/aer/m/sl' instead on input line 3917.
 
 
 Overfull \hbox (43.67245pt too wide) has occurred while \output is active
@@ -1149,11 +1154,11 @@ TIONARY PROCESSES
 [64]
 
 LaTeX Font Warning: Font shape `T1/aer/m/sc' undefined
-(Font)              using `T1/aer/m/n' instead on input line 3953.
+(Font)              using `T1/aer/m/n' instead on input line 3952.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 3991.
+(Font)              using `T1/aer/m/sl' instead on input line 3989.
 
 [65]
 Overfull \hbox (43.67245pt too wide) has occurred while \output is active
@@ -1164,11 +1169,11 @@ IONARY PROCESSES
 [66] [67]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 4106.
+(Font)              using `T1/aer/m/sl' instead on input line 4104.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 4149.
+(Font)              using `T1/aer/m/sl' instead on input line 4148.
 
 
 Overfull \hbox (43.67245pt too wide) has occurred while \output is active
@@ -1185,15 +1190,15 @@ IONARY PROCESSES
 [70]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 4352.
+(Font)              using `T1/aer/m/sl' instead on input line 4351.
 
 [71]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 4381.
+(Font)              using `T1/aer/m/sl' instead on input line 4380.
 
 
-LaTeX Warning: Reference `exam:i1-rep' on page 72 undefined on input line 4388.
+LaTeX Warning: Reference `exam:i1-rep' on page 72 undefined on input line 4387.
 
 
 
@@ -1230,7 +1235,7 @@ IONARY PROCESSES
  []
 
 [76]
-Overfull \hbox (127.7587pt too wide) detected at line 4722
+Overfull \hbox (141.8005pt too wide) detected at line 4722
 []
  []
 
@@ -1246,7 +1251,7 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 4767.
 
 [77]
-<llm_frf.pdf, id=881, 433.62pt x 289.08pt>
+<llm_frf.pdf, id=883, 433.62pt x 289.08pt>
 File: llm_frf.pdf Graphic file (type pdf)
 <use llm_frf.pdf>
 Package pdftex.def Info: llm_frf.pdf  used on input line 4808.
@@ -1272,7 +1277,7 @@ l.4828 \]
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 4832.
 
-<stm_frf.pdf, id=895, 433.62pt x 289.08pt>
+<stm_frf.pdf, id=897, 433.62pt x 289.08pt>
 File: stm_frf.pdf Graphic file (type pdf)
 <use stm_frf.pdf>
 Package pdftex.def Info: stm_frf.pdf  used on input line 4873.
@@ -1316,7 +1321,7 @@ IONARY PROCESSES
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [83]
-<sauc_frf.pdf, id=928, 433.62pt x 289.08pt>
+<sauc_frf.pdf, id=930, 433.62pt x 289.08pt>
 File: sauc_frf.pdf Graphic file (type pdf)
 <use sauc_frf.pdf>
 Package pdftex.def Info: sauc_frf.pdf  used on input line 5064.
@@ -1336,8 +1341,8 @@ IONARY PROCESSES
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.5122 \end{equation}
-                      <./sauc_frf.pdf>]
+l.5119 \begin{equation}
+                        <./sauc_frf.pdf>]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 5197.
@@ -1420,19 +1425,19 @@ IONARY PROCESSES
  []
 
 [94]
-Overfull \hbox (8.90442pt too wide) detected at line 5855
+Overfull \hbox (26.45668pt too wide) detected at line 5855
 []
  []
 
 
-Underfull \vbox (badness 4967) has occurred while \output is active []
+Underfull \vbox (badness 6641) has occurred while \output is active []
 
  [95]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 5951.
 
-<petrol_data.pdf, id=1062, 433.62pt x 289.08pt>
+<petrol_data.pdf, id=1064, 433.62pt x 289.08pt>
 File: petrol_data.pdf Graphic file (type pdf)
 <use petrol_data.pdf>
 Package pdftex.def Info: petrol_data.pdf  used on input line 5966.
@@ -1456,8 +1461,8 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6025 > psi.sim[7:8] <- c(0,0)
-                                <./petrol_data.pdf>]
+l.6024 ...    -0.00016098322952, 0.00051984185863)
+                                                   <./petrol_data.pdf>]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 6073.
@@ -1657,10 +1662,10 @@ fonts/cm/cmsy7.pfb><c:/Users/neide/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
 e1/public/amsfonts/latxfont/lasy10.pfb><c:/Users/neide/AppData/Roaming/TinyTeX/
 texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/Users/neide/AppDa
 ta/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on MDFA_Legacy.pdf (106 pages, 1041212 bytes).
+Output written on MDFA_Legacy.pdf (106 pages, 1040915 bytes).
 PDF statistics:
- 1515 PDF objects out of 1728 (max. 8388607)
- 1106 compressed objects within 12 object streams
+ 1517 PDF objects out of 1728 (max. 8388607)
+ 1108 compressed objects within 12 object streams
  309 named destinations out of 1000 (max. 500000)
  289 words of extra memory for PDF output out of 10000 (max. 10000000)
 

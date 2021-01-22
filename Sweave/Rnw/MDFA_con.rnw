@@ -515,7 +515,7 @@ stationary, which are the most common type occuring in econometrics and finance.
   have a representation as an $I(1)$ process, and the expression for
    $X_t$ will involve a linear function of time $t$, because $t$ is
   annihilated by $\Delta (L)$.  Applying the recursive technique of 
-  Example \ref{exam:i1-rep} twice, we obtain
+  Example \ref{exam:I1-rep} twice, we obtain
  \[
  X_t = (t+1) \, X_0 - t \, X_{-1}  + \sum_{j=1}^t (t+1-j) \, \partial X_j,
 \]
@@ -839,8 +839,8 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
   & = \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
     f_{\partial N} (\omega) \, 
     { f_{\partial X} (\omega) }^{-1} \,  \Delta^S (e^{i \omega})
-      f_{\partial S} (\omega) \Delta^N (e^{i \omega}) \, d\omega
-      - \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
+      f_{\partial S} (\omega) \Delta^N (e^{i \omega}) \, d\omega \\
+    &  - \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
             f_{\partial S} (\omega) \, 
     { f_{\partial X} (\omega) }^{-1} \,  \Delta^N (e^{i \omega})
       f_{\partial N} (\omega) \Delta^S (e^{i \omega}) \, d\omega  \\
@@ -2025,70 +2025,70 @@ target.  When the model is correctly specified, the best concurrent filter
  =  \Theta (z) \, \Sigma \, {\Delta (z)}^{-1} 
  \, \Sigma^{-1} \, { \Theta (z) }^{-1} \Delta (z) = 1_n.
 \]
-To prove the second assertion, let $\Phi^x (z) = \Theta^x (z) / \Delta (z)$.
+To prove the second assertion, let $\Phi(z) = \Theta (z) / \Delta (z)$.
  Then the LPP solution given by (\ref{eq:GPPsoln-nonstat}) can be written
 \[
    \sum_{\ell = -\infty}^{\infty}  \psi  (\ell) \, z^{\ell} -  
  \sum_{\ell =-1}^{-\infty}  \psi  (\ell)  \,    
- { [  \Phi^x (z) ]}_0^{-\ell-1}     \, z^{\ell} \, { \Phi^x (z) }^{-1}.
+ { [  \Phi (z) ]}_0^{-\ell-1}     \, z^{\ell} \, { \Phi (z) }^{-1}.
 \]
   The first summand is $\Psi (z)$.    Noting that
 \[
-    { [  \Phi^x (z) ]}_0^{-\ell-1}  =  \sum_{k=0}^{-\ell-1}  \phi^x (k) \, z^k =
-   \sum_{k \geq 0}  \phi^x (-\ell-1-k) \, z^{-\ell-1-k},
+    { [  \Phi (z) ]}_0^{-\ell-1}  =  \sum_{k=0}^{-\ell-1}  \phi (k) \, z^k =
+   \sum_{k \geq 0}  \phi (-\ell-1-k) \, z^{-\ell-1-k},
 \]
 for the second summand we have
 \begin{align*}
-&  \sum_{\ell = -1}^{-\infty}  \psi  (\ell)   \, { [  \Phi^x (z) ]}_0^{-\ell-1} 
+&  \sum_{\ell = -1}^{-\infty}  \psi  (\ell)   \, { [  \Phi (z) ]}_0^{-\ell-1} 
 \, z^{\ell}   \\
 & = \sum_{\ell = -1}^{-\infty}   \psi (\ell)   \,   \sum_{k = 0}^{\infty} 
   \phi^{x}  (-\ell-1-k) \, z^{-1-k} \\
  & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} \psi (\ell) \, 
-   \phi^x  (-\ell-1-k)   \\
+   \phi  (-\ell-1-k)   \\
   & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} 
   \frac{1}{2 \pi} \int_{-\pi}^{\pi}  \Psi (e^{-i \omega}) \, e^{i \omega \ell} \, d\omega 
-\,  \phi^x  (-\ell-1-k).
+\,  \phi  (-\ell-1-k).
 \end{align*}
 Substituting the expression for the frf of the WK filter yields
 \begin{align*}
  & =  \sum_{k = 0}^{\infty}    z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
  f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
   {| \Delta^N (e^{-i \omega}) |}^2 \, 
-   \sum_{\ell = -1}^{-\infty}  \phi^x (-\ell-1-k)   \, e^{i \omega \ell} \, d\omega   \\
+   \sum_{\ell = -1}^{-\infty}  \phi (-\ell-1-k)   \, e^{i \omega \ell} \, d\omega   \\
  & =  \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
 f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
   {| \Delta^N (e^{-i \omega}) |}^2 
-\,  \sum_{h = 0}^{\infty}   \phi^x (h-k)   \, e^{-i \omega (h+1)} \, d\omega  \\
+\,  \sum_{h = 0}^{\infty}   \phi (h-k)   \, e^{-i \omega (h+1)} \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
 f_{ \partial S}(\omega)   \,  {| \Delta^N (e^{-i \omega}) |}^2 \, 
-     {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
-    {  \Theta^x (e^{-i \omega}) }^{-1}
-\,   \Phi^x (e^{-i \omega}) \, e^{-i \omega (k+1) }  \, d\omega  \\
+     {  \Theta (e^{i \omega}) }^{- \prime} \, \Sigma^{-1} \,
+    {  \Theta (e^{-i \omega}) }^{-1}
+\,   \Phi (e^{-i \omega}) \, e^{-i \omega (k+1) }  \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
-f_{ \partial S}(\omega) \,  { \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
+f_{ \partial S}(\omega) \,  { \Theta (e^{i \omega}) }^{- \prime} \, \Sigma^{-1} \,
   \Delta^N (e^{i \omega})/ \Delta^S (e^{-i \omega})
 \,  e^{-i \omega (k+1) }  \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  { \langle    f_{ \partial S}(\omega) \, 
-    {  \Theta^x (e^{i \omega}) }^{-1 \prime} 
+    {  \Theta (e^{i \omega}) }^{-1 \prime} 
     \Delta^N (e^{i \omega})/ \Delta^S (e^{-i \omega})  \rangle  }_{-(k+1) } 
-     \, \Sigma_x^{-1}  \\
+     \, \Sigma^{-1}  \\
  & =   { [  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime} 
-    \Delta^N (z^{-1})/ \Delta^S (z) ]}_{-\infty}^{-1}  \, \Sigma_x^{-1}.
+    {  \Theta (z^{-1}) }^{-1 \prime} 
+    \Delta^N (z^{-1})/ \Delta^S (z) ]}_{-\infty}^{-1}  \, \Sigma^{-1}.
 \end{align*}
  Hence, the LPP solution is
 \begin{align*}
   & \Psi (z) - { [  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime} \Delta^N (z^{-1})/ \Delta^S (z)
-    ]}_{-\infty}^{-1}  \, \Sigma_x^{-1} \,     { \Phi^x (z) }^{-1}  \\
+    {  \Theta (z^{-1}) }^{-1 \prime} \Delta^N (z^{-1})/ \Delta^S (z)
+    ]}_{-\infty}^{-1}  \, \Sigma^{-1} \,     { \Phi (z) }^{-1}  \\
   & =  \Psi (z) -  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime}  \, \Delta^N (z^{-1})/ \Delta^S (z) \,
-     \Sigma_x^{-1} \,
-    { \Theta^x (z) }^{-1} \Delta (z)  \\
+    {  \Theta (z^{-1}) }^{-1 \prime}  \, \Delta^N (z^{-1})/ \Delta^S (z) \,
+     \Sigma^{-1} \,
+    { \Theta (z) }^{-1} \Delta (z)  \\
  &    +  { [  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime}  \Delta^N (z^{-1})/ \Delta^S (z)
-     ]}_{0}^{\infty}  \, \Sigma_x^{-1} \,
-    { \Theta^x (z) }^{-1} \Delta (z),
+    {  \Theta (z^{-1}) }^{-1 \prime}  \Delta^N (z^{-1})/ \Delta^S (z)
+     ]}_{0}^{\infty}  \, \Sigma^{-1} \,
+    { \Theta (z) }^{-1} \Delta (z),
 \end{align*}
   which equals $\widehat{\Psi} (z)$.
   This verifies that the LPP solution indeed equals the optimal concurrent
@@ -2119,9 +2119,16 @@ $\quad \Box$
 \begin{align*}
   D(z) &=    { \left[  \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) 
      { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \\
-     & - \sum_{j=0}^{d_S} 
+     & - \sum_{j=1}^{d_S} \delta^S (j) z^j {\left[ \gamma_{\partial S} (z) \, 
+     \Delta^N (z^{-1}) \, { \Theta (z^{-1})}^{-1 \prime} \,
+      { \Delta^S (z) }^{-1} \right] }_{-j}^{-1}. 
 \end{align*}
 \end{Corollary}
+
+\paragraph{Proof of Corollary \ref{cor:asym.sigex}.}
+ 
+
+
 
 <<echo=False>>=
 # visualize

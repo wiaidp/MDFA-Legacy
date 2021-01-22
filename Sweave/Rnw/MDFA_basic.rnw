@@ -1441,7 +1441,7 @@ given observed time series
  for all integers $t$.
 \end{Definition}
 
- We revisit the examples considered in Chapter \ref{lpp_chap}, but
+ We revisit the examples considered in Chapter \ref{chap:lpp}, but
  now incorporated with multiple targets.
 
 \begin{Example} {\bf  Multi-step Ahead Forecasting.}   \rm
