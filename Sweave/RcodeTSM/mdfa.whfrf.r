@@ -10,7 +10,7 @@ mdfa.whfrf <- function(delta.noise,delta.signal,spec.noise,spec.signal,len)
   #     spectrum for differenced noise process at Fourier frequencies
   #		spec.signal: array of dimension N x N x grid, consisting of 
   #     spectrum for differenced signal process at Fourier frequencies
-  #   len: parameter giving degree of truncation in calculations
+  #   len: parameter giving degree of truncation in filter calculations
   #	Outputs:
   #   frf.wh: array of dimension N x N x grid of frf, where
   #		  grid is the desired number of frequencies 
@@ -19,6 +19,7 @@ mdfa.whfrf <- function(delta.noise,delta.signal,spec.noise,spec.signal,len)
   #  Requires: polymulMat.r, mvar.specfact.r, mdfa.frf.r, and mdfa.coeff.r
   #########################################
   
+  trunc <- 500
   array_combine <- function(a_array,b_array,inv=FALSE)
   {
     N <- dim(a_array)[1]
@@ -71,16 +72,17 @@ mdfa.whfrf <- function(delta.noise,delta.signal,spec.noise,spec.signal,len)
     frf.wk[,,k] <- spec.signal.del[,,k] %*% solve(spec.data.del[,,k])
   }
   
-  filter.wk <- mdfa.coeff(frf.wk,len,len)
-  acf.data.del <- mdfa.coeff(spec.data.del,0,len)
+  filter.wk <- mdfa.coeff(frf.wk,-len,len)
+  acf.data.del <- mdfa.coeff(spec.data.del,0,trunc)
   data.sf <- mvar.specfact(aperm(acf.data.del,c(1,3,2)))
-  data.theta <- data.sf[[1]][,,seq(len+1,1),drop=FALSE]
+  data.theta <- data.sf[[1]][,,seq(trunc,1),drop=FALSE]
   data.sigma <- data.sf[[2]]
   frf.theta <- t(rep(1,grid)) %x% data.theta[,,1]
-  for(i in 1:len)
+  for(i in 1:(trunc-1))
   {
     frf.theta <- frf.theta + t(exp(-1i*lambda*i)) %x% data.theta[,,i+1]  
   }
+  frf.theta <- array(frf.theta,c(N,N,grid))
   
   frf.wh <- t(rep(1,grid)) %x% filter.wk[,,len+1]
   phi <- array(0,c(N,N,len+1))
@@ -88,18 +90,19 @@ mdfa.whfrf <- function(delta.noise,delta.signal,spec.noise,spec.signal,len)
   phi_partial <- t(rep(1,grid)) %x% phi[,,1]
   for(i in 1:len)
   {
-    phi[,,i+1] <- data.theta[,,i+1] %*% solve(delta.process[,,1])
+    if(i < trunc) { phi[,,i+1] <- data.theta[,,i+1] %*% solve(delta.process[,,1]) } 
     for(j in 1:min(i,d.process))
     {
       phi[,,i+1] <- phi[,,i+1] - phi[,,i-j+1] %*% 
         delta.process[,,j+1] %*% solve(delta.process[,,1])
     }
-    causal_frf <- array_combine(phi_partial,frf.theta,TRUE)   
+    causal_frf <- array_combine(array(phi_partial,c(N,N,grid)),frf.theta,TRUE)   
     causal_frf <- array_combine(causal_frf,frf.process,FALSE)
-    causal_frf <- t(rep(1,grid)) %x% diag(N) - causal_frf
-    causal_frf <- array_combine(t(exp(1i*lambda*i)) %x% filter.wk[,,len+1-i],causal_frf)
+    causal_frf <- array(t(rep(1,grid)) %x% diag(N) - matrix(causal_frf,nrow=N),c(N,N,grid))
+    causal_frf <- array_combine(array(t(exp(1i*lambda*i)) %x% filter.wk[,,len+1-i],
+                                      c(N,N,grid)),causal_frf)
     frf.wh <- frf.wh + t(exp(-1i*lambda*i)) %x% filter.wk[,,len+1+i]
-    frf.wh <- frf.wh + causal_frf
+    frf.wh <- frf.wh + matrix(causal_frf,nrow=N)
     phi_partial <- phi_partial + t(exp(-1i*lambda*i)) %x% phi[,,i+1]
   }
   frf.wh <- array(frf.wh,c(N,N,grid))
