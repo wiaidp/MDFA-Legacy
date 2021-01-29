@@ -1965,6 +1965,14 @@ target.  When the model is correctly specified, the best concurrent filter
  Moreover, this concurrent filter is identical with
  the LPP solution of Proposition \ref{prop:GPP2}, where the target 
  $\Psi (z)$ is the WK filter with frf (\ref{eq:wk.frf-gen}).
+ Therefore (\ref{eq:wiener-hopf}) can be re-expressed as
+\begin{equation}
+\label{eq:optimal-conc-comp}
+ \sum_{\ell = -\infty}^{\infty}  \psi  (\ell)  \,  z^{\ell}
+ \, \left( 1 -  { [  \Phi (z) ]}_0^{-\ell-1} \, { \Phi (z) }^{-1} \right),
+\end{equation}
+ where   $\Phi(z) = \Theta (z) / \Delta (z)$, and ${ [  \Phi (z) ]}_0^{-\ell-1} = 0$
+ when $\ell \geq 0$.
 \end{Theorem}
  
 
@@ -2025,8 +2033,8 @@ target.  When the model is correctly specified, the best concurrent filter
  =  \Theta (z) \, \Sigma \, {\Delta (z)}^{-1} 
  \, \Sigma^{-1} \, { \Theta (z) }^{-1} \Delta (z) = 1_n.
 \]
-To prove the second assertion, let $\Phi(z) = \Theta (z) / \Delta (z)$.
- Then the LPP solution given by (\ref{eq:GPPsoln-nonstat}) can be written
+To prove the second assertion, note that 
+the LPP solution given by (\ref{eq:GPPsoln-nonstat}) can be written
 \[
    \sum_{\ell = -\infty}^{\infty}  \psi  (\ell) \, z^{\ell} -  
  \sum_{\ell =-1}^{-\infty}  \psi  (\ell)  \,    
@@ -2097,38 +2105,37 @@ $\quad \Box$
 
 \vspace{.5cm}
 
- It is not clear how to compute (\ref{eq:wiener-hopf}) because of the presence of
-  ${\Delta^S (z)}^{-1}$ in the bracket.  In Bell and Martin (2004) this issue was
-  addressed by computing a partial fraction decomposition; here we take a similar
-  approach, but adapted for multivariate time series.  The goal is to construct
-  a matrix power series $D(z)= \sum_{k=0}^{\infty} d (k) z^k$ 
-  and a strictly anti-causal $C(z^{-1}) = \sum_{k=-\infty}^{-1}  c (k) z^k$ such that
+ It is   clear how to compute (\ref{eq:wiener-hopf}), using the formula
+ (\ref{eq:optimal-conc-comp}):
+ the coefficients $\phi (k)$ of $\Phi (z)$ are given by
 \[
-    \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) \, {\Delta^S (z)}^{-1}
-     { \Theta (z^{-1})}^{-1 \prime}  =  C ( z^{-1}) \, { \Theta (z^{-1})}^{-1 \prime}
-     + D(z)  \, {\Delta^S (z)}^{-1}.
+ \phi (k) = \sum_{j=0}^k \Theta (k-j) \, \Xi (j)
 \]
- Once we have computed $D(z)$, we obtain a simple expression for the concurrent filter.
- 
-\begin{Corollary}
-\label{cor:asym.sigex}
-  Under the assumptions of Theorem \ref{thm:asym.sigex}, the optimal concurrent 
- filter  can be expressed as
- $\widehat{\Psi} (z) = D (z) \Sigma^{-1} \,
-     { \Theta (z) }^{-1} \Delta^N (z)$, where $D(z)$ is given by
+ for $k \geq 0$  (and $\phi (k) = 0 $ if $k < 0$), and 
+ ${ [  \Phi (z) ]}_0^{\ell-1} = \sum_{k=0}^{\ell-1} \phi (k) z^k$ for $\ell \geq 1$.
+  Noting that
 \begin{align*}
-  D(z) &=    { \left[  \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) 
-     { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \\
-     & - \sum_{j=1}^{d_S} \delta^S (j) z^j {\left[ \gamma_{\partial S} (z) \, 
-     \Delta^N (z^{-1}) \, { \Theta (z^{-1})}^{-1 \prime} \,
-      { \Delta^S (z) }^{-1} \right] }_{-j}^{-1}. 
+  \sum_{j=0}^d \phi (k-j) \, \delta (j) & =
+   \sum_{j=0}^d { \langle z^{j-k} \Theta (z) \Xi (z) \rangle}_0 \, \delta (j) \\
+  & =  { \langle   \Theta (z) \Xi (z)  \, \sum_{j=0}^d \delta (j) z^j \rangle}_k \\
+ &   = { \langle \Theta (z) \rangle}_k = \theta (k),
 \end{align*}
-\end{Corollary}
-
-\paragraph{Proof of Corollary \ref{cor:asym.sigex}.}
- 
-
-
+ we have the recursion
+\[
+  \phi (k) = - \sum_{j=1}^d \phi (k-j) \, \delta (j) \, { \delta (0)}^{-1} 
+    + \theta (k) \, { \delta (0)}^{-1}.
+\]
+ Furthermore, it follows from the proof of Theorem \ref{thm:asym.sigex} that the functions
+\[
+  z^{\ell}  \, \left( 1_n -  { [  \Phi (z) ]}_0^{-\ell-1} \, { \Phi (z) }^{-1} \right)
+\]
+are causal for all $\ell \in \ZZ$.  Then we can re-express the optimal concurrent filter as
+\[
+ \widehat{\Psi} (z) = \psi (0) + \sum_{\ell=1}^{\infty} 
+ \left\{ \psi (\ell) z^{\ell} + \psi (-\ell) z^{-\ell} 
+ \left( 1_n -  { [  \Phi (z) ]}_0^{-\ell-1} \, { \Phi (z) }^{-1} \right) \right\},
+\]
+ which is most convenient for computation.
 
 <<echo=False>>=
 # visualize
@@ -2223,11 +2230,8 @@ f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
 trend.wkfrf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
 trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
 x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
-
-
-## HERE :  need to debug mdfa.whfrf
-#trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
-#trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
+trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
 @
 
 % # get MDFA concurrent filter

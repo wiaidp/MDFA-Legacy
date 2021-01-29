@@ -10,7 +10,7 @@ mdfa.coeff <- function(frf,aft,fore)
 	#		aft through fore
 	#	inputs:
 	#		frf is array N x N x grid of complex entries
-  	#		aft <= fore are integer indices
+  #		aft <= fore are integer indices
 	#	outputs:
 	#		filter is array N x N x (fore-aft+1) of real entries
 	#
