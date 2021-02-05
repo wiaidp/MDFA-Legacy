@@ -2140,7 +2140,8 @@ are causal for all $\ell \in \ZZ$.  Then we can re-express the optimal concurren
 <<echo=False>>=
 # visualize
 load("Sweave/Data/petrol.RData")
-petrol <- ts(petrol[,c(1,2)],start=c(1973,1),frequency=12,
+period <- 12
+petrol <- ts(petrol[,c(1,2)],start=c(1973,1),frequency=period,
              names=c("Consumption","Imports")) 
 file <- paste("petrol_data.pdf", sep = "")
 pdf(file = paste(path.out,file,sep=""), paper = "special", 
@@ -2200,7 +2201,7 @@ We now  study the  MB trend filter arising from a LLM
 \end{Exercise}
 
 
-<<exercise_llmpetrol-mdfa,echo=True>>=
+<<exercise_llmpetrol-mdfa-null,echo=True>>=
 # Simulate a Gaussian LLM  of sample size 5000:
 set.seed(1234)
 T.sim <- 5000
@@ -2222,7 +2223,7 @@ Sigma.irr <- irr.sim[[2]]
 irr.sim <- irr.sim[[1]] 
 x.sim <- mu.sim + irr.sim
 
-# construct and apply MB WK  and concurrent filters
+# construct and apply MB WK and WH filters
 grid <- T.sim - d
 iden <- array(diag(N),c(N,N,1))
 f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
@@ -2232,26 +2233,30 @@ trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
 x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
 trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
 trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+
+# get MDFA concurrent filter
+q <- 30
+x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,dpoly)
+m <- floor(grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
+bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+
+# compare in-sample performance
+perf_null <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
+  c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+colnames(perf_null) <- c("MDFA","MB")
+rownames(perf_null) <- c("Series 1","Series 2")
+# compare to criterion value
+print(perf_null)
+diag(bw.mdfa[[2]])
 @
-
-% # get MDFA concurrent filter
-% q <- 30
-% x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
-% spec.hat <- mdfa.pergram(x.diff,dpoly)
-% m <- floor(grid/2)
-% # The Fourier frequencies
-% freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
-% constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
-% bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
-% x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T-q+1-len),]
-% 
-% # compare in-sample performance
-% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
-% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
-% 
-% # compare to criterion value
-% diag(bw.mdfa[[2]])
-
 
 
 \begin{Exercise} {\bf Petrol MB Out-Performance.}  \rm
@@ -2280,6 +2285,60 @@ trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
  (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
 
+<<exercise_llmpetrol-mdfa-alt,echo=True>>=
+# Simulate a Gaussian LLM  of sample size 5000:
+set.seed(1234)
+T.sim <- 5000
+burn <- 1000
+N <- 2
+psi.sim <- c(2.17150287559847, -8.36795922528, -6.04133725367594, 
+             0.0648981656699, -6.80849700177184, -6.66004335288479, 
+             -0.00016098322952, 0.00051984185863)
+psi.sim[5:6] <- c(-4,-4)
+psi.sim[7:8] <- c(0,0)
+len <- 1000
+dpoly <- c(1,-1)
+delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+d <- length(dpoly) - 1
+mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
+Sigma.mu <- mu.sim[[2]]
+mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+
+# construct and apply MB WK and WH filters (from previous exercise)
+grid <- T.sim - d
+x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
+x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+
+# get MDFA concurrent filter
+q <- 30
+x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,dpoly)
+m <- floor(grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
+bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+
+# compare in-sample performance
+perf_alt <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
+  c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+colnames(perf_alt) <- c("MDFA","MB")
+rownames(perf_alt) <- c("Series 1","Series 2")
+# compare to criterion value
+print(perf_alt)
+diag(bw.mdfa[[2]])
+@
+
+
+
+
 \begin{Exercise} {\bf Petrol MB Empirical Performance.}  \rm
 \label{exer:petrol-mb3}
  We now examine the performance of MDFA   on the Petroleum data itself,
@@ -2295,50 +2354,80 @@ trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
  (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
     
-   
-HERE  some discussion, and tables summarizing the results    
-   
-% \begin{table}[!htb]
-% \centering
-% \begin{tabular}{cllllll}
-% \hline
-% & \multicolumn{2}{c}{Null LLM} &\multicolumn{2}{c}{Alternative LLM} & \multicolumn{2}{c}{Petrol Data} \\
-% \hline
-%   Series 	 &  MB    &  MDFA  &  MB    &  MDFA    &  MB    &  MDFA   \\
-%   Consumption &   .1285 & .1268 &  1.3224  &  .9841    &   .1295 &   .1176 \\
-%   Imports	 &  .1728 & .1691 &   .8433  &  .6603    &   2.1691  &   2.2033 \\
-% \hline
-% \end{tabular}
-% \caption{\baselineskip=10pt Empirical LPP MSE for real-time trend estimators (MB Concurrent filter versus
-%  MDFA filter) applied to bivariate LLM null process,  LLM alternative process,
-%  and Petrol data,  with target trend
-%  given by the null LLM MB trend. (Units of $10^{-3}$.) }
-% \label{tab:petrol.llm.mdfa}
-% \end{table}
+    
+<<exercise_llmpetrol-mdfa-data,echo=True>>=
+T <- dim(petrol)[1]
+N <- dim(petrol)[2]
+# truncation of ideal filter
+trunc <- 5
 
+# construct and apply MB WK and WH filters (from previous exercise)
+grid <- T - d
+x.trend.ideal <- mvar.filter(petrol,trend.wkfilter[,,(len-trunc*period):(len+trunc*period)])
+x.trend.conc <- mvar.filter(petrol,trend.whfilter[,,(len-trunc*period):(len+trunc*period)])
 
-% \begin{figure}[htb!]
-% \centering
-% \includegraphics[]{petrolLLMtrendsAlt}
-% \caption{\baselineskip=10pt Bivariate  trend  filter applied to alternative LLM simulation (grey), with trends in black. 
-%  The simulation is obtained from altering the paramteres of an 
-%  LLM fitted to bivariate Petrol (Consumption and Imports), so the component
-%  series of the simulation are labelled accordingly.}
-% \label{fig:llm.alttrends}
-% \end{figure}
+# get MDFA concurrent filter
+q <- 30
+x.diff <- filter(petrol,dpoly,method="convolution",sides=1)[(d+1):T,]
+spec.hat <- mdfa.pergram(x.diff,dpoly)
+m <- floor(grid/2)
+trend.wkfrf <- mdfa.frf(trend.wkfilter,len,grid)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
+bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+x.trend.mdfa <- mvar.filter(petrol,bw.mdfa[[1]])[(1+trunc*period-q):(T-q-trunc*period),]
 
+# compare in-sample performance
+perf_emp <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
+  c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+colnames(perf_emp) <- c("MDFA","MB")
+rownames(perf_emp) <- colnames(petrol)
+# compare to criterion value
+print(perf_emp)
+diag(bw.mdfa[[2]])
+@
+    
+ The results of these Exercises   indicate that MDFA can both replicate model-based real-time
+  filters (Exercise \ref{exer:petrol-mb1}) and out-perform them when
+   the model is mis-specified (Exercises \ref{exer:petrol-mb2} and 
+ \ref{exer:petrol-mb3}). Table \ref{tab:petrol.mat} summarizes the performances,
+  where ``LLM null process" refers to correct specification (Exercise \ref{exer:petrol-mb1}),
+  ``LLM alternative process" refers to mis-specification of the irregular variability
+   (Exercise \ref{exer:petrol-mb2}), and ``LLM empirical process" refers
+   the analysis of the actual Petrol series (Exercise \ref{exer:petrol-mb3}).
+   The replication achieved by MDFA is not exact, and this is due to statistical
+    error as well as the truncation to $q = 30$ that is used.  In contrast,
+   the out-performance is modest in the case of LLM alternative process,
+   and is substantial in the case of the Petrol data.
+ 
+ \begin{table}[]
+\centering
+\caption{Empirical MSE for real-time trend estimators (MB WH filter versus
+ MDFA filter) applied to bivariate LLM null process,  LLM alternative process,
+ and LLM empirical process,  with target trend
+ given by the null LLM MB trend.  }
+\label{tab:petrol.mat}
+\begin{tabular}{cllllll}
+\hline
+& \multicolumn{2}{c}{Null LLM} &\multicolumn{2}{c}{Alternative LLM} &
+  \multicolumn{2}{c}{Empirical LLM} \\
+\hline
+  Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
+  Consumption &   \Sexpr{perf_null[1,1]} & \Sexpr{perf_null[1,2]} & 
+    \Sexpr{perf_alt[1,1]}  &  \Sexpr{perf_alt[1,2]}    &  
+    \Sexpr{perf_emp[1,1]} &   \Sexpr{perf_emp[1,2]} \\
+  Imports	 &   \Sexpr{perf_null[2,1]} & \Sexpr{perf_null[2,2]} & 
+    \Sexpr{perf_alt[2,1]}  &  \Sexpr{perf_alt[2,2]}    &  
+    \Sexpr{perf_emp[2,1]} &   \Sexpr{perf_emp[2,2]} \\
+\hline      
+\end{tabular}
+\end{table}
 
-
-% 
-% \begin{figure}[htb!]
-% \centering
-% \includegraphics[]{petrolLLMrealtimeData}
-% \caption{\baselineskip=10pt  Monthly Petroleum data:  LLM bivariate  trend  output (black), 
-% with non-stationary MDFA trend (dark grey) and MB concurrent trend (light grey). 
-% The trend lines have been vertically staggered for easier visualization.}
-% \label{fig:llm.datamdfa}
-% \end{figure}
-
+ 
+ 
  
 
 
@@ -2349,211 +2438,5 @@ HERE  STM replicate, MDFA for mis-spec, and Ndc.  Connect to HP
 
 HERE  Seasonal UC replicate, MDFA for mis-sec, and Starts
 
-
-% Exercise 1
-% 
-% # Simulate a Gaussian VAR(1)  
-% T.sim <- 500 + 2*len
-% N <- 2
-% phi.matrix <- rbind(c(1,.5),c(-.2,.3))
-% innovar.matrix <- diag(N)
-% true.psidelta <- var1.par2psi(phi.matrix,100)
-% gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
-% 	matrix(innovar.matrix,ncol=1),nrow=N)
-% x.init <- t(chol(gamma.0)) %*% rnorm(N)
-% x.next <- x.init
-% x.sim <- NULL
-% for(t in 1:T.sim)
-% {
-% 	x.next <- phi.matrix %*% x.next + rnorm(N)
-% 	x.sim <- cbind(x.sim,x.next)
-% }
-% x.sim <- ts(t(x.sim))
-% x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T.sim)[[1]]
-% x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
-% 
-% # construct and apply BW filter
-% bw.filter <- wk.trend[[1]]
-% x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)
-% x.trend.bw12 <- filter(x.sim[,2],bw.filter[1,2,],method="convolution",sides=2)
-% x.trend.bw21 <- filter(x.sim[,1],bw.filter[2,1,],method="convolution",sides=2)
-% x.trend.bw22 <- filter(x.sim[,2],bw.filter[2,2,],method="convolution",sides=2)
-% x.trend.bw <- cbind(x.trend.bw11 + x.trend.bw12,x.trend.bw21 + x.trend.bw22)
-% x.trend.bw <- x.trend.bw[(len+1):(T.sim-len),] 
-%  
-% 
-% # visualize
-% pdf(file="petrolVAR1trends.pdf",width=4, height=4.6)
-% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
-% plot(ts(x.sim[(len+1):(T.sim-len),1]),ylab="Series 1",xlab="",yaxt="n",xaxt="n",col=grey(.7))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.bw[,1],col=1,lwd=2)
-% #lines(ts(x.sim[(len+1):(T.sim-len),1]))
-% plot(ts(x.sim[(len+1):(T.sim-len),2]),ylab="Series 2",xlab="",yaxt="n",xaxt="n",col=grey(.7))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.bw[,2],col=1,lwd=2)
-% #lines(ts(x.sim[(len+1):(T.sim-len),2]))
-% mtext("Time", side = 1, line = 1,outer=TRUE)
-% dev.off()
-% 
-% # get LPP soln using true VAR(1)
-% A.next <- diag(2)
-% A.phi <- matrix(0,2,2)
-% for(j in 1:len)
-% {
-% 	A.next <- A.next %*% phi.matrix
-% 	A.phi <- A.phi + bw.filter[,,(len+1-j)] %*% A.next
-% }
-% bw.lpp <- bw.filter[,,(len+1):(2*len+1)]
-% bw.lpp[,,1] <- bw.lpp[,,1] + A.phi
-% 
-% 
-% # get MDFA concurrent filter
-% q <- 30
-% Grid <- T.sim
-% frf.trend <- mdfa.frf(wk.trend[[1]],len,Grid)
-% spec.hat <- mdfa.pergram(x.sim,1)
-% # choose one of the four constraint scenarios for MDFA	
-% bw.mdfa <- mdfa.unconstrained(frf.trend,spec.hat,q)
-% bw.mdfa <- mdfa.levelconstraint(frf.trend,spec.hat,q)
-% bw.mdfa <- mdfa.tsconstraint(frf.trend,spec.hat,q)
-% bw.mdfa <- mdfa.ltsconstraint(frf.trend,spec.hat,q)
-%  
-% # apply the MDFA concurrent filter
-% x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[[1]][1,1,],method="convolution",sides=1)
-% x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[[1]][1,2,],method="convolution",sides=1)
-% x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[[1]][2,1,],method="convolution",sides=1)
-% x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[[1]][2,2,],method="convolution",sides=1)
-% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-% x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
-% 
-% # construct and apply concurrent BW filter
-% conc.filter <- conc.trend
-% x.trend.conc11 <- filter(x.sim[,1],rev(conc.filter[1,1,]),method="convolution",sides=1)
-% x.trend.conc12 <- filter(x.sim[,2],rev(conc.filter[1,2,]),method="convolution",sides=1)
-% x.trend.conc21 <- filter(x.sim[,1],rev(conc.filter[2,1,]),method="convolution",sides=1)
-% x.trend.conc22 <- filter(x.sim[,2],rev(conc.filter[2,2,]),method="convolution",sides=1)
-% x.trend.conc <- cbind(x.trend.conc11 + x.trend.conc12,x.trend.conc21 + x.trend.conc22)
-% x.trend.conc <- x.trend.conc[(len+1):(T.sim-len),] 
-% 
-% # construct and apply optimal LPP filter
-% x.trend.lpp11 <- filter(x.sim[,1],bw.lpp[1,1,],method="convolution",sides=1)
-% x.trend.lpp12 <- filter(x.sim[,2],bw.lpp[1,2,],method="convolution",sides=1)
-% x.trend.lpp21 <- filter(x.sim[,1],bw.lpp[2,1,],method="convolution",sides=1)
-% x.trend.lpp22 <- filter(x.sim[,2],bw.lpp[2,2,],method="convolution",sides=1)
-% x.trend.lpp <- cbind(x.trend.lpp11 + x.trend.lpp12,x.trend.lpp21 + x.trend.lpp22)
-% x.trend.lpp <- x.trend.lpp[(len+1):(T.sim-len),] 
-% 
-% 
-% 
-% # visualize
-% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
-% plot(ts(x.trend.bw[,1]),ylab="",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
-% 	ylim=c(min(x.trend.bw[,1])-4,max(x.trend.bw[,1])))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.mdfa[,1]-2,col=grey(.4),lwd=1,lty=1)
-% lines(x.trend.lpp[,1]-4,col=grey(.6),lwd=1,lty=1)
-% plot(ts(x.trend.bw[,2]),ylab="",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
-% 	ylim=c(min(x.trend.bw[,2])-4,max(x.trend.bw[,2])))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.mdfa[,2]-2,col=grey(.4),lwd=1,lty=1)
-% lines(x.trend.lpp[,2]-4,col=grey(.6),lwd=1,lty=1)
-% mtext("Time", side = 1, line = 1,outer=TRUE)
-%  
-% # compare in-sample performance: MDFA for series, and then Conc for series
-% print(c(mean((x.trend.bw[,1] - x.trend.mdfa[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.mdfa[,2])^2)))
-% print(c(mean((x.trend.bw[,1] - x.trend.conc[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.conc[,2])^2)))
-% print(c(mean((x.trend.bw[,1] - x.trend.lpp[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.lpp[,2])^2)))
-% 
-% # compare to criterion value
-% print(diag(bw.mdfa[[2]]))
-% 
-% 
-
- 
-
-% # construct and apply BW filter
-% bw.filter <- wk.trend[[1]]
-% x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)
-% x.trend.bw12 <- filter(x.sim[,2],bw.filter[1,2,],method="convolution",sides=2)
-% x.trend.bw21 <- filter(x.sim[,1],bw.filter[2,1,],method="convolution",sides=2)
-% x.trend.bw22 <- filter(x.sim[,2],bw.filter[2,2,],method="convolution",sides=2)
-% x.trend.bw <- cbind(x.trend.bw11 + x.trend.bw12,x.trend.bw21 + x.trend.bw22)
-% x.trend.bw <- x.trend.bw[(len+1):(T.sim-len),] 
-% 
-% # visualize
-% pdf(file="petrolLLMtrendsNull.pdf",width=4, height=4.6)
-% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
-% plot(ts(x.sim[(len+1):(T.sim-len),1]),ylab="Consumption",xlab="",yaxt="n",xaxt="n",col=grey(.7))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.bw[,1],col=1,lwd=1)
-% plot(ts(x.sim[(len+1):(T.sim-len),2]),ylab="Imports",xlab="",yaxt="n",xaxt="n",col=grey(.7))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.bw[,2],col=1,lwd=1)
-% mtext("Time", side = 1, line = 1,outer=TRUE)
-% dev.off()
-% 
-% # get MDFA concurrent filter for I(1) case
-% q <- 30
-% x.diff <- diff(x.sim)
-% spec.hat <- mdfa.pergram(x.diff,c(1,-1))
-% Grid <- T.sim - 1
-% frf.trend <- mdfa.frf(wk.trend[[1]],len,Grid)
-% #bw.mdfa <- mdfa.levelconstraint(frf.trend,spec.hat,q)[[1]]
-% constraints.mdfa <- mdfa.getconstraints(frf.trend,0,NULL,q)
-% bw.mdfa <- mdfa.filter(frf.trend,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])[[1]]
-% 
-% # apply the MDFA concurrent filter
-% x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[1,1,],method="convolution",sides=1)
-% x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[1,2,],method="convolution",sides=1)
-% x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[2,1,],method="convolution",sides=1)
-% x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[2,2,],method="convolution",sides=1)
-% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-% x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
-% 
-% # construct and apply concurrent BW filter
-% conc.filter <- conc.trend
-% x.trend.conc11 <- filter(x.sim[,1],rev(conc.filter[1,1,]),method="convolution",sides=1)
-% x.trend.conc12 <- filter(x.sim[,2],rev(conc.filter[1,2,]),method="convolution",sides=1)
-% x.trend.conc21 <- filter(x.sim[,1],rev(conc.filter[2,1,]),method="convolution",sides=1)
-% x.trend.conc22 <- filter(x.sim[,2],rev(conc.filter[2,2,]),method="convolution",sides=1)
-% x.trend.conc <- cbind(x.trend.conc11 + x.trend.conc12,x.trend.conc21 + x.trend.conc22)
-% x.trend.conc <- x.trend.conc[(len+1):(T.sim-len),] 
-% 
-% # visualize
-% pdf(file="petrolLLMrealtimeNull.pdf",width=4, height=4.6)
-% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
-% plot(ts(x.trend.bw[,1]),ylab="Consumption",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
-% 	ylim=c(min(x.trend.bw[,1])-2/2,max(x.trend.bw[,1])))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.mdfa[,1]-1/2,col=grey(.4),lwd=1,lty=1)
-% lines(x.trend.conc[,1]-2/2,col=grey(.6),lwd=1,lty=1)
-% plot(ts(x.trend.bw[,2]),ylab="Imports",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
-% 	ylim=c(min(x.trend.bw[,2])-2,max(x.trend.bw[,2])))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.mdfa[,2]-1,col=grey(.4),lwd=1,lty=1)
-% lines(x.trend.conc[,2]-2,col=grey(.6),lwd=1,lty=1)
-% mtext("Time", side = 1, line = 1,outer=TRUE)
-% dev.off()
-%  
-% # compare in-sample performance: MDFA for series, and then Conc for series
-% print(c(mean((x.trend.bw[,1] - x.trend.mdfa[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.mdfa[,2])^2)))
-% print(c(mean((x.trend.bw[,1] - x.trend.conc[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.conc[,2])^2)))
-% 
-% 
-
-
+  
 
