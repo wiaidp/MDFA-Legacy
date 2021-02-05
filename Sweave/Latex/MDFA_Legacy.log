@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.1.11)  22 JAN 2021 14:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.1.11)  5 FEB 2021 18:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -837,11 +837,6 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 1275.
 
 [20] [21]
-! Undefined control sequence.
-l.1365 ... words, we have an error filter $ \Lamba
-                                                  _{\vartheta} (L)  $ such that
-
-? 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 1399.
@@ -963,7 +958,7 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 2848.
 
 [46]
-<mdfa_var1_filtering.pdf, id=547, 433.62pt x 289.08pt>
+<mdfa_var1_filtering.pdf, id=562, 433.62pt x 289.08pt>
 File: mdfa_var1_filtering.pdf Graphic file (type pdf)
 <use mdfa_var1_filtering.pdf>
 Package pdftex.def Info: mdfa_var1_filtering.pdf  used on input line 2932.
@@ -980,12 +975,12 @@ e.3.1}) has been already used, duplicate ignored
 l.2998 > # construct and apply low pass filter
                                                <./mdfa_var1_filtering.pdf>]
 [49]
-<mdfa_trivar1_filtering.pdf, id=570, 433.62pt x 433.62pt>
+<mdfa_trivar1_filtering.pdf, id=585, 433.62pt x 433.62pt>
 File: mdfa_trivar1_filtering.pdf Graphic file (type pdf)
 <use mdfa_trivar1_filtering.pdf>
 Package pdftex.def Info: mdfa_trivar1_filtering.pdf  used on input line 3052.
 (pdftex.def)             Requested size: 339.67029pt x 339.68448pt.
-<mdfa_trivar1_freqdomain.pdf, id=571, 433.62pt x 433.62pt>
+<mdfa_trivar1_freqdomain.pdf, id=586, 433.62pt x 433.62pt>
 File: mdfa_trivar1_freqdomain.pdf Graphic file (type pdf)
 <use mdfa_trivar1_freqdomain.pdf>
 Package pdftex.def Info: mdfa_trivar1_freqdomain.pdf  used on input line 3063.
@@ -1011,7 +1006,7 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 3146.
 
 [52]
-<mdfa_bimdfa-udfa.pdf, id=607, 433.62pt x 144.54pt>
+<mdfa_bimdfa-udfa.pdf, id=622, 433.62pt x 144.54pt>
 File: mdfa_bimdfa-udfa.pdf Graphic file (type pdf)
 <use mdfa_bimdfa-udfa.pdf>
 Package pdftex.def Info: mdfa_bimdfa-udfa.pdf  used on input line 3218.
@@ -1035,18 +1030,8 @@ LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 3368.
 
 
-Overfull \hbox (137.84964pt too wide) in paragraph at lines 3372--3387
- [][] 
- []
-
-
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 3390.
-
-
-Overfull \hbox (129.51834pt too wide) in paragraph at lines 3394--3409
- [][] 
- []
 
 [56pdfTeX warning (ext4): destination with the same identifier (name{table.3.1}
 ) has been already used, duplicate ignored
@@ -1065,9 +1050,6 @@ LaTeX Warning: Reference `chap:mix' on page 57 undefined on input line 3448.
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 3459.
-
-
-LaTeX Warning: Reference `lpp_chap' on page 57 undefined on input line 3469.
 
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
@@ -1198,10 +1180,6 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 4380.
 
 
-LaTeX Warning: Reference `exam:i1-rep' on page 72 undefined on input line 4387.
-
-
-
 Overfull \hbox (43.67245pt too wide) has occurred while \output is active
 \T1/aer/m/sc/10 72 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STAT
 IONARY PROCESSES
@@ -1235,10 +1213,6 @@ IONARY PROCESSES
  []
 
 [76]
-Overfull \hbox (141.8005pt too wide) detected at line 4722
-[]
- []
-
 
 LaTeX Warning: Reference `chap:coint' on page 77 undefined on input line 4739.
 
@@ -1251,7 +1225,7 @@ LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 4767.
 
 [77]
-<llm_frf.pdf, id=883, 433.62pt x 289.08pt>
+<llm_frf.pdf, id=900, 433.62pt x 289.08pt>
 File: llm_frf.pdf Graphic file (type pdf)
 <use llm_frf.pdf>
 Package pdftex.def Info: llm_frf.pdf  used on input line 4808.
@@ -1277,7 +1251,7 @@ l.4828 \]
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
 (Font)              using `T1/aer/m/sl' instead on input line 4832.
 
-<stm_frf.pdf, id=897, 433.62pt x 289.08pt>
+<stm_frf.pdf, id=914, 433.62pt x 289.08pt>
 File: stm_frf.pdf Graphic file (type pdf)
 <use stm_frf.pdf>
 Package pdftex.def Info: stm_frf.pdf  used on input line 4873.
@@ -1321,7 +1295,7 @@ IONARY PROCESSES
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [83]
-<sauc_frf.pdf, id=930, 433.62pt x 289.08pt>
+<sauc_frf.pdf, id=947, 433.62pt x 289.08pt>
 File: sauc_frf.pdf Graphic file (type pdf)
 <use sauc_frf.pdf>
 Package pdftex.def Info: sauc_frf.pdf  used on input line 5064.
@@ -1425,49 +1399,40 @@ IONARY PROCESSES
  []
 
 [94]
-Overfull \hbox (26.45668pt too wide) detected at line 5855
+Overfull \hbox (26.45668pt too wide) detected at line 5863
 []
  []
 
 
-Underfull \vbox (badness 6641) has occurred while \output is active []
+Underfull \vbox (badness 1142) has occurred while \output is active []
 
  [95]
-
-LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 5951.
-
-<petrol_data.pdf, id=1064, 433.62pt x 289.08pt>
-File: petrol_data.pdf Graphic file (type pdf)
-<use petrol_data.pdf>
-Package pdftex.def Info: petrol_data.pdf  used on input line 5966.
-(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
-
-LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 5973.
-
-
 Overfull \hbox (43.67245pt too wide) has occurred while \output is active
 \T1/aer/m/sc/10 96 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STAT
 IONARY PROCESSES
  []
 
 [96]
+<petrol_data.pdf, id=1088, 433.62pt x 289.08pt>
+File: petrol_data.pdf Graphic file (type pdf)
+<use petrol_data.pdf>
+Package pdftex.def Info: petrol_data.pdf  used on input line 5983.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 5997.
+(Font)              using `T1/aer/m/sl' instead on input line 5990.
+
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6014.
 
 [97pdfTeX warning (ext4): destination with the same identifier (name{figure.4.4
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6024 ...    -0.00016098322952, 0.00051984185863)
-                                                   <./petrol_data.pdf>]
-
-LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 6073.
-
-
+l.6029 \end{Exercise}
+                      <./petrol_data.pdf>]
 Overfull \hbox (43.67245pt too wide) has occurred while \output is active
 \T1/aer/m/sc/10 98 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STAT
 IONARY PROCESSES
@@ -1484,138 +1449,308 @@ Overfull \hbox (48.67123pt too wide) has occurred while \output is active
 TIONARY PROCESSES
  []
 
-[100
-
-]
+[100]
 
 LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
-(Font)              using `T1/aer/m/sl' instead on input line 6433.
+(Font)              using `T1/aer/m/sl' instead on input line 6188.
 
-[101pdfTeX warning (ext4): destination with the same identifier (name{cite.}) h
-as been already used, duplicate ignored
+[101]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 6261.
+
+
+Overfull \hbox (264.3217pt too wide) in paragraph at lines 6268--6282
+ [][] 
+ []
+
+<ndc_data.pdf, id=1141, 433.62pt x 289.08pt>
+File: ndc_data.pdf Graphic file (type pdf)
+<use ndc_data.pdf>
+Package pdftex.def Info: ndc_data.pdf  used on input line 6290.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6299.
+
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6325.
+
+
+Overfull \hbox (48.67123pt too wide) has occurred while \output is active
+\T1/aer/m/sc/10 102 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STA
+TIONARY PROCESSES
+ []
+
+[102pdfTeX warning (ext4): destination with the same identifier (name{table.4.1
+}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.6340 \end{Exercise}
+                     ] [103pdfTeX warning (ext4): destination with the same ide
+ntifier (name{figure.4.5}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.6365 ...construct and apply MB WK and WH filters
+                                                   <./ndc_data.pdf>]
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6410.
+
+
+Overfull \hbox (48.67123pt too wide) has occurred while \output is active
+\T1/aer/m/sc/10 104 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STA
+TIONARY PROCESSES
+ []
+
+[104] [105]
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6499.
+
+
+Overfull \hbox (48.67123pt too wide) has occurred while \output is active
+\T1/aer/m/sc/10 106 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STA
+TIONARY PROCESSES
+ []
+
+[106]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 6572.
+
+
+Overfull \hbox (254.32414pt too wide) in paragraph at lines 6579--6593
+ [][] 
+ []
+
+<starts_data.pdf, id=1190, 433.62pt x 289.08pt>
+File: starts_data.pdf Graphic file (type pdf)
+<use starts_data.pdf>
+Package pdftex.def Info: starts_data.pdf  used on input line 6603.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6610.
+
+[107pdfTeX warning (ext4): destination with the same identifier (name{table.4.2
+}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.6624 \end{Example}
+                    ]
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6627.
+
+
+Overfull \hbox (48.67123pt too wide) has occurred while \output is active
+\T1/aer/m/sc/10 108 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STA
+TIONARY PROCESSES
+ []
+
+[108pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
+6}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.6653 > burn <- 1000
+                      <./starts_data.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [109]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (48.67123pt too wide) has occurred while \output is active
+\T1/aer/m/sc/10 110 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STA
+TIONARY PROCESSES
+ []
+
+[110]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [111]
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6802.
+
+
+Overfull \hbox (48.67123pt too wide) has occurred while \output is active
+\T1/aer/m/sc/10 112 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STA
+TIONARY PROCESSES
+ []
+
+[112]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [113]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (48.67123pt too wide) has occurred while \output is active
+\T1/aer/m/sc/10 114 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STA
+TIONARY PROCESSES
+ []
+
+[114]
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 6939.
+
+[115]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 7025.
+
+
+Overfull \hbox (186.50737pt too wide) in paragraph at lines 7033--7053
+ [][] 
+ []
+
+
+Overfull \hbox (48.67123pt too wide) has occurred while \output is active
+\T1/aer/m/sc/10 116 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYSIS FOR NON-STA
+TIONARY PROCESSES
+ []
+
+[116pdfTeX warning (ext4): destination with the same identifier (name{table.4.3
+}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.7096 \begin{thebibliography}{99}
+                                  ]
+
+LaTeX Font Warning: Font shape `T1/aer/m/it' undefined
+(Font)              using `T1/aer/m/sl' instead on input line 7113.
+
+[117
+
+pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
+een already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).]pdfTeX warning (ext4): de
 stination with the same identifier (name{cite.}) has been already used, duplica
 te ignored
 <to be read again> 
                    \relax 
-l.6458 \bibitem{}
+l.7138 \bibitem{}
                   McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
 tination with the same identifier (name{cite.}) has been already used, duplicat
 e ignored
 <to be read again> 
                    \relax 
-l.6462 \bibitem{}
+l.7142 \bibitem{}
                   McElroy, T., and Findley, D. (2015). Fitting constrained v...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6464 \bibitem{}
+l.7144 \bibitem{}
                   McElroy, T., and Trimbur, T. (2015). Signal Extraction for...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6468 \bibitem{}
+l.7148 \bibitem{}
                   McElroy, T. S. and Wildi, M. (2020). The multivariate line...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6470 \bibitem{}
+l.7150 \bibitem{}
                   Self, S. G., and Liang, K. Y. (1987). Asymptotic propertie...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6472 \bibitem{}
+l.7152 \bibitem{}
                   Taniguchi, M., and Kakizawa, Y. (2012). Asymptotic theory ...
 pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.6474 \bibitem{}
+l.7154 \bibitem{}
                   Wildi, M. (2007). Real-Time Signal Extraction.pdfTeX warning 
 (ext4): destination with the same identifier (name{cite.}) has been already use
 d, duplicate ignored
 <to be read again> 
                    \relax 
-l.6476 \bibitem{}
+l.7156 \bibitem{}
                   Wildi, M. and McElroy, T. (2016). Optimal real-time filter...
-[102pdfTeX warning (ext4): destination with the same identifier (name{cite.}) h
+[118pdfTeX warning (ext4): destination with the same identifier (name{cite.}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6481 \end{document}
+l.7161 \end{document}
                      ] (./MDFA_Legacy.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1627,16 +1762,16 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `MDFA_Legacy.out' has not changed.
-(rerunfilecheck)             Checksum: F5A96D53370DB30C4095EBC11467D7C7;2493.
+(rerunfilecheck)             Checksum: 29FA699E5C2D801AC11AC3E3393B71C0;2796.
  ) 
 Here is how much of TeX's memory you used:
- 7607 strings out of 481252
- 113267 string characters out of 5914123
- 428825 words of memory out of 5000000
- 24062 multiletter control sequences out of 15000+600000
+ 7665 strings out of 481252
+ 114063 string characters out of 5914123
+ 430598 words of memory out of 5000000
+ 24086 multiletter control sequences out of 15000+600000
  416886 words of font info for 68 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 71i,15n,74p,335b,513s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 71i,15n,74p,446b,513s stack positions out of 5000i,500n,10000p,200000b,80000s
  <c:/Users/neide/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/e
 c/tcrm1000.600pk> <c:/Users/neide/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/lj
 four/jknappen/ec/ecrm1440.600pk> <c:/Users/neide/AppData/Roaming/TinyTeX/texmf-
@@ -1662,10 +1797,10 @@ fonts/cm/cmsy7.pfb><c:/Users/neide/AppData/Roaming/TinyTeX/texmf-dist/fonts/typ
 e1/public/amsfonts/latxfont/lasy10.pfb><c:/Users/neide/AppData/Roaming/TinyTeX/
 texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/Users/neide/AppDa
 ta/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb>
-Output written on MDFA_Legacy.pdf (106 pages, 1040915 bytes).
+Output written on MDFA_Legacy.pdf (122 pages, 1099760 bytes).
 PDF statistics:
- 1517 PDF objects out of 1728 (max. 8388607)
- 1108 compressed objects within 12 object streams
- 309 named destinations out of 1000 (max. 500000)
- 289 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1681 PDF objects out of 1728 (max. 8388607)
+ 1248 compressed objects within 13 object streams
+ 341 named destinations out of 1000 (max. 500000)
+ 323 words of extra memory for PDF output out of 10000 (max. 10000000)
 

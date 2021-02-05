@@ -1316,8 +1316,8 @@ x.fore.udfa <- filter(x.sim[,1],fore.udfa[[1]][1,1,],method="convolution",sides=
 
 # store criterion value
 i <- delta*4 + 1
-critmdfa.mat[i,j] <- fore.mdfa[[2]][1,1]
-critudfa.mat[i,j] <- fore.udfa[[2]][1,1]
+critmdfa.mat[i,j] <- round(fore.mdfa[[2]][1,1],digits=5)
+critudfa.mat[i,j] <- round(fore.udfa[[2]][1,1],digits=5)
 }}
 @
 

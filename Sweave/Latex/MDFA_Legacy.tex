@@ -551,7 +551,7 @@ function (insamp, x, d)
     colnames(weight_func) <- colnames(x)
     return(list(weight_func = weight_func))
 }
-<bytecode: 0x0000027fe35c7078>
+<bytecode: 0x0000026bb2499a60>
 <environment: namespace:MDFA>
 \end{Soutput}
 \end{Schunk}
@@ -1362,7 +1362,7 @@ It is known that the VAR(1) has the causal representation
   \, L^{-\ell} \,  {[ \Theta_{\vartheta} (L) ]}_0^{\ell - 1} \, 
    { \Theta_{\vartheta} (L) }^{-1} \, X_t.
 \] 
- In other words, we have an error filter $ \Lamba_{\vartheta} (L)  $ such that
+ In other words, we have an error filter $ \Lambda_{\vartheta} (L)  $ such that
   $E_t = \Lambda_{\vartheta} (L) X_t$,  where
 \[
   \Lambda_{\vartheta} (z)  = \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  z^{-\ell} \,
@@ -3340,8 +3340,8 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 + 
 + # store criterion value
 + i <- delta*4 + 1
-+ critmdfa.mat[i,j] <- fore.mdfa[[2]][1,1]
-+ critudfa.mat[i,j] <- fore.udfa[[2]][1,1]
++ critmdfa.mat[i,j] <- round(fore.mdfa[[2]][1,1],digits=5)
++ critudfa.mat[i,j] <- round(fore.udfa[[2]][1,1],digits=5)
 + }}
 \end{Sinput}
 \end{Schunk}
@@ -3372,16 +3372,16 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 \begin{tabular}{llllll}
   & 0    & 0.25   & 0.5  
    & 0.75  & 1  \\ \hline
-0        & -3.5527136788005e-15  & 2.22044604925031e-13 
-    & -1.77635683940025e-15 & -8.88178419700125e-16 & 3.5527136788005e-15  \\
-0.1        & 0.0515333063544694  & 0.00927538700613129 
-    & 0.0347401278748989 & 0.0435319652609754 & 0.047145822050028  \\
-0.5        & 0.24160844893295  & 0.0240008079865022 
-    & 0.100443415264753 & 0.164859934734334 & 0.204834451331773  \\
-1        & 0.54284235518345  & 0.0398437844476653 
-    & 0.157774326108716 & 0.305402560379077 & 0.427518962824753  \\
-2        & 0.857285264133202  & 0.0505989535031648 
-    & 0.19502275802409 & 0.414781672651307 & 0.635241666441922  \\
+0        & 0  & 0 
+    & 0 & 0 & 0  \\
+0.1        & 0.05153  & 0.00928 
+    & 0.03474 & 0.04353 & 0.04715  \\
+0.5        & 0.24161  & 0.024 
+    & 0.10044 & 0.16486 & 0.20483  \\
+1        & 0.54284  & 0.03984 
+    & 0.15777 & 0.3054 & 0.42752  \\
+2        & 0.85729  & 0.0506 
+    & 0.19502 & 0.41478 & 0.63524  \\
 \hline      
 \end{tabular}
 \end{table}
@@ -3394,16 +3394,16 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 \begin{tabular}{llllll}
   & 0    & 0.25   & 0.5  
    & 0.75  & 1  \\ \hline
-0        & -3.5527136788005e-15  & -3.5527136788005e-15 
-    & -3.5527136788005e-15 & -3.5527136788005e-15 & -3.5527136788005e-15  \\
-0.1        & 0.0515333063544694  & 0.0515333063544694 
-    & 0.0515333063544694 & 0.0515333063544694 & 0.0515333063544694  \\
-0.5        & 0.24160844893295  & 0.24160844893295 
-    & 0.24160844893295 & 0.24160844893295 & 0.24160844893295  \\
-1        & 0.54284235518345  & 0.54284235518345 
-    & 0.54284235518345 & 0.54284235518345 & 0.54284235518345  \\
-2        & 0.857285264133202  & 0.857285264133202 
-    & 0.857285264133202 & 0.857285264133202 & 0.857285264133202  \\
+0        & 0  & 0 
+    & 0 & 0 & 0  \\
+0.1        & 0.05153  & 0.05153 
+    & 0.05153 & 0.05153 & 0.05153  \\
+0.5        & 0.24161  & 0.24161 
+    & 0.24161 & 0.24161 & 0.24161  \\
+1        & 0.54284  & 0.54284 
+    & 0.54284 & 0.54284 & 0.54284  \\
+2        & 0.85729  & 0.85729 
+    & 0.85729 & 0.85729 & 0.85729  \\
 \hline      
 \end{tabular}
 \end{table}
@@ -3466,7 +3466,7 @@ given observed time series
  for all integers $t$.
 \end{Definition}
 
- We revisit the examples considered in Chapter \ref{lpp_chap}, but
+ We revisit the examples considered in Chapter \ref{chap:lpp}, but
  now incorporated with multiple targets.
 
 \begin{Example} {\bf  Multi-step Ahead Forecasting.}   \rm
@@ -4384,7 +4384,7 @@ stationary, which are the most common type occuring in econometrics and finance.
   have a representation as an $I(1)$ process, and the expression for
    $X_t$ will involve a linear function of time $t$, because $t$ is
   annihilated by $\Delta (L)$.  Applying the recursive technique of 
-  Example \ref{exam:i1-rep} twice, we obtain
+  Example \ref{exam:I1-rep} twice, we obtain
  \[
  X_t = (t+1) \, X_0 - t \, X_{-1}  + \sum_{j=1}^t (t+1-j) \, \partial X_j,
 \]
@@ -4708,8 +4708,8 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
   & = \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
     f_{\partial N} (\omega) \, 
     { f_{\partial X} (\omega) }^{-1} \,  \Delta^S (e^{i \omega})
-      f_{\partial S} (\omega) \Delta^N (e^{i \omega}) \, d\omega
-      - \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
+      f_{\partial S} (\omega) \Delta^N (e^{i \omega}) \, d\omega \\
+    &  - \frac{1}{2\pi} \int_{-\pi}^{\pi}  e^{i \omega h}
             f_{\partial S} (\omega) \, 
     { f_{\partial X} (\omega) }^{-1} \,  \Delta^N (e^{i \omega})
       f_{\partial N} (\omega) \Delta^S (e^{i \omega}) \, d\omega  \\
@@ -5802,6 +5802,14 @@ target.  When the model is correctly specified, the best concurrent filter
  Moreover, this concurrent filter is identical with
  the LPP solution of Proposition \ref{prop:GPP2}, where the target 
  $\Psi (z)$ is the WK filter with frf (\ref{eq:wk.frf-gen}).
+ Therefore (\ref{eq:wiener-hopf}) can be re-expressed as
+\begin{equation}
+\label{eq:optimal-conc-comp}
+ \sum_{\ell = -\infty}^{\infty}  \psi  (\ell)  \,  z^{\ell}
+ \, \left( 1 -  { [  \Phi (z) ]}_0^{-\ell-1} \, { \Phi (z) }^{-1} \right),
+\end{equation}
+ where   $\Phi(z) = \Theta (z) / \Delta (z)$, and ${ [  \Phi (z) ]}_0^{-\ell-1} = 0$
+ when $\ell \geq 0$.
 \end{Theorem}
  
 
@@ -5862,70 +5870,70 @@ target.  When the model is correctly specified, the best concurrent filter
  =  \Theta (z) \, \Sigma \, {\Delta (z)}^{-1} 
  \, \Sigma^{-1} \, { \Theta (z) }^{-1} \Delta (z) = 1_n.
 \]
-To prove the second assertion, let $\Phi^x (z) = \Theta^x (z) / \Delta (z)$.
- Then the LPP solution given by (\ref{eq:GPPsoln-nonstat}) can be written
+To prove the second assertion, note that 
+the LPP solution given by (\ref{eq:GPPsoln-nonstat}) can be written
 \[
    \sum_{\ell = -\infty}^{\infty}  \psi  (\ell) \, z^{\ell} -  
  \sum_{\ell =-1}^{-\infty}  \psi  (\ell)  \,    
- { [  \Phi^x (z) ]}_0^{-\ell-1}     \, z^{\ell} \, { \Phi^x (z) }^{-1}.
+ { [  \Phi (z) ]}_0^{-\ell-1}     \, z^{\ell} \, { \Phi (z) }^{-1}.
 \]
   The first summand is $\Psi (z)$.    Noting that
 \[
-    { [  \Phi^x (z) ]}_0^{-\ell-1}  =  \sum_{k=0}^{-\ell-1}  \phi^x (k) \, z^k =
-   \sum_{k \geq 0}  \phi^x (-\ell-1-k) \, z^{-\ell-1-k},
+    { [  \Phi (z) ]}_0^{-\ell-1}  =  \sum_{k=0}^{-\ell-1}  \phi (k) \, z^k =
+   \sum_{k \geq 0}  \phi (-\ell-1-k) \, z^{-\ell-1-k},
 \]
 for the second summand we have
 \begin{align*}
-&  \sum_{\ell = -1}^{-\infty}  \psi  (\ell)   \, { [  \Phi^x (z) ]}_0^{-\ell-1} 
+&  \sum_{\ell = -1}^{-\infty}  \psi  (\ell)   \, { [  \Phi (z) ]}_0^{-\ell-1} 
 \, z^{\ell}   \\
 & = \sum_{\ell = -1}^{-\infty}   \psi (\ell)   \,   \sum_{k = 0}^{\infty} 
   \phi^{x}  (-\ell-1-k) \, z^{-1-k} \\
  & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} \psi (\ell) \, 
-   \phi^x  (-\ell-1-k)   \\
+   \phi  (-\ell-1-k)   \\
   & =  \sum_{k = 0}^{\infty}    z^{-1-k} \, \sum_{\ell = -1}^{-\infty} 
   \frac{1}{2 \pi} \int_{-\pi}^{\pi}  \Psi (e^{-i \omega}) \, e^{i \omega \ell} \, d\omega 
-\,  \phi^x  (-\ell-1-k).
+\,  \phi  (-\ell-1-k).
 \end{align*}
 Substituting the expression for the frf of the WK filter yields
 \begin{align*}
  & =  \sum_{k = 0}^{\infty}    z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
  f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
   {| \Delta^N (e^{-i \omega}) |}^2 \, 
-   \sum_{\ell = -1}^{-\infty}  \phi^x (-\ell-1-k)   \, e^{i \omega \ell} \, d\omega   \\
+   \sum_{\ell = -1}^{-\infty}  \phi (-\ell-1-k)   \, e^{i \omega \ell} \, d\omega   \\
  & =  \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
 f_{ \partial S}(\omega)   \,  { f_{\partial X} (\omega)}^{-1} \, 
   {| \Delta^N (e^{-i \omega}) |}^2 
-\,  \sum_{h = 0}^{\infty}   \phi^x (h-k)   \, e^{-i \omega (h+1)} \, d\omega  \\
+\,  \sum_{h = 0}^{\infty}   \phi (h-k)   \, e^{-i \omega (h+1)} \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
 f_{ \partial S}(\omega)   \,  {| \Delta^N (e^{-i \omega}) |}^2 \, 
-     {  \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
-    {  \Theta^x (e^{-i \omega}) }^{-1}
-\,   \Phi^x (e^{-i \omega}) \, e^{-i \omega (k+1) }  \, d\omega  \\
+     {  \Theta (e^{i \omega}) }^{- \prime} \, \Sigma^{-1} \,
+    {  \Theta (e^{-i \omega}) }^{-1}
+\,   \Phi (e^{-i \omega}) \, e^{-i \omega (k+1) }  \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  \frac{1}{2 \pi} \int_{-\pi}^{\pi}  
-f_{ \partial S}(\omega) \,  { \Theta^x (e^{i \omega}) }^{- \prime} \, \Sigma_x^{-1} \,
+f_{ \partial S}(\omega) \,  { \Theta (e^{i \omega}) }^{- \prime} \, \Sigma^{-1} \,
   \Delta^N (e^{i \omega})/ \Delta^S (e^{-i \omega})
 \,  e^{-i \omega (k+1) }  \, d\omega  \\
  & =   \sum_{k = 0}^{\infty}   z^{-1-k} \,  { \langle    f_{ \partial S}(\omega) \, 
-    {  \Theta^x (e^{i \omega}) }^{-1 \prime} 
+    {  \Theta (e^{i \omega}) }^{-1 \prime} 
     \Delta^N (e^{i \omega})/ \Delta^S (e^{-i \omega})  \rangle  }_{-(k+1) } 
-     \, \Sigma_x^{-1}  \\
+     \, \Sigma^{-1}  \\
  & =   { [  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime} 
-    \Delta^N (z^{-1})/ \Delta^S (z) ]}_{-\infty}^{-1}  \, \Sigma_x^{-1}.
+    {  \Theta (z^{-1}) }^{-1 \prime} 
+    \Delta^N (z^{-1})/ \Delta^S (z) ]}_{-\infty}^{-1}  \, \Sigma^{-1}.
 \end{align*}
  Hence, the LPP solution is
 \begin{align*}
   & \Psi (z) - { [  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime} \Delta^N (z^{-1})/ \Delta^S (z)
-    ]}_{-\infty}^{-1}  \, \Sigma_x^{-1} \,     { \Phi^x (z) }^{-1}  \\
+    {  \Theta (z^{-1}) }^{-1 \prime} \Delta^N (z^{-1})/ \Delta^S (z)
+    ]}_{-\infty}^{-1}  \, \Sigma^{-1} \,     { \Phi (z) }^{-1}  \\
   & =  \Psi (z) -  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime}  \, \Delta^N (z^{-1})/ \Delta^S (z) \,
-     \Sigma_x^{-1} \,
-    { \Theta^x (z) }^{-1} \Delta (z)  \\
+    {  \Theta (z^{-1}) }^{-1 \prime}  \, \Delta^N (z^{-1})/ \Delta^S (z) \,
+     \Sigma^{-1} \,
+    { \Theta (z) }^{-1} \Delta (z)  \\
  &    +  { [  \gamma_{\partial S} (z)  \, 
-    {  \Theta^x (z^{-1}) }^{-1 \prime}  \Delta^N (z^{-1})/ \Delta^S (z)
-     ]}_{0}^{\infty}  \, \Sigma_x^{-1} \,
-    { \Theta^x (z) }^{-1} \Delta (z),
+    {  \Theta (z^{-1}) }^{-1 \prime}  \Delta^N (z^{-1})/ \Delta^S (z)
+     ]}_{0}^{\infty}  \, \Sigma^{-1} \,
+    { \Theta (z) }^{-1} \Delta (z),
 \end{align*}
   which equals $\widehat{\Psi} (z)$.
   This verifies that the LPP solution indeed equals the optimal concurrent
@@ -5934,38 +5942,47 @@ $\quad \Box$
 
 \vspace{.5cm}
 
- It is not clear how to compute (\ref{eq:wiener-hopf}) because of the presence of
-  ${\Delta^S (z)}^{-1}$ in the bracket.  In Bell and Martin (2004) this issue was
-  addressed by computing a partial fraction decomposition; here we take a similar
-  approach, but adapted for multivariate time series.  The goal is to construct
-  a matrix power series $D(z)= \sum_{k=0}^{\infty} d (k) z^k$ 
-  and a strictly anti-causal $C(z^{-1}) = \sum_{k=-\infty}^{-1}  c (k) z^k$ such that
+ It is   clear how to compute (\ref{eq:wiener-hopf}), using the formula
+ (\ref{eq:optimal-conc-comp}):
+ the coefficients $\phi (k)$ of $\Phi (z)$ are given by
 \[
-    \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) \, {\Delta^S (z)}^{-1}
-     { \Theta (z^{-1})}^{-1 \prime}  =  C ( z^{-1}) \, { \Theta (z^{-1})}^{-1 \prime}
-     + D(z)  \, {\Delta^S (z)}^{-1}.
+ \phi (k) = \sum_{j=0}^k \Theta (k-j) \, \Xi (j)
 \]
- Once we have computed $D(z)$, we obtain a simple expression for the concurrent filter.
- 
-\begin{Corollary}
-\label{cor:asym.sigex}
-  Under the assumptions of Theorem \ref{thm:asym.sigex}, the optimal concurrent 
- filter  can be expressed as
- $\widehat{\Psi} (z) = D (z) \Sigma^{-1} \,
-     { \Theta (z) }^{-1} \Delta^N (z)$, where $D(z)$ is given by
+ for $k \geq 0$  (and $\phi (k) = 0 $ if $k < 0$), and 
+ ${ [  \Phi (z) ]}_0^{\ell-1} = \sum_{k=0}^{\ell-1} \phi (k) z^k$ for $\ell \geq 1$.
+  Noting that
 \begin{align*}
-  D(z) &=    { \left[  \gamma_{\partial S} (z) \,  \Delta^N (z^{-1}) 
-     { \Theta (z^{-1})}^{-1 \prime} \right] }_0^{\infty} \\
-     & - \sum_{j=0}^{d_S} 
+  \sum_{j=0}^d \phi (k-j) \, \delta (j) & =
+   \sum_{j=0}^d { \langle z^{j-k} \Theta (z) \Xi (z) \rangle}_0 \, \delta (j) \\
+  & =  { \langle   \Theta (z) \Xi (z)  \, \sum_{j=0}^d \delta (j) z^j \rangle}_k \\
+ &   = { \langle \Theta (z) \rangle}_k = \theta (k),
 \end{align*}
-\end{Corollary}
+ we have the recursion
+\[
+  \phi (k) = - \sum_{j=1}^d \phi (k-j) \, \delta (j) \, { \delta (0)}^{-1} 
+    + \theta (k) \, { \delta (0)}^{-1}.
+\]
+ Furthermore, it follows from the proof of Theorem \ref{thm:asym.sigex} that the functions
+\[
+  z^{\ell}  \, \left( 1_n -  { [  \Phi (z) ]}_0^{-\ell-1} \, { \Phi (z) }^{-1} \right)
+\]
+are causal for all $\ell \in \ZZ$.  Then we can re-express the optimal concurrent filter as
+\[
+ \widehat{\Psi} (z) = \psi (0) + \sum_{\ell=1}^{\infty} 
+ \left\{ \psi (\ell) z^{\ell} + \psi (-\ell) z^{-\ell} 
+ \left( 1_n -  { [  \Phi (z) ]}_0^{-\ell-1} \, { \Phi (z) }^{-1} \right) \right\},
+\]
+ which is most convenient for computation.
+
+\subsection{Industrial Petroleum: the LLM Specification}
+
 
   
 \begin{figure}[htb!]
 \begin{center}
 \includegraphics[]{petrol_data.pdf}
 \caption{Plot of monthly  Industrial Petroleum Consumption and OPEC Oil Imports, 
-  Jan 1973 through December 2016 (seasonally adjusted). }
+  January 1973 through December 2016 (seasonally adjusted). }
 \label{fig:petroldata}
 \end{center}
 \end{figure}  
@@ -5979,10 +5996,10 @@ We now  study the  MB trend filter arising from a LLM
  both seasonally adjusted  (displayed in Figure \ref{fig:petroldata}).
    The MLEs for the model parameters are  given by
 \[
- \Sigma_{W} = \left[ \begin{array}{ll} 
+ \Sigma_{S} = \left[ \begin{array}{ll} 
    2.32 \cdot 10^{-4} &  5.04 \cdot 10^{-4} \\
    5.04 \cdot 10^{-4}  & 34.73 \cdot 10^{-4}  \end{array}  \right]
- \qquad  \Sigma_{Z} = \left[ \begin{array}{ll}
+ \qquad  \Sigma_{N} = \left[ \begin{array}{ll}
         110.44 \cdot 10^{-5} &  7.17 \cdot 10^{-5}  \\
         7.17 \cdot 10^{-5} & 128.57 \cdot 10^{-5}   \end{array} \right].
 \]
@@ -5995,7 +6012,7 @@ We now  study the  MB trend filter arising from a LLM
 \end{Example}
 
 \begin{Exercise} {\bf Petrol MB Replication.}  \rm
-\label{exer:petrol-mb}
+\label{exer:petrol-mb1}
  The purpose of this exercise is to demonstrate that MDFA can replicate
  a MB concurrent filter, and even have superior performance when the 
  model is mis-specified. 
@@ -6034,7 +6051,7 @@ We now  study the  MB trend filter arising from a LLM
 > Sigma.irr <- irr.sim[[2]]
 > irr.sim <- irr.sim[[1]] 
 > x.sim <- mu.sim + irr.sim
-> # construct and apply MB WK  and concurrent filters
+> # construct and apply MB WK and WH filters
 > grid <- T.sim - d
 > iden <- array(diag(N),c(N,N,1))
 > f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
@@ -6042,32 +6059,41 @@ We now  study the  MB trend filter arising from a LLM
 > trend.wkfrf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
 > trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
 > x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
-> 
-> 
-> ## HERE :  need to debug mdfa.whfrf
-> #trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
-> #trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+> trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
+> trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+> x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+> # compare in-sample performance
+> perf_null <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
++   c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+> colnames(perf_null) <- c("MDFA","MB")
+> rownames(perf_null) <- c("Series 1","Series 2")
+> # compare to criterion value
+> print(perf_null)
 \end{Sinput}
+\begin{Soutput}
+                 MDFA           MB
+Series 1 0.0001415281 0.0001441170
+Series 2 0.0001757378 0.0001777616
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.0001414576 0.0001794452
+\end{Soutput}
 \end{Schunk}
-
-% # get MDFA concurrent filter
-% q <- 30
-% x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
-% spec.hat <- mdfa.pergram(x.diff,dpoly)
-% m <- floor(grid/2)
-% # The Fourier frequencies
-% freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
-% constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
-% bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
-% x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T-q+1-len),]
-% 
-% # compare in-sample performance
-% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
-% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
-% 
-% # compare to criterion value
-% diag(bw.mdfa[[2]])
-
 
 
 \begin{Exercise} {\bf Petrol MB Out-Performance.}  \rm
@@ -6079,7 +6105,7 @@ We now  study the  MB trend filter arising from a LLM
   matrix as in Exercise \ref{exam:petrol-mb}, but now set the irregular
  covariance matrix to be
 \[
-   \qquad  \Sigma_{Z} = \left[ \begin{array}{ll}
+   \qquad  \Sigma_{N} = \left[ \begin{array}{ll}
        18.32 \cdot 10^{-3}  &  1.19 \cdot 10^{-3}   \\
        1.19 \cdot 10^{-3}  &  18.39 \cdot 10^{-3}  \end{array} \right].
 \]
@@ -6096,6 +6122,69 @@ We now  study the  MB trend filter arising from a LLM
  (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
 
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate a Gaussian LLM  of sample size 5000:
+> set.seed(1234)
+> T.sim <- 5000
+> burn <- 1000
+> N <- 2
+> psi.sim <- c(2.17150287559847, -8.36795922528, -6.04133725367594, 
++              0.0648981656699, -6.80849700177184, -6.66004335288479, 
++              -0.00016098322952, 0.00051984185863)
+> psi.sim[5:6] <- c(-4,-4)
+> psi.sim[7:8] <- c(0,0)
+> len <- 1000
+> dpoly <- c(1,-1)
+> delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+> d <- length(dpoly) - 1
+> mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+> irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> irr.sim <- irr.sim[[1]] 
+> x.sim <- mu.sim + irr.sim
+> # construct and apply MB WK and WH filters (from previous exercise)
+> grid <- T.sim - d
+> x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
+> x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+> # compare in-sample performance
+> perf_alt <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
++   c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+> colnames(perf_alt) <- c("MDFA","MB")
+> rownames(perf_alt) <- c("Series 1","Series 2")
+> # compare to criterion value
+> print(perf_alt)
+\end{Sinput}
+\begin{Soutput}
+                 MDFA           MB
+Series 1 0.0009005297 0.0012360889
+Series 2 0.0007032054 0.0008932484
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.0008860386 0.0007123881
+\end{Soutput}
+\end{Schunk}
+
+
+
+
 \begin{Exercise} {\bf Petrol MB Empirical Performance.}  \rm
 \label{exer:petrol-mb3}
  We now examine the performance of MDFA   on the Petroleum data itself,
@@ -6111,268 +6200,859 @@ We now  study the  MB trend filter arising from a LLM
  (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
     
-   
-HERE  some discussion, and tables summarizing the results    
-   
-% \begin{table}[!htb]
-% \centering
-% \begin{tabular}{cllllll}
-% \hline
-% & \multicolumn{2}{c}{Null LLM} &\multicolumn{2}{c}{Alternative LLM} & \multicolumn{2}{c}{Petrol Data} \\
-% \hline
-%   Series 	 &  MB    &  MDFA  &  MB    &  MDFA    &  MB    &  MDFA   \\
-%   Consumption &   .1285 & .1268 &  1.3224  &  .9841    &   .1295 &   .1176 \\
-%   Imports	 &  .1728 & .1691 &   .8433  &  .6603    &   2.1691  &   2.2033 \\
-% \hline
-% \end{tabular}
-% \caption{\baselineskip=10pt Empirical LPP MSE for real-time trend estimators (MB Concurrent filter versus
-%  MDFA filter) applied to bivariate LLM null process,  LLM alternative process,
-%  and Petrol data,  with target trend
-%  given by the null LLM MB trend. (Units of $10^{-3}$.) }
-% \label{tab:petrol.llm.mdfa}
-% \end{table}
+    
+\begin{Schunk}
+\begin{Sinput}
+> T <- dim(petrol)[1]
+> N <- dim(petrol)[2]
+> # truncation of ideal filter
+> trunc <- 5
+> # construct and apply MB WK and WH filters (from previous exercise)
+> grid <- T - d
+> x.trend.ideal <- mvar.filter(petrol,trend.wkfilter[,,(len-trunc*period):(len+trunc*period)])
+> x.trend.conc <- mvar.filter(petrol,trend.whfilter[,,(len-trunc*period):(len+trunc*period)])
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(petrol,dpoly,method="convolution",sides=1)[(d+1):T,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> trend.wkfrf <- mdfa.frf(trend.wkfilter,len,grid)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.trend.mdfa <- mvar.filter(petrol,bw.mdfa[[1]])[(1+trunc*period-q):(T-q-trunc*period),]
+> # compare in-sample performance
+> perf_emp <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
++   c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+> colnames(perf_emp) <- c("MDFA","MB")
+> rownames(perf_emp) <- colnames(petrol)
+> # compare to criterion value
+> print(perf_emp)
+\end{Sinput}
+\begin{Soutput}
+                 MDFA        MB
+Consumption  123.4468  178.6056
+Imports     2309.2701 2611.2914
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1]  140.7417 2297.0987
+\end{Soutput}
+\end{Schunk}
+    
+ The results of these Exercises   indicate that MDFA can both replicate model-based real-time
+  filters (Exercise \ref{exer:petrol-mb1}) and out-perform them when
+   the model is mis-specified (Exercises \ref{exer:petrol-mb2} and 
+ \ref{exer:petrol-mb3}). Table \ref{tab:petrol.mat} summarizes the performances,
+  where ``LLM null process" refers to correct specification (Exercise \ref{exer:petrol-mb1}),
+  ``LLM alternative process" refers to mis-specification of the irregular variability
+   (Exercise \ref{exer:petrol-mb2}), and ``LLM empirical process" refers
+   the analysis of the actual Petrol series (Exercise \ref{exer:petrol-mb3}).
+   The replication achieved by MDFA is not exact, and this is due to statistical
+    error as well as the truncation to $q = 30$ that is used.  In contrast,
+   the out-performance is modest in the case of LLM alternative process,
+   and is substantial in the case of the Petrol data.
+ 
+ \begin{table}[]
+\centering
+\caption{Empirical MSE for real-time trend estimators (MB WH filter versus
+ MDFA filter) applied to bivariate LLM null process,  LLM alternative process,
+ and LLM empirical process,  with target trend
+ given by the null LLM MB trend.  }
+\label{tab:petrol.mat}
+\begin{tabular}{cllllll}
+\hline
+& \multicolumn{2}{c}{Null LLM} &\multicolumn{2}{c}{Alternative LLM} &
+  \multicolumn{2}{c}{Empirical LLM} \\
+\hline
+  Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
+  Consumption &   0.0001415281479151 & 0.000144116955493175 & 
+    0.000900529682998249  &  0.00123608892821756    &  
+    123.446798813062 &   178.6056400599 \\
+  Imports	 &   0.000175737825795243 & 0.000177761640869179 & 
+    0.000703205437096432  &  0.000893248354986445    &  
+    2309.27008519249 &   2611.29139030182 \\
+\hline      
+\end{tabular}
+\end{table}
+ 
+\subsection{Non-Defense Capitalization: the STM Specification}
+
+ 
+  
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{ndc_data.pdf}
+\caption{Plot of monthly  Shipments and New Orders of Non-Defense Capital Goods, 
+  February 1992 through May 2020 (seasonally adjusted). }
+\label{fig:ndcdata}
+\end{center}
+\end{figure}  
 
 
-% \begin{figure}[htb!]
-% \centering
-% \includegraphics[]{petrolLLMtrendsAlt}
-% \caption{\baselineskip=10pt Bivariate  trend  filter applied to alternative LLM simulation (grey), with trends in black. 
-%  The simulation is obtained from altering the paramteres of an 
-%  LLM fitted to bivariate Petrol (Consumption and Imports), so the component
-%  series of the simulation are labelled accordingly.}
-% \label{fig:llm.alttrends}
-% \end{figure}
+
+\begin{Example} {\bf NDC MB Replication.} \rm
+\label{exam:ndc-mb}
+Next, we  study the  MB trend filter arising from a STM  
+(cf. Example \ref{exam:trend-i2}) fitted
+ to a   bivariate   series of  monthly Shipments and New Orders from 
+ the Non-Defense Capital Goods category of the Manufacturing, Shipments,
+and Inventories survey (referred to as NDC, for short). 
+The data for New Orders is not available at January
+1992, since this series starts at February 1992;
+ therefore we have trimmed this first observation.
+ The data has already been seasonally adjusted, and is 
+  displayed in  Figure \ref{fig:ndcdata}).
+We consider MLEs for the model parameters (based on previous analysis)  given by
+\[
+ \Sigma_{S} = 10^{-5} \, \left[ \begin{array}{ll} 
+   .66   &  1.25   \\
+   1.25  &  2.92   \end{array}  \right]
+ \qquad  \Sigma_{N} =  10^{-4} \, \left[ \begin{array}{ll}
+        2.52  &  1.67    \\
+        1.67 &  35.70   \end{array} \right],
+\]
+   From this fitted model,  we can construct both the WK filter 
+   and the WH filter, as we did in Example \ref{exam:petrol-mb}.
+\end{Example}
+ 
+ 
+\begin{Exercise} {\bf NDC MB Replication.}  \rm
+\label{exer:ndc-mb1}
+ We again examine the replication capabilities of MDFA, 
+ as in Exercise \ref{exer:petrol-mb1},
+ but now considering a STM.  
+ Simulate a sample of size $T=5000$ from a STM process with parameters
+ given in Example \ref{exam:ndc-mb}.   Apply the WK trend filter
+(truncate the filter to $1000$ coefficients on each side) and the 
+ optimal concurrent trend filter.  
+ Use the moving average filter  MDFA  for an $I(2)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+    Apply both concurrent filters (MB and MDFA)
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
+\end{Exercise}
+
+
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate a Gaussian STM  of sample size 5000:
+> set.seed(777)
+> T.sim <- 5000
+> burn <- 1000
+> N <- 2
+> psi.sim <- c(1.8905590615422, -11.9288577633298, -12.0809347541079, 
++              0.660897814610799, -8.2863379601304, -5.66645335346871, 
++              -1.34743227511595e-05, -1.41207967213544e-05)
+> psi.sim[7:8] <- c(0,0)
+> len <- 1000
+> dpoly <- c(1,-2,1)
+> delta <- array(t(dpoly) %x% diag(N),c(N,N,3))
+> d <- length(dpoly) - 1
+> mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+> irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> irr.sim <- irr.sim[[1]] 
+> x.sim <- mu.sim + irr.sim
+> # construct and apply MB WK and WH filters
+> grid <- T.sim - d
+> iden <- array(diag(N),c(N,N,1))
+> f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+> f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
+> trend.wkfrf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+> trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
+> x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
+> trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
+> trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+> x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,c(0,0),NULL,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(2+len-q):(T.sim+1-q-len),]
+> # compare in-sample performance
+> perf_null <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
++   c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+> colnames(perf_null) <- c("MDFA","MB")
+> rownames(perf_null) <- c("Series 1","Series 2")
+> # compare to criterion value
+> print(perf_null)
+\end{Sinput}
+\begin{Soutput}
+                 MDFA           MB
+Series 1 7.571589e-05 7.640551e-05
+Series 2 7.410996e-04 7.423866e-04
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 7.184572e-05 7.948869e-04
+\end{Soutput}
+\end{Schunk}
+
+
+\begin{Exercise} {\bf NDC MB Out-Performance.}  \rm
+\label{exer:ndc-mb2}
+ Now we alter the specification of the STM for the NDC series,
+  to illustrate that MDFA can out-perform the MB concurrent filter.  
+  We do this by substantially increasing the
+ variability in the simulation's trend, so that the MB WH filter
+ will do too much smoothing.  Consider the same irregular covariance
+  matrix as in Exercise \ref{exam:ndc-mb}, but now set the trend
+ covariance matrix to be
+\[
+   \qquad  \Sigma_{S} = \left[ \begin{array}{ll}
+       3.35 \cdot 10^{-4}  &  6.34 \cdot 10^{-4}   \\
+       6.34 \cdot 10^{-4}  &  15.34 \cdot 10^{-4}  \end{array} \right].
+\]
+ Simulate a sample of size $T=5000$ from an LLM process with these parameters,
+ but apply  the WK trend filter
+(truncate the filter to $1000$ coefficients on each side) and the 
+ optimal concurrent trend filter  corresponding to the parameters
+  given in Example \ref{exam:ndc-mb}.  
+ Use the moving average filter  MDFA  for an $I(2)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+    Apply both concurrent filters (MB and MDFA)
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
+\end{Exercise}
+
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate a Gaussian LLM  of sample size 5000:
+> set.seed(777)
+> T.sim <- 5000
+> burn <- 1000
+> N <- 2
+> psi.sim <- c(1.8905590615422, -11.9288577633298, -12.0809347541079, 
++              0.660897814610799, -8.2863379601304, -5.66645335346871, 
++              -1.34743227511595e-05, -1.41207967213544e-05)
+> psi.sim[2:3] <- c(-8,-8)
+> psi.sim[7:8] <- c(0,0)
+> len <- 1000
+> dpoly <- c(1,-2,1)
+> delta <- array(t(dpoly) %x% diag(N),c(N,N,3))
+> d <- length(dpoly) - 1
+> mu.sim <- mdfa.wnsim(psi.sim[1:3],rep(1,N),T.sim+burn,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+> irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> irr.sim <- irr.sim[[1]] 
+> x.sim <- mu.sim + irr.sim
+> # construct and apply MB WK and WH filters (from previous exercise)
+> grid <- T.sim - d
+> x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
+> x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,c(0,0),NULL,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+> # compare in-sample performance
+> perf_alt <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
++   c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+> colnames(perf_alt) <- c("MDFA","MB")
+> rownames(perf_alt) <- c("Series 1","Series 2")
+> # compare to criterion value
+> print(perf_alt)
+\end{Sinput}
+\begin{Soutput}
+                 MDFA          MB
+Series 1 0.0006399446 0.001655656
+Series 2 0.0065283115 0.018054964
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] -0.002027656 -0.005690496
+\end{Soutput}
+\end{Schunk}
 
 
 
-% 
-% \begin{figure}[htb!]
-% \centering
-% \includegraphics[]{petrolLLMrealtimeData}
-% \caption{\baselineskip=10pt  Monthly Petroleum data:  LLM bivariate  trend  output (black), 
-% with non-stationary MDFA trend (dark grey) and MB concurrent trend (light grey). 
-% The trend lines have been vertically staggered for easier visualization.}
-% \label{fig:llm.datamdfa}
-% \end{figure}
+\begin{Exercise} {\bf NDC MB Empirical Performance.}  \rm
+\label{exer:ndc-mb3}
+ We now examine the performance of MDFA   on the NDC data itself,
+ recognizing that the STM is probably mis-specified.  
+ Use the target filter resulting from the  fitted STM
+  from Example \ref{exam:ndc-mb}, truncating eight years of observations at either end
+   of the series.  
+ Apply the  MDFA  for an $I(2)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+  Apply both concurrent filters (MB and MDFA)
+ to the data, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
+\end{Exercise}
+     
+
+\begin{Schunk}
+\begin{Sinput}
+> T <- dim(ndc)[1]
+> N <- dim(ndc)[2]
+> # truncation of ideal filter
+> trunc <- 8
+> # construct and apply MB WK and WH filters (from previous exercise)
+> grid <- T - d
+> x.trend.ideal <- mvar.filter(ndc,trend.wkfilter[,,(len-trunc*period):(len+trunc*period)])
+> x.trend.conc <- mvar.filter(ndc,trend.whfilter[,,(len-trunc*period):(len+trunc*period)])
+> # get MDFA concurrent filter
+> q <- 30
+> x.diff <- filter(ndc,dpoly,method="convolution",sides=1)[(d+1):T,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> trend.wkfrf <- mdfa.frf(trend.wkfilter,len,grid)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,c(0,0),NULL,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.trend.mdfa <- mvar.filter(ndc,bw.mdfa[[1]])[(1+trunc*period-q):(T-q-trunc*period),]
+> # compare in-sample performance
+> perf_emp <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
++   c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
++ 	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+> colnames(perf_emp) <- c("MDFA","MB")
+> rownames(perf_emp) <- colnames(ndc)
+> # compare to criterion value
+> print(perf_emp)
+\end{Sinput}
+\begin{Soutput}
+               MDFA        MB
+Shipments  377077.6  412851.5
+NewOrders 4559708.8 4994254.7
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1]  411808.1 9289178.9
+\end{Soutput}
+\end{Schunk}
+    
+    
+ The results of these Exercises   reinforces the conclusions of the LLM study.
+ Namely, MDFA can replicate STM filters and also out-perform when the model is 
+ mis-specified.  Table \ref{tab:ndc.mat} summarizes the performances,
+  where ``STM null process" refers to correct specification (Exercise \ref{exer:ndc-mb1}),
+  ``STM alternative process" refers to mis-specification of the trend variability
+   (Exercise \ref{exer:ndc-mb2}), and ``STM empirical process" refers
+   the analysis of the actual NDC series (Exercise \ref{exer:ndc-mb3}).
+   The replication achieved by MDFA is not exact, and this is due to statistical
+    error as well as the truncation to $q = 30$ that is used.  In contrast,
+   the out-performance is modest in the case of STM alternative process,
+   and is substantial in the case of the NDC data.
+ 
+ \begin{table}[]
+\centering
+\caption{Empirical MSE for real-time trend estimators (MB WH filter versus
+ MDFA filter) applied to bivariate STM null process,  STM alternative process,
+ and STM empirical process,  with target trend
+ given by the null STM MB trend.  }
+\label{tab:ndc.mat}
+\begin{tabular}{cllllll}
+\hline
+& \multicolumn{2}{c}{Null STM} &\multicolumn{2}{c}{Alternative STM} &
+  \multicolumn{2}{c}{Empirical STM} \\
+\hline
+  Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
+  Consumption &   7.57158872734887e-05 & 7.64055058430271e-05 & 
+    0.00063994462538345  &  0.00165565640587792    &  
+    377077.599926003 &   412851.542451047 \\
+  Imports	 &   0.000741099596773806 & 0.000742386621813045 & 
+    0.00652831151621173  &  0.0180549643717193    &  
+    4559708.81814869 &   4994254.67686846 \\
+\hline      
+\end{tabular}
+\end{table}
+ 
+
+\subsection{Housing Starts: the Atomic Seasonal Specification}
+
+
+ 
+  
+\begin{figure}[htb!]
+\begin{center}
+\includegraphics[]{starts_data.pdf}
+\caption{Plot of monthly  Housing Units Started (Single Family Units),
+  January 1964 through December 2012. }
+\label{fig:starts_data}
+\end{center}
+\end{figure}  
+
+\begin{Example} {\bf Starts MB Replication.} \rm
+\label{exam:starts-mb}
+Finally, we  study the  MB seasonal adjustment filter arising from a
+ structural model with atomic seasonal specification
+(cf. Example \ref{exam:sa}),  fitted
+ to a   quadvariate   series of  
+ New Residential Construction (1964-2012), Housing Units Started, Single Family
+Units.   The four series are from the Survey of Construction of the U.S. Census Bureau, available at 
+\url{http://www.census.gov/construction/nrc/how_the_data_are_collected/soc.html}.
+  The data (referred to as Starts for short)  correspond to the four regions of South, West, NorthEast, and MidWest, and is 
+  displayed in  Figure \ref{fig:starts_data}).
+  We consider  model parameters  given in Exercise \ref{exer:sa}.
+     From this fitted model,  we can construct both the WK filter 
+   and the WH filter; recall that the WK frf is given in Figure \ref{fig:sauc-frf}.
+\end{Example}
+ 
+ 
+\begin{Exercise} {\bf Starts MB Replication.}  \rm
+\label{exer:starts-mb1}
+ We yet again examine the replication capabilities of MDFA, 
+  this time considering the case of seasonal noise.
+ Simulate a sample of size $T=5000$ from the atomic seasonal
+  process  with parameters
+ given in Example \ref{exam:starts-mb}.   Apply the WK seasonal adjustment filter
+(truncate the filter to $1000$ coefficients on each side) and the 
+ optimal concurrent seasonal adjustment filter.  
+ Use the moving average filter  MDFA  for a process with signal
+ differencing polynomial $\Delta^S (z) = {(1-z)}^2 1_4$ and noise 
+  differencing polynomial $\Delta^N (z) = U(z) 1_4$.  Find the best
+ concurrent filter, setting $q= 120$.
+ (A higher $q$ is needed to capture the more nuanced features of this filter.)
+    Apply both concurrent filters (MB and MDFA)
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the seasonal adjustments
+ for all four time series.
+\end{Exercise}
+ 
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate a Gaussian atomic seasonal model  of sample size 5000:
+> set.seed(555)
+> T.sim <- 5000
+> burn <- 1000
+> N <- 4
+> psi.sim <- c(0.493586093056948, 0.178487258592539, 0.341217399125708, 
++              0.399177274154249, 0.848325304642642, 0.68306879252262, 
++              -2.3494687111314, -5.47534663726587, -6.69385117951384, 
++              -6.08364145983965, 0.875100150810273, 0.221971271148611, 
++              0.500866759201029, 0.340625016984097, 0.791037805495801, 
++              0.985440262768576, -2.52890913740106, -4.29524634814519, 
++              -5.98519527750281, -4.88659954275053, 0.0957466327314851, 
++              0.201313350626488, 0.849351809157598, 0.48420520104336, 
++              0.62643997675928, 1.13945063379914, -4.04217214895869, 
++              -4.68919816059416, -4.73313805629826, -4.0627015759002,
++              0.923495751608401, -0.396067294450726, 0.244665046194039, 
++              -0.36570474542918, 0.363995718736632, 0.758715172737758, 
++              -3.05567431351817, -4.74337970092605, -4.96364133429136, 
++              -5.06144086942249, 0.262963683605793, -0.181599400661918, 
++              0.149795833258992, -0.105991649100357, 0.21503766242974, 
++              -0.141649861043968, -2.07489346121933, -3.64302004053168, 
++              -5.69277788172285, -5.3689470753418, 1.40718934367933,
++              -0.0085452878747676, -0.219886337273936, 0.0283662345070971,
++              1.23786259577472, 0.199834135215749, -4.53336362894347, 
++              -4.70016052568401, -7.07530853221777, -6.03054443735399, 
++              -0.0995506040524902, 0.116607848697947, 0.157899802233636, 
++              -0.0363184981547607, 0.18385749297074, 0.329351477585333, 
++              -2.1377604820296, -3.62882764786239, -5.11279846492415, 
++              -3.62475631527416, 0.124305286145147, 0.0292507920421885, 
++              -0.0873349194845382, 0.178977764316143, 0.484389128732254,
++              0.265835976421986, 1.87566939226944, 0.1445002084775, 
++              -1.34264222816582, -0.305367634014929, -0.00488431480035087, 
++              -0.000945659564684563, -0.00106126820173145, -0.000413658838890233)
+> psi.sim[81:84] <- c(0,0,0,0)
+> len <- 1000
+> # set up differencing polynomials
+> dpoly <- c(1,-1,rep(0,10),-1,1)
+> d <- length(dpoly) - 1
+> dpoly.0 <- c(1,-2,1)
+> dpoly.1 <- c(1,-2*cos(pi/6),1)
+> dpoly.2 <- c(1,-2*cos(2*pi/6),1)
+> dpoly.3 <- c(1,-2*cos(3*pi/6),1)
+> dpoly.4 <- c(1,-2*cos(4*pi/6),1)
+> dpoly.5 <- c(1,-2*cos(5*pi/6),1)
+> dpoly.6 <- c(1,1)
+> dpoly.but1 <- polymult(dpoly.2,polymult(dpoly.3,polymult(dpoly.4,polymult(dpoly.5,dpoly.6))))
+> dpoly.but2 <- polymult(dpoly.1,polymult(dpoly.3,polymult(dpoly.4,polymult(dpoly.5,dpoly.6))))
+> dpoly.but3 <- polymult(dpoly.1,polymult(dpoly.2,polymult(dpoly.4,polymult(dpoly.5,dpoly.6))))
+> dpoly.but4 <- polymult(dpoly.1,polymult(dpoly.2,polymult(dpoly.3,polymult(dpoly.5,dpoly.6))))
+> dpoly.but5 <- polymult(dpoly.1,polymult(dpoly.2,polymult(dpoly.3,polymult(dpoly.4,dpoly.6))))
+> dpoly.but6 <- polymult(dpoly.1,polymult(dpoly.2,polymult(dpoly.3,polymult(dpoly.4,dpoly.5))))
+> delta.c <- array(t(dpoly.0) %x% diag(N),c(N,N,3))
+> delta.but1 <- array(t(dpoly.but1) %x% diag(N),c(N,N,10))
+> delta.but2 <- array(t(dpoly.but2) %x% diag(N),c(N,N,10))
+> delta.but3 <- array(t(dpoly.but3) %x% diag(N),c(N,N,10))
+> delta.but4 <- array(t(dpoly.but4) %x% diag(N),c(N,N,10))
+> delta.but5 <- array(t(dpoly.but5) %x% diag(N),c(N,N,10))
+> delta.but6 <- array(t(dpoly.but6) %x% diag(N),c(N,N,11))
+> delta.seas <- array(t(rep(1,12)) %x% diag(N),c(N,N,12))
+> # get simulation
+> mu.sim <- mdfa.wnsim(psi.sim[1:10],rep(1,N),T.sim+burn,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> mu.sim <- mdfa.ucsim(array(t(dpoly.0) %x% diag(N),c(N,N,3)),
++                      mu.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas1.sim <- mdfa.wnsim(psi.sim[11:20],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas1 <- seas1.sim[[2]]
+> seas1.sim <- mdfa.ucsim(array(t(dpoly.1) %x% diag(N),c(N,N,3)),
++                      seas1.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas2.sim <- mdfa.wnsim(psi.sim[21:30],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas2 <- seas2.sim[[2]]
+> seas2.sim <- mdfa.ucsim(array(t(dpoly.2) %x% diag(N),c(N,N,3)),
++                      seas2.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas3.sim <- mdfa.wnsim(psi.sim[31:40],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas3 <- seas3.sim[[2]]
+> seas3.sim <- mdfa.ucsim(array(t(dpoly.3) %x% diag(N),c(N,N,3)),
++                      seas3.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas4.sim <- mdfa.wnsim(psi.sim[41:50],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas4 <- seas4.sim[[2]]
+> seas4.sim <- mdfa.ucsim(array(t(dpoly.4) %x% diag(N),c(N,N,3)),
++                      seas4.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas5.sim <- mdfa.wnsim(psi.sim[51:60],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas5 <- seas5.sim[[2]]
+> seas5.sim <- mdfa.ucsim(array(t(dpoly.5) %x% diag(N),c(N,N,3)),
++                      seas5.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas6.sim <- mdfa.wnsim(psi.sim[61:70],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas6 <- seas6.sim[[2]]
+> seas6.sim <- mdfa.ucsim(array(t(dpoly.6) %x% diag(N),c(N,N,2)),
++                      seas6.sim[[1]])[(burn+1-1):(T.sim+burn-1),]
+> irr.sim <- mdfa.wnsim(psi.sim[71:80],rep(1,N),T.sim,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> irr.sim <- irr.sim[[1]] 
+> x.sim <- mu.sim + seas1.sim + seas2.sim + seas3.sim +
++   seas4.sim + seas5.sim + seas6.sim + irr.sim
+> # construct and apply MB WK and WH filters
+> grid <- T.sim - d
+> iden <- array(diag(N),c(N,N,1))
+> f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+> f.seas1 <- mdfa.spectra(iden,delta.but1,Sigma.seas1,grid)
+> f.seas2 <- mdfa.spectra(iden,delta.but2,Sigma.seas2,grid)
+> f.seas3 <- mdfa.spectra(iden,delta.but3,Sigma.seas3,grid)
+> f.seas4 <- mdfa.spectra(iden,delta.but4,Sigma.seas4,grid)
+> f.seas5 <- mdfa.spectra(iden,delta.but5,Sigma.seas5,grid)
+> f.seas6 <- mdfa.spectra(iden,delta.but6,Sigma.seas6,grid)
+> f.irr <- mdfa.spectra(iden,delta.c,Sigma.irr,grid)
+> f.signal <- f.mu + f.irr
+> f.noise <- f.seas1 + f.seas2 + f.seas3 + f.seas4 + f.seas5 + f.seas6
+> sa.wkfrf <- mdfa.wkfrf(delta.seas,delta.c,f.noise,f.signal)
+> sa.wkfilter <- mdfa.coeff(sa.wkfrf,-len,len)
+> x.sa.ideal <- mvar.filter(x.sim,sa.wkfilter)
+> sa.whfrf <- mdfa.whfrf(delta.seas,delta.c,f.noise,f.signal,len)
+> sa.whfilter <- mdfa.coeff(sa.whfrf,-len,len)
+> x.sa.conc <- mvar.filter(x.sim,sa.whfilter)
+> # get MDFA concurrent filter
+> q <- 120
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(sa.wkfrf,c(0,0),seq(1,6)/6,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(sa.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.sa.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(2+len-q):(T.sim+1-q-len),]
+> # compare in-sample performance
+> perf_null <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
++ 	mean((x.sa.ideal[,2] - x.sa.mdfa[,2])^2),
++ 	mean((x.sa.ideal[,3] - x.sa.mdfa[,3])^2),
++ 	mean((x.sa.ideal[,4] - x.sa.mdfa[,4])^2)),
++   c(mean((x.sa.ideal[,1] - x.sa.conc[,1])^2),
++ 	mean((x.sa.ideal[,2] - x.sa.conc[,2])^2),
++ 	mean((x.sa.ideal[,3] - x.sa.conc[,3])^2),
++ 	mean((x.sa.ideal[,4] - x.sa.conc[,4])^2)))
+> colnames(perf_null) <- c("MDFA","MB")
+> rownames(perf_null) <- c("Series 1","Series 2","Series 3","Series 4")
+> # compare to criterion value
+> print(perf_null)
+\end{Sinput}
+\begin{Soutput}
+              MDFA        MB
+Series 1 1.6657188 1.7543690
+Series 2 0.7187564 0.7737456
+Series 3 0.1324060 0.1432357
+Series 4 0.5297833 0.5707831
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 1.7680364 0.7665882 0.1324367 0.5519218
+\end{Soutput}
+\end{Schunk}
+
+
+\begin{Exercise} {\bf Starts MB Out-Performance.}  \rm
+\label{exer:starts-mb2}
+ Now we alter the specification of Exercise \ref{exer:starts-mb1}
+ by eliminating the fifth atomic seasonal. Hence the WH filter 
+ will attempt to remove seasonality at this frequency when it is
+  not required.
+ Simulate a sample of size $T=5000$ from the atomic seasonal
+  process  with parameters
+ given in Example \ref{exam:starts-mb},
+  except that  $\Sigma_5 = 0 \, 1_4$.
+ Apply the WK seasonal adjustment filter
+(truncate the filter to $1000$ coefficients on each side) and the 
+ optimal concurrent seasonal adjustment filter
+  from Exercise \ref{exer:starts-mb1}.
+ Use the moving average filter  MDFA  for a process with signal
+ differencing polynomial $\Delta^S (z) = {(1-z)}^2 1_4$ and noise 
+  differencing polynomial $\Delta^N (z) = U(z) 1_4$.  Find the best
+ concurrent filter, setting $q= 120$.
+    Apply both concurrent filters (MB and MDFA)
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the seasonal adjustments
+ for all four time series.
+\end{Exercise} 
+
+\begin{Schunk}
+\begin{Sinput}
+> # Simulate a Gaussian atomic seasonal model  of sample size 5000:
+> set.seed(555)
+> T.sim <- 5000
+> burn <- 1000
+> N <- 4
+> psi.sim <- c(0.493586093056948, 0.178487258592539, 0.341217399125708, 
++              0.399177274154249, 0.848325304642642, 0.68306879252262, 
++              -2.3494687111314, -5.47534663726587, -6.69385117951384, 
++              -6.08364145983965, 0.875100150810273, 0.221971271148611, 
++              0.500866759201029, 0.340625016984097, 0.791037805495801, 
++              0.985440262768576, -2.52890913740106, -4.29524634814519, 
++              -5.98519527750281, -4.88659954275053, 0.0957466327314851, 
++              0.201313350626488, 0.849351809157598, 0.48420520104336, 
++              0.62643997675928, 1.13945063379914, -4.04217214895869, 
++              -4.68919816059416, -4.73313805629826, -4.0627015759002,
++              0.923495751608401, -0.396067294450726, 0.244665046194039, 
++              -0.36570474542918, 0.363995718736632, 0.758715172737758, 
++              -3.05567431351817, -4.74337970092605, -4.96364133429136, 
++              -5.06144086942249, 0.262963683605793, -0.181599400661918, 
++              0.149795833258992, -0.105991649100357, 0.21503766242974, 
++              -0.141649861043968, -2.07489346121933, -3.64302004053168, 
++              -5.69277788172285, -5.3689470753418, 1.40718934367933,
++              -0.0085452878747676, -0.219886337273936, 0.0283662345070971,
++              1.23786259577472, 0.199834135215749, -4.53336362894347, 
++              -4.70016052568401, -7.07530853221777, -6.03054443735399, 
++              -0.0995506040524902, 0.116607848697947, 0.157899802233636, 
++              -0.0363184981547607, 0.18385749297074, 0.329351477585333, 
++              -2.1377604820296, -3.62882764786239, -5.11279846492415, 
++              -3.62475631527416, 0.124305286145147, 0.0292507920421885, 
++              -0.0873349194845382, 0.178977764316143, 0.484389128732254,
++              0.265835976421986, 1.87566939226944, 0.1445002084775, 
++              -1.34264222816582, -0.305367634014929, -0.00488431480035087, 
++              -0.000945659564684563, -0.00106126820173145, -0.000413658838890233)
+> psi.sim[81:84] <- c(0,0,0,0)
+> len <- 1000
+> # get simulation
+> mu.sim <- mdfa.wnsim(psi.sim[1:10],rep(1,N),T.sim+burn,Inf)
+> Sigma.mu <- mu.sim[[2]]
+> mu.sim <- mdfa.ucsim(array(t(dpoly.0) %x% diag(N),c(N,N,3)),
++                      mu.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas1.sim <- mdfa.wnsim(psi.sim[11:20],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas1 <- seas1.sim[[2]]
+> seas1.sim <- mdfa.ucsim(array(t(dpoly.1) %x% diag(N),c(N,N,3)),
++                      seas1.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas2.sim <- mdfa.wnsim(psi.sim[21:30],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas2 <- seas2.sim[[2]]
+> seas2.sim <- mdfa.ucsim(array(t(dpoly.2) %x% diag(N),c(N,N,3)),
++                      seas2.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas3.sim <- mdfa.wnsim(psi.sim[31:40],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas3 <- seas3.sim[[2]]
+> seas3.sim <- mdfa.ucsim(array(t(dpoly.3) %x% diag(N),c(N,N,3)),
++                      seas3.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas4.sim <- mdfa.wnsim(psi.sim[41:50],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas4 <- seas4.sim[[2]]
+> seas4.sim <- mdfa.ucsim(array(t(dpoly.4) %x% diag(N),c(N,N,3)),
++                      seas4.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+> seas6.sim <- mdfa.wnsim(psi.sim[61:70],rep(1,N),T.sim+burn,Inf)
+> Sigma.seas6 <- seas6.sim[[2]]
+> seas6.sim <- mdfa.ucsim(array(t(dpoly.6) %x% diag(N),c(N,N,2)),
++                      seas6.sim[[1]])[(burn+1-1):(T.sim+burn-1),]
+> irr.sim <- mdfa.wnsim(psi.sim[71:80],rep(1,N),T.sim,Inf)
+> Sigma.irr <- irr.sim[[2]]
+> irr.sim <- irr.sim[[1]] 
+> x.sim <- mu.sim + seas1.sim + seas2.sim + seas3.sim +
++   seas4.sim + seas6.sim + irr.sim
+> # construct and apply MB WK and WH filters
+> grid <- T.sim - d
+> x.sa.ideal <- mvar.filter(x.sim,sa.wkfilter)
+> x.sa.conc <- mvar.filter(x.sim,sa.whfilter)
+> # get MDFA concurrent filter
+> q <- 120
+> x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(sa.wkfrf,c(0,0),seq(1,6)/6,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(sa.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.sa.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(2+len-q):(T.sim+1-q-len),]
+> # compare in-sample performance
+> perf_alt <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
++ 	mean((x.sa.ideal[,2] - x.sa.mdfa[,2])^2),
++ 	mean((x.sa.ideal[,3] - x.sa.mdfa[,3])^2),
++ 	mean((x.sa.ideal[,4] - x.sa.mdfa[,4])^2)),
++   c(mean((x.sa.ideal[,1] - x.sa.conc[,1])^2),
++ 	mean((x.sa.ideal[,2] - x.sa.conc[,2])^2),
++ 	mean((x.sa.ideal[,3] - x.sa.conc[,3])^2),
++ 	mean((x.sa.ideal[,4] - x.sa.conc[,4])^2)))
+> colnames(perf_alt) <- c("MDFA","MB")
+> rownames(perf_alt) <- c("Series 1","Series 2","Series 3","Series 4")
+> # compare to criterion value
+> print(perf_alt)
+\end{Sinput}
+\begin{Soutput}
+              MDFA        MB
+Series 1 1.6709847 1.7790455
+Series 2 0.6885147 0.7678869
+Series 3 0.1298623 0.1408034
+Series 4 0.4915551 0.5478180
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 1.6859882 0.7031966 0.1261151 0.4929165
+\end{Soutput}
+\end{Schunk}
 
  
 
+\begin{Exercise} {\bf Starts MB Empirical Performance.}  \rm
+\label{exer:starts-mb3}
+ We now examine the performance of MDFA   on the Starts data itself,
+ recognizing that the given structural model is probably mis-specified.  
+ Use the target filter resulting from the  fitted structural model
+  from Example \ref{exam:starts-mb}, truncating ten years of observations at either end
+   of the series.  
+ Use the moving average filter  MDFA  for a process with signal
+ differencing polynomial $\Delta^S (z) = {(1-z)}^2 1_4$ and noise 
+  differencing polynomial $\Delta^N (z) = U(z) 1_4$.  Find the best
+ concurrent filter, setting $q= 120$.
+  Apply both concurrent filters (MB and MDFA)
+ to the data, and compare the relevant portions to the ideal seasonal adjustment.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the seasonal adjustments for all
+  four series.
+\end{Exercise}
+     
+  
 
 
-
-HERE  STM replicate, MDFA for mis-spec, and Ndc.  Connect to HP
+\begin{Schunk}
+\begin{Sinput}
+> T <- dim(starts)[1]
+> N <- dim(starts)[2]
+> # truncation of ideal filter
+> trunc <- 10
+> # construct and apply MB WK and WH filters (from previous exercise)
+> grid <- T - d
+> x.sa.ideal <- mvar.filter(starts,sa.wkfilter[,,(len-trunc*period):(len+trunc*period)])
+> x.sa.conc <- mvar.filter(starts,sa.whfilter[,,(len-trunc*period):(len+trunc*period)])
+> # get MDFA concurrent filter
+> q <- 120
+> x.diff <- filter(starts,dpoly,method="convolution",sides=1)[(d+1):T,]
+> spec.hat <- mdfa.pergram(x.diff,dpoly)
+> m <- floor(grid/2)
+> sa.wkfrf <- mdfa.frf(sa.wkfilter,len,grid)
+> # The Fourier frequencies
+> freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+> constraints.mdfa <- mdfa.getconstraints(sa.wkfrf,c(0,0),seq(1,6)/6,0*diag(N),q)
+> bw.mdfa <- mdfa.filter(sa.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+> x.sa.mdfa <- mvar.filter(starts,bw.mdfa[[1]])[(1+trunc*period-q):(T-q-trunc*period),]
+> # compare in-sample performance
+> perf_emp <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
++ 	mean((x.sa.ideal[,2] - x.sa.mdfa[,2])^2),
++ 	mean((x.sa.ideal[,3] - x.sa.mdfa[,3])^2),
++ 	mean((x.sa.ideal[,4] - x.sa.mdfa[,4])^2)),
++   c(mean((x.sa.ideal[,1] - x.sa.conc[,1])^2),
++ 	mean((x.sa.ideal[,2] - x.sa.conc[,2])^2),
++ 	mean((x.sa.ideal[,3] - x.sa.conc[,3])^2),
++ 	mean((x.sa.ideal[,4] - x.sa.conc[,4])^2)))
+> colnames(perf_emp) <- c("MDFA","MB")
+> rownames(perf_emp) <- colnames(starts)
+> # compare to criterion value
+> print(perf_emp)
+\end{Sinput}
+\begin{Soutput}
+           MDFA        MB
+South 0.4704725 2.2077969
+West  0.2329649 1.2772253
+NE    0.0492615 0.2194089
+MW    0.1030682 0.6088022
+\end{Soutput}
+\begin{Sinput}
+> diag(bw.mdfa[[2]])
+\end{Sinput}
+\begin{Soutput}
+[1] 0.56247291 0.23555290 0.05330723 0.11012622
+\end{Soutput}
+\end{Schunk}
+    
+    
+ The results of these Exercises   reinforces the conclusions of the LLM and STM studies.
+ Namely, MDFA can replicate MB filters and also out-perform when the model is 
+ mis-specified.  Table \ref{tab:starts.mat} summarizes the performances,
+  where ``Structual null process" refers to correct
+  specification (Exercise \ref{exer:starts-mb1}),
+  ``Structural alternative process" refers to mis-specification of the fifth
+   atomic seasonal component 
+   (Exercise \ref{exer:starts-mb2}), and ``Structural empirical process" refers
+   the analysis of the actual Starts series (Exercise \ref{exer:starts-mb3}).
+   The replication achieved by MDFA is not exact, and this is due to statistical
+    error as well as the truncation to $q = 120$ that is used.  In contrast,
+   the out-performance is modest in the case of the Structural alternative process,
+   and is substantial in the case of the Starts data.
+  
+ \begin{table}[]
+\centering
+\caption{Empirical MSE for real-time seasonal adjustment estimators (MB WH filter versus
+ MDFA filter) applied to quadvariate Structural null process,  Structural
+ alternative process,
+ and Structural empirical process,  with target seasonal adjustment
+ given by the null Structural MB seasonal adjustment.  }
+\label{tab:starts.mat}
+\begin{tabular}{cllllll}
+\hline
+& \multicolumn{2}{c}{Null STM} &\multicolumn{2}{c}{Alternative STM} &
+  \multicolumn{2}{c}{Empirical STM} \\
+\hline
+  Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
+  South &   1.66571883773501 & 1.754368960924 & 
+    1.67098474524688  &  1.77904551845038    &  
+    0.470472525210074 &   2.20779690793174 \\
+  West	 &   0.71875642058267 & 0.773745551935818 & 
+    0.688514665138615  &  0.767886924276321    &  
+    0.232964925622461 &   1.2772253306602 \\
+  NE &   0.132405965521752 & 0.143235667314578 & 
+    0.129862254625197  &  0.140803446256257    &  
+    0.0492614997824336 &   0.219408878686708 \\
+  MW	 &   0.529783272644306 & 0.570783113841897 & 
+    0.491555092561617  &  0.54781795034874    &  
+    0.103068171451065 &   0.608802179856651 \\
+\hline      
+\end{tabular}
+\end{table}
  
-
-HERE  Seasonal UC replicate, MDFA for mis-sec, and Starts
-
-
-% Exercise 1
-% 
-% # Simulate a Gaussian VAR(1)  
-% T.sim <- 500 + 2*len
-% N <- 2
-% phi.matrix <- rbind(c(1,.5),c(-.2,.3))
-% innovar.matrix <- diag(N)
-% true.psidelta <- var1.par2psi(phi.matrix,100)
-% gamma.0 <- matrix(solve(diag(N^2) - phi.matrix %x% phi.matrix) %*% 
-% 	matrix(innovar.matrix,ncol=1),nrow=N)
-% x.init <- t(chol(gamma.0)) %*% rnorm(N)
-% x.next <- x.init
-% x.sim <- NULL
-% for(t in 1:T.sim)
-% {
-% 	x.next <- phi.matrix %*% x.next + rnorm(N)
-% 	x.sim <- cbind(x.sim,x.next)
-% }
-% x.sim <- ts(t(x.sim))
-% x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T.sim)[[1]]
-% x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
-% 
-% # construct and apply BW filter
-% bw.filter <- wk.trend[[1]]
-% x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)
-% x.trend.bw12 <- filter(x.sim[,2],bw.filter[1,2,],method="convolution",sides=2)
-% x.trend.bw21 <- filter(x.sim[,1],bw.filter[2,1,],method="convolution",sides=2)
-% x.trend.bw22 <- filter(x.sim[,2],bw.filter[2,2,],method="convolution",sides=2)
-% x.trend.bw <- cbind(x.trend.bw11 + x.trend.bw12,x.trend.bw21 + x.trend.bw22)
-% x.trend.bw <- x.trend.bw[(len+1):(T.sim-len),] 
-%  
-% 
-% # visualize
-% pdf(file="petrolVAR1trends.pdf",width=4, height=4.6)
-% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
-% plot(ts(x.sim[(len+1):(T.sim-len),1]),ylab="Series 1",xlab="",yaxt="n",xaxt="n",col=grey(.7))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.bw[,1],col=1,lwd=2)
-% #lines(ts(x.sim[(len+1):(T.sim-len),1]))
-% plot(ts(x.sim[(len+1):(T.sim-len),2]),ylab="Series 2",xlab="",yaxt="n",xaxt="n",col=grey(.7))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.bw[,2],col=1,lwd=2)
-% #lines(ts(x.sim[(len+1):(T.sim-len),2]))
-% mtext("Time", side = 1, line = 1,outer=TRUE)
-% dev.off()
-% 
-% # get LPP soln using true VAR(1)
-% A.next <- diag(2)
-% A.phi <- matrix(0,2,2)
-% for(j in 1:len)
-% {
-% 	A.next <- A.next %*% phi.matrix
-% 	A.phi <- A.phi + bw.filter[,,(len+1-j)] %*% A.next
-% }
-% bw.lpp <- bw.filter[,,(len+1):(2*len+1)]
-% bw.lpp[,,1] <- bw.lpp[,,1] + A.phi
-% 
-% 
-% # get MDFA concurrent filter
-% q <- 30
-% Grid <- T.sim
-% frf.trend <- mdfa.frf(wk.trend[[1]],len,Grid)
-% spec.hat <- mdfa.pergram(x.sim,1)
-% # choose one of the four constraint scenarios for MDFA	
-% bw.mdfa <- mdfa.unconstrained(frf.trend,spec.hat,q)
-% bw.mdfa <- mdfa.levelconstraint(frf.trend,spec.hat,q)
-% bw.mdfa <- mdfa.tsconstraint(frf.trend,spec.hat,q)
-% bw.mdfa <- mdfa.ltsconstraint(frf.trend,spec.hat,q)
-%  
-% # apply the MDFA concurrent filter
-% x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[[1]][1,1,],method="convolution",sides=1)
-% x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[[1]][1,2,],method="convolution",sides=1)
-% x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[[1]][2,1,],method="convolution",sides=1)
-% x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[[1]][2,2,],method="convolution",sides=1)
-% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-% x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
-% 
-% # construct and apply concurrent BW filter
-% conc.filter <- conc.trend
-% x.trend.conc11 <- filter(x.sim[,1],rev(conc.filter[1,1,]),method="convolution",sides=1)
-% x.trend.conc12 <- filter(x.sim[,2],rev(conc.filter[1,2,]),method="convolution",sides=1)
-% x.trend.conc21 <- filter(x.sim[,1],rev(conc.filter[2,1,]),method="convolution",sides=1)
-% x.trend.conc22 <- filter(x.sim[,2],rev(conc.filter[2,2,]),method="convolution",sides=1)
-% x.trend.conc <- cbind(x.trend.conc11 + x.trend.conc12,x.trend.conc21 + x.trend.conc22)
-% x.trend.conc <- x.trend.conc[(len+1):(T.sim-len),] 
-% 
-% # construct and apply optimal LPP filter
-% x.trend.lpp11 <- filter(x.sim[,1],bw.lpp[1,1,],method="convolution",sides=1)
-% x.trend.lpp12 <- filter(x.sim[,2],bw.lpp[1,2,],method="convolution",sides=1)
-% x.trend.lpp21 <- filter(x.sim[,1],bw.lpp[2,1,],method="convolution",sides=1)
-% x.trend.lpp22 <- filter(x.sim[,2],bw.lpp[2,2,],method="convolution",sides=1)
-% x.trend.lpp <- cbind(x.trend.lpp11 + x.trend.lpp12,x.trend.lpp21 + x.trend.lpp22)
-% x.trend.lpp <- x.trend.lpp[(len+1):(T.sim-len),] 
-% 
-% 
-% 
-% # visualize
-% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
-% plot(ts(x.trend.bw[,1]),ylab="",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
-% 	ylim=c(min(x.trend.bw[,1])-4,max(x.trend.bw[,1])))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.mdfa[,1]-2,col=grey(.4),lwd=1,lty=1)
-% lines(x.trend.lpp[,1]-4,col=grey(.6),lwd=1,lty=1)
-% plot(ts(x.trend.bw[,2]),ylab="",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
-% 	ylim=c(min(x.trend.bw[,2])-4,max(x.trend.bw[,2])))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.mdfa[,2]-2,col=grey(.4),lwd=1,lty=1)
-% lines(x.trend.lpp[,2]-4,col=grey(.6),lwd=1,lty=1)
-% mtext("Time", side = 1, line = 1,outer=TRUE)
-%  
-% # compare in-sample performance: MDFA for series, and then Conc for series
-% print(c(mean((x.trend.bw[,1] - x.trend.mdfa[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.mdfa[,2])^2)))
-% print(c(mean((x.trend.bw[,1] - x.trend.conc[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.conc[,2])^2)))
-% print(c(mean((x.trend.bw[,1] - x.trend.lpp[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.lpp[,2])^2)))
-% 
-% # compare to criterion value
-% print(diag(bw.mdfa[[2]]))
-% 
-% 
-
- 
-
-% # construct and apply BW filter
-% bw.filter <- wk.trend[[1]]
-% x.trend.bw11 <- filter(x.sim[,1],bw.filter[1,1,],method="convolution",sides=2)
-% x.trend.bw12 <- filter(x.sim[,2],bw.filter[1,2,],method="convolution",sides=2)
-% x.trend.bw21 <- filter(x.sim[,1],bw.filter[2,1,],method="convolution",sides=2)
-% x.trend.bw22 <- filter(x.sim[,2],bw.filter[2,2,],method="convolution",sides=2)
-% x.trend.bw <- cbind(x.trend.bw11 + x.trend.bw12,x.trend.bw21 + x.trend.bw22)
-% x.trend.bw <- x.trend.bw[(len+1):(T.sim-len),] 
-% 
-% # visualize
-% pdf(file="petrolLLMtrendsNull.pdf",width=4, height=4.6)
-% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
-% plot(ts(x.sim[(len+1):(T.sim-len),1]),ylab="Consumption",xlab="",yaxt="n",xaxt="n",col=grey(.7))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.bw[,1],col=1,lwd=1)
-% plot(ts(x.sim[(len+1):(T.sim-len),2]),ylab="Imports",xlab="",yaxt="n",xaxt="n",col=grey(.7))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.bw[,2],col=1,lwd=1)
-% mtext("Time", side = 1, line = 1,outer=TRUE)
-% dev.off()
-% 
-% # get MDFA concurrent filter for I(1) case
-% q <- 30
-% x.diff <- diff(x.sim)
-% spec.hat <- mdfa.pergram(x.diff,c(1,-1))
-% Grid <- T.sim - 1
-% frf.trend <- mdfa.frf(wk.trend[[1]],len,Grid)
-% #bw.mdfa <- mdfa.levelconstraint(frf.trend,spec.hat,q)[[1]]
-% constraints.mdfa <- mdfa.getconstraints(frf.trend,0,NULL,q)
-% bw.mdfa <- mdfa.filter(frf.trend,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])[[1]]
-% 
-% # apply the MDFA concurrent filter
-% x.trend.mdfa11 <- filter(x.sim[,1],bw.mdfa[1,1,],method="convolution",sides=1)
-% x.trend.mdfa12 <- filter(x.sim[,2],bw.mdfa[1,2,],method="convolution",sides=1)
-% x.trend.mdfa21 <- filter(x.sim[,1],bw.mdfa[2,1,],method="convolution",sides=1)
-% x.trend.mdfa22 <- filter(x.sim[,2],bw.mdfa[2,2,],method="convolution",sides=1)
-% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12,x.trend.mdfa21 + x.trend.mdfa22)
-% x.trend.mdfa <- x.trend.mdfa[(len+1):(T.sim-len),] 
-% 
-% # construct and apply concurrent BW filter
-% conc.filter <- conc.trend
-% x.trend.conc11 <- filter(x.sim[,1],rev(conc.filter[1,1,]),method="convolution",sides=1)
-% x.trend.conc12 <- filter(x.sim[,2],rev(conc.filter[1,2,]),method="convolution",sides=1)
-% x.trend.conc21 <- filter(x.sim[,1],rev(conc.filter[2,1,]),method="convolution",sides=1)
-% x.trend.conc22 <- filter(x.sim[,2],rev(conc.filter[2,2,]),method="convolution",sides=1)
-% x.trend.conc <- cbind(x.trend.conc11 + x.trend.conc12,x.trend.conc21 + x.trend.conc22)
-% x.trend.conc <- x.trend.conc[(len+1):(T.sim-len),] 
-% 
-% # visualize
-% pdf(file="petrolLLMrealtimeNull.pdf",width=4, height=4.6)
-% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(2,1),cex.lab=.8)
-% plot(ts(x.trend.bw[,1]),ylab="Consumption",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
-% 	ylim=c(min(x.trend.bw[,1])-2/2,max(x.trend.bw[,1])))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.mdfa[,1]-1/2,col=grey(.4),lwd=1,lty=1)
-% lines(x.trend.conc[,1]-2/2,col=grey(.6),lwd=1,lty=1)
-% plot(ts(x.trend.bw[,2]),ylab="Imports",xlab="",yaxt="n",xaxt="n",col=1,lwd=1,
-% 	ylim=c(min(x.trend.bw[,2])-2,max(x.trend.bw[,2])))
-% axis(1,cex.axis=.5)
-% axis(2,cex.axis=.5)
-% lines(x.trend.mdfa[,2]-1,col=grey(.4),lwd=1,lty=1)
-% lines(x.trend.conc[,2]-2,col=grey(.6),lwd=1,lty=1)
-% mtext("Time", side = 1, line = 1,outer=TRUE)
-% dev.off()
-%  
-% # compare in-sample performance: MDFA for series, and then Conc for series
-% print(c(mean((x.trend.bw[,1] - x.trend.mdfa[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.mdfa[,2])^2)))
-% print(c(mean((x.trend.bw[,1] - x.trend.conc[,1])^2),
-% 	mean((x.trend.bw[,2] - x.trend.conc[,2])^2)))
-% 
-% 
-
-
-
+  
 %  note: MDFA_con replaces Constraints,
 %    includes material from Replication
 
