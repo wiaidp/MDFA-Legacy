@@ -765,7 +765,7 @@ Simulate a sample of size $T=5000$ from a
   $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
  Use the moving average filter
  MDFA  (Proposition \ref{prop:mdfa.quadsoln}) to find the best
- concurrent filter, setting $q= 12$. 
+ concurrent filter, setting $q= 20$. 
  Apply this concurrent filter 
  to the simulation, and compare the relevant portions to the ideal trend.
  Also determine the in-sample performance, in comparison to the criterion value
@@ -774,7 +774,7 @@ Simulate a sample of size $T=5000$ from a
 \end{Exercise}
 
 <<exercise_mdfa_var1.filtering,echo=True>>=
-# Simulate a Gaussian VAR(1) of sample size 2500:
+# Simulate a Gaussian VAR(1) of sample size 5000:
 set.seed(1234)
 T <- 5000
 N <- 2
@@ -1565,7 +1565,7 @@ Suppose that the causal filters of interest belong to a class
   Hence (\ref{eq:dfa-mvar}) becomes
 \begin{equation}
  \label{eq:dfa-mvar2}
-   \EE [ \varepsilon_t \, \varepsilon_t^{\prime} ]  = 
+   \EE [ E_t \, E_t^{\prime} ]  = 
    { \langle  \left[ \Psi ( e^{-i \omega} ) -  
    \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   F (\omega) \,
   {  \left[ \Psi (e^{i \omega}) -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.

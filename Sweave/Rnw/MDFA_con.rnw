@@ -36,7 +36,7 @@ arising from time-varying means, a form of non-stationarity.
   If $\EE [ X_t ] = \mu$, some nonzero constant,  then we require $\Lambda (1) = 0$.
   This is because the mean of the filter error is
   \[
-   \Lambda (B) \, \EE [ X_t] = \Lambda(B) \, \mu = \sum_j \lambda (j) \, \mu =
+   \Lambda (L) \, \EE [ X_t] = \Lambda(L) \, \mu = \sum_j \lambda (j) \, \mu =
    \Lambda (1) \, \mu,
   \]
   and this is zero only if $\Lambda (1) = 0$.  This is called a Level Constraint (LC).
@@ -48,7 +48,7 @@ arising from time-varying means, a form of non-stationarity.
  of a linear time trend.  Then it is required that  $\partial {\Lambda} (1) = 0$
   in addition to the LC,  which is seen as follows:
   \[
-   \Lambda (B) \, \EE [ X_t] = \Lambda(B) \, \mu \, t =   \mu \, \sum_j \lambda (j) \, (t-j)
+   \Lambda (L) \, \EE [ X_t] = \Lambda(L) \, \mu \, t =   \mu \, \sum_j \lambda (j) \, (t-j)
    = \mu \, \left(t \, \sum_j \lambda (j) - \sum_j j \, \lambda (j) \right)
     = \mu \, t \, \Lambda(1) - \mu \, \partial \Lambda (1).
   \]
@@ -596,7 +596,7 @@ holds, and hence the   spectral representation for
    \sum_{k=0}^{t-1} \xi (k) \, \mu +
   \int_{-\pi}^{\pi}
    \frac{ e^{i \omega t} - \sum_{h=0}^{d-1} A_{t} (h) \,  e^{-i \omega h } 
-    }{ \Delta (e^{-i \omega}) } \, \ZZ (d\omega).
+    }{ \Delta (e^{-i \omega}) } \, \mathcal{Z}  (d\omega).
 \end{equation}
 \end{Theorem}  
   
@@ -640,11 +640,11 @@ via application of (\ref{eq:xi-def}).  Next,
 \begin{align*}
  X_t  & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
   \sum_{j=0}^{t-1} \xi (j) \,  \left( \mu + 
-  \int_{-\pi}^{\pi} e^{i \omega (t-j)}  \, \ZZ (d\omega) \right) \\
+  \int_{-\pi}^{\pi} e^{i \omega (t-j)}  \, \mathcal{Z} (d\omega) \right) \\
   & = \sum_{h=0}^{d-1} A_{t} (h) \, X_{-h} + 
   \sum_{j=0}^{t-1} \xi (j) \, \mu  +
     \int_{-\pi}^{\pi} e^{i \omega t } \, \sum_{j=0}^{t-1} \xi (j) \,e^{-i \omega j}
-    \, \ZZ (d\omega),
+    \, \mathcal{Z}  (d\omega),
 \end{align*}
   from which (\ref{eq:nonstatRep-spec}) follows.  $\quad \Box$
  
@@ -688,7 +688,7 @@ via application of (\ref{eq:xi-def}).  Next,
  X_t = \sum_{k=1}^d \phi_t (k) p^{(k)} (L) \, X_{0} + 
   \sum_{k=0}^{t-1} \xi (k) \, \mu  +  \int_{-\pi}^{\pi}
  \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_t (k) \, 
- p^{(k)} ( e^{-i \omega  } )}{ \Delta (e^{-i \omega}) } \,  \ZZ (d\omega),
+ p^{(k)} ( e^{-i \omega  } )}{ \Delta (e^{-i \omega}) } \,  \mathcal{Z}  (d\omega),
 \end{equation}
  where $p^{(k)} (L)$ acts on $x_0$ by shifting the time index $t=0$
  back in time for each power of $L$.  
@@ -706,7 +706,7 @@ via application of (\ref{eq:xi-def}).  Next,
    & +   \int_{-\pi}^{\pi}
    \frac{ e^{i \omega t} \, \Psi (e^{-i \omega}) 
    - \sum_{k=1}^d \Psi (L) \phi_t (k) \, p^{(k)} (e^{-i \omega}) 
-    }{ \Delta (e^{-i \omega}) } \, \ZZ (d\omega).
+    }{ \Delta (e^{-i \omega}) } \, \mathcal{Z}  (d\omega).
  \end{align*}
  \end{Proposition}
   
@@ -1618,11 +1618,11 @@ Proposition \ref{prop:filter-decompose}.
  function as $\det D_{\Psi } (\vartheta, G)$ for
 \begin{equation}
 \label{eq:mdfa-criterion-nonstat}
- D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Lambda} (z)   \, 
- G \,  {\widetilde{\Lambda} (z) }^*   \rangle }_0
- = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \, 
- G \, {|\Delta (z) |}^{-2} \,
-  {  \left[ \Psi (z) -  \widehat{\Psi}_{\vartheta} (z) \right] }^{*} \rangle }_0.
+ D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Lambda} (e^{-i \omega})   \, 
+ G (\omega) \,  {\widetilde{\Lambda} (e^{i \omega}) }^{\prime}   \rangle }_0
+ = { \langle  \left[ \Psi (e^{-i \omega}) - \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,  G (\omega) \, {|\Delta (e^{-i \omega}) |}^{-2} \,
+  {  \left[ \Psi (e^{i \omega}) - 
+  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
 \end{equation}
   The second expression in (\ref{eq:mdfa-criterion-nonstat}) 
   utilizes (\ref{eq:delta.factor}), and employs the understanding
@@ -2419,12 +2419,18 @@ diag(bw.mdfa[[2]])
   \multicolumn{2}{c}{Empirical LLM} \\
 \hline
   Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
-  Consumption &   \Sexpr{perf_null[1,1]} & \Sexpr{perf_null[1,2]} & 
-    \Sexpr{perf_alt[1,1]}  &  \Sexpr{perf_alt[1,2]}    &  
-    \Sexpr{perf_emp[1,1]} &   \Sexpr{perf_emp[1,2]} \\
-  Imports	 &   \Sexpr{perf_null[2,1]} & \Sexpr{perf_null[2,2]} & 
-    \Sexpr{perf_alt[2,1]}  &  \Sexpr{perf_alt[2,2]}    &  
-    \Sexpr{perf_emp[2,1]} &   \Sexpr{perf_emp[2,2]} \\
+  Consumption &   \Sexpr{round(perf_null[1,1],digits=6)} &
+  \Sexpr{round(perf_null[1,2],digits=6)} & 
+    \Sexpr{round(perf_alt[1,1],digits=6)}  &  
+    \Sexpr{round(perf_alt[1,2],digits=6)}    &  
+    \Sexpr{round(perf_emp[1,1],digits=6)} &   
+    \Sexpr{round(perf_emp[1,2],digits=6)} \\
+  Imports	 &   \Sexpr{round(perf_null[2,1],digits=6)} &
+  \Sexpr{round(perf_null[2,2],digits=6)} & 
+    \Sexpr{round(perf_alt[2,1],digits=6)}  &  
+    \Sexpr{round(perf_alt[2,2],digits=6)}    &  
+    \Sexpr{round(perf_emp[2,1],digits=6)} & 
+    \Sexpr{round(perf_emp[2,2],digits=6)} \\
 \hline      
 \end{tabular}
 \end{table}
@@ -2715,12 +2721,18 @@ diag(bw.mdfa[[2]])
   \multicolumn{2}{c}{Empirical STM} \\
 \hline
   Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
-  Consumption &   \Sexpr{perf_null[1,1]} & \Sexpr{perf_null[1,2]} & 
-    \Sexpr{perf_alt[1,1]}  &  \Sexpr{perf_alt[1,2]}    &  
-    \Sexpr{perf_emp[1,1]} &   \Sexpr{perf_emp[1,2]} \\
-  Imports	 &   \Sexpr{perf_null[2,1]} & \Sexpr{perf_null[2,2]} & 
-    \Sexpr{perf_alt[2,1]}  &  \Sexpr{perf_alt[2,2]}    &  
-    \Sexpr{perf_emp[2,1]} &   \Sexpr{perf_emp[2,2]} \\
+  Consumption &   \Sexpr{round(perf_null[1,1],digits=6)} &
+  \Sexpr{round(perf_null[1,2],digits=6)} & 
+    \Sexpr{round(perf_alt[1,1],digits=6)}  &  
+    \Sexpr{round(perf_alt[1,2],digits=6)}    &  
+    \Sexpr{round(perf_emp[1,1],digits=6)} & 
+    \Sexpr{round(perf_emp[1,2],digits=6)} \\
+  Imports	 &   \Sexpr{round(perf_null[2,1],digits=6)} & 
+  \Sexpr{round(perf_null[2,2],digits=6)} & 
+    \Sexpr{round(perf_alt[2,1],digits=6)}  &
+    \Sexpr{round(perf_alt[2,2],digits=6)}    &  
+    \Sexpr{round(perf_emp[2,1],digits=6)} & 
+    \Sexpr{round(perf_emp[2,2],digits=6)} \\
 \hline      
 \end{tabular}
 \end{table}
@@ -3151,18 +3163,30 @@ diag(bw.mdfa[[2]])
   \multicolumn{2}{c}{Empirical STM} \\
 \hline
   Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
-  South &   \Sexpr{perf_null[1,1]} & \Sexpr{perf_null[1,2]} & 
-    \Sexpr{perf_alt[1,1]}  &  \Sexpr{perf_alt[1,2]}    &  
-    \Sexpr{perf_emp[1,1]} &   \Sexpr{perf_emp[1,2]} \\
-  West	 &   \Sexpr{perf_null[2,1]} & \Sexpr{perf_null[2,2]} & 
-    \Sexpr{perf_alt[2,1]}  &  \Sexpr{perf_alt[2,2]}    &  
-    \Sexpr{perf_emp[2,1]} &   \Sexpr{perf_emp[2,2]} \\
-  NE &   \Sexpr{perf_null[3,1]} & \Sexpr{perf_null[3,2]} & 
-    \Sexpr{perf_alt[3,1]}  &  \Sexpr{perf_alt[3,2]}    &  
-    \Sexpr{perf_emp[3,1]} &   \Sexpr{perf_emp[3,2]} \\
-  MW	 &   \Sexpr{perf_null[4,1]} & \Sexpr{perf_null[4,2]} & 
-    \Sexpr{perf_alt[4,1]}  &  \Sexpr{perf_alt[4,2]}    &  
-    \Sexpr{perf_emp[4,1]} &   \Sexpr{perf_emp[4,2]} \\
+  South &   \Sexpr{round(perf_null[1,1],digits=6)} &
+  \Sexpr{round(perf_null[1,2],digits=6)} & 
+    \Sexpr{round(perf_alt[1,1],digits=6)}  &
+    \Sexpr{round(perf_alt[1,2],digits=6)}    &  
+    \Sexpr{round(perf_emp[1,1],digits=6)} &
+    \Sexpr{round(perf_emp[1,2],digits=6)} \\
+  West	 &   \Sexpr{round(perf_null[2,1],digits=6)} &
+  \Sexpr{round(perf_null[2,2],digits=6)} & 
+    \Sexpr{round(perf_alt[2,1],digits=6)}  &  
+    \Sexpr{round(perf_alt[2,2],digits=6)}    &  
+    \Sexpr{round(perf_emp[2,1],digits=6)} & 
+    \Sexpr{round(perf_emp[2,2],digits=6)} \\
+  NE &   \Sexpr{round(perf_null[3,1],digits=6)} &
+  \Sexpr{round(perf_null[3,2],digits=6)} & 
+    \Sexpr{round(perf_alt[3,1],digits=6)}  &  
+    \Sexpr{round(perf_alt[3,2],digits=6)}    &  
+    \Sexpr{round(perf_emp[3,1],digits=6)} &
+    \Sexpr{round(perf_emp[3,2],digits=6)} \\
+  MW	 &   \Sexpr{round(perf_null[4,1],digits=6)} &
+  \Sexpr{round(perf_null[4,2],digits=6)} & 
+    \Sexpr{round(perf_alt[4,1],digits=6)}  &  
+    \Sexpr{round(perf_alt[4,2],digits=6)}    &  
+    \Sexpr{round(perf_emp[4,1],digits=6)} &
+    \Sexpr{round(perf_emp[4,2],digits=6)} \\
 \hline      
 \end{tabular}
 \end{table}

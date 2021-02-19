@@ -1,4 +1,3 @@
-%\SweaveOpts{concordance=FALSE}
 
 \chapter{Multivariate Direct Filter Analysis for Co-integrated Processes}
 \label{chap:coint}
@@ -13,9 +12,254 @@ Chapter \ref{chap:int} provided the basic treatment of MDFA for non-stationary
 \section{Co-integration at Frequency Zero} 
  \label{sec:coint-zero}
 
-HERE Marc's material, VAR(1) coint example
+We illustrate how MDFA can be adapted to non-stationary processes that are co-integrated
+in the classic sense, viz. being co-integrated at frequency zero.  
+ Suppose that the process $\{ X_t \}$ is non-stationary with differencing operator
+  $\Delta (L) = 1 - L$, so that $X_t- X_{t-1} = \partial X_t$ is stationary.  However,
+  we also assume that there exists a vector $\beta$ such that
+  $Z_t = \beta^{\prime} X_t$ is stationary (and univariate) with mean zero.
+  Importantly, a stationary transformation of
+   the data process is accomplished by considering the cross-sectional dimension, and not
+   the temporal dimension.  
+   
+ The LPP takes an interesting form in this situation. Recall that for non-stationary 
+ processes, a sufficient condition for the error process $E_t = Y_t - \widehat{Y}_t$ 
+ to have mean zero is that the signal and noise conditions are satisfied, 
+ i.e., that $\Psi (\zeta)$ and $\widehat{\Psi} (\zeta)$ are equal for 
+ $\zeta = e^{- i \omega}$  corresponding to signal and noise frequencies $\omega$. 
+ (Recall the discussion in Section \ref{sec:mdfa-nonstat}.)  However, when 
+ co-integration is present it is possible to relax these constraints.
+ In particular, in the classical case there are no noise frequencies, and the
+  signal frequency is $\omega = 0$, so that $\zeta =1$.  Then the signal condition states
+  that
+  \begin{equation}
+  \label{eq:zero-constraint-intcase}
+   \widehat{\Psi} (1) = \Psi (1).
+  \end{equation}
+  In general, the filter discrepancy is
+\begin{align*}
+ \Lambda (z) & =  \Psi (z) - \widehat{\Psi} (z) \\
+  & = \left( \Psi (z) - \Psi (1) \right) 
+   - \left( \widehat{\Psi} (z) - \widehat{\Psi} (1) \right) +
+    \left( \Psi (1) - \widehat{\Psi} (1) \right).
+  \end{align*}
+ Since $E_t = \Delta (L) X_t$, in order for the  filter error to have mean zero
+  it is sufficient that  $1-z = \Delta (z)$ can be factored from each of these terms.
+  Note that the signal condition (\ref{eq:zero-constraint-intcase}) ensures
+  that the third term is zero, and 
+  Proposition \ref{prop:filter-decompose} guarantees that the first two terms can
+  be factored in the requisite manner.  However, when co-integration is present 
+  it is no longer necessary that (\ref{eq:zero-constraint-intcase}) holds; it is sufficient
+  that this term equals $\alpha \beta^{\prime}$ for some column vector $\alpha$.
+  This is because, in such a case
+\[
+    \left( \Psi (1) - \widehat{\Psi} (1) \right) X_t 
+    = \alpha \beta^{\prime} X_t = \alpha Z_t,
+\]
+  which is stationary with mean zero.  This suggests an alternative condition:
+ \begin{equation}
+  \label{eq:zero-constraint-cointcase}
+   \widehat{\Psi} (1) = \Psi (1) - \alpha \beta^{\prime}, 
+  \end{equation}
+  for some vector $\alpha$. Using (\ref{eq:zero-constraint-cointcase}), we can show that
+\begin{equation}
+\label{eq:lambda-delta-alpha}
+ \Lambda (z) = \widetilde{\Lambda} (z) \, \Delta (z) + \alpha \beta^{\prime}.
+\end{equation}
+ This framework can be generalized slightly, by allowing for multiple co-integrating
+  vectors -- so we can allow $\beta$ to be of dimension
+  $n \times r$, where $n-r$ is the co-integrating rank.
+  Then $Z_t = \beta^{\prime} X_t$ has dimension $r$ (and is stationary with mean zero),
+  and $\alpha$ will 
+  be $n \times r$-dimensional, so that $\alpha \beta^{\prime}$ is $n \times n$ of rank $r$.
+  
+  Solving for $\widetilde{\Lambda} (z)$, we obtain
+\[
+  \widetilde{\Lambda} (L) = \frac{ \Lambda (L) - \alpha \beta^{\prime}}{ \Delta (L)},
+\]
+  which is an absolutely convergent filter.  Next, we can derive the filter MSE,
+  observing that the filter error is
+\[
+  E_t = \Lambda (L) X_t = \widetilde{\Lambda} (L) \partial X_t + \alpha Z_t
+   = [ \alpha,  \widetilde{\Lambda} (L) ] \, \left[ \begin{array}{c} Z_t \\ \partial X_t 
+    \end{array} \right].
+\]
+  Noting that $ \{ Z_t, \partial X_t \}$ forms a $n+r$-dimensional stationary time series,
+  the spectral density partitions accordingly into the following form:
+\[
+   f (\omega) =  \left[ \begin{array}{cc}
+     f_{Z,Z} (\omega) &  f_{Z, \partial X} (\omega) \\ 
+     f_{\partial X, Z} (\omega) & f_{\partial X, \partial X} (\omega)
+     \end{array} \right].
+\]
+ Now we can compute the co-integration generalization of (\ref{eq:dfa-mvar2}):
+\begin{align*}
+\EE [ E_t \, E_t^{\prime} ]  & = 
+   { \langle  [ \alpha,  \widetilde{\Lambda} (e^{-i \omega}) ]\,   f (\omega) \,
+  {  [ \alpha,  \widetilde{\Lambda} (e^{i \omega}) ] }^{\prime} \rangle }_0 \\
+  & = { \langle \alpha \, f_{Z,Z} (\omega) \, \alpha^{\prime} \rangle }_0
+   + { \langle \widetilde{\Lambda} (e^{-i \omega}) \, f_{\partial X, Z} (\omega) \,
+     \alpha^{\prime} \rangle }_0 \\
+    & +  { \langle  \alpha \, f_{Z, \partial X} (\omega) \, 
+    { \widetilde{\Lambda} (e^{i \omega})}^{\prime}
+      \rangle }_0 
+    + { \langle \widetilde{\Lambda} (e^{-i \omega}) \,
+      f_{\partial X, \partial X} (\omega) \, 
+      { \widetilde{\Lambda} (e^{i \omega})}^{\prime}
+      \rangle }_0.
+\end{align*}
+  At this point we could substitute the periodogram for the joint process 
+  $ \{ Z_t, \partial X_t \}$, but a simplified expression for the filter MSE can
+   be derived, as shown below.
 
-HERE examples from paper Petrol and Ndc revisted with coint constraints
+\begin{Proposition}
+ \label{prop:coint-base-case}
+  Suppose that $\{ X_t \}$ is non-stationary with differencing operator $\Delta (L) = 1-L$,
+  such that $\beta$ is a co-integrating vector, whereby $Z_t = \beta^{\prime} X_t$ 
+  is stationary with mean zero. If (\ref{eq:zero-constraint-cointcase}) holds for
+   some $\alpha$, then the filter MSE can be expressed as
+\[
+   { \langle  \left[ \Psi (e^{-i \omega}) - 
+   \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \, 
+ f_{\partial X, \partial X} (\omega) \, {|\Delta (e^{-i \omega}) |}^{-2} \,
+  {  \left[ \Psi (e^{i \omega}) -  
+  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
+\]
+\end{Proposition}
+
+\paragraph{Proof of Proposition \ref{prop:coint-base-case}.}
+ Observe that 
+\[  
+  \beta^{\prime} \partial X_t = \Delta (L) \beta^{\prime} X_t = \Delta (L) Z_t,
+\]
+  from which it follows that
+\begin{align*}
+  \beta^{\prime} f_{\partial X, Z} (\omega) & =  \Delta (e^{-i \omega}) f_{Z,Z} (\omega) \\
+    \beta^{\prime} f_{\partial X, \partial X} (\omega) & =  
+    \Delta (e^{-i \omega}) f_{Z,\partial X} (\omega) \\
+   \beta^{\prime} f_{\partial X, \partial X} (\omega) \beta & =  
+    \Delta (e^{-i \omega}) f_{Z,Z} (\omega) \Delta (e^{i \omega}).
+\end{align*}
+ Then using   (\ref{eq:lambda-delta-alpha}), 
+\begin{align*}
+ & \Lambda (e^{-i \omega}) f_{\partial X, \partial X} (\omega) 
+   {\Lambda (e^{i \omega}) }^{\prime}  \\
+  & = {| \Delta (e^{-i \omega}) |}^2 
+   \left( \widetilde{\Lambda} (e^{-i \omega}) f_{\partial X, \partial X} (\omega)
+     {\widetilde{\Lambda} (e^{i \omega}) }^{\prime} +
+      \widetilde{\Lambda} (e^{-i \omega}) f_{\partial X, Z} (\omega)
+     {\alpha }^{\prime} \right. \\
+ & \;  +    \left. \alpha f_{\partial X, \partial X} (\omega)
+     {\widetilde{\Lambda} (e^{i \omega}) }^{\prime} +
+     \alpha f_{\partial X, \partial X} (\omega)  { \alpha }^{\prime} \right).
+  \end{align*}
+Thus,
+\[
+  \frac{  \Lambda (e^{-i \omega}) f_{\partial X, \partial X} (\omega) 
+   {\Lambda (e^{i \omega}) }^{\prime}  }{ {| \Delta (e^{-i \omega}) |}^2 }
+   =  [ \alpha,  \widetilde{\Lambda} (e^{-i \omega}) ]\,   f (\omega) \,
+  {  [ \alpha,  \widetilde{\Lambda} (e^{i \omega}) ] }^{\prime},
+\]
+  which proves the result. $\quad \Box$
+  
+\vspace{.5cm}
+
+The practical consequence of Proposition \ref{prop:coint-base-case} is that
+ we extend the non-stationary MDFA of (\ref{eq:mdfa-criterion-nonstat})
+ seamlessly to the co-integrated situation, simply by adjusting the 
+ filter constraints to (\ref{eq:zero-constraint-cointcase}).
+  
+  
+
+\begin{Exercise} {\bf Co-integrated VAR(1) LPP.} \rm
+\label{exer:var1coint}
+ This exercise examines MDFA applied to the trend of a co-integrated VAR(1) process.
+Simulate a sample of size $T=5000$ from a
+ bivariate VAR(1) process with 
+\[
+  \Phi = \left[ \begin{array}{cc} 1/3 & 2/9 \\ 2 & 1/3 \end{array} \right]
+\]
+ and $\Sigma$ equal to the identity.  The eigenvalues are $1$ and $-1/3$.
+  Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
+  $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
+ Use the moving average filter
+ MDFA  (Proposition \ref{prop:mdfa.quadsoln}) to find the best
+ concurrent filter, setting $q= 12$.
+  Apply this concurrent filter 
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa}).
+  Target the trends for both time series.
+\end{Exercise}
+
+HERE  finish coding
+
+<<exercise_mdfa_var1_coint.filtering,echo=True>>=
+# Simulate a Gaussian VAR(1) of sample size 5000:
+set.seed(1234)
+T <- 5000
+N <- 2
+phi.matrix <- rbind(c(1/3,2/9),c(2,1/3))
+innovar.matrix <- diag(N)
+#true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
+#gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
+#gamma.0 <- gamma[,,1]
+#x.init <- t(chol(gamma.0)) %*% rnorm(N)
+x.init <- rep(0,N)
+x.next <- x.init
+x.sim <- NULL
+for(t in 1:T)
+{
+	x.next <- phi.matrix %*% x.next + t(chol(innovar.matrix)) %*% rnorm(N)
+	x.sim <- cbind(x.sim,x.next)
+}
+x.sim <- ts(t(x.sim))
+#x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
+#x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+
+# construct and apply low pass filter
+mu <- pi/6
+len <- 1000
+lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+lp.filter <- c(rev(lp.filter),lp.filter[-1])
+x.trend.ideal <- mvar.filter(x.sim,array(t(lp.filter) %x% diag(N),c(N,N,(2*len+1))))
+
+# get MDFA concurrent filter
+q <- 20
+grid <- T
+m <- floor(grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+
+# frf for ideal low-pass
+frf.psi <- rep(0,grid)
+frf.psi[abs(freq.ft) <= mu] <- 1
+frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+frf.psi <- array(frf.psi,c(N,N,grid))
+spec.hat <- mdfa.pergram(x.sim,1)	
+lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
+ 
+# apply the MDFA concurrent filter
+x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa[[1]])[(len-q+2):(T-q+1-len),]
+
+# compare in-sample performance
+print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
+
+# compare to criterion value
+diag(lp.mdfa[[2]])
+@
+
+
+
+
+HERE  LLM with common trend,  Petrol example
+
+HERE STM with common trend, Ndc revisted with coint constraints
+
+
+
+
 
 \section{A General Treatment of Co-integration}
 \label{sec:coint-gen}
@@ -33,68 +277,74 @@ the data process may only reduce the order of non-stationarity somewhat,
 \begin{Illustration} {\bf Latent Dynamic Factor Processes.} \rm
 \label{ill:dyn-fact}
  Consider a non-stationary process with differencing polynomial 
- $\delta (z) = \prod_{\ell=1}^p {(1 - e^{i \omega_{\ell}} z )}^{q_{\ell}}$, 
- where $q_{\ell}$ is the  multiplicity of each unit root at 
-  frequency $\omega_{\ell}$.  When $\omega_{\ell}$ is not $0$ or $\pi$,
- a conjugate factor must appear in $\delta (z)$.  
-  By a convenient abuse of notation, we denote
-the pairing of such conjugate factors by ${(1 - e^{i \omega_{\ell} } z)}^{q_{\ell}}$, 
-  with the understanding that
- $q_{\ell} $ is even and denotes the product of conjugate factors.
-
+ $\Delta (z) = \prod_{\ell=1}^p \Delta^{(\ell)} (z)$, where
+\[
+  \Delta^{(\ell)} (z) = \begin{cases}
+ {(1 - e^{i \omega_{\ell}} z )}^{q_{\ell}} {(1 - e^{-i \omega_{\ell}} z )}^{q_{\ell}}   
+ \quad \mbox{if} \; \omega_{\ell} \neq 0, \pi \\
+ {(1 - e^{i \omega_{\ell}} z )}^{q_{\ell}} \quad \mbox{if} \; \omega_{\ell} = 0, \pi.
+ \end{cases}
+\]
+ Here $q_{\ell}$ is the  multiplicity of each unit root at 
+  frequency $\omega_{\ell}$, which are assumed to be distinct.
 Suppose that the data process can be written as the sum of
  non-stationary latent processes, each of which has differencing
- polynomial ${(1 - e^{i \omega_{\ell}} z )}^{q_{\ell}}$, plus a
+ polynomial $\Delta^{(\ell)} (z)$, plus a
  residual stationary process.  We write this as
 \begin{equation}
  \label{eq:chapnstat_structural}
  X_t = \sum_{\ell=1}^p S^{(\ell)}_t + S^{(0)}_t,
 \end{equation}
- where ${(1 - e^{i \omega_{\ell}} L )}^{q_{\ell}} S^{(\ell)}_t$ is
+ where $\Delta^{(\ell)} (z) S^{(\ell)}_t$ is
  stationary for each $1 \leq \ell \leq p$, and $S^{(0)}_t$ is
  stationary as well.  Let the
- reduced polynomials $\delta^{(\ell)} (z) = \delta (z) \, {(1 -
- e^{i \omega_{\ell}} z )}^{-q_{\ell}}$ be defined.  Then applying
- $\delta (L)$ to the structural equation (\ref{eq:chapnstat_structural}) yields
+ reduced polynomials $\Delta^{(-\ell)} (z)$ be defined via
 \[
- \partial X_t   = \sum_{\ell=1}^p \, \delta^{(\ell)} (L) \partial
- S^{(\ell)}_t + \delta (L) S^{(0)}_t.
+  \Delta^{(-\ell)} (z) = \prod_{k \neq \ell} \Delta^{(k)} (z).
+\]
+  Then applying $\Delta (L)$ to the structural
+  equation (\ref{eq:chapnstat_structural}) yields
+\[
+ \partial X_t   = \sum_{\ell=1}^p \, \Delta^{(-\ell)} (L) \partial
+ S^{(\ell)}_t + \Delta (L) S^{(0)}_t.
 \]
    Each stationary latent process $\partial S^{(\ell)}_t$ may have
   singularities in its spectral density matrix, such that it can be
-  represented as $\Lambda^{(\ell)}$ times some $C^{(\ell)}_t$, a
+  represented as $C^{(\ell)}$ times some $Z^{(\ell)}_t$, a
  stationary process of reduced dimension with spectral density
  matrix invertible at all frequencies.  Such a latent process is
- governed by a dynamic factor model (DFM), with $\Lambda^{(\ell)} =
+ governed by a dynamic factor model (DFM), with $C^{(\ell)} =
  1_n$ recovering the general case.  We actually require
- $\Lambda^{(0)} = 1_n$ in order to guarantee that the spectrum of
+ $C^{(0)} = 1_n$ in order to guarantee that the spectrum of
  $\{ \partial X_t \}$ is non-singular except at a finite number of
  frequencies.
 
  Suppose that $\beta$ is a vector such that $\beta^{\prime}
- \Lambda^{(k)} = 0$ for some $1 \leq k \leq p$.  Then
+ C^{(k)} = 0$ for some $1 \leq k \leq p$.  Because the differencing polynomials
+ are scalar, we obtain
 \[
  \beta^{\prime} \, \partial X_t = \sum_{\ell \neq k} \,
- \beta^{\prime} \Lambda^{(\ell)} \, \delta^{(\ell)} (L)
- C^{(\ell)}_t + \beta^{\prime} \delta (L) S^{(0)}_t,
+ \beta^{\prime} C^{(\ell)} \, \Delta^{(-\ell)} (L)
+ Z^{(\ell)}_t + \beta^{\prime} \Delta (L) S^{(0)}_t.
 \]
- and note that ${(1 - e^{i \omega_{k}} L )}^{q_{k}}$ can be factored
+ Note that $\Delta^{(\ell)} (L)$ can be factored
  out of all terms on the right hand side.  Hence $\beta^{\prime}
- X_t$ only requires $\delta^{(k)} (L)$ differencing to become
+ X_t$ only requires $\Delta^{(k)} (L)$ differencing to become
  stationary; the frequency $\omega_k$ co-integrating vector $\beta$
  reduces the order of non-stationarity by the factor
- ${(1 - e^{i \omega_{k}} L )}^{q_{k}}$.  Moreover, if $\beta$ is in the left null space of
- several factor loadings $\Lambda^{(\ell)}$, the order of
+ $\Delta^{(k)} (L)$.  Moreover, if $\beta$ is in the left null space of
+ several factor loadings $C^{(\ell)}$, the order of
  non-stationarity can be reduced further.  In an extreme case,
- $\beta^{\prime} \Lambda^{(\ell)} = 0$ for $1 \leq \ell \leq p$, so
+ $\beta^{\prime} C^{(\ell)} = 0$ for $1 \leq \ell \leq p$, so
  that $\beta^{\prime} X_t$ is stationary; however, whether or not
  the factor loadings have a non-trivial intersection of left null
  space depends on each process.
 \end{Illustration}
 
- We now proceed with a general treatment of co-integrated  non-stationary
+ We now proceed with a fairly general treatment of co-integrated  non-stationary
  processes, generalizing the basic non-stationary case discussed
-  in  Chapter \ref{chap:int}.  Suppose that we left multiply 
+  in  Chapter \ref{chap:int}.  We still assume that $\Delta (z)$ is a scalar
+  differencing polynomial.   Suppose that we left multiply 
  (\ref{eq:nonstat.rep-basis})  by $\beta^{\prime}$,
  which is a co-integrating vector at frequency $\omega_{j}$,
   and take $\mu = 0$ for simplicity; then we obtain
@@ -103,30 +353,31 @@ Suppose that the data process can be written as the sum of
   \beta^{\prime} X_t = \sum_{k=1}^d \phi_k (t) p^{(k)} (L) \, \beta^{\prime} \, X_{0} 
    + \int_{-\pi}^{\pi}
  \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_k (t) \, p^{(k)} 
-  ( e^{-i \omega } )}{ \delta (e^{-i \omega}) } \; \beta^{\prime} \,  \ZZ
+  ( e^{-i \omega } )}{ \Delta (e^{-i \omega}) } \; \beta^{\prime} \,  \mathcal{Z} 
  (d\omega).
 \end{equation}
-  From our previous discussion, we know that this result should be a non-stationary
- process with differencing operator $\delta^{(j)} (z)$; this implies
+   From our previous discussion, we know that this result should be a non-stationary
+ process with differencing operator $\Delta^{(j)} (z)$; this implies
  that there should be a cancellation of 
- $\beta^{\prime} \, d\ZZ (\omega)$ with the 
- ${(1 - e^{i \omega_{j}} e^{-i\omega} )}^{q_{j}}$ term in
- $\delta (e^{-i \omega})$.  As a result, we
+ $\beta^{\prime} \, \mathcal{Z}  (d\omega)$ with the
+ $\Delta^{(j)} (e^{-i \omega})$   term in
+ $\Delta (e^{-i \omega})$.  As a result, we
  have the following spectral formalization of the co-integrating
  relation:
 \begin{equation}
 \label{eq:co-intRel}
- \beta^{\prime} \, \ZZ (d\omega) = 
- {(1 - e^{i \omega_{j}} e^{-i\omega} )}^{q_{j}} \, \ZZ^{(j)} (d\omega),
+ \beta^{\prime} \, \mathcal{Z}  (d\omega) = 
+  \Delta^{(j)} (e^{-i \omega}) \, \mathcal{Z}^{(j)} (d\omega),
 \end{equation}
- where $ \ZZ^{(j)} (\omega)$ is the orthogonal increments measure
+ where $ \mathcal{Z}^{(j)} (\omega)$ is the orthogonal increments measure
  of another stationary invertible process.  This condition
  (\ref{eq:co-intRel}) is readily satisfied by the latent dynamic
- factor process discussed earlier, which is exemplary of the general
+ factor process of Illustration \ref{ill:dyn-fact},
+  which is exemplary of the general
  situation of interest.  The extreme case, where the co-integrating
  vector lies in all the left null spaces of the component processes,
- allows us to factor $\delta (e^{-i \omega})$ completely from
- $\beta^{\prime}  \ZZ (d\omega)$, though such a property need not
+ allows us to factor $\Delta (e^{-i \omega})$ completely from
+ $\beta^{\prime}  \mathcal{Z}  (d\omega)$, though such a property need not
  hold in practice.
 
 In order to see the full effect of condition
@@ -134,193 +385,169 @@ In order to see the full effect of condition
  in equation (\ref{eq:co-intRep}).  Let us suppose, without loss of
  generality, that frequency $\omega_j$ has corresponding basis
  functions $\phi_1, \ldots, \phi_{q_j}$, so that the first $q_j$
- basis functions are annihilated by 
- ${(1 - e^{i \omega_j} L)}^{q_j}$.  Then we can write
+ basis functions are annihilated by  $\Delta^{(j)}(L)$.  Then we can write
 \begin{align*}
  \beta^{\prime} X_t & = \sum_{k= q_j + 1}^d \phi_k (t) p^{(k)} (L) \, 
   \beta^{\prime} \, X_{0}
   + \int_{-\pi}^{\pi} \frac{ e^{i \omega t} - \sum_{k= q_j + 1}^d \phi_k (t) 
-    \, p^{(k)} ( e^{-i \omega  } )}{ \delta^{(j)} (e^{-i \omega}) } \,  \ZZ^{(j)}
+    \, p^{(k)} ( e^{-i \omega  } )}{ \Delta^{(-j)} (e^{-i \omega}) } \,  \mathcal{Z}^{(j)}
  (d\omega) \\
  & + \sum_{k=1}^{q_j} \phi_k (t) \,  \left(p^{(k)} (L)  
    \beta^{\prime} \,  X_0 - \int_{-\pi}^{\pi} \frac{ p^{(k)} (e^{-i \omega}) }{
- \delta^{(j)} (e^{-i \omega}) } \, \ZZ^{(j)} (d\omega) \right).
+ \Delta^{(-j)} (e^{-i \omega}) } \, \mathcal{Z}^{(j)} (d\omega) \right).
 \end{align*}
  The first two terms are immediately recognized as the deterministic
  and stochastic portions respectively of a non-stationary process
- that has $\delta^{(j)} (z)$ for differencing operator.  The third
+ that has $\Delta^{(-j)} (z)$ for differencing operator.  The third
  term is left over, and consists of deterministic time series that
- are in the null space of ${(1 - e^{i \omega_j} L)}^{q_j}$.  
+ are in the null space of $\Delta^{(j)} (L)$.  
   To see this, observe that for the third term the expression in parentheses is
 stochastic, but does not depend on time $t$, so that the resulting series is predictable.
 
 
-Now $\delta^{(j)} (z)$  divides $p^{(k)} (z)$ for $1 \leq k \leq q_j$,
+Now $\Delta^{(-j)} (z)$  divides $p^{(k)} (z)$ for $1 \leq k \leq q_j$,
   and hence the stochastic portion of
  the third term is well-defined.   The
  coefficients of the $\phi_k (t)$ for $1 \leq k \leq q_j$ need not be
  zero, as counter-examples are easy to construct; consider two series that
  have a common stochastic trend with null vector $\beta^{\prime} =
  [1, \, 1]$, but whose underlying linear deterministic trends have
-different slopes.  
-%    In our analysis henceforth, we
-% will assume that this third term is identically zero.
-%
-%  This is the general treatment of co-integration.  Now consider the
-%  filter error $\epsilon_t = y_t - \widehat{y}_t$.  Let $\Delta(z) = \Gamma
-%  (z) - \widehat{\Gamma} (z)$, so that
-% \[
-%  \epsilon_t = \sum_{j=1}^d \Delta(B) \phi_j (t) p^{(j)} (B) \, x_{0} + \int_{-\pi}^{\pi}
-%  \frac{ e^{i \omega t} \, \Delta (e^{-i \omega})
-%  - \sum_{j=1}^d \Delta (B) \phi_j (t) \, p^{(j)} ( e^{-i \omega
-%  } )}{ \delta (e^{-i \omega}) } \; d \ZZ (\omega),
-% \]
-%  where $\Delta (B)$ acts only upon the basis functions $\phi_j (t)$.
-%   In order to write this expression, we really need the common
-%   differencing operators assumption.  Note that $\Delta (B) $ is a
-%   row vector of filters, and it gets multiplied by the initial value
-%   vectors and the orthogonal increments process $d\ZZ(\omega)$.
-%   Clearly the error process is stationary if all the basis functions
-%   are annihilated by $\Delta (B)$, because in that case we must be
-%   able to factor $\Delta (B) = \tau (B) \delta (B)$ (where $\tau (B)$ is
-%   a $1 \times m$ multivariate filter) and $\epsilon_t
-%   = \int_{-\pi}^{\pi} e^{i \lambda t } \, \tau (e^{-i \lambda}) \,
-%   d\ZZ (\lambda)$.  This is the case of full filter constraints,
-%   analogous to the stationary case considered above.
+different slopes.  However, in our analysis henceforth we
+will assume that this third term is identically zero.
 
-% We next consider some natural properties of target and
-% concurrent filters.  Let us first factor $\delta (B) = \delta^S (B)
-% \delta^N (B)$ according to signal and noise unit roots.  We will
-% henceforth suppose that $\delta^S (B) = {(1 - e^{i \omega k}
-% B)}^{q_k}$ for some unit root $\zeta_k = e^{-i \omega k}$ of
-% multiplicity $q_k$.  Thus $\delta^N (B) = \delta^{(k)} (B)$.  Both
-% $\Gamma (B)$ and $\widehat{\Gamma} (B)$ should preserve signal basis functions,
-% which are those $\phi_j (t)$ corresponding to the unit root
-% $\zeta_k$.  In order to preserve all these functions (i.e., act as
-% the identity filter on them all) when multiplicity $q_k$ is present,
-% we must have that
-% \[
-%  \frac{ \Gamma (z) - \Gamma (\zeta_k) }{ {( z- \zeta_k)}^{q_k} }
-%  \qquad  \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma} (\zeta_k) }{ {( z- \zeta_k)}^{q_k} }
-% \]
-%  are both bounded in $z$.  Equivalently, the differences $\Gamma (z) - \Gamma (\zeta_k)$ and
-% $  \widehat{\Gamma} (z) - \widehat{\Gamma} (\zeta_k)$ are each
-%  divisible by $\delta^S (z)$.  We call this the {\it  signal preservation}
-%  property of the filters.  For example, the signal extraction
-%  filters described in McElroy and Trimbur (2012) always satisfy this
-%  sort of condition.  In addition, because signal extraction filters
-%  must eradicate all basis functions associated with noise
-%  frequencies, it follows that $\delta^N (z)$ must be a factor of
-%  $\Gamma (z) $ and $\widehat{\Gamma} (z)$.  We call this the {\it noise annihilation}
-%  property of the filters.  Introduce the notation
-% \[
-%  \Gamma^{N,k} (z) = \Gamma (\zeta_k)  \delta^N (z) / \delta^N
-%   (\zeta_k)  \qquad \widehat{\Gamma}^{N,k} =  \widehat{\Gamma} (\zeta_k)  \delta^N (z) / \delta^N
-%   (\zeta_k).
-% \]
-%  Then we can write
-% \begin{equation}
-% \label{eq:deltaErrdecomp}
-%  \Delta (z)  =
-%   \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z) }{ \delta (z) } \right) \; \delta (z)
-%   - \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) } \right) \; \delta (z)
-%   + \left( \frac{ \Gamma (\zeta_k) - \widehat{\Gamma} (\zeta_k) }{ \delta^N
-%   (\zeta_k) } \right) \; \delta^N (z).
-% \end{equation}
-%  We claim that the first two expressions involve a bounded rational function times
-%  $\delta (z)$.  To see this true, observe that we only have to check
-%  boundedness of $[ \Gamma (z) - \Gamma^{N,k} (z) ]/\delta (z)$ at $z$ values that are either roots of
-%   $\delta^N (B)$ or $\delta^S (B)$ -- the same argument applies to
-%   the second term involving $\widehat{\Gamma}$.  For a signal unit root, we
-%   have $z = \zeta_k$, and boundedness follows from the signal
-%   preservation property.  For a noise unit root, observe that we may
-%   always factor $\delta^N (B)$ from $\Gamma (B)$ by the noise
-%   annihilation property.  As for the third term of (\ref{eq:deltaErrdecomp}), it is
-%   also always well-defined by the noise annihilation property.
-% 
-%   It is paramount that $\Delta (B)$ reduce the non-stationary
-%   process to stationarity, and this can only happen in two ways:
-%   first, a $\delta (B)$ can be factored out, which accomplishes the
-%   requirement by differencing.  Second, the filter may have a linear
-%   combination that is a co-integrating vector (associated with the
-%   single signal frequency, which is important!), which together with
-%   noise differencing accomplishes the requirement as well.  Note
-%   that application of a co-integrating vector alone only removes
-%   signal non-stationarity, and noise non-stationarity will remain.
-%   The above decomposition for $\Delta (B)$ accomplishes this (under
-%   the signal preservation and noise annihilation properties) if
-%  \begin{equation}
-%   \label{eq:co-intCond}
-%  \frac{ \Gamma (\zeta_k) - \widehat{\Gamma} (\zeta_k) }{ \delta^N
-%   (\zeta_k) } = \beta^{\prime}
-%  \end{equation}
-%   for some vector $\beta$ to be described.  If we impose that
-%   $\beta$ is the zero vector, then we obtain the first case above,
-%   where $\Delta (B)$ maintains stationarity by full differencing.
-%   If instead we relax this to only imposing that $\beta = \beta_k$
-%   be a co-integrating vector for the signal, then we obtain the
-%   second case above.  Because there may be many choices for
-%   $\beta_k$, depending on the co-integrating rank (the dimension of
-%   the left null space of the factor loading matrix in the latent
-%   dynamic factors formulation), this is a milder condition that may
-%   allow for more flexibility in filter estimation.  Note that since
-%   $\Gamma (\zeta_k) / \delta^N (\zeta_k)$ is a given quantity,
-%   imposing (\ref{eq:co-intCond}) amounts to setting $\widehat{\Gamma}
-%   (\zeta_k) / \delta^N (\zeta_k) = \beta^{\prime} + \Gamma (\zeta_k) /
-%   \delta^N (\zeta_k)$ for a known co-integrating $\beta$.
-% 
-% We next develop the consequences of (\ref{eq:co-intCond}), where
-%   $\beta$ is either zero or a signal co-integrating vector (the
-%   second case will reduce to the first when we set $\beta = 0$ in
-%   the following formulas).  Let $c_t = \delta^N (B) \beta^{\prime}
-%   x_t$, which by our prior expression for $\beta^{\prime} x_t$ is
-%   shown to be equal to $\int_{-\pi}^{\pi} e^{i \omega t} \; d
-%   \ZZ^{(k)} (\omega)$.  The signal extraction error is
-% \[
-%  \epsilon_t  = \int_{-\pi}^{\pi} e^{i \omega t} \,
-%   \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z)   }{ \delta (z) } \right) \; d\ZZ (\omega)  - \int_{-\pi}^{\pi} e^{i \omega t} \,
-%   \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) } \right) \; d\ZZ (\omega)
-%  + \int_{-\pi}^{\pi} e^{i \omega t} \; d  \ZZ^{(k)} (\omega).
-% \]
-%  Its variance involves a spectral density matrix that combines
-%  information from the differenced series $\partial s_t$ as well as
-%  the noise-differenced co-integrated series $c_t$.  We now suppose
-%  that the joint spectral density matrix of these series is available
-%  to us, which is certainly possible in the case of latent dynamic
-%  factor models.  Letting $h_c$, $h_{c \partial x}$, and $h_{\partial
-%  x}$ denote the spectra and cross-spectra, we have the joint spectra
-%  for ${[c_t, \partial x_t^{\prime}]}^{\prime}$ is
-% \[
-%  h(\omega) = \left[ \begin{array}{ll} h_c (\omega) & h_{\partial x
-%  c} (\omega) \\ h_{c \partial x} (\omega) & h_{\partial x} (\omega)
-%  \end{array} \right].
-% \]
-%   Then the signal extraction variance is ${(2\pi)}^{-1}$ times the
-%   integral of
-% \[
-%  \left[ 1, - \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z) }{ \delta (z) } \right) +
-%    \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) } \right)  \right] \; h (\omega) \;
-%   { \left[ 1, - \left( \frac{ \Gamma (\overline{z}) - \overline{\Gamma^{N,k}} (\overline{z})  }{ \delta (\overline{z}) } \right) +
-%  \left( \frac{ \widehat{ \Gamma} (\overline{z}) -
-%   \overline{\widehat{\Gamma}^{N,k} } (\overline{z}) }{ \delta (\overline{z}) } \right)
-%   \right] }^{\prime}.
-%  \]
-%  Substituting the periodogram for $h$ at this point will allow
-%  empirical estimation, where we impose the co-integrating relations
-%  on $\widehat{\Gamma}$ and then optimize.
-% 
-%  In the case that $\beta$ is the zero vector, we are merely imposing full filter constraints by (\ref{eq:co-intCond}), and the multivariate DFA (M-DFA) condition
-%   can be simplified.  Introduce the notation
-% \[
-%     \Gamma^{\delta,k} (z) =  \frac{ \Gamma (z) - \Gamma^{N,k} (z) }{ \delta (z) } \qquad
-%   \widehat{\Gamma}^{\delta, k} (z) =  \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z) }{ \delta (z) }.
-% \]
-%   Although the former quantity can be computed from a knowledge of the target filter and the goals of analysis, the latter quantity is obliquely related to the parameters of the proposed concurrent filter.  In terms of these quantities, the M-DFA MSE is
-% \[
-%  \langle   \left[   \Gamma^{\delta, k} (z) -  \widehat{\Gamma}^{\delta, k} (z)  \right]   \; h_{\partial x} \;
-%   { \left[  \Gamma^{\delta, k} (\overline{z}) -  \widehat{\Gamma}^{\delta, k} (\overline{z})    \right] }^{\prime} \rangle.
-% \]
-%  The filter conditions can be rephrased in terms of coefficient constraints, as in the stationary case.
-
-
+ This is the general case  of co-integration with scalar differencing operators.  
+ Now consider the  filter error $E_t = Y_t - \widehat{Y}_t$.  Let $\Lambda(z) = \Psi
+ (z) - \widehat{\Psi} (z)$, so that
+\[
+ E_t = \sum_{j=1}^d \Lambda(L) \phi_j (t) p^{(j)} (L) \, X_{0} + \int_{-\pi}^{\pi}
+ \frac{ e^{i \omega t} \, \Lambda (e^{-i \omega})
+ - \sum_{j=1}^d \Lambda (L) \phi_j (t) \, p^{(j)} ( e^{-i \omega
+ } )}{ \Delta (e^{-i \omega}) } \, \mathcal{Z}  (d\omega),
+\]
+ where $\Lambda (L)$ acts only upon the basis functions $\phi_j (t)$.
+    Note that $\Lambda (L) $ is a multivariate filter,
+     and it gets multiplied by the initial value
+  vectors and the orthogonal increments process $\mathcal{Z} (d\omega)$.
+  Clearly the error process is stationary if all the basis functions
+  are annihilated by $\Lambda (L)$, because in that case we must be
+  able to write the factorization
+  $\Lambda (z) = \widetilde{\Lambda} (z)  \Delta (z)$ (where $\widetilde{\Lambda} (L) $ is
+  a  multivariate filter) and $E_t
+  = \int_{-\pi}^{\pi} e^{i \omega t } \, \widetilde{\Lambda} (e^{-i \omega}) \,
+  \mathcal{Z}  (d\omega)$.  This is the case of full filter constraints,
+  analogous to the stationary case considered above.
  
+ 
+ Now we can apply these developments to the case of real-time signal extraction.
+  Let us first factor $\Delta (z) = \Delta^S (z)
+\Delta^N (z)$ according to signal and noise unit roots. 
+In the simplest case $\Delta^S (z) = \Delta^{(k)} (z)$, corresponding
+ to  some unit root $\zeta_k = e^{-i \omega k}$ of
+multiplicity $q_k$, and  $\Delta^N (z) = \Delta^{(-k)} (z)$.  
+In such a case, 
+$\Psi (L)$ and $\widehat{\Psi} (L)$ should preserve signal basis functions,
+which are those $\phi_j (t)$ corresponding to the unit root
+$\zeta_k$.  In order to preserve all these functions (i.e., act as
+the identity filter on them all) when multiplicity $q_k$ is present,
+we must have that
+\[
+ \frac{ \Psi (z) - \Psi (\zeta_k) }{ {( z- \zeta_k)}^{q_k} }
+ \qquad \mbox{and}
+ \qquad  \frac{ \widehat{\Psi} (z) - \widehat{\Psi} (\zeta_k) }{ {( z- \zeta_k)}^{q_k} }
+\]
+ are both bounded in $z$.  Equivalently, the differences $\Psi (z) - \Psi (\zeta_k)$ and
+$  \widehat{\Psi} (z) - \widehat{\Psi} (\zeta_k)$ are each
+ divisible by $\Delta^S (z)$.  
+ 
+ Recall the discussion in Section \ref{sec:mdfa-nonstat},
+  where the signal and noise constraints are imposed via
+  (\ref{eq:non-stat.constraint.single}) -- and 
+  (\ref{eq:non-stat.constraint.double}) for repeated roots.
+  We will keep the noise constraints on the filters, but we can partially
+   relax the signal constraints when signal co-integration is present.
+ Consider the case that $\beta$ is a signal co-integrating matrix 
+ ($n \times r$-dimensional), which means
+  that $\beta^{\prime} X_t = Z_t $ has all non-stationary effects due to the signal
+   removed.  In particular, application of the noise differencing operator
+    $\Delta^N (L)$ is sufficient to render this process stationary:
+  \[
+   \partial Z_t = \Delta^N (L) Z_t
+  \]
+   is a stationary mean zero process.  In order to decompose the filter error,
+   we now have
+\begin{align*}
+ \Lambda (z) & =  \Psi (z) - \widehat{\Psi} (z) \\
+  & = \left( \Psi (z) - \Psi (\zeta) \right) 
+   - \left( \widehat{\Psi} (z) - \widehat{\Psi} (\zeta) \right) +
+    \left( \Psi (\zeta) - \widehat{\Psi} (\zeta) \right)
+  \end{align*}
+  for a signal root $\zeta$, and we require the property that
+ \begin{equation}
+  \label{eq:gen-constraint-cointcase}
+   \widehat{\Psi} (\zeta) = \Psi (\zeta) - \alpha \beta^{\prime} \Delta^N (\zeta)
+  \end{equation}
+  for some matrix $\alpha$, and for all roots $\zeta$ of $\Delta^S (z)$.
+  So long as the filters are zero at the noise roots, condition
+  (\ref{eq:gen-constraint-cointcase}) is sufficient to guarantee the needed
+  factorization of $\Lambda (z)$.
+  
+\begin{Proposition}
+\label{prop:gen-case-coint-factor}
+ Suppose that $\Lambda (z) = \Psi (z) - \widehat{\Psi} (z)$ equals zero for
+  all roots of $\Delta^N (z)$ (i.e., the noise constraints are satisfied),
+  and satisfies (\ref{eq:gen-constraint-cointcase}).
+  Then there exists $\widetilde{\Lambda} (z)$ such that
+\begin{equation}
+\label{eq:lambda-delta-alpha2}
+ \Lambda (z) = \widetilde{\Lambda} (z) \, \Delta (z) + \alpha \beta^{\prime} \Delta^N (z).
+\end{equation}
+\end{Proposition}
+
+\paragraph{Proof of Proposition \ref{prop:gen-case-coint-factor}.}
+ By assumption, $\Lambda (L)$ does noise-differencing, and $\Delta^N (z)$ can be
+  factored from $\Lambda (z)$.  Note that $\Delta^N (\zeta) \neq 0$ for any
+  root $\zeta $ of $\Delta^S (z)$, because the signal and noise operators are relatively
+   prime.  Set
+  \[
+   \tau (z) = \frac{ \Lambda (z) }{ \Delta^N (z)} - \alpha \beta^{\prime},
+  \]
+  which is absolutely convergent and also equals zero at $z = \zeta$, for any
+   root $\zeta$ of $\Delta^S (z)$. Therefore, there exists $\widetilde{\Lambda} (z)$
+    such that $\tau (z) = \widetilde{\Lambda} (z) \Delta^S (z)$. Then
+  \[
+   \Lambda (z) = \left( \tau (z) + \alpha \beta^{\prime} \right) \Delta^N (z), 
+  \]
+  from which (\ref{eq:lambda-delta-alpha2}) follows.  $\quad \Box$
+
+\vspace{.5cm}
+
+Therefore, under the conditions of Proposition \ref{prop:gen-case-coint-factor},
+ the filter error is
+ \[
+  E_t = \Lambda (L) X_t = \widetilde{\Lambda} (L) \partial X_t + \alpha \partial Z_t
+   = [ \alpha, \widetilde{\Lambda} (L) ] \, 
+   \left[ \begin{array}{c} \partial Z_t \\ \partial X_t 
+    \end{array} \right].
+\]
+ Now the treatment of the filter MSE follows the base case of
+  Section  \ref{sec:coint-zero}, only replacing $Z_t$ by $\partial Z_t$.
+  Proposition \ref{prop:coint-base-case} can therefore be extended,
+  and we obtain the same criterion
+\[
+   { \langle  \left[ \Psi (e^{-i \omega}) - 
+   \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \, 
+ f_{\partial X, \partial X} (\omega) \, {|\Delta (e^{-i \omega}) |}^{-2} \,
+  {  \left[ \Psi (e^{i \omega}) -  
+  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0,
+\] 
+  now under the noise constraints and condition 
+ (\ref{eq:gen-constraint-cointcase}).
+ In summary, we extend the non-stationary MDFA to the case of co-integrated signal
+ by imposing these generalized signal and noise filter constraints.
+ 
+ 
+ 
+ HERE  examples with Starts, seasonal cointegration or trend cointegration
+
+
+
