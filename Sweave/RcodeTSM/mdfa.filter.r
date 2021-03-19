@@ -62,9 +62,12 @@ mdfa.filter <- function(frf,spec,R,Q)
  
 	opt <- solve(t(R.mat) %*% fmat %*% R.mat) %*% t(R.mat) %*% (t(fpsi) - fmat %*% Q.mat)
 	opt <- R.mat %*% opt + Q.mat
-	opt.val <- Re(opt.val) + t(t(fpsi) - fmat %*% Q.mat) %*% 
-	  (solve(fmat) - R.mat %*% solve(t(R.mat) %*% fmat %*% R.mat) %*% t(R.mat)) %*%
-	  (t(fpsi) - fmat %*% Q.mat) - fpsi %*% solve(fmat) %*% t(fpsi)
+#	opt.val <- Re(opt.val) + t(t(fpsi) - fmat %*% Q.mat) %*% 
+#	  (solve(fmat) - R.mat %*% solve(t(R.mat) %*% fmat %*% R.mat) %*% t(R.mat)) %*%
+#	  (t(fpsi) - fmat %*% Q.mat) - fpsi %*% solve(fmat) %*% t(fpsi)
+	opt.val <- Re(opt.val) + t(Q.mat) %*% fmat %*% Q.mat - t(Q.mat) %*% t(fpsi) - fpsi %*% Q.mat -
+	  t(t(fpsi) - fmat %*% Q.mat) %*% R.mat %*% solve(t(R.mat) %*% fmat %*% R.mat) %*% t(R.mat) %*%
+	  (t(fpsi) - fmat %*% Q.mat) 
 	opt.array <- array(t(opt),c(N,N,q))
 
 	return(list(opt.array,opt.val)) 

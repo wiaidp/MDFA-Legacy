@@ -33,8 +33,8 @@ mdfa.ltsconstraint <- function(frf,spec,q)
 	tsc <- Re(1i*(frf[,,m+2]-frf[,,m+1])/delta)	# approximate derivative
 	ltsc <- -tsc + lc
 	Q.mat <- matrix(0,nrow=N*(q-2),ncol=N)
-	Q.mat <- rbind(tsc,Q.mat)
-	Q.mat <- rbind(ltsc,Q.mat)
+	Q.mat <- rbind(t(tsc),Q.mat)
+	Q.mat <- rbind(t(ltsc),Q.mat)
 
 	R <- array(R.mat,c(N,q,N,q-2))
 	Q <- array(Q.mat,c(N,q,N))

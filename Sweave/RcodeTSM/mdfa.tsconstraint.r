@@ -31,7 +31,7 @@ mdfa.tsconstraint <- function(frf,spec,q)
 	delta <- 2*pi/Grid
 	tsc <- Re(1i*(frf[,,m+2]-frf[,,m+1])/delta)	# approximate derivative
 	Q.mat <- matrix(0,nrow=N*(q-2),ncol=N)
-	Q.mat <- rbind(tsc,Q.mat)
+	Q.mat <- rbind(t(tsc),Q.mat)
 	Q.mat <- rbind(0*diag(N),Q.mat)
 	
 	R <- array(R.mat,c(N,q,N,q-1))

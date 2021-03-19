@@ -75,10 +75,10 @@ arising from time-varying means, a form of non-stationarity.
   $\sum_{j=0}^{q-1} \widehat{\psi} (j) = \Psi(1)$.   More generally, we consider  linear constraints  formulated via
 \begin{equation}
 \label{eq:concurrent-constrain}
-  \vartheta = R \, \varphi + Q,
+ P = R \, \Phi + Q,
 \end{equation}
- where $R$ is $n q \times n r$ and $\varphi$ is $n r \times 1$ dimensional, consisting of 
- free parameters; $Q$ is a matrix of constants, and is $n q \times 1$ dimensional.
+ where $R$ is $n q \times n r$ and $\Phi$ is $n r \times n$ dimensional, consisting of 
+ free parameters; $Q$ is a matrix of constants, and is $n q \times n$ dimensional.
 
 
 \begin{Illustration}  {\bf Level Constraint (LC).}   \rm
@@ -88,11 +88,12 @@ arising from time-varying means, a form of non-stationarity.
 \label{eq:lc-gamma0}
  \widehat{\psi} (0) = \Psi(1) - \sum_{j=1}^{q-1} \widehat{\psi} (j).
 \end{equation}
- Hence  $ \varphi^{\prime}  = [ \widehat{\psi} (1), \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1) ] $ and
+ Hence  $ \Phi^{\prime}  = [ \widehat{\psi} (1), \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1) ] $ and
 \[
 	R  = \left[ \begin{array}{ccc} -1 & \ldots & -1 \\ 1 & 0 & 0 \\
 		\vdots & \ddots & \vdots \\ 0 & 0 & 1  \end{array} \right]  \otimes 1_n \qquad
-	Q = \left[ \begin{array}{c} \Psi (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+	Q = \left[ \begin{array}{c} {\Psi (1)}^{\prime}
+	\\ 0 \\ \vdots \\ 0 \end{array} \right].
 \]
 \end{Illustration}
  
@@ -101,13 +102,16 @@ arising from time-varying means, a form of non-stationarity.
 \label{ill:tsc}
    The constraint is $\partial {\Psi} (1) = \partial \widehat{\Psi} (1)
    = \sum_{j=0}^{q-1} j \, \widehat{\psi} (j)$,
- or $\widehat{\psi} (1)  = \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j \, \widehat{\psi} (j) $.
- Hence  $ \varphi^{\prime}  = [ \widehat{\psi} (0), \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1) ] $ and
+ or $\widehat{\psi} (1)  = \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j \,
+ \widehat{\psi} (j) $.
+ Hence  $ \Phi^{\prime}  = [ \widehat{\psi} (0), \widehat{\psi} (2),
+ \ldots, \widehat{\psi} (q-1) ] $ and
 \[
 	R  = \left[ \begin{array}{cccc} 1 & 0 &  \ldots &  0  \\  0 & -2  &  -3  & \ldots  \\
 		0 & 1 & 0 & \ldots \\ 
 		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right] \otimes 1_n \qquad
-	Q = \left[ \begin{array}{c} 0 \\ \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+	Q = \left[ \begin{array}{c} 0 \\ {\partial {\Psi} (1)}^{\prime}
+	\\ 0 \\ \vdots \\ 0 \end{array} \right].
 \]
 \end{Illustration}
  
@@ -122,14 +126,14 @@ arising from time-varying means, a form of non-stationarity.
  \widehat{\psi} (j)  \\
 	& = \Psi (1) -  \partial {\Psi} (1)  +  \sum_{j=2}^{q-1} (j-1)  \, \widehat{\psi} (j).
 \end{align*}
- Hence  $ \varphi^{\prime}  = [  \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1)  ] $ and
+ Hence  $ \Phi^{\prime}  = [  \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1)  ] $ and
 \[
 	R  = \left[ \begin{array}{cccc} 1 & 2  &  3  &   \ldots    \\  -2  & -3  &  -4  & \ldots  \\
 		 1  & 0 & \ldots & 0 \\ 
 		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right] 
 		\otimes 1_n \qquad
-	Q = \left[ \begin{array}{c} \Psi (1) - \partial {\Psi} (1)  \\ 
-	\partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+	Q = \left[ \begin{array}{c} {\Psi (1) - \partial {\Psi} (1)}^{\prime}  \\ 
+	\partial {\Psi (1)}^{\prime} \\ 0 \\ \vdots \\ 0 \end{array} \right].
 \]
 \end{Illustration}
 
@@ -200,7 +204,7 @@ arising from time-varying means, a form of non-stationarity.
 
   ## level constraint case
 	constraint.mat <- matrix(rep(1,q),nrow=1)
-	constraint.vec <- diag(N)
+	constraint.vec <- t(diag(N))
 	constraint.qr <- qr(constraint.mat)
 	constraint.q <- qr.Q(constraint.qr)
 	constraint.r <- qr.R(constraint.qr)
@@ -217,7 +221,7 @@ arising from time-varying means, a form of non-stationarity.
 	
   ## time shift constraint case
 	constraint.mat <- matrix(seq(0,q-1),nrow=1)
-	constraint.vec <- -diag(N)
+	constraint.vec <- -t(diag(N))
 	constraint.qr <- qr(constraint.mat)
 	constraint.q <- qr.Q(constraint.qr)
 	constraint.r <- qr.R(constraint.qr)
@@ -234,7 +238,7 @@ arising from time-varying means, a form of non-stationarity.
   
 	## level and time shift constraint case
 	constraint.mat <- rbind(rep(1,q),seq(0,q-1))
-	constraint.vec <- rbind(diag(N),-diag(N))
+	constraint.vec <- rbind(t(diag(N)),-t(diag(N)))
 	constraint.qr <- qr(constraint.mat)
 	constraint.q <- qr.Q(constraint.qr)
 	constraint.r <- qr.R(constraint.qr)
@@ -250,7 +254,10 @@ arising from time-varying means, a form of non-stationarity.
   print(R.mat)
 @
 
-
+ The pivoting in the Q-R decomposition  can change the form of $R$, because 
+ the free variables that determine $\Phi$ depend on the these pivots;
+ that is why the matrix $R$ for the time shift constraint looks different
+ in Exercise  \ref{exer:qr.constraint}.
   These formulas allow one to compute the   form (\ref{eq:concurrent-constrain}) 
    from given constraints, and
  an analytical solution to the resulting MDFA criterion 
@@ -271,9 +278,10 @@ arising from time-varying means, a form of non-stationarity.
   R^{\prime} \, B$, the minimal value is the determinant of
 \begin{equation}
 \label{eq:opt.val.mdfa-constrained}
-{ \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0 -
+{ \langle \Psi (e^{-i \omega}) \, G (\omega) \,
+{ \Psi (e^{i \omega}) }^{\prime} \rangle }_0 -
  A^{\prime} \, R \, { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,  A
-	+ Q^{\prime} \, B \, H \, Q - 2 \, A^{\prime} \, H \, Q.
+	+ Q^{\prime} \, B \, H \, Q -   A^{\prime} \, H \, Q - Q^{\prime} \, H^{\prime} \, A.
 \end{equation}
 \end{Proposition}
 
@@ -1610,7 +1618,20 @@ Proposition \ref{prop:filter-decompose}.
  constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ 
  in the form $K = [J \otimes 1_n] \, \vartheta$ for
   filters of form (\ref{eq:conc.filter}), applying the methodology 
-  of this chapter's first section.  With these constraints in play, 
+  of this chapter's first section.   
+In particular with $P$ defined via (\ref{eq:conc.filter}), we find that
+ (\ref{eq:non-stat.constraint.single}) can be rendered as
+ \[
+  {\Psi (e^{-i \omega}) }^{\prime} = [1,e^{-i \omega}, e^{-i 2 \omega}, \ldots, 
+   e^{-i (q-1) \omega} ] \otimes 1_n  \, P,
+ \]
+  which provides the definition of the matrix $J$ in terms of powers of $e^{-i \omega}$.
+  Similarly, (\ref{eq:non-stat.constraint.double}) is rendered as
+  \[
+  {\partial \Psi (e^{-i \omega}) }^{\prime} = [0 ,1, 2 e^{-i \omega}, \ldots, 
+   (q-1) e^{-i (q-2) \omega} ] \otimes 1_n  \, P.
+ \] 
+    With these constraints in play, 
    the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$
    replaced by $\widetilde{\Lambda} (z)$
  and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., 
@@ -1647,7 +1668,9 @@ Proposition \ref{prop:filter-decompose}.
     each singularity is omitted.  This procedure can yield an expression arbitarily
      close to $D_{\Psi} (\vartheta, G)$ (by taking the neighborhoods sufficiently small),
     while allowing for easy calculation, since $\Lambda (z)$ and 
-    $ G \, {|\Delta (z) |}^{-2}$ are easily computed.  
+    $ G \, {|\Delta (z) |}^{-2}$ are easily computed.  Alternatively,
+    with a bit more effort one can determine the value of the integrand at $\omega$
+    such that $\Delta (e^{-i \omega}) = 0$, and obtain an exact expression.
    
    
   Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, 
@@ -1915,12 +1938,14 @@ target.  When the model is correctly specified, the best concurrent filter
  This decomposition is known as a spectral factorization, and can be computed
  with known algorithms, as discussed in McElroy (2018).
   Corresponding to this decomposition is the Wold representation for $\{ \partial X_t \}$,
-   i.e., $X_t = \Theta (L) \epsilon_t$,  where $\{ \epsilon_t \}$ is a multivariate 
+   i.e., $\Delta (L) X_t = \Theta (L) \epsilon_t$,  
+   where $\{ \epsilon_t \}$ is a multivariate 
    white noise sequence with covariance matrix $\Sigma$. 
   Let $\gamma_{\partial S} (z)$ denote the autocovariance generating function
   of $\{ \partial S_t \}$, so that 
    $\gamma_{\partial S} (e^{-i \omega}) = f_{\partial S} (\omega)$.  
     Then by adapting the results of Bell and Martin (2004) to the multivariate case, 
+    when $\Theta (z)$ is invertible 
     the optimal concurrent filter  expressed as a power series is 
 \begin{equation}
 \label{eq:wiener-hopf}
@@ -2578,7 +2603,7 @@ diag(bw.mdfa[[2]])
        3.35 \cdot 10^{-4}  &  6.34 \cdot 10^{-4}   \\
        6.34 \cdot 10^{-4}  &  15.34 \cdot 10^{-4}  \end{array} \right].
 \]
- Simulate a sample of size $T=5000$ from an LLM process with these parameters,
+ Simulate a sample of size $T=5000$ from an STM process with these parameters,
  but apply  the WK trend filter
 (truncate the filter to $1000$ coefficients on each side) and the 
  optimal concurrent trend filter  corresponding to the parameters
@@ -2592,7 +2617,7 @@ diag(bw.mdfa[[2]])
 \end{Exercise}
 
 <<exercise_stmndc-mdfa-alt,echo=True>>=
-# Simulate a Gaussian LLM  of sample size 5000:
+# Simulate a Gaussian STM  of sample size 5000:
 set.seed(777)
 T.sim <- 5000
 burn <- 1000
@@ -3095,7 +3120,7 @@ diag(bw.mdfa[[2]])
   
 
 
-<<exercise_stmndc-mdfa-data,echo=True>>=
+<<exercise_starts-mdfa-data,echo=True>>=
 T <- dim(starts)[1]
 N <- dim(starts)[2]
 # truncation of ideal filter
