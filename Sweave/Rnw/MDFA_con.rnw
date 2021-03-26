@@ -905,7 +905,7 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
 
 \begin{Exercise} {\bf LLM Model-Based Trend Filter.} \rm
 \label{exer:trend-i1}
- For a bivariate LLM of Example \ref{exer:trend-i1} with parameters 
+ For a bivariate LLM of Example \ref{exam:trend-i1} with parameters 
 \[
  \Sigma_{S} = 10^{-4} \,\left[ \begin{array}{ll} 
    2.32  &  5.04  \\

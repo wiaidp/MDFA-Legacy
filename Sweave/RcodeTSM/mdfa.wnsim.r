@@ -16,10 +16,10 @@ mdfa.wnsim <- function(psi,ranks,T,dof)
   L.mat <- diag(N)
   L.sub <-  L.mat[,seq(1,N)[ranks==1],drop=FALSE]
   L.sub[lower.tri(L.mat)[,seq(1,N)[ranks==1]]] <- L.psi
-  Sigma <- L.sub %*% diag(exp(D.psi)) %*% t(L.sub)
+  Sigma <- L.sub %*% diag(exp(D.psi),nrow=D.dim) %*% t(L.sub)
   if(dof == Inf) { eps <- matrix(rnorm(D.dim*T),nrow=D.dim) } else {
     eps <- matrix(rt(D.dim*T,df=dof),nrow=D.dim) }
-  eps <- L.sub %*% diag(exp(D.psi/2)) %*% eps
+  eps <- L.sub %*% diag(exp(D.psi/2),nrow=D.dim) %*% eps
   
   return(list(t(eps),Sigma)) 
 }

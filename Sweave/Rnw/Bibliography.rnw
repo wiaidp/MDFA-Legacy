@@ -38,6 +38,8 @@ Springer-Verlag.
 \bibitem{} McElroy, T. (2008b). Exact formulas for the Hodrick-Prescott filter.
   The Econometrics Journal, 11(1), pp.209-217.
 
+\bibitem{} McElroy, T. (2017). Multivariate seasonal adjustment, economic identities, and seasonal taxonomy. Journal of Business & Economic Statistics, 35(4), pp.611-625.
+
 \bibitem{} McElroy, T. (2018). Recursive Computation for Block-Nested Covariance Matrices. Journal of Time Series Analysis, 39(3), pp.299-312.
 
 \bibitem{} McElroy, T. and Findley, D. (2010). 
