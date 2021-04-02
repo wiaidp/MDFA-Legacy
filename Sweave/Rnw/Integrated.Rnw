@@ -275,7 +275,8 @@ diag(lp.mdfa[[2]])
  a scenario where there are common trends, which turns out to be a special
   case of co-integration.  Suppose that the latent trend component $\{ S_t \}$ 
   is mean zero with reduced rank increment, viz. $\{ \partial S_t \}$ has 
-  reduced rank covariance matrix $\Sigma_S$.  Then there exists a non-zero vector
+  reduced rank (say the rank is $n-r < n$)
+   covariance matrix $\Sigma_S$.  Then there exists a non-zero vector
   $\beta$ such that $\Sigma_S \beta = 0$, and it follows that
   $\beta^{\prime} \partial S_t$ equals zero with probability one.  Then
   $\beta^{\prime} S_t$ must be a constant, which we find is zero by the mean zero assumption.
@@ -285,13 +286,73 @@ diag(lp.mdfa[[2]])
    one, the LLM process has a common trend.  See McElroy and Trimbur (2015) and
     McElroy (2017) for further details.
     
-    
-    HERE  discuss how $\alpha$ and $\beta$ are obtained from Cholesky of $\Sigma_S$,
-    cite Stock and Watson (1988 JASA)
-    
+ We can also determine a vector $\alpha$ such that 
+  (\ref{eq:zero-constraint-cointcase}) holds.  Following Stock and Watson (1988),
+  we suppose that the differenced process has a Wold decomposition, and the 
+  spectral density can be expressed as 
+  $f_{\partial X} (\omega) = \Psi (e^{-i \omega)}) { \Psi (e^{i \omega})}^{\prime}$.
+  Here we have incorporated the innovation covariance matrix with the initial coefficient
+  of the matrix power series $\Psi (z)$.  At frequency $\omega = 0$, only the trend
+  component contributes to the spectral density, and
+\[
+  f_{\partial X} (0) = \Psi (1) \, { \Psi (1)}^{\prime} = \Sigma_S.
+\]
+Clearly $\Psi (1)$ has reduced rank $r < n$,
+  and Stock and Watson (1988) discuss how there are
+ left and right null vectors of $\Psi (1)$,
+   i.e., there exist both $\beta$ and $\alpha$, which are
+  $n \times r$ dimensional matrices, such that
+\[
+  \beta^{\prime} \Psi (1) = 0 = \Psi (1) \alpha.
+\]
+ We proceed to derive $\beta$ and $\alpha$ from the Cholesky decomposition of
+  $\Sigma_S$.  We can write $\Sigma_S = L L^{\prime}$ for $n \times r$-dimensional
+   matrices $L$, which are lower-triangular in the sense that 
+   they are obtained from a $n \times n$ lower triangular matrix $\widetilde{L}$
+   by removing $r$ columns.  This follows from the generalized Cholesky decomposition
+   (McElroy, 2017),   where the rank configuration of $\Sigma_S$ determines which 
+    columns are excluded. In fact, we can construct a diagonal matrix $H$ with $n-r$ ones
+    and $r$ zeroes on the diagonal, with a zero corresponding to an omitted column,
+   and such that $\Sigma_S = \widetilde{L} H \widetilde{L}^{\prime}$.
+   Because $H$ is idempotent, this discussion shows that we have $\Psi (1) = \widetilde{L} H$.
+  
+  The matrix $\widetilde{L}$ is not uniquely defined, and we choose to set those columns
+   omitted from $L$ to be unit vectors, and by this means $\widetilde{L}$ is invertible.
+   Let $P$ be a $n \times r$-dimensional matrix consisting of these unit vectors,
+   so that $\widetilde{L}$ is constructed from $L$ by inserting columns of $P$ so as to
+    make a lower triangular matrix. Then clearly $HP = 0$, and hence 
+    $\Psi (1) P = 0$.  So we can set $\alpha = P$.  Also, we can define
+    $\beta = \widetilde{L}^{-\prime} P$, which shows that
+  \[
+  \beta^{\prime} \widetilde{L} = P^{\prime} H = 0.
+  \]
+   With these definitions of $\alpha$ and $\beta$, we find that
+\begin{equation}
+\label{eq:co-int.constraint-llm}
+ \alpha \beta^{\prime} = P P^{\prime} \widetilde{L}^{-1} = (1_n - H) \widetilde{L}^{-1}.
+\end{equation}
+ This can be used in (\ref{eq:zero-constraint-cointcase}).
 \end{Example}
 
 
+\begin{Remark} \rm
+\label{rem:wkfrf-coint}
+ When co-integration is present the signal or noise processes can have reduced rank,
+  and special case is needed in the calculation of the WK frequency response function.
+  Suppose there is a possibly non-stationary signal and noise decomposition,
+  and that the operators are scalar, i.e., $\Delta^S (z)$ and $\Delta^N (z)$ are equal
+   to scalar polynomials times $1_n$.
+  First, if at a particular $\omega_*$ of interest both $\Delta^S (e^{-i \omega_*})$
+   and $\Delta^N (e^{-i \omega_*})$ are not zero matrices, then by
+   (\ref{eq:sig-and-noise.sdf}) we know $f_{\partial X} (\omega_*)$ is invertible,
+ and there is no problem computing the frf. Next,  
+  suppose that $\Delta^N (e^{-i \omega_*}) = 0$; this precludes 
+  $\Delta^S (e^{-i \omega_*}) = 0$, because the signal and noise operators are assumed
+  to be relatively prime.  
+
+HERE  finish argument,  what about WH filter?
+
+\end{Remark}
 
 \begin{Exercise} {\bf LLM Model-Based Trend Filter.} \rm
 \label{exer:llm-coint}
@@ -309,14 +370,75 @@ diag(lp.mdfa[[2]])
  optimal concurrent trend filter.  
  Use the moving average filter  MDFA  for a co-integrated $I(1)$ process  to find the best
  concurrent filter, setting $q= 30$.
-  To do this, use the filter constraint (\ref{eq:zero-constraint-cointcase}),
-  noting that $\alpha \beta^{\prime} = \Phi - 1_2$.
+  To do this, use the filter constraint (\ref{eq:zero-constraint-cointcase})
+  and (\ref{eq:co-int.constraint-llm}). 
     Apply both concurrent filters (MB and MDFA)
  to the simulation, and compare the relevant portions to the ideal trend.
  Also determine the in-sample performance, in comparison to the criterion value
  (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
 
+HERE   need to fix mdfa.whfrf too
+
+<<exercise_llmpetrol-mdfa-coint,echo=True>>=
+# Simulate a Gaussian co-integrated LLM  of sample size 5000:
+set.seed(1234)
+T.sim <- 5000
+burn <- 1000
+N <- 2
+psi.sim <- c(2.17150287559847, -8.36795922528,  
+             0.0648981656699, -6.80849700177184, -6.66004335288479, 
+             0,0)
+len <- 1000
+dpoly <- c(1,-1)
+delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+d <- length(dpoly) - 1
+mu.sim <- mdfa.wnsim(psi.sim[1:2],c(1,0),T.sim+burn,Inf)
+Sigma.mu <- mu.sim[[2]]
+mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+
+# construct and apply MB WK and WH filters
+grid <- T.sim - d
+iden <- array(diag(N),c(N,N,1))
+f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
+trend.wkfrf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
+x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
+trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
+trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+
+# get MDFA concurrent filter
+q <- 30
+x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,dpoly)
+m <- floor(grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+coint <- 
+  
+constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,coint,q)
+bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+
+# compare in-sample performance
+perf_null <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
+  c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+colnames(perf_null) <- c("MDFA","MB")
+rownames(perf_null) <- c("Series 1","Series 2")
+# compare to criterion value
+print(perf_null)
+diag(bw.mdfa[[2]])
+@
+
+ 
 
 
 HERE  LLM with common trend,  Petrol example

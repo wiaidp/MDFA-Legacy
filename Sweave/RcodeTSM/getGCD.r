@@ -53,7 +53,7 @@ getGCD <- function(Sigma,Rank)
 	N <- dim(Sigma)[1]
 	L.mat <- matrix(1,1,1)
 	L.mat.inv <- L.mat
-	D.mat <- Sigma[1,1]
+	D.mat <- Re(Sigma[1,1])
 	if(N > 1) {
 	for(j in 2:N)
 	{
@@ -62,14 +62,15 @@ getGCD <- function(Sigma,Rank)
 		D.inv[D.mat==0] <- 0
 		new.sigma <- Sigma[j,1:(j-1)]
 		if(j==2) { new.sigma <- as.matrix(new.sigma); L.mat <- as.matrix(L.mat) }
-		new.l <- new.sigma %*% t(L.mat.inv)*D.inv
+		new.l <- new.sigma %*% t(Conj(L.mat.inv))*D.inv
 		new.l.tilde <- new.l %*% L.mat.inv
 		L.mat <- cbind(L.mat,rep(0,(j-1)))
 		L.mat <- rbind(L.mat,c(new.l,1))
 		L.mat.inv <- cbind(L.mat.inv,rep(0,j-1))
 		L.mat.inv <- rbind(L.mat.inv,c(-1*new.l.tilde,1))
-		if(j==2) new.d <- Sigma[2,2] - new.l^2*D.mat
-		if(j > 2) new.d <- Sigma[j,j] - new.l %*% diag(D.mat) %*% t(new.l)
+		if(j==2) new.d <- Sigma[2,2] - new.l*Conj(new.l)*D.mat
+		if(j > 2) new.d <- Sigma[j,j] - new.l %*% diag(D.mat) %*% t(Conj(new.l))
+		new.d <- Re(new.d)
 		if(new.d <= 0) { new.d <- 0 }
 		D.mat <- c(D.mat,new.d)
 	} }
