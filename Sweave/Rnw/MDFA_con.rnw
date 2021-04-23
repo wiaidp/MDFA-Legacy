@@ -1921,7 +1921,10 @@ In this final section of the chapter, we proceed through several examples
   
 In order to understand the topic of model-based replication, we proceed
 to determine the optimal concurrent filter for the LPP determined by a model-based
-target.  When the model is correctly specified, the best concurrent filter 
+target.  This filter is similar to the Wiener-Kolmogorov (WK) filter, and is sometimes
+called the Wiener-Hopf (WH) filter because it is related to the Wiener-Hopf 
+ factorization problem.
+When the model is correctly specified, the best concurrent filter 
  approximation to the symmetric model-based filter (i.e., the WK filter) given by
  (\ref{eq:wk.frf-gen}) is the causal filter that extracts the signal $S_t$ from
   present and past data $X_t, X_{t-1}, \ldots$.  Alternatively, the formula
@@ -2134,7 +2137,7 @@ $\quad \Box$
  (\ref{eq:optimal-conc-comp}):
  the coefficients $\phi (k)$ of $\Phi (z)$ are given by
 \[
- \phi (k) = \sum_{j=0}^k \Theta (k-j) \, \Xi (j)
+ \phi (k) = \sum_{j=0}^k \theta (k-j) \, \xi (j)
 \]
  for $k \geq 0$  (and $\phi (k) = 0 $ if $k < 0$), and 
  ${ [  \Phi (z) ]}_0^{\ell-1} = \sum_{k=0}^{\ell-1} \phi (k) z^k$ for $\ell \geq 1$.
@@ -2142,7 +2145,7 @@ $\quad \Box$
 \begin{align*}
   \sum_{j=0}^d \phi (k-j) \, \delta (j) & =
    \sum_{j=0}^d { \langle z^{j-k} \Theta (z) \Xi (z) \rangle}_0 \, \delta (j) \\
-  & =  { \langle   \Theta (z) \Xi (z)  \, \sum_{j=0}^d \delta (j) z^j \rangle}_k \\
+  & =  { \langle  z^{-k} \Theta (z) \Xi (z)  \, \sum_{j=0}^d \delta (j) z^j \rangle} \\
  &   = { \langle \Theta (z) \rangle}_k = \theta (k),
 \end{align*}
  we have the recursion
@@ -2208,7 +2211,7 @@ We now  study the  MB trend filter arising from a LLM
  the corresponding trend filter  does less smoothing. 
  From this fitted model,  we can construct both the WK filter -- recall Exercise
   \ref{exer:trend-i1}, and the plot of the WK filter's frf in Figure \ref{fig:llm-frf} --
-  and the optimal concurrent filter via (\ref{eq:wiener-hopf}).
+  and the optimal concurrent (or WH) filter via (\ref{eq:wiener-hopf}).
 \end{Example}
 
 \begin{Exercise} {\bf Petrol MB Replication.}  \rm
@@ -3160,7 +3163,7 @@ diag(bw.mdfa[[2]])
 @
     
     
- The results of these Exercises   reinforces the conclusions of the LLM and STM studies.
+ The results of these Exercises   reinforce the conclusions of the LLM and STM studies.
  Namely, MDFA can replicate MB filters and also out-perform when the model is 
  mis-specified.  Table \ref{tab:starts.mat} summarizes the performances,
   where ``Structual null process" refers to correct

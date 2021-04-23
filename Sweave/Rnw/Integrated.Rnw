@@ -338,20 +338,30 @@ Clearly $\Psi (1)$ has reduced rank $r < n$,
 \begin{Remark} \rm
 \label{rem:wkfrf-coint}
  When co-integration is present the signal or noise processes can have reduced rank,
-  and special case is needed in the calculation of the WK frequency response function.
-  Suppose there is a possibly non-stationary signal and noise decomposition,
+  and special care is needed in the calculation of the WK frequency response function.
+  An exact treatment is given further along in this chapter, but here we provide
+   an approximation argument.
+    Suppose there is a possibly non-stationary signal and noise decomposition,
   and that the operators are scalar, i.e., $\Delta^S (z)$ and $\Delta^N (z)$ are equal
    to scalar polynomials times $1_n$.
   First, if at a particular $\omega_*$ of interest both $\Delta^S (e^{-i \omega_*})$
    and $\Delta^N (e^{-i \omega_*})$ are not zero matrices, then by
    (\ref{eq:sig-and-noise.sdf}) we know $f_{\partial X} (\omega_*)$ is invertible,
  and there is no problem computing the frf. Next,  
-  suppose that $\Delta^N (e^{-i \omega_*}) = 0$; this precludes 
-  $\Delta^S (e^{-i \omega_*}) = 0$, because the signal and noise operators are assumed
+  suppose that $\Delta^S (e^{-i \omega_*}) = 0$; this precludes 
+  $\Delta^N (e^{-i \omega_*}) = 0$, because the signal and noise operators are assumed
   to be relatively prime.  
-
-HERE  finish argument,  what about WH filter?
-
+Then we have signal co-integration if $f_{\partial S} (\omega_*)$ has reduced rank,
+  and the regular formulas for the WK and WH filters do not apply
+  because 
+\[
+  f_{\partial X} (\omega_*) = f_{\partial S} (\omega_*) {| \Delta_N (e^{-i \omega_*}) |}^2,
+  \]
+which is not invertible.  However, the WK and WH frequency response functions
+  are continuous functions of frequency $\omega$ (this is demonstrated below);
+  therefore we can use the regular formulas at grid points close to $\omega_*$, and
+   simply interpolate to get the approximate value of the frequency response function.
+ When the mesh size is large, this approximation involves little error.
 \end{Remark}
 
 \begin{Exercise} {\bf LLM Model-Based Trend Filter.} \rm
@@ -378,7 +388,7 @@ HERE  finish argument,  what about WH filter?
  (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
 
-HERE   need to fix mdfa.whfrf too
+HERE   rerun
 
 <<exercise_llmpetrol-mdfa-coint,echo=True>>=
 # Simulate a Gaussian co-integrated LLM  of sample size 5000:
@@ -732,8 +742,61 @@ Therefore, under the conditions of Proposition \ref{prop:gen-case-coint-factor},
  (\ref{eq:gen-constraint-cointcase}).
  In summary, we extend the non-stationary MDFA to the case of co-integrated signal
  by imposing these generalized signal and noise filter constraints.
+ Before treating examples, we provide an extended theory for model-based signal
+  extraction by providing formulas for the WK and WH frequency response functions
+ when co-integration is present in either signal or noise (or both).
  
+\begin{Theorem}
+\label{thm:wk-wh.coint}
+ Suppose that $\{ X_t \}$ is  a non-stationary stochastic process
+ with representation (\ref{eq:nonstatCausalRep}), such that
+ (\ref{eq:signal-noise-decomp}) and (\ref{eq:spectral-factor}) hold,
+ and $f_{\partial X}$ is invertible
+ at almost all frequencies $\omega$.
+ Assume that the signal and noise differencing operators
+ $\Delta^S (L)$ and $\Delta^N (L)$ are relatively prime, and Assumption A holds.
+ The WK filter $\Psi (L)$ and WH filter $\widehat{\Psi} (L)$ have
+  frequency response functions given by (\ref{eq:wk.frf-gen})
+  and (\ref{eq:wiener-hopf}) respectively for $\omega$ such that
+  $\Delta_S (e^{-i \omega_}) \neq 0$ and $\Delta_N (e^{-i \omega_}) \neq 0$;
+  otherwise, the following formulas apply.
  
+\paragraph{case (i)} Suppose that $\omega_*$ is a frequency such that
+ $\Delta_S (e^{-i \omega_*}) = 0$ and $f_{\partial S} (\omega_*)$ has reduced rank.
+ Then with $L \, L^{*} = f_{\partial S} (\omega_*)$, 
+\begin{align*}
+ \Psi (e^{-i \omega_*}) & = L \, {\left( L^* \, 
+   { f_{\partial N} (\omega_*) }^{-1} \, L \right)}^{-1} \, L^* \, 
+   { f_{\partial N} (\omega_*) }^{-1}  \\
+\widehat{\Psi} (e^{-i \omega_*}) & = 
+  1_N - { \left[  f_{\partial N} (\omega_*) { G( e^{i \omega_*})}^{\prime} 
+    { \Delta_N (e^{-i\omega_*})}^{-1} \right] }_0^{\infty} \,
+     \Sigma^{-1} \, G( e^{-i \omega_*}) \, \Delta_N (e^{-i \omega_*}),
+\end{align*}
+ where $G(z) = { \Theta (z) }^{-1} \Delta_S (z)$ is defined in a neighborhood 
+  about $z_* = e^{- i \omega_*}$, and can be continuously extended to a reduced
+   rank matrix $G(z_*)$.
+   
+\paragraph{case (ii)} Suppose that $\omega_*$ is a frequency such that
+ $\Delta_N (e^{-i \omega_*}) = 0$ and $f_{\partial N} (\omega_*)$ has reduced rank.
+ Then with $L \, L^{*} = f_{\partial N} (\omega_*)$, 
+\begin{align*}
+ \Psi (e^{-i \omega_*}) & = 1_N - L \, {\left( L^* \, 
+   { f_{\partial S} (\omega_*) }^{-1} \, L \right)}^{-1} \, L^* \, 
+   { f_{\partial S} (\omega_*) }^{-1}  \\
+\widehat{\Psi} (e^{-i \omega_*}) & = 
+  { \left[  f_{\partial S} (\omega_*) { G( e^{i \omega_*})}^{\prime} 
+    { \Delta_S (e^{-i\omega_*})}^{-1} \right] }_0^{\infty} \,
+     \Sigma^{-1} \, G( e^{-i \omega_*}) \, \Delta_S (e^{-i \omega_*}),
+\end{align*}
+ where $G(z) = { \Theta (z) }^{-1} \Delta_N (z)$ is defined in a neighborhood 
+  about $z_* = e^{- i \omega_*}$, and can be continuously extended to a reduced
+   rank matrix $G(z_*)$.
+\end{Theorem}
+
+\paragraph{Proof of Theorem \ref{thm:wk-wh.coint}.}  
+ 
+ HERE fill in proof.
  
  HERE  examples with Starts, seasonal cointegration or trend cointegration
 

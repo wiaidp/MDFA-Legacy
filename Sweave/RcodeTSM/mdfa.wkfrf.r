@@ -53,7 +53,12 @@ mdfa.wkfrf <- function(delta.noise,delta.signal,spec.noise,spec.signal)
     spec.data.del[,,k] <- spec.noise.del[,,k] + spec.signal.del[,,k]
     if( sum(Mod(frf.noise[,,k])) == 0 )
     {
-      frf.wk[,,k] <- 0*diag(N)
+      spec.rank <- qr(spec.noise[,,k])$rank
+      gcd.out <- getGCD(spec.noise[,,k],spec.rank)
+      spec.chol <- gcd.out[[1]] %*% diag(sqrt(gcd.out[[2]]),ncol=spec.rank)
+      spec.sig.inv <- solve(spec.signal[,,k])
+      frf.wk[,,k] <- diag(N) - spec.chol %*% solve( as.matrix(t(Conj(spec.chol)) %*% 
+                      spec.sig.inv %*% spec.chol) ) %*% t(Conj(spec.chol)) %*% spec.sig.inv 
     }  else 
     {
       if( sum(Mod(frf.signal[,,k])) > 0 )
