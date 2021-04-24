@@ -1,0 +1,2673 @@
+
+\chapter{Replicating and Customizing Classic Model-Based Approaches}\label{rep_sec}
+
+\section{Introduction}
+
+
+<<echo=False>>=
+source(file=paste(path.pgm,"functions_trilemma.r",sep=""))
+@
+
+The DFA is a generic signal extraction and forecast paradigm whose optimization criterion can be configurated by the user in order to align research priorities, problem structure and estimation principle. This chapter addresses the spectrum interface. In the generic DFA, the spectrum $h(\cdot)$ assigns a frequency-dependent weight to the approximation of $\Gamma(\cdot)$ by $\hat{\Gamma}(\cdot)$
+\[\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Gamma(\omega_k)-\hat{\Gamma}(\omega_k) \right|^2 h(\omega_k)\]
+If $h(\omega_k)$ is `large', in relative terms, then $\hat{\Gamma}(\omega_k) $ should match $\Gamma(\omega_k)$ closely in frequency $\omega_k$.
+Interestingly, classic model-based ARIMA or state-space approaches  as well as classic filter designs, such as Hodrick Prescott, Christiano Fitzgerald or Henderson, for example, can be replicated up to arbitrary precision by specifying and inserting appropriate model-based or implied (pseudo-) spectral densities for $h(\omega_k)$ in the above expression. Once replicated, nothing stands in the way of customization: Timeliness and Smoothness or, equivalently, Peak Correlation and Curvature of classic time series approaches can be tackled at once.  A correspondingly customized model-based approach is a \emph{hybrid}: whereas the spectrum relies on (pseudo-) maximum likelihood, the filter output is obtained by emphasizing the filter error and by abandoning the mean-square perspective in the expanded scope of the ATS-trilemma. \\
+
+Section \ref{rep_arima} emphasizes ARIMA-based approaches: an equivalence between (MSE-) DFA and model-based approaches (MBA) is established by linking time-domain and frequency-domain mean-square approaches; customization of the MBA by the DFA is discussed in section \ref{cust_mba_dfa_ar1}; section \ref{rep_cust_us_mod} addresses replication of unobserved components -- state space -- models whereby the DGP is factored into sub-processes (structural approach); section \ref{cust_uc_mod} handles customization of the latter; finally, section \ref{rep_cust_cl_fi_d} proposes replication and customization of classic filter designs, specifically HP and CF-filters.
+
+
+
+
+
+
+
+
+
+
+\section{Replication of ARIMA-Based Approaches by the DFA}\label{rep_arima}
+
+We show that forecast and signal-extraction performances of the classic ARIMA-based paradigm can be replicated by the DFA. 
+
+
+
+\subsection{Framework}
+
+In order to keep exposition simple and short we emphasize AR(1)-processes, our `fil rouge' introduced in section \ref{ex_dfa_1}. We assume that the DGP is known and we assume, also, that the target is an ideal trend with \emph{cutoff} $\pi/12$
+\[\Gamma(\omega)=\left\{\begin{array}{cc}1~&~|\omega|\leq \pi/12\\0~&~\textrm{otherwise}\end{array}\right.\]
+This is a typical target specification for monthly data in the context of business-cycle analysis.
+The target is supposed to be approximated by \emph{real-time} designs: $Lag=0$. Note, however, that the scope of our analysis remains general: any ARIMA-process\footnote{Non-stationary integrated processes are analyzed in chapter \ref{int_sec}.} and/or any target signal\footnote{Model-based or non model-based (see further below); trend, cycle, seasonal adjustment or any combination thereof.} and/or any $Lag$ could be entertained by straightforward modifications. We now distinguish approaches according to whether (mean-square) solutions are obtained in the time domain or in the frequency domain.
+
+
+
+\subsection{Time-domain}\label{time_domain}
+
+The target signal 
+\begin{equation}\label{target_ventimil}
+y_t=\sum_{k=-\infty}^\infty\gamma_kx_{t-k}
+\end{equation}
+assumes knowledge of data $x_{t-k}, k<0$ that is unobserved at $t$, the time of inference. An optimal (mean-square) estimate $\hat{y}_T$ of $y_T$ in $t=T$ could be obtained by inserting optimal forecasts (and/or backcasts) of the unobservable data:
+\begin{eqnarray*}
+\hat{y}_T&=&\widehat{\sum_{k=-\infty}^{\infty}\gamma_kx_{T-k}}\\
+&=&\sum_{k=-\infty}^{-1}\gamma_k\hat{x}_{T-k}+\sum_{k=0}^{T-1} \gamma_k{x}_{T-k}+\sum_{k=T}^{\infty}\gamma_k\hat{x}_{T-k}
+\end{eqnarray*}
+where $x_1,...,x_T$ is the observed data sample.
+Inserting optimal forecasts and backcasts of the data, based on our AR(1)-specification, we obtain
+\begin{eqnarray}
+\hat{y}_T&=&\sum_{k=-\infty}^{-1}\gamma_k\hat{x}_{T-k}+\sum_{k=0}^{T-1} \gamma_k{x}_{T-k}+\sum_{k=T}^{\infty}\gamma_k\hat{x}_{T-k}\nonumber\\
+&=&\sum_{k=-\infty}^{-1}\gamma_ka_1^{|k|}{x}_{T}+\sum_{k=0}^{T-1} \gamma_k{x}_{T-k}+\sum_{k=T}^{\infty}\gamma_k a_1^{k-(T-1)}{x}_1\label{backcasts}\\
+&=&\left(\sum_{k=-\infty}^{0}\gamma_ka_1^{|k|}\right){x}_{T}+\sum_{k=1}^{T-2} \gamma_k{x}_{T-k}+\left(\sum_{k=T-1}^{\infty}\gamma_k a_1^{k-(T-1)}\right){x}_1\nonumber
+\end{eqnarray}
+We infer that the coefficients ${b}_j, j=0,...,T-1$ of the real-time filter $\hat{\Gamma}(\cdot)$ are obtained as
+\begin{equation}\label{mba_coef_td}
+{b}_j=\left\{\begin{array}{cc}\sum_{k=-\infty}^{0}\gamma_ka_1^{|k|}~,&~j=0\\\gamma_{j}~,&~j=1,...,T-2\\
+\sum_{k=T-1}^{\infty}\gamma_k a_1^{k-(T-1)}~,&~j=T-1\end{array}\right.
+\end{equation}
+\textbf{Remarks}
+\begin{itemize}
+\item Frequently, backcasts can be neglected because the filter coefficients $\gamma_k$ decay sufficiently rapidly. For ease of exposition we now ignore the rightmost term in \ref{backcasts} (the simplification is mainly due to convenience and hence does not preclude generality). 
+\item The proposed solution \ref{mba_coef_td} assumes $L=T$. Smaller $L$ are analyzed below. 
+\end{itemize}
+We briefly compute the resulting filter coefficients, which will then be replicated by the DFA. We use the three AR(1)-processes introduced in section \ref{ex_dfa_1}: $a_1=0.9,0.1,-0.9$:
+<<echo=TRUE>>=
+# Sample length
+len<-120
+# Specify lowpass target
+cutoff<-pi/12
+# Order of approximation of bi-infinite target by finite symmetric filter
+ord<-120
+# Compute coefficients gamma of symmetric filter
+gamma_k<-c(cutoff/pi,(1/pi)*sin(cutoff*1:ord)/(1:ord))
+# AR(1)-coefficient
+a_vec<-c(0.9,0.1,-0.9)
+# Initialize matrix of best MSE coefficients
+gamma_mba_rt<-matrix(ncol=length(a_vec),nrow=ord)
+for (k in 1:length(a_vec))
+{
+# Model-based filter: backcasts are ignored
+  gamma_0<-gamma_k%*%a_vec[k]^(0:ord)
+  gamma_mba_rt[,k]<-c(gamma_0,gamma_k[2:ord])
+}
+@
+
+
+
+
+\subsection{Frequency-Domain}
+
+An alternative solution of the mean-square filter approximation problem is obtained in the frequency domain
+\[
+\int_{-\pi}^\pi |\Gamma(\omega)-\hat{\Gamma}(\omega)|^2\frac{1}{|1-a_1\exp(-i\omega)|^2}d\omega\to \min_{\mathbf{b}}\]
+where $\displaystyle{\frac{1}{|1-a_1\exp(-i\omega)|^2}}$ is the spectral density of the AR(1)-DGP.
+The DFA MSE-criterion \ref{dfa_ms} stands for a particular empirical implementation of this theoretical criterion, whereby the continuous integral is replaced by a discrete sum and the periodogram is substituted for the true spectral density. In order to make the frequency-domain criterion operable we discretize the integral 
+\begin{equation}\label{mba_rep_by_dfa}
+\sum_{k=-M}^M|\Gamma(\omega_k)-\hat{\Gamma}(\omega_k)|^2\frac{1}{|1-a_1\exp(-i\omega_k)|^2}\to \min_{\mathbf{b}}
+\end{equation}
+where $\omega_k=k\pi/M,k=-M,...,M$, $M>0$ is a  discrete frequency-grid (the normalization constant can be omitted for optimization). The denseness of the frequency-grid, as specified by $M$, determines the tightness of the approximation of the exact solution by the discrete estimate\footnote{The quality of the approximation could be improved, to some extent, by allowing for a non-equidistant frequency-grid, modulating the density of the grid according to the steepness of the spectrum.}. In order to keep things simple we select $L=T=120$, as above, and $M=10*L=1200$. 
+
+<<echo=TRUE>>=
+# Frequency resolution: higher means tighter approximation 
+#   but computationally more intensive
+M<-10*len
+# Filter length
+L<-len
+# MSE-filter
+lambda<-0
+eta<-0
+# Real-time design
+Lag<-0
+# Unconstrained filter
+i1<-F
+i2<-F
+# Target in frequency-domain
+Gamma<-(0:M)<as.integer(cutoff*M/pi)+1
+omega_k<-(0:M)*pi/M
+# Coefficients of optimal MSE filter
+b_rt<-matrix(ncol=length(a_vec),nrow=ord)
+
+for (k in 1:length(a_vec))
+{
+# true spectral density
+  weight_func<-1/(abs(1-a_vec[k]*exp(1.i*omega_k))^2*2*pi)
+# Estimate filter coefficients
+  dfa_ar1<-dfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,i1,i2)
+  b_rt[,k]<-dfa_ar1$b
+}
+benchmark<-cbind(b_rt,gamma_mba_rt)
+dimnames(benchmark)[[2]]<-c(paste("MBA ",a_vec,sep=""),paste("DFA ",
+                                        a_vec,sep=""))
+dimnames(benchmark)[[1]]<-paste("lag ",0:(L-1),sep="")
+@
+We now briefly compare the previous time-domain (MBA) estimate to the latter frequency-domain (DFA) estimate:
+<<echo=TRUE>>=
+head(benchmark)
+@
+For each process, both estimates are close, as expected. The approximation could be tightened arbitrarily by selecting a denser frequency-grid (for the DFA) and by accounting for backcasts in the MBA. The DFA replicates the MBA, if the spectral density of the latter is used in the former. Since the process is assumed to be known, neither filter depends on data. In practice, a model must be identified and unknown parameters must be estimated. Of course, these intermediary steps do not affect the replication of the MBA by the DFA: just plug the estimated ARMA-parameters $\hat{b}_1,...,\hat{b}_{\hat{q}},\hat{a}_1,...,\hat{a}_{\hat{p}}$ of the former in the empirical spectral-density of the latter:
+\[\hat{h}(\omega_k):=\left|\frac{1+\sum_{j=1}^{\hat{q}}\hat{b}_j\exp(-ij\omega_k)}{1-\sum_{j=1}^{\hat{p}}\hat{a}_j\exp(-ij\omega_k)}\right|^2\]
+and plug the estimate into \ref{mba_rep_by_dfa}. An extension to integrated processes is provided in chapter \ref{int_sec}.
+
+
+
+\subsection{Forecasting}
+
+Since our target specification \ref{target_ventimil} is general, the forecast-problem is actually nested in the previous Signal-Extraction formalism: replace the (ideal trend) target by the anticipative $h-$steps ahead allpass filter
+\[\Gamma_h(\omega)=\exp(ih\omega)~,~h>0\]
+or, equivalently, set $\gamma_k=\left\{\begin{array}{cc}1~&,~k=-h\\0~&,~\textrm{otherwise}\end{array}\right.$
+in  \ref{target_ventimil}.
+
+
+
+
+
+
+
+
+
+
+
+\section{Customization of MBA by DFA: AR(1)-Process} \label{cust_mba_dfa_ar1}
+
+
+
+\subsection{Known DGP} \label{true_dgp}
+
+
+
+Having achieved replication of the MBA by the DFA, the next step addresses customization of the MBA by means of the replicating DFA. This natural extension allows to tackle Timeliness and Smoothness of (suitably customized) model-based designs. We first assume knowledge of the true DGP ($a_1$ is known). Our contenders are the classic MSE-filter $\lambda=\eta=0$, the balanced customized design $\lambda=30,\eta=1$, a strong smoothness filter $\lambda=0,\eta=1$ and a `fast-only' filter $\lambda=100,\eta=0$. The filter-length is fixed at $L=24$ and the denseness of the frequency-grid is preset at $M=T/2=60$\footnote{Our selection $L=24, M=60$ is a fairly good compromise ensuring statistical accuracy as well as computational speed. Note that $L=24$ is derived from the selected cutoff $\pi/12$: shorter filters would not be able to eliminate a component with frequency $\pi/12$. Note also that larger filter lengths $L$ might require denser frequency-grids (in order to avoid overfitting at the grid-points) which, in turn, would affect numerical speed.}.
+<<echo=True>>=
+# Specify the processes: ar(1) with coefficients -0.9,0.1 and 0.9
+a_vec<-c(0.9,0.1,-0.9)
+# Specify the lambdas
+lambda_vec<-c(0,30,0,100)
+# Specify the fixed eta
+eta_vec<-c(0,1,1,0)
+# Length of model-based filters
+L<-24
+# Length of estimation sample (not used yet since we rely on the true model) 
+len<-120
+# Denseness frequency-grid
+M<-len/2
+# cutoff
+cutoff<-pi/12
+# Nowcast
+Lag<-0
+# No filter constraints
+i1<-i2<-F
+# Use model-based spectrum
+mba<-T
+@
+In the following simulation-run we generate 100 replications of the three AR(1)-processes and we use the true spectral densities i.e we do not estimate the AR(1)-parameter. We derive amplitude and time-shift functions, ATS-components, Peak Correlation and Curvature statistics as well as filter outputs.
+<<echo=True>>=
+@
+<<echo=False>>=
+# Unscaled ATS-components: see below for an activation of this option
+scaled_ATS<-F
+# Length of symmetric filter (will be used later)
+L_sym<-120
+# Length of long data (for computing the target)
+len1<-3000
+# Difference data
+dif<-F
+@
+<<echo=True>>=
+# Use true spectral density
+estim_MBA<-F
+anzsim<-100
+for_sim_obj<-for_sim_out(a_vec,len1,len,cutoff,L,mba,estim_MBA,L_sym,
+                Lag,i1,i2,scaled_ATS,lambda_vec,eta_vec,anzsim,M,dif)
+@
+In order to save space we here emphasize the second process ($a_1=0.1$). Results for the other two processes are to be found in the appendix.
+\begin{enumerate}
+\item Amplitude and time-shift functions of the competing designs for the second process ($a_1=0.1$) are to be seen in fig.\ref{z_replication_amp_shift_dfa_2}. 
+<<echo=False>>=
+# Extract sample performances
+# 1 ATS
+ats_sym<-for_sim_obj$ats_sym
+# 2 Curvature, Peak Correlation, ...
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+# 3. Amplitude and time-shifts
+amp_sim_per<-for_sim_obj$amp_sim_per
+shift_sim_per<-for_sim_obj$shift_sim_per
+# 4. Output series
+xff_sim<-for_sim_obj$xff_sim
+# 5. Peak correlation and Curvature
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+# 6. Symmetric target
+xff_sim_sym<-for_sim_obj$xff_sim_sym
+Gamma<-for_sim_obj$Gamma
+dim_names<-for_sim_obj$dim_names
+@
+<<echo=False>>=
+# Plots
+for (ki in 1:length(a_vec))   #ki<-1
+{
+  amp<-amp_sim_per[,,ki,1]
+  colo<-rainbow(dim(amp)[2]-1)
+  shift<-shift_sim_per[,,ki,1]
+  xf<-xff_sim[,,ki,anzsim]#dim(xff_sim)
+  xf_sym<-xff_sim_sym[,1,ki,1]
+  dimname<-dimnames(amp_shift_mat_sim[,,,1])[[1]]
+  omega_Gamma<-as.integer(cutoff*(len/2)/pi)
+  maxamp<-max(amp[,1])
+  for (i in 2:dim(amp)[2])
+  {
+    maxamp<-max(maxamp,max(mean(amp[1:(2*omega_Gamma),1])*amp[,i]/mean(amp[1:(2*omega_Gamma),i])))
+  }
+
+# Amplitude and shifts
+  file = paste("z_replication_amp_shift_dfa_",ki,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  K<-length(Gamma)-1
+  par(mfrow=c(1,2))
+  plot(Gamma,type="l",axes=F,col="black",ylim=c(0,max(1.05,maxamp)),ylab="",xlab="",main=paste("Amplitude: a1=",a_vec[ki],sep=""))
+  mtext("Target", side = 3, line = -1,at=K/2,col="black")
+  for (i in 2:dim(amp)[2])
+  {
+    lines(amp[,i],lty=1,col=colo[i-1])
+    mtext(dimname[i], side = 3,
+    line = -i,at=len/4,col=colo[i-1])
+  }
+  axis(1,at=1+0:6*(len/2)/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+  axis(2)
+  box()
+  plot(rep(0,length(Gamma)),type="l",axes=F,col="black",ylim=c(min(shift),max(na.exclude(shift))),
+  ylab="",xlab="",main=paste("Shift: a1=",a_vec[ki],sep=""))
+  mtext("Target", side = 3, line = -1,at=K/2,col="black")
+  for (i in 2:dim(amp)[2])
+  {
+    lines(shift[,i],lty=1,col=colo[i-1])
+    mtext(dimname[i], side = 3,
+    line = -i,at=len/4,col=colo[i-1])
+  }
+  axis(1,at=1+0:6*(len/2)/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+  axis(2)
+  box()
+  invisible(dev.off())
+  file = paste("z_replication_output_dfa_",ki,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  # Select out-of-sample period
+#  par(mfrow=c(2,1))
+  anf<-3*len
+  enf<-5*len
+  sel<-1:dim(amp)[2]
+  mplot<-scale(cbind(xf_sym,xf)[anf:enf,])
+  plot(as.ts(mplot[,3]),type="l",axes=F,col="red",ylim=c(min(na.exclude(mplot)),
+  max(na.exclude(mplot))),ylab="",xlab="",
+  main=paste("MSE (red) vs. balanced (green): a1=",a_vec[ki],sep=""),lwd=1)
+  mtext("MSE", side = 3, line = -1,at=(enf-anf)/2,col=colo[1])
+  i<-4
+  lines(as.ts(mplot[,i]),col=colo[i-2],lwd=1)
+  mtext(dimname[i-1], side = 3, line = -2,at=(enf-anf)/2,col=colo[i-2])
+  axis(1,at=c(1,rep(0,6))+as.integer((0:6)*(enf-anf)/6),
+  labels=c(1,rep(0,6))+as.integer((0:6)*(enf-anf)/6))
+  axis(2)
+  box()
+  invisible(dev.off())
+
+}
+@
+<<label=z_replication_amp_shift_dfa_2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_replication_amp_shift_dfa_2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions (right) of classic MSE model-based filter (red) vs. balanced model-based (green), smooth model-based (cyan) and fast model-based (violet);  a1=0.1", sep = "")
+  cat("\\label{z_replication_amp_shift_dfa_2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item The ATS-components of the competing designs, for the second process ($a_1=0.1$), are summarized in table \ref{z_replication_ats_dfa_2}.
+<<label=z_replication_ats_dfa_2,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(ats_sym[-2,,2,1], dec = 1,digits=6, caption = paste("ATS-Components: classic model-based vs. customized model-based ",sep=""),label=paste("z_replication_ats_dfa_2",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+
+\item The empirical distributions of Curvature, Peak-Correlation and MSE are plotted in fig.\ref{z_replication_curv_peak_dfa_2}.
+<<echo=False>>=
+# Boxplots performance measureslength
+
+#colo<-rainbow(dim(amp)[2]-1)
+
+# A distinction of in-sample and out-of-sample performances is irrelevant since we assume knowledge of the true DGP 
+Perf_meas_sel<-c(7,8,9)
+for (DGP in 1:length(a_vec))        #DGP<-2
+{
+  file = paste("z_replication_curv_peak_dfa_",DGP,".pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  par(mfrow=c(1,3))
+  for (Perf_meas in Perf_meas_sel)
+  {
+    boxplot(list(amp_shift_mat_sim[1,Perf_meas,DGP,],amp_shift_mat_sim[3,Perf_meas,DGP,],amp_shift_mat_sim[4,Perf_meas,DGP,],amp_shift_mat_sim[5,Perf_meas,DGP,]),outline=T,
+    names=c("MSE (0,0)",paste("(",lambda_vec[2:length(lambda_vec)],",",eta_vec[2:length(eta_vec)],")",sep="")),
+    main=paste(dim_names[[2]][Perf_meas],", a1=",a_vec[DGP],sep=""),cex.axis=0.8,col=colo)
+  }
+  invisible(dev.off())
+}
+@
+
+<<label=z_replication_curv_peak_dfa_2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_replication_curv_peak_dfa_2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Curvature (left), Peak Correlation (middle) and MSE distributions (right) of classic MSE model-based filter (red) vs. balanced model-based (green), smooth model-based (cyan) and fast model-based (violet);  a1=0.1", sep = "")
+  cat("\\label{z_replication_curv_peak_dfa_2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item A comparison of filter-outputs of classic model-based (red) and balanced model-based (green) is shown in fig.\ref{z_replication_output_dfa_2} (we selected the first realization of the process).
+<<label=z_replication_output_dfa_2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_replication_output_dfa_2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter-outputs: classic MSE model-based filter (red) vs. balanced customized model-based (green);  a1=0.1", sep = "")
+  cat("\\label{z_replication_output_dfa_2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\end{enumerate}
+\textbf{Findings}
+\begin{itemize}
+\item The time-shifts in fig.\ref{z_replication_amp_shift_dfa_2} suggest that balanced (green) and fast (violet) filters should be faster than the classic MBA (red), even if the balanced filter has a larger shift in frequency zero\footnote{The spectral content in frequency zero does not dominate the dynamics of the second process (in contrast to a random-walk, for example).}; the smooth filter (cyan) is outperformed by the MBA. Amplitude functions are more difficult to interpret because of zero-shrinkage, recall section \ref{l_e_geq_0}. 
+\item ATS-components in table \ref{z_replication_ats_dfa_2} behave as expected but interpretation is hampered by the fact that the statistics are not scale-invariant.
+\item The scale-invariant Peak Correlation and Curvature statistics in fig.\ref{z_replication_curv_peak_dfa_2} reveal more effectively efficiency gains: the balanced model-based design (green) outperforms the classic MBA (red) on both accounts; but it is outperformed in terms of MSE-performances.
+\item Finally, a comparison of filter outputs in fig.\ref{z_replication_output_dfa_2} (first realization of the process) confirms the previous picture: the customized design (green line) is smoother and it tends to anticipate turning points.
+\end{itemize}
+
+
+
+
+
+
+
+
+\subsection{Empirical AR(1)-Spectrum}\label{ar1_spect}
+
+
+We assume that the true model-order -- AR(1) -- is known (no identification), but $a_1$ is unknown and must be estimated. The empirical spectral estimate is based on a fitted AR(1)-model and estimation relies on unconditional maximum likelihood, such as implemented in the R-function $arima$\footnote{Unconditional (full) maximum likelihood is obtained from a state-space model representation.}; estimates rely on samples of length $T=120$. In contrast to the previous section we here distinguish in-sample and out-of-sample performances of real-time (nowcast) filters.
+
+
+<<echo=True>>=
+# Estimate the AR(1) coefficient
+estim_MBA<-T
+anzsim<-100
+for_sim_obj<-for_sim_out(a_vec,len1,len,cutoff,L,mba,estim_MBA,L_sym,
+              Lag,i1,i2,scaled_ATS,lambda_vec,eta_vec,anzsim,M,dif)
+@
+As in the previous section we emphasize the second process ($a_1=0.1$). In- and out-of-sample distributions of Peak Correlation and Curvature statistics are shown in fig.\ref{z_replication_curv_peak_dfa_2_emp}; corresponding MSE-distributions are to be found in fig.\ref{z_replication_curv_peak_dfa_2_emp_mse}.
+
+<<echo=False>>=
+# Extract sample performances
+# 1 ATS
+ats_sym<-for_sim_obj$ats_sym
+# 2 Curvature, Peak Correlation, ...
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+# 3. Amplitude and time-shifts
+amp_sim_per<-for_sim_obj$amp_sim_per
+shift_sim_per<-for_sim_obj$shift_sim_per
+# 4. Output series
+xff_sim<-for_sim_obj$xff_sim
+# 5. Peak correlation and Curvature
+amp_shift_mat_sim<-for_sim_obj$amp_shift_mat_sim
+# 6. Symmetric target
+xff_sim_sym<-for_sim_obj$xff_sim_sym
+Gamma<-for_sim_obj$Gamma
+dim_names<-for_sim_obj$dim_names
+@
+<<echo=False>>=
+# Boxplots performance measures
+#colo<-rainbow(dim(amp)[2]-1)
+
+# A distinction of in-sample and out-of-sample performances is irrelevant since we assume knowledge of the true DGP 
+Perf_meas_sel<-c(3,4,7,8)
+for (DGP in 1:length(a_vec))        #DGP<-2
+{
+  file = paste("z_replication_curv_peak_dfa_",DGP,"_emp.pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  par(mfrow=c(2,2))
+  for (Perf_meas in Perf_meas_sel)
+  {
+    boxplot(list(amp_shift_mat_sim[1,Perf_meas,DGP,],amp_shift_mat_sim[3,Perf_meas,DGP,],amp_shift_mat_sim[4,Perf_meas,DGP,],amp_shift_mat_sim[5,Perf_meas,DGP,]),outline=T,
+    names=c("MSE (0,0)",paste("(",lambda_vec[2:length(lambda_vec)],",",eta_vec[2:length(eta_vec)],")",sep="")),
+    main=paste(dim_names[[2]][Perf_meas],", a1=",a_vec[DGP],sep=""),cex.axis=0.8,col=colo)
+  }
+  invisible(dev.off())
+}
+@
+
+<<label=z_replication_curv_peak_dfa_2_emp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_replication_curv_peak_dfa_2_emp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Curvature (left) and Peak Correlation (right) in-sample (top) and out-of-sample (bottom): classic MSE model-based filter (red) vs. balanced model-based (green), smooth model-based (cyan) and fast model-based (violet);  a1=0.1", sep = "")
+  cat("\\label{z_replication_curv_peak_dfa_2_emp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+<<echo=False>>=
+# Boxplots performance measures
+#colo<-rainbow(dim(amp)[2]-1)
+
+# A distinction of in-sample and out-of-sample performances is irrelevant since we assume knowledge of the true DGP 
+Perf_meas_sel<-c(5,9)
+for (DGP in 1:length(a_vec))        #DGP<-2
+{
+  file = paste("z_replication_curv_peak_dfa_",DGP,"_emp_mse.pdf", sep = "")
+  pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+  par(mfrow=c(1,2))
+  for (Perf_meas in Perf_meas_sel)
+  {
+    boxplot(list(amp_shift_mat_sim[1,Perf_meas,DGP,],amp_shift_mat_sim[3,Perf_meas,DGP,],amp_shift_mat_sim[4,Perf_meas,DGP,],amp_shift_mat_sim[5,Perf_meas,DGP,]),outline=T,
+    names=c("MSE (0,0)",paste("(",lambda_vec[2:length(lambda_vec)],",",eta_vec[2:length(eta_vec)],")",sep="")),
+    main=paste(dim_names[[2]][Perf_meas],", a1=",a_vec[DGP],sep=""),cex.axis=0.8,col=colo)
+  }
+  invisible(dev.off())
+}
+@
+
+<<label=z_replication_curv_peak_dfa_2_emp_mse.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_replication_curv_peak_dfa_2_emp_mse", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{MSE in-sample and out-of-sample: classic MSE model-based filter (red) vs. balanced model-based (green), smooth model-based (cyan) and fast model-based (violet);  a1=0.1", sep = "")
+  cat("\\label{z_replication_curv_peak_dfa_2_emp_mse}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+\textbf{Findings}
+\begin{itemize}
+\item The above results confirm our previous analysis: the balanced model-based design (green) outperforms the MBA in-sample as well as out-of-sample in terms of Curvature and Peak Correlation. The MBA performs best in terms of MSE, as expected.
+\end{itemize}
+
+
+
+
+\section{Replication of Unobserved-Components (UC-) Models}\label{rep_cust_us_mod}
+
+In contrast to ARIMA-models, which model the entire DGP by a single (reduced-form) equation, an unobserved-components (UC-) model disaggregates the DGP into interesting `components', typically trend $T_t$, cycle $C_t$, seasonality $S_t$ and irregular $I_t$
+\[x_t=T_t+C_t+S_t+I_t\]
+Specific sub-models are assigned to the components which could be linked (dependency) or not (orthogonality) and the DGP of the data is obtained by aggregation of the components (structural form). We here review classic trend-cycle models for seasonally-adjusted log-transformed real US-GDP. 
+
+
+
+\subsection{The Data: (Log) Real US GDP}
+
+US (log) real GDP is plotted in fig.\ref{z_us_real_log_gdp}: the shaded areas correspond to recessions as declared by the NBER. The data is downloaded from the \href{https://www.quandl.com}{Quandl}-website, as illustrated in the following piece of code:
+<<echo=True>>=
+# Post WWII data
+start_year<-1947 
+start_date=paste(start_year,"-01-01",sep="")
+# Last data point
+end_date<-format(Sys.time(), "%Y-%m-%d")
+end_year<-as.double(substr(end_date,1,4))
+# Load Real GDP
+#Title:               Real Gross Domestic Product, 3 Decimal
+#Series ID:           GDPC96
+#Source:              US. Bureau of Economic Analysis
+#Release:             Gross Domestic Product
+#Seasonal Adjustment: Seasonally Adjusted Annual Rate
+#Frequency:           Quarterly
+#Units:               Billions of Chained 2009 Dollars
+#Date Range:          1947-01-01 to 2014-07-01
+#Last Updated:        2014-11-25 7:56 AM CST
+#Notes:               A Guide to the National Income and 
+#                     Product Accounts of the United States 
+#                     (NIPA) - 
+#   (http://www.bea.gov/national/pdf/nipaguid.pdf)
+if (load_from_quandl)
+{
+  mydata<-Quandl(c("FRED/GDPC96"),start_date=start_date,
+               end_date=end_date,type="xts")
+  save(mydata,file=paste(path.dat,"US_GDP.Rdata",sep=""))
+} else
+{
+# Data is included in MDFA-package  
+#  load(file=paste(path.dat,"US_GDP.Rdata",sep=""))
+}
+tail(mydata)
+lgdp <- ts(100*log(mydata),start=start_year,frequency=4)
+nobs <- length(lgdp)
+# Annualized sharpe of GDP series
+sharpe_GDP<-sqrt(4)*mean(diff(lgdp))/sqrt(var(diff(lgdp)))
+@
+<<echo=False>>=
+file = paste("z_us_real_log_gdp.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+plot(lgdp,ylim=c(min(lgdp),max(lgdp)),xlim=c(start_year,end_year),plot.type='s',
+     col="black",ylab="",main="Log Real US GDP ")
+nberShade()
+lines(lgdp,col="black")
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Log US Real GDP", sep = "")
+  cat("\\label{z_us_real_log_gdp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Except for the (shaded) recession episodes, the series grows steadily: post-WWII annualized sharpe ratio is \Sexpr{round(sharpe_GDP,2)} and the drift is  regular but slightly decreasing towards the sample end. 
+
+
+\subsection{UC-Model}
+
+In order to fit the data,  Morley, Nelson, and Zivot (2003), \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}, for short, propose the following Unobserved-Components (UC-) model
+\begin{eqnarray}
+\left.\begin{array}{ccc}
+GDP_t&=&(1,1,0)\cdot\mathbf{S}_t+{v}_t\\
+\mathbf{S}_t&=&\left(\begin{array}{c}\mu\\0\\0\end{array}\right)+\left(\begin{array}{ccc}1&0&0\\                           
+                            0&a_1&1\\
+                            0&a_2&0
+                            \end{array}\right)\mathbf{S}_{t-1}+\mathbf{w_t}\end{array}\right\}\label{ss_mod_gen_i1}
+\end{eqnarray}
+where $v_t$ and $\mathbf{w}_t'=(w_{1t},w_{2t},0)$ are mutually uncorrelated iid random variables with variances $\sigma_v^2$, $\boldsymbol{\Sigma_w}^2=\left(\begin{array}{ccc}\sigma_{w,11}^2&0&0\\0&\sigma_{w,22}^2&0\\0&0&0\end{array}\right)$ and where $\mu$ is a constant drift. $\mathbf{S}_t$ collects trend (first component) and cycle (second component). If $\sigma_v^2=0$, as in \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}, then  the data can be modeled by the sum of a random-walk with drift (trend) and a stationary AR(2) (cycle) whereby both processes are mutually independent. Given that the drift looses momentun after the dot-com recession (2001)\footnote{\href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)} use data up to 1998.},  we complement the above fixed trend-growth model by an additional stochastic drift-equation in the system of state-equations:
+\begin{eqnarray}
+\left.\begin{array}{ccc}GDP_t&=&(1,0,1,0)\cdot\mathbf{S}_t+v_t\\
+\mathbf{S}_t&=&\left(\begin{array}{cccc}1&1&0&0\\
+                            0&1&0&0\\
+                            0&0&a_1&1\\
+                            0&0&a_2&0
+                            \end{array}\right)\mathbf{S}_{t-1}+\mathbf{w_t}\end{array}\right\}\label{ss_mod_gen_i2}
+\end{eqnarray}
+where $\mathbf{w}_t'=(w_{1t},w_{2t},w_{3t},0)$ and $\boldsymbol{\Sigma_w}^2=\left(\begin{array}{cccc}\sigma_{w,11}^2&0&0&0\\0&\sigma_{w,22}^2&0&0\\0&0&\sigma_{w,33}^2&0\\0&0&0&0\end{array}\right)$. The first model is nested in this more general specification: set the second diagonal element $\sigma_{w,22}^2$ of $\boldsymbol{\Sigma_w}^2$,  corresponding to the adaptive drift, to zero and initialize the second element of $\mathbf{S}_0$ (drift) in $t=0$ by $\mu$. Note that if $\sigma_{w,22}^2>0$, then the DGP is integrated of order two (double unit root in frequency zero). Let  $\boldsymbol{\theta}'=(a_1,a_2,\sigma_{w,11}^2,\sigma_{w,22}^2,\sigma_{w,33}^2)$ designate the vector of unknown parameters. The latter can be estimated by maximizing the likelihood function, assuming that the noise terms are all Gaussian and mutually uncorrelated. 
+
+
+
+
+
+\subsection{I(1)-Model MNZ (2003)}\label{mnz_m-gr}
+
+We here rely on the R-package $dlm$
+<<echo=True>>=
+library(dlm)
+@
+and fit model \ref{ss_mod_gen_i1}\footnote{More precisely, we fit \ref{ss_mod_gen_i2} with nesting constraints.} to the GDP data, assuming three different time spans: 
+\begin{itemize}
+\item Jan-1947 to Feb-1998: replicate results in \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}
+\item Jan-1947 to Dec-2007: validate the model on data prior to the great recession
+\item Jan-1947 to Dec-2014: evaluate impact of great recession on model parameters. 
+\end{itemize}
+Let us emphasize that the Kalman-filter equations are (heavily) non-linear in the unknown variance parameters and therefore numerical optimization is challenging. The variances are crucial for determining the long-term dynamics (the integration order) of the DGP: if $\sigma_{w,22}^2=\sigma_{w,11}^2=0$ then the process is stationary (assuming stationarity of the cycle-AR(2)); if $\sigma_{w,22}^2=0$ and $\sigma_{w,11}^2>0$ then the process is integrated of order one I(1); if $\sigma_{w,22}^2>0$ then the process is integrated of order two I(2). 
+
+
+\subsubsection{Data: Jan-1947 to Feb-1998}
+
+In order to illustrate handling of the $dlm$-package we attempt to replicate results in \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}. 
+
+\begin{enumerate}
+\item Data:
+<<echo=True>>=
+# Post WWII data
+start_year<-1947 
+start_date=paste(start_year,"-01-01",sep="")
+# Data up to Feb-1998 as 
+end_date<-"1998-02-01"
+end_year<-as.double(substr(end_date,1,4))
+# Select data prior to end_year
+data_sample<-mydata[paste("/",end_date,sep="")]
+lgdp <- ts(100*log(data_sample),start=start_year,frequency=4)
+nobs <- length(lgdp)
+@
+\item Estimation: we replicate \ref{ss_mod_gen_i1} by \ref{ss_mod_gen_i2}, imposing $\sigma_{w,22}^2=0$. We refer the reader to the $dlm$-\href{http://cran.r-project.org/web/packages/dlm/vignettes/dlm.pdf}{vignette} for details of model implementation\footnote{We adapted code from \href{https://www.ualberta.ca/~sfossati/e509/files/slides/lec5.r}{Fossati (2013)}. In particular we parametrized the model in such a way that variances are always positive. Additionally, we can pre-specify and impose the argument of the roots of the AR(2) polynomial. This parameter is frequently (but erroneously) identified with the cycle-frequency, see section \ref{cf_cr_a_e_cl} for details.}. In order to exclude numerical issues, we used the solution in \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)} as initial value for our own optimization.
+<<echo=True>>=
+# We specify the model: sigma_{w,22} is vanishing and sigma_v=sqrt(1e-7) 
+#   is nearly vanishing (slightly positive is needed for numerical 
+#   stability because otherwise 
+#   quotients can vanish in the Kalman-Filter).
+# Note also that all variances are parametrized as positive 
+#   constants (squares).
+# This parametrization replicates the model in MNZ (2003).
+ssm2 <- function(parm){
+  dlm <- dlmModPoly(2,dV=1e-7,dW=c(parm[4]^2,0)) + 
+    dlmModARMA(ar=c(parm[1],parm[2]), ma=NULL, sigma2=parm[3]^2)
+	# get distribution variance of initial state
+	tmp0 <- matrix(c(parm[1],parm[2],1,0),nr=2)
+	tmp1 <- matrix(c(parm[3]^2,0,0,0),nc=1)
+	tmp <- solve(diag(4)-tmp0%x%tmp0)%*%tmp1
+	dlm$C0[3:4,3:4] <- matrix(tmp,nr=2)
+	return( dlm )
+}
+
+# Estimate parameters: we use the estimates in 
+#   Morley, Nelson and Zivot (2003) 
+# for initialization
+fit2_98 <- dlmMLE(y=lgdp,parm=c(1.5303,-.6097,.6199,.6893),build=ssm2,
+                  hessian=T)
+@
+<<echo=False>>=
+# get estimates for ARMA(2,0) part
+coef_i1 <- fit2_98$par
+var <- solve(fit2_98$hessian)
+mat_coef<-rbind(c(NA,1.5303,-.6097,.6199,.6893),c(fit2_98$value,fit2_98$par),c(NA,sqrt(diag(var))))
+dimnames(mat_coef)[[1]]<-c("Initial values (MNZ 2003)","Final estimates","Standard errors")
+dimnames(mat_coef)[[2]]<-c("Criterion Value","AR(1)","AR(2)","Sigma_w1","Sigma_w2")
+@
+The optimization affected slightly our initial estimates and therefore the final estimates in table \ref{z_ss_uc0_t} do not coincide with those reported in \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}, table 1.
+<<label=z_ss_uc0_t,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(mat_coef, dec = 1,digits=2, caption = paste("Estimates with standard errors: data from 1947 to 1997",sep=""),label=paste("z_ss_uc0_t",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+In particular, the arguments of the complex roots of the AR(2)-polynomial differ
+<<echo=True>>=
+Arg(polyroot(c(1,-1.5303,.6097)))
+Arg(polyroot(c(1,-fit2_98$par[1:2])))
+@
+Whereas our estimate corresponds to an `implied' cycle-length of \Sexpr{round((2*pi/Arg(polyroot(c(1,-fit2_98$par[1:2]))))[1]/4,2)} (years\footnote{The cycle-length in quarters is obtained as $2*\pi/\phi$ whereby $\phi$ is the argument of the AR(2)-polynomial. Divide this number by four to obtain a duration in years.}),  \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)} find \Sexpr{round(2*pi/Arg(polyroot(c(1,-1.5303,.6097)))[1]/4,2)} (years). Note, however, that our AR(2)-estimates are not significantly different from those in \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}. A more comprehensive discussion of the topic is provided below as well as in section \ref{cf_cr_a_e_cl}.    
+\item Unobserved components, trend and cycle, are plotted in fig.\ref{z_us_real_log_gdp_comp}.
+<<echo=False>>=
+mod2_98 <- ssm2(fit2_98$par)
+mod2f_98 <- dlmFilter(lgdp,mod2_98)
+
+# filtered values
+xtfilt_98 <- ts(mod2f_98$m[-1,1],start=1947,frequency=4)
+ctfilt_98 <- ts(mod2f_98$m[-1,3],start=1947,frequency=4)
+
+# plot fitered state (trend and cycle)
+file = paste("z_us_real_log_gdp_comp.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,1))
+plot(cbind(lgdp,xtfilt_98),ylab="",ylim=c(740,960),xlim=c(start_year,end_year),plot.type="s",col=c("black","blue"),main="Log Real US GDP and Trend")
+nberShade()
+lines(lgdp)
+lines(xtfilt_98,col="blue")
+mtext("GDP", side = 3, line = -1,at=mean(c(start_year,end_year)),col="black")
+mtext("Cycle-adjusted Component", side = 3, line = -2,at=mean(c(start_year,end_year)),col="blue")
+plot(ctfilt_98,ylim=c(min(ctfilt_98),max(ctfilt_98)),ylab="",xlim=c(start_year,end_year),col="blue",main="Cycle")
+nberShade()
+lines(ctfilt_98,col="blue")
+abline(h=0)
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp_comp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_comp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{US Real GDP: Trend (top) and cycle (bottom): data ends in Feb-1998", sep = "")
+  cat("\\label{z_us_real_log_gdp_comp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The cycle is similar, but not identical, to the estimate in \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}, fig.1. 
+\end{enumerate}
+
+
+\textbf{Remark}\\
+Typically, in applications, the mean duration of the cycle is identified with the argument of the roots of the AR(2)-polynomial: this way we inferred a duration of \Sexpr{round((2*pi/Arg(polyroot(c(1,-fit2_98$par[1:2]))))[1]/4,2)} years and, similarly, \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)} inferred an `implied period' of \Sexpr{round(2*pi/Arg(polyroot(c(1,-1.5303,.6097)))[1]/4,2)} years, see their table 1. However, as we shall see in section \ref{cf_cr_a_e_cl}, this alleged link between the AR-roots and the effective cycle-length does not apply, in general, because of interference phenomena: the combined effect of both (complex conjugate) roots of the AR-polynomial precludes such an interpretation. Let us foreclose that the spectral densities of \emph{both} AR(2)-cycles (ours and \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}) peak in frequency zero, see fig.\ref{z_effective_length} which suggests a periodicity of infinite length: neither \Sexpr{round((2*pi/Arg(polyroot(c(1,-fit2_98$par[1:2]))))[1]/4,2)} nor \Sexpr{round(2*pi/Arg(polyroot(c(1,-1.5303,.6097)))[1]/4,2)} are therefore pertinent cycle-periodicities. In the following we distinguish `implied' and `effective' cycle lengths: the former is the argument of the root of the AR(2)-polynomial and the latter is the peak-frequency of the resulting spectral density. 
+
+
+
+
+
+\subsection{Adding Recent Data: Validation, Great Recession}
+
+We try to validate the former model by including data up to the onset of the great recession, Dec-2007. Then we assess the impact of the great recession by considering observations up to Nov-2014.
+
+\begin{enumerate}
+\item Data:
+<<echo=True>>=
+# Data up to 2008
+end_date<-"2007-12-31"
+@
+<<echo=False>>=
+start_year<-1947 
+start_date=paste(start_year,"-01-01",sep="")
+end_year<-as.double(substr(end_date,1,4))
+# Select data prior to end_year
+data_sample<-mydata[paste("/",end_date,sep="")]
+lgdp_07 <- ts(100*log(data_sample),start=start_year,frequency=4)
+@
+<<echo=True>>=
+# Data up to Dec 2014
+end_date<-"2014-11-30"
+@
+<<echo=False>>=
+start_year<-1947 
+start_date=paste(start_year,"-01-01",sep="")
+end_year<-as.double(substr(end_date,1,4))
+# Select data prior to end_year
+data_sample<-mydata[paste("/",end_date,sep="")]
+lgdp_14 <- ts(100*log(data_sample),start=start_year,frequency=4)
+@
+\item Estimation:
+<<echo=False>>=
+# We specify the model: sigma_{w,33} is vanishing and sigma_v=sqrt(1e-7) is nearly vanishing 
+# (slightly positive is needed for numerical stability because otherwise quotients can vanish in Kalman-Filter)
+# Note also that all variances are parametrized as positive constants (squares)
+ssm2 <- function(parm){
+  dlm <- dlmModPoly(2,dV=1e-7,dW=c(parm[4]^2,0)) + 
+  	dlmModARMA(ar=c(parm[1],parm[2]), ma=NULL, sigma2=parm[3]^2)
+	# get distribution variance of initial state
+	tmp0 <- matrix(c(parm[1],parm[2],1,0),nr=2)
+	tmp1 <- matrix(c(parm[3]^2,0,0,0),nc=1)
+	tmp <- solve(diag(4)-tmp0%x%tmp0)%*%tmp1
+	dlm$C0[3:4,3:4] <- matrix(tmp,nr=2)
+	return( dlm )
+}
+@
+<<echo=True>>=
+fit2_07 <- dlmMLE(y=lgdp_07,parm=c(1.5303,-.6097,sqrt(.6199),
+                            sqrt(.6893)),build=ssm2,hessian=T)
+@
+<<echo=True>>=
+fit2_14 <- dlmMLE(y=lgdp_14,parm=c(1.5303,-.6097,sqrt(.6199),
+                            sqrt(.6893)),build=ssm2,hessian=T)
+@
+
+<<echo=False>>=
+# get estimates for ARMA(2,0) part
+mat_coef<-rbind(c(fit2_98$value,fit2_98$par,abs(2*pi/Arg(polyroot(c(1,-fit2_98$par[1:2]))))[1]/4),c(fit2_07$value,fit2_07$par,abs(2*pi/Arg(polyroot(c(1,-fit2_07$par[1:2]))))[1]/4),c(fit2_14$value,fit2_14$par,abs(2*pi/Arg(polyroot(c(1,-fit2_14$par[1:2]))))[1]/4))
+dimnames(mat_coef)[[1]]<-c("1947-1998","1947-2007","1947-2014")
+dimnames(mat_coef)[[2]]<-c("Criterion Value","AR(1)","AR(2)","Sigma_w1","Sigma_w2","`Implied' length (years)")
+mat_coef[mat_coef>4.e+9]<-Inf
+mat_coef<-round(mat_coef,2)
+@
+Estimates are reported in table \ref{z_ss_uc0_t_gr}. 
+<<label=z_ss_uc0_t_gr,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(mat_coef, dec = 1,digits=2, caption = paste("Estimates for three different time spans: 1947-1998, 1947-2007, 1947-2014",sep=""),label=paste("z_ss_uc0_t_gr",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+We infer that the model is remarkably stable up to the onset of the great recession. Afterwards, the AR(2)-cycle becomes non-stationary (the roots of the AR(2)-polynomial lie on both sides of the unit-circle); accordingly, the `implied' cycle-length is infinite.
+\item cycle estimates are plotted in fig.\ref{z_us_real_log_gdp_comp_wgr}.
+<<echo=False>>=
+mod2_07 <- ssm2(fit2_07$par)
+mod2f_07 <- dlmFilter(lgdp_07,mod2_07)
+mod2_14 <- ssm2(fit2_14$par)
+mod2f_14 <- dlmFilter(lgdp_14,mod2_14)
+
+# filtered values
+xtfilt_07 <- ts(mod2f_07$m[-1,1],start=1947,frequency=4)
+ctfilt_07 <- ts(mod2f_07$m[-1,3],start=1947,frequency=4)
+xtfilt_14 <- ts(mod2f_14$m[-1,1],start=1947,frequency=4)
+ctfilt_14 <- ts(mod2f_14$m[-1,3],start=1947,frequency=4)
+
+# plot fitered state (trend and cycle)
+file = paste("z_us_real_log_gdp_comp_wgr.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,1))
+plot(ctfilt_98,ylim=c(min(ctfilt_98),max(ctfilt_98)),xlim=c(start_year,end_year),col="blue",main="Cycle (restricted y-scale)",ylab="")
+nberShade()
+lines(ctfilt_07,col="red")
+lines(ctfilt_98,col="blue")
+lines(ctfilt_14,col="green")
+mtext("1947-1998", side = 3, line = -1,at=(start_year+end_year)/2,col="blue")
+mtext("1947-2007", side = 3, line = -2,at=(start_year+end_year)/2,col="red")
+mtext("1947-2014", side = 3, line = -3,at=(start_year+end_year)/2,col="green")
+abline(h=0)
+plot(ctfilt_98,ylim=c(min(ctfilt_14),max(ctfilt_14)),xlim=c(start_year,end_year),col="blue",main="Cycle (full y-scale)",ylab="")
+nberShade()
+lines(ctfilt_07,col="red")
+lines(ctfilt_98,col="blue")
+lines(ctfilt_14,col="green")
+mtext("1947-1998", side = 3, line = -1,at=(start_year+end_year)/2,col="blue")
+mtext("1947-2007", side = 3, line = -2,at=(start_year+end_year)/2,col="red")
+mtext("1947-2014", side = 3, line = -3,at=(start_year+end_year)/2,col="green")
+abline(h=0)
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp_comp_wgr.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_comp_wgr", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Cycles: data up to Feb-1998 (blue), Dec-2007 (red), Dec-2014 (green): restricted scale (top) vs. full scale (bottom)", sep = "")
+  cat("\\label{z_us_real_log_gdp_comp_wgr}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The `explosive' dynamics of the non-stationary cycle are eminently visible in the bottom panel.
+\end{enumerate}
+\textbf{Findings}
+\begin{itemize}
+\item Our two estimates of the AR(2)-cycle, calibrated prior to the great recession, have similar `implied' lengths (roughly 13 years) and the extracted cycle-components are almost indistinguishable, by eye (top panel). 
+\item By including the great recession in the estimation span, the cycle-component becomes non-stationary. 
+\end{itemize}
+
+\subsubsection{Summary}
+\begin{itemize}
+\item Numerical optimization of UC- (state space) models is tedious.
+\item Short-term forecast performances (maximum likelihood principle) are not well-suited for resolving and discriminating mid-term (cycle) from long-term (trend) dynamics.
+\item We were unable to replicate -- exactly -- the results in \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)} by the $dlm-$package. In particular the `implied' cycle-lengths, as specified by the roots of the AR(2)-polynomial, differ noticeably. However, both AR(2)-models are essentially similar in the sense that coefficients are not statistically different; moreover, both spectral densities peak in frequency zero, see fig.\ref{z_effective_length}.   
+\item Model estimates are fairly stable for data prior to the great recession. 
+\item The great recession jumbles components and the cycle becomes non-stationary.
+\end{itemize}
+
+
+
+\subsection{Implied vs. Effective Cycle-Lengths}\label{cf_cr_a_e_cl}
+
+In the case of \href{https://www.dropbox.com/s/1qn5h7s02c86j8i/mnz03.pdf?dl=0}{MNZ (2003)}, the cycle-component is
+\[c_t=1.5303c_{t-1}-0.6097c_{t-2}+\epsilon_t\]
+with complex conjugate roots \Sexpr{round(1/polyroot(c(1,-1.5303,0.6097))[1],3)}, \Sexpr{round(1/polyroot(c(1,-1.5303,0.6097))[2],3)}. The common (absolute) argument of the roots is \Sexpr{round(Arg(polyroot(c(1,-1.5303,0.6097))),3)} and the duration of a cycle corresponding to this frequency is $\frac{2\pi}{4\cdot\Sexpr{round(Arg(polyroot(c(1,-1.5303,0.6097))),3)}}=\Sexpr{round(2*pi/Arg(polyroot(c(1,-1.5303,0.6097)))/4,2)}$ (years). We argue that this number, the `implied' cycle-length as derived from the above calculus, is not a pertinent descriptive statistic of $c_t$, in general. For that purpose we compute the amplitude functions of the two AR(2)-filters specified in table \ref{z_ss_uc0_t}, see fig.\ref{z_effective_length}.
+<<echo=True>>=
+K<-1000
+omega_k<-pi*(0:K)/K
+trffkt_ar2_MNZ<-1/abs(1-1.5303*exp(1.i*omega_k)+0.6097*exp(1.i*2*omega_k))^2
+trffkt_ar2_98<-1/abs(1-fit2_98$par[1]*exp(1.i*omega_k)-fit2_98$par[2]*
+                       exp(1.i*2*omega_k))^2
+@
+<<echo=False>>=
+file = paste("z_effective_length.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+mplot<-log(cbind(trffkt_ar2_MNZ,trffkt_ar2_98))
+mplot[1,1:2]<-NA
+dimnames(mplot)[[2]]<-c("MNZ (2003)","I(1)-Model: data up to 1998")
+ax<-rep(NA,nrow(mplot))
+ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+plot_title<-"(Log-transformed) Amplitude functions of cycles"
+insamp<-1.e+90
+title_more<-dimnames(mplot)[[2]]
+colo<-c("blue","red")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_effective_length.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_effective_length", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{(Log-transformed) Amplitude functions of AR(2)-cycles with `implied' cycle-lengths of 8 (blue) and 13  (red) years", sep = "")
+  cat("\\label{z_effective_length}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Both amplitude functions peak in frequency zero\footnote{The two complex conjugate roots interfer.}: there are no peaks at the alleged `cycle-frequencies' of 8 and 13 years. Accordingly, neither AR(2)-filter or AR(2)-model generates `cycles'. 
+
+
+
+
+\subsection{I(2)-Models: Unconstrained vs. Constrained Cycle-Frequency}
+
+We extend the previous results by fitting model \ref{ss_mod_gen_i2} to the data. Since unconstrained optimization of the likelihood for the general model is an even more challenging task, we here propose four alternative designs:
+\begin{enumerate}
+\item An unconstrained design: `implied' cycle-length and innovation variances are determined freely.
+\item The same model but we impose an `implied'  cycle-length in accordance with the mean duration of business-cycles which is \Sexpr{round((end_year-start_year)/12,2)} years (from \Sexpr{start_year} to \Sexpr{end_year}). To make things simple we impose an implied length of 6 years (24 quarters). 
+\item Impose a vanishing level-innovation $\sigma_{w,11}^2=0$.
+\item Impose both constraints: `implied' cycle-length of 6 years and  $\sigma_{w,11}^2=0$.
+\end{enumerate}
+We consider data up to the onset of the great recession only (because the model is not robust).
+
+
+\subsubsection{Generate Empirical Results}
+
+
+\begin{enumerate}
+\item Read the data:
+<<echo=True>>=
+# Data up to great recession
+end_date<-"2007-12-31"
+@
+<<echo=False>>=
+start_year<-1947
+end_year<-as.double(substr(end_date,1,4))
+start_date=paste(start_year,'-01-01',sep="")
+
+# Select data prior to end_year
+data_sample<-mydata[paste("/",end_date,sep="")]
+lgdp <- ts(100*log(data_sample),start=start_year,frequency=4)
+nobs <- length(lgdp)
+@
+\item Estimate constrained and unconstrained I(2)-models.  
+<<echo=True>>=
+source(file=paste(path.pgm,"state_space_trend_cycle_gdp.r",sep=""))
+@
+<<echo=False>>=
+ss_obj_i2<-ss_model_i2(lgdp)
+mat_est_i2<-ss_obj_i2$mat_est
+mat_parm_i2<-ss_obj_i2$mat_parm
+# Large numbers are identified with \infty
+mat_est_i2[mat_est_i2>4.e+9]<-Inf
+# Take absolute values of standarddeviations
+mat_est_i2[,6:8]<-abs(mat_est_i2[,6:8])
+# Rounding
+mat_est_i2<-round(mat_est_i2,3)
+# Reorder models
+mat_est_i2_simple<-mat_est_i2[c(3,4,1,2),c(-2,-3,-4)]
+# Insert column for AIC
+mat_est_i2_simple_aic<-cbind(mat_est_i2_simple[,1],mat_est_i2_simple[,1]+c(2*5,2*4,2*4,2*3),mat_est_i2_simple[,2:ncol(mat_est_i2_simple)])
+# relabel columns
+dimnames(mat_est_i2_simple_aic)[[2]][1:2]<-c("Neg.log-lik","AIC")
+dimnames(mat_est_i2_simple_aic)[[2]][4:6]<-c("s_33","s_11","s_22")
+@
+
+\item Estimates and criterion values are to be found in table \ref{z_ss_uc0_t_gr_i2}.
+<<label=z_ss_uc0_t_gr_i2,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+#latex(cor_vec, dec = 1, , caption = "Example of using latex to create table",
+#center = "centering", file = "", floating = FALSE)
+xtable(mat_est_i2_simple_aic, dec = 1,digits=2, caption = paste("Estimates of I(2)-models: data from 1947 to the onset of the great recession (Dec-2007)",sep=""),label=paste("z_ss_uc0_t_gr_i2",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+The columns $s \textunderscore 11, s \textunderscore 22, s \textunderscore 33$ refer to the unknown innovation variances. The AIC-column is obtained by adding twice the number of estimated parameters to the first column (negative log-likelihood): as an example we estimate five parameters in the unconstrained model (first row) which leads to an AIC of $\Sexpr{round(mat_est_i2_simple_aic[1,1],3)}+2*5=\Sexpr{round(mat_est_i2_simple_aic[1,2],3)}$. The resulting information criterion is `informative' about the added-value (pertinence) of freely-determined parameters or of imposed constraints (it is not a formal statistical test, though).
+\item Extracted cycle- and drift-components are plotted in fig.\ref{z_us_real_log_gdp_comp_i2}
+
+<<echo=False>>=
+# Reorder models
+mat_parm_i2_reordered<-mat_parm_i2[c(3,4,1,2),]
+file = paste("z_us_real_log_gdp_comp_i2.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+ctfilt_list<-vector(mode="list")
+par(mfrow=c(2,2))
+for (i in 1:nrow(mat_parm_i2))
+{
+  plot_which<-c(F,T)
+  title_main<-dimnames(mat_parm_i2_reordered)[[1]][i]
+  ctfilt_list[[i]]<-plot_ss_i2(mat_parm_i2_reordered[i,],lgdp,start_year,plot_which,title_main)$ctfilt
+}
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp_comp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_comp_i2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Cycles and drifts of I(2)-models", sep = "")
+  cat("\\label{z_us_real_log_gdp_comp_i2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\end{enumerate}  
+
+\subsubsection{Analysis}
+\begin{itemize}
+\item Optimization is tedious!
+\item Imposing both constraints -- mean cycle-length and $\sigma_{w,11}^2=0$ -- affects the negative log-likelihood (the criterion value) noticeably: the resulting model would be rejected on ground of classical information criteria.
+\item The second model, with freely determined innovation variances and imposed cycle-length, fares best according to information criteria. It also (slightly) outperforms the previous I(1)-model, see table \ref{z_ss_uc0_t_gr}. Finally,  the spectral density of the associated cycle does not peak in zero, see section \ref{rep_i2_bp}.
+\item The stationary cycles in fig.\ref{z_us_real_log_gdp_comp_i2} (top and bottom-right panels) look similar. Counting-in the I(1)-model in the previous section, this observation may lead one to conclude that neither the integration-order nor the `implied' cycle-length are clearly identified by the data. To some extent, the final decision rests up to the analyst's preference(s). 
+\item Fig.\ref{z_us_real_log_gdp_comp_i2} suggests that drift (black line) and cycle (blue line) correlate, against the fact that the model assumes orthogonality of components.  
+\end{itemize}
+We now return to the main topic and propose to replicate the estimated Trend-Cycle models by DFA. 
+
+
+
+\subsection{Replicating the I(1)-Model by DFA}\label{rep_cy_mba_dfa}
+
+
+We  rely on the I(1)-model estimated in section \ref{mnz_m-gr}, as based on data up to Dec-2007: $\boldsymbol{\theta}=($\Sexpr{round(fit2_07$par[1],3)},\Sexpr{round(fit2_07$par[2],3)},\Sexpr{round(fit2_07$par[3],3)},\Sexpr{round(fit2_07$par[4],3)}). 
+
+
+
+\subsubsection{Detrend the Data}
+
+Since the model assumes a constant trend with slope $\mu=$\Sexpr{round(mod2f_07$m[nrow(mod2f_07$m),2],2)} we first detrend the data, see fig.\ref{z_us_real_log_gdp_detrended}.
+<<echo=True>>=
+drift<-mod2f_07$m[nrow(mod2f_07$m),2]
+trend<-ts(drift*(1:length(lgdp_07)),start=start_year,frequency=4)
+detrended<-lgdp_07-trend
+detrended<-detrended-mean(detrended)
+@
+<<echo=False>>=
+file = paste("z_us_real_log_gdp_detrended.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,1))
+plot(lgdp_07,ylim=c(min(lgdp_07),max(lgdp_07)),xlim=c(start_year,end_year),col="blue",main="Log Real US GDP",ylab="")
+nberShade()
+lines(lgdp_07)
+plot(detrended,ylim=c(min(detrended),max(detrended)),xlim=c(start_year,end_year),col="blue",main="Detrended Log Real US GDP",ylab="")
+nberShade()
+lines(detrended,col="blue")
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp_detrended.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_detrended", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{GDP (top) and trend-adjusted GDP (bottom)", sep = "")
+  cat("\\label{z_us_real_log_gdp_detrended}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Centering the detrended series about zero, as we did in the bottom panel, is facultative and does not affect results. 
+
+
+
+
+
+
+
+\subsubsection{DGP and Replication}
+
+
+
+The DGP of the detrended series in fig.\ref{z_us_real_log_gdp_detrended} is (assumed to be) the sum of a random-walk (without drift) and of a stationary stochastic cycle. Since the latter two components are independent, by assumption, the (pseudo-) spectral density of the DGP is obtained by summing-up both components
+\begin{eqnarray*}
+h_{cycle}(\omega)&=&\frac{\sigma_{w,22}^2}{|1-a_1\exp(i\omega)-a_2\exp(i2\omega)|^2}\\
+h_{trend}(\omega)&=&\frac{\sigma_{w,11}^2}{|1-\exp(i\omega)|^2}\\
+h_{Detrended~GDP}(\omega)&=&h_{cycle}(\omega)+h_{trend}(\omega)
+\end{eqnarray*}
+Specifically
+\[h_{Detrended~GDP}(\omega):=\frac{\Sexpr{round((fit2_07$par[3])^2,2)}}{|1-\exp(-i\omega)|^2}+\frac{\Sexpr{round((fit2_07$par[4])^2,2)}}{|1-\Sexpr{round(fit2_07$par[1],2)}\exp(-i\omega)+\Sexpr{round(-fit2_07$par[2],2)}\exp(-i2\omega)|^2}\]
+see fig.\ref{z_us_real_log_gdp_detrended_spect} (the singularity in frequency zero has been skipped).
+<<echo=False>>=
+K<-1000
+omega_k<-pi*(0:K)/K
+trffkt_trend<-(fit2_07$par[4])^2/abs(1-exp(1.i*omega_k))^2
+trffkt_cycle<-(fit2_07$par[3])^2/abs(1-fit2_07$par[1]*exp(1.i*omega_k)-fit2_07$par[2]*exp(1.i*2*omega_k))^2
+trffkt_GDP<-trffkt_trend+trffkt_cycle
+@
+<<echo=False>>=
+file = paste("z_us_real_log_gdp_detrended_spect.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+mplot<-log(cbind(trffkt_GDP,trffkt_trend,trffkt_cycle))
+mplot[1,1:2]<-NA
+dimnames(mplot)[[2]]<-c("DGP","Trend","Cycle")
+ax<-rep(NA,nrow(mplot))
+ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+plot_title<-"Log-(Pseudo) Spectral Densities"
+insamp<-1.e+90
+title_more<-dimnames(mplot)[[2]]
+colo<-rainbow(ncol(mplot))
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp_detrended_spect.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_detrended_spect", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Log (pseudo) spectral densities of DGP (red), trend (green) and cycle (blue) ", sep = "")
+  cat("\\label{z_us_real_log_gdp_detrended_spect}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The pseudo-spectral density of the DGP (red line) can be plugged into \ref{dfa_ms} but the unit-root requires a first-order restriction, $i1=T$, recall section \ref{pseudo_dft}\footnote{See chapter \ref{int_sec} for a formal treatment.}. In order to focus on the interesting business-cycle we address a bandpass target.
+
+
+
+
+
+
+
+\subsubsection{Bandpass Target}
+
+
+Model \ref{ss_mod_gen_i2} and its nested variant \ref{ss_mod_gen_i1} generate model-based (symmetric) target filters. As an alternative, we here rely on a classic `2-10 years' business-cycle design
+\begin{eqnarray}\label{ideal_bp_t}
+\Gamma(\omega)&=&\left\{\begin{array}{cc}1~&~\frac{\pi}{20}\leq |\omega|\leq \frac{\pi}{4}\\
+0~&~\textrm{otherwise}\end{array}\right.
+\end{eqnarray}
+where the cutoff-frequencies refer to quarters. This way, our research priorities are matched explicitly by the target specification. \\
+
+
+
+
+Next, we compare outputs of the previous I(1)- and I(2)-models with the new (real-time) bandpass design, assuming $L=100$. Since the DGP is assumed to be integrated of order one, we impose a simple level constraint $i1=T$, see section \ref{first_order_cons}. 
+\begin{enumerate}
+\item Specify the filter design: cutoff, restriction ($i1=T$), MSE-design ($\lambda=\eta=0$).
+<<echo=True>>=
+cutoff_len_upper<-4
+cutoff_len_lower<-20
+cutoff_upper<-pi/cutoff_len_upper
+L<-100
+# Spectrum: MDFA requires DFT i.e. square-root of density 
+# The design is univariate i.e. input and output series are synchronized.
+# Therefore we can rely on absolute values (no phase information 
+#   is required).
+weight_func<-cbind(sqrt(trffkt_GDP),sqrt(trffkt_GDP))
+# Ignore singularity in frequency zero 
+weight_func[1,]<-0
+# Target
+Gamma<-(0:K)<=as.integer(cutoff_upper*K/pi)+1
+Gamma[1:(K/cutoff_len_lower+1)]<-0
+# Restrictions: i1 constraint
+i1<-T
+i2<-F
+weight_constraint<-Gamma[1]
+# MSE-design
+lambda<-eta<-0
+@
+<<echo=False>>=
+# Additional configuration settings for MDFA
+d<-0
+lambda_cross<-lambda_smooth<-0
+lambda_decay<-c(0,0)
+lin_expweight<-F
+shift_constraint<-rep(0,ncol(weight_func)-1)
+grand_mean<-F
+b0_H0<-NULL
+c_eta<-F
+weights_only<-F
+weight_structure<-c(0,0)
+white_noise<-F
+synchronicity<-F
+lag_mat<-matrix(rep(0:(L-1),ncol(weight_func)),nrow=L)  
+@
+\item Proceed to estimation:
+<<echo=True>>=
+# Estimate MDFA MSE filter coefficients  
+mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,eta,cutoff,
+                  i1,i2,weight_constraint,lambda_cross,lambda_decay,
+                  lambda_smooth,lin_eta,shift_constraint,grand_mean,
+                  b0_H0,c_eta,weight_structure,
+                  white_noise,synchronicity,lag_mat,troikaner)
+@  
+Note that we could replicate this object by the simpler context-specific call
+<<echo=True>>=
+# Estimate MDFA MSE filter coefficients  
+mdfa_obj<-MDFA_mse_constraint(L,weight_func,Lag,Gamma,i1,i2,weight_constraint,
+                              shift_constraint)$mdfa_obj
+@  
+whereby $MDFA\textunderscore mse\textunderscore constraint$ handles constrained MSE-designs, specifically.
+
+\item Compute amplitude and time-shift functions, see fig.\ref{z_us_real_log_gdp_detrended_amp_shift_bp}: the time-shift is restricted to the passband only.
+<<echo=False>>=
+file = paste("z_us_real_log_gdp_detrended_amp_shift_bp.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+mplot<-cbind(Gamma,abs(mdfa_obj$trffkt),Arg(mdfa_obj$trffkt)/omega_k)#head(mplot)
+# Complete by shift in frequency zero: NA for the bandpass 
+mplot[1,3]<-NA
+dimnames(mplot)[[2]]<-c("Target","Estimate","Shift in passband")
+ax<-rep(NA,nrow(mplot))
+ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+par(mfrow=c(1,2))
+plot_title<-"Amplitude"
+insamp<-1.e+90
+title_more<-dimnames(mplot)[[2]][1:2]
+colo<-c("black","blue")
+mplot_func(as.matrix(mplot[,1:2]), ax, plot_title, title_more, insamp, colo)
+plot_title<-"Shift"
+insamp<-1.e+90
+title_more<-NULL
+colo<-"blue"
+# Restrict shift to passband (becomes -infty towards freq. 0)
+mplot[!Gamma,3]<-NA
+mplot_func(as.matrix(mplot[,3]), ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp_detrended_amp_shift_bp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_detrended_amp_shift_bp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions of real-time bandpass MSE-design, i1=T", sep = "")
+  cat("\\label{z_us_real_log_gdp_detrended_amp_shift_bp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The observed ripples are innocuous: they are due to the discontinuity of the ideal bandpass which cannot be fitted perfectly by a finite-length filter ($L=100$).  
+\item Compute the bandpass-MSE filter-output; compare cycles of I(1)-model (fig.\ref{z_us_real_log_gdp_comp_wgr}), best I(2)-model (fig.\ref{z_us_real_log_gdp_comp_i2}, top-right panel) and bandpass-MSE, see fig.\ref{z_us_real_log_gdp_detrended_filt_bp}.
+
+<<echo=True>>=
+xf_i1<-rep(NA,length(detrended))
+for (i in L:length(detrended))  
+  xf_i1[i]<-t(mdfa_obj$b)%*%(detrended[i:(i-L+1)]-mean(detrended))  
+@
+<<echo=False>>=
+file = paste("z_us_real_log_gdp_detrended_filt_bp.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,1))
+mplot<-cbind(detrended,xf_i1,ctfilt_list[[4]][,2],ctfilt_07)
+dimnames(mplot)[[2]]<-c("Detrended US GDP","New bandpass","best I(2)-model","I(1)-model")
+plot(mplot,ylim=c(min(mplot,na.rm=T),max(mplot,na.rm=T)),xlim=c(start_year,end_year),plot.type="s",col=c("black","blue"),main="Detrended Log Real US GDP and Cycle Estimates",ylab="")
+nberShade()
+lines(mplot[,2],col="blue")
+lines(mplot[,1])
+lines(mplot[,3],col="red")
+lines(mplot[,4],col="green")
+mtext("detrended GDP", side = 3, line = -1,at=mean(c(start_year,end_year)),col="black")
+mtext("Bandpass MSE", side = 3, line = -2,at=mean(c(start_year,end_year)),col="blue")
+mtext("Cycle best I(2)", side = 3, line = -3,at=mean(c(start_year,end_year)),col="red")
+mtext("Cycle I(1)", side = 3, line = -4,at=mean(c(start_year,end_year)),col="green")
+abline(h=0)
+start_year<-1970
+plot(mplot[,2:3],ylim=c(min(mplot[,2:3],na.rm=T),max(mplot[,2:3],na.rm=T)),xlim=c(start_year,end_year),plot.type="s",col=c("black","blue"),main="New bandpass MSE (blue) and best I(2) (red)",ylab="")
+nberShade()
+lines(mplot[,2],col="blue")
+lines(mplot[,3],col="red")
+mtext("Bandpass MSE", side = 3, line = -1,at=mean(c(start_year,end_year)),col="blue")
+mtext("Cycle best I(2)", side = 3, line = -2,at=mean(c(start_year,end_year)),col="red")
+abline(h=0)
+invisible(dev.off())
+@
+
+
+<<label=z_us_real_log_gdp_detrended_filt_bp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_detrended_filt_bp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Detrended (log-real) US-GDP (black), new bandpass MSE (blue), best I(2)-model (red) and I(1)-model (green)   ", sep = "")
+  cat("\\label{z_us_real_log_gdp_detrended_filt_bp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\end{enumerate}
+The new MSE-bandpass (blue line) fares well: it tracks expansions and recessions similarly to the best I(2)-model (red line). The former is a bit smoother and slightly delayed when compared to the latter: further customization could address both issues, at once.
+
+
+
+
+\subsection{Replicating the General I(2)-Model by DFA}\label{rep_cy_mba_dfa_i2}
+
+
+\subsubsection{DGP and Pseudo-Spectrum}\label{rep_i2_bp}
+
+If $\sigma_{w,22}^2>0$ in the general model \ref{ss_mod_gen_i2}, then the DGP has a double unit-root in frequency zero. Its pseudo-spectrum is obtained by summing-up the spectra corresponding to the three orthogonal innovation processes
+\begin{eqnarray*}
+h_{cycle}(\omega)&=&\frac{\sigma_{w,33}^2}{|1-a_1\exp(i\omega)-a_2\exp(i2\omega)|^2}\\
+h_{level}(\omega)&=&\frac{\sigma_{w,11}^2}{|1-\exp(i\omega)|^2}\\
+h_{drift}(\omega)&=&\frac{\sigma_{w,22}^2}{|1-\exp(i\omega)|^4}\\
+h_{DGP}(\omega)&=&h_{cycle}(\omega)+h_{level}(\omega)+h_{drift}(\omega)
+\end{eqnarray*}
+For the best I(2)-model (top right panel in fig.\ref{z_us_real_log_gdp_comp_i2}) we obtain
+\[
+h_{DGP}(\omega)=\frac{\Sexpr{round(mat_parm_i2[nrow(mat_parm_i2),3]^2,2)}}{|1-\Sexpr{round(mat_parm_i2[nrow(mat_parm_i2),1],2)}\exp(i\omega)+\Sexpr{round(-mat_parm_i2[nrow(mat_parm_i2),2],2)}\exp(i2\omega)|^2}+
+\frac{\Sexpr{round(mat_parm_i2[nrow(mat_parm_i2),4]^2,2)}}{|1-\exp(i\omega)|^2}+\frac{\Sexpr{round(mat_parm_i2[nrow(mat_parm_i2),5]^2,6)}}{|1-\exp(i\omega)|^4}
+\]
+see fig.\ref{z_us_real_log_gdp_detrended_spect_i2}.
+<<echo=False>>=
+K<-1000
+omega_k<-pi*(0:K)/K
+trffkt_i2_level<-(mat_parm_i2[nrow(mat_parm_i2),4])^2/abs(1-exp(1.i*omega_k))^2
+trffkt_i2_drift<-(mat_parm_i2[nrow(mat_parm_i2),5])^2/abs(1-exp(1.i*omega_k))^4
+trffkt_i2_cycle<-(mat_parm_i2[nrow(mat_parm_i2),3])^2/abs(1-mat_parm_i2[nrow(mat_parm_i2),1]*exp(1.i*omega_k)-mat_parm_i2[nrow(mat_parm_i2),2]*exp(1.i*2*omega_k))^2
+trffkt_i2_GDP<-trffkt_trend+trffkt_cycle
+@
+<<echo=False>>=
+file = paste("z_us_real_log_gdp_detrended_spect_i2.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+mplot<-log(cbind(trffkt_i2_GDP,trffkt_i2_level,trffkt_i2_drift,trffkt_i2_cycle))
+mplot[1,1:3]<-NA
+dimnames(mplot)[[2]]<-c("DGP","Level","Drift","Cycle")
+ax<-rep(NA,nrow(mplot))
+ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+plot_title<-"Log-(Pseudo) Spectral Densities"
+insamp<-1.e+90
+title_more<-dimnames(mplot)[[2]]
+colo<-rainbow(ncol(mplot))
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp_detrended_spect_i2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_detrended_spect_i2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Log (pseudo) spectral densities of DGP (red), level (green), drift (cyan) and cycle (violet) ", sep = "")
+  cat("\\label{z_us_real_log_gdp_detrended_spect_i2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Note that the cycle-spectrum (violet) peaks in $\displaystyle{\frac{\pi}{\Sexpr{round((K/(which(trffkt_i2_cycle==max(trffkt_i2_cycle))-1)),2)}}}$ which corresponds to an effective (mean) cycle-length of \Sexpr{round(2*K/(4*(which(trffkt_i2_cycle==max(trffkt_i2_cycle))-1)),2)} years (we imposed an `implied' length of 6 years); the peak is very flat, though. The drift (cyan) is dominated by the sum of the cycle (violet) and of the level (green) on most of the frequency-band, except in a very narrow band centered about zero (the drift is slowly changing i.e. $\sigma_{w,22}$ is very small). As a result, the pseudo-spectral density of the I(1)-model in the previous section (fig.\ref{z_us_real_log_gdp_detrended_spect}) and of the current I(2)-model look similar. Therefore, we expect that the resulting cycle-estimates should be similar, too. \\
+The MBA can be replicated by the DFA by plugging $h_{DGP}(\omega)$ into \ref{dfa_ms}. Since the process is integrated of order two, we have to impose first \emph{and} second-order filter constraints, see section \ref{pseudo_dft}.  
+
+
+
+
+
+\subsubsection{Ideal Bandpass}
+
+As in the previous section \ref{rep_cy_mba_dfa} we here target an ideal 2-10 years bandpass. In contrast to the previous section, however, the data does not need to be detrended: the drift is stochastic and the DGP is an I(2) process. Another distinguishing feature is that we propose an unconstrained design based on the following MSE-criterion
+\begin{eqnarray*}
+\frac{2\pi}{T}\sum_{k=-M}^{M}\left|\Gamma(\omega_k)-\hat{\Gamma}(\omega_k) (1-\exp(-i\omega_k))^2\right|^2 h_{GDP}(\omega_k)\to\min_{\mathbf{b}} 
+\end{eqnarray*}
+The composite filter $\hat{\Gamma}(\omega_k) (1-\exp(-i\omega_k))^2$ consists of a double difference filter, which transforms an I(2)-process into a stationary time series, and an unconstrained $\hat{\Gamma}(\omega_k)$ which `undistords' the double difference such that the composite design matches the bandpass target $\Gamma(\cdot)$ for $\omega_k>0$. The composite filter satisfies the required I(2)-constraint, by construction, and irrespective of the finite MA-filter $\hat{\Gamma}(\cdot)$, and therefore the above criterion is well defined (the singularity in frequency zero is cancelled\footnote{Note that the ideal bandpass target $\Gamma(\omega_k)$ has a zero of infinite order in frequency zero.}). For convenience we rewrite the criterion as follows 
+\begin{eqnarray*}
+\frac{2\pi}{T}\sum_{k=-M}^{M}\left|\Gamma(\omega_k)\sqrt{h_{GDP}(\omega_k)}-\hat{\Gamma}(\omega_k)\bigg[\sqrt{h_{GDP}(\omega_k)} (1-\exp(-i\omega_k))^2\bigg]\right|^2 \to\min_{\mathbf{b}} 
+\end{eqnarray*}
+The target variable relies on original data in levels; but the explanatory variable relies on second-order differences, as emphasized by the bracketed (square-root) spectral density\footnote{Note that $\sqrt{h_{GDP}(\omega_k)} (1-\exp(-i\omega_k))^2$ is complex-valued: the second-order differences affect the phase relative to the target.}.
+\begin{enumerate}
+\item Specify the filter design and feed the (pseudo-) spectral density to MDFA.
+<<echo=True>>=
+cutoff_len_upper<-4
+cutoff_len_lower<-20
+cutoff_upper<-pi/cutoff_len_upper
+L<-100
+# Spectrum: the second-order difference filter is applied to the 
+# explanatory variable (second column) 
+#   Important: the relative phase information between target (data in level)
+#   and explanatory variable (differenced data) is required.
+#   Therefore one must supply the transferfunction (not the amplitude) 
+#   of the differenced filter!
+weight_func<-cbind(sqrt(trffkt_i2_GDP),sqrt(trffkt_i2_GDP)*(1-exp(1.i*omega_k))^2)
+# Ignore singularity in frequency zero
+weight_func[1,]<-0
+# Target
+Gamma<-(0:K)<=as.integer(cutoff_upper*K/pi)+1
+Gamma[1:(K/cutoff_len_lower+1)]<-0
+# Unconstrained design: the zero of order 2 is already obtained
+#   by the double difference filter
+i1<-F
+i2<-F
+# MSE-design
+lambda<-eta<-0
+@
+<<echo=False>>=
+# Additional configuration settings for MDFA
+d<-0
+lambda_cross<-lambda_smooth<-0
+lambda_decay<-c(0,0)
+lin_expweight<-F
+shift_constraint<-rep(0,ncol(weight_func)-1)
+weight_constraint<-Gamma[1]
+grand_mean<-F
+b0_H0<-NULL
+c_eta<-F
+weights_only<-F
+weight_structure<-c(0,0)
+white_noise<-F
+synchronicity<-F
+lag_mat<-matrix(rep(0:(L-1),ncol(weight_func)),nrow=L)  
+@
+\item estimation:
+<<echo=True>>=
+# Estimate MDFA MSE filter coefficients  
+mdfa_obj<-mdfa_analytic(L,lambda,weight_func,Lag,Gamma,
+              eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+              lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+              grand_mean,b0_H0,c_eta,
+              weight_structure,white_noise,synchronicity,lag_mat,troikaner)
+@ 
+Note that this object could be replicated by the simpler context-specific call
+<<echo=True>>=
+mdfa_obj<-MDFA_mse(L,weight_func,Lag,Gamma)$mdfa_obj
+@
+where $MDFA\textunderscore mse$ can handle the simplest (unconstrained) MSE case.
+\item Compute amplitude and time-shift functions of the \emph{composite} filter, see fig.\ref{z_us_real_log_gdp_detrended_amp_shift_bp_i2}: the time-shift is restricted to the passband only.
+<<echo=False>>=
+file = paste("z_us_real_log_gdp_detrended_amp_shift_bp_i2.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+trffkt_composite<-mdfa_obj$trffkt*(1-exp(1.i*omega_k))^2
+mplot<-cbind(Gamma,abs(trffkt_composite),Arg(trffkt_composite)/omega_k)#head(mplot)
+# Complete by shift in frequency zero: NA for the bandpass 
+mplot[1,3]<-NA
+dimnames(mplot)[[2]]<-c("Target","Estimate","Shift in passband")
+ax<-rep(NA,nrow(mplot))
+ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+par(mfrow=c(1,2))
+plot_title<-"Amplitude"
+insamp<-1.e+90
+title_more<-dimnames(mplot)[[2]][1:2]
+colo<-c("black","blue")
+mplot_func(as.matrix(mplot[,1:2]), ax, plot_title, title_more, insamp, colo)
+plot_title<-"Shift"
+insamp<-1.e+90
+title_more<-NULL
+colo<-"blue"
+# Restrict shift to passband (becomes -infty towards freq. 0)
+mplot[!Gamma,3]<-NA
+mplot_func(as.matrix(mplot[,3]), ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp_detrended_amp_shift_bp_i2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_detrended_amp_shift_bp_i2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (left) and time-shift functions (right) of real-time composite unconstrained bandpass MSE-design", sep = "")
+  cat("\\label{z_us_real_log_gdp_detrended_amp_shift_bp_i2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+As in the previous section, the observed ripples are innocuous (approximation of ideal bandpass target by finite-length filter). 
+\item Compute the output of the \emph{composite} bandpass-MSE filter. Compare cycles of I(1)-model (fig.\ref{z_us_real_log_gdp_comp_wgr}), best I(2)-model (fig.\ref{z_us_real_log_gdp_comp_i2}, top-right panel), and composite bandpass, see fig.\ref{z_us_real_log_gdp_detrended_filt_bp_i2}.
+
+<<echo=True>>=
+xf_i2<-rep(NA,length(detrended))
+# Apply second-order differences to the data
+diff2_lgdp_07<-c(0,0,diff(lgdp_07,diff=2))
+for (i in L:length(detrended))  
+  xf_i2[i]<-t(mdfa_obj$b)%*%diff2_lgdp_07[i:(i-L+1)]  
+@
+<<echo=False>>=
+file = paste("z_us_real_log_gdp_detrended_filt_bp_i2.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,1))
+mplot<-cbind(xf_i2,ctfilt_list[[4]][,2],ctfilt_07)
+dimnames(mplot)[[2]]<-c("Composite bandpass","best I(2)","I(1)")
+plot(mplot,ylim=c(min(mplot,na.rm=T),max(mplot,na.rm=T)),xlim=c(start_year,end_year),plot.type="s",col=c("black","blue"),main="Cycle Estimates: I(1)-model (green), best I(2)-model (red) and composite bandpass (orange)",ylab="")
+nberShade()
+lines(mplot[,1],col="orange")
+lines(mplot[,2],col="red")
+lines(mplot[,3],col="green")
+mtext("Bandpass I(2)", side = 3, line = -1,at=mean(c(start_year,end_year)),col="orange")
+mtext("Cycle best I(2)", side = 3, line = -2,at=mean(c(start_year,end_year)),col="red")
+mtext("Cycle I(1)", side = 3, line = -3,at=mean(c(start_year,end_year)),col="green")
+abline(h=0)
+mplot<-cbind(xf_i2,xf_i1,ctfilt_07)
+dimnames(mplot)[[2]]<-c("Composite Bandpass","Bandpass detrended-I(1)","")
+start_year<-1970
+plot(mplot[,1],ylim=c(min(mplot,na.rm=T),max(mplot,na.rm=T)),xlim=c(start_year,end_year),plot.type="s",col=c("black","blue"),main="Bandpass: detrended-I(1) (blue) vs. composite I(2) (orange)",ylab="")
+nberShade()
+lines(mplot[,2],col="blue")
+lines(mplot[,1],col="orange")
+mtext("Bandpass I(2)", side = 3, line = -1,at=mean(c(start_year,end_year)),col="orange")
+mtext("Bandpass I(1)", side = 3, line = -2,at=mean(c(start_year,end_year)),col="blue")
+abline(h=0)
+invisible(dev.off())
+@
+
+
+<<label=z_us_real_log_gdp_detrended_filt_bp_i2.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_real_log_gdp_detrended_filt_bp_i2", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Composite bandpass (orange), bandpass I(1) (blue), best I(2)-model (red) and I(1)-model (green)   ", sep = "")
+  cat("\\label{z_us_real_log_gdp_detrended_filt_bp_i2}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\end{enumerate}
+\textbf{Analysis}
+\begin{itemize}
+\item Both bandpass designs as well as the best I(2)-model generate zero-centric cycles which follow the alternating expansion and contraction episodes. 
+\item The two bandpass (DFA) MSE-estimates are nearly identical despite different unit-root specifications or data transformation (detrending in the I(1)-case). This is because the pseudo-spectral densities of the DGP behave similarly outside a narrow band centered at the unit root frequency zero, recall section \ref{rep_i2_bp}.
+\item The cycle of the best I(2)-model (red) appears to trade smoothness against speed: the series is a bit noisier but turning points  are detected earlier. Both issues could be tackled at once by suitable customization of the replicated MBA.
+\end{itemize}
+
+
+
+
+
+\section{Customization of UC-Models}\label{cust_uc_mod}
+
+Once replicated by the DFA, the above trend-cycle models could be customized. However, since the model specification is sensitive to singular events, in particular to the protracted down-turn during the great recession, we here propose to analyze more robust designs, namely the classic Hodrick-Prescott and Christiano-Fitzgerald filters, which are replicated and customized by MDFA. 
+
+
+
+
+
+
+\section{Replication and Customization of the Hodrick-Prescott HP-Filter)}\label{rep_cust_cl_fi_d}
+
+\subsection{Replication}
+
+
+The HP-filter is widely used in macroeconomics, for trend extraction or for business-cycle analysis. The original optimization principle 
+\begin{eqnarray*}
+\frac{1}{T} \sum_{t=1}^T (x_t-y_t)^2+\lambda_{HP} \sum_{t=3}^T [(1-B)^2y_t]^2\to \min_{y_t}
+\end{eqnarray*}
+where $x_t$ is the data, $y_t$ is the HP-trend and $\lambda_{HP}>0$ is a regularization term, was proposed by Whittaker (1923): the parameter $\lambda_{HP}$ balances a trade off between data-fitting (left term) and smoothness (right term), whereby the squared second order differences $[(1-B)^2y_t]^2$ of the trend correspond to the Curvature measure introduced in section \ref{peco_cu} (omitting the normalization in the latter expression). For $\lambda_{HP}=0$ the trend $y_t$ (over)fits the data perfectly and for $\lambda_{HP}=\infty$ the trend is a linear function of time $t$ (the curvature vanishes). For quarterly data, Hodrick and Prescott have proposed to select $\lambda_{HP}=1600$. \\
+
+The solution of the above minimization problem can be interpreted in terms of a formal signal extraction problem, see 
+\href{https://www.dropbox.com/s/dwdx0fcys34g9ku/maravall_kaiser.pdf?dl=0}{Maravall and Kaiser (2004)} and 
+\href{https://www.dropbox.com/s/s8zb0buqzygefby/mcelroy_hp.pdf?dl=0}{McElroy (2008)}. In this framework the HP-trend $y_t$ is the output of a symmetric filter\footnote{We here assume that $y_t$ is estimated in the middle of a large sample, such that symmetric filters can be applied.}:
+\[y_t=\frac{q}{q+(1-B)^2(1-F)^2}x_t\]
+where $q=1/\lambda_{HP}$ and where $F=B^{-1}$ is the forward operator. The implicit model underlying the approach assumes that
+\begin{eqnarray*}
+x_t&=&T_t+\lambda_{HP} I_t\\
+(1-B)^2T_t&=&\nu_t
+\end{eqnarray*}
+where $I_t,\nu_t$ are mutually independent Gaussian white noise sequences with identical variances. In this case, i.e. if the model applies, $y_t$ is an optimal MSE estimate of the unobserved trend $T_t$. Note that $\lambda_{HP}$ can be interpreted as an inverse SNR: for $\lambda_{HP}=0$ the noise vanishes and therefore $x_t=T_t$ or, equivalently, $y_t=x_t$. For $\lambda_{HP}=1600$ the DGP of $x_t$ is found to be 
+\begin{eqnarray}\label{implicit_mode_ass}
+(1-B)^2x_t=(1-1.7771B+0.7994B^2)\epsilon_t
+\end{eqnarray}
+where $\epsilon_t$ is Gaussian white noise, see \href{https://www.dropbox.com/s/dwdx0fcys34g9ku/maravall_kaiser.pdf?dl=0}{Maravall and Kaiser (2004)} and \href{https://www.dropbox.com/s/s8zb0buqzygefby/mcelroy_hp.pdf?dl=0}{McElroy (2008)}\footnote{The latter author provides R-code for an exact derivation of the MA-parameters as a function of $\lambda_{HP}$, see section \ref{hp_exe_repli} below.}. The corresponding implicit pseudo-spectral density is
+\begin{eqnarray}\label{hp_pseudo_spec}
+h(\omega)=\sigma^2\left|\frac{1-1.7771\exp(-i\omega)+0.7994\exp(-i2\omega)}{(1-\exp(-i\omega))^2}\right|^2
+\end{eqnarray}
+where $\sigma^2$ is the variance of $\epsilon_t$. Note that the filter-coefficients are invariant to the scale of the data  and therefore we may set $\sigma^2=1$, without affecting estimation results. The target, i.e. the symmetric HP-trend filter, could be obtained in R by relying on the so-called mFilter-library 
+<<echo=True>>=
+# Call HP-routines
+library(mFilter)
+@
+We conclude that optimality of the HP-trend, in terms of the MSE-metric, is reliant on an implicit model representation of the data. The corresponding DGP is integrated of order two, I(2), and its parameters are uniquely determined by the (inverse) SNR $\lambda_{HP}$.
+
+
+
+\subsection{Exercises: Replication}\label{hp_exe_repli}
+
+
+
+Since the HP-filter is less affected by the great recession than the previous state space models we do not skip recent data i.e. we consider the whole GDP series. 
+\begin{enumerate}
+\item Load the full GDP-series, starting in 1960.
+<<echo=True>>=
+# Load full data-set
+start_year<-1960
+end_date<-format(Sys.time(), "%Y-%m-%d")
+end_year<-as.double(substr(end_date,1,4))
+start_date=paste(start_year,"-01-01",sep="")
+# Select data between start_year and end_year
+data_sample<-mydata[paste("/",end_date,sep="")]
+data_sample<-data_sample[paste(start_date,"/",sep="")]
+lgdp <- ts(100*log(data_sample),start=start_year,frequency=4)
+nobs <- length(lgdp)
+@
+\item Load the R-function for deriving the MA-coefficients of the implicit time series model of the HP-filter, see \href{https://www.dropbox.com/s/s8zb0buqzygefby/mcelroy_hp.pdf?dl=0}{McElroy (2008)}.
+<<echo=True>>=
+source(file=paste(path.pgm,"hpFilt.r",sep=""))
+head(hpFilt)
+@
+The parameters $q$ and $n$ in the head of the function-call correspond to $1/\lambda_{HP}$ and $L$, the filter-length.
+\item \label{exe_hpcode_tuck}Verify that the function replicates the implicit model in the case $\lambda_{HP}=1600$. Hint: for the filter length we select the length of the GDP-series.
+<<echo=True>>=
+# Data: US-GDP
+x<-lgdp
+# Series length
+len<-L_hp<-length(x)
+# Select lambda
+lambda_hp<-1600
+q<-1/lambda_hp
+
+hp_filt_obj<-hpFilt(q,L_hp)
+
+tail(hpFilt,2)
+hp_filt_obj$ma_model
+ma_coeff<-hp_filt_obj$ma_model[2:3]
+@
+The first model-coefficient is a normalizing constant, which is irrelevant for our application, and the remaining two parameters correspond to the MA(2)-part of the model. The function computes filter coefficients and implicit model-parameters for any $q=1/\lambda_{HP}$. 
+\item Set $\lambda_{HP}=1600$ (quarterly data) and apply the filter, as implemented 
+in the $mFilter$ package, see fig.\ref{z_HP_us_real_log_gdp}.
+<<echo=True>>=
+# Resolution of frequency-grid: 2-times the sample length
+#   Selecting a higher resolution would tighten the approximation of HP by DFA
+K<-2*len
+# proceed to filtering
+x_hp <- hpfilter(x,type="lambda", freq=lambda_hp)
+# Extract the coefficients of the symmetric trend:
+#   hpfilter generates coefficients of the HP-gap (see below):
+#   we here transform back to trend filter
+parm<-diag(rep(1,len))-x_hp$fmatrix
+
+file = paste("z_HP_us_real_log_gdp.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, 
+    height = 6)
+# Plots: filter coefficients and series
+par(mfrow=c(2,1))
+title_more<-NA
+mplot<-cbind(parm[,len/2],parm[,1])
+plot_title<-"HP lambda=1600: symmetric (red) and real-time (blue)"
+axis_d<-1:len-1
+insamp<-1.e+99
+colo<-c("red","blue")
+mplot_func(mplot,axis_d,plot_title,title_more,insamp,colo)
+mplot<-cbind(rep(NA,len),rep(NA,len),rep(NA,len),x,x_hp$trend)
+plot_title<-"Log US-GDP (blue) vs HP-Trend (red)"
+plot(mplot[,4],col="blue",xlab="",ylab="",main=plot_title)
+nberShade()
+lines(mplot[,5],col="red")
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter coefficients of HP-trend, lambda=1600: symmetric (red) and real-time (blue) filters (top-graph). Original and filtered log US-GDP (bottom figure) ", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item Compute the target signal, corresponding to the symmetric HP-filter, and the pseudo-spectral density \ref{hp_pseudo_spec}, see fig.\ref{z_HP_filt_trffkt}.
+<<echo=True>>=
+# Compute pseudo-spectral density underlying Wiener-Kolmogorov derivation of HP 
+#   (see McElroy (2008) or Maravall-Kaiser p.179)
+# For lambda=1600 the MA coefficients are -1.77709 and 0.79944
+# Note that MDFA is fed with the square-root of the spectrum
+#   (this would correspond to the absolute value of the DFT)
+weight_func_h<-abs((1+ma_coeff[1]*exp(-1.i*(0:(K))*pi/(K))+
+                      ma_coeff[2]*exp(-1.i*2*(0:(K))*pi/(K)))/
+                      (1-exp(-1.i*(0:(K))*pi/(K)))^2)
+# Specify (square-root) spectra of target (first column) 
+#   and of explanatory variable (second column): target and 
+#   explanatory are the same here (univariate filter)
+weight_func<-cbind(weight_func_h,weight_func_h)
+# Compute target Gamma: HP-trend symmetric filter, see McElroy (2008)
+Gamma<-0:(K)
+for (k in 0:(K))
+{
+  omegak<-k*pi/(K)
+  Gamma[k+1]<-(1/lambda_hp)/(1/lambda_hp+abs(1-exp(1.i*omegak))^4)
+}
+
+
+file = paste("z_HP_filt_trffkt.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, 
+    height = 6)
+par(mfrow=c(2,1))
+colo<-c("blue","red")
+insamp<-1.e+99
+mplot<-as.matrix(Gamma)
+plot_title<-"Target Gamma, lambda=1600"
+freq_axe<-rep(NA,K+1)
+freq_axe[1]<-0
+freq_axe[1+(1:6)*K/6]<-c(paste(c("",2:5),"pi/6",sep=""),"pi")
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+# Plot log spectrum: weight_func must be squared
+mplot<-as.matrix(c(NA,log(weight_func[2:(K+1),1]^2)))
+plot_title<-"Log pseudo-spectrum, lambda=1600"
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+invisible(dev.off())
+@
+<<label=z_HP_filt_trffkt.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_filt_trffkt", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Target signal (top) and log-transformed pseudo-spectrum (bottom): the singularity in frequency zero is skipped", sep = "")
+  cat("\\label{z_HP_filt_trffkt}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item Replicate the HP real-time or concurrent filter (nowcast) by DFA: for that purpose insert the target and the pseudo-spectral density into \ref{dfa_ms} and impose first- and second-order constraints ($i1=i2=T$), as proposed in chapter \ref{con_sec}\footnote{Specifically we impose $\hat{\Gamma}(0)=\Gamma(0)=1$ (level-constraint) and $\hat{\phi}(0)=0$ (vanishing time-shift) which are required because the implicit DGP is assumed to be integrated of order two (double unit-root in frequency zero).}. Note that we propose (equivalent) generic as well as context specific estimation calls in our code below.
+<<echo=True>>=
+# HP-spectrum: this will be squared in MDFA
+weight_func_hp<-weight_func
+K<-nrow(weight_func_hp)-1
+# Frequency zero is infinity (unit root)
+#   The singularity is removed by imposing first and second order 
+#     restrictions
+#   For numerical computations we set the spectrum arbitrarily 
+#     to zero in freq. zero
+weight_func_hp[1,]<-0
+# Filter length is identified with sample length
+L<-len
+# Set default settings for MDFA (MSE, no regularization)
+source(file=paste(path.pgm,"control_default.r",sep=""))
+# First and second order constraints are imposed
+#   (the level constraint weight_constraint=1 is set in the default settings)
+i1<-T
+i2<-T
+# Cutoff: the frequency at which the target drops below 0.5
+cutoff<-pi*which(Gamma<0.5)[1]/length(Gamma)
+# Real-time (nowcast)
+Lag<-0
+# Estimation: generic
+imdfa_hp<-mdfa_analytic(L,lambda,weight_func_hp,Lag,Gamma,eta,cutoff,
+                        i1,i2,weight_constraint,lambda_cross,lambda_decay,
+                        lambda_smooth,lin_eta,shift_constraint,grand_mean,
+                        b0_H0,c_eta,weight_structure,
+                        white_noise,synchronicity,lag_mat,troikaner)
+
+# Alternative (identical) context-specific estimation: 
+imdfa_hp<-MDFA_mse_constraint(L,weight_func_hp,Lag,Gamma,i1,i2,weight_constraint,
+                              shift_constraint)$mdfa_obj
+
+file = paste("z_HP_filt_coef.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, 
+    height = 6)
+par(mfrow=c(2,1))
+colo<-c("blue","red")
+insamp<-1.e+99
+mplot<-cbind(imdfa_hp$b,parm[1:L,max(0,Lag)+1])
+rownames(mplot)<-paste("Lag ",0:(nrow(mplot)-1))
+colnames(mplot)<-c("Replication by DFA","HP-real-time")
+plot_title<-"Replication HP-real-time by DFA: Lags 0-240"
+freq_axe<-rownames(mplot)
+title_more<-c("DFA","HP")
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+mplot<-mplot[1:21,]
+rownames(mplot)<-paste("Lag ",0:(nrow(mplot)-1))
+colnames(mplot)<-c("Replication by DFA","HP-real-time")
+plot_title<-"Replication HP-real-time by DFA: Lags 0-20"
+freq_axe<-rownames(mplot)
+title_more<-c("DFA","HP")
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+invisible(dev.off())
+@
+<<label=z_HP_filt_coef.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_filt_coef", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=6in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Concurrent filter coefficients: DFA (blue) vs. `true' coefficients (red). Full lag-distribution (top) and first twenty lags (bottom).", sep = "")
+  cat("\\label{z_HP_filt_coef}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Fig.\ref{z_HP_filt_coef} confirms that the DFA replicates the true coefficients up to arbitrary precision: both coefficient series overlap almost perfectly. A numerical juxtaposition of filter coefficients below confirms that the approximation error is negligible by all practical means\footnote{The magnitude of the error depends on the (finite) resolution of the discrete frequency-grid as specified by the parameter $K$ in the R-code.}:
+<<echo=True>>=
+head(mplot)
+@
+\item Check first- and second-order constraints of the DFA real-time filter:
+<<echo=True>>=
+# Check first-order: should give 1
+print(paste("Transfer function in frequency zero: ",
+            round(sum(imdfa_hp$b),3),sep=""))
+# Check second-order: time-shift should vanish
+print(paste("Time-shift in frequency zero: ",
+            round((1:(L-1))%*%imdfa_hp$b[2:L],10),sep=""))
+@
+\end{enumerate}
+After replication of the real-time trend estimate we proceed to business-cycle analysis.
+
+
+
+\subsection{Business-Cycle Analysis: HP-Gap and HP-Cycle}
+
+We here propose two different designs, a highpass and a bandpass, and we compare both `cycle' concepts.
+
+\subsubsection{HP-Gap}
+
+Consider the deviations of the GDP-series about the HP-trend 
+\[
+\textrm{gap}_t=\textrm{GDP}_t-\sum_{k=-\infty}^{\infty}{\gamma}_k^{HP-Trend,1600} \textrm{GDP}_{t-k}
+\]
+where ${\gamma}_k^{HP-Trend,1600}$ are the coefficients of the symmetric HP-trend filter with $\lambda_{HP}=1600$\footnote{Note that the coefficients as computed by the function $hpfilter$ ($mFilter$-package) correspond to the gap. The trend coefficients in the previous section were obtained by the transformation $\gamma_k^{trend}=1-\gamma_k^{gap}$.} and where, for the moment, it is assumed that the data-sample stretches infinitely into past and into future. The resulting time series $\textrm{gap}_t$ is likely to be positive during expansions and negative during contractions. Although these dynamic characteristcs typically alude to a `cycle', the target filter 
+\[\Gamma^{gap}(\omega):=1-\Gamma^{trend}(\omega)\]
+is not a bandpass but a highpass instead, see fig.\ref{z_HP_us_real_log_gdp_hp_diff__gap_amp}, red line. The highpass has a double zero in the unit-root frequency zero: it transforms a non-stationary I(2)-process in a stationary component. The real-time (one-sided) filter $\hat{\Gamma}^{gap}(\omega)$ inherits this property, too. Note that $\hat{\Gamma}^{gap}(\omega):=1-\hat{\Gamma}^{trend}(\omega)$ where $\hat{\Gamma}^{trend}(\omega)$ is the real-time trend filter replicated in the previous exercise. The assertion follows directly from
+\begin{eqnarray*}
+&&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Gamma^{gap}(\omega_k)-\hat{\Gamma}^{gap} (\omega_k)\right|^2 h(\omega_k)\\
+&=&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|(1-\Gamma^{trend}(\omega_k))-(1-\hat{\Gamma}^{trend} (\omega_k))\right|^2 h(\omega_k)\\
+&=&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Gamma^{trend}(\omega_k)-\hat{\Gamma}^{trend} (\omega_k)\right|^2 h(\omega_k)
+\end{eqnarray*}
+where $h(\omega_k)$ is the pseudo spectral density defined in \ref{hp_pseudo_spec}: $\hat{\Gamma}^{trend}$ minimizes the lower term if and only if $\hat{\Gamma}^{gap}(\omega)$ minimzes the upper term. 
+
+
+\subsubsection{HP-Cycle}
+
+An effective bandpass design is obtained when applying the HP-trend filter to the \emph{differenced} GDP series
+\begin{eqnarray*}
+cycle_t&=&\sum_{k=-\infty}^{\infty}{\gamma}_k^{HP-Trend,1600} \Delta GDP_{t-k}\\
+&=&\sum_{k=-\infty}^{\infty}({\gamma}_{k}^{HP-Trend,1600}-{\gamma}_{k-1}^{HP-Trend,1600}) GDP_{t-k}
+\end{eqnarray*}
+where $\Delta GDP_{t-k}=GDP_{t-k}-GDP_{t-k-1}$. The filter with coefficients
+\begin{equation}\label{first_guess_hp_trend_diff}
+\gamma_k^{Cycle}:={\gamma}_{k}^{HP-Trend,1600}-{\gamma}_{k-1}^{HP-Trend,1600}
+\end{equation}
+is called HP Cycle. Note that the filter coefficients $\gamma_k^{Cycle}$ are applied to the original data in \emph{levels}: the transfer function is effectively a bandpass, see fig.\ref{z_HP_us_real_log_gdp_hp_diff__gap_amp}, blue line. The filter \ref{first_guess_hp_trend_diff} transforms an I(1)-process (single unit-root with a possible linear drift) into a stationary cycle centered about the drift-constant\footnote{We here ignore the fact that the implicit model is I(2). First differences of GDP are (nearly) stationary which is all we need at this stage.}. The MSE-criterion \ref{dfa_ms} for deriving the real-time filter is
+\begin{eqnarray}
+&&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Gamma^{trend}(\omega_k)(1-\exp(-i\omega_k))-\hat{\Gamma}(\omega_k)(1-\exp(-i\omega_k)) \right|^2 h(\omega_k)\nonumber\\
+&=&\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Gamma^{trend}(\omega_k)-\hat{\Gamma}(\omega_k) \right|^2 \tilde{h}(\omega_k)\to\min_{\mathbf{b}}\label{dfa_ms_hp_cycle}
+\end{eqnarray}
+where 
+\begin{eqnarray}
+\tilde{h}(\omega)&=&\left|1-\exp(-i\omega)\right|^2\left|\frac{1-1.7771\exp(-i\omega)+0.7994\exp(-i2\omega)}{(1-\exp(-i\omega))^2}\right|^2\nonumber\\
+&=&\left|\frac{1-1.7771\exp(-i\omega)+0.7994\exp(-i2\omega)}{1-\exp(-i\omega)}\right|^2\label{hp_pseudo_spec_diff}
+\end{eqnarray}
+Note that we may apply either $\hat{\Gamma}(\omega_k)(1-\exp(-i\omega_k))$ to GDP or $\hat{\Gamma}(\omega_k)$ to first differences of GDP: the latter is done in our R-code below. 
+Since the differenced process is assumed to be I(1), instead of I(2), we can select $i1=T$ and $i2<-F$: a first-order level constraint is imposed only\footnote{The user is free to relax this restriction since first differences of GDP are not integrated.}.\\
+
+As we shall see, real-time gap and cycle estimates are closely linked, since the former corresponds to first differences of the latter. 
+
+
+\subsubsection{Exercises: Implement HP-Gap and HP-Cycle}
+
+\begin{enumerate}
+\item Compute amplitude functions of HP-Gap and of HP-Cycle  and show that the first is a highpass and that the second is a bandpass. 
+<<echo=True>>=
+Gamma_cycle<-abs(Gamma*(1-exp(1.i*pi*(0:K)/K)))
+Gamma_gap<-1-Gamma
+Gamma_gap[1]<-0
+file = paste("z_HP_us_real_log_gdp_hp_diff__gap_amp.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+insamp<-1.e+99
+par(mfrow=c(2,2))
+# Cycle
+mplot<-as.matrix(Gamma_cycle)
+plot_title<-"Target HP-Cycle"
+freq_axe<-rep(NA,K+1)
+freq_axe[1]<-0
+freq_axe[1+(1:6)*K/6]<-c(paste(c("",2:5),"pi/6",sep=""),"pi")
+title_more<-NA
+colo<-"blue"
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+# Gap
+mplot<-as.matrix(Gamma_gap)
+plot_title<-"Target HP-Gap"
+freq_axe<-rep(NA,K+1)
+freq_axe[1]<-0
+freq_axe[1+(1:6)*K/6]<-c(paste(c("",2:5),"pi/6",sep=""),"pi")
+title_more<-NA
+colo<-"red"
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+# At frequency zero
+len2<-30
+mplot<-as.matrix(c(Gamma_cycle[(len2+1):1],
+                   as.matrix(Gamma_cycle)[2:(len2+1)]))
+plot_title<-"Target HP-Cycle at frequency zero"
+freq_axe<-rep(NA,2*len2+1)
+freq_axe[1]<-0
+freq_axe[c(1,len2+1,2*len2+1)]<-c(paste("-pi/",as.integer(K/len2),sep=""),
+                              "0",paste("pi/",as.integer(K/len2),sep=""))
+title_more<-NA
+colo<-"blue"
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+# Gap
+mplot<-as.matrix(c(Gamma_gap[(len2+1):1],as.matrix(Gamma_gap)[2:(len2+1)]))
+plot_title<-"Target HP-Gap at frequency zero"
+freq_axe<-rep(NA,2*len2+1)
+freq_axe[1]<-0
+freq_axe[c(1,len2+1,2*len2+1)]<-c(paste("-pi/",as.integer(K/len2),sep=""),"0",
+                                  paste("pi/",as.integer(K/len2),sep=""))
+title_more<-NA
+colo<-"red"
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp_hp_diff__gap_amp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp_hp_diff__gap_amp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude functions: HP-Cycle (blue) and HP-Gap (red). Whole positive frequency-band (top) vs. close-up at frequency zero (bottom)", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp_hp_diff__gap_amp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\textbf{Remarks}\\
+\begin{itemize}
+\item The bandpass (left-side plots) `shrinks' the input signal: the peak-value of the amplitude is smaller than 1/10.
+\item The HP-Gap (right-side plots) is a highpass: noise will pass the filter without hindrance.
+\item The amplitude function of the highpass flattens towards frequency zero, see bottom-right plot: its derivative  vanishes or, stated otherwise, HP-Gap has a zero of order two in frequency zero. 
+\item In contrast, the amplitude of the bandpass does not flatten towards frequency zero, see bottom-left plot: its derivative does not exist and the zero is of order one only.
+\end{itemize}
+\item Compute the cycle-periodicity, measured in years:
+<<echo=True>>=
+peak_frequency<-(which(Gamma_cycle==max(Gamma_cycle))-1)*pi/K
+periodicity_in_quarters<-round(2*pi/peak_frequency,3)
+print(paste("Cycle-periodicity in years: ",periodicity_in_quarters/4,sep=""))  
+@
+The effective duration of the cycle, as measured by the peak of the amplitude function, exceeds the mean duration of business-cycles. A correspndingly shorter length could be obtained by selecting a smaller $\lambda_{HP}$. As an example, we here compute the effective cycle-length for $\lambda_{HP}=200$: 
+<<echo=True>>=
+# Select lambda
+lambda<-200
+# proceed to filtering
+x_l <- hpfilter(x,type="lambda", freq=lambda)
+# Extract the coefficients of the symmetric trend:
+parm_l<-diag(rep(1,len))-x_l$fmatrix
+Gamma_l<-0:(K)
+for (k in 0:(K))
+{
+  omegak<-k*pi/(K)
+  Gamma_l[k+1]<-parm_l[len/2,len/2]+2*parm_l[(len/2+1):len,len/2]%*%
+              cos((1:(len/2))*omegak)
+}
+# Specify cycle-target 
+Gamma_cycle_l<-abs(Gamma_l*(1-exp(1.i*pi*(0:K)/K)))
+# Compute cycle-length
+peak_frequency_l<-(which(Gamma_cycle_l==max(Gamma_cycle_l))-1)*pi/K
+periodicity_in_quarters_l<-round(2*pi/peak_frequency_l,3)
+print(paste("Cycle-periodicity in years for lambda=",lambda,": ",
+            periodicity_in_quarters_l/4,sep=""))  
+@
+The mean duration of \Sexpr{round(periodicity_in_quarters_l/4,3)} (years) would match business-cycles of US-GDP better. Note, however, that the AR(2)-coefficients in the implicit model \ref{implicit_mode_ass}, and therefore the pseudo-spectral densities \ref{hp_pseudo_spec} and \ref{hp_pseudo_spec_diff}, depend on $\lambda_{HP}$ and should be recomputed accordingly, see exercise \ref{exe_hpcode_tuck}, section \ref{hp_exe_repli}, for usage of the corresponding R-function.
+\item Compute an optimal (MSE) real-time filter of the target $cycle_t$: apply \ref{dfa_ms_hp_cycle} and set $i1=T, i2=F$ and $L=50$\footnote{Fig.\ref{z_HP_filt_coef} suggests that real-time filter coefficients decay rapidly to zero.}. Once again we propose generic and context-specific estimation calls in our code.
+<<echo=True>>=
+L<-50
+# Specify the pseudo-spectral density of the differenced implicit model equation
+#   The following line of code is tricky since a two-column matrix multiplies
+#   a vector whose length corresponds to the number of rows of the matrix.
+# In such a case, R automatically applies the vector to each column separately
+#   and multiplication is performed elementwise, as desired.
+weight_func_hp_diff<-weight_func_hp*
+  abs(1-exp(-1.i*(0:(nrow(weight_func_hp)-1)*pi/(nrow(weight_func_hp)-1))))
+K<-nrow(weight_func_hp_diff)-1
+# Set default settings for MDFA (MSE, no regularization)
+source(file=paste(path.pgm,"control_default.r",sep=""))
+# Set the filter constraints: level but no time-shift constraint
+i1<-T
+i2<-F
+# Estimate the corresponding MSE real-time filter
+
+imdfa_hp_cycle<-mdfa_analytic(L,lambda,weight_func_hp_diff,Lag,Gamma,
+                        eta,cutoff,i1,i2,weight_constraint,lambda_cross,
+                        lambda_decay,lambda_smooth,lin_eta,shift_constraint,
+                        grand_mean,b0_H0,c_eta,weight_structure,
+                        white_noise,synchronicity,lag_mat,troikaner)
+
+# Alternative (identical) context-specific estimation: 
+imdfa_hp_cycle<-MDFA_mse_constraint(L,weight_func_hp_diff,Lag,Gamma,i1,i2,
+                                    weight_constraint,shift_constraint)$mdfa_obj
+
+@
+\item Check the filter-constraints:
+<<echo=True>>=
+# Check first-order: should give 1
+print(paste("Transfer function in frequency zero: ",
+            sum(imdfa_hp_cycle$b),sep=""))
+# Check second-order: this is not imposed anymore
+print(paste("Time-shift in frequency zero: ",
+            round((1:(L-1))%*%imdfa_hp_cycle$b[2:L],3),sep=""))
+@
+As expected, the first-order level constraint is met but the time-shift in frequency zero is now \Sexpr{round(sum((1:(L-1))*imdfa_hp_cycle$b[2:L]),3)}. 
+\item Compare real-time coefficients for HP-trend (previous section) with those obtained for $\hat{\Gamma}(\omega_k)$ (the latter filter is applied directly to differenced data), see fig.\ref{z_HP_us_real_log_gdp_hp_diff_mse}. 
+<<echo=True>>=
+# Specify the pseudo-spectral density of the differenced implicit 
+#   model equation
+file = paste("z_HP_us_real_log_gdp_hp_diff_mse.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+insamp<-1.e+99
+colo<-c("red","blue")
+mplot<-cbind(imdfa_hp$b[1:L],imdfa_hp_cycle$b)
+plot_title<-"Filter coefficients: Level (red) vs. Difference (blue)"
+ymin<-min(mplot,na.rm=T)
+ymax<-max(mplot,na.rm=T)
+plot(mplot[,1],col="red",xlab="",ylab="",main=plot_title,type="l",
+     ylim=c(ymin,ymax))
+lines(mplot[,2],col="blue")
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp_hp_diff_mse.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp_hp_diff_mse", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Real-time MSE filters: HP-trend in level (red) vs. HP Trend in differences (blue)", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp_hp_diff_mse}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The new coefficients (blue line) decay less rapidly to zero because the difference operator magnifies high-frequency noise i.e. a stronger smoothing is required.
+\item Filter the data according to the above real-time Gap and Cycle specifications:
+\begin{itemize}
+\item HP-Gap
+<<echo=True>>=
+x_gap<-x
+# Specify the real-time HP-Gap coefficients
+#   We rely on the estimates as computed by hpfilter
+#   We provide an arbitrary series of length L
+#   The real-time gap-coefficients are in the first column of fmatrix
+gamma_gap<-hpfilter(1:L,type="lambda", freq=lambda_hp)$fmatrix[,1]
+
+# The sum must be zero: bandpass filter applied to 
+#   original GDP in level
+sum(gamma_gap)
+for (j in L:length(x_gap))
+  x_gap[j] <- gamma_gap[1:L]%*%x[j:(j-(L-1))]
+x_gap[1:(L-1)]<-NA 
+@
+\item HP-Cycle:
+<<echo=True>>=
+x_cycle<-xdiff<-diff(x)
+gamma_cycle<-as.vector(imdfa_hp_cycle$b)
+# Coefficients should add to one: trend filter applied to 
+#   differenced data
+sum(gamma_cycle)
+for (j in L:length(x_cycle))
+  x_cycle[j] <- gamma_cycle%*%xdiff[j:(j-(L-1))]
+x_cycle[1:(L-1)]<-NA
+@
+\end{itemize}
+\item Compare the proposed real-time cycle estimates and verify that the differenced cycle corresponds to the gap, see fig.\ref{z_HP_us_real_log_gdp_hp_bp}. Hint: standardize all series for ease of visual inspection.
+<<echo=True>>=
+file = paste("z_HP_us_real_log_gdp_hp_bp.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+par(mfrow=c(1,2))
+# Plots: filter coefficients and series
+insamp<-1.e+99
+# We bind data and filter outputs
+#   The shorter x_cycle (relies on differences) is automatically 
+#     shifted/adjusted
+mploth<-cbind(c(NA,diff(x)),x_gap,x_cycle,diff(x_cycle))
+# Standardization
+mplot<-scale(na.omit(mploth))
+plot_title<-"Gap (red) vs. cycle (blue)"
+ymin<-min(mplot,na.rm=T)
+ymax<-max(mplot,na.rm=T)
+plot(mplot[,3],col="blue",xlab="",ylab="",main=plot_title,type="l",
+     ylim=c(ymin,ymax))
+nberShade()
+lines(mplot[,3],col="blue")
+lines(mplot[,2],col="red")
+
+plot_title<-"Gap (red) vs. diff-cycle (green)"
+plot(mplot[,2],col="red",xlab="",ylab="",main=plot_title,type="l",
+     ylim=c(ymin,ymax))
+nberShade()
+lines(mplot[,2],col="red")
+lines(mplot[,4]+1,col="green")
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp_hp_bp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp_hp_bp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{HP-gap (red) and HP-cycle (blue) applied to log-transformed US-GDP in left panel. HP-gap (red) and differenced HP-cycle (green) in right panel: the green line is shifted upwards by +1 in order to differentiate both series. All filter outputs are standardized for ease of visual inspection", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp_hp_bp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The cycle (blue line) relying on the pseudo-spectral density \ref{hp_pseudo_spec_diff} (differenced data) is smoother, as expected. We note, also, that HP-gap (red) remains centered at zero towards the sample end, whereas the cycle appears `negatively biased'. This effect illustrates the double zero of the HP-gap design in frequency-zero: the filter is less sensitive to the changing drift (smaller growth-rate) of US-GDP after the great recession\footnote{The declining drift can be observed in fig.\ref{z_HP_us_real_log_gdp}, too.}. It is debatable which concept is more pertinent from a business-cycle perspective: a cycle centered about the slowly changing drift (blue) or a highpass centered at zero (red). As confirmed by the right panel, first differences of the cycle (green) are identical to the gap (red): both series would perfectly merge without the artificial shift introduced in the differenced cycle. The difference operator, linking gap and cycle series, explains the dissimilitude of the amplitude functions in frequency zero, recall fig.\ref{z_HP_us_real_log_gdp_hp_diff__gap_amp}.  
+\end{enumerate}
+We now customize the cycle, trying to maintain smoothness while improving speed.
+
+
+
+\subsection{Customization}
+
+
+A look at HP-Cycle in fig.\ref{z_HP_us_real_log_gdp_hp_bp}, blue line, suggests that the customization should emphasize Timeliness strongly in the ATS-trilemma, since the series appears `shifted to the right' (delayed).
+
+\begin{enumerate}
+\item Set $\lambda=100$, $\eta=0.5$ and compute a customized filter based on criterion \ref{hp_pseudo_spec_diff}. The constraints are left unchanged. Note that our R-code proposes generic as well as context-specific (equivalent) function-calls. 
+<<echo=True>>=
+# Customization
+lambda<-100
+eta<-0.5
+# Delimit passband and stopband for customization:
+#   Pi/12 corresponds to a mean duration of 24 quarters
+#   which is approximately the mean duration of historical 
+#   business-cycles
+cutoff<-pi/12
+
+imdfa_hp_cust<-mdfa_analytic(L,lambda,weight_func_hp_diff,Lag,Gamma,eta,cutoff,
+                        i1,i2,weight_constraint,lambda_cross,lambda_decay,
+                        lambda_smooth,lin_eta,shift_constraint,grand_mean,
+                        b0_H0,c_eta,weight_structure,
+                        white_noise,synchronicity,lag_mat,troikaner)
+# Alternative (identical) context-specific estimation: 
+imdfa_hp_cust<-MDFA_cust_constraint(L,weight_func_hp_diff,Lag,Gamma,cutoff,
+              lambda,eta,i1,i2,weight_constraint,shift_constraint)$mdfa_obj
+@
+\item Compare filter coefficients of MSE- and customized filters, see fig.\ref{z_HP_cust_coef}.
+<<echo=True>>=
+file = paste("z_HP_cust_coef.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 4, height = 4)
+# Plots: filter coefficients MSE and customized
+title_more<-NA
+mplot<-cbind(imdfa_hp_cust$b,imdfa_hp_cycle$b)
+parma<-parm
+plot_title<-"HP cycle: MSE (blue) vs Customized (black)"
+axis_d<-0:(L-1)
+insamp<-1.e+99
+colo<-c("black","blue")
+mplot_func(mplot,axis_d,plot_title,title_more,insamp,colo)
+invisible(dev.off())
+@
+<<label=z_HP_cust_coef.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_cust_coef", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter coefficients HP Cycle: MSE (blue) vs. customized (black), based on spectrum of differenced data. ", sep = "")
+  cat("\\label{z_HP_cust_coef}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item Filter the data and compare the corresponding cycle nowcasts, see fig.\ref{z_HP_us_real_log_gdp_hp_bp_cust}.
+@
+<<echo=True>>=
+x_cycle_cust<-diff(x)
+gamma_cust<-imdfa_hp_cust$b[1:L]
+for (j in L:length(x_cycle_cust))
+  x_cycle_cust[j] <- gamma_cust%*%diff(x)[j:(j-(L-1))]
+x_cycle_cust[1:(L-1)]<-NA
+
+file = paste("z_HP_us_real_log_gdp_hp_bp_cust.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+# Plot
+insamp<-1.e+99
+colo<-c("red","blue")
+mplot<-scale(cbind(x_cycle,x_cycle_cust))
+plot_title<-"HP Cycle: MSE (blue) vs Customized (black): both standardized"
+ymin<-min(mplot,na.rm=T)
+ymax<-max(mplot,na.rm=T)
+plot(mplot[,2],col="black",xlab="",ylab="",main=plot_title,type="l",
+     ylim=c(ymin,ymax))
+nberShade()
+lines(mplot[,2],col="black")
+lines(mplot[,1],col="blue") 
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp_hp_bp_cust.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp_hp_bp_cust", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{HP real-time Cycle designs: MSE (blue) vs. customized (black). Both filter outputs are standardized for ease of visual inspection", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp_hp_bp_cust}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The customized filter output is smooth and it tends to lie `to the left' of the MSE-design, as desired.
+\item Compare differences of the customized cycle with the MSE gap estimate, see fig.\ref{z_HP_us_real_log_gdp_hp_bp_cust_1}. Hint: recall that MSE gap and first differences of MSE cycle are identical, see fig.\ref{z_HP_us_real_log_gdp_hp_bp}, right panel.
+@
+<<echo=True>>=
+file = paste("z_HP_us_real_log_gdp_hp_bp_cust_1.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+insamp<-1.e+99
+colo<-c("red","blue")
+mplot<-scale(cbind(x_gap,diff(x_cycle_cust)))
+plot_title<-"Diff-customized cycle (green) vs. HP-Gap (red)"
+ymin<-min(mplot,na.rm=T)
+ymax<-max(mplot,na.rm=T)
+plot(mplot[,2],col="green",xlab="",ylab="",main=plot_title,type="l",
+     ylim=c(ymin,ymax))
+nberShade()
+lines(mplot[,2],col="green")
+lines(mplot[,1],col="red") 
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp_hp_bp_cust_1.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp_hp_bp_cust_1", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Differences of customized cycle (green) vs. MSE HP-gap (red). Both filter outputs are standardized for ease of visual inspection", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp_hp_bp_cust_1}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+As expected, the differenced customized cycle tends to lie to the left of the MSE gap.
+\end{enumerate}
+
+
+
+
+
+
+\section{Christiano Fitzgerald CF-Filter}\label{rep_cust_cl_fi_d_cf}
+
+
+\subsection{Definition}
+
+The bandpass CF-filter relies on the ideal bandpass target
+\begin{eqnarray*}
+\Gamma^{CF}(\omega):=\left\{\begin{array}{cc}1~&,~\textrm{cutoff}^l<|\omega|<\textrm{cutoff}^u\\
+0~&,~\textrm{otherwise}\end{array}\right.
+\end{eqnarray*}
+where $0<\textrm{cutoff}^l<\textrm{cutoff}^u$ designate lower and upper cutoff frequencies. 
+Typically, real-time estimates are obtained by assuming that the DGP is  a random-walk. In this case, the DFA-MSE criterion \ref{dfa_ms} becomes
+\begin{eqnarray}
+\frac{2\pi}{T}\sum_{k=-[T/2]}^{[T/2]}\left|\Gamma^{CF}(\omega_k)-\hat{\Gamma}(\omega_k) \right|^2 \frac{1}{|1-\exp(-i\omega_k)|^2}\to\min_{\mathbf{b}}\label{dfa_ms_cf_cycle}
+\end{eqnarray}
+where $h(\omega)=\displaystyle{\frac{1}{|1-\exp(-i\omega_k)|^2}}$ is the pseudo-spectral density of the random-walk\footnote{An additional scaling-term $\sigma^2$ is unnecessary since filter coefficients are scale invariant in this application. The numerator of the pseudo-spectral density could be enriched by an arbitrary MA-specification if the differenced data is autocorrelated.}. A first-order restriction $\hat{\Gamma}(0)=\Gamma(0)=0$ is necessary in order to  cancel the singularity in frequency zero, see section \ref{i1i2_intr} (the case $i1=T$). In contrast to HP-gap, which is a highpass, the CF-filter is an effective bandpass design. In contrast to HP-cycle, which is also a bandpass, upper and lower cutoff-frequencies are specified explicitly. Finally, CF assumes an I(1)-model in contrast to HP whose implicit DGP is I(2).
+
+
+\subsection{Replication}
+
+We replicate the bandpass CF-filter with own R-code and establish a link to the functions \emph{cffilter} and \emph{mFilter} in the R-package \emph{mFilter}. As for previous sections we rely on (log-transformed) US-GDP.
+\begin{enumerate}
+\item Specify a $[2,10]$-years bandpass (typical business-cycle specification) and implement a real-time CF-filter according to the implicit model-specification in the previous section. Impose a first order level-restriction (i1=T), set $L=T$ and select $K=2*T$ for the resolution of the discret frequency-grid. Note that we propose generic as well as context-specific function-calls in our R-code below.
+<<echo=True>>=
+x<-lgdp
+# Series length
+len<-length(x)
+# Resolution of frequency-grid: 2-times the sample length
+#   Selecting a higher resolution would tighten the approximation of 
+#   CF by DFA
+K<-2*len
+# Upper and lower cutoffs of bandpass: lengths in quarters
+len1<-8
+len2<-40
+cutoff1<-2*pi/len1
+cutoff2<-2*pi/len2
+# Specify target bandpass
+Gamma_cf<-((0:K)>K*cutoff2/pi)&((0:K)<K*cutoff1/pi)
+# Specify (square-root of) implicit pseudo-spectral density
+weight_func_cf<-matrix(rep(1/abs(1-exp(1.i*(0:K)*pi/K)),2),ncol=2)
+K<-nrow(weight_func_cf)-1
+# Remove singularity in frequency zero (one can assign an arbitrary value)
+weight_func_cf[1,]<-0
+# Filter length
+L<-len
+# Set default settings for MDFA (MSE, no regularization)
+source(file=paste(path.pgm,"control_default.r",sep=""))
+# Filter constraints
+i1<-T
+i2<-F
+# We have to specify the level-constraint
+#   Real-time filter must equal target-Gamma in frequency zero
+weight_constraint<-Gamma_cf[1]
+# Proceed to estimation
+
+imdfa_cf<-mdfa_analytic(L,lambda,weight_func_cf,Lag,Gamma_cf,eta,cutoff,
+                        i1,i2,weight_constraint,lambda_cross,lambda_decay,
+                        lambda_smooth,lin_eta,shift_constraint,grand_mean,
+                        b0_H0,c_eta,weight_structure,
+                        white_noise,synchronicity,lag_mat,troikaner)
+# Alternative (identical) context-specific estimation: 
+imdfa_cf<-MDFA_mse_constraint(L,weight_func_cf,Lag,Gamma_cf,i1,i2,weight_constraint,
+                              shift_constraint)$mdfa_obj
+
+@
+\item Plot the amplitude function of the real-time filter, see fig.\ref{z_amp_shift_dfa_mse_cf_0}.
+<<echo=True>>=
+file = paste("z_amp_shift_dfa_mse_cf_0.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+omega_k<-pi*(0:K)/K
+amp_mse<-abs(imdfa_cf$trffkt)
+mplot<-as.matrix(amp_mse)
+mplot[1,]<-NA
+colnames(mplot)<-NA
+ax<-rep(NA,nrow(mplot))
+ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6",
+                                   "4pi/6","5pi/6","pi")
+plot_title<-paste("Amplitude of Christiano Fitzgerald with 
+                  cutoffs pi/",len2/2,", pi/",len1/2,sep="")
+insamp<-1.e+90
+title_more<-dimnames(mplot)[[2]]
+colo<-c("blue","red")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_amp_shift_dfa_mse_cf_0.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_amp_shift_dfa_mse_cf_0", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude function of the real-time Christiano Fitzgerald filter as replicated by DFA and assuming that the DGP is a random-walk", sep = "")
+  cat("\\label{z_amp_shift_dfa_mse_cf_0}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+\item Check the filter constraints: the transfer function should vanish in the unit-root frequency zero.
+<<echo=True>>=
+# Check first-order: should give 0
+print(paste("Transfer function in frequency zero: ",
+            round(sum(imdfa_cf$b),3),sep=""))
+# Check second-order: time-shift is not constrained
+print(paste("Time-shift in frequency zero: ",
+            round((1:(L-1))%*%imdfa_cf$b[2:L],3),sep=""))
+@
+The first-order restriction $\hat{\Gamma}^{CF}(0)=0$ is fulfilled, as expected.
+\item \label{exe_cf_23}Compute real-time CF-filter coefficients according to the function $cffilter$ (package $mFilter$\footnote{Version 0.1-3.}) and check the (first-order) filter constraint.
+<<echo=True>>=
+# Setting theta=1 replicates the random-walk model
+#   We first set root=F (no unit-root)
+x_cf<-cffilter(x,pu=len2,pl=len1,root=F,drift=F, nfix=NULL,theta=1)
+parm_cf<-x_cf$fmatrix
+
+# Check first-order: should give 0
+print(paste("Transfer function in frequency zero: ",
+            round(sum(parm_cf[,1]),3),sep=""))
+@
+The filter constraint is not fulfilled. Note, however, that the function $cffilter$ allows to specify a unit-root by setting $root=T$.
+\item \label{exe_cf_24}Select $root=T$, reestimate filter coefficients and check the filter constraint:
+<<echo=True>>=
+x_cf_T<-cffilter(x,pu=len2,pl=len1,root=T,drift=F, nfix=NULL,theta=1)
+parm_cf_T<-x_cf_T$fmatrix
+
+# Check first-order: should give 0
+print(paste("Transfer function in frequency zero: ",
+            round(sum(parm_cf_T[,1]),3),sep=""))
+@
+Obviously, the code does not seem to work properly. 
+\item Another option would be to use the function $mFilter$ and to specify \emph{filter="CF"}:
+<<echo=True>>=
+x_mF_T<-mFilter(x,filter="CF",pu=len2,pl=len1,root=T,drift=F, 
+                nfix=NULL,theta=1)
+parm_mF_T<-x_mF_T$fmatrix
+
+# Check first-order: should give 0
+print(paste("Transfer function in frequency zero: ",
+            round(sum(parm_mF_T[,1]),3),sep=""))
+@
+Neither $mFilter$ nor $cffilter$  comply with the first-order constraint in frequency zero. Selecting $root=T$ results in a severly misspecified filter.
+\item Compare real-time filter coefficients of DFA and $mFilter$ (or $cffilter$), see fig.\ref{z_CF_us_real_log_gdp}.
+<<echo=True>>=
+file = paste("z_CF_us_real_log_gdp.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+colo<-c("blue","red","green")
+mplot<-cbind(imdfa_cf$b,parm_cf[,1],parm_mF_T[,1])
+colnames(mplot)<-c("DFA","mFilter: plot=F","mFilter: plot=T")
+plot_title<-"Real-time CF-filters: DFA (blue) vs. mFilter (red and green)"
+freq_axe<-paste("Lag ",0:(len-1),sep="")
+title_more<-colnames(mplot)
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+invisible(dev.off())
+@
+<<label=z_CF_us_real_log_gdp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_CF_us_real_log_gdp", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Real-time filter coefficients: DFA (blue) vs. mFilter with root=F (red) and root=T (green)", sep = "")
+  cat("\\label{z_CF_us_real_log_gdp}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+As can be seen, DFA (blue) and $mFilter$ or $cffilter$ based on $root=F$ (red) match closely up to the boundaries, lags 0 and $\Sexpr{len}$, where non-negligible discrepancies can be observed. In contrast, the coefficients of $mFilter$ for $root=T$ (green line) are `off the mark'.
+\item Cross-check real-time DFA coefficients with the (time-domain) model-based solution proposed in section \ref{time_domain}, see fig.\ref{z_CF_us_real_log_gdp_fb}. Hint: our R-code relies on \ref{mba_coef_td}, whereby $a_1=1$ (random-walk).
+<<echo=True>>=
+# Coefficients of symmetric filter (truncated at length 100000)
+ord<-100000
+b<-0:ord
+b[1+1:ord]<-(sin((1:ord)*2*pi/len1)-sin((1:ord)*2*pi/len2))/(pi*(1:ord))
+b[1]<-2/len1-2/len2
+# Real-time filter based on for- and backcasts
+b_finite<-b[1:len]
+# The lag-0 coefficient is augmented by forecasts
+b_finite[1]<-b_finite[1]+sum(b[2:ord])
+# The lag-len coefficient is augmenetd by backcasts
+b_finite[len]<-b_finite[len]+sum(b[(len+1):ord])
+# Compare DFA and model-based coefficients
+file = paste("z_CF_us_real_log_gdp_fb.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+colo<-c("red","blue")
+mplot<-cbind(b_finite,imdfa_cf$b)
+plot_title<-"Real-time CF-filters: Forecast/backcast (red) vs. DFA (blue)"
+freq_axe<-rep(NA,len)
+freq_axe[1]<-0
+freq_axe[(1:6)*len/6]<-paste("Lag ",as.integer(1+(1:6)*len/6),sep="")
+mplot_func(mplot,freq_axe,plot_title,title_more,insamp,colo)
+invisible(dev.off())
+@
+<<label=z_CF_us_real_log_gdp_fb.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_CF_us_real_log_gdp_fb", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Real-time filter coefficients: model-based approach (red) vs. DFA (blue)", sep = "")
+  cat("\\label{z_CF_us_real_log_gdp_fb}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+Real-time model-based and DFA filters now match at all lags\footnote{Minor (negligible) deviations are due to the finite resolution of the frequency-grid.} which confirms replication of CF by DFA.
+\item Compute real-time cycle estimates based on DFA and on $mFilter$: select $root=F$ as well as $root=T$. Hint: set $L=50$\footnote{The filter length $L$ must be smaller than $T$ in order to obtain a time series of length $T-L+1$ of filtered data.} and re-estimate filter coefficients accordingly. 
+<<echo=True>>=
+# Filter length
+L<-50
+weight_func<-weight_func_cf
+K<-nrow(weight_func)-1
+# Default-settings for DFA
+source(file=paste(path.pgm,"control_default.r",sep=""))
+# Filter constraints
+i1<-T
+i2<-F
+# We have to specify the level-constraint
+#   Real-time filter must equal target-Gamma in frequency zero
+weight_constraint<-Gamma_cf[1]
+# Proceed to estimation
+
+imdfa_cf_L<-mdfa_analytic(L,lambda,weight_func_cf,Lag,Gamma_cf,eta,cutoff,
+                        i1,i2,weight_constraint,lambda_cross,lambda_decay,
+                        lambda_smooth,lin_eta,shift_constraint,grand_mean,
+                        b0_H0,c_eta,weight_structure,
+                        white_noise,synchronicity,lag_mat,troikaner)
+# Alternative (identical) context-specific estimation: 
+imdfa_cf_L<-MDFA_mse_constraint(L,weight_func_cf,Lag,Gamma_cf,i1,i2,weight_constraint,
+                                shift_constraint)$mdfa_obj
+
+gamma_dfa<-as.vector(imdfa_cf_L$b)
+#--------------
+# Compute filter according to cffilter
+# We provide an arbitrary input series of length L
+# We set root=T
+x_cf_L_T<-mFilter(as.ts(1:L),filter="CF",pu=len2,pl=len1,root=T,drift=F, nfix=NULL,theta=1)
+gamma_cf_L_T<-x_cf_L_T$fmatrix[,1]
+# Here we set root=F
+x_cf_L_F<-mFilter(as.ts(1:L),filter="CF",pu=len2,pl=len1,root=F,drift=F, nfix=NULL,theta=1)
+gamma_cf_L_F<-x_cf_L_F$fmatrix[,1]
+@
+\item Apply these filters to the GDP-data .
+<<echo=True>>=
+# Filter the data
+dfa_cycle<-cff_cycle_T<-cff_cycle_F<-x
+for (j in L:len)
+{
+# DFA  
+  dfa_cycle[j]<-gamma_dfa%*%x[j:(j-L+1)]
+# mFilter, root=T
+  cff_cycle_T[j]<-gamma_cf_L_T%*%x[j:(j-L+1)]
+# mFilter, root=F
+  cff_cycle_F[j]<-gamma_cf_L_F%*%x[j:(j-L+1)]
+}
+# Skip initial values
+dfa_cycle[1:L]<-cff_cycle_T[1:L]<-cff_cycle_F[1:L]<-NA
+@
+\item Compare the resulting filter outputs. Hint: standardize the series for ease of visual inspection, see fig.\ref{z_HP_us_real_log_gdp_cf_out}.
+<<echo=True>>=
+#-------------
+# Plot the filtered outputs
+file = paste("z_HP_us_real_log_gdp_cf_out.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+# Plots: filter coefficients and series
+insamp<-1.e+99
+mplot<-scale(cbind(dfa_cycle,cff_cycle_T,cff_cycle_F,
+                   x_cf$cycle))
+plot_title<-"CF real-time cycle: DFA (blue) and mFilter root=T (red) and 
+root=F (green): all standardized"
+ymin<-min(mplot,na.rm=T)
+ymax<-max(mplot,na.rm=T)
+plot(mplot[,2],col="red",xlab="",ylab="",main=plot_title,type="l",
+     ylim=c(ymin,ymax))
+nberShade()
+lines(mplot[,2],col="red")
+lines(mplot[,1],col="blue") 
+lines(mplot[,3],col="green") 
+#lines(mplot[,4],col="black") 
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp_cf_out.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp_cf_out", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{CF real-time cycle estimates: DFA (blue), mFilter with unit-root (red) and mFilter without unit root (green). All filter outputs are standardized for ease of visual inspection", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp_cf_out}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+As expected, the alleged `cycles' computed by $mFilter$ (or $cffilter$) are non-stationary because the filters do not comply with the first-order constraint in frequency zero. 
+\item Plot the cycle as computed (internally) by the function \emph{mFilter} (select $root=F$), see fig.\ref{z_HP_us_real_log_gdp_cf_cycle}.
+<<echo=True>>=
+# Plot the filtered outputs
+file = paste("z_HP_us_real_log_gdp_cf_cycle.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+# Plots: filter coefficients and series
+insamp<-1.e+99
+mplot<-as.matrix(x_cf$cycle)
+plot_title<-"Cycle as computed by cffilter"
+ymin<-min(mplot,na.rm=T)
+ymax<-max(mplot,na.rm=T)
+plot(mplot[,1],col="black",xlab="",ylab="",main=plot_title,type="l",
+     ylim=c(ymin,ymax))
+nberShade()
+lines(mplot[,1],col="black") 
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp_cf_cycle.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp_cf_cycle", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Christiano Fitzgerald cycle as computed by function mFilter", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp_cf_cycle}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The plot confirms that the CF-filter is not implemented properly in the package $mFilter$. 
+\end{enumerate}
+The DFA replicates perfectly the CF-filter, as confirmed by our comparison with the classic model-based (time-domain) approach, and it allows for straightforward extensions to arbitrary DGP and/or target specifications.   
+
+
+\subsection{Customization}\label{customization_cf}
+
+\subsubsection{Customization of a Bandpass Design: the Case of the CF-Filter}
+
+Once replicated by DFA, the real-time CF-filter can be customized. In contrast to all previous examples, which were based on lowpass trend targets, we here illustrate the proceeding in the case of a \emph{bandpass} cycle target. The main distinguishing feature of the former is the two-sided stopband: to the left and to the right of the passband. This distinction is important in so far that Smoothness refers to the stopband. By default, the MDFA-routine $mdfa\textunderscore analytic$ emphasizes the right hand portion, corresponding to the higher frequencies, only. The weighting function $W(\omega_k,\eta,\textrm{cutoff})$ in \ref{dfatp} becomes
+\[
+W(\omega_k,\eta,\textrm{cutoff}^u)=\left\{\begin{array}{cc}
+1~,~\textrm{if~} |\omega_k|<\textrm{cutoff}^u\\
+(1+|\omega_k|-\textrm{cutoff}^u)^{\eta}~,~\textrm{otherwise}
+\end{array}\right.
+\]
+where $\textrm{cutoff}^u$ is the upper cutoff-frequency. In general the left hand portion of the stopband, corresponding to the trend, is damped anyway by imposing constraints at frequency zero and therefore a corresponding extension of the above weight function is unnecessary. \\
+
+Lowpass and bandpass designs generally differ in terms of Timeliness, too. As an example, amplitude and time-shift functions of a real-time CF (MSE) filter of length $L=$\Sexpr{L} are plotted in fig.\ref{z_amp_shift_dfa_mse_cf}\footnote{Note that the amplitude functions in figs.\ref{z_amp_shift_dfa_mse_cf_0} and \ref{z_amp_shift_dfa_mse_cf} differ sligthly because the filter-lengths are different: $L=$\Sexpr{len} for the former vs. $L=$\Sexpr{L} for the latter.} (for ease of visual inspection time-shift values smaller than -1 are discarded):
+<<echo=True>>=
+file = paste("z_amp_shift_dfa_mse_cf.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+omega_k<-pi*(0:K)/K
+amp_mse<-abs(imdfa_cf_L$trffkt)
+shift_mse<-shift_forecast<-Arg(imdfa_cf_L$trffkt)/omega_k
+shift_mse[which(shift_mse<(-1))]<-NA
+mplot<-cbind(amp_mse,shift_mse)
+mplot[1,1:2]<-NA
+dimnames(mplot)[[2]]<-c("Amplitude MSE","Time-shift MSE")
+ax<-rep(NA,nrow(mplot))
+ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+plot_title<-"Amplitude and time-shift CF (MSE) real-time filter"
+insamp<-1.e+90
+title_more<-dimnames(mplot)[[2]]
+colo<-c("blue","red")
+mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+invisible(dev.off())
+@
+<<label=z_amp_shift_dfa_mse_cf.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_amp_shift_dfa_mse_cf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=4in]{", file, "}\n",sep = "")
+  cat("\\caption{Amplitude (blue) and time-shift (red) functions of CF MSE real-time filter: time-shifts smaller than -1 are skipped", sep = "")
+  cat("\\label{z_amp_shift_dfa_mse_cf}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+We observe that the time-shift is small, even negative, in the passband of the filter\footnote{This property is typical for bandpass designs and, more generally, for filters whose amplitude functions dip at frequency zero. The negative time-shift of the bandpass is inherited from the difference filter: typically, the transfer function $\hat{\Gamma}^{bp}(\omega)$ of a (finite length) real-time bandpass can be decomposed into $\hat{\Gamma}^{bp}(\omega)=(1-\exp(-i\omega))^d\hat{\Gamma}(\omega)$ where $d$ is the order of the zero at frequency zero and where $\hat{\Gamma}(\omega)$ is a lowpass which damps high-frequency noise. The negative time-shift of the bandpass towards lower frequencies is inherited from the difference operator(s).} and therefore timeliness is less relevant, at least in a nowcast perspective ($Lag=0$). However, for some particular applications, like for example the construction of a \emph{leading} business-cycle indicator, an effective anticipation is desirable\footnote{The leading indicator \href{http://www.oecd.org/std/leading-indicators/}{LEI} of the \href{http://www.oecd.org/}{OECD} relies on a bandpass concept. It targets a lead of 6 months.}.  We can address this problem by emphasizing a signal-\emph{forecast}, $Lag<0$, instead of a nowcast, $Lag=0$. As proposed in section \ref{customization_triplet} we here extend the original customization pair $(\lambda,\eta)$ and consider the customization triplet $(Lag,\lambda,\eta)$, instead. 
+
+
+\subsubsection{Exercises: Customization of CF-Bandpass}
+
+We emphasize Timeliness by targetting a forecast of the signal and we emphasize Smoothness by emphasizing the right portion of the stopband.
+\begin{enumerate}
+\item Set $Lag=-4$ (target is shifted by one year), $\lambda=10$ (emphasize Timeliness) and $\eta=1$ (emphasize Smoothness) and derive the cofficients of a corresponding filter of length 50. We propose generic as well as context-specific function-calls in our R-code below.
+<<echo=True>>=
+# Filter length
+L<-50
+weight_func<-weight_func_cf 
+K<-nrow(weight_func)-1
+
+source(file=paste(path.pgm,"control_default.r",sep=""))
+# Filter constraints
+i1<-T
+i2<-F
+Lag<--4
+lambda<-10
+eta<-1
+cutoff<-2*pi/len1
+# We have to specify the level-constraint
+#   Real-time filter must equal target-Gamma in frequency zero
+weight_constraint<-Gamma_cf[1]
+# Proceed to estimation
+
+imdfa_cf_L_cust<-mdfa_analytic(L,lambda,weight_func_cf,Lag,Gamma_cf,eta,cutoff,
+                        i1,i2,weight_constraint,lambda_cross,lambda_decay,
+                        lambda_smooth,lin_eta,shift_constraint,grand_mean,
+                        b0_H0,c_eta,weight_structure,
+                        white_noise,synchronicity,lag_mat,troikaner)
+
+# Alternative (identical) context-specific estimation: 
+imdfa_cf_L_cust<-MDFA_cust_constraint(L,weight_func_cf,Lag,Gamma_cf,cutoff,
+              lambda,eta,i1,i2,weight_constraint,shift_constraint)$mdfa_obj
+
+@
+%\item Compute amplitude and time-shift functions of the customized forecast filter and compare its characteristics to the MSE nowcast filter, see fig.\ref{z_HP_us_real_log_gdp_cf_amp_shi_cust}.
+%<<echo=False>>=
+%file = paste("z_HP_us_real_log_gdp_cf_amp_shi_cust.pdf", sep = "")
+%pdf(file = paste(path.out,file,sep=""), paper = "special", 
+%    width = 6, height = 6)
+%par(mfrow=c(1,2))
+%omega_k<-pi*(0:K)/K
+%# Amplitude
+%amp_cust<-abs(imdfa_cf_L_cust$trffkt)
+%shift_cust<-Arg(imdfa_cf_L_cust$trffkt)/omega_k
+%shift_cust[which(shift_cust<(-1))]<-NA
+%shift_cust[which(shift_cust>(2))]<-NA
+%mplot<-cbind(amp_mse,amp_cust)
+%dimnames(mplot)[[2]]<-c("Amplitude MSE nowcast","Amplitude customized forecast")
+%ax<-rep(NA,nrow(mplot))
+%ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+%plot_title<-"Amplitude: MSE (blue) vs. Customized (black)"
+%insamp<-1.e+90
+%title_more<-dimnames(mplot)[[2]]
+%colo<-c("blue","black")
+%mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+%#shift
+%mplot<-cbind(shift_mse,shift_cust)
+%mplot[1,1:2]<-NA
+%dimnames(mplot)[[2]]<-c("Time-shift MSE nowcast","Time-shift customized forecast")
+%ax<-rep(NA,nrow(mplot))
+%ax[1+(0:6)*((nrow(mplot)-1)/6)]<-c(0,"pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi")
+%plot_title<-"Amplitude and time-shift: MSE nowcast (blue) vs. customized forecast (black)"
+%insamp<-1.e+90
+%title_more<-dimnames(mplot)[[2]]
+%colo<-c("blue","black")
+%mplot_func(mplot, ax, plot_title, title_more, insamp, colo)
+%invisible(dev.off())
+%@
+%<<label=z_HP_us_real_log_gdp_cf_amp_shi_cust.pdf,echo=FALSE,results=tex>>=
+%  file = paste("z_HP_us_real_log_gdp_cf_amp_shi_cust", sep = "")
+%  cat("\\begin{figure}[H]")
+%  cat("\\begin{center}")
+%  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+%  cat("\\caption{CF real-time cycle estimates: DFA MSE (blue) vs. DFA customized (black: both standardized for ease %of visual inspection", sep = "")
+%  cat("\\label{z_HP_us_real_log_gdp_cf_amp_shi_cust}}", sep = "")
+%  cat("\\end{center}")
+%  cat("\\end{figure}")
+%@
+\item Filter the data and compare outputs of MSE-nowcast and customized-forecast filters, see fig.\ref{z_HP_us_real_log_gdp_cf_out_cust}.
+<<echo=False>>=
+gamma_dfa_cust<-as.vector(imdfa_cf_L_cust$b)
+dfa_cycle_cust<-x
+for (j in L:len)
+{
+  dfa_cycle_cust[j]<-gamma_dfa_cust%*%x[j:(j-L+1)]
+}
+# Skip initial values
+dfa_cycle_cust[1:L]<-NA
+#-------------
+# Plot the filtered outputs
+file = paste("z_HP_us_real_log_gdp_cf_out_cust.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", 
+    width = 6, height = 6)
+par(mfrow=c(1,1))
+# Plots: filter coefficients and series
+insamp<-1.e+99
+mplot<-scale(cbind(dfa_cycle,dfa_cycle_cust))
+plot_title<-"MSE-nowcast (blue) vs. customized-forecast (black)"
+ymin<-min(mplot,na.rm=T)
+ymax<-max(mplot,na.rm=T)
+plot(mplot[,2],col="black",xlab="",ylab="",main=plot_title,type="l",
+     ylim=c(ymin,ymax))
+nberShade()
+lines(mplot[,2],col="black")
+lines(mplot[,1],col="blue") 
+invisible(dev.off())
+@
+<<label=z_HP_us_real_log_gdp_cf_out_cust.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_HP_us_real_log_gdp_cf_out_cust", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{CF real-time cycle estimates: DFA MSE-nowcast (blue) vs. DFA customized-forecast (black): both standardized for ease of visual inspection", sep = "")
+  cat("\\label{z_HP_us_real_log_gdp_cf_out_cust}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+The output of the customized forecast filter is smooth and tends to lie to the left of the MSE-nowcast, as desired. Note that the emphasis of Smoothness, as entailed by our selection $\eta=1$, precludes the forecast filter to effectively anticipate the nowcast MSE-filter by $-Lag=$\Sexpr{-Lag} quarters. In any case, alternative settings of the customization triplet ($Lag,\lambda,\eta$) are open for further experimentation. 
+\end{enumerate}
+To conclude, let us re-emphasize that neither of the above results, derived in the context of classic HP- and CF-filter designs, rely on data: implicit models, and thus implicit spectra, are specified exogeneously. Let us remind, also, that the quarterly US-GDP time series is subject to publication-lags and to revisions. A proper proceeding in the context of data revisions is proposed in chapter \ref{rev_sec}.
+
+
+
+
+\section{Summary}
+
+\begin{itemize}
+\item The generic spectrum-interface of MDFA allows straightforward replication of alternative ARIMA or state-space model-based approaches.
+\item Implicit model-based perspectives can be assigned to classic Hodrick-Prescott and Christiano-Fitzgerald filter designs. Therefore, replication by the MDFA is straightforward too, as illustrated by our empirical examples. 
+\item Once replicated, any of these approaches can be customized by relying on the generic ATS-trilemma. Applications to US-GDP illustrate the proceeding.
+\item A customized explicit or implicit model-based approach is a \emph{hybrid}: the spectrum relies on (pseudo-) maximum likelihood but the filter is obtained by emphasizing the filter error and by leaving a restricted mean-square perspective by ways of the ATS-trilemma. 
+\item Model-based spectra are generally smooth (except for unit-root singularities), because time series models typically rely on few parameters. If the model is neither overfitted nor misspecified, then the derived DFA-filter, be it MSE or customized, be it a forecast or a nowcast, is free of overfitting and misspecification, too, irrespective of the size of the filter-length $L$.  
+\item A selection of a particular spectrum (model-based, DFT or other) remains a matter of preference and of experience of the user.
+\item The customization triplet ($Lag,\lambda,\eta$) usefully extends the action of the ATS-trilemma to arbitrary  real-valued leads, $Lag<0$, or lags, $Lag>0$. A corresponding application to the bandpass Christiano-Fitzgerald filter illustrates the proceeding when designing a business-cycle indicator based on US-GDP.
+\end{itemize}
