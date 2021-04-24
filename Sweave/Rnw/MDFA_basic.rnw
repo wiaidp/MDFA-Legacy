@@ -792,8 +792,6 @@ for(t in 1:T)
 	x.sim <- cbind(x.sim,x.next)
 }
 x.sim <- ts(t(x.sim))
-x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
-x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 
 # construct and apply low pass filter
 mu <- pi/6
@@ -912,9 +910,7 @@ for(t in 1:T)
 	x.sim <- cbind(x.sim,x.next)
 }
 x.sim <- ts(t(x.sim))
-x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
-x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
- 
+
 # construct and apply low pass filter
 mu <- pi/6
 len <- 1000

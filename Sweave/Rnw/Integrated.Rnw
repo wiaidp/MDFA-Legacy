@@ -22,6 +22,28 @@ in the classic sense, viz. being co-integrated at frequency zero.
    the data process is accomplished by considering the cross-sectional dimension, and not
    the temporal dimension.  
    
+\begin{Example} {\bf Co-integrated VAR(1).}  \rm
+\label{exam:co-int.var1}
+ A VAR(1) process satisfying (\ref{eq:var1-def}) is non-stationary if the coefficient 
+ matrix $\Phi$ has unit eigenvalues, and is co-integrated if $\Phi - 1_n$ has reduced rank.
+ In particular, suppose there are vectors $\alpha$ and $\beta$ of dimension $n$ such that
+$\Phi - 1_n = \alpha \, \beta^{\prime}$.  Then the scalar process $\{ Z_t \}$ defined
+via $Z_t =  \beta^{\prime} X_t$ satisfies 
+\[
+  Z_t = \beta^{\prime} \Phi \, X_{t-1} + \beta^{\prime} \epsilon_t 
+   = (1 + \beta^{\prime} \alpha) \, Z_{t-1} + \beta^{\prime} \epsilon_t.
+\]
+ This shows that $\{ Z_t \}$ is an AR(1) process with coefficient $ 1+ \beta^{\prime} \alpha$
+  and innovations $\eta_t = \beta^{\prime} \epsilon_t$.
+ It is easy to see that $\alpha$ is an eigenvector of $\Phi$ with eigenvalue
+ $1 + \beta^{\prime} \alpha$, so this number must be between $-1$ and $1$ by the stability
+  of the VAR coefficient matrix.  The other $n-1$ eigenvectors span the null space of
+   $\beta^{\prime}$, and correspond to unit eigenvalues of $\Phi$; therefore
+   $1 + \beta^{\prime} \alpha$ cannot equal $1$, and 
+   thus $-1 < 1 + \beta^{\prime} \alpha < 1$.
+  This shows that $\{ Z_t \}$ is stationary.
+\end{Example}
+   
  The LPP takes an interesting form in this situation. Recall that for non-stationary 
  processes, a sufficient condition for the error process $E_t = Y_t - \widehat{Y}_t$ 
  to have mean zero is that the signal and noise conditions are satisfied, 
@@ -183,39 +205,35 @@ Simulate a sample of size $T=5000$ from a
   Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
   $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
  Use the moving average filter
- MDFA  (Proposition \ref{prop:mdfa.quadsoln}) to find the best
- concurrent filter, setting $q= 12$.
-  Apply this concurrent filter 
+ MDFA  (Proposition \ref{prop:mdfa.quadsoln}) with co-integration to find the best
+ concurrent filter, setting $q= 20$.
+ To do this, use the filter constraint (\ref{eq:zero-constraint-cointcase}),
+  noting that $\alpha \beta^{\prime} = \Phi - 1_2$.
+ Apply this concurrent filter 
  to the simulation, and compare the relevant portions to the ideal trend.
  Also determine the in-sample performance, in comparison to the criterion value
- (\ref{eq:opt.val.mdfa}).
+ (\ref{eq:opt.val.mdfa-constrained}).
   Target the trends for both time series.
 \end{Exercise}
-
-HERE  finish coding
+ 
 
 <<exercise_mdfa_var1_coint.filtering,echo=True>>=
 # Simulate a Gaussian VAR(1) of sample size 5000:
 set.seed(1234)
-T <- 5000
+burnin <- 10000
+T.sim <- 5000 
 N <- 2
 phi.matrix <- rbind(c(1/3,2/9),c(2,1/3))
 innovar.matrix <- diag(N)
-#true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
-#gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
-#gamma.0 <- gamma[,,1]
-#x.init <- t(chol(gamma.0)) %*% rnorm(N)
 x.init <- rep(0,N)
 x.next <- x.init
 x.sim <- NULL
-for(t in 1:T)
+for(t in 1:(T.sim+burnin))
 {
 	x.next <- phi.matrix %*% x.next + t(chol(innovar.matrix)) %*% rnorm(N)
 	x.sim <- cbind(x.sim,x.next)
 }
-x.sim <- ts(t(x.sim))
-#x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
-#x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+x.sim <- ts(t(x.sim[,-seq(1,burnin)]))
 
 # construct and apply low pass filter
 mu <- pi/6
@@ -224,24 +242,24 @@ lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
 lp.filter <- c(rev(lp.filter),lp.filter[-1])
 x.trend.ideal <- mvar.filter(x.sim,array(t(lp.filter) %x% diag(N),c(N,N,(2*len+1))))
 
-# get MDFA concurrent filter
-q <- 20
-grid <- T
+# frf for ideal low-pass
+grid <- T.sim
 m <- floor(grid/2)
 # The Fourier frequencies
 freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
-
-# frf for ideal low-pass
 frf.psi <- rep(0,grid)
 frf.psi[abs(freq.ft) <= mu] <- 1
 frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,grid))
-spec.hat <- mdfa.pergram(x.sim,1)	
-lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
+  
+# get MDFA concurrent filter
+q <- 30
+spec.hat <- mdfa.pergram(x.sim,1)
+coint <- phi.matrix - diag(N)
+constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,coint,q)
+lp.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
  
-# apply the MDFA concurrent filter
-x.trend.mdfa <- mvar.filter(x.sim,lp.mdfa[[1]])[(len-q+2):(T-q+1-len),]
-
 # compare in-sample performance
 print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
@@ -251,6 +269,186 @@ diag(lp.mdfa[[2]])
 @
 
 
+\begin{Example}  {\bf Co-integrated Local Level Model} \rm
+\label{exam:coint-llm}
+ We can specialize the basic Local Level Model of Example \ref{exam:trend-i1} to
+ a scenario where there are common trends, which turns out to be a special
+  case of co-integration.  Suppose that the latent trend component $\{ S_t \}$ 
+  is mean zero with reduced rank increment, viz. $\{ \partial S_t \}$ has 
+  reduced rank (say the rank is $n-r < n$)
+   covariance matrix $\Sigma_S$.  Then there exists a non-zero vector
+  $\beta$ such that $\Sigma_S \beta = 0$, and it follows that
+  $\beta^{\prime} \partial S_t$ equals zero with probability one.  Then
+  $\beta^{\prime} S_t$ must be a constant, which we find is zero by the mean zero assumption.
+ Hence $\beta^{\prime} X_t = \beta^{\prime} N_t$, which is a stationary process.
+ This shows that $\{ X_t \}$ is co-integrated, where any vector in the null space of
+  $\Sigma_S$ is a co-integrating vector.  In the special case that $\Sigma_S$ is rank
+   one, the LLM process has a common trend.  See McElroy and Trimbur (2015) and
+    McElroy (2017) for further details.
+    
+ We can also determine a vector $\alpha$ such that 
+  (\ref{eq:zero-constraint-cointcase}) holds.  Following Stock and Watson (1988),
+  we suppose that the differenced process has a Wold decomposition, and the 
+  spectral density can be expressed as 
+  $f_{\partial X} (\omega) = \Psi (e^{-i \omega)}) { \Psi (e^{i \omega})}^{\prime}$.
+  Here we have incorporated the innovation covariance matrix with the initial coefficient
+  of the matrix power series $\Psi (z)$.  At frequency $\omega = 0$, only the trend
+  component contributes to the spectral density, and
+\[
+  f_{\partial X} (0) = \Psi (1) \, { \Psi (1)}^{\prime} = \Sigma_S.
+\]
+Clearly $\Psi (1)$ has reduced rank $r < n$,
+  and Stock and Watson (1988) discuss how there are
+ left and right null vectors of $\Psi (1)$,
+   i.e., there exist both $\beta$ and $\alpha$, which are
+  $n \times r$ dimensional matrices, such that
+\[
+  \beta^{\prime} \Psi (1) = 0 = \Psi (1) \alpha.
+\]
+ We proceed to derive $\beta$ and $\alpha$ from the Cholesky decomposition of
+  $\Sigma_S$.  We can write $\Sigma_S = L L^{\prime}$ for $n \times r$-dimensional
+   matrices $L$, which are lower-triangular in the sense that 
+   they are obtained from a $n \times n$ lower triangular matrix $\widetilde{L}$
+   by removing $r$ columns.  This follows from the generalized Cholesky decomposition
+   (McElroy, 2017),   where the rank configuration of $\Sigma_S$ determines which 
+    columns are excluded. In fact, we can construct a diagonal matrix $H$ with $n-r$ ones
+    and $r$ zeroes on the diagonal, with a zero corresponding to an omitted column,
+   and such that $\Sigma_S = \widetilde{L} H \widetilde{L}^{\prime}$.
+   Because $H$ is idempotent, this discussion shows that we have $\Psi (1) = \widetilde{L} H$.
+  
+  The matrix $\widetilde{L}$ is not uniquely defined, and we choose to set those columns
+   omitted from $L$ to be unit vectors, and by this means $\widetilde{L}$ is invertible.
+   Let $P$ be a $n \times r$-dimensional matrix consisting of these unit vectors,
+   so that $\widetilde{L}$ is constructed from $L$ by inserting columns of $P$ so as to
+    make a lower triangular matrix. Then clearly $HP = 0$, and hence 
+    $\Psi (1) P = 0$.  So we can set $\alpha = P$.  Also, we can define
+    $\beta = \widetilde{L}^{-\prime} P$, which shows that
+  \[
+  \beta^{\prime} \widetilde{L} = P^{\prime} H = 0.
+  \]
+   With these definitions of $\alpha$ and $\beta$, we find that
+\begin{equation}
+\label{eq:co-int.constraint-llm}
+ \alpha \beta^{\prime} = P P^{\prime} \widetilde{L}^{-1} = (1_n - H) \widetilde{L}^{-1}.
+\end{equation}
+ This can be used in (\ref{eq:zero-constraint-cointcase}).
+\end{Example}
+
+
+\begin{Remark} \rm
+\label{rem:wkfrf-coint}
+ When co-integration is present the signal or noise processes can have reduced rank,
+  and special care is needed in the calculation of the WK frequency response function.
+  An exact treatment is given further along in this chapter, but here we provide
+   an approximation argument.
+    Suppose there is a possibly non-stationary signal and noise decomposition,
+  and that the operators are scalar, i.e., $\Delta^S (z)$ and $\Delta^N (z)$ are equal
+   to scalar polynomials times $1_n$.
+  First, if at a particular $\omega_*$ of interest both $\Delta^S (e^{-i \omega_*})$
+   and $\Delta^N (e^{-i \omega_*})$ are not zero matrices, then by
+   (\ref{eq:sig-and-noise.sdf}) we know $f_{\partial X} (\omega_*)$ is invertible,
+ and there is no problem computing the frf. Next,  
+  suppose that $\Delta^S (e^{-i \omega_*}) = 0$; this precludes 
+  $\Delta^N (e^{-i \omega_*}) = 0$, because the signal and noise operators are assumed
+  to be relatively prime.  
+Then we have signal co-integration if $f_{\partial S} (\omega_*)$ has reduced rank,
+  and the regular formulas for the WK and WH filters do not apply
+  because 
+\[
+  f_{\partial X} (\omega_*) = f_{\partial S} (\omega_*) {| \Delta_N (e^{-i \omega_*}) |}^2,
+  \]
+which is not invertible.  However, the WK and WH frequency response functions
+  are continuous functions of frequency $\omega$ (this is demonstrated below);
+  therefore we can use the regular formulas at grid points close to $\omega_*$, and
+   simply interpolate to get the approximate value of the frequency response function.
+ When the mesh size is large, this approximation involves little error.
+\end{Remark}
+
+\begin{Exercise} {\bf LLM Model-Based Trend Filter.} \rm
+\label{exer:llm-coint}
+ Consider a bivariate co-integrated LLM (see Example \ref{exam:coint-llm}) with parameters 
+\[
+ \Sigma_{S} = 10^{-4} \,\left[ \begin{array}{ll} 
+   2.32  &  5.04  \\
+   5.04  & 10.95   \end{array}  \right]
+ \qquad  \Sigma_{N} = 10^{-5} \, \left[ \begin{array}{ll}
+        110.44   &  7.17  \\
+        7.17     & 128.57   \end{array} \right].
+\]
+  Simulate a sample of size $T=5000$ from this process. Apply the WK trend filter
+(truncate the filter to $1000$ coefficients on each side) and the 
+ optimal concurrent trend filter.  
+ Use the moving average filter  MDFA  for a co-integrated $I(1)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+  To do this, use the filter constraint (\ref{eq:zero-constraint-cointcase})
+  and (\ref{eq:co-int.constraint-llm}). 
+    Apply both concurrent filters (MB and MDFA)
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
+\end{Exercise}
+
+HERE   rerun
+
+<<exercise_llmpetrol-mdfa-coint,echo=True>>=
+# Simulate a Gaussian co-integrated LLM  of sample size 5000:
+set.seed(1234)
+T.sim <- 5000
+burn <- 1000
+N <- 2
+psi.sim <- c(2.17150287559847, -8.36795922528,  
+             0.0648981656699, -6.80849700177184, -6.66004335288479, 
+             0,0)
+len <- 1000
+dpoly <- c(1,-1)
+delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+d <- length(dpoly) - 1
+mu.sim <- mdfa.wnsim(psi.sim[1:2],c(1,0),T.sim+burn,Inf)
+Sigma.mu <- mu.sim[[2]]
+mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+
+# construct and apply MB WK and WH filters
+grid <- T.sim - d
+iden <- array(diag(N),c(N,N,1))
+f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
+trend.wkfrf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
+x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
+trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
+trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+
+# get MDFA concurrent filter
+q <- 30
+x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,dpoly)
+m <- floor(grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+coint <- 
+  
+constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,coint,q)
+bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+
+# compare in-sample performance
+perf_null <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
+  c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+colnames(perf_null) <- c("MDFA","MB")
+rownames(perf_null) <- c("Series 1","Series 2")
+# compare to criterion value
+print(perf_null)
+diag(bw.mdfa[[2]])
+@
+
+ 
 
 
 HERE  LLM with common trend,  Petrol example
@@ -544,8 +742,61 @@ Therefore, under the conditions of Proposition \ref{prop:gen-case-coint-factor},
  (\ref{eq:gen-constraint-cointcase}).
  In summary, we extend the non-stationary MDFA to the case of co-integrated signal
  by imposing these generalized signal and noise filter constraints.
+ Before treating examples, we provide an extended theory for model-based signal
+  extraction by providing formulas for the WK and WH frequency response functions
+ when co-integration is present in either signal or noise (or both).
  
+\begin{Theorem}
+\label{thm:wk-wh.coint}
+ Suppose that $\{ X_t \}$ is  a non-stationary stochastic process
+ with representation (\ref{eq:nonstatCausalRep}), such that
+ (\ref{eq:signal-noise-decomp}) and (\ref{eq:spectral-factor}) hold,
+ and $f_{\partial X}$ is invertible
+ at almost all frequencies $\omega$.
+ Assume that the signal and noise differencing operators
+ $\Delta^S (L)$ and $\Delta^N (L)$ are relatively prime, and Assumption A holds.
+ The WK filter $\Psi (L)$ and WH filter $\widehat{\Psi} (L)$ have
+  frequency response functions given by (\ref{eq:wk.frf-gen})
+  and (\ref{eq:wiener-hopf}) respectively for $\omega$ such that
+  $\Delta_S (e^{-i \omega_}) \neq 0$ and $\Delta_N (e^{-i \omega_}) \neq 0$;
+  otherwise, the following formulas apply.
  
+\paragraph{case (i)} Suppose that $\omega_*$ is a frequency such that
+ $\Delta_S (e^{-i \omega_*}) = 0$ and $f_{\partial S} (\omega_*)$ has reduced rank.
+ Then with $L \, L^{*} = f_{\partial S} (\omega_*)$, 
+\begin{align*}
+ \Psi (e^{-i \omega_*}) & = L \, {\left( L^* \, 
+   { f_{\partial N} (\omega_*) }^{-1} \, L \right)}^{-1} \, L^* \, 
+   { f_{\partial N} (\omega_*) }^{-1}  \\
+\widehat{\Psi} (e^{-i \omega_*}) & = 
+  1_N - { \left[  f_{\partial N} (\omega_*) { G( e^{i \omega_*})}^{\prime} 
+    { \Delta_N (e^{-i\omega_*})}^{-1} \right] }_0^{\infty} \,
+     \Sigma^{-1} \, G( e^{-i \omega_*}) \, \Delta_N (e^{-i \omega_*}),
+\end{align*}
+ where $G(z) = { \Theta (z) }^{-1} \Delta_S (z)$ is defined in a neighborhood 
+  about $z_* = e^{- i \omega_*}$, and can be continuously extended to a reduced
+   rank matrix $G(z_*)$.
+   
+\paragraph{case (ii)} Suppose that $\omega_*$ is a frequency such that
+ $\Delta_N (e^{-i \omega_*}) = 0$ and $f_{\partial N} (\omega_*)$ has reduced rank.
+ Then with $L \, L^{*} = f_{\partial N} (\omega_*)$, 
+\begin{align*}
+ \Psi (e^{-i \omega_*}) & = 1_N - L \, {\left( L^* \, 
+   { f_{\partial S} (\omega_*) }^{-1} \, L \right)}^{-1} \, L^* \, 
+   { f_{\partial S} (\omega_*) }^{-1}  \\
+\widehat{\Psi} (e^{-i \omega_*}) & = 
+  { \left[  f_{\partial S} (\omega_*) { G( e^{i \omega_*})}^{\prime} 
+    { \Delta_S (e^{-i\omega_*})}^{-1} \right] }_0^{\infty} \,
+     \Sigma^{-1} \, G( e^{-i \omega_*}) \, \Delta_S (e^{-i \omega_*}),
+\end{align*}
+ where $G(z) = { \Theta (z) }^{-1} \Delta_N (z)$ is defined in a neighborhood 
+  about $z_* = e^{- i \omega_*}$, and can be continuously extended to a reduced
+   rank matrix $G(z_*)$.
+\end{Theorem}
+
+\paragraph{Proof of Theorem \ref{thm:wk-wh.coint}.}  
+ 
+ HERE fill in proof.
  
  HERE  examples with Starts, seasonal cointegration or trend cointegration
 
