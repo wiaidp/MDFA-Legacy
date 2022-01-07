@@ -90,7 +90,7 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 		j.star <- floor(sig.lambdas[k]*grid/2) + m+1
 		if(j.star==(grid+1)) j.star <- 1
 		zeta <- exp(-1i*sig.lambdas[k]*pi)
-		sig.mat.new <- zeta^(seq(0,q-1))
+		sig.mat.new <- matrix(zeta^(seq(0,q-1)),ncol=q)
 		sig.vec.new <- frf[,,j.star] - coint * sum(delta.noise * zeta^seq(0,length(noisefreqs)))
 		sig.mat <- rbind(sig.mat,Re(sig.mat.new))
 		sig.vec <- rbind(sig.vec,t(Re(sig.vec.new)))
@@ -129,7 +129,7 @@ mdfa.getconstraints <- function(frf,sigfreqs,noisefreqs,coint,q)
 		j.star <- floor(noise.lambdas[k]*grid/2) + m+1
 		if(j.star==(grid+1)) j.star <- 1
 		zeta <- exp(-1i*noise.lambdas[k]*pi)
-		noise.mat.new <- zeta^(seq(0,q-1))
+		noise.mat.new <- matrix(zeta^(seq(0,q-1)),ncol=q)
 		noise.vec.new <- frf[,,j.star]
 		noise.mat <- rbind(noise.mat,Re(noise.mat.new))
 		noise.vec <- rbind(noise.vec,t(Re(noise.vec.new)))

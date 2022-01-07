@@ -206,7 +206,7 @@ Simulate a sample of size $T=5000$ from a
   $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
  Use the moving average filter
  MDFA  (Proposition \ref{prop:mdfa.quadsoln}) with co-integration to find the best
- concurrent filter, setting $q= 20$.
+ concurrent filter, setting $q= 30$.
  To do this, use the filter constraint (\ref{eq:zero-constraint-cointcase}),
   noting that $\alpha \beta^{\prime} = \Phi - 1_2$.
  Apply this concurrent filter 
@@ -253,7 +253,7 @@ frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N)
 frf.psi <- array(frf.psi,c(N,N,grid))
   
 # get MDFA concurrent filter
-q <- 30
+q <- 20
 spec.hat <- mdfa.pergram(x.sim,1)
 coint <- phi.matrix - diag(N)
 constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,coint,q)

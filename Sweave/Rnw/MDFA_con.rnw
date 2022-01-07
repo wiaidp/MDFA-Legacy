@@ -434,7 +434,10 @@ print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 diag(lp.mdfa.ltsc[[2]])
 @
   
-In Exercise \ref{exer:var1trend-mdfa} the in-sample empirical MSE for
+In Exercise \ref{exer:var1trend-mdfa} the in-sample empirical MSE
+ does not match the criterion value (\ref{eq:opt.val.mdfa}) in the
+  unconstrained and TSC cases of the MDFA, because of the presence
+  of the deterministic linear trend.  Also, the MSE of the 
  unconstrained MDFA can be higher than that of the LC MDFA, and this is
   because $q < \infty$.  As $q$ is taken larger, the unconstrained MDFA 
   incorporates filters that satisfy level and time shift constraints,
@@ -1653,6 +1656,8 @@ In particular with $P$ defined via (\ref{eq:conc.filter}), we find that
   \widetilde{\Lambda} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
  as the previous discussion guarantees. 
  
+ HERE:  what about doing cancellation?
+ 
  For computation, it is convenient to calculate the integrand given in the
   right-hand expression of (\ref{eq:mdfa-criterion-nonstat}), which involves
    the pseudo-spectrum $ G \, {|\Delta (z) |}^{-2}$.  Numerical
@@ -1701,7 +1706,7 @@ This exercise considers the case of an ideal low-pass filter
  (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
 \end{Exercise}
 
-
+HERE  fixing this 
 
 <<exercise_rwtrend-mdfa,echo=True>>=
 # Simulate a Gaussian RW of sample size 5000:
@@ -1731,6 +1736,7 @@ grid <- T.sim - d
 m <- floor(grid/2)
 # The Fourier frequencies
 freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+
 # frf for ideal low-pass
 frf.psi <- rep(0,grid)
 frf.psi[abs(freq.ft) <= mu] <- 1
@@ -1740,6 +1746,24 @@ constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,0*diag(N),q)
 bw.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
 x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T-q+1-len),]
  
+# another way???
+frf.psi <- rep(0,grid)
+frf.psi[abs(freq.ft) <= mu] <- 1
+frf.psi.sharp <- (frf.psi - frf.psi[m+1])/(exp(-1i*freq.ft)-1)
+frf.psi.sharp[m+1] <- 0
+frf.psi.sharp <- matrix(frf.psi.sharp,nrow=1) %x% diag(N) 	  
+frf.psi.sharp <- array(frf.psi.sharp,c(N,N,grid))
+frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+frf.psi <- array(frf.psi,c(N,N,grid))
+spec.hat.sharp <- mdfa.pergram(x.diff,1)
+bw.mdfa.sharp <- mdfa.unconstrained(frf.psi.sharp,spec.hat.sharp,q-1)
+R.mat <- toeplitz(c(-1,1,rep(0,q-2)))
+R.mat[upper.tri(R.mat)] <- 0
+R.mat <- R.mat[,-q] %x% diag(N)
+Q.mat <- c(1,rep(0,q-1)) %x% frf.psi[,,m+1]
+bw.mdfa.filter <- array(t(R.mat %*% t(matrix(bw.mdfa.sharp[[1]],nrow=N)) + Q.mat),c(N,N,q))
+x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa.filter)[(len-q+2):(T-q+1-len),]
+
 # compare in-sample performance
 print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)))
@@ -1768,9 +1792,10 @@ Consider a non-stationary bivariate  process such that the first differences
  Use the moving average filter  MDFA  for an $I(1)$ process  to find the best
  concurrent filter, setting $q= 30$. 
    Apply this concurrent filter 
- to the simulation, and compare the relevant portions to the ideal trend.
+ to the simulation, and compare the relevant portions to the ideal cycle.
  Also determine the in-sample performance, in comparison to the criterion value
  (\ref{eq:opt.val.mdfa}).   Target the cycles for both time series.
+ Hint: now trend is considered noise, and the stationary cycle is the signal.
 \end{Exercise}
 
 
@@ -1802,7 +1827,7 @@ bp.filter <- c(rev(bp.filter),bp.filter[-1])
 x.cycle.ideal <- filter(x.sim,bp.filter,method="convolution",sides=2)[(len+1):(T-len),]
 
 # get MDFA concurrent filter
-q <- 30
+q <- 20
 x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
 spec.hat <- mdfa.pergram(x.diff,dpoly)
 grid <- T.sim - d
@@ -1814,7 +1839,7 @@ frf.psi <- rep(0,grid)
 frf.psi[(abs(freq.ft) >= mu) & (abs(freq.ft) <= eta)] <- 1
 frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
 frf.psi <- array(frf.psi,c(N,N,grid))
-constraints.mdfa <- mdfa.getconstraints(frf.psi,0,NULL,0*diag(N),q)
+constraints.mdfa <- mdfa.getconstraints(frf.psi,NULL,0,0*diag(N),q)
 bp.mdfa <- mdfa.filter(frf.psi,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
 x.cycle.mdfa <- mvar.filter(x.sim,bp.mdfa[[1]])[(len-q+2):(T-q+1-len),]
 
@@ -1825,7 +1850,8 @@ print(c(mean((x.cycle.ideal[,1] - x.cycle.mdfa[,1])^2),
 # compare to criterion value
 diag(bp.mdfa[[2]])
 @
- 
+
+HERE  fix cycle exercise 
 
 
 
