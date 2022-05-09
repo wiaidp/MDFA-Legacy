@@ -1564,19 +1564,17 @@ Proposition \ref{prop:filter-decompose}.
  with multiplicities $d_{\ell}$, then repeated application of
  Corollary \ref{cor:filter-noise} yields
 \[
- \Psi (L) = \prod_{\ell} {(L -  e^{-i \omega_{\ell}})}^{d_{\ell}} \, \Psi^{\natural} (L)
-   = \Delta^N (L) \, \Psi^{\star} (L)
+ \Psi (L) = \Delta^N (L) \, \Psi^{\natural} (L)
 \]
  for some residual filter $\Psi^{\natural} (L)$, where 
- $\Psi^{\star} (L) = \prod_{\ell} (-e^{-i \omega_{\ell} d_{\ell}}) \, \Psi^{\natural} (L)$
  and $\Delta^N (L) = \prod_{\ell} (1 - e^{i \omega_{\ell}} \, L)$.
  By imposing the same linear constraints on $\widehat{\Psi} (L)$, 
- we likewise obtain $\widehat{\Psi} (L) = \Delta^N (L) \, \widehat{\Psi}^{\star} (L)$,
+ we likewise obtain $\widehat{\Psi} (L) = \Delta^N (L) \, \widehat{\Psi}^{\natural} (L)$,
  and hence
 \begin{equation}
  \label{eq:delta-noise}
-\Lambda (L) = \left(  {\Psi}^{\star} (L) - 
-\widehat{\Psi}^{\star} (L) \right) \, \Delta^N (L).
+\Lambda (L) = \left(  {\Psi}^{\natural} (L) - 
+\widehat{\Psi}^{\natural} (L) \right) \, \Delta^N (L).
 \end{equation}
   So if $\Delta (L) = \Delta^N (L)$, then (\ref{eq:delta.factor}) 
   holds at once.  More generally, a given process' differencing polynomial
@@ -1642,9 +1640,11 @@ In particular with $P$ defined via (\ref{eq:conc.filter}), we find that
  function as $\det D_{\Psi } (\vartheta, G)$ for
 \begin{equation}
 \label{eq:mdfa-criterion-nonstat}
- D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Lambda} (e^{-i \omega})   \, 
+ D_{\Psi} (\vartheta, G) =  { \langle  \widetilde{\Lambda} (e^{-i \omega})   \, 
  G (\omega) \,  {\widetilde{\Lambda} (e^{i \omega}) }^{\prime}   \rangle }_0
- = { \langle  \left[ \Psi (e^{-i \omega}) - \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,  G (\omega) \, {|\Delta (e^{-i \omega}) |}^{-2} \,
+ = { \langle  \left[ \Psi (e^{-i \omega}) - 
+ \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \, 
+ G (\omega) \, {|\Delta (e^{-i \omega}) |}^{-2} \,
   {  \left[ \Psi (e^{i \omega}) - 
   \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
 \end{equation}
@@ -1736,7 +1736,6 @@ by omitting a neighborhood of the singularity can be substantial.
 \] 
  For double roots or multiple distinct roots in $\Delta (z)$, 
  the same principle can be applied in an iterative fashion.
-  
   Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, 
   with $F$ being the spectral density of $\{ \partial X_t \}$,
  for estimation we approximate the integral over Fourier frequencies, 
@@ -1951,7 +1950,6 @@ This exercise takes as target the HP low-pass filter of Example
  (\ref{eq:opt.val.mdfa}).   Target the trends for both time series.
 \end{Exercise}
 
-HERE
 
 <<exercise_hptrend-mdfa,echo=True>>=
 # Simulate a Gaussian STM  of sample size 5000:
@@ -1977,36 +1975,102 @@ x.sim <- mu.sim + irr.sim
 #Q.snr <- Sigma.mu %*% solve(Sigma.irr)
 Q.snr <- (1/1600) * diag(N)
  
-# construct and apply low-pass HP filter
 grid <- T.sim - d
 m <- floor(grid/2)
 # The Fourier frequencies
 freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
-hp.frf <- array(0,c(N,N,grid))
+# frf for HP low-pass
+frf.psi <- array(0,c(N,N,grid))
 for(i in 1:grid)
 {
-  hp.frf[,,i] <- Q.snr %*% solve(Q.snr + (2 - 2*cos(freq.ft[i]))^2*diag(N))
+  frf.psi[,,i] <- Q.snr %*% solve(Q.snr + (2 - 2*cos(freq.ft[i]))^2*diag(N))
 }
-hp.filter <- mdfa.coeff(hp.frf,-len,len)
+# construct and apply low-pass HP filter
+hp.filter <- mdfa.coeff(frf.psi,-len,len)
 x.trend.hp <- mvar.filter(x.sim,hp.filter)
- 
+
 # get MDFA concurrent filter
 q <- 30
 x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
-spec.hat <- mdfa.pergram(x.diff,dpoly)
-constraints.mdfa <- mdfa.getconstraints(hp.frf,c(0,0),NULL,0*diag(N),q)
-hp.mdfa <- mdfa.filter(hp.frf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
 
-# apply the MDFA concurrent filter
-x.trend.mdfa <- mvar.filter(x.sim,hp.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+# frf calculations
+frf.psi.sharp <- array(0,c(N,N,grid))
+for(i in 1:grid)
+{
+  frf.psi.sharp[,,i] <- -1*(1-exp(1i*freq.ft[i]))^2*
+    solve(Q.snr + (2 - 2*cos(freq.ft[i]))^2*diag(N))
+}  
+spec.hat.sharp <- mdfa.pergram(x.diff,1)
+hp.mdfa.sharp <- mdfa.unconstrained(frf.psi.sharp,spec.hat.sharp,q-2)
+R.mat <- toeplitz(c(rev(dpoly),rep(0,q-3)))
+R.mat[upper.tri(R.mat)] <- 0
+R.mat <- R.mat[,-c(q-1,q)] %x% diag(N)
+Q.mat <- c(1,rep(0,q-1)) %x% frf.psi[,,m+1]
+hp.mdfa.filter <- array(t(R.mat %*% t(matrix(hp.mdfa.sharp[[1]],nrow=N)) + Q.mat),c(N,N,q))
+x.trend.mdfa <- mvar.filter(x.sim,hp.mdfa.filter)[(len-q+2):(T-q+1-len),]
 
 # compare in-sample performance
 print(c(mean((x.trend.hp[,1] - x.trend.mdfa[,1])^2),
 	mean((x.trend.hp[,2] - x.trend.mdfa[,2])^2)))
 
 # compare to criterion value
-diag(hp.mdfa[[2]])
+diag(hp.mdfa.sharp[[2]])
 @
+ 
+In Exercise \ref{exer:hptrend-mdfa} we are able to find a remainder polynomial
+ $\Psi^{\star} (z)$ such that
+\begin{equation}
+\label{eq:psi-to-sharp-and-star}
+ \Psi (z) = \Delta (z) {\delta (d)}^{-1} \Psi^{\sharp} (z) + \Psi^{\star} (z),
+ \end{equation}
+ where  $\delta (d) $ is the 
+ leading coefficient of $\Delta (z)$; in this case, $\Psi^{\star} (z) = 1_n$
+ and 
+ \[
+ \Psi^{\sharp}(z) = - {(1-z^{-1})}^2 \, {\left( Q + {|1 - z|}^4 \right)}^{-1}.
+ \]
+ More generally, we seek a degree $d-1$ polynomial $\Psi^{\star} (z)$ such that
+\[
+ \Psi^{\sharp} (z) = \frac{ \delta (d) \, ( \Psi (z) - \Psi^{\star} (z) )
+ }{ \Delta (z)}
+\]
+is bounded for all $z$ on the unit circle, as this will facilitate calculation
+of the MDFA criterion.  Suppose the differencing operator has $r$
+distinct roots $\zeta_1, \ldots, \zeta_r$
+with multiplicities $m_1, \ldots, m_r$, i.e.,
+$\Delta (z) = \prod_{\ell=1}^r {(1 - z/\zeta_{\ell})}^{m_{\ell}}$.
+ Then the leading coefficient is $\delta (d)  =
+  \prod_{\ell=1}^r {(-\zeta_{\ell})}^{m_{\ell}}$, which is real with
+  unit magnitude.  The desired $\Psi^{\star} (z)$ must satisfy
+  (\ref{eq:psi-to-sharp-and-star}), and it follows from 
+  straightforward calculus that $\partial^k \Psi (\zeta_j) =
+   \partial^k \Psi^{\star} (\zeta_j)$ for $0 \leq k  < m_j$ and
+   $1 \leq j \leq r$.  These necessary constraints are also
+   sufficient to define $\Psi^{\star} (z)$, whose coefficients
+  are obtained by solving the linear system
+\[
+ \left[ \begin{array}{c} \Psi (\zeta_1) \\ \partial \Psi (\zeta_1) \\
+  \vdots \\ \partial^{m_1-1} \Psi (\zeta_1) \\
+  \Psi (\zeta_2) \\ \partial \Psi (\zeta_2) \\
+  \vdots \\ \partial^{m_2-1} \Psi (\zeta_2) \\
+  \vdots \\ \Psi (\zeta_r) \\ \partial \Psi (\zeta_r) \\
+  \vdots \\ \partial^{m_r-1} \Psi (\zeta_r) \end{array} \right]
+ = \left[ \begin{array}{ccccc}
+  1 & \zeta_1 & \ldots & \ldots & \zeta_1^{d-1} \\
+  0 &  1 & 2 \zeta_1 & \ldots & (d-1) \zeta_1^{d-2} \\
+  \vdots & \vdots & \vdots & \vdots & \vdots \\
+  0 & \ldots & \ldots & \ldots &  \binom \zeta_1^{d-m_1} \\
+
+  
+
+\right] 
+ 
+\] 
+
+  HERE  finish pages 1-3 of notes
+   
+ 
+
  
 
 
