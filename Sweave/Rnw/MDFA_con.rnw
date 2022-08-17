@@ -1638,16 +1638,17 @@ In particular with $P$ defined via (\ref{eq:conc.filter}), we find that
  and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., 
  we define the nonstationary MDFA criterion
  function as $\det D_{\Psi } (\vartheta, G)$ for
-\begin{equation}
+\begin{align}
 \label{eq:mdfa-criterion-nonstat}
- D_{\Psi} (\vartheta, G) =  { \langle  \widetilde{\Lambda} (e^{-i \omega})   \, 
- G (\omega) \,  {\widetilde{\Lambda} (e^{i \omega}) }^{\prime}   \rangle }_0
- = { \langle  \left[ \Psi (e^{-i \omega}) - 
+ D_{\Psi} (\vartheta, G) &  =  { \langle  \widetilde{\Lambda} (e^{-i \omega})   \, 
+ G (\omega) \,  {\widetilde{\Lambda} (e^{i \omega}) }^{\prime}   \rangle }_0 \\
+& = { \langle  \left[ \Psi (e^{-i \omega}) - 
  \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \, 
  G (\omega) \, {|\Delta (e^{-i \omega}) |}^{-2} \,
   {  \left[ \Psi (e^{i \omega}) - 
   \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
-\end{equation}
+  \notag
+\end{align}
   The second expression in (\ref{eq:mdfa-criterion-nonstat}) 
   utilizes (\ref{eq:delta.factor}), and employs the understanding
  that poles in ${\Delta (z) }^{-1}$ are exactly canceled out by the 
@@ -1681,7 +1682,7 @@ by omitting a neighborhood of the singularity can be substantial.
     the only root.  Then $\Delta (z) = 1 - z/\zeta = -\zeta^{-1} (z - \zeta)$,
     and by Proposition \ref{prop:filter-decompose}
   \begin{align*}
-   & \frac{\Psi (z) - \widehat{\Psi}_{\vartheta} (z) }{ z- \zeta} \\
+   \frac{\Psi (z) - \widehat{\Psi}_{\vartheta} (z) }{ z- \zeta} 
    & =  \frac{ \Psi (\zeta) + (z - \zeta) \Psi^{\sharp} (z)  
    - \widehat{\Psi}_{\vartheta} (\zeta) - (z - \zeta) 
     \widehat{\Psi}^{\sharp}_{\vartheta} (z)  }{z- \zeta} \\
@@ -2030,17 +2031,18 @@ In Exercise \ref{exer:hptrend-mdfa} we are able to find a remainder polynomial
  \Psi^{\sharp}(z) = - {(1-z^{-1})}^2 \, {\left( Q + {|1 - z|}^4 \right)}^{-1}.
  \]
  More generally, we seek a degree $d-1$ polynomial $\Psi^{\star} (z)$ such that
-\[
+\begin{equation}
+\label{eq:psi-sharp-definition}
  \Psi^{\sharp} (z) = \frac{ \delta (d) \, ( \Psi (z) - \Psi^{\star} (z) )
  }{ \Delta (z)}
-\]
-is bounded for all $z$ on the unit circle, as this will facilitate calculation
+\end{equation}
+is bounded in norm for all $z$ on the unit circle, as this will facilitate calculation
 of the MDFA criterion.  Suppose the differencing operator has $r$
 distinct roots $\zeta_1, \ldots, \zeta_r$
 with multiplicities $m_1, \ldots, m_r$, i.e.,
 $\Delta (z) = \prod_{\ell=1}^r {(1 - z/\zeta_{\ell})}^{m_{\ell}}$.
  Then the leading coefficient is $\delta (d)  =
-  \prod_{\ell=1}^r {(-\zeta_{\ell})}^{m_{\ell}}$, which is real with
+  \prod_{\ell=1}^r {(-\zeta_{\ell})}^{-m_{\ell}}$, which is real with
   unit magnitude.  The desired $\Psi^{\star} (z)$ must satisfy
   (\ref{eq:psi-to-sharp-and-star}), and it follows from 
   straightforward calculus that $\partial^k \Psi (\zeta_j) =
@@ -2059,16 +2061,101 @@ $\Delta (z) = \prod_{\ell=1}^r {(1 - z/\zeta_{\ell})}^{m_{\ell}}$.
   1 & \zeta_1 & \ldots & \ldots & \zeta_1^{d-1} \\
   0 &  1 & 2 \zeta_1 & \ldots & (d-1) \zeta_1^{d-2} \\
   \vdots & \vdots & \vdots & \vdots & \vdots \\
-  0 & \ldots & \ldots & \ldots &  \binom \zeta_1^{d-m_1} \\
-
-  
-
-\right] 
- 
+  0 & \ldots & \ldots & \ldots &  (d-1)!/(d-m_1)! \zeta_1^{d-m_1} \\
+ 1 & \zeta_2 & \ldots & \ldots & \zeta_2^{d-1} \\
+  0 &  1 & 2 \zeta_2 & \ldots & (d-1) \zeta_2^{d-2} \\
+  \vdots & \vdots & \vdots & \vdots & \vdots \\
+  0 & \ldots & \ldots & \ldots &  (d-1)!/(d-m_2)! \zeta_2^{d-m_2} \\
+  \vdots & \vdots & \vdots & \vdots & \vdots \\
+   1 & \zeta_r & \ldots & \ldots & \zeta_r^{d-1} \\
+  0 &  1 & 2 \zeta_r & \ldots & (d-1) \zeta_r^{d-2} \\
+  \vdots & \vdots & \vdots & \vdots & \vdots \\
+  0 & \ldots & \ldots & \ldots & (d-1)!/(d-m_r)! \zeta_r^{d-m_r} 
+  \end{array} \right] 
+  \otimes 1_n   \,
+  \left[ \begin{array}{c}  \psi^{\star} (0)  \\
+   \psi^{\star} (1) \\ \vdots \\ \vdots \\ \vdots \\ \psi^{\star} (d-1) 
+   \end{array} \right].
 \] 
+Let this system be abbreviated as $\underline{\Psi} = W \otimes 1_n \, 
+\underline{\Psi}^{\star}$.  Then the $k-1$th coefficient (for $1 \leq k \leq d$)
+is 
+\begin{equation}
+\label{eq:psi-star-coeff-formula}
+\Psi^{\star} (k-1) = e_k^{\prime} W^{-1} \otimes 1_n \, \underline{\Psi}.
+\end{equation}
+Next, because of the filter constraints we have $\partial^k \Psi (\zeta_j) = \partial^k \widehat{\Psi} (\zeta_j)$, and hence  it follows that 
+\[
+   \widehat{\Psi}^{\sharp} (z) = \frac{ \delta (d) \, 
+   ( \widehat{\Psi} (z) - \Psi^{\star} (z) ) }{ \Delta (z)}
+\]
+is also bounded in norm.  Therefore
+\[
+ \frac{ \Psi (z) - \widehat{\Psi} (z) }{ \Delta (z) }
+  = \frac{   \Psi (z) - \Psi^{\star} (z)  }{ \Delta (z)}
+  -  \frac{ \widehat{\Psi} (z) - \Psi^{\star} (z)  }{ \Delta (z)}
+  = \left( \Psi^{\sharp} (z) - \widehat{\Psi}^{\sharp} (z) \right)/ \delta (d),
+\]
+and hence  by  (\ref{eq:mdfa-criterion-nonstat}) the MDFA criterion is
+\begin{equation}
+\label{eq:mdfa-criterion-canceled-form}
+ D_{\Psi} (\vartheta, G)
+ = { \langle  \left[ \Psi^{\sharp} (e^{-i \omega}) - 
+ \widehat{\Psi}^{\sharp}_{\vartheta} (e^{-i \omega}) \right] \, 
+ G (\omega) \,
+  {  \left[ \Psi^{\sharp} (e^{i \omega}) - 
+  \widehat{\Psi}_{\vartheta}^{\sharp} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
+\end{equation}
+This uses ${| \delta (d) |}^2 = 1$.  
+ In the above criterion, $\widehat{\Psi}^{\sharp} (z)$ is unconstrained,
+  and we optimize over its filter coefficients;  then the constrained filter
+  is obtained via
+  \begin{equation}
+  \label{eq:psi-hat-from-psi-sharp}
+  \widehat{\Psi} (z) = \Delta (z)   {\delta (d)}^{-1} \widehat{\Psi}^{\sharp} (z)
+  + \Psi^{\star} (z).
+\end{equation}
+ Clearly, we must calculate $\Psi^{\sharp} (z)$ to compute the criterion function,
+which uses (\ref{eq:psi-sharp-definition}) when $z$ is not a unit root, and
+otherwise is given by
+\begin{equation}
+\label{eq:psi-sharp-lhopital}
+ \Psi^{\sharp} (\zeta_j) = \delta (d) \,  \prod_{k \neq j} {(1 - \zeta_j / \zeta_k)}^{-m_k} 
+  \cdot \frac{ \partial^{m_j} \Psi (\zeta_j) -
+  \partial^{m_j} \Psi^{\star} (\zeta_j)}{ m_j! {(-1/\zeta_j)}^{m_j} }.
+\end{equation}
+ It is useful to express $ \partial^{m_j} \Psi (\zeta_j)$ in terms of derivatives
+ of the corresponding frequency response function.  Let
+ $\Upsilon (\omega ) = \Psi (e^{-i \omega})$, so that $\Upsilon = \Psi \circ e$,
+ where $e(\omega) = e^{-i \omega}$.  Inverting, $\Psi (z) = \Upsilon (i \log z)$,
+ so that by the chain rule and product rule we can compute 
+ $ \partial^{m_j} \Psi (\zeta_j)$ in terms of the derivatives of $\Upsilon$.
+The first two derivatives are
+\begin{align*}
+ \frac{\partial}{\partial z} \Psi (z) & = \frac{\partial}{\partial \omega} \Upsilon
+  ( i \log z) \, i/z \\
+   \frac{\partial^2}{\partial z^2} \Psi (z) & = \frac{\partial^2}{\partial \omega^2}
+   \Upsilon   ( i \log z) \, (-1/z^2) +
+   \frac{\partial}{\partial \omega} \Upsilon
+  ( i \log z) \, (-i/z^2).
+\end{align*}
+ Evaluating at a particular $\zeta_j$ with argument $\omega_j$, we obtain
+ \begin{align*}
+ \partial \Psi (\zeta_j) & = \frac{\partial}{\partial \omega} \Upsilon
+  ( \omega_j ) \, i e^{i \omega_j} \\
+  \partial^2 \Psi (\zeta_j) & = - e^{i 2 \omega_j} \,
+  \left(  \frac{\partial^2}{\partial \omega^2} \Upsilon ( \zeta_j ) 
+    + i  \frac{\partial}{\partial \omega} \Upsilon (\zeta_j) \right).
+\end{align*}
+ 
+ 
 
-  HERE  finish pages 1-3 of notes
-   
+ In summary, our procedure is to first compute $\Psi^{\star} (z) $ via
+ (\ref{eq:psi-star-coeff-formula}), and then calculate $\Psi^{\sharp}(z)$
+ via (\ref{eq:psi-sharp-definition}) and (\ref{eq:psi-sharp-lhopital}).
+ Then minimize the MDFA criterion (\ref{eq:mdfa-criterion-canceled-form})
+ with respect to $\widehat{\Psi}^{\sharp} (z)$, and finally compute
+ $\widehat{\Psi} (z)$ using (\ref{eq:psi-hat-from-psi-sharp}).
  
 
  
@@ -2085,6 +2172,7 @@ In this final section of the chapter, we proceed through several examples
   when the model is incorrectly specified.
   Finally, we show the actual performance of MDFA on each of the real series.
    
+\subsection{Model-Based Concurrent Signal Extraction}
   
 In order to understand the topic of model-based replication, we proceed
 to determine the optimal concurrent filter for the LPP determined by a model-based
@@ -2398,6 +2486,7 @@ We now  study the  MB trend filter arising from a LLM
  (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
 
+HERE: update with new approach
 
 <<exercise_llmpetrol-mdfa-null,echo=True>>=
 # Simulate a Gaussian LLM  of sample size 5000:

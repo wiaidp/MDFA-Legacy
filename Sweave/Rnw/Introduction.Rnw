@@ -156,7 +156,7 @@ library(numDeriv)
 # Graphical package for recession-shading (empirical examples based on US-GDP)
 library(tis)
 # Library for tables
-library(Hmisc)
+#library(Hmisc)
 require(xtable)
 #install.packages("devtools")
 library(devtools)

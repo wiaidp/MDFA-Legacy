@@ -16,6 +16,7 @@ library(devtools)
 devtools::install_github("wiaidp/MDFA")
 # MDFA package
 library(MDFA) 
+library(mFilter)  # Classic filter designs (be replicated by MDFA)
 library(RCurl)    # For getURL() and curl handler / cookie / google login
 library(stringr)  # For str_trim() to trip whitespace from strings
 library(Quandl)

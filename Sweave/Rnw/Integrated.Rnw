@@ -757,8 +757,8 @@ Therefore, under the conditions of Proposition \ref{prop:gen-case-coint-factor},
  $\Delta^S (L)$ and $\Delta^N (L)$ are relatively prime, and Assumption A holds.
  The WK filter $\Psi (L)$ and WH filter $\widehat{\Psi} (L)$ have
   frequency response functions given by (\ref{eq:wk.frf-gen})
-  and (\ref{eq:wiener-hopf}) respectively for $\omega$ such that
-  $\Delta_S (e^{-i \omega_}) \neq 0$ and $\Delta_N (e^{-i \omega_}) \neq 0$;
+  and (\ref{eq:wiener-hopf}) respectively for $\omega_*$ such that
+  $\Delta_S (e^{-i \omega_*}) \neq 0$ and $\Delta_N (e^{-i \omega_*}) \neq 0$;
   otherwise, the following formulas apply.
  
 \paragraph{case (i)} Suppose that $\omega_*$ is a frequency such that
