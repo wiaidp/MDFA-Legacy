@@ -66,10 +66,10 @@ mdfa.getremainder <- function(frf,rootfreqs)
   }
   
   W.mat <- NULL
-  for(j in 1:length(root.lambdas))
+  for(j in 1:length(sig.lambdas))
   {
-    zeta <- exp(1i*pi*root.lambdas[j])
-    for(k in 1:root.mults[j])
+    zeta <- exp(1i*pi*sig.lambdas[j])
+    for(k in 1:sig.mults[j])
     {
       weights <- c(rep(0,k-1),factorial(k-1)*choose(seq(k-1,d-1),k-1))
       W.mat <- rbind(W.mat,weights*zeta^(seq(1,d)-k))
