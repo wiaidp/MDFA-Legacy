@@ -59,17 +59,8 @@ mdfa.getquotient <- function(frf.psi,rootfreqs,rem.vec)
   grid <- dim(frf.psi)[3]
   m <- floor(grid/2)
   d <- length(rootfreqs)
-  
   sig.lambdas <- unique(rootfreqs)
-  # sig.mults <- NULL
-  # if(length(rootfreqs)>0) 
-  # {
-  #   for(j in 1:length(sig.lambdas))
-  #   {
-  #     sig.mults <- c(sig.mults,sum(rootfreqs == sig.lambdas[j]))
-  #   } 
-  # }
-  
+
   # Find frequencies on grid closest to the root frequencies
   j.stars <- NULL
   if(length(sig.lambdas) > 0) {
@@ -115,44 +106,6 @@ mdfa.getquotient <- function(frf.psi,rootfreqs,rem.vec)
       }
     }
   }
-  
-# deprecated code      
-#      if(sig.mults[k]==1)
-  #     {
-  #       if(j.star==grid) 
-  #       { 
-  #         sig.vec.new <- 1i*exp(1i*sig.lambdas[k]*pi)*
-  #           (frf[,,1]-frf[,,j.star])*grid/(2*pi) 
-  #       } else 
-  #       { 
-  #         sig.vec.new <- 1i*exp(1i*sig.lambdas[k]*pi)*
-  #           (frf[,,j.star+1]-frf[,,j.star])*grid/(2*pi) 
-  #       }
-  #       sig.vec <- rbind(sig.vec,t(sig.vec.new))
-  #     }
-  #     if(sig.mults[k]==2)
-  #     {
-  #       if((j.star==grid) || (j.star==1))
-  #       { 
-  #         if(j.star==grid)
-  #         {
-  #           sig.vec.new <- ((frf[,,1]-2*frf[,,j.star]+frf[,,j.star-1])*grid^2/(2*pi)^2
-  #                           + 1i*(frf[,,1]-frf[,,j.star])*grid/(2*pi))*(-1i*exp(2*1i*sig.lambdas[k]*pi))
-  #         }
-  #         if(j.star==1)
-  #         {
-  #           sig.vec.new <- ((frf[,,j.star+1]-2*frf[,,j.star]+frf[,,grid])*grid^2/(2*pi)^2
-  #                           + 1i*(frf[,,j.star+1]-frf[,,j.star])*grid/(2*pi))*(-1i*exp(2*1i*sig.lambdas[k]*pi))
-  #         }
-  #       } else 
-  #       { 
-  #         sig.vec.new <- ((frf[,,j.star+1]-2*frf[,,j.star]+frf[,,j.star-1])*grid^2/(2*pi)^2
-  #           + 1i*(frf[,,j.star+1]-frf[,,j.star])*grid/(2*pi))*(-1i*exp(2*1i*sig.lambdas[k]*pi))
-  #       }
-  #       sig.vec <- rbind(sig.vec,t(sig.vec.new))
-  #     }
-  #   } 
-  # }
   
   return(frf.psi.sharp)
   
