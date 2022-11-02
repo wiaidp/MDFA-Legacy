@@ -51,15 +51,8 @@
 \contentsline {paragraph}{Proof of Proposition \ref {prop:GPP-nonstat}.}{84}{section*.22}%
 \contentsline {paragraph}{Proof of Proposition \ref {prop:filter-decompose}.}{86}{section*.23}%
 \contentsline {section}{\numberline {4.4}Replication and Efficiency Gain Over Model-Based Filters}{97}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Model-Based Concurrent Signal Extraction}{97}{subsection.4.4.1}%
 \contentsline {paragraph}{Proof of Theorem \ref {thm:asym.sigex}.}{98}{section*.24}%
-\contentsline {subsection}{\numberline {4.4.1}Industrial Petroleum: the LLM Specification}{100}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Non-Defense Capitalization: the STM Specification}{105}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Housing Starts: the Atomic Seasonal Specification}{111}{subsection.4.4.3}%
-\contentsline {chapter}{\numberline {5}Multivariate Direct Filter Analysis for Co-integrated Processes}{121}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Co-integration at Frequency Zero}{121}{section.5.1}%
-\contentsline {paragraph}{Proof of Proposition \ref {prop:coint-base-case}.}{123}{section*.25}%
-\contentsline {section}{\numberline {5.2}A General Treatment of Co-integration}{128}{section.5.2}%
-\contentsline {paragraph}{Proof of Proposition \ref {prop:gen-case-coint-factor}.}{131}{section*.26}%
-\contentsline {paragraph}{case (i)}{132}{section*.27}%
-\contentsline {paragraph}{case (ii)}{132}{section*.28}%
-\contentsline {paragraph}{Proof of Theorem \ref {thm:wk-wh.coint}.}{132}{section*.29}%
+\contentsline {subsection}{\numberline {4.4.2}Industrial Petroleum: the LLM Specification}{101}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Non-Defense Capitalization: the STM Specification}{107}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Housing Starts: the Atomic Seasonal Specification}{113}{subsection.4.4.4}%

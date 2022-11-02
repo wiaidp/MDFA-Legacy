@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.5.12)  27 JUN 2022 08:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.5.12)  2 NOV 2022 16:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -352,75 +352,6 @@ LaTeX Warning: Label `eq:bstar-expression' multiply defined.
 
 LaTeX Warning: Label `eq:minimalMSE' multiply defined.
 
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
-
-LaTeX Warning: Label `' multiply defined.
-
 )
 \openout1 = `MDFA_Legacy.aux'.
 
@@ -630,13 +561,17 @@ LaTeX Warning: Reference `mse_sec' on page 11 undefined on input line 631.
 Chapter 2.
 [13
 
-] [14] [15] [16] [17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27]
-[28] [29] [30] [31] [32] [33] [34
+] [14] [15] [16]
+
+LaTeX Warning: Reference `chap:coint' on page 17 undefined on input line 1054.
+
+[17] [18] [19] [20] [21] [22] [23] [24] [25] [26] [27] [28] [29] [30] [31]
+[32] [33] [34
 
 ]
 Chapter 3.
 [35] [36] [37] [38] [39] [40] [41] [42] [43] [44] [45] [46]
-<mdfa_var1_filtering.pdf, id=579, 433.62pt x 289.08pt>
+<mdfa_var1_filtering.pdf, id=568, 433.62pt x 289.08pt>
 File: mdfa_var1_filtering.pdf Graphic file (type pdf)
 <use mdfa_var1_filtering.pdf>
 Package pdftex.def Info: mdfa_var1_filtering.pdf  used on input line 2930.
@@ -647,12 +582,12 @@ re.3.1}) has been already used, duplicate ignored
                                                   
 l.2998 ...ilter <- c(rev(lp.filter),lp.filter[-1])
                                                    <./mdfa_var1_filtering.pdf>]
-<mdfa_trivar1_filtering.pdf, id=598, 433.62pt x 433.62pt>
+<mdfa_trivar1_filtering.pdf, id=587, 433.62pt x 433.62pt>
 File: mdfa_trivar1_filtering.pdf Graphic file (type pdf)
 <use mdfa_trivar1_filtering.pdf>
 Package pdftex.def Info: mdfa_trivar1_filtering.pdf  used on input line 3048.
 (pdftex.def)             Requested size: 339.67029pt x 339.68448pt.
-<mdfa_trivar1_freqdomain.pdf, id=599, 433.62pt x 433.62pt>
+<mdfa_trivar1_freqdomain.pdf, id=588, 433.62pt x 433.62pt>
 File: mdfa_trivar1_freqdomain.pdf Graphic file (type pdf)
 <use mdfa_trivar1_freqdomain.pdf>
 Package pdftex.def Info: mdfa_trivar1_freqdomain.pdf  used on input line 3059.
@@ -675,7 +610,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
                                                   
 l.3126 \end{align}
                    <./mdfa_trivar1_freqdomain.pdf>] [52]
-<mdfa_bimdfa-udfa.pdf, id=639, 433.62pt x 144.54pt>
+<mdfa_bimdfa-udfa.pdf, id=628, 433.62pt x 144.54pt>
 File: mdfa_bimdfa-udfa.pdf Graphic file (type pdf)
 <use mdfa_bimdfa-udfa.pdf>
 Package pdftex.def Info: mdfa_bimdfa-udfa.pdf  used on input line 3214.
@@ -757,8 +692,12 @@ Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[76] [77]
-<llm_frf.pdf, id=921, 433.62pt x 289.08pt>
+[76]
+
+LaTeX Warning: Reference `chap:coint' on page 77 undefined on input line 4746.
+
+[77]
+<llm_frf.pdf, id=909, 433.62pt x 289.08pt>
 File: llm_frf.pdf Graphic file (type pdf)
 <use llm_frf.pdf>
 Package pdftex.def Info: llm_frf.pdf  used on input line 4815.
@@ -775,7 +714,7 @@ IS FOR NON-STATIONARY PROCESSES
                                                   
 l.4835 \]
           <./llm_frf.pdf>]
-<stm_frf.pdf, id=935, 433.62pt x 289.08pt>
+<stm_frf.pdf, id=923, 433.62pt x 289.08pt>
 File: stm_frf.pdf Graphic file (type pdf)
 <use stm_frf.pdf>
 Package pdftex.def Info: stm_frf.pdf  used on input line 4880.
@@ -796,7 +735,7 @@ IS FOR NON-STATIONARY PROCESSES
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.4971 \end{align*}
+l.4973 \end{align*}
                     <./stm_frf.pdf>] [81]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -810,10 +749,10 @@ IS FOR NON-STATIONARY PROCESSES
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [83]
-<sauc_frf.pdf, id=968, 433.62pt x 289.08pt>
+<sauc_frf.pdf, id=956, 433.62pt x 289.08pt>
 File: sauc_frf.pdf Graphic file (type pdf)
 <use sauc_frf.pdf>
-Package pdftex.def Info: sauc_frf.pdf  used on input line 5071.
+Package pdftex.def Info: sauc_frf.pdf  used on input line 5073.
 (pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
 
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
@@ -825,9 +764,9 @@ IS FOR NON-STATIONARY PROCESSES
 }) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.5126 \begin{equation}
+l.5129 \begin{equation}
                         <./sauc_frf.pdf>] [85]
-Overfull \hbox (5.31406pt too wide) in paragraph at lines 5258--5263
+Overfull \hbox (5.31406pt too wide) in paragraph at lines 5261--5266
 \T1/aer/m/n/10 This es-tab-lishes al-ge-braically that $\OT1/cmr/m/n/10 	[](\OM
 L/cmm/m/it/10 L\OT1/cmr/m/n/10 )$ \T1/aer/m/n/10 with co-ef-fi-cients as de-fin
 ed above equals $\OT1/cmr/m/n/10 (	(\OML/cmm/m/it/10 L\OT1/cmr/m/n/10 ) \OMS/cm
@@ -842,7 +781,7 @@ IS FOR NON-STATIONARY PROCESSES
  []
 
 [86]
-Overfull \hbox (16.36378pt too wide) detected at line 5326
+Overfull \hbox (16.36378pt too wide) detected at line 5329
 [] \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10  \OT1/cmr/m/n/10 (\OML/cmm/m/it/10 j\O
 T1/cmr/m/n/10 ) \OML/cmm/m/it/10 ^^P[]  [] p[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10
  L=^^P\OT1/cmr/m/n/10 ) + \OML/cmm/m/it/10 F  []  \OT1/cmr/m/n/10 (\OMS/cmsy/m/
@@ -856,89 +795,38 @@ Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[88]
-Overfull \hbox (26.34341pt too wide) detected at line 5466
-[]\OML/cmm/m/it/10 D[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 #; G\OT1/cmr/m/n/10 ) =
- [][] = [][]\OML/cmm/m/it/10 :
- []
-
-[89]
+[88] [89]
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 90 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[90]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [91]
+[90] [91]
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 92 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[92]
+[92] [93]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [93]
+
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 94 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[94] [95]
-! Missing { inserted.
-<to be read again> 
-                   }
-l.5894 ...ldots & \ldots & \ldots &  \binom \zeta_
-                                                  1^{d-m_1} \\
-? 
-! Missing } inserted.
-<inserted text> 
-                }
-l.5894 ...ts & \ldots &  \binom \zeta_1^{d-m_1} \\
-                                                  
-? 
-! Missing { inserted.
-<to be read again> 
-                   }
-l.5898 ...ldots & \ldots & \ldots &  \binom \zeta_
-                                                  2^{d-m_1} \\
-? 
-! Missing } inserted.
-<inserted text> 
-                }
-l.5898 ...ts & \ldots &  \binom \zeta_2^{d-m_1} \\
-                                                  
-? 
-! Missing { inserted.
-<to be read again> 
-                   }
-l.5903 ...ldots & \ldots & \ldots &  \binom \zeta_
-                                                  r^{d-m_1} \end{array} \right]
+[94]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-? 
-! Missing } inserted.
-<inserted text> 
-                }
-l.5903 ...ts &  \binom \zeta_r^{d-m_1} \end{array}
-                                                   \right]
-? 
-
+ [95]
 Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 96 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALYS
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[96]
-! Undefined control sequence.
-<argument>  \Prod 
-                  _{k \neq j} {(1 - z / \zeta _k)}^{m_k} 
-l.5953 ...d_{k \neq j} {(1 - z / \zeta_k)}^{m_k} }
-                                                  
-? 
-[97]
-Overfull \hbox (26.45668pt too wide) detected at line 6112
+[96] [97]
+Overfull \hbox (26.45668pt too wide) detected at line 6140
 []
  []
 
@@ -948,24 +836,27 @@ Overfull \hbox (43.61475pt too wide) has occurred while \output is active
 IS FOR NON-STATIONARY PROCESSES
  []
 
-[98] [99]
-<petrol_data.pdf, id=1147, 433.62pt x 289.08pt>
-File: petrol_data.pdf Graphic file (type pdf)
-<use petrol_data.pdf>
-Package pdftex.def Info: petrol_data.pdf  used on input line 6232.
-(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+[98]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
+ [99]
 Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 100 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
 SIS FOR NON-STATIONARY PROCESSES
  []
 
-[100pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
-4}) has been already used, duplicate ignored
+[100]
+<petrol_data.pdf, id=1139, 433.62pt x 289.08pt>
+File: petrol_data.pdf Graphic file (type pdf)
+<use petrol_data.pdf>
+Package pdftex.def Info: petrol_data.pdf  used on input line 6262.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+ [101pdfTeX warning (ext4): destination with the same identifier (name{figure.4
+.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6247 \[
-          <./petrol_data.pdf>] [101]
+l.6308 \end{Exercise}
+                      <./petrol_data.pdf>]
 Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 102 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
 SIS FOR NON-STATIONARY PROCESSES
@@ -977,36 +868,33 @@ Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 SIS FOR NON-STATIONARY PROCESSES
  []
 
-[104]
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 6511.
-
-<ndc_data.pdf, id=1198, 433.62pt x 289.08pt>
-File: ndc_data.pdf Graphic file (type pdf)
-<use ndc_data.pdf>
-Package pdftex.def Info: ndc_data.pdf  used on input line 6546.
-(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
-[105pdfTeX warning (ext4): destination with the same identifier (name{table.4.1
-}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.6568 \[
-         ]
+[104] [105]
 Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 106 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
 SIS FOR NON-STATIONARY PROCESSES
  []
 
-[106pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
-5}) has been already used, duplicate ignored
+[106]
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 6580.
+
+<ndc_data.pdf, id=1195, 433.62pt x 289.08pt>
+File: ndc_data.pdf Graphic file (type pdf)
+<use ndc_data.pdf>
+Package pdftex.def Info: ndc_data.pdf  used on input line 6617.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+[107pdfTeX warning (ext4): destination with the same identifier (name{table.4.1
+}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   
-l.6605 > N <- 2
-                <./ndc_data.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [107]
+l.6639 \[
+         pdfTeX warning (ext4): destination with the same identifier (name{figu
+re.4.5}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.6639 \[
+          <./ndc_data.pdf>]
 Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 108 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
 SIS FOR NON-STATIONARY PROCESSES
@@ -1018,50 +906,50 @@ Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 SIS FOR NON-STATIONARY PROCESSES
  []
 
-[110]
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 6828.
-
-
-Overfull \hbox (4.37259pt too wide) in paragraph at lines 6835--6855
- [][] 
- []
-
-<starts_data.pdf, id=1253, 433.62pt x 289.08pt>
-File: starts_data.pdf Graphic file (type pdf)
-<use starts_data.pdf>
-Package pdftex.def Info: starts_data.pdf  used on input line 6865.
-(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
-[111pdfTeX warning (ext4): destination with the same identifier (name{table.4.2
-}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.6886 \end{Example}
-                    pdfTeX warning (ext4): destination with the same identifier
- (name{figure.4.6}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.6886 \end{Example}
-                     <./starts_data.pdf>]
+[110] [111]
 Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 112 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
 SIS FOR NON-STATIONARY PROCESSES
  []
 
 [112]
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [113]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 6937.
 
 
+Overfull \hbox (4.37259pt too wide) in paragraph at lines 6944--6964
+ [][] 
+ []
+
+<starts_data.pdf, id=1251, 433.62pt x 289.08pt>
+File: starts_data.pdf Graphic file (type pdf)
+<use starts_data.pdf>
+Package pdftex.def Info: starts_data.pdf  used on input line 6976.
+(pdftex.def)             Requested size: 339.67029pt x 226.45631pt.
+[113pdfTeX warning (ext4): destination with the same identifier (name{table.4.2
+}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.7020 \end{Exercise}
+                     ]
 Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 114 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
 SIS FOR NON-STATIONARY PROCESSES
  []
 
-[114] [115]
+[114pdfTeX warning (ext4): destination with the same identifier (name{figure.4.
+6}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  
+l.7040 ...8, 0.363995718736632, 0.758715172737758,
+                                                   <./starts_data.pdf>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [115]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 116 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
 SIS FOR NON-STATIONARY PROCESSES
@@ -1077,238 +965,24 @@ SIS FOR NON-STATIONARY PROCESSES
  []
 
 [118]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 7287.
+ [119]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[119]
+
 Overfull \hbox (48.61475pt too wide) has occurred while \output is active
 \T1/aer/m/n/10 120 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
 SIS FOR NON-STATIONARY PROCESSES
  []
 
-[120pdfTeX warning (ext4): destination with the same identifier (name{table.4.3
-}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.7337 \chapter
-               {Multivariate Direct Filter Analysis for Co-integrated Proces...
-]
-Chapter 5.
-[121
-
-]
-Overfull \hbox (43.24452pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 122 \T1/aer/m/sl/10 CHAPTER 5.  MULTIVARIATE DIRECT FILTER ANALY
-SIS FOR CO-INTEGRATED PROCESSES
+[120] [121]
+Overfull \hbox (48.61475pt too wide) has occurred while \output is active
+\T1/aer/m/n/10 122 \T1/aer/m/sl/10 CHAPTER 4.  MULTIVARIATE DIRECT FILTER ANALY
+SIS FOR NON-STATIONARY PROCESSES
  []
 
-[122] [123]
-Overfull \hbox (43.24452pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 124 \T1/aer/m/sl/10 CHAPTER 5.  MULTIVARIATE DIRECT FILTER ANALY
-SIS FOR CO-INTEGRATED PROCESSES
- []
-
-[124] [125]
-Overfull \hbox (43.24452pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 126 \T1/aer/m/sl/10 CHAPTER 5.  MULTIVARIATE DIRECT FILTER ANALY
-SIS FOR CO-INTEGRATED PROCESSES
- []
-
-[126]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [127]
-Overfull \hbox (43.24452pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 128 \T1/aer/m/sl/10 CHAPTER 5.  MULTIVARIATE DIRECT FILTER ANALY
-SIS FOR CO-INTEGRATED PROCESSES
- []
-
-[128] [129]
-Overfull \hbox (43.24452pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 130 \T1/aer/m/sl/10 CHAPTER 5.  MULTIVARIATE DIRECT FILTER ANALY
-SIS FOR CO-INTEGRATED PROCESSES
- []
-
-[130]
-! Missing { inserted.
-<to be read again> 
-                   }
-l.8110   $\Delta_S (e^{-i \omega_}
-                                  ) \neq 0$ and $\Delta_N (e^{-i \omega_}) \...
-
-? 
-! Missing } inserted.
-<inserted text> 
-                }
-l.8110   $\Delta_S (e^{-i \omega_}) \neq 0$
-                                            and $\Delta_N (e^{-i \omega_}) \...
-
-? 
-! Missing { inserted.
-<to be read again> 
-                   }
-l.8110 ...}) \neq 0$ and $\Delta_N (e^{-i \omega_}
-                                                  ) \neq 0$;
-? 
-! Missing } inserted.
-<inserted text> 
-                }
-l.8110 ...$ and $\Delta_N (e^{-i \omega_}) \neq 0$
-                                                  ;
-? 
-[131]
-Overfull \hbox (43.24452pt too wide) has occurred while \output is active
-\T1/aer/m/n/10 132 \T1/aer/m/sl/10 CHAPTER 5.  MULTIVARIATE DIRECT FILTER ANALY
-SIS FOR CO-INTEGRATED PROCESSES
- []
-
-[132]
-! Misplaced alignment tab character &.
-l.8227 ...seasonal taxonomy. Journal of Business &
-                                                   Economic Statistics, 35(4...
-
-? 
-[133
-
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-]pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8229 \bibitem{}
-                  McElroy, T. (2018). Recursive Computation for Block-Nested...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8231 \bibitem{}
-                  McElroy, T. and Findley, D. (2010).pdfTeX warning (ext4): des
-tination with the same identifier (name{cite.}) has been already used, duplicat
-e ignored
-<to be read again> 
-                   \relax 
-l.8235 \bibitem{}
-                  McElroy, T., and Findley, D. (2015). Fitting constrained v...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8237 \bibitem{}
-                  McElroy, T., and Trimbur, T. (2015). Signal Extraction for...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8241 \bibitem{}
-                  McElroy, T. S. and Wildi, M. (2020). The multivariate line...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8243 \bibitem{}
-                  Self, S. G., and Liang, K. Y. (1987). Asymptotic propertie...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8245 \bibitem{}
-                  Stock, J.H. and Watson, M.W., (1988). Testing for common t...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8248 \bibitem{}
-                  Taniguchi, M., and Kakizawa, Y. (2012). Asymptotic theory ...
-pdfTeX warning (ext4): destination with the same identifier (name{cite.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8250 \bibitem{}
-                  Wildi, M. (2007). Real-Time Signal Extraction.pdfTeX warning 
-(ext4): destination with the same identifier (name{cite.}) has been already use
-d, duplicate ignored
-<to be read again> 
-                   \relax 
-l.8252 \bibitem{}
-                  Wildi, M. and McElroy, T. (2016). Optimal real-time filter...
-[134pdfTeX warning (ext4): destination with the same identifier (name{cite.}) h
-as been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  
-l.8257 \end{document}
-                     ] (./MDFA_Legacy.aux)
+[122] [123] (./MDFA_Legacy.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -1319,13 +993,13 @@ LaTeX Warning: There were undefined references.
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `MDFA_Legacy.out' has not changed.
-(rerunfilecheck)             Checksum: 7BE61E996AB8579452AB961E652AC9FD;8843.
+(rerunfilecheck)             Checksum: 1499568BCAD1BE32FF5EB96D59753386;8261.
  ) 
 Here is how much of TeX's memory you used:
- 10793 strings out of 478846
- 153578 string characters out of 5859791
- 478270 words of memory out of 5000000
- 27808 multiletter control sequences out of 15000+600000
+ 10729 strings out of 478846
+ 152719 string characters out of 5859791
+ 476425 words of memory out of 5000000
+ 27783 multiletter control sequences out of 15000+600000
  450897 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  60i,15n,63p,464b,520s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1351,10 +1025,10 @@ st/fonts/type1/public/amsfonts/latxfont/lasy10.pfb><c:/texlive/2021/texmf-dist/
 fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2021/texmf-dist/font
 s/type1/public/amsfonts/symbols/msbm7.pfb><c:/texlive/2021/texmf-dist/fonts/typ
 e1/public/cm-super/sfrm1000.pfb>
-Output written on MDFA_Legacy.pdf (138 pages, 1247679 bytes).
+Output written on MDFA_Legacy.pdf (127 pages, 1202454 bytes).
 PDF statistics:
- 1622 PDF objects out of 1728 (max. 8388607)
- 1424 compressed objects within 15 object streams
- 389 named destinations out of 1000 (max. 500000)
- 347 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1477 PDF objects out of 1728 (max. 8388607)
+ 1292 compressed objects within 13 object streams
+ 350 named destinations out of 1000 (max. 500000)
+ 331 words of extra memory for PDF output out of 10000 (max. 10000000)
 
