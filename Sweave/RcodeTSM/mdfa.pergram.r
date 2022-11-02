@@ -35,7 +35,7 @@ mdfa.pergram <- function(x.data,delta)
 	x.dft <- mdfa.dft(x.data)
 	pergram <- do.call(cbind,lapply(seq(1,T),function(i) x.dft[i,] %*% Conj(t(x.dft[i,])) * diff.op[i]^(-1)))
 	pergram <- array(pergram,c(N,N,T))
-	pergram[,,m+1] <- 0*diag(N)
+#	pergram[,,m+1] <- 0*diag(N)
 	return(pergram)
 }
 

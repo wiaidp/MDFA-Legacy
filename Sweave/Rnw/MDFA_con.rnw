@@ -2721,9 +2721,9 @@ diag(trend.mdfa.sharp[[2]])
   filters (Exercise \ref{exer:petrol-mb1}) and out-perform them when
    the model is mis-specified (Exercises \ref{exer:petrol-mb2} and 
  \ref{exer:petrol-mb3}). Table \ref{tab:petrol.mat} summarizes the performances,
-  where ``LLM null process" refers to correct specification (Exercise \ref{exer:petrol-mb1}),
-  ``LLM alternative process" refers to mis-specification of the irregular variability
-   (Exercise \ref{exer:petrol-mb2}), and ``LLM empirical process" refers
+  where ``LLM null process'' refers to correct specification (Exercise \ref{exer:petrol-mb1}),
+  ``LLM alternative process'' refers to mis-specification of the irregular variability
+   (Exercise \ref{exer:petrol-mb2}), and ``LLM empirical process'' refers
    the analysis of the actual Petrol series (Exercise \ref{exer:petrol-mb3}).
    The replication achieved by MDFA is close to exact, with discrepancies 
    arising from statistical error and the filter truncation at  
@@ -3011,7 +3011,6 @@ diag(trend.mdfa.sharp[[2]])
  (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
 \end{Exercise}
      
-HERE
 
 <<exercise_stmndc-mdfa-data,echo=True>>=
 T <- dim(ndc)[1]
@@ -3061,13 +3060,17 @@ print(perf_emp)
 diag(trend.mdfa.sharp[[2]])
 @
     
-    
- The results of these Exercises   reinforces the conclusions of the LLM study.
+    In Exercise \ref{exer:ndc-mb3}  the in-sample empirical MSE
+ does not match the criterion value (\ref{eq:opt.val.mdfa}),
+   because of moderate deviations of the error processes
+  from our stationary mean zero assumption; nevertheless,
+  MDFA out-performs the best MB filter.
+ Overall, the results of these Exercises   reinforces the conclusions of the LLM study.
  Namely, MDFA can replicate STM filters and also out-perform when the model is 
  mis-specified.  Table \ref{tab:ndc.mat} summarizes the performances,
-  where ``STM null process" refers to correct specification (Exercise \ref{exer:ndc-mb1}),
-  ``STM alternative process" refers to mis-specification of the trend variability
-   (Exercise \ref{exer:ndc-mb2}), and ``STM empirical process" refers
+  where ``STM null process'' refers to correct specification (Exercise \ref{exer:ndc-mb1}),
+  ``STM alternative process'' refers to mis-specification of the trend variability
+   (Exercise \ref{exer:ndc-mb2}), and ``STM empirical process'' refers
    the analysis of the actual NDC series (Exercise \ref{exer:ndc-mb3}).
    The replication achieved by MDFA is not exact, and this is due to statistical
     error as well as the truncation to $q = 30$ that is used.  In contrast,
@@ -3159,18 +3162,19 @@ Units.   The four series are from the Survey of Construction of the U.S. Census 
  Use the moving average filter  MDFA  for a process with signal
  differencing polynomial $\Delta^S (z) = {(1-z)}^2 1_4$ and noise 
   differencing polynomial $\Delta^N (z) = U(z) 1_4$.  Find the best
- concurrent filter, setting $q= 120$.
+ concurrent filter, setting $q= 96$.
  (A higher $q$ is needed to capture the more nuanced features of this filter.)
     Apply both concurrent filters (MB and MDFA)
- to the simulation, and compare the relevant portions to the ideal trend.
- Also determine the in-sample performance, in comparison to the criterion value
+ to the simulation, and compare the relevant portions to the ideal seasonal
+ adjustment.  Also determine the in-sample performance, 
+ in comparison to the criterion value
  (\ref{eq:opt.val.mdfa-constrained}).   Target the seasonal adjustments
  for all four time series.
 \end{Exercise}
  
 <<exercise_atomstarts-mdfa-null,echo=True>>=
 # Simulate a Gaussian atomic seasonal model  of sample size 5000:
-set.seed(555)
+set.seed(222)
 T.sim <- 5000
 burn <- 1000
 N <- 4
@@ -3286,15 +3290,29 @@ sa.whfilter <- mdfa.coeff(sa.whfrf,-len,len)
 x.sa.conc <- mvar.filter(x.sim,sa.whfilter)
 
 # get MDFA concurrent filter
-q <- 120
+q <- 96
 x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
-spec.hat <- mdfa.pergram(x.diff,dpoly)
+grid <- T.sim - d
 m <- floor(grid/2)
 # The Fourier frequencies
 freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
-constraints.mdfa <- mdfa.getconstraints(sa.wkfrf,c(0,0),seq(1,6)/6,0*diag(N),q)
-bw.mdfa <- mdfa.filter(sa.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
-x.sa.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(2+len-q):(T.sim+1-q-len),]
+
+# for seasonal adjustment frf get psi sharp
+rootfreqs <- c(0,0,seq(1,6)/6,-1*seq(1,5)/6)
+rem.vec <- mdfa.getremainder(sa.wkfrf,rootfreqs)
+frf.psi.sharp <- mdfa.getquotient(sa.wkfrf,rootfreqs,rem.vec)
+
+# get mdfa filter and output
+spec.hat.sharp <- mdfa.pergram(x.diff,1)
+sa.mdfa.sharp <- mdfa.unconstrained(frf.psi.sharp,spec.hat.sharp,q-d)
+R.mat <- toeplitz(c(rev(dpoly),rep(0,q-d-1)))
+R.mat[upper.tri(R.mat)] <- 0
+R.mat <- R.mat[,-seq(q-d+1,q)] %x% diag(N)
+#Q.mat <- c(1,rep(0,q-1)) %x% trend.wkfrf[,,m+1]
+Q.mat <- rbind(rem.vec, matrix(0,nrow=N*(q-d),ncol=N))
+sa.mdfa.filter <- array(t(R.mat %*% t(matrix(sa.mdfa.sharp[[1]],nrow=N))
+                             + Q.mat),c(N,N,q))
+x.sa.mdfa <- mvar.filter(x.sim,sa.mdfa.filter)[(len-q+2):(T.sim-q+1-len),]
 
 # compare in-sample performance
 perf_null <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
@@ -3309,20 +3327,20 @@ colnames(perf_null) <- c("MDFA","MB")
 rownames(perf_null) <- c("Series 1","Series 2","Series 3","Series 4")
 # compare to criterion value
 print(perf_null)
-diag(bw.mdfa[[2]])
+diag(sa.mdfa.sharp[[2]])
 @
 
 
 \begin{Exercise} {\bf Starts MB Out-Performance.}  \rm
 \label{exer:starts-mb2}
  Now we alter the specification of Exercise \ref{exer:starts-mb1}
- by eliminating the fifth atomic seasonal. Hence the WH filter 
- will attempt to remove seasonality at this frequency when it is
-  not required.
+ by amplifying the fourth atomic seasonal. Hence the WH filter 
+ will remove too little of the seasonality at this frequency.
  Simulate a sample of size $T=5000$ from the atomic seasonal
   process  with parameters
  given in Example \ref{exam:starts-mb},
-  except that  $\Sigma_5 = 0 \, 1_4$.
+  except that  $\Sigma_4$ is $10$ times larger than
+  in the specification of Exercise \ref{exer:starts-mb1}.
  Apply the WK seasonal adjustment filter
 (truncate the filter to $1000$ coefficients on each side) and the 
  optimal concurrent seasonal adjustment filter
@@ -3330,9 +3348,10 @@ diag(bw.mdfa[[2]])
  Use the moving average filter  MDFA  for a process with signal
  differencing polynomial $\Delta^S (z) = {(1-z)}^2 1_4$ and noise 
   differencing polynomial $\Delta^N (z) = U(z) 1_4$.  Find the best
- concurrent filter, setting $q= 120$.
+ concurrent filter, setting $q= 96$.
     Apply both concurrent filters (MB and MDFA)
- to the simulation, and compare the relevant portions to the ideal trend.
+ to the simulation, and compare the relevant portions to the ideal seasonal
+ adjustment. 
  Also determine the in-sample performance, in comparison to the criterion value
  (\ref{eq:opt.val.mdfa-constrained}).   Target the seasonal adjustments
  for all four time series.
@@ -3340,7 +3359,7 @@ diag(bw.mdfa[[2]])
 
 <<exercise_atomstarts-mdfa-alt,echo=True>>=
 # Simulate a Gaussian atomic seasonal model  of sample size 5000:
-set.seed(555)
+set.seed(222)
 T.sim <- 5000
 burn <- 1000
 N <- 4
@@ -3396,6 +3415,11 @@ seas4.sim <- mdfa.wnsim(psi.sim[41:50],rep(1,N),T.sim+burn,Inf)
 Sigma.seas4 <- seas4.sim[[2]]
 seas4.sim <- mdfa.ucsim(array(t(dpoly.4) %x% diag(N),c(N,N,3)),
                      seas4.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
+seas4.sim <- sqrt(10)*seas4.sim
+seas5.sim <- mdfa.wnsim(psi.sim[51:60],rep(1,N),T.sim+burn,Inf)
+Sigma.seas5 <- seas5.sim[[2]]
+seas5.sim <- mdfa.ucsim(array(t(dpoly.5) %x% diag(N),c(N,N,3)),
+                     seas5.sim[[1]])[(burn+1-2):(T.sim+burn-2),]
 seas6.sim <- mdfa.wnsim(psi.sim[61:70],rep(1,N),T.sim+burn,Inf)
 Sigma.seas6 <- seas6.sim[[2]]
 seas6.sim <- mdfa.ucsim(array(t(dpoly.6) %x% diag(N),c(N,N,2)),
@@ -3404,26 +3428,39 @@ irr.sim <- mdfa.wnsim(psi.sim[71:80],rep(1,N),T.sim,Inf)
 Sigma.irr <- irr.sim[[2]]
 irr.sim <- irr.sim[[1]] 
 x.sim <- mu.sim + seas1.sim + seas2.sim + seas3.sim +
-  seas4.sim + seas6.sim + irr.sim
+  seas4.sim + seas5.sim + seas6.sim + irr.sim
 
 # construct and apply MB WK and WH filters
-grid <- T.sim - d
 x.sa.ideal <- mvar.filter(x.sim,sa.wkfilter)
 x.sa.conc <- mvar.filter(x.sim,sa.whfilter)
 
 # get MDFA concurrent filter
-q <- 120
+q <- 96
 x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
-spec.hat <- mdfa.pergram(x.diff,dpoly)
+grid <- T.sim - d
 m <- floor(grid/2)
 # The Fourier frequencies
 freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
-constraints.mdfa <- mdfa.getconstraints(sa.wkfrf,c(0,0),seq(1,6)/6,0*diag(N),q)
-bw.mdfa <- mdfa.filter(sa.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
-x.sa.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(2+len-q):(T.sim+1-q-len),]
+
+# for seasonal adjustment frf get psi sharp
+rootfreqs <- c(0,0,seq(1,6)/6,-1*seq(1,5)/6)
+rem.vec <- mdfa.getremainder(sa.wkfrf,rootfreqs)
+frf.psi.sharp <- mdfa.getquotient(sa.wkfrf,rootfreqs,rem.vec)
+
+# get mdfa filter and output
+spec.hat.sharp <- mdfa.pergram(x.diff,1)
+sa.mdfa.sharp <- mdfa.unconstrained(frf.psi.sharp,spec.hat.sharp,q-d)
+R.mat <- toeplitz(c(rev(dpoly),rep(0,q-d-1)))
+R.mat[upper.tri(R.mat)] <- 0
+R.mat <- R.mat[,-seq(q-d+1,q)] %x% diag(N)
+#Q.mat <- c(1,rep(0,q-1)) %x% trend.wkfrf[,,m+1]
+Q.mat <- rbind(rem.vec, matrix(0,nrow=N*(q-d),ncol=N))
+sa.mdfa.filter <- array(t(R.mat %*% t(matrix(sa.mdfa.sharp[[1]],nrow=N))
+                             + Q.mat),c(N,N,q))
+x.sa.mdfa <- mvar.filter(x.sim,sa.mdfa.filter)[(len-q+2):(T.sim-q+1-len),]
 
 # compare in-sample performance
-perf_alt <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
+perf_null <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
 	mean((x.sa.ideal[,2] - x.sa.mdfa[,2])^2),
 	mean((x.sa.ideal[,3] - x.sa.mdfa[,3])^2),
 	mean((x.sa.ideal[,4] - x.sa.mdfa[,4])^2)),
@@ -3431,11 +3468,11 @@ perf_alt <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
 	mean((x.sa.ideal[,2] - x.sa.conc[,2])^2),
 	mean((x.sa.ideal[,3] - x.sa.conc[,3])^2),
 	mean((x.sa.ideal[,4] - x.sa.conc[,4])^2)))
-colnames(perf_alt) <- c("MDFA","MB")
-rownames(perf_alt) <- c("Series 1","Series 2","Series 3","Series 4")
+colnames(perf_null) <- c("MDFA","MB")
+rownames(perf_null) <- c("Series 1","Series 2","Series 3","Series 4")
 # compare to criterion value
-print(perf_alt)
-diag(bw.mdfa[[2]])
+print(perf_null)
+diag(sa.mdfa.sharp[[2]])
 @
 
  
@@ -3450,7 +3487,7 @@ diag(bw.mdfa[[2]])
  Use the moving average filter  MDFA  for a process with signal
  differencing polynomial $\Delta^S (z) = {(1-z)}^2 1_4$ and noise 
   differencing polynomial $\Delta^N (z) = U(z) 1_4$.  Find the best
- concurrent filter, setting $q= 120$.
+ concurrent filter, setting $q= 96$.
   Apply both concurrent filters (MB and MDFA)
  to the data, and compare the relevant portions to the ideal seasonal adjustment.
  Also determine the in-sample performance, in comparison to the criterion value
@@ -3458,7 +3495,6 @@ diag(bw.mdfa[[2]])
   four series.
 \end{Exercise}
      
-  
 
 
 <<exercise_starts-mdfa-data,echo=True>>=
@@ -3468,21 +3504,33 @@ N <- dim(starts)[2]
 trunc <- 10
 
 # construct and apply MB WK and WH filters (from previous exercise)
-grid <- T - d
 x.sa.ideal <- mvar.filter(starts,sa.wkfilter[,,(len-trunc*period):(len+trunc*period)])
 x.sa.conc <- mvar.filter(starts,sa.whfilter[,,(len-trunc*period):(len+trunc*period)])
 
 # get MDFA concurrent filter
-q <- 120
+q <- 96
 x.diff <- filter(starts,dpoly,method="convolution",sides=1)[(d+1):T,]
-spec.hat <- mdfa.pergram(x.diff,dpoly)
+grid <- T - d
 m <- floor(grid/2)
-sa.wkfrf <- mdfa.frf(sa.wkfilter,len,grid)
 # The Fourier frequencies
 freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
-constraints.mdfa <- mdfa.getconstraints(sa.wkfrf,c(0,0),seq(1,6)/6,0*diag(N),q)
-bw.mdfa <- mdfa.filter(sa.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
-x.sa.mdfa <- mvar.filter(starts,bw.mdfa[[1]])[(1+trunc*period-q):(T-q-trunc*period),]
+
+# for seasonal adjustment frf get psi sharp
+sa.wkfrf <- mdfa.frf(sa.wkfilter,len,grid)
+rem.vec <- mdfa.getremainder(sa.wkfrf,rootfreqs)
+frf.psi.sharp <- mdfa.getquotient(sa.wkfrf,rootfreqs,rem.vec)
+
+# get mdfa filter and output
+spec.hat.sharp <- mdfa.pergram(x.diff,1)
+sa.mdfa.sharp <- mdfa.unconstrained(frf.psi.sharp,spec.hat.sharp,q-d)
+R.mat <- toeplitz(c(rev(dpoly),rep(0,q-d-1)))
+R.mat[upper.tri(R.mat)] <- 0
+R.mat <- R.mat[,-seq(q-d+1,q)] %x% diag(N)
+#Q.mat <- c(1,rep(0,q-1)) %x% trend.wkfrf[,,m+1]
+Q.mat <- rbind(rem.vec, matrix(0,nrow=N*(q-d),ncol=N))
+sa.mdfa.filter <- array(t(R.mat %*% t(matrix(sa.mdfa.sharp[[1]],nrow=N))
+                             + Q.mat),c(N,N,q))
+x.sa.mdfa <- mvar.filter(starts,sa.mdfa.filter)[(1+trunc*period-q):(T-q-trunc*period),]
 
 # compare in-sample performance
 perf_emp <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
@@ -3497,21 +3545,21 @@ colnames(perf_emp) <- c("MDFA","MB")
 rownames(perf_emp) <- colnames(starts)
 # compare to criterion value
 print(perf_emp)
-diag(bw.mdfa[[2]])
+diag(sa.mdfa.sharp[[2]])
 @
     
     
  The results of these Exercises   reinforce the conclusions of the LLM and STM studies.
  Namely, MDFA can replicate MB filters and also out-perform when the model is 
  mis-specified.  Table \ref{tab:starts.mat} summarizes the performances,
-  where ``Structual null process" refers to correct
+  where ``Structual null process'' refers to correct
   specification (Exercise \ref{exer:starts-mb1}),
-  ``Structural alternative process" refers to mis-specification of the fifth
+  ``Structural alternative process'' refers to mis-specification of the fifth
    atomic seasonal component 
-   (Exercise \ref{exer:starts-mb2}), and ``Structural empirical process" refers
+   (Exercise \ref{exer:starts-mb2}), and ``Structural empirical process'' refers
    the analysis of the actual Starts series (Exercise \ref{exer:starts-mb3}).
    The replication achieved by MDFA is not exact, and this is due to statistical
-    error as well as the truncation to $q = 120$ that is used.  In contrast,
+    error as well as the truncation to $q = 96$ that is used.  In contrast,
    the out-performance is modest in the case of the Structural alternative process,
    and is substantial in the case of the Starts data.
   
