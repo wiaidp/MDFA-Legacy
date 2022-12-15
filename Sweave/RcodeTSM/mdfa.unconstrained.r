@@ -14,11 +14,11 @@ mdfa.unconstrained <- function(frf,spec,q)
 	#			for lambda given by Grid number of Fourier frequencies 
 	#		spec is array N x N x Grid of complex entries, the
 	#			process/data spectral density matrix f(lambda)
-  #           q: desired order of MA filter
-  #     outputs:
-  #           opt is list consisting of:
-  #           opt.array is array N x N x q of filter coefficients
-  #           opt.val is N x N matrix corresponding to minimal MSE
+  #   q: desired order of MA filter
+  # outputs:
+  #   opt is list consisting of:
+  #   opt.array is array N x N x q of filter coefficients
+  #   opt.val is N x N matrix corresponding to minimal MSE
  	#
 	##############################################################
 

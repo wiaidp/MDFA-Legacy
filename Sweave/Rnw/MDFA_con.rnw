@@ -3090,13 +3090,13 @@ diag(trend.mdfa.sharp[[2]])
   \multicolumn{2}{c}{Empirical STM} \\
 \hline
   Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
-  Consumption &   \Sexpr{round(perf_null[1,1],digits=6)} &
+  Shipments &   \Sexpr{round(perf_null[1,1],digits=6)} &
   \Sexpr{round(perf_null[1,2],digits=6)} & 
     \Sexpr{round(perf_alt[1,1],digits=6)}  &  
     \Sexpr{round(perf_alt[1,2],digits=6)}    &  
     \Sexpr{round(perf_emp[1,1],digits=6)} & 
     \Sexpr{round(perf_emp[1,2],digits=6)} \\
-  Imports	 &   \Sexpr{round(perf_null[2,1],digits=6)} & 
+  New Orders	 &   \Sexpr{round(perf_null[2,1],digits=6)} & 
   \Sexpr{round(perf_null[2,2],digits=6)} & 
     \Sexpr{round(perf_alt[2,1],digits=6)}  &
     \Sexpr{round(perf_alt[2,2],digits=6)}    &  
