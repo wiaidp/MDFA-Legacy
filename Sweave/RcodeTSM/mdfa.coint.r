@@ -1,4 +1,4 @@
-mdfa.coint <- function(frf,spec.main,spec.coint,q)
+mdfa.coint <- function(frf,spec.main,spec.coint,alpha,q)
 {
 
 	#######################################################
@@ -14,8 +14,10 @@ mdfa.coint <- function(frf,spec.main,spec.coint,q)
 	#			for lambda given by Grid number of Fourier frequencies 
 	#		spec.main is array N x N x Grid of complex entries, the
 	#			process/data spectral density matrix f(lambda)
-  #		spec.coint is array N x N x Grid of complex entries, the
-  #			cross-spectral density matrix of alpha Delta^N (L)Z_t with Delta (L)X_t
+  #		spec.coint is array r x N x Grid of complex entries, the
+  #			cross-spectral density matrix of Delta^N (L)Z_t with Delta (L)X_t
+  #   alpha: a N x r dimensional matrix, where r is number of
+  #     co-integrating relations
   #   q: desired order of MA filter
 	#	outputs:
 	#		opt.array is array N x N x q of filter coefficients
@@ -39,7 +41,7 @@ mdfa.coint <- function(frf,spec.main,spec.coint,q)
 	for(k in 0:(q-1))
 	{
 		fpsi.new <- do.call(cbind,lapply(seq(1,grid),
-                       function(i) frf[,,i] %*% spec.main[,,i] + spec.coint[,,i]))
+                       function(i) frf[,,i] %*% spec.main[,,i] + alpha %*% spec.coint[,,i]))
  		fpsi.new <- grid^{-1}*fpsi.new %*% (lambda.ft^{-k} %x% diag(N))
 		fpsi <- cbind(fpsi,fpsi.new)
 		fmat.new <- grid^{-1}*matrix(spec.main,nrow=N) %*% (lambda.ft^{-k} %x% diag(N))
