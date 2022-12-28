@@ -50,6 +50,9 @@
 \newtheorem{Corollary}{Corollary}
 \newtheorem{Proposition}{Proposition}
 \newtheorem{Definition}{Definition}
+\newtheorem{Example}{Example}
+\newtheorem{Illustration}{Illustration}
+\newtheorem{Exercise}{Exercise}
 \newtheorem{Remark}{Remark}
 \newtheorem{Example}{Example}
 \newtheorem{Exercise}{Exercise}
@@ -551,7 +554,7 @@ function (insamp, x, d)
     colnames(weight_func) <- colnames(x)
     return(list(weight_func = weight_func))
 }
-<bytecode: 0x000002506cee2d20>
+<bytecode: 0x000002c4a2481d90>
 <environment: namespace:MDFA>
 \end{Soutput}
 \end{Schunk}
@@ -1172,8 +1175,7 @@ $\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
 
 \begin{Example} {\bf Multi-step Ahead Forecasting.}   \rm
 \label{exam:multi-step.fore.2}
-The LPP corresponds to
-  optimal $h$-step
+The LPP corresponds to  optimal $h$-step
  forecasting, and the forecast error is $[L^{-h} \,
  e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
   Note that although $\Psi (L)$ only involves one component series $\{ X_{t,1} \}$,
@@ -1299,7 +1301,7 @@ It is known that the VAR(1) has the causal representation
  present weight $\psi (0)$ by adding the quantity $A_{\Psi} (\Phi)$.  In the case of
  $h$-step ahead forecasting of the first time series (Example 1), $\widehat{\Psi} (L)
  = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$. 
- 
+
  This formula demonstrates that it is 
  essential that $\Phi$ be stable, and if fitting a VAR(1) we must parametrize $\Phi$
  such that stability is guaranteed.  We describe a parameterization based upon
@@ -1339,7 +1341,7 @@ It is known that the VAR(1) has the causal representation
 
  Here we study the mechanics of fitting a parametric model such that the LPP MSE
  is minimized.  In the case of the one-step ahead forecasting MSE, this is related
- to Whittle estimation of vector time series models (c.f.,  Taniguchi and Kakizawa (2000)).
+ to Whittle estimation of vector time series models (c.f.,  Taniguchi and Kakizawa (2012)).
   We will focus on the class of separable causal linear models, wherein the innovation variance
  $\Sigma$ is governed by a separate set of parameters from those describing the power
  series $\Theta (L)$.  The model is essentially described through a particular class of
@@ -1493,7 +1495,7 @@ causal filter of a higher-order martingale difference.
 \label{thm:LPP-Clt}
  Suppose that $\vartheta (\widetilde{F}) $ exists uniquely in the interior of the model 
  parameter space,   and that $H(\vartheta (\widetilde{F}))$ is 
- positive definite.  Suppose that $\{ X_t \}$ has finite fourth moments, conditions (HT1)-(HT6) of Taniguchi and Kakizawa (2000, pp.55-56)
+ positive definite.  Suppose that $\{ X_t \}$ has finite fourth moments, conditions (HT1)-(HT6) of Taniguchi and Kakizawa (2012)
  hold, and that the fourth order cumulant function of $\{ X_t \}$ is zero.  Then the estimator is consistent for the PTV, and
 \[
  \sqrt{T} \, \left( \vartheta( \widehat{F} ) - \vartheta (\widetilde{F}) \right) 
@@ -1569,7 +1571,6 @@ When the model is a VAR(1), the parameter vector $\vartheta$
  that sacrifice performance on the other $n-1$ series in order to achieve superior results for
  the first series.
 \end{Illustration}
-
 
 
 \begin{Exercise} {\bf Correct VAR(1) LPP.} \rm
@@ -2269,8 +2270,8 @@ The amplitude effects can be understood as dilations of the input spectral densi
 \]
   Alternatively, $\mathcal{G}$ might consist of all VARMA filters of a
  particular AR and MA order, or might consist of all Zero-Pole
- Combination (ZPC) filters of a given specification (Wildi, 2008).
- The original univariate DFA of Wildi (2008) approached the LPP with
+ Combination (ZPC) filters of a given specification (Wildi, 2007).
+ The original univariate DFA of Wildi (2007) approached the LPP with
  $\mathcal{G}$ consisting of appropriately restricted ZPC filters.
 
   For now, we shall suppose that the concurrent filters of $\mathcal{G}$ belong
@@ -2673,7 +2674,6 @@ With this justification, we see that the entries of the matrix $B$ in
  can be obtained. 
 
 
-
 \begin{Exercise} {\bf Correct VAR(1) LPP.} \rm
 \label{exer:var1lpp-correct.2}
  This exercise compares LPP and MDFA when the model is correct.
@@ -3043,6 +3043,7 @@ Also determine the in-sample performance, in comparison to the criterion value
 \end{Schunk}
 
 
+
 \begin{figure}[htb!]
 \begin{center}
 \includegraphics[]{mdfa_trivar1_filtering.pdf}
@@ -3064,7 +3065,6 @@ Also determine the in-sample performance, in comparison to the criterion value
 \end{center}
 \end{figure}
 
- 
 A visual inspection of Figure \ref{fig:trivar1.trends}, regarding
 the trends and trend estimates in Exercise 
  \ref{exer:var1mdfa2.filter}, indicates an apparent conflict with the 
@@ -3219,7 +3219,6 @@ Here   we select $\sigma=1$, corresponding to a weak
 \end{center}
 \end{figure} 
   
-
 We see that there is a substantial improvement to performance of the MDFA over
  the univariate DFA; this can be visualized by the tracking of the target
  shown in Figure \ref{fig:easing1}.  This is possible because the MDFA filter
@@ -3249,7 +3248,7 @@ Intuitively, increasing $\delta$ or $\sigma$ should result in a harder forecasti
  which can be immediately   implemented in the frequency domain
  (whereas in time domain, the filter is difficult to express
  when $\delta$ is non-integer).
- 
+
 
 \begin{Exercise} {\bf Now-casting with a Leading Indicator.} \rm
 \label{exer:nowmdfa-udfa}
@@ -3382,7 +3381,7 @@ $\sigma = 0,0.1,0.5,1,2$.  The target is $\delta$-step
 \end{tabular}
 \end{table}
  
- 
+
  \begin{table}[]
 \centering
 \caption{Effect of lead and  inverse signal-to-noise ratio on DFA filter MSE.}
@@ -3443,7 +3442,6 @@ These results suggest the pertinence of a mixed-frequency approach,
  could be used to update the filter for the lower-frequency time series;
  this is further discussed in Chapter \ref{chap:mix}. 
  
-
 
 \section{Multivariate DFA with Multiple Targets}
  
@@ -3589,7 +3587,8 @@ Suppose that the causal filters of interest belong to a class
    \EE [ E_t \, E_t^{\prime} ]  = 
    { \langle  \left[ \Psi ( e^{-i \omega} ) -  
    \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \,   F (\omega) \,
-  {  \left[ \Psi (e^{i \omega}) -  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
+  {  \left[ \Psi (e^{i \omega}) -  \widehat{\Psi}_{\vartheta} (e^{i \omega})
+  \right] }^{\prime} \rangle }_0.
 \end{equation}
    This suggests as a generalization of (\ref{eq:mdfa-criterion})
    the criterion function  $\det D_{\Psi} (\vartheta, G)$ for
@@ -3792,6 +3791,7 @@ With this justification, we see that the entries of the matrix $B$ in
  
  
 %  note: MDFA_basic replaces Mean_square
+
 
 %----------------------------------------
 
@@ -4144,7 +4144,6 @@ arising from time-varying means, a form of non-stationarity.
 
 \vspace{.5cm}
 
- 
 For computation, we utilize the same approximations to $B$ and $b$ as discussed 
 in  Chapter \ref{chap:basic},
  obtaining the constrained MDFA filter $\vartheta$ via (\ref{eq:phi.soln-constained})
@@ -4318,6 +4317,7 @@ In Exercise \ref{exer:var1trend-mdfa} the in-sample empirical MSE
   constraint on the filter coefficients.
   
   
+
 
 
 \section{Background on Non-stationary Vector Time Series }
@@ -4660,7 +4660,7 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
       are uncorrelated with $\{ \partial S_t \}$ and $\{ \partial N_t \}$.
 
 \vspace{.25cm}
-
+ 
    
    The key result of McElroy and Trimbur (2015) is that the WK filter is
    obtained by the formula
@@ -4924,8 +4924,6 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
 \end{Example}
 
 
- 
- 
 \begin{Exercise} {\bf Structural Model-Based Seasonal Adjustment.} \rm
 \label{exer:sa}
  Consider a quadvariate structural model of Example \ref{exer:sa} with parameters 
@@ -5076,7 +5074,6 @@ Depending on the action of $\Psi (L) $ on each $\phi_t (k)$, the order of
 \label{fig:sauc-frf}
 \end{center}
 \end{figure} 
-
 
 
 
@@ -5566,7 +5563,6 @@ by omitting a neighborhood of the singularity can be substantial.
 % as the Riemann sum approximation over Fourier frequencies to the exact integral.
 
 
- 
 \begin{Exercise} {\bf  Ideal Low-Pass Filter for a Random Walk.} \rm
 \label{exer:rwtrend-mdfa}
 This exercise considers the case of an ideal low-pass filter
@@ -6251,8 +6247,6 @@ are causal for all $\ell \in \ZZ$.  Then we can re-express the optimal concurren
 \]
  which is most convenient for computation.
 
-
- 
 \subsection{Industrial Petroleum: the LLM Specification}
 
 
@@ -6606,8 +6600,6 @@ Imports     2309.7108 2611.2914
 \end{tabular}
 \end{table}
  
- 
- 
 \subsection{Non-Defense Capitalization: the STM Specification}
 
  
@@ -6947,13 +6939,13 @@ NewOrders 4577410.1 4994254.7
   \multicolumn{2}{c}{Empirical STM} \\
 \hline
   Series 	 &  MDFA    &  MB  &  MDFA    &  MB    &  MDFA    &  MB   \\
-  Consumption &   7.6e-05 &
+  Shipments &   7.6e-05 &
   7.6e-05 & 
     0.00064  &  
     0.001656    &  
     377951.20582 & 
     412851.542451 \\
-  Imports	 &   0.000741 & 
+  New Orders	 &   0.000741 & 
   0.000742 & 
     0.006528  &
     0.018055    &  
@@ -6964,8 +6956,6 @@ NewOrders 4577410.1 4994254.7
 \end{table}
  
 
-
- 
 \subsection{Housing Starts: the Atomic Seasonal Specification}
 
 
@@ -7418,7 +7408,3 @@ MW    0.18005886 0.6088022
 [1] 0.75780665 0.33690241 0.06230092 0.17588697
 \end{Soutput}
 \end{Schunk}
-
-
-
- \end{document}

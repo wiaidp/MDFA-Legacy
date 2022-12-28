@@ -3460,7 +3460,7 @@ sa.mdfa.filter <- array(t(R.mat %*% t(matrix(sa.mdfa.sharp[[1]],nrow=N))
 x.sa.mdfa <- mvar.filter(x.sim,sa.mdfa.filter)[(len-q+2):(T.sim-q+1-len),]
 
 # compare in-sample performance
-perf_null <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
+perf_alt <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
 	mean((x.sa.ideal[,2] - x.sa.mdfa[,2])^2),
 	mean((x.sa.ideal[,3] - x.sa.mdfa[,3])^2),
 	mean((x.sa.ideal[,4] - x.sa.mdfa[,4])^2)),
@@ -3468,10 +3468,10 @@ perf_null <- cbind(c(mean((x.sa.ideal[,1] - x.sa.mdfa[,1])^2),
 	mean((x.sa.ideal[,2] - x.sa.conc[,2])^2),
 	mean((x.sa.ideal[,3] - x.sa.conc[,3])^2),
 	mean((x.sa.ideal[,4] - x.sa.conc[,4])^2)))
-colnames(perf_null) <- c("MDFA","MB")
-rownames(perf_null) <- c("Series 1","Series 2","Series 3","Series 4")
+colnames(perf_alt) <- c("MDFA","MB")
+rownames(perf_alt) <- c("Series 1","Series 2","Series 3","Series 4")
 # compare to criterion value
-print(perf_null)
+print(perf_alt)
 diag(sa.mdfa.sharp[[2]])
 @
 
