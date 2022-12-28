@@ -1,428 +1,827 @@
- \chapter{Integrated Processes}\label{int_sec}
 
+\chapter{Multivariate Direct Filter Analysis for Co-integrated Processes}
+\label{chap:coint}
 
-The univariate DFA was introduced in Chapter 2 for the case of a stationary time series.  
-However, most economic series are non-stationary, requiring suitable differencing to be
-rendered stationary.  Such time series are called {\it integrated processes}.  This chapter discusses the  MDFA methodology for integrated processes, discussing how
- filter constraints can be handled.
+Chapter \ref{chap:int} provided the basic treatment of MDFA for non-stationary
+ processes, but here we make an extension to treat co-integrated processes.
+ This results in a change in the types of constraints that are enforced
+  at signal frequencies.  Section \ref{sec:coint-zero} develops the simplest such
+  case, where there is trend (or classic) co-integration, whereas Section
+  \ref{sec:coint-gen} gives the general treatment.
  
-\section{Constrained Multivariate DFA}
+\section{Co-integration at Frequency Zero} 
+ \label{sec:coint-zero}
 
-
-Various constraints upon the concurrent filter can be envisioned,
- and imposing such strictures results in  a constrained MDFA.  
-  Writing $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$ as the discrepancy filter, we see
- from (\ref{eq:dfa-error})   that $\EE [ E_t ] = \Delta (L) \, \EE [ X_t ]$; 
- by Definition \ref{def:lpp}, we require
- that $\EE [ E_t ] = 0$ for any LPP.  If $\EE [ X_t] = 0$
- then this condition is always satisfied, but with nonzero means 
- additional constraints on $\Delta (L)$ must be imposed, which implicitly 
-   amount to constraints on $\widehat{\Psi} (L)$.
-   To formulate these constraints, we define  the derivative of a filter 
-    via $\partial \Psi (L) = \sum_{j \in \ZZ} j \, \psi(j) \, L^{j-1}$.
+We illustrate how MDFA can be adapted to non-stationary processes that are co-integrated
+in the classic sense, viz. being co-integrated at frequency zero.  
+ Suppose that the process $\{ X_t \}$ is non-stationary with differencing operator
+  $\Delta (L) = 1 - L$, so that $X_t- X_{t-1} = \partial X_t$ is stationary.  However,
+  we also assume that there exists a vector $\beta$ such that
+  $Z_t = \beta^{\prime} X_t$ is stationary (and univariate) with mean zero.
+  Importantly, a stationary transformation of
+   the data process is accomplished by considering the cross-sectional dimension, and not
+   the temporal dimension.  
    
- The following results are well-known (Brockwell and Davis, 1991): 
- if $\EE [ X_t ]$ is constant but nonzero, then we require $\Delta (1) = 0$.
-  If $\EE [ X_t ]$ is linear in $t$, then we require $\Delta (1) = 0$ and
-  $\partial {\Delta} (1) = 0$.  Hence, we obtain
- three fundamental types of constraints: Level Constraint (LC), 
- Time-Shift Constraint (TSC), and Level and Time-Shift Constraint (LTSC).
-  These are defined as follows:
-\begin{align*}
- \mbox{LC} : &  \;  \Delta (1) = 0 \quad \mbox{or} \quad \Psi (1) = \widehat{\Psi} (1) \\
- \mbox{TSC} : &  \;   \partial {\Delta} (1) = 0 \quad \mbox{or} 
- \quad  \partial {\Psi} (1) = \partial {\widehat{\Psi}} (1)  \\
- \mbox{LTSC} : &  \;  \Delta (1) = 0,  \,  \partial {\Delta} (1) = 0 
-    \quad \mbox{or} \quad
- \Psi (1) = \widehat{\Psi} (1), \; \partial {\Psi} (1) = \partial {\widehat{\Psi}} (1).
-\end{align*}
- In the case of  concurrent filters of form  (\ref{eq:conc.filter}), 
- LC is accomplished by demanding that 
-  $\sum_{j=0}^{q-1} \widehat{\psi} (j) = \Psi(1)$.  
-  More generally, we consider  linear constraints  formulated via
+\begin{Example} {\bf Co-integrated VAR(1).}  \rm
+\label{exam:co-int.var1}
+ A VAR(1) process satisfying (\ref{eq:var1-def}) is non-stationary if the coefficient 
+ matrix $\Phi$ has unit eigenvalues, and is co-integrated if $\Phi - 1_n$ has reduced rank.
+ In particular, suppose there are vectors $\alpha$ and $\beta$ of dimension $n$ such that
+$\Phi - 1_n = \alpha \, \beta^{\prime}$.  Then the scalar process $\{ Z_t \}$ defined
+via $Z_t =  \beta^{\prime} X_t$ satisfies 
+\[
+  Z_t = \beta^{\prime} \Phi \, X_{t-1} + \beta^{\prime} \epsilon_t 
+   = (1 + \beta^{\prime} \alpha) \, Z_{t-1} + \beta^{\prime} \epsilon_t.
+\]
+ This shows that $\{ Z_t \}$ is an AR(1) process with coefficient $ 1+ \beta^{\prime} \alpha$
+  and innovations $\eta_t = \beta^{\prime} \epsilon_t$.
+ It is easy to see that $\alpha$ is an eigenvector of $\Phi$ with eigenvalue
+ $1 + \beta^{\prime} \alpha$, so this number must be between $-1$ and $1$ by the stability
+  of the VAR coefficient matrix.  The other $n-1$ eigenvectors span the null space of
+   $\beta^{\prime}$, and correspond to unit eigenvalues of $\Phi$; therefore
+   $1 + \beta^{\prime} \alpha$ cannot equal $1$, and 
+   thus $-1 < 1 + \beta^{\prime} \alpha < 1$.
+  This shows that $\{ Z_t \}$ is stationary.
+\end{Example}
+   
+ The LPP takes an interesting form in this situation. Recall that for non-stationary 
+ processes, a sufficient condition for the error process $E_t = Y_t - \widehat{Y}_t$ 
+ to have mean zero is that the signal and noise conditions are satisfied, 
+ i.e., that $\Psi (\zeta)$ and $\widehat{\Psi} (\zeta)$ are equal for 
+ $\zeta = e^{- i \omega}$  corresponding to signal and noise frequencies $\omega$. 
+ (Recall the discussion in Section \ref{sec:mdfa-nonstat}.)  However, when 
+ co-integration is present it is possible to relax these constraints.
+ In particular, in the classical case there are no noise frequencies, and the
+  signal frequency is $\omega = 0$, so that $\zeta =1$.  Then the signal condition states
+  that
   \begin{equation}
-\label{eq:concurrent-constrain}
-  \Xi = R \, \Phi + Q,
-\end{equation}
- where $R$ is $n q \times n r$ and $\Phi$ is $n r \times n$ dimensional, consisting of 
- free parameters; $Q$ is a matrix of constants, and is $n q \times n$ dimensional.
- This is not the most general formulation (we could instead work 
-  with $\mbox{vec} [ \vartheta^{\prime}]$,
- but is sufficient to describe LC, TSC, and LTSC.
-
-\vspace{.5cm}
-
-\noindent {\bf Level Constraint (LC).}  
-  $\sum_{j=0}^{q-1} \widehat{\psi} (j) = \Psi(1)$ implies that
+  \label{eq:zero-constraint-intcase}
+   \widehat{\Psi} (1) = \Psi (1).
+  \end{equation}
+  In general, the filter discrepancy is
+\begin{align*}
+ \Lambda (z) & =  \Psi (z) - \widehat{\Psi} (z) \\
+  & = \left( \Psi (z) - \Psi (1) \right) 
+   - \left( \widehat{\Psi} (z) - \widehat{\Psi} (1) \right) +
+    \left( \Psi (1) - \widehat{\Psi} (1) \right).
+  \end{align*}
+ Since $E_t = \Delta (L) X_t$, in order for the  filter error to have mean zero
+  it is sufficient that  $1-z = \Delta (z)$ can be factored from each of these terms.
+  Note that the signal condition (\ref{eq:zero-constraint-intcase}) ensures
+  that the third term is zero, and 
+  Proposition \ref{prop:filter-decompose} guarantees that the first two terms can
+  be factored in the requisite manner.  However, when co-integration is present 
+  it is no longer necessary that (\ref{eq:zero-constraint-intcase}) holds; it is sufficient
+  that this term equals $\alpha \beta^{\prime}$ for some column vector $\alpha$.
+  This is because, in such a case
+\[
+    \left( \Psi (1) - \widehat{\Psi} (1) \right) X_t 
+    = \alpha \beta^{\prime} X_t = \alpha Z_t,
+\]
+  which is stationary with mean zero.  This suggests an alternative condition:
+ \begin{equation}
+  \label{eq:zero-constraint-cointcase}
+   \widehat{\Psi} (1) = \Psi (1) - \alpha \beta^{\prime}, 
+  \end{equation}
+  for some vector $\alpha$. Using (\ref{eq:zero-constraint-cointcase}), we can show that
 \begin{equation}
-\label{eq:lc-gamma0}
- \widehat{\psi} (0) = \Psi(1) - \sum_{j=1}^{q-1} \widehat{\psi} (j).
+\label{eq:lambda-delta-alpha}
+ \Lambda (z) = \widetilde{\Lambda} (z) \, \Delta (z) + \alpha \beta^{\prime}.
 \end{equation}
- Hence  $ \varphi^{\prime}  = [ \widehat{\psi} (1), \widehat{\psi} (2),
-   \ldots, \widehat{\psi} (q-1) ] $ and
+ This framework can be generalized slightly, by allowing for multiple co-integrating
+  vectors -- so we can allow $\beta$ to be of dimension
+  $n \times r$, where $n-r$ is the co-integrating rank.
+  Then $Z_t = \beta^{\prime} X_t$ has dimension $r$ (and is stationary with mean zero),
+  and $\alpha$ will 
+  be $n \times r$-dimensional, so that $\alpha \beta^{\prime}$ is $n \times n$ of rank $r$.
+  
+  Solving for $\widetilde{\Lambda} (z)$, we obtain
 \[
-	R  = \left[ \begin{array}{ccc} -1 & \ldots & -1 \\ 1 & 0 & 0 \\
-		\vdots & \ddots & \vdots \\ 0 & 0 & 1  \end{array} \right]  \otimes 1_n \qquad
-	Q = \left[ \begin{array}{c} \Psi (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+  \widetilde{\Lambda} (L) = \frac{ \Lambda (L) - \alpha \beta^{\prime}}{ \Delta (L)},
 \]
-
-
-\vspace{.5cm}
-
-\noindent {\bf Time Shift Constraint (TSC).}    The constraint is
-$\partial {\Psi} (1) = \partial \widehat{\Psi} (1)
-   = \sum_{j=0}^{q-1} j \, \widehat{\psi} (j)$,
- or $\widehat{\psi} (1)  = \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j \, \widehat{\psi} (j) $.
- Hence  $ \varphi^{\prime}  = [ \widehat{\psi} (0), 
- \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1) ] $ and
+  which is an absolutely convergent filter.  Next, we can derive the filter MSE,
+  observing that the filter error is
 \[
-	R  = \left[ \begin{array}{cccc} 1 & 0 &  \ldots &  0  \\  0 & -2  &  -3  & \ldots  \\
-		0 & 1 & 0 & \ldots \\ 
-		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right] 
-		\otimes 1_n \qquad
-	Q = \left[ \begin{array}{c} 0 \\ \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
+  E_t = \Lambda (L) X_t = \widetilde{\Lambda} (L) \partial X_t + \alpha Z_t
+   = [ \alpha,  \widetilde{\Lambda} (L) ] \, \left[ \begin{array}{c} Z_t \\ \partial X_t 
+    \end{array} \right].
 \]
-
-
-\vspace{.5cm}
-
-\noindent {\bf Level and Time Shift Constraint (LTSC).}    
-Take the Time Shift constraint formula for $\widehat{\psi} (1)$,
- and plug this into (\ref{eq:lc-gamma0}), to obtain
+  Noting that $ \{ Z_t, \partial X_t \}$ forms a $n+r$-dimensional stationary time series,
+  the spectral density partitions accordingly into the following form:
+\[
+   f (\omega) =  \left[ \begin{array}{cc}
+     f_{Z,Z} (\omega) &  f_{Z, \partial X} (\omega) \\ 
+     f_{\partial X, Z} (\omega) & f_{\partial X, \partial X} (\omega)
+     \end{array} \right].
+\]
+ Now we can compute the co-integration generalization of (\ref{eq:dfa-mvar2}):
 \begin{align*}
- \widehat{\psi} (0)  & = \Psi (1) - \left( \partial {\Psi} (1)  -  \sum_{j=2}^{q-1} j 
- \, \widehat{\psi} (j) \right) -  \sum_{j=2}^{q-1} 
- \widehat{\psi} (j)  \\
-	& = \Psi (1) -  \partial {\Psi} (1)  +  \sum_{j=2}^{q-1} (j-1)  \, \widehat{\psi} (j).
+\EE [ E_t \, E_t^{\prime} ]  & = 
+   { \langle  [ \alpha,  \widetilde{\Lambda} (e^{-i \omega}) ]\,   f (\omega) \,
+  {  [ \alpha,  \widetilde{\Lambda} (e^{i \omega}) ] }^{\prime} \rangle }_0 \\
+  & = { \langle \alpha \, f_{Z,Z} (\omega) \, \alpha^{\prime} \rangle }_0
+   + { \langle \widetilde{\Lambda} (e^{-i \omega}) \, f_{\partial X, Z} (\omega) \,
+     \alpha^{\prime} \rangle }_0 \\
+    & +  { \langle  \alpha \, f_{Z, \partial X} (\omega) \, 
+    { \widetilde{\Lambda} (e^{i \omega})}^{\prime}
+      \rangle }_0 
+    + { \langle \widetilde{\Lambda} (e^{-i \omega}) \,
+      f_{\partial X, \partial X} (\omega) \, 
+      { \widetilde{\Lambda} (e^{i \omega})}^{\prime}
+      \rangle }_0.
 \end{align*}
- Hence  $ \varphi^{\prime}  = [  \widehat{\psi} (2), \ldots, \widehat{\psi} (q-1)  ] $ and
-\[
-	R  = \left[ \begin{array}{cccc} 1 & 2  &  3  &   \ldots    \\  -2  & -3  &  -4  & \ldots  \\
-		 1  & 0 & \ldots & 0 \\ 
-		\vdots & \ddots & \vdots & \vdots \\ 0 & \ldots & 0 & 1 \end{array} \right] 
-		\otimes 1_n \qquad
-	Q = \left[ \begin{array}{c} \Psi (1) - \partial {\Psi} (1)  \\  \partial {\Psi} (1) \\ 0 \\ \vdots \\ 0 \end{array} \right].
-\]
- %
- More generally, we can envision an LPP involving $m$ linear constraints
- on each scalar filter in $\Xi$, taking the form
- $   K = [ J \otimes 1_n ] \, \Xi$, where $J$ is $m \times q$ dimensional
- ($m < q$) and $K$ is $n m \times n$ dimensional.
- (The LC, TSC, and LTSC examples all have this form.) 
- In order to express this constraint in the form 
- (\ref{eq:concurrent-constrain}), we use the Q-R decomposition 
- (Golub and Van Loan, 1996) of $J$, writing
- $J = C \, G \, \Pi$ for an orthogonal matrix $C$ (which is $m \times m$ dimensional), 
- a rectangular upper triangular matrix $G$
- (which is $m \times q$ dimensional), and a permutation matrix 
- $\Pi$ (which is $q \times q$ dimensional).  
- Standard matrix software will provide the Q-R decomposition $J$, 
- and should produce the rank of $J$ as  a by-product --
- if this rank  is less than $m$, then there are redundancies
- in the constraints that should first be eliminated.  Hence
- proceeding with a full rank $J$, we partition $G$ as $G = [ G_1 \, G_2]$ 
- such that $G_1$ has $m$ columns and $G_2$
- has $q-m$ columns.  This quantity $q-m$ corresponds
- to the number of free coefficient matrices, and is therefore the same as $r$.
- The Q-R decomposition guarantees that $G_1$ is an upper triangular matrix, 
- and moreover it is invertible.  Therefore
-\[
-  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, K  = 
-  \left( \left[ 1_m , \, G_1^{-1} \, G_2 \right] \, \Pi \otimes 1_n  \right) \, \Xi,
-\]
- and the action of $\Pi$ (together with the tensor product) amounts
- to a block-wise permutation of the elements of $\Xi$.
-  Let the output of this permutation be denoted
-\[
-   { \left[ { \Xi^{\sharp} }^{\prime},  {  \Xi^{\flat} }^{\prime}  \right] }^{\prime} =
-%   \left[ \begin{array}{l} \overline{\Xi} \\ \underline{\Xi} \end{array} \right] = 
- \left( \Pi \otimes I_N \right) \, \Xi,
-\]
- where $ {\Xi}^{\sharp}$ is $n m \times n$ dimensional and 
- $ {\Xi}^{\flat}$ is $n r \times n$ dimensional.  
- Then  by substitution we can solve for ${\Xi}^{\sharp}$ in terms of ${\Xi}^{\flat}$:
-\[
-  {\Xi}^{\sharp} =  \left[ G_1^{-1} \, C^{-1} \otimes 1_n \right] \, 
-  K - \left[  G_1^{-1} \, G_2  \otimes 1_n   \right] \, {\Xi}^{\flat}.
-\]
- Therefore we recognize the free variables $\Phi = {\Xi}^{\flat}$,
- and obtain $R$ and $Q$ in (\ref{eq:concurrent-constrain}) via
-\begin{align*}
-   R & = \Pi^{-1} \, \left[ \begin{array}{c} - G_1^{-1} \, G_2 \\ 1_{r} \end{array} \right] \otimes 1_n  \\
-  Q & = \left( \Pi^{-1}  \, \left[ \begin{array}{c}  G_1^{-1} \, C^{-1} \\ 0 \end{array} \right] \otimes 1_n  \right) \, K.
-\end{align*}
-  These formulas allow one to compute the   form (\ref{eq:concurrent-constrain}) 
-  from given constraints, and
- an analytical solution to the resulting MDFA criterion  be obtained from the following result.
+  At this point we could substitute the periodogram for the joint process 
+  $ \{ Z_t, \partial X_t \}$, but a simplified expression for the filter MSE can
+   be derived, as shown below.
 
 \begin{Proposition}
-\label{prop:mdfa.quadsoln-constrain}
- The minimizer of the  MDFA criterion given by the determinant of  (\ref{eq:mdfa-criterion2}),
- with respect to  $\mathcal{G}$ consists of all length $q$ concurrent filters subject to 
- linear constraints of the form (\ref{eq:concurrent-constrain}),  is
-\begin{equation}
-\label{eq:phi.soln-constained}
- \Phi =  { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, 
- \left( A - B \, Q \right).
-\end{equation}
-  Letting $H = 1_{nq} - R \,   { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \, B$, the minimal value is the determinant of
-\begin{equation}
-\label{eq:opt.val.mdfa-constrained}
-{ \langle \Psi (e^{-i \omega}) \, G (\omega) \, { \Psi (e^{i \omega}) }^{\prime} \rangle }_0 -
- A^{\prime} \, R \, { \left[ R^{\prime} \, B \, R \right] }^{-1} \, R^{\prime} \,  A
-	+ Q^{\prime} \, B \, H \, Q - 2 \, A^{\prime} \, H \, Q.
-\end{equation}
+ \label{prop:coint-base-case}
+  Suppose that $\{ X_t \}$ is non-stationary with differencing operator $\Delta (L) = 1-L$,
+  such that $\beta$ is a co-integrating vector, whereby $Z_t = \beta^{\prime} X_t$ 
+  is stationary with mean zero. If (\ref{eq:zero-constraint-cointcase}) holds for
+   some $\alpha$, then the filter MSE can be expressed as
+\[
+   { \langle  \left[ \Psi (e^{-i \omega}) - 
+   \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \, 
+ f_{\partial X, \partial X} (\omega) \, {|\Delta (e^{-i \omega}) |}^{-2} \,
+  {  \left[ \Psi (e^{i \omega}) -  
+  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0.
+\]
 \end{Proposition}
 
-For computation, we utilize the same approximations to $B$ and 
-$A$ as discussed previously,
- obtaining the constrained MDFA filter $\Xi$ via (\ref{eq:phi.soln-constained}) followed by (\ref{eq:concurrent-constrain}).
- 
-\begin{Exercise} {\bf VAR($1$) LPP by Constrained MDFA. }  \rm
-\label{exer:var1.mdfa-constraint}
- This exercise compares basic MDFA to constrained MDFA for a VAR(1) LPP.
- Simulate a sample of size $T=2500$ from a
+\paragraph{Proof of Proposition \ref{prop:coint-base-case}.}
+ Observe that 
+\[  
+  \beta^{\prime} \partial X_t = \Delta (L) \beta^{\prime} X_t = \Delta (L) Z_t,
+\]
+  from which it follows that
+\begin{align*}
+  \beta^{\prime} f_{\partial X, Z} (\omega) & =  \Delta (e^{-i \omega}) f_{Z,Z} (\omega) \\
+    \beta^{\prime} f_{\partial X, \partial X} (\omega) & =  
+    \Delta (e^{-i \omega}) f_{Z,\partial X} (\omega) \\
+   \beta^{\prime} f_{\partial X, \partial X} (\omega) \beta & =  
+    \Delta (e^{-i \omega}) f_{Z,Z} (\omega) \Delta (e^{i \omega}).
+\end{align*}
+ Then using   (\ref{eq:lambda-delta-alpha}), 
+\begin{align*}
+ & \Lambda (e^{-i \omega}) f_{\partial X, \partial X} (\omega) 
+   {\Lambda (e^{i \omega}) }^{\prime}  \\
+  & = {| \Delta (e^{-i \omega}) |}^2 
+   \left( \widetilde{\Lambda} (e^{-i \omega}) f_{\partial X, \partial X} (\omega)
+     {\widetilde{\Lambda} (e^{i \omega}) }^{\prime} +
+      \widetilde{\Lambda} (e^{-i \omega}) f_{\partial X, Z} (\omega)
+     {\alpha }^{\prime} \right. \\
+ & \;  +    \left. \alpha f_{\partial X, \partial X} (\omega)
+     {\widetilde{\Lambda} (e^{i \omega}) }^{\prime} +
+     \alpha f_{\partial X, \partial X} (\omega)  { \alpha }^{\prime} \right).
+  \end{align*}
+Thus,
+\[
+  \frac{  \Lambda (e^{-i \omega}) f_{\partial X, \partial X} (\omega) 
+   {\Lambda (e^{i \omega}) }^{\prime}  }{ {| \Delta (e^{-i \omega}) |}^2 }
+   =  [ \alpha,  \widetilde{\Lambda} (e^{-i \omega}) ]\,   f (\omega) \,
+  {  [ \alpha,  \widetilde{\Lambda} (e^{i \omega}) ] }^{\prime},
+\]
+  which proves the result. $\quad \Box$
+  
+\vspace{.5cm}
+
+The practical consequence of Proposition \ref{prop:coint-base-case} is that
+ we extend the non-stationary MDFA of (\ref{eq:mdfa-criterion-nonstat})
+ seamlessly to the co-integrated situation, simply by adjusting the 
+ filter constraints to (\ref{eq:zero-constraint-cointcase}).
+  
+  
+
+\begin{Exercise} {\bf Co-integrated VAR(1) LPP.} \rm
+\label{exer:var1coint}
+ This exercise examines MDFA applied to the trend of a co-integrated VAR(1) process.
+Simulate a sample of size $T=5000$ from a
  bivariate VAR(1) process with 
 \[
-  \Phi = \left[ \begin{array}{ll} 1 & .5 \\ -.2 & .3 \end{array} \right]
+  \Phi = \left[ \begin{array}{cc} 1/3 & 2/9 \\ 2 & 1/3 \end{array} \right]
 \]
- and $\Sigma$ equal to the identity.  The eigenvalues are $.8$ and $.5$.
-  Apply the   ideal low-pass filter  with 
+ and $\Sigma$ equal to the identity.  The eigenvalues are $1$ and $-1/3$.
+  Apply the   ideal low-pass filter (cf. Example \ref{exam:ideal-low}) with 
   $\mu = \pi/6$ to the sample (truncate the filter to $1000$ coefficients on each side).  
  Use the moving average filter
- MDFA  (Proposition \ref{prop:mdfa.quadsoln2}) to find the best
- concurrent filter, setting $q= 20$.   Determine constrained MDFA results, using
-  LC, TSC, and LTSC constraints.  
- Compare and contrast the results obtained.
+ MDFA  (Proposition \ref{prop:mdfa.quadsoln}) with co-integration to find the best
+ concurrent filter, setting $q= 30$.
+ To do this, use the filter constraint (\ref{eq:zero-constraint-cointcase}),
+  noting that $\alpha \beta^{\prime} = \Phi - 1_2$.
+ Apply this concurrent filter 
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).
+  Target the trends for both time series.
 \end{Exercise}
-      
-<<exercise_integrated_var1.filtering,echo=True>>=
-# Simulate a Gaussian VAR(1) of sample size 2500:
-T <- 2500
+ 
+
+<<exercise_mdfa_var1_coint.filtering,echo=True>>=
+# Simulate a Gaussian VAR(1) of sample size 5000:
+set.seed(1234)
+burnin <- 10000
+T.sim <- 5000 
 N <- 2
-phi.matrix <- rbind(c(1,.5),c(-.2,.3))
+phi.matrix <- rbind(c(1/3,2/9),c(2,1/3))
+out.svd <- svd(phi.matrix - diag(N))
+alpha <- out.svd$u[,1,drop=FALSE] * sqrt(out.svd$d[1])
+beta <- out.svd$v[,1,drop=FALSE] * sqrt(out.svd$d[1])
 innovar.matrix <- diag(N)
-true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
-gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
-gamma.0 <- gamma[,,1]
-x.init <- t(chol(gamma.0)) %*% rnorm(N)
+x.init <- rep(0,N)
 x.next <- x.init
 x.sim <- NULL
-for(t in 1:T)
+for(t in 1:(T.sim+burnin))
 {
-	x.next <- phi.matrix %*% x.next + rnorm(N)
+	x.next <- phi.matrix %*% x.next + t(chol(innovar.matrix)) %*% rnorm(N)
 	x.sim <- cbind(x.sim,x.next)
 }
-x.sim <- ts(t(x.sim))
-x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
-x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
-  
+x.sim <- ts(t(x.sim[,-seq(1,burnin)]))
+
 # construct and apply low pass filter
 mu <- pi/6
 len <- 1000
+dpoly <- c(1,-1)
+d <- length(dpoly) - 1
+delta <- array(t(dpoly) %x% diag(N),c(N,N,d+1))
 lp.filter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
 lp.filter <- c(rev(lp.filter),lp.filter[-1])
-x.trend.ideal <- mvar.filter(x.sim,lp.filter)
+x.lp.ideal <- mvar.filter(x.sim,array(t(lp.filter) %x% diag(N),c(N,N,(2*len+1))))
 
-# get MDFA concurrent filter
-q <- 20
-Grid <- T
-m <- floor(Grid/2)
+# get differenced data and partially differenced co-int aggregated data;
+#  strip the latter's first observation to make sample size match grid
+q <- 30
+x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+x.all <- cbind(x.sim[-1,] %*% beta,x.diff)
+grid <- T.sim - d
+m <- floor(grid/2)
 # The Fourier frequencies
-freq.ft <- 2*pi*Grid^{-1}*(seq(1,Grid) - (m+1))
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
 
 # frf for ideal low-pass
-frf.psi <- rep(0,Grid)
+frf.psi <- rep(0,grid)
 frf.psi[abs(freq.ft) <= mu] <- 1
 frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
-frf.psi <- array(frf.psi,c(N,N,Grid))
-spec.hat <- mdfa.pergram(x.sim,1)	
-lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
-  
+frf.psi <- array(frf.psi,c(N,N,grid))
+frf.deltan <- matrix(rep(1,grid),nrow=1) %x% diag(N) 
+frf.deltan <- array(frf.deltan,c(N,N,grid))
 
+# for low pass frf get psi sharp, psi star, and coint vec;
+#  modify psi sharp by coint constraint
+rootfreqs <- 0
+rem.vec <- mdfa.getremainder(frf.psi,rootfreqs)
+frf.psi.sharp <- mdfa.getquotient(frf.psi,rootfreqs,rem.vec)
+coint.vec <- mdfa.getremainder(frf.deltan,rootfreqs)
+coint.coeff <- (diag(N) - coint.vec[1:N,,drop=FALSE]) %*% alpha %*% t(beta)
+frf.coint <- array(rep(1,grid) %x% coint.coeff,c(N,N,grid))
+frf.psi.flat <- frf.psi.sharp - frf.coint
 
+# get mdfa filter and output
+spec.hat.sharp <- mdfa.pergram(x.all,1)
+lp.mdfa.sharp <- mdfa.coint(frf.psi.flat,spec.hat.sharp[-1,-1,],
+                            spec.hat.sharp[1,-1,,drop=FALSE],alpha,q-d)
+R.mat <- toeplitz(c(rev(dpoly),rep(0,q-d-1)))
+R.mat[upper.tri(R.mat)] <- 0
+R.mat <- R.mat[,-seq(q-d+1,q)] %x% diag(N)
+Q.mat <- rbind(rem.vec - coint.vec %*% alpha %*% t(beta), matrix(0,nrow=N*(q-d),ncol=N))
+lp.mdfa.filter <- array(t(R.mat %*% t(matrix(lp.mdfa.sharp,nrow=N))
+                             + Q.mat),c(N,N,q))
+x.lp.mdfa <- mvar.filter(x.sim,lp.mdfa.filter)[(len-q+2):(T.sim-q+1-len),]
 
-
-
+# compare in-sample performance
+print(c(mean((x.lp.ideal[,1] - x.lp.mdfa[,1])^2),
+	mean((x.lp.ideal[,2] - x.lp.mdfa[,2])^2)))
 @
 
-\section{Integrated Multivariate Processes}
 
+% HERE
 
-HERE:   basic discussion, and then some examples of LPPs arising from
- integrated processes.
-
-
-
-\begin{Example} {\bf Model-Based Random Walk Trend.} \rm
-\label{exam:trend-i1}
-  The Local Level Model (LLM) discussed in Harvey (1989) is capable of modeling a time series consisting
- of a  random walk trend $\{ \mu_t \}$ and a     white noise irregular $\{ \iota_t \}$, such
- that $X_t = \mu_t + \iota_t$.    Both the multivariate trend and  irregular are driven by independent 
- white noise processes, with respective covariance matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$,
- and the frf for the optimal trend extraction filter (McElroy and Trimbur, 2015) is
-\[ 
- \Psi (e^{-i \omega}) = \Sigma_{\mu} \, { \left[ \Sigma_{\mu} + (2 - 2 \, \cos (\omega)) \, \Sigma_{\iota} \right] }^{-1}.
+\begin{Example}  {\bf Co-integrated Local Level Model} \rm
+\label{exam:coint-llm}
+ We can specialize the basic Local Level Model of Example \ref{exam:trend-i1} to
+ a scenario where there are common trends, which turns out to be a special
+  case of co-integration.  Suppose that the latent trend component $\{ S_t \}$ 
+  is mean zero with reduced rank increment, viz. $\{ \partial S_t \}$ has 
+  reduced rank (say the rank is $n-r < n$)
+   covariance matrix $\Sigma_S$.  Then there exists a non-zero vector
+  $\beta$ such that $\Sigma_S \beta = 0$, and it follows that
+  $\beta^{\prime} \partial S_t$ equals zero with probability one.  Then
+  $\beta^{\prime} S_t$ must be a constant, which we find is zero by the mean zero assumption.
+ Hence $\beta^{\prime} X_t = \beta^{\prime} N_t$, which is a stationary process.
+ This shows that $\{ X_t \}$ is co-integrated, where any vector in the null space of
+  $\Sigma_S$ is a co-integrating vector.  In the special case that $\Sigma_S$ is rank
+   one, the LLM process has a common trend.  See McElroy and Trimbur (2015) and
+    McElroy (2017) for further details.
+    
+ We can also determine a vector $\alpha$ such that 
+  (\ref{eq:zero-constraint-cointcase}) holds.  Following Stock and Watson (1988),
+  we suppose that the differenced process has a Wold decomposition, and the 
+  spectral density can be expressed as 
+  $f_{\partial X} (\omega) = \Psi (e^{-i \omega)}) { \Psi (e^{i \omega})}^{\prime}$.
+  Here we have incorporated the innovation covariance matrix with the initial coefficient
+  of the matrix power series $\Psi (z)$.  At frequency $\omega = 0$, only the trend
+  component contributes to the spectral density, and
+\[
+  f_{\partial X} (0) = \Psi (1) \, { \Psi (1)}^{\prime} = \Sigma_S.
 \]
- \end{Example}
-
-
-
-\begin{Example} {\bf Model-Based Integrated Random Walk Trend.} \rm
-\label{exam:trend-i2}
-  Example \ref{exam:trend-i1} can be generalized to the Smooth Trend Model (STM) developed in Harvey (1989),
- where now the trend $\{ \mu_t \}$ is an integrated random walk, i.e., ${(1-L)}^2 \mu_t$ is white noise of
- covariance matrix $\Sigma_{\mu}$.   Then the frf for the optimal trend extraction filter -- which also coincides
- with the multivariate HP filter (cf. McElroy and Trimbur, 2015) -- is given by
-\[ 
- \Psi (e^{-i \omega}) = \Sigma_{\mu} \, { \left[ \Sigma_{\mu} + {(2 - 2 \, \cos (\omega))}^2 \, \Sigma_{\iota} \right] }^{-1}.
+Clearly $\Psi (1)$ has reduced rank $r < n$,
+  and Stock and Watson (1988) discuss how there are
+ left and right null vectors of $\Psi (1)$,
+   i.e., there exist both $\beta$ and $\alpha$, which are
+  $n \times r$ dimensional matrices, such that
+\[
+  \beta^{\prime} \Psi (1) = 0 = \Psi (1) \alpha.
 \]
- The chief difference with the frf of the LLM is that the sinusoidal factor is now squared.  
-\end{Example}
-
-
-
-
-\begin{Example} {\bf Model-Based Seasonal Adjustment.} \rm
-\label{exam:sa}
-  Flexible structural models were discussed in McElroy (2017), with atomic components for each distinct unit root
- (with any conjugate roots) in the differencing operator.  For monthly data  where $\delta (L) = (1-L)(1-L^{12})$,
- we obtain an integrated random walk trend component $\{ \mu_t \}$ (identical to the trend discussed in Example \ref{exam:trend-i2})
- and six atomic seasonal components that combine into a single seasonal component $\{ \xi_t \}$ with differencing
- operator $U(L) = 1 + L + L^2 + \ldots + L^{11}$, along with the irregular $\{ \iota_t \}$.  
-  Six separate covariance matrices govern the dynamics of the seasonal component, allowing for different degrees of
- smoothness at each of the six seasonal frequencies.  The filter that suppresses the seasonal component $\{ \xi_t \}$
- and extracts trend $\{ \mu_t \}$ and irregular $\{ \iota_t \}$ is a model-based  seasonal adjustment filter, and is an 
- example of a multivariate WK filter.  
-\end{Example}
-
-
-
-
-\section{Non-stationary Multivariate DFA}
-
-
-We here consider difference-stationary vector time series, which means there exists a scalar differencing polynomial $\delta (L)$ such
- that $\partial X_t = \delta (L) X_t$ is mean zero and covariance stationary.  
- Examination of (\ref{eq:dfa-error}) indicates that the error process is not stationary unless we make certain assumptions
- about $\Delta (L) = \Psi (L) - \widehat{\Psi} (L)$.     It is necessary that we can factor $\delta (L)$ from $\Delta (L)$, i.e., there exists
- $\widetilde{\Delta } (L)$ such that
+ We proceed to derive $\beta$ and $\alpha$ from the Cholesky decomposition of
+  $\Sigma_S$.  We can write $\Sigma_S = L L^{\prime}$ for $n \times r$-dimensional
+   matrices $L$, which are lower-triangular in the sense that 
+   they are obtained from a $n \times n$ lower triangular matrix $\widetilde{L}$
+   by removing $r$ columns.  This follows from the generalized Cholesky decomposition
+   (McElroy, 2017),   where the rank configuration of $\Sigma_S$ determines which 
+    columns are excluded. In fact, we can construct a diagonal matrix $H$ with $n-r$ ones
+    and $r$ zeroes on the diagonal, with a zero corresponding to an omitted column,
+   and such that $\Sigma_S = \widetilde{L} H \widetilde{L}^{\prime}$.
+   Because $H$ is idempotent, this discussion shows that we have $\Psi (1) = \widetilde{L} H$.
+  
+  The matrix $\widetilde{L}$ is not uniquely defined, and we choose to set those columns
+   omitted from $L$ to be unit vectors, and by this means $\widetilde{L}$ is invertible.
+   Let $P$ be a $n \times r$-dimensional matrix consisting of these unit vectors,
+   so that $\widetilde{L}$ is constructed from $L$ by inserting columns of $P$ so as to
+    make a lower triangular matrix. Then clearly $HP = 0$, and hence 
+    $\Psi (1) P = 0$.  So we can set $\alpha = P$.  Also, we can define
+    $\beta = \widetilde{L}^{-\prime} P$, which shows that
+  \[
+  \beta^{\prime} \widetilde{L} = P^{\prime} H = 0.
+  \]
+   With these definitions of $\alpha$ and $\beta$, we find that
 \begin{equation}
- \label{eq:delta.factor}
-  \Delta (L) = \widetilde{\Delta } (L) \, \delta (L),
+\label{eq:co-int.constraint-llm}
+ \alpha \beta^{\prime} = P P^{\prime} \widetilde{L}^{-1} = (1_n - H) \widetilde{L}^{-1}.
 \end{equation}
- as otherwise we cannot guarantee that $\{ E_t \}$ will be stationary.  However, (\ref{eq:delta.factor}) is sufficient to guarantee
- that the filter error be stationary, because
-\[
-  E_t = \widetilde{\Delta} (L) \, \partial X_t
-\]
- in such a case.   We next discuss a set of filter constraints that guarantee (\ref{eq:delta.factor}), beginning with a lemma
- that discusses factorization of filters.  We say a filter $\Psi (L)$ is absolutely convergent if $\sum_{j \in \ZZ} \| \psi (j) \| < \infty$
- for a given matrix norm $\| \cdot \|$.
+ This can be used in (\ref{eq:zero-constraint-cointcase}).
+\end{Example}
 
+
+\begin{Remark} \rm
+\label{rem:wkfrf-coint}
+ When co-integration is present the signal or noise processes can have reduced rank,
+  and special care is needed in the calculation of the WK frequency response function.
+  An exact treatment is given further along in this chapter, but here we provide
+   an approximation argument.
+    Suppose there is a possibly non-stationary signal and noise decomposition,
+  and that the operators are scalar, i.e., $\Delta^S (z)$ and $\Delta^N (z)$ are equal
+   to scalar polynomials times $1_n$.
+  First, if at a particular $\omega_*$ of interest both $\Delta^S (e^{-i \omega_*})$
+   and $\Delta^N (e^{-i \omega_*})$ are not zero matrices, then by
+   (\ref{eq:sig-and-noise.sdf}) we know $f_{\partial X} (\omega_*)$ is invertible,
+ and there is no problem computing the frf. Next,  
+  suppose that $\Delta^S (e^{-i \omega_*}) = 0$; this precludes 
+  $\Delta^N (e^{-i \omega_*}) = 0$, because the signal and noise operators are assumed
+  to be relatively prime.  
+Then we have signal co-integration if $f_{\partial S} (\omega_*)$ has reduced rank,
+  and the regular formulas for the WK and WH filters do not apply
+  because 
+\[
+  f_{\partial X} (\omega_*) = f_{\partial S} (\omega_*) {| \Delta_N (e^{-i \omega_*}) |}^2,
+  \]
+which is not invertible.  However, the WK and WH frequency response functions
+  are continuous functions of frequency $\omega$ (this is demonstrated below);
+  therefore we can use the regular formulas at grid points close to $\omega_*$, and
+   simply interpolate to get the approximate value of the frequency response function.
+ When the mesh size is large, this approximation involves little error.
+\end{Remark}
+
+\begin{Exercise} {\bf LLM Model-Based Trend Filter.} \rm
+\label{exer:llm-coint}
+ Consider a bivariate co-integrated LLM (see Example \ref{exam:coint-llm}) with parameters 
+\[
+ \Sigma_{S} = 10^{-4} \,\left[ \begin{array}{ll} 
+   2.32  &  5.04  \\
+   5.04  & 10.95   \end{array}  \right]
+ \qquad  \Sigma_{N} = 10^{-5} \, \left[ \begin{array}{ll}
+        110.44   &  7.17  \\
+        7.17     & 128.57   \end{array} \right].
+\]
+  Simulate a sample of size $T=5000$ from this process. Apply the WK trend filter
+(truncate the filter to $1000$ coefficients on each side) and the 
+ optimal concurrent trend filter.  
+ Use the moving average filter  MDFA  for a co-integrated $I(1)$ process  to find the best
+ concurrent filter, setting $q= 30$.
+  To do this, use the filter constraint (\ref{eq:zero-constraint-cointcase})
+  and (\ref{eq:co-int.constraint-llm}). 
+    Apply both concurrent filters (MB and MDFA)
+ to the simulation, and compare the relevant portions to the ideal trend.
+ Also determine the in-sample performance, in comparison to the criterion value
+ (\ref{eq:opt.val.mdfa-constrained}).   Target the trends for both time series.
+\end{Exercise}
+
+HERE   rerun
+
+<<exercise_llmpetrol-mdfa-coint,echo=True>>=
+# Simulate a Gaussian co-integrated LLM  of sample size 5000:
+set.seed(1234)
+T.sim <- 5000
+burn <- 1000
+N <- 2
+psi.sim <- c(2.17150287559847, -8.36795922528,  
+             0.0648981656699, -6.80849700177184, -6.66004335288479, 
+             0,0)
+len <- 1000
+dpoly <- c(1,-1)
+delta <- array(t(dpoly) %x% diag(N),c(N,N,2))
+d <- length(dpoly) - 1
+mu.sim <- mdfa.wnsim(psi.sim[1:2],c(1,0),T.sim+burn,Inf)
+Sigma.mu <- mu.sim[[2]]
+mu.sim <- mdfa.ucsim(delta,mu.sim[[1]])[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(psi.sim[4:6],rep(1,N),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+
+# construct and apply MB WK and WH filters
+grid <- T.sim - d
+iden <- array(diag(N),c(N,N,1))
+f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
+trend.wkfrf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+trend.wkfilter <- mdfa.coeff(trend.wkfrf,-len,len)
+x.trend.ideal <- mvar.filter(x.sim,trend.wkfilter)
+trend.whfrf <- mdfa.whfrf(iden,delta,f.irr,f.mu,len)
+trend.whfilter <- mdfa.coeff(trend.whfrf,-len,len)
+x.trend.conc <- mvar.filter(x.sim,trend.whfilter)
+
+# get MDFA concurrent filter
+q <- 30
+x.diff <- filter(x.sim,dpoly,method="convolution",sides=1)[(d+1):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,dpoly)
+m <- floor(grid/2)
+# The Fourier frequencies
+freq.ft <- 2*pi*grid^{-1}*(seq(1,grid) - (m+1))
+coint <- 
+  
+constraints.mdfa <- mdfa.getconstraints(trend.wkfrf,0,NULL,coint,q)
+bw.mdfa <- mdfa.filter(trend.wkfrf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])
+x.trend.mdfa <- mvar.filter(x.sim,bw.mdfa[[1]])[(len-q+2):(T.sim-q+1-len),]
+
+# compare in-sample performance
+perf_null <- cbind(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2)),
+  c(mean((x.trend.ideal[,1] - x.trend.conc[,1])^2),
+	mean((x.trend.ideal[,2] - x.trend.conc[,2])^2)))
+colnames(perf_null) <- c("MDFA","MB")
+rownames(perf_null) <- c("Series 1","Series 2")
+# compare to criterion value
+print(perf_null)
+diag(bw.mdfa[[2]])
+@
+
+ 
+
+
+HERE  LLM with common trend,  Petrol example
+
+HERE STM with common trend, Ndc revisted with coint constraints
+ 
+
+\section{A General Treatment of Co-integration}
+\label{sec:coint-gen}
+ 
+The general treatment of co-integration is complicated when 
+  multiple unit roots are present.
+For example, if there are trend and seasonal roots present, 
+ application of a co-integrating vector to
+the data process may only reduce the order of non-stationarity somewhat,
+ rather than making the series stationary;
+  this is unlike the simple case considered in the first section of the chapter.
+  We first illustrate this point through the case of 
+ dynamic factor component models.  
+ 
+\begin{Illustration} {\bf Latent Dynamic Factor Processes.} \rm
+\label{ill:dyn-fact}
+ Consider a non-stationary process with differencing polynomial 
+ $\Delta (z) = \prod_{\ell=1}^p \Delta^{(\ell)} (z)$, where
+\[
+  \Delta^{(\ell)} (z) = \begin{cases}
+ {(1 - e^{i \omega_{\ell}} z )}^{q_{\ell}} {(1 - e^{-i \omega_{\ell}} z )}^{q_{\ell}}   
+ \quad \mbox{if} \; \omega_{\ell} \neq 0, \pi \\
+ {(1 - e^{i \omega_{\ell}} z )}^{q_{\ell}} \quad \mbox{if} \; \omega_{\ell} = 0, \pi.
+ \end{cases}
+\]
+ Here $q_{\ell}$ is the  multiplicity of each unit root at 
+  frequency $\omega_{\ell}$, which are assumed to be distinct.
+Suppose that the data process can be written as the sum of
+ non-stationary latent processes, each of which has differencing
+ polynomial $\Delta^{(\ell)} (z)$, plus a
+ residual stationary process.  We write this as
+\begin{equation}
+ \label{eq:chapnstat_structural}
+ X_t = \sum_{\ell=1}^p S^{(\ell)}_t + S^{(0)}_t,
+\end{equation}
+ where $\Delta^{(\ell)} (z) S^{(\ell)}_t$ is
+ stationary for each $1 \leq \ell \leq p$, and $S^{(0)}_t$ is
+ stationary as well.  Let the
+ reduced polynomials $\Delta^{(-\ell)} (z)$ be defined via
+\[
+  \Delta^{(-\ell)} (z) = \prod_{k \neq \ell} \Delta^{(k)} (z).
+\]
+  Then applying $\Delta (L)$ to the structural
+  equation (\ref{eq:chapnstat_structural}) yields
+\[
+ \partial X_t   = \sum_{\ell=1}^p \, \Delta^{(-\ell)} (L) \partial
+ S^{(\ell)}_t + \Delta (L) S^{(0)}_t.
+\]
+   Each stationary latent process $\partial S^{(\ell)}_t$ may have
+  singularities in its spectral density matrix, such that it can be
+  represented as $C^{(\ell)}$ times some $Z^{(\ell)}_t$, a
+ stationary process of reduced dimension with spectral density
+ matrix invertible at all frequencies.  Such a latent process is
+ governed by a dynamic factor model (DFM), with $C^{(\ell)} =
+ 1_n$ recovering the general case.  We actually require
+ $C^{(0)} = 1_n$ in order to guarantee that the spectrum of
+ $\{ \partial X_t \}$ is non-singular except at a finite number of
+ frequencies.
+
+ Suppose that $\beta$ is a vector such that $\beta^{\prime}
+ C^{(k)} = 0$ for some $1 \leq k \leq p$.  Because the differencing polynomials
+ are scalar, we obtain
+\[
+ \beta^{\prime} \, \partial X_t = \sum_{\ell \neq k} \,
+ \beta^{\prime} C^{(\ell)} \, \Delta^{(-\ell)} (L)
+ Z^{(\ell)}_t + \beta^{\prime} \Delta (L) S^{(0)}_t.
+\]
+ Note that $\Delta^{(\ell)} (L)$ can be factored
+ out of all terms on the right hand side.  Hence $\beta^{\prime}
+ X_t$ only requires $\Delta^{(k)} (L)$ differencing to become
+ stationary; the frequency $\omega_k$ co-integrating vector $\beta$
+ reduces the order of non-stationarity by the factor
+ $\Delta^{(k)} (L)$.  Moreover, if $\beta$ is in the left null space of
+ several factor loadings $C^{(\ell)}$, the order of
+ non-stationarity can be reduced further.  In an extreme case,
+ $\beta^{\prime} C^{(\ell)} = 0$ for $1 \leq \ell \leq p$, so
+ that $\beta^{\prime} X_t$ is stationary; however, whether or not
+ the factor loadings have a non-trivial intersection of left null
+ space depends on each process.
+\end{Illustration}
+
+ We now proceed with a fairly general treatment of co-integrated  non-stationary
+ processes, generalizing the basic non-stationary case discussed
+  in  Chapter \ref{chap:int}.  We still assume that $\Delta (z)$ is a scalar
+  differencing polynomial.   Suppose that we left multiply 
+ (\ref{eq:nonstat.rep-basis})  by $\beta^{\prime}$,
+ which is a co-integrating vector at frequency $\omega_{j}$,
+  and take $\mu = 0$ for simplicity; then we obtain
+\begin{equation}
+ \label{eq:co-intRep}
+  \beta^{\prime} X_t = \sum_{k=1}^d \phi_k (t) p^{(k)} (L) \, \beta^{\prime} \, X_{0} 
+   + \int_{-\pi}^{\pi}
+ \frac{ e^{i \omega t} - \sum_{k=1}^d \phi_k (t) \, p^{(k)} 
+  ( e^{-i \omega } )}{ \Delta (e^{-i \omega}) } \; \beta^{\prime} \,  \mathcal{Z} 
+ (d\omega).
+\end{equation}
+   From our previous discussion, we know that this result should be a non-stationary
+ process with differencing operator $\Delta^{(j)} (z)$; this implies
+ that there should be a cancellation of 
+ $\beta^{\prime} \, \mathcal{Z}  (d\omega)$ with the
+ $\Delta^{(j)} (e^{-i \omega})$   term in
+ $\Delta (e^{-i \omega})$.  As a result, we
+ have the following spectral formalization of the co-integrating
+ relation:
+\begin{equation}
+\label{eq:co-intRel}
+ \beta^{\prime} \, \mathcal{Z}  (d\omega) = 
+  \Delta^{(j)} (e^{-i \omega}) \, \mathcal{Z}^{(j)} (d\omega),
+\end{equation}
+ where $ \mathcal{Z}^{(j)} (\omega)$ is the orthogonal increments measure
+ of another stationary invertible process.  This condition
+ (\ref{eq:co-intRel}) is readily satisfied by the latent dynamic
+ factor process of Illustration \ref{ill:dyn-fact},
+  which is exemplary of the general
+ situation of interest.  The extreme case, where the co-integrating
+ vector lies in all the left null spaces of the component processes,
+ allows us to factor $\Delta (e^{-i \omega})$ completely from
+ $\beta^{\prime}  \mathcal{Z}  (d\omega)$, though such a property need not
+ hold in practice.
+
+In order to see the full effect of condition
+ (\ref{eq:co-intRel}) on $\beta^{\prime} X_t$, we re-organize terms
+ in equation (\ref{eq:co-intRep}).  Let us suppose, without loss of
+ generality, that frequency $\omega_j$ has corresponding basis
+ functions $\phi_1, \ldots, \phi_{q_j}$, so that the first $q_j$
+ basis functions are annihilated by  $\Delta^{(j)}(L)$.  Then we can write
+\begin{align*}
+ \beta^{\prime} X_t & = \sum_{k= q_j + 1}^d \phi_k (t) p^{(k)} (L) \, 
+  \beta^{\prime} \, X_{0}
+  + \int_{-\pi}^{\pi} \frac{ e^{i \omega t} - \sum_{k= q_j + 1}^d \phi_k (t) 
+    \, p^{(k)} ( e^{-i \omega  } )}{ \Delta^{(-j)} (e^{-i \omega}) } \,  \mathcal{Z}^{(j)}
+ (d\omega) \\
+ & + \sum_{k=1}^{q_j} \phi_k (t) \,  \left(p^{(k)} (L)  
+   \beta^{\prime} \,  X_0 - \int_{-\pi}^{\pi} \frac{ p^{(k)} (e^{-i \omega}) }{
+ \Delta^{(-j)} (e^{-i \omega}) } \, \mathcal{Z}^{(j)} (d\omega) \right).
+\end{align*}
+ The first two terms are immediately recognized as the deterministic
+ and stochastic portions respectively of a non-stationary process
+ that has $\Delta^{(-j)} (z)$ for differencing operator.  The third
+ term is left over, and consists of deterministic time series that
+ are in the null space of $\Delta^{(j)} (L)$.  
+  To see this, observe that for the third term the expression in parentheses is
+stochastic, but does not depend on time $t$, so that the resulting series is predictable.
+
+
+Now $\Delta^{(-j)} (z)$  divides $p^{(k)} (z)$ for $1 \leq k \leq q_j$,
+  and hence the stochastic portion of
+ the third term is well-defined.   The
+ coefficients of the $\phi_k (t)$ for $1 \leq k \leq q_j$ need not be
+ zero, as counter-examples are easy to construct; consider two series that
+ have a common stochastic trend with null vector $\beta^{\prime} =
+ [1, \, 1]$, but whose underlying linear deterministic trends have
+different slopes.  However, in our analysis henceforth we
+will assume that this third term is identically zero.
+
+ This is the general case  of co-integration with scalar differencing operators.  
+ Now consider the  filter error $E_t = Y_t - \widehat{Y}_t$.  Let $\Lambda(z) = \Psi
+ (z) - \widehat{\Psi} (z)$, so that
+\[
+ E_t = \sum_{j=1}^d \Lambda(L) \phi_j (t) p^{(j)} (L) \, X_{0} + \int_{-\pi}^{\pi}
+ \frac{ e^{i \omega t} \, \Lambda (e^{-i \omega})
+ - \sum_{j=1}^d \Lambda (L) \phi_j (t) \, p^{(j)} ( e^{-i \omega
+ } )}{ \Delta (e^{-i \omega}) } \, \mathcal{Z}  (d\omega),
+\]
+ where $\Lambda (L)$ acts only upon the basis functions $\phi_j (t)$.
+    Note that $\Lambda (L) $ is a multivariate filter,
+     and it gets multiplied by the initial value
+  vectors and the orthogonal increments process $\mathcal{Z} (d\omega)$.
+  Clearly the error process is stationary if all the basis functions
+  are annihilated by $\Lambda (L)$, because in that case we must be
+  able to write the factorization
+  $\Lambda (z) = \widetilde{\Lambda} (z)  \Delta (z)$ (where $\widetilde{\Lambda} (L) $ is
+  a  multivariate filter) and $E_t
+  = \int_{-\pi}^{\pi} e^{i \omega t } \, \widetilde{\Lambda} (e^{-i \omega}) \,
+  \mathcal{Z}  (d\omega)$.  This is the case of full filter constraints,
+  analogous to the stationary case considered above.
+ 
+ 
+ Now we can apply these developments to the case of real-time signal extraction.
+  Let us first factor $\Delta (z) = \Delta^S (z)
+\Delta^N (z)$ according to signal and noise unit roots. 
+In the simplest case $\Delta^S (z) = \Delta^{(k)} (z)$, corresponding
+ to  some unit root $\zeta_k = e^{-i \omega k}$ of
+multiplicity $q_k$, and  $\Delta^N (z) = \Delta^{(-k)} (z)$.  
+In such a case, 
+$\Psi (L)$ and $\widehat{\Psi} (L)$ should preserve signal basis functions,
+which are those $\phi_j (t)$ corresponding to the unit root
+$\zeta_k$.  In order to preserve all these functions (i.e., act as
+the identity filter on them all) when multiplicity $q_k$ is present,
+we must have that
+\[
+ \frac{ \Psi (z) - \Psi (\zeta_k) }{ {( z- \zeta_k)}^{q_k} }
+ \qquad \mbox{and}
+ \qquad  \frac{ \widehat{\Psi} (z) - \widehat{\Psi} (\zeta_k) }{ {( z- \zeta_k)}^{q_k} }
+\]
+ are both bounded in $z$.  Equivalently, the differences $\Psi (z) - \Psi (\zeta_k)$ and
+$  \widehat{\Psi} (z) - \widehat{\Psi} (\zeta_k)$ are each
+ divisible by $\Delta^S (z)$.  
+ 
+ Recall the discussion in Section \ref{sec:mdfa-nonstat},
+  where the signal and noise constraints are imposed via
+  (\ref{eq:non-stat.constraint.single}) -- and 
+  (\ref{eq:non-stat.constraint.double}) for repeated roots.
+  We will keep the noise constraints on the filters, but we can partially
+   relax the signal constraints when signal co-integration is present.
+ Consider the case that $\beta$ is a signal co-integrating matrix 
+ ($n \times r$-dimensional), which means
+  that $\beta^{\prime} X_t = Z_t $ has all non-stationary effects due to the signal
+   removed.  In particular, application of the noise differencing operator
+    $\Delta^N (L)$ is sufficient to render this process stationary:
+  \[
+   \partial Z_t = \Delta^N (L) Z_t
+  \]
+   is a stationary mean zero process.  In order to decompose the filter error,
+   we now have
+\begin{align*}
+ \Lambda (z) & =  \Psi (z) - \widehat{\Psi} (z) \\
+  & = \left( \Psi (z) - \Psi (\zeta) \right) 
+   - \left( \widehat{\Psi} (z) - \widehat{\Psi} (\zeta) \right) +
+    \left( \Psi (\zeta) - \widehat{\Psi} (\zeta) \right)
+  \end{align*}
+  for a signal root $\zeta$, and we require the property that
+ \begin{equation}
+  \label{eq:gen-constraint-cointcase}
+   \widehat{\Psi} (\zeta) = \Psi (\zeta) - \alpha \beta^{\prime} \Delta^N (\zeta)
+  \end{equation}
+  for some matrix $\alpha$, and for all roots $\zeta$ of $\Delta^S (z)$.
+  So long as the filters are zero at the noise roots, condition
+  (\ref{eq:gen-constraint-cointcase}) is sufficient to guarantee the needed
+  factorization of $\Lambda (z)$.
+  
 \begin{Proposition}
-\label{prop:filter-decompose}
- Any linear filter $\Psi (L)$ can be expressed as
-\[
-  \Psi (L) = \Psi (\zeta) + (L - \zeta) \, \Psi^{\sharp} (L)
-\]
- for any $\zeta \in \CC$  such that $| \zeta | = 1$, 
-  and an absolutely convergent filter $\Psi^{\sharp} (L)$, so long as  $\partial \Psi (L) $ is absolutely convergent.
- If in addition $ \partial \partial \Psi (L) = \sum_{ j \in \ZZ} j (j-1) \, \psi (j) \, L^j$
-   is absolutely convergent, then there also exists an absolutely convergent filter $\Psi^{\flat} (L)$ 
- such that
-\[
- \Psi (L) = \Psi (\zeta) + \partial \Psi (\zeta) \, (L- \zeta) \, \overline{\zeta} + {(L - \zeta)}^2 \, \Psi^{\flat} (L).
-\]
+\label{prop:gen-case-coint-factor}
+ Suppose that $\Lambda (z) = \Psi (z) - \widehat{\Psi} (z)$ equals zero for
+  all roots of $\Delta^N (z)$ (i.e., the noise constraints are satisfied),
+  and satisfies (\ref{eq:gen-constraint-cointcase}).
+  Then there exists $\widetilde{\Lambda} (z)$ such that
+\begin{equation}
+\label{eq:lambda-delta-alpha2}
+ \Lambda (z) = \widetilde{\Lambda} (z) \, \Delta (z) + \alpha \beta^{\prime} \Delta^N (z).
+\end{equation}
 \end{Proposition}
 
- Note that if $\Psi (\zeta) = 0$, it follows from Proposition \ref{prop:filter-decompose} that $L-\zeta$ can be factored from
-  $\Psi (L)$.  Similarly, ${(L- \zeta)}^2$ can be factored from $\Psi (L)$ is $\Psi(\zeta) = \partial \Psi (\zeta) =0$.
+\paragraph{Proof of Proposition \ref{prop:gen-case-coint-factor}.}
+ By assumption, $\Lambda (L)$ does noise-differencing, and $\Delta^N (z)$ can be
+  factored from $\Lambda (z)$.  Note that $\Delta^N (\zeta) \neq 0$ for any
+  root $\zeta $ of $\Delta^S (z)$, because the signal and noise operators are relatively
+   prime.  Set
+  \[
+   \tau (z) = \frac{ \Lambda (z) }{ \Delta^N (z)} - \alpha \beta^{\prime},
+  \]
+  which is absolutely convergent and also equals zero at $z = \zeta$, for any
+   root $\zeta$ of $\Delta^S (z)$. Therefore, there exists $\widetilde{\Lambda} (z)$
+    such that $\tau (z) = \widetilde{\Lambda} (z) \Delta^S (z)$. Then
+  \[
+   \Lambda (z) = \left( \tau (z) + \alpha \beta^{\prime} \right) \Delta^N (z), 
+  \]
+  from which (\ref{eq:lambda-delta-alpha2}) follows.  $\quad \Box$
 
-\begin{Definition} \rm
-\label{def:filter-noise}
- For $\omega \in [-\pi, \pi]$, a filter $\Psi (L)$ annihilates $\omega$-noise of order $1$ if $\Psi (e^{-i \omega}) = 0$,
- and annihilates $\omega$-noise of order $2$ if in addition $\partial \Psi (e^{-i \omega}) = 0$.
-\end{Definition}
+\vspace{.5cm}
 
-
-Hence, we have the following immediate corollary of Proposition \ref{prop:filter-decompose}.
-
-\begin{Corollary}
- \label{cor:filter-noise}
-  If a filter $\Psi (L)$ annihilates $\omega$-noise of order $1$ and $\partial \Psi (L)$ is absolutely convergent, then
-\[
-  \Psi (L) = (L- e^{-i \omega}) \, \Psi^{\sharp} (L).
+Therefore, under the conditions of Proposition \ref{prop:gen-case-coint-factor},
+ the filter error is
+ \[
+  E_t = \Lambda (L) X_t = \widetilde{\Lambda} (L) \partial X_t + \alpha \partial Z_t
+   = [ \alpha, \widetilde{\Lambda} (L) ] \, 
+   \left[ \begin{array}{c} \partial Z_t \\ \partial X_t 
+    \end{array} \right].
 \]
- If a filter $\Psi (L)$ annihilate $\omega$-noise of order $2$,  and $\partial \partial \Psi (L)$ is absolutely convergent, then
+ Now the treatment of the filter MSE follows the base case of
+  Section  \ref{sec:coint-zero}, only replacing $Z_t$ by $\partial Z_t$.
+  Proposition \ref{prop:coint-base-case} can therefore be extended,
+  and we obtain the same criterion
 \[
-  \Psi (L) = {(L- e^{-i \omega}) }^2 \, \Psi^{\flat} (L).
-\]
-\end{Corollary}
+   { \langle  \left[ \Psi (e^{-i \omega}) - 
+   \widehat{\Psi}_{\vartheta} (e^{-i \omega}) \right] \, 
+ f_{\partial X, \partial X} (\omega) \, {|\Delta (e^{-i \omega}) |}^{-2} \,
+  {  \left[ \Psi (e^{i \omega}) -  
+  \widehat{\Psi}_{\vartheta} (e^{i \omega}) \right] }^{\prime} \rangle }_0,
+\] 
+  now under the noise constraints and condition 
+ (\ref{eq:gen-constraint-cointcase}).
+ In summary, we extend the non-stationary MDFA to the case of co-integrated signal
+ by imposing these generalized signal and noise filter constraints.
+ Before treating examples, we provide an extended theory for model-based signal
+  extraction by providing formulas for the WK and WH frequency response functions
+ when co-integration is present in either signal or noise (or both).
+ 
+\begin{Theorem}
+\label{thm:wk-wh.coint}
+ Suppose that $\{ X_t \}$ is  a non-stationary stochastic process
+ with representation (\ref{eq:nonstatCausalRep}), such that
+ (\ref{eq:signal-noise-decomp}) and (\ref{eq:spectral-factor}) hold,
+ and $f_{\partial X}$ is invertible
+ at almost all frequencies $\omega$.
+ Assume that the signal and noise differencing operators
+ $\Delta^S (L)$ and $\Delta^N (L)$ are relatively prime, and Assumption A holds.
+ The WK filter $\Psi (L)$ and WH filter $\widehat{\Psi} (L)$ have
+  frequency response functions given by (\ref{eq:wk.frf-gen})
+  and (\ref{eq:wiener-hopf}) respectively for $\omega_*$ such that
+  $\Delta_S (e^{-i \omega_*}) \neq 0$ and $\Delta_N (e^{-i \omega_*}) \neq 0$;
+  otherwise, the following formulas apply.
+ 
+\paragraph{case (i)} Suppose that $\omega_*$ is a frequency such that
+ $\Delta_S (e^{-i \omega_*}) = 0$ and $f_{\partial S} (\omega_*)$ has reduced rank.
+ Then with $L \, L^{*} = f_{\partial S} (\omega_*)$, 
+\begin{align*}
+ \Psi (e^{-i \omega_*}) & = L \, {\left( L^* \, 
+   { f_{\partial N} (\omega_*) }^{-1} \, L \right)}^{-1} \, L^* \, 
+   { f_{\partial N} (\omega_*) }^{-1}  \\
+\widehat{\Psi} (e^{-i \omega_*}) & = 
+  1_N - { \left[  f_{\partial N} (\omega_*) { G( e^{i \omega_*})}^{\prime} 
+    { \Delta_N (e^{-i\omega_*})}^{-1} \right] }_0^{\infty} \,
+     \Sigma^{-1} \, G( e^{-i \omega_*}) \, \Delta_N (e^{-i \omega_*}),
+\end{align*}
+ where $G(z) = { \Theta (z) }^{-1} \Delta_S (z)$ is defined in a neighborhood 
+  about $z_* = e^{- i \omega_*}$, and can be continuously extended to a reduced
+   rank matrix $G(z_*)$.
+   
+\paragraph{case (ii)} Suppose that $\omega_*$ is a frequency such that
+ $\Delta_N (e^{-i \omega_*}) = 0$ and $f_{\partial N} (\omega_*)$ has reduced rank.
+ Then with $L \, L^{*} = f_{\partial N} (\omega_*)$, 
+\begin{align*}
+ \Psi (e^{-i \omega_*}) & = 1_N - L \, {\left( L^* \, 
+   { f_{\partial S} (\omega_*) }^{-1} \, L \right)}^{-1} \, L^* \, 
+   { f_{\partial S} (\omega_*) }^{-1}  \\
+\widehat{\Psi} (e^{-i \omega_*}) & = 
+  { \left[  f_{\partial S} (\omega_*) { G( e^{i \omega_*})}^{\prime} 
+    { \Delta_S (e^{-i\omega_*})}^{-1} \right] }_0^{\infty} \,
+     \Sigma^{-1} \, G( e^{-i \omega_*}) \, \Delta_S (e^{-i \omega_*}),
+\end{align*}
+ where $G(z) = { \Theta (z) }^{-1} \Delta_N (z)$ is defined in a neighborhood 
+  about $z_* = e^{- i \omega_*}$, and can be continuously extended to a reduced
+   rank matrix $G(z_*)$.
+\end{Theorem}
 
- We can apply Corollary \ref{cor:filter-noise} to factor a noise-differencing polynomial $\delta^N (L)$ from $\Delta (L)$:
- for each $\omega$ such that the target filter $\Psi (L)$ annihilate $\omega$-noise of order $d$, we impose the constraint
- that $\widehat{\Psi} (L)$ shall have the same property, and hence ${(L- e^{-i \omega})}^d$ can be factored from both
- filters.   For instance, if noise frequencies are $\omega_{\ell}$ with multiplicities $d_{\ell}$, then repeated application of 
- Corollary \ref{cor:filter-noise} yields
-\[
- \Psi (L) = \prod_{\ell} {(L -  e^{-i \omega_{\ell}})}^{d_{\ell}} \, \Psi^{\natural} (L)
-   = \delta^N (L) \, \Psi^{\star} (L)
-\]
- for some residual filter $\Psi^{\natural} (L)$, where $\Psi^{\star} (L) = \prod_{\ell} -e^{-i \omega_{\ell} d_{\ell}} \, \Psi^{\natural} (L)$
- and $\delta^N (L) = \prod_{\ell} (1 - e^{i \omega_{\ell}} \, L)$.
- By imposing the same linear constraints on $\widehat{\Psi} (L)$, we likewise obtain $\widehat{\Psi} (L) = \delta^N (L) \, \widehat{\Psi}^{\star} (L)$,
- and hence 
-\begin{equation}
- \label{eq:delta-noise}
-\Delta (L) = \left(  {\Psi}^{\star} (L) - \widehat{\Psi}^{\star} (L) \right) \, \delta^N (L).
-\end{equation}
-  So if $\delta (L) = \delta^N (L)$, then (\ref{eq:delta.factor}) holds at once.  More generally, a given process' differencing polynomial
- may be factored into relatively prime polynomials $\delta^N (z)$ and $\delta^S (z)$, which correspond to noise and signal dynamics
- respectively -- see Bell (1984) and McElroy (2008a).  Many  signal extraction filters $\Psi (L)$   have the property that they
- annihilate $\omega$-noise of the appropriate order, such that $\delta^N (L)$ can be factored; in addition, the noise filter $1_N - \Psi (L)$
- has the same property with respect to the signal frequencies, i.e., $\delta^S (L)$ can be factored from $1_N - \Psi (L)$ in the same manner.
- Hence  $1_N -  \Psi (L) =   \delta^S (L) \, \Psi^{\diamond} (L)$ for some factor $\Psi^{\diamond} (L)$,
- and imposing the same constraints on the concurrent filter yields
-\[
-  \Delta (L) = (1_N - \widehat{\Psi} (L)) - (1_N - \Psi (L)) = \left(  \widehat{\Psi}^{\diamond} (L) - \Psi^{\diamond} (L)  \right) \, \delta^S (L).
-\]
-  However, (\ref{eq:delta-noise}) also holds, and the roots of $\delta^S (z)$ and $\delta^N (z)$ are distinct (because the polynomials
- are relatively prime by assumption), and hence $\delta (L) = \delta^N (L) \, \delta^S (L)$ must be a factor.  Therefore,
- $\widetilde{\Delta} (L) =  (  \widehat{\Psi}^{\diamond} (L) - \Psi^{\diamond} (L)   )/ \delta^N (L)$, and (\ref{eq:delta.factor}) holds.
-
-In summary, given a factorization of $\delta (z)$ into signal and noise differencing polynomials, the noise constraints and signal constraints
- on $\Psi (L)$ must also be imposed upon $\widehat{\Psi} (L)$, and this ensures that $\{ E_t \}$ will be stationary with mean zero.  
- If $\omega$ satisfies $\delta^N (e^{-i \omega}) = 0$, then we impose that $\widehat{\Psi} (L)$ annihilates $\omega$-noise of order
- given by the multiplicity of the root in $\delta^N (z)$.  Otherwise, if $\omega$ satisfies $\delta^S (e^{-i \omega})$ then we impose
- that $\widehat{\Psi} (e^{-i \omega}) = \Psi (e^{-i \omega})$ (if the root is simple -- if a double root, then also impose that
- $\partial \widehat{\Psi} (e^{-i \omega}) = \partial \Psi (e^{-i \omega})$).  In practice, we must determine the real and imaginary  parts of each such constraint, and write the corresponding constraints on $\widehat{\Psi} (L)$ in the form $A = [J \otimes 1_N] \, \vartheta$ for
-  filters of form (\ref{eq:conc.filter}), applying the methodology of the previous subsection.  
-  With these constraints in play, the formula (\ref{eq:dfa-mvar}) holds with $\Psi (z) - \widehat{\Psi} (z)$ replaced by $\widetilde{\Delta} (z)$
- and $F$ being the spectral density of $\{ \partial X_t \}$, i.e., we define the nonstationary MDFA criterion 
- function as $\det D_{\Psi } (\vartheta, G)$ for
-\begin{equation}
-\label{eq:mdfa-criterion-nonstat}
- D_{\Psi} (\vartheta, G) =     { \langle  \widetilde{\Delta} (z)   \,   G \,  {\widetilde{\Delta} (z) }^*   \rangle }_0
- = { \langle  \left[ \Psi (z) -   \widehat{\Psi}_{\vartheta} (z) \right] \,   G \, {|\delta (z) |}^{-2} \,
-  {  \left[ \Psi (z) -  \widehat{\Psi}_{\vartheta} (z) \right] }^{*} \rangle }_0.
-\end{equation}
-  The second expression in (\ref{eq:mdfa-criterion-nonstat}) utilizes (\ref{eq:delta.factor}), and employs the understanding
- that poles in ${\delta (z) }^{-1}$ are exactly canceled out by the corresponding zeros in $\Psi (z) - \widehat{\Psi} (z)$.
-  Moreover, the ratio $(\Psi (z) - \widehat{\Psi} (z))/\delta (z) = \widetilde{\Delta} (z)$ is bounded in $\omega$ for $z = e^{-i \omega}$,
- as the previous discussion guarantees.  As a matter of convenience, given that the frequencies of singularity in
- ${|\delta (z) |}^{-2}$ are a set of Lebesgue measure zero, calculation of $D_{\Psi} (\vartheta, G)$ can proceed by using
- the second expression, computing the numerical integration over only those frequencies where $\delta (z)$ is nonzero.
-  Whereas the theoretical filter error MSE is given by $D_{\Psi, F}$, with $F$ being the spectral density of $\{ \partial X_t \}$,
- for estimation we approximate the integral over Fourier frequencies, and utilize the periodogram of the differenced data for $G$.
- Again, we omit any contributions to the sum arising from Fourier frequencies that correspond to zeros of $\delta (z)$, as such an omission
- only results in a loss of order $T^{-1}$.  (The alternative is to compute the quantities $\widetilde{\Delta} (z)$ at Fourier frequencies,
- using the factorization results of Corollary  \ref{cor:filter-noise}; this is not worth the effort in practical applications.)
-
-
-\section{Replicating and Generalizing Model-Based Solutions}
-  
-  
-     
+\paragraph{Proof of Theorem \ref{thm:wk-wh.coint}.}  
+ 
+ HERE fill in proof.
+ 
+ HERE  examples with Starts, seasonal cointegration or trend cointegration
 
 

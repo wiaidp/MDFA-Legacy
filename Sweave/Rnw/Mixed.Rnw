@@ -1,33 +1,400 @@
 
+<<load r,echo=False>>=
+path.main <- getwd()
+setwd(paste(path.main,"/Sweave/RcodeTSM",sep=""))
+# requires packages expm and xtable
+library(expm)
+library(xtable)
+source("sqrtm.r")
+source("var1.psi2par.r")
+source("var1.par2psi.r")
+source("lpp.var1.r")
+source("mdfa.dft.r")
+source("mdfa.idft.r")
+source("mdfa.pergram.r")
+source("mdfa.frf.r")
+source("mdfa.coeff.r")
+source("mdfa.filter.r")
+source("mdfa.unconstrained.r")
+source("mdfa.embed.r")
+source("mdfa.hi2low.r")
+source("mdfa.wnsim.r")
+source("mdfa.ucsim.r")
+source("mdfa.spectra.r")
+setwd(path.main)
+@
+
+\chapter{Multivariate Direct Filter Analysis for Mixed Frequency Processes}
+\label{chap:mix}
+
+So far we have assumed that the explanatory series for a given target are observed
+ at the same sampling frequency, but here we entertain the possibility that
+ the target can be expressed as a multivariate filter acting on input series of
+differeing sampling frequencies, e.g., a monthly and a quarterly series.
+ Section \ref{sec:mix-svf} introduces the key insight, viz. the device of vector
+  embedding, which allows us to jointly analyze high- and low-frequency time series.
+  Then Section \ref{sec:mix-mdfa} shows how these ideas can be paired with the basic
+   MDFA methodology.
+ 
+\section{Sampling Frequency and Vector Embedding}
+\label{sec:mix-svf}
 
 
-\chapter{Mixed-Frequency Data: Combining and Working with Data Sampled at Different Time Scales}\label{mix_sec}
 
-\section{Introduction}
+<<embed_var1,echo=True>>=
+set.seed(1234)
+T <- 100
+N <- 2
+phi.matrix <- rbind(c(1,.5),c(-.2,.3))
+innovar.matrix <- diag(2)
+gamma.0 <- matrix(solve(diag(4) - phi.matrix %x% phi.matrix) %*% 
+	matrix(innovar.matrix,ncol=1),nrow=2)
+x.init <- t(chol(gamma.0)) %*% rnorm(2)
+x.next <- x.init
+x.sim <- NULL
+for(t in 1:T)
+{
+	x.next <- phi.matrix %*% x.next + rnorm(2)
+	x.sim <- cbind(x.sim,x.next)
+}
+x.sim <- ts(t(x.sim),frequency=12)
+y.sim <- mdfa.embed(x.sim,4)
+#x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
+#x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
+@
 
-\begin{itemize}
-\item Refer to section \ref{lead_snr} for a quantitative analysis of up-dating effects.
-\item Refer to recent work with Chris
-\end{itemize}
+% high freq target
+
+<<embed_lp,echo=True>>=
+ mu <- pi/6
+ len <- 50
+ lp.hifilter <- c(mu/pi,sin(seq(1,len)*mu)/(pi*seq(1,len)))
+ lp.hifilter <- c(rev(lp.hifilter),lp.hifilter[-1])
+ hi.freq <- 12
+ low.freq <- 4
+ shift.hi <- 2
+ out <- mdfa.hi2low(lp.hifilter,hi.freq,low.freq,shift.hi)
+ lp.lowfilter <- out[[1]]  
+ shift.low <- out[[2]]
+@
+
+\section{Mixed Frequency Targets and Optimal Concurrent Filters}
+\label{sec:mix-mdfa}
+
+% construct mixed wn
+
+<<sim_svf-wn,echo=True>>=
+set.seed(1234)
+innovar <- 1
+sig.vec <- c(1,1,1)
+schur <- 1 
+Sigma <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
+l.mat <- t(chol(Sigma))
+T <- 100
+eps <- l.mat %*% matrix(rnorm(4*T),nrow=4)
+eps.hi <- matrix(eps[1:3,],nrow=1)[1,]
+eps.low <- eps[4,]
+par(mfrow=c(2,1))
+plot(ts(eps.hi))
+plot(ts(eps.low))
+@ 
+
+% construct mixed LLM
+
+<<sim_svf-llm,echo=True>>=
+set.seed(1234)
+innovar <- 1
+sig.vec <- c(1,1,1)
+schur <- 1 
+Sigma.mu <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
+l.mat <- t(chol(Sigma.mu))
+len <- 500
+T.sim <- 500 + 2*len
+burn <- 500
+N <- 4
+grid <- 1000
+eps <- l.mat %*% matrix(rnorm(N*(T.sim+burn)),nrow=N)
+delta.0 <- rbind(c(1,0,0,0),
+                 c(-1,1,0,0),
+                 c(0,-1,1,0),
+                 c(0,0,0,1))
+delta.1 <- rbind(c(0,0,-1,0),
+                 c(0,0,0,0),
+                 c(0,0,0,0),
+                 c(0,0,0,-1))
+delta <- array(cbind(delta.0,delta.1),c(N,N,2))
+d <- dim(delta)[3] - 1
+mu.sim <- mdfa.ucsim(delta,t(eps))[(burn+1-d):(T.sim+burn-d),]
+irr.sim <- mdfa.wnsim(c(rep(0,6),rep(log(100),4)),rep(1,N),T.sim,Inf)
+Sigma.irr <- irr.sim[[2]]
+irr.sim <- irr.sim[[1]] 
+x.sim <- mu.sim + irr.sim
+x.hi <- matrix(t(x.sim)[1:3,],nrow=1)[1,]
+x.low <- x.sim[,4]
+ 
+par(mfrow=c(2,1))
+plot(ts(x.hi))
+plot(ts(x.low))
+
+iden <- array(diag(N),c(N,N,1))
+f.mu <- mdfa.spectra(iden,iden,Sigma.mu,grid)
+f.irr <- mdfa.spectra(iden,iden,Sigma.irr,grid)
+trend.frf <- mdfa.wkfrf(iden,delta,f.irr,f.mu)
+par(mfrow=c(N,N))
+for(i in 1:N)
+{
+  for(j in 1:N)
+  {
+    plot(ts(Re(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(-.5,1),ylab="")
+  }
+}
+par(mfrow=c(N,N))
+for(i in 1:N)
+{
+  for(j in 1:N)
+  {
+    plot(ts(Im(trend.frf[i,j,]),frequency=grid/2,start=-1),ylim=c(-.5,1),ylab="")
+  }
+}
+wk.trend <- mdfa.coeff(trend.frf,-len,len)
+par(mfrow=c(N,N))
+for(i in 1:N)
+{
+  for(j in 1:N)
+  {
+    plot(ts(wk.trend[i,j,],frequency=1,start=-len),ylab="")
+  }
+}
+
+# construct and apply MB SA filter
+mb.filter <- wk.trend
+x.mb11 <- filter(x.sim[,1],mb.filter[1,1,],method="convolution",sides=2)
+x.mb12 <- filter(x.sim[,2],mb.filter[1,2,],method="convolution",sides=2)
+x.mb13 <- filter(x.sim[,3],mb.filter[1,3,],method="convolution",sides=2)
+x.mb14 <- filter(x.sim[,4],mb.filter[1,4,],method="convolution",sides=2)
+x.mb21 <- filter(x.sim[,1],mb.filter[2,1,],method="convolution",sides=2)
+x.mb22 <- filter(x.sim[,2],mb.filter[2,2,],method="convolution",sides=2)
+x.mb23 <- filter(x.sim[,3],mb.filter[2,3,],method="convolution",sides=2)
+x.mb24 <- filter(x.sim[,4],mb.filter[2,4,],method="convolution",sides=2)
+x.mb31 <- filter(x.sim[,1],mb.filter[3,1,],method="convolution",sides=2)
+x.mb32 <- filter(x.sim[,2],mb.filter[3,2,],method="convolution",sides=2)
+x.mb33 <- filter(x.sim[,3],mb.filter[3,3,],method="convolution",sides=2)
+x.mb34 <- filter(x.sim[,4],mb.filter[3,4,],method="convolution",sides=2)
+x.mb41 <- filter(x.sim[,1],mb.filter[4,1,],method="convolution",sides=2)
+x.mb42 <- filter(x.sim[,2],mb.filter[4,2,],method="convolution",sides=2)
+x.mb43 <- filter(x.sim[,3],mb.filter[4,3,],method="convolution",sides=2)
+x.mb44 <- filter(x.sim[,4],mb.filter[4,4,],method="convolution",sides=2)
+x.mb <- cbind(x.mb11 + x.mb12 + x.mb13 + x.mb14,
+		     x.mb21 + x.mb22 + x.mb23 + x.mb24,
+		     x.mb31 + x.mb32 + x.mb33 + x.mb34,
+		     x.mb41 + x.mb42 + x.mb43 + x.mb44)
+x.mb <- x.mb[(len+1):(T.sim-len),] 
+
+# get MDFA concurrent filter for SA case
+q <- 30
+comp.matrix <- -1*solve(delta.0) %*% delta.1
+eigs <- eigen(comp.matrix)$values
+eigs <- eigs[eigs != 0]
+delta.det <- 1
+for(k in 1:length(eigs))
+{
+  delta.det <- polymult(delta.det,c(1,-1*eigs[k]))
+}
+
+x.diff <- filter(x.sim,delta.det,method="convolution",sides=1)[length(delta.det):T.sim,]
+spec.hat <- mdfa.pergram(x.diff,delta.det)
+grid <- T.sim - length(delta.det) + 1
+
+constraints.mdfa <- mdfa.getconstraints(trend.frf,c(0,0),seq(1,6)/6,q)
+mb.mdfa <- mdfa.filter(trend.frf,spec.hat,constraints.mdfa[[1]],constraints.mdfa[[2]])[[1]]
 
 
-\section{Target is Low-Frequency Data}
+@ 
 
 
-\subsection{Folding the Frequency Interval}
+% construct mingled VAR
 
-\subsection{Generalized Optimization Criterion}
+<<sim_svf-var1,echo=True>>=
+set.seed(1234)
+innovar <- 1
+sig.vec <- c(1,1,1)
+schur <- 1 
+Sigma <- rbind(cbind(innovar*diag(3),sig.vec),c(sig.vec,schur+sum(sig.vec^2)*innovar))
+l.mat <- t(chol(Sigma))
+T.sim <- 100
+burn <- 100
+eps <- l.mat %*% matrix(rnorm(4*(T.sim+burn)),nrow=4)
+phi.ar3 <- c(1,-.9,.64,-.576)
+phi.array <- mdfa.hi2low(phi.ar3,12,4,0)
+phi.vec <- c(1,1,1)
+phi.0 <- cbind(rbind(phi.array[[1]][,,1],phi.vec),c(0,0,0,1))
+phi.1 <- cbind(rbind(phi.array[[1]][,,2],c(0,0,0)),c(0,0,0,-.95))
+delta <- array(cbind(phi.0,phi.1),c(4,4,2))
+d <- dim(delta)[3] - 1
+x.sim <- mdfa.ucsim(delta,t(eps))[(burn+1-d):(T.sim+burn-d),]
+x.hi <- matrix(t(x.sim)[1:3,],nrow=1)[1,]
+x.low <- x.sim[,4]
+ 
+par(mfrow=c(2,1))
+plot(ts(x.hi))
+plot(ts(x.low))
 
-\section{Explaining Series is/are Low-Frequency Data}
+var.spec <- mdfa.spectra(delta,array(diag(4),c(4,4,1)),Sigma,1000)
+par(mfrow=c(4,4))
+for(i in 1:4)
+{
+  for(j in 1:4)
+  {
+    plot(ts(Re(var.spec[i,j,]),frequency=1000))
+  }
+}
+par(mfrow=c(4,4))
+for(i in 1:4)
+{
+  for(j in 1:4)
+  {
+    plot(ts(Im(var.spec[i,j,]),frequency=1000))
+  }
+}
+@ 
 
-\subsection{Folding and Expanding the Frequency Interval}
 
-\subsection{Generalized Optimization Criterion}
 
-\section{General Case: Arbitrary Mix}
+% 
+% # construct and apply low pass filter
+% x.trend.ideal <- filter(x.sim,lp.filter,method="convolution",sides=2)[(len+1):(T-len),]
+% 
+% # get MDFA concurrent filter
+% q <- 20
+% Grid <- T
+% m <- floor(Grid/2)
+% # The Fourier frequencies
+% freq.ft <- 2*pi*Grid^{-1}*(seq(1,Grid) - (m+1))
+% # frf for ideal low-pass
+% frf.psi <- rep(0,Grid)
+% frf.psi[abs(freq.ft) <= mu] <- 1
+% frf.psi <- matrix(frf.psi,nrow=1) %x% diag(N) 	  
+% frf.psi <- array(frf.psi,c(N,N,Grid))
+% spec.hat <- mdfa.pergram(x.sim,1)	
+% lp.mdfa <- mdfa.unconstrained(frf.psi,spec.hat,q)
+%  
+% # apply the MDFA concurrent filter
+% x.trend.mdfa11 <- filter(x.sim[,1],lp.mdfa[[1]][1,1,],method="convolution",sides=1)
+% x.trend.mdfa12 <- filter(x.sim[,2],lp.mdfa[[1]][1,2,],method="convolution",sides=1)
+% x.trend.mdfa13 <- filter(x.sim[,3],lp.mdfa[[1]][1,3,],method="convolution",sides=1)
+% x.trend.mdfa21 <- filter(x.sim[,1],lp.mdfa[[1]][2,1,],method="convolution",sides=1)
+% x.trend.mdfa22 <- filter(x.sim[,2],lp.mdfa[[1]][2,2,],method="convolution",sides=1)
+% x.trend.mdfa23 <- filter(x.sim[,3],lp.mdfa[[1]][2,3,],method="convolution",sides=1)
+% x.trend.mdfa31 <- filter(x.sim[,1],lp.mdfa[[1]][3,1,],method="convolution",sides=1)
+% x.trend.mdfa32 <- filter(x.sim[,2],lp.mdfa[[1]][3,2,],method="convolution",sides=1)
+% x.trend.mdfa33 <- filter(x.sim[,3],lp.mdfa[[1]][3,3,],method="convolution",sides=1)
+% x.trend.mdfa <- cbind(x.trend.mdfa11 + x.trend.mdfa12 + x.trend.mdfa13,
+% 	x.trend.mdfa21 + x.trend.mdfa22 + x.trend.mdfa23,
+% 	x.trend.mdfa31 + x.trend.mdfa32 + x.trend.mdfa33)
+% x.trend.mdfa <- x.trend.mdfa[(len+1):(T-len),] 
+% @
+% 
+% <<echo=False>>=
+% # visualize
+% file = paste("mdfa_trivar1_filtering.pdf", sep = "")
+% pdf(file = paste(path.out,file,sep=""), paper = "special", 
+%     width = 6, height = 6)
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(3,1),cex.lab=.8)
+% plot(ts(x.trend.ideal[,1]),ylab="",xlab="",yaxt="n",xaxt="n")
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,1],col=2)
+% plot(ts(x.trend.ideal[,2]),ylab="",xlab="",yaxt="n",xaxt="n")
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,2],col=2)
+% plot(ts(x.trend.ideal[,3]),ylab="",xlab="",yaxt="n",xaxt="n")
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(x.trend.mdfa[,3],col=2)
+% mtext("Time", side = 1, line = 1,outer=TRUE)
+% invisible(dev.off())
+% @
+% 
+% <<echo=True>>=
+% # compare in-sample performance
+% print(c(mean((x.trend.ideal[,1] - x.trend.mdfa[,1])^2),
+% 	mean((x.trend.ideal[,2] - x.trend.mdfa[,2])^2),
+% 	mean((x.trend.ideal[,3] - x.trend.mdfa[,3])^2)))
+% 
+% # compare to criterion value
+% diag(lp.mdfa[[2]])
+% 
+% # compute gain and phase delay functions
+% frf.psi <- frf.psi[1,1,]
+% gain.psi <- abs(frf.psi)
+% phased.psi <- Arg(frf.psi)/freq.ft
+% lp.frf <- mdfa.frf(lp.mdfa[[1]],0,T)
+% lp.gain1 <- abs(lp.frf[1,1,])
+% lp.gain2 <- abs(lp.frf[2,2,])
+% lp.gain3 <- abs(lp.frf[3,3,])
+% lp.phased1 <- -Arg(lp.frf[1,1,])/freq.ft
+% lp.phased2 <- -Arg(lp.frf[2,2,])/freq.ft
+% lp.phased3 <- -Arg(lp.frf[3,3,])/freq.ft
+% @
+% 
+% <<echo=False>>=
+% # visualize
+% file = paste("mdfa_trivar1_freqdomain.pdf", sep = "")
+% pdf(file = paste(path.out,file,sep=""), paper = "special", 
+%     width = 6, height = 6)
+% par(oma=c(2,0,0,0),mar=c(2,4,2,2)+0.1,mfrow=c(3,1),cex.lab=.8)
+% plot(ts(gain.psi,start=-1,frequency=m),col=1,ylim=c(0,1),main="Gain",
+% 	ylab="",xlab="",yaxt="n",xaxt="n")
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(ts(lp.gain1,start=-1,frequency=m),col="orange")
+% lines(ts(lp.gain2,start=-1,frequency=m),col="green")
+% lines(ts(lp.gain3,start=-1,frequency=m),col="violet")
+% plot(ts(phased.psi,start=-1,frequency=m),col=1,
+% 	ylim=c(0,max(na.exclude(lp.phased1),na.exclude(lp.phased2),
+% 	na.exclude(lp.phased3))),main="Phase Delay",
+% 	ylab="",xlab="",yaxt="n",xaxt="n")
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(ts(lp.phased1,start=-1,frequency=m),col="orange")
+% lines(ts(lp.phased2,start=-1,frequency=m),col="green")
+% lines(ts(lp.phased3,start=-1,frequency=m),col="violet")
+% plot(ts(rep(NA,T),start=-1,frequency=m),col=1,
+% 	ylim=c(0,max(Re(spec.hat[1,1,]),Re(spec.hat[2,2,]),Re(spec.hat[3,3,]))/6),
+% 	main="Periodogram",ylab="",xlab="",yaxt="n",xaxt="n")
+% axis(1,cex.axis=.5)
+% axis(2,cex.axis=.5)
+% lines(ts(Re(spec.hat[1,1,]),start=-1,frequency=m),col="orange")
+% lines(ts(Re(spec.hat[2,2,]),start=-1,frequency=m),col="green")
+% lines(ts(Re(spec.hat[3,3,]),start=-1,frequency=m),col="violet")
+% mtext("Cycles", side = 1, line = 1,outer=TRUE)
+% invisible(dev.off())
+% @ 
+% 
+% <<exercise_mdfa_trivar1.filtering,echo=False>>=
+% file = paste("mdfa_trivar1_filtering.pdf", sep = "")
+% cat("\\begin{figure}[htb!]")
+% cat("\\begin{center}")
+% cat("\\includegraphics[]{", file, "}\n",sep = "")
+% cat("\\caption{Ideal trends (black) for the trivariate VAR(1)
+% 	with real-time MDFA trends (red) overlaid, for series one (upper panel),
+% 	series two (center panel), and series three (bottom panel).", sep = "")
+% cat("\\label{fig:trivar1.trends}}", sep = "")
+% cat("\\end{center}")
+% cat("\\end{figure}")
+% @
+% 
+% <<exercise_mdfa_trivar1.filtering,echo=False>>=
+% file = paste("mdfa_trivar1_freqdomain.pdf", sep = "")
+% cat("\\begin{figure}[htb!]")
+% cat("\\begin{center}")
+% cat("\\includegraphics[]{", file, "}\n",sep = "")
+% cat("\\caption{Gain functions (upper panel), 
+% 	Phase Delay Functions (center panel), and Periodograms (bottom panel)
+% 	 for series one (orange), two (green), and three (violet).", sep = "")
+% cat("\\label{fig:trivar1.freqdomain}}", sep = "")
+% cat("\\end{center}")
+% cat("\\end{figure}")
+% @
 
-\section{Unequally Distributed Release Dates}
-
-\section{Missing Data}
-
-Lomb-Scargle, DFT with leads/lags: analyze orthogonality.

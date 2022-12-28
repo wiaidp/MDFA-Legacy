@@ -16,6 +16,7 @@ library(devtools)
 devtools::install_github("wiaidp/MDFA")
 # MDFA package
 library(MDFA) 
+library(mFilter)  # Classic filter designs (be replicated by MDFA)
 library(RCurl)    # For getURL() and curl handler / cookie / google login
 library(stringr)  # For str_trim() to trip whitespace from strings
 library(Quandl)
@@ -26,13 +27,14 @@ library(expm)
 library(R.utils)
 library(xtable)
 
+# set directory to GitHub/MDFA-Legacy
+setwd("C:/Users/neide/OneDrive/Documents/GitHub/MDFA-Legacy")
 path.main <- paste(getwd(),"/Sweave/",sep="")
 path.pgm <- paste(path.main,"Rnw/",sep="")
 path.out <- paste(path.main,"Latex/",sep="")
-
+ 
 ## Load MDFA R codes #
 sourceDirectory(path=paste(path.main,"RcodeTSM/",sep=""), modifiedOnly=FALSE)
-    
 
 script <- paste(path.pgm,"MDFA_Legacy",sep="")
 

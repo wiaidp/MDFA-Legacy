@@ -15,5 +15,48 @@
 \subsection{From Truth to Effectiveness: Emphasizing Performances}
 
 
+\begin{thebibliography}{}
 
+\bibitem{} Baxter and King 1999
+
+\bibitem{} Bell 1984
+
+\bibitem{}  Brockwell and Davis 1991
+
+\bibitem{} Christiano and Fitzgerald (2003)
+
+\bibitem{} Golub and Van Loan, 1996
+
+\bibitem{} Harvey 1989
+
+\bibitem{} Hodrick and Prescott 1997
+
+\bibitem{} Hosoya and Taniguchi 1982
+
+\bibitem{}  Lutkepohl 2007
+
+\bibitem{} McElroy 2008 ET
+
+\bibitem{} McElroy 2008 EJ
+
+\bibitem{} McElroy 2017 JBES
+
+\bibitem{} McElroy 2017 JTSA
+
+\bibitem{} McElroy and Findley 2015
+
+\bibitem{} McElroy and Trimbur 2015
+
+\bibitem{} Roy McElroy Linton 2019
+
+\bibitem{} Self and Liang 1987
+
+\bibitem{} Taniguchi and Kakizawa 2000
+
+\bibitem{} Wildi 2008
+
+
+
+
+\end{thebibliography}
 

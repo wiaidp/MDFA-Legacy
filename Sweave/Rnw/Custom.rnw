@@ -1,0 +1,31 @@
+
+\chapter{Filter Customization}
+\label{chap:ats}
+
+We propose an extension of the classic MSE-paradigm which addresses
+ nowcast and forecast applications\footnote{Backcasts were discussed 
+in chapter \ref{fil_sec}.}. Specifically, we split the original MSE-norm 
+into three components, identified as Accuracy, Timeliness and Smoothness. 
+The resulting two-dimensional trade-off, controlled by the parameter-pair 
+$\lambda,\eta$ in the head of the main function call, is called 
+Accuracy-Timeliness-Smoothness Trilemma, or ATS-Trilemma for short,
+ see Wildi (2005), McElroy and Wildi (2015). We derive  a generic 
+optimization principle, called Customization, which nests the classic
+ MSE-approach.  We show that the ATS-trilemma collapses to a one-dimensional 
+trade off, the so-called AT-dilemma, in the case of forecasting. We infer 
+ that classic (pseudo-maximum likelihood)  one-step ahead forecast
+ approaches are incapable of addressing Timeliness and Smoothness, 
+simultaneously. Efficiency gains of customized designs are quantified 
+in a series of empirical examples. \\
+
+The ATS-trilemma and the generic customization principle are introduced
+ in section \ref{seatatst}; section \ref{fatatd} highlights the classic
+ dichotomic forecast paradigm; quadratic optimization criteria and 
+closed-form solutions are presented in section \ref{idfas}; an application
+ of customization is proposed in section \ref{ats_work_o}; performance
+ measures are presented in section \ref{peco_cu}; finally,
+ sections \ref{double_score_ats} and \ref{ucdvbmseli} assess 
+performances of customized designs when benchmarked against classic
+ MSE-approaches. 
+
+

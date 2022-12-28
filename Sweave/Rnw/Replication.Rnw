@@ -1,5 +1,6 @@
 
-\chapter{Replicating and Customizing Classic Model-Based Approaches}\label{rep_sec}
+\chapter{Replicating and Customizing Classic Model-Based Approaches}
+\label{rep_sec}
 
 \section{Introduction}
 

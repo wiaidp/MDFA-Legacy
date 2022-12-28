@@ -1,33 +1,38 @@
-mvar.filter <- function(x,filter)
+mvar.filter <- function(data.ts,psi.filter)
 {
-  
   #######################################################
   #
   #	mvar.filter by Tucker McElroy
   #
   #	computes multivariate filter output
   #	inputs:
-  #   x is T x N multivariate time series 
-  #   filter is array 
+  #   data.ts is T x N time series
+  #		psi.filter is array N x N x L of real entries, 
+  #			corresponding to filter coefficients of index
+  #			-shift,...,L-1-shift, where shift gives the integer offset; 
+  #      shift=0 for a causal filter
   #	outputs:
-  #		opt.array is array N x N x q of filter coefficients
-  #		opt.val is N x N matrix corresponding to minimal MSE
+  #		out.ts is array (T-L+1) x N output series
   #
-  ##############################################################
+  ################################################# 
   
-  N <- dim(spec)[1]
-  Grid <- dim(frf)[3]
-  m <- floor(Grid/2)
-  q <- dim(R)[2]
-  M <- dim(R)[4]
-  R.mat <- matrix(R,nrow=N*q,ncol=N*M)
-  Q.mat <- matrix(Q,ncol=N)
+  N <- dim(data.ts)[2]
+  T <- dim(data.ts)[1]
+  L <- dim(psi.filter)[3]
   
-  fpsi <- NULL
-  fmat <- NULL
-  lambda.ft <- exp(-1i*2*pi*Grid^{-1}*(seq(1,Grid) - (m+1)))	## this is e^{-i lambda}
+  out.ts <- NULL
+  for(j in 1:N) 
+  {
+    output.j <- rep(0,T-L+1)
+    for(k in 1:N)
+    {
+      output.k <- filter(data.ts[,k],psi.filter[j,k,],
+                       method="convolution",sides=1)
+      output.k <- output.k[L:T]
+      output.j <- output.j + output.k
+    }
+    out.ts <- cbind(out.ts,output.j)
+  }	
   
-  opt.val <- do.call(cbind,lapply(seq(1,Grid),function(i) frf[,,i] %*% spec[,,i] %*% Conj(t(frf[,,i]))))
-  opt.val <- Grid^{-1}*opt.val %*% (rep(1,Grid) %x% diag(N))
-  for(k in 0:(q-1))
-    
+  return(out.ts)
+}

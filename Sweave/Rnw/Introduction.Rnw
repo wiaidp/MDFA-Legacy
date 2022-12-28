@@ -119,7 +119,7 @@ Model mis-specification is always present; the issue is whether it has a signifi
  understood.  By building the timeliness-accuracy tradeoff directly into the DFA criterion, the optimality of an LPP solution for a
  customized application is assured.
 
-These topics have been treated in Wildi and McElroy (2016, JTSE) in the case of univariate time series, which discusses at length
+These topics have been treated in Wildi and McElroy (2016) in the case of univariate time series, which discusses at length
  the basic \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} (Sweave environment: replication).  This book presents
  the generalized treatment of the multivariate LPP in   Chapter \ref{mse_sec}. But before discussing customization in Chapter \ref{ats_sec},
  we discuss the applications of forecasting and nowcasting, as well as the impact of data vintage, in  Chapter \ref{fil_sec}).
@@ -156,7 +156,7 @@ library(numDeriv)
 # Graphical package for recession-shading (empirical examples based on US-GDP)
 library(tis)
 # Library for tables
-library(Hmisc)
+#library(Hmisc)
 require(xtable)
 #install.packages("devtools")
 library(devtools)

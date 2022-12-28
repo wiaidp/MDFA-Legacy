@@ -29,8 +29,8 @@ mdfa.levelconstraint <- function(frf,spec,q)
 	R.mat <- rbind(-t(rep(1,q-1)) %x% diag(N),R.mat)
 	Q.mat <- matrix(0,nrow=N*(q-1),ncol=N)
 	lc <- Re(frf[,,m+1])	# level constraint
-	Q.mat <- rbind(lc,Q.mat)
-	
+	Q.mat <- rbind(t(lc),Q.mat)
+
 	R <- array(R.mat,c(N,q,N,q-1))
 	Q <- array(Q.mat,c(N,q,N))
 

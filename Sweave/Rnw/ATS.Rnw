@@ -29,6 +29,7 @@
 \def\pTheta{\underline{\Theta}}
 \def\psig{\underline{\sigma}^2}
 
+
 \def\eqinlaw{\stackrel{{\cal L}}{=}}
 \def\tends{\rightarrow}
 \def\tendsinf{\rightarrow\infty}
@@ -36,7 +37,7 @@
 
 
 
-\chapter{The Accuracy-Timeliness-Smoothness Trilemma}\label{ats_sec}
+\chapter{ATS-Trilemma: the Univariate Case}\label{ats_sec}
 
 We propose an extension of the classic MSE-paradigm which addresses nowcast and forecast applications\footnote{Backcasts were discussed in chapter \ref{fil_sec}.}. Specifically, we split the original MSE-norm into three components, identified as Accuracy, Timeliness and Smoothness. The resulting two-dimensional trade-off, controlled by the parameter-pair $\lambda,\eta$ in the head of the main function call, is called Accuracy-Timeliness-Smoothness Trilemma, or ATS-Trilemma for short, see Wildi (2005), McElroy and Wildi (2015). We derive  a generic optimization principle, called Customization, which nests the classic MSE-approach.  We show that the ATS-trilemma collapses to a one-dimensional trade off, the so-called AT-dilemma, in the case of forecasting. We infer  that classic (pseudo-maximum likelihood)  one-step ahead forecast approaches are incapable of addressing Timeliness and Smoothness, simultaneously. Efficiency gains of customized designs are quantified in a series of empirical examples. \\
 

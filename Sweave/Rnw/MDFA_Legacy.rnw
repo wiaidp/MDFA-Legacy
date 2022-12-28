@@ -27,6 +27,7 @@
 \def\II{\mathbb I}
 \def\FF{\mathbb F}
 \def\XX{\mathbb X}
+\def\CC{\mathbb C}
 \def\sige{\sigma_{\epsilon}}
 \def\ttheta{\widetilde{\theta}}
 \def\tTheta{\widetilde{\Theta}}
@@ -53,6 +54,9 @@
 \newtheorem{Illustration}{Illustration}
 \newtheorem{Exercise}{Exercise}
 \newtheorem{Remark}{Remark}
+\newtheorem{Example}{Example}
+\newtheorem{Exercise}{Exercise}
+\newtheorem{Illustration}{Illustration}
 \newcommand{\mbf}[1]{\mbox{\boldmath $#1$}}
 
 \setlength{\textwidth}{6.5in} \setlength{\textheight}{9in}
@@ -129,35 +133,27 @@
 
 % Chapter 3
 \SweaveInput{MDFA_basic}
+%  note: MDFA_basic replaces Mean_square
 
-% This is deprecated, essentially incorporated into MDFA_basic
-%%\SweaveInput{Mean_square}
 
 %----------------------------------------
 
-% Chapter 4 
-% non-stationary MDFA plus constraints
-%\SweaveInput{Integrated}
-
-% These are deprecated, will be incorporated into Integrated
-%%\SweaveInput{Constraints}
-%%\SweaveInput{Replication}
+% Chapter 4
+\SweaveInput{MDFA_con}
+%  note: MDFA_con replaces Constraints,
+%    includes material from Replication
 
 %------------------------------------------------------------------
 
 % Chapter 5
-% co-integration, frequency zero and general case
-%\SweaveInput{Cointegrated}
+\SweaveInput{Integrated}
+%  note: includes material from Cointegrated
 
 %----------------------------------------
 
 % Chapter 6
-%  customization, scalar and vector cases
-%\SweaveInput{ATS}
-
-% will be incorporated
-%%\SweaveInput{ATS_multivariate}
-
+%\SweaveInput{Custom}
+%  note: Custom replaces ATS and ATS_multivariate
 %------------------------------------------
 
 % Chapter 7
@@ -168,39 +164,14 @@
 
 %  Chapter 8
 %\SweaveInput{Filter_revisions}
+%\SweaveInput{Vintage}
+%  note: Vintage replaces Filter_revisions
 
-
-%----------------------------------------
+%----------------------------------------------
 
 %  Chapter 9
 % embedding in SVF,  backcasting GDP
 %\SweaveInput{Mixed}
-
-%-------------------------------------------
-
-%\SweaveInput{Reverse_engineering}
-
-%-------------------------------------------
-
-%\SweaveInput{Exotic_pub}
-
-%----------------------------------------------
-
-%\SweaveInput{Inference}
-
-
-%----------------------------------------------
-
-%\SweaveInput{Vintage}
-
-
-%-------------------------------------------------------------------
-
-%\SweaveInput{Adaptive}
-
-%--------------------------------------------------------------------
-
-%\SweaveInput{Seasonal_adjustment}
 
 %--------------------------------------------------------------------
 
@@ -210,9 +181,29 @@
 
 \SweaveInput{Bibliography}
 
+
+\end{document}
+
+
+OLD IDEAS
+
+%-------------------------------------------
+
+%\SweaveInput{Exotic_pub}
+
+%----------------------------------------------
+
+%\SweaveInput{Inference}
+
+%------------------------------------------------------------------
+ 
+%\SweaveInput{Adaptive}
+
+%--------------------------------------------------------------------
+
+%\SweaveInput{Seasonal_adjustment}
 %--------------------------------------------------------------------
 
 %\SweaveInput{Appendix}
 
 
-\end{document}

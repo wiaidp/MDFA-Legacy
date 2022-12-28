@@ -1,0 +1,773 @@
+
+\chapter{Linear Prediction Problems}
+\label{lpp_chap}
+
+\section{Background on Stationary Vector Time Series}
+
+The reader should have a basic familiarity with multivariate time
+ series analysis, such as that provided by L\"utkepohl (2007).  
+ Our focus is on discrete-time stochastic processes taking values in $\RR^n$,
+ and such will be denoted $\{ X_t \}$, i.e., a vector time series.
+   Each $X_t$ for  a particular   $t \in \ZZ$ is a random vector 
+ with $n$ components, and 
+ the $j$th component will be denoted $X_{t,j}$ for $1 \leq j \leq n$.
+  This can also be written as $X_{t,j} = e_j^{\prime} \, X_t$, where
+ $e_j$ is the $j$th unit vector in $\RR^n$.  The union of these
+ unit vectors is the $n \times n$ identity matrix, denoted $1_n$.
+
+ In this book we are focused upon square integrable random variables,
+ so that the classic Hilbert space projection theory (see, for example,
+ Brockwell and Davis (1991)) can be applied.   Occasionally, we consider 
+  vector time series $\{ Y_t \}$ or $\{ Z_t \}$, in which case the 
+ same conventions apply.When $\{ X_t \}$ is 
+ weakly stationary, its autocovariance function (acf)
+ is defined for $h \in \ZZ$  via 
+\[
+   \Gamma (h) = \mbox{Cov} [ X_{t+h}, X_t ],
+\]
+ which does not depend upon $t$ by the stationarity assumption.  Recall
+ that $\Gamma (-h) = { \Gamma (h) }^{\prime}$, and clearly
+\[
+   \Gamma_{jk} (h) = \mbox{Cov} [ X_{t+h,j}, X_{t,k} ]
+\]
+ for $1 \leq j,k \leq n$. The spectral density is a complex matrix-valued
+ function of $\omega \in [-\pi, \pi]$, defined as the 
+ Fourier Transform (FT) of the acf:
+\[
+   F (\omega) = \sum_{h \in \ZZ} \Gamma (h) \, z^h,
+\]
+ where we use the shorthand $z = e^{-i \omega}$.  Clearly,
+\[
+    F(-\omega) = 
+   \sum_{h \in \ZZ} \Gamma (h) \, z^{-h} 
+   = \sum_{h \in \ZZ} \Gamma (-h) \, z^h = 
+  \sum_{h \in \ZZ} { \Gamma (h) }^{\prime} \, z^h = { F (\omega) }^{\prime},
+\]
+ which shows that the spectral density function (sdf) is Hermitian.
+  In addition, its eigenvalues (for each $\omega$) are real and non-negative.
+  Given a bounded sdf (i.e., each $F_{jk} $ has bounded modulus as a function
+ of $\omega$), the acf can be recovered via inverse FT:
+\begin{equation}
+ \label{eq:spec2acf}
+  \Gamma (h) = { \langle F  \rangle }_h
+  =  \frac{1}{2 \pi} \int_{-\pi}^{\pi} F(\omega) \, e^{i \omega h}
+  \, d\omega,
+\end{equation}
+ which uses the bracket notation to define the average integral of a 
+ function (of $\omega$) multiplied by $e^{i \omega h} = z^{-h}$.
+
+ The lag operator on a time series is denoted $L$, and is defined via
+ the action
+\[
+  L X_t = X_{t-1}.
+\]
+  Powers  of $L$ are defined analogously, with $L^0 = 1$ (an operator
+ identity) and negative powers yielding forward time shifts, i.e., leads.
+ Matrix polynomials of $L$ yield new operators that act upon a time series
+ using the linearity principal.  Thus, if $A(L) = \sum_{j=0}^a A_j \, L^j$
+ for $n \times n$ matrices $A_j$, then
+\[
+  A(L) \, X_t = \sum_{j=0}^a A_j \, X_{t-j}.
+\] 
+  For many applications in this book, the polynomials are actually scalar,
+ and can be interpreted as having coefficients $A_j$ given by an  
+ identity matrix $1_n$ multiplied by a scalar coefficient $a_j$.
+
+ The spectral representation of a stationary square integrable vector 
+time series is particularly useful.  Assuming that $\EE X_t = 0$ (the
+ zero vector in $\RR^n$) so that no fixed effects are present, we describe
+ the stochastic process via
+\begin{equation}
+\label{eq:specRep}
+  X_t = \int_{-\pi}^{\pi} e^{i \omega t} \, \mathcal{Z} (d\omega),
+\end{equation}
+ which is a stochastic integral computed with a Stieltjes measure
+ $\mathcal{Z} (d\omega)$.  This is an orthogonal increments process,
+ which mean $\mathcal{Z}$ is a random measure defined on ${[-\pi,\pi]}^n$
+ that maps disjoint sets to independent random variables.  The actual
+ distribution of the random measure is not our concern, but the particular
+ orthogonal increments process associated with $\{ X_t \}$ has the 
+ property that
+\[
+  \mbox{Cov} [ \mathcal{Z} (d\omega), \mathcal{Z} (d\xi) ]
+   = {(2 \pi)}^{-1} \, F (\omega) \, d\omega \, 1_{ \{   \omega = \xi \} }
+\]
+ where $1_A$ is the indicator for the set $A$.
+  (Also recall that for complex variables, a 
+covariance involves conjugation of
+ the second argument.)  This validates the expression
+\[
+  \mbox{Cov} [ X_{t+h}, X_t ] =
+ \int_{-\pi}^{\pi}  \int_{-\pi}^{\pi} e^{i \omega (t+h)} \,
+  e^{-i \xi t } \, \mbox{Cov} [ \mathcal{Z} (d\omega), 
+  \mathcal{Z} (d\xi) ] 
+ =  \frac{1}{2 \pi} \int_{-\pi}^{\pi} F(\omega) \, e^{i \omega h}
+  \, d\omega = \Gamma (h).
+\]
+ As an example -- that furnishes a basic building block for subsequent processes --
+ we have {\em white noise}, which refers to a mean zero $\{ X_t \}$ where $F$ is constant, i.e.,
+ $F(\omega) = \Sigma$ for all $\omega$, where $\Sigma $ is real and symmetric and
+ non-negative definite.  Clearly, $\Gamma (h) = 0$ for $h \neq 0$ and $\Gamma (0) = \Sigma$.
+ We denote this type of process with the notation $\mbox{WN} (\Sigma)$.
+
+ The advantage of the spectral representation is that it quickly facillitates
+ the understanding of linear filtering in the frequency domain.
+ A multivariate filter maps one vector time series to another, and for
+ now we suppose that both input and output belong to $\RR^n$.
+ Linear filters can be expressed as matrix Laurent series in $L$:
+\[
+ \Psi (L) = \sum_{\ell \in \ZZ} \psi (\ell) \, L^{\ell},
+\]
+ where each $\psi (\ell)$ is an $n \times n$ matrix.  
+ Individual entries of the matrix are denoted $\psi_{jk} (\ell)$,
+ for $1 \leq j, k \leq n$.   We also use the notation
+  $ {[\Psi (L) ]}^{s}_r $ to denote $\sum_{\ell=r}^s
+  \psi (\ell) \, L^{\ell}$. In the special case that $\Psi (L)$ is a power
+ series in $L$, the only nonzero coefficients are for $\ell \geq 0$, 
+ so that no negative powers of $L$ are featured, i.e., the filter
+ only utilizes present and past data.  Such a filter is called a 
+ {\em concurrent} filter.  
+
+ The action of   a linear  filter
+ on a weakly stationary time series,
+ expressed in terms of the spectral representation, is
+\[
+  Y_t = \Psi (L) \, X_t = \sum_{\ell \in \ZZ} \psi (\ell) \, X_{t-\ell}
+   = \sum_{\ell \in \ZZ} \psi (\ell)
+  \, \int_{-\pi}^{\pi} e^{i \omega (t-\ell)} \,
+   \mathcal{Z} (d\omega) =
+  \int_{-\pi}^{\pi} e^{i \omega t} \, \Psi (e^{-i \omega}) \,
+   \mathcal{Z} (d\omega).
+\]
+ So the output time series $\{ Y_t \}$ has orthogonal increments process
+  $\Psi (z) \, \mathcal{Z} (d\omega)$, and in particular its sdf is
+\[  
+   \Psi (z) \, F(\omega) \, { \Psi (z) }^{*},
+\]
+ where $*$ denotes the conjugate transpose.  Thus, it is very natural
+ to analyze a filter in terms of the function $\Psi (e^{-i \omega})$,
+ which is called the {\em frequency response function} (frf).  In 
+ the scalar case, an frf can be further dissected via the polar 
+ decomposition of a complex number, yielding its {\em gain function}
+ (the modulus) and the {\em phase function} (its angular portion).  
+  Note that the coefficients are recovered from the frf via the inverse FT:
+\[
+  \psi (\ell) = {\langle \Psi (e^{-i \cdot } ) \rangle }_{\ell}.
+\]
+  It is well-known from Fourier theory that the degree of smoothness of a
+ function at $\omega = 0$ corresponds to the degree of decay in the coefficients 
+ of its  inverse FT.  In particular, when the frf is smooth and flat in a
+ neighborhood of the origin then the matrix norm of the 
+ coefficients $\psi (\ell)$ decays rapidly as $|\ell| \tends \infty$.  Conversely,
+ discontinuities in the frf indicates slowly decaying coefficients.
+
+ Datasets are typically available as a finite set of contiguous regular
+ measurements, denoted $\{ x_1, x_2, \ldots, x_T \}$, where $T$ is 
+ the length of sample.  The data is viewed as a realization of the 
+ corresponding random vectors $\{ X_1, X_2, \ldots, X_T \}$, or alternatively
+ as a time window of the sample path $\{ x_t \}$ corresponding to times
+ $1, 2, \ldots, T$.  Applying the {\em vec} operator to such a sample
+ yields the full vector $\underline{X}$, which is given by
+\[
+ \underline{X} = \mbox{vec} [ X_1, X_2, \ldots, X_T ].
+\]
+ The covariance matrix of this $nT$-dimensional random vector, in the
+ stationary case, is block Toeplitz,   Each block is $n \times n$, and
+ the $st$th such block, for $1 \leq s,t \leq T$, is given by $\Gamma (s-t)$.
+ Also, from the sample we can compute the {\em Discrete Fourier Transform} (DFT)
+  via
+\begin{equation}
+\label{eq:dft-def}
+    \widetilde{X} (\omega) = T^{-1/2} \, \sum_{t=1}^T z^t \, X_t.
+\end{equation}
+ This can be computed for any $\omega \in [-\pi, \pi]$, though if we restrict
+ to Fourier frequencies -- of the form
+ $2 \pi j/T$ for integer $j$ -- then the various real and imaginary 
+components of the DFT will be asymptotically uncorrelated, and
+ also asymptotically normal.   The multivariate {\em periodogram}
+  is defined to   be the rank one Hermitian matrix
+\begin{equation}
+\label{eq:per-def}
+  \widehat{F} (\omega) = \widetilde{X} (\omega) \, { \widetilde{X} (\omega) }^*.
+\end{equation}
+  The periodogram furnishes a basic estimate of the spectral density $F$ of the process.
+  There is an empirical version of (\ref{eq:spec2acf}), where the periodogram is mapped to the sample 
+ autocovariance:
+\begin{equation}
+ \label{eq:per2acf}
+  \widehat{\Gamma} (h) = { \langle \widehat{F}  \rangle }_h
+  =  \frac{1}{2 \pi} \int_{-\pi}^{\pi} \widehat{F}(\omega) \, e^{i \omega h}
+  \, d\omega.
+\end{equation}
+   This is easily verified using the definition of sample autocovariance
+\[
+   \widehat{\Gamma} (h) = T^{-1} \, \sum_{t=1}^{T-h}
+   X_{t+h} \, X_t^{\prime}
+\]
+ for $h \geq 0$, and with $\widehat{\Gamma} (h) = { \widehat{\Gamma} (-h) }^{\prime}$ for $h < 0$.
+  Conversely, the periodogram is the FT of the sample autocovariances:
+\begin{equation}
+ \label{eq:acf2per}
+   \widehat{F} (\omega) = \sum_{|h| < T} \widehat{\Gamma} (h) \, e^{-i   \omega h}.
+\end{equation}
+
+\section{MSE Optimal Prediction Problems}
+
+\subsection{The Linear Prediction Problem} We define the class of
+real-time estimation problems considered in this book.  This chapter
+ focuses upon the case of weakly stationary vector time series, but
+ Chapter \ref{int_sec} makes extensions to difference stationary processes.
+
+\begin{Definition} \rm
+ A {\bf target} is defined to be the output of any known linear
+ filter acting on the data process, i.e.,  $\{Y_t \}$ is a target
+ time series corresponding to a given filter $\Psi (L)$ acting on a 
+given observed time series
+ $\{ X_t \}$ if and only if we can write for all integers $t$
+\[
+ Y_t = \Psi (L) X_t.
+\] 
+ We say that $\{ Y_t \}$ is a {\bf scalar target} if $\Psi (L)$ is a
+ $1 \times n$-dimensional filter.
+\end{Definition}
+
+We are only interested in scalar targets.  The reason is that if $\{ Y_t \}$
+ is multivariate, we can treat each component series $\{ Y_{t,j} \}$ for
+ $1 \leq j \leq n$ in turn, so that without loss of generality we
+ can just give the treatment for the scalar case. 
+
+\paragraph{Example 1: Multi-step Ahead Forecasting.}  
+  Suppose that our goal is to forecast one of the component series 
+ $h$ steps ahead, where $h \geq 1$ is the given {\em forecast lead}.
+  Here, suppose that the series of interest is the first component, so 
+ that 
+\[
+  Y_t = X_{t+h,1}
+\]
+  for all $ t \in \ZZ$.  This is indeed a scalar target, setting
+  $\Psi (L) = L^{-h} \, e_1^{\prime}$.  That is, each $\psi (\ell)$
+ is a $1 \times n$ row vector, each of which are zero except $\psi (-h)$,
+ which is given by $e_1^{\prime}$.
+ 
+
+\paragraph{Example 2: Ideal Low-Pass.} 
+ In order to estimate a trend from a given series, conceptually we wish
+ to screen out all the higher frequency components in the data.  With reference
+ to the spectral representation, if $\Psi (z)$ is zero for all $\omega$ in a 
+ band of the higher frequencies, then $\{ Y_t \}$ will only be composed of 
+ low frequency stochastic sinusoids.  The simplest way to achieve such an output
+ is to design the frf as an indicator function, involving 
+  a steep cutoff of noise frequencies; see Baxter and King (1999).  This is
+ viewed by some as the best possible definition of trend, and hence the filter is
+ called the ideal low-pass.  For scalar target, we have
+\[
+  \Psi (z) = 1_{ [ -\mu, \mu ]} (\omega) \, e_1^{\prime}
+\]
+ for some cutoff $\mu \in (0, \pi)$ that separates the pass-band from
+the stop-band.  To understand this terminology of pass-band and stop-band, observe
+ that the spectral representation of the scalar target is
+\[
+  Y_t = \int_{ [-\mu, \mu]} e^{i \omega t} \, e_1^{\prime} 
+  \mathcal{Z} (d\omega).
+\]
+  Here, the stochastic integration only includes frequencies in the pass-band 
+ $[-\mu, \mu]$,  and all content belonging to the stop-band has been eliminated.
+ The coefficients are given by 
+\[ 
+  \psi (\ell) = \frac{ \sin (\ell \mu) }{ \pi \ell } \, e_1^{\prime}
+\]
+ for $\ell \neq 0$ and $\psi (0) = \mu/\pi \, e_1^{\prime}$.   
+
+
+\paragraph{Example 3: HP Low-pass.}  The Hodrick-Prescott (HP) filter (Hodrick
+and Prescott, 1997) is a low-pass filter appropriate for producing trends.
+ A multivariate version of the HP low-pass (or just HP), 
+ associated with trend-irregular structural models,
+ was proposed in McElroy and Trimbur (2015); the frf is given by
+\[
+   \Psi (z) = \Sigma_{\mu} \, { \left( \Sigma_{\mu} + {|1 - z|}^4 \, \Sigma_{\iota} 
+	\right) }^{-1}
+\]
+ in the case that the matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have full rank.  
+  When $\Sigma_{\mu}$ has reduced rank, an alternative expression is available,
+ but note that the frf is a continuous matrix-valued function of $\omega$.
+The matrices $\Sigma_{\mu}$ and $\Sigma_{\iota}$ have an interpretation in terms
+ of the econometric concept of trend co-integration, which is further explored
+ in Chapter REF???.  It is always assumed that $\Sigma_{\iota}$ has full rank, and hence 
+ we can rewrite as
+\[
+  \Psi (z) = Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}
+\]
+ with $Q = \Sigma_{\mu} \, \Sigma_{\iota}^{-1}$ representing a matrix
+ {\em signal-to-noise ratio}, or snr.  This formula 
+  generalizes the univariate HP filter, which has frf
+\[
+ \Psi (z) = \frac{ q}{ q + {| 1 - z|}^4 }
+\]
+ for snr parameter $q > 0$.  Small values of $q$ correspond to trends that are
+ buried in volatile white noise, and thus require much smoothing to recover.
+ The filter perfectly reflects this need, because a small $q$ indicates a steep
+ drop in the frf (which takes value one at $\omega = 0$) as $\omega$ is increased
+ from zero, and hence the filter coefficients decay slowly.  Conversely, higher values
+ of $q$ -- corresponding to highly salient trends -- yield an frf that equals unity
+ in a large neighborhood of the origin, with coefficients that decay swiftly,
+ indicating that little smoothing is needed to discover the trend.  These observations
+ carry over to the multivariate case, though we judge the size of the snr via a
+ matrix norm (such as the maximum eigenvalue) of $Q$.  Some of these eigenvalues can be
+ zero, corresponding to the case that $\Sigma_{\mu}$ has reduced rank -- this has the
+ effect of generating trends that are collinear.  In the case of a scalar target,
+ where we seek a trend for the first input series $\{ X_{t,1} \}$,  we have 
+\[
+  \Psi (z) = e_1^{\prime} \, Q \, { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1}.
+\]
+ There are no known analytical formulas for the coefficients in the multivariate case,
+ although in the univariate case they are available in McElroy (2008).
+
+
+
+\paragraph{Example 4: HP High-pass.}  While the HP filter is used to extract
+ trends, the residual is thought to measure the business cycle along with
+ higher frequency oscillations in the data.  Thus, taking the identity minus the
+ HP low-pass yields the HP high-pass filter:
+\[
+  \Psi (z) =   { \left( Q + {| 1 - z|}^4 \, 1_n \right) }^{-1} \, {|1 - z|}^4.
+\]
+  The presence of the term ${|1 - z|}^4$ indicates differencing by the ${(1-L)}^2$
+ and ${(1 - L^{-1})}^2$; thus the HP high-pass will annihilate cubic polynomials,
+ and generally reduces high order stochastic trends to stationarity.  
+
+\vspace{.5cm}
+
+As we see from these examples, the targets of real-time signal 
+ extraction  are features of the stochastic process that are of interest to 
+ a particular user.  Some scalar targets depend upon only  a single component 
+ of the time series (Examples 1 and 2), whereas others may be defined in
+ terms of all the components (Examples 3 and 4).  However, these targets
+ represent an ideal feature of the time series that typically we cannot compute
+ in real-time.
+
+ Real-time refers to time present, wherein we have access to present and past 
+ information, but have great uncertainty about the future.  This is an 
+ essential feature of human existence.  Time series methodology provides tools
+ to model and understand the flow of information from past to present to future,
+ with the implicit viewpoint that whereas causality is to some degree present --
+ past events have  a causative impact on future events, but not vice versa --
+ there are other facets governing present and future outcomes that are not 
+ traceable to a particular variable's past.  In other words, knowing the past
+ values of a component time series $\{ X_{t,1} \}$ is not sufficient to flawlessly
+ determine its future values.  However, having other explanatory variables in play
+ can reduce the uncertainty of the future; taking $n$ higher, we may be able
+ to reduce the errors in forecasts.  
+
+ The concept of {\em Granger causality} can be used to parse these notions mathematically.
+ We may consider other component series $\{ X_{t,j} \}$ for $j \geq 2$ useful
+ for determining the future of $\{ X_{t,1} \}$ if the one-step ahead forecast
+ mean square error (MSE) is reduced, in which case we say that Granger causality
+ is present.  In such a scenario it can be proved that the one-step ahead forecast
+ MSE arising from utilizing $\{ X_{t,1} \}$ alone is greater than that obtained
+ using the additional series.  Hence, there is benefit to increasing $n$ with 
+ additional ancillary series so long as they are helpful for forecasting.  For real-time
+ estimation problems, we seek to determine the best possible estimates of a
+ target given a relevant collection of ancillary series.
+
+More formally, the real-time estimation problem is concerned with
+projecting the target $Y_t$ onto the available data $X_{t:} = \{ X_t, X_{t-1},
+\ldots \}$, i.e., the semi-infinite past.  This formulation presumes that
+ we have access to relevant ancillary series, and that we have access to all
+ present and past values.  In practice, databases only extend back a few decades,
+ and the infinitely remote past represents merely an idyll useful for 
+ mathematical simplicity.  The linear estimation problem seeks a linear estimate
+  of the form
+\[
+   \widehat{Y}_t = \sum_{\ell \geq 0} \widehat{\psi} (\ell) \, X_{t-\ell}
+     = \widehat{\Psi} (L) \, X_t,
+\]
+ which shows that we seek a linear
+(time-invariant) concurrent filter $\widehat{\Psi} (L)$, applied to $\{ X_t \}$. 
+ We desire that the
+error in approximating the target with the available data be small with respect to MSE.
+ If $\{ X_t \}$ were Gaussian, we could view our estimate as the conditional
+expectation $\widehat{Y}_t = \EE [ Y_t \vert X_{t : } ]$, with the coefficients
+$\{ \widehat{\psi} (\ell) \}$ selected to minimize the MSE
+  of the approximation error $Y_t - \widehat{Y}_t$.  However, in our treatment in this book
+ we do not presume Gaussian structure, and are not concerned with conditional expectations
+ {\em per se}; rather, we seek linear solutions with minimal MSE.  
+ 
+
+\begin{Definition} \rm
+ The {\bf Linear Prediction Problem} (LPP) seeks the minimal
+ MSE linear estimate that solves the real-time estimation problem
+  arising from a scalar target.  That
+ is, the LPP involves determining causal $\widehat{\Psi} (L)$ such that the
+ prediction error
+\[
+ Y_t - \widehat{Y}_t = \left[ \Psi (L) - \widehat{\Psi} (L) \right] \, X_t
+\]
+ has mean zero and minimal MSE.
+\end{Definition}
+
+\paragraph{Example 1: Multi-step Ahead Forecasting.}   The LPP corresponds to
+  optimal $h$-step
+ forecasting, and the forecast error is $[L^{-h} \, e_1^{\prime} - \widehat{\Psi} (L) ] \, X_t$.
+  Note that although $\Psi (L)$ only involves one component series $\{ X_{t,1} \}$,
+  the real-time concurrent filter $\widehat{\Psi} (L)$ can involve all $n$ component series.
+
+\paragraph{Example 3: HP Low-pass.}  
+  The LPP attempts to determine an optimal real-time trend estimate, where the target trend
+ -- sometimes called the historical trend -- is defined through the HP low-pass filter.
+  Here, both the target filter $\Psi (L)$ and the real-time 
+   concurrent filter $\widehat{\Psi} (L)$   involve all $n$ component series.
+
+
+\subsection{Solution to the Linear Prediction Problem}
+
+ When the data process is itself causal and linear, it is possible
+ to give an explicit solution to the LPP in terms of the Wold
+ decomposition (Brockwell and Davis, 1991).
+  All purely nondeterministic weakly stationary (mean zero) processes
+ have a Wold decomposition $X_t = \Theta (L) \epsilon_t$, where $\{
+ \epsilon_t \}$ is $\mbox{WN} (\Sigma)$ and $\Theta (L) =
+ \sum_{\ell \in \ZZ} \theta (\ell) \, L^{\ell}$.
+ When $\theta (\ell) = 0 $ for all $\ell < 0 $, the process is called {\em causal}.
+ First, the error in the LPP is denoted $E_t = Y_t - \widehat{Y}_t$, which is
+ clearly mean zero  and covariance  stationary, in fact having spectral representation
+\begin{equation}
+\label{eq:dfa-error}
+  E_t = \int_{-\pi}^{\pi} e^{i \omega t } \, 
+   \left[ \Psi (z) - \widehat{\Psi} (z) \right] \, \mathcal{Z} (d\omega).
+\end{equation}
+  With these preliminaries, we can state the solution to the LPP.
+
+\begin{Proposition}
+ \label{prop:GPP}
+ Suppose that $\{ X_t \}$ is mean zero and weakly stationary 
+ with spectral representation (\ref{eq:specRep}), and moreover is
+ causal, expressed as $X_t = \Theta (L) \, \epsilon_t$.    Then the solution
+ to the LPP posed by a scalar target $Y_t = \Psi (L) \, X_t$ is given by
+\begin{equation}
+ \label{eq:GPPsoln}
+ \widehat{\Psi} (L) = \sum_{\ell \geq 0 } \psi (\ell) \, L^{\ell} + \sum_{\ell < 0 } \psi (\ell)
+ \,  { [ \Theta (L) ]}_{-\ell}^{ \infty  } \, L^{\ell} \, {\Theta (L) }^{-1}.
+\end{equation}
+ Moreover, the minimal MSE is given by
+\begin{equation} 
+\label{eq:minimalMSE}
+ \frac{1}{ 2 \pi} \int_{-\pi}^{\pi}   \sum_{\ell > 0 } \psi (-\ell) \,
+ z^{-\ell} {[ \Theta  (z) ]}_0^{\ell-1}   \,  \Sigma \,
+  { {[ \Theta  (z) ]}_0^{ \ell-1} }^*  \,
+   \sum_{\ell > 0 } \psi (-\ell) \,  z^{\ell}  \, d\omega.
+\end{equation}
+ \end{Proposition}
+
+\paragraph{Proof of Proposition \ref{prop:GPP}.}
+ In order for a linear solution to be MSE optimal, it is sufficient that the
+ resulting error process be uncorrelated with the data $X_{t:}$.
+   If we can show that the real-time signal extraction error process $\{ E_t \}$
+  depends only on future innovations, then by the causality of $\{ X_t \}$ the error process 
+  must be uncorrelated   with $X_{t:}$, establishing optimality.  
+ The filter error of the putative solution is  
+  given by
+\begin{align*}
+ \Psi (L) - \widehat{\Psi} (L) & = \sum_{\ell < 0 } \psi (\ell) \, L^{\ell} \,
+   \left( 1 -   {[ \Theta (L) ]}_{-\ell}^{\infty} \, { \Theta (L) }^{-1} \right) \\
+  & =  \sum_{\ell < 0 } \psi (\ell) \, L^{\ell} \, 
+  {[ \Theta (L) ]}_{0}^{ -(\ell + 1)} \, { \Theta (L) }^{-1}.
+\end{align*}
+ Applying this to $\{ X_t \}$ yields
+\[
+  E_t = \sum_{\ell =1 }^{\infty} \psi (-\ell) \, {[ \Theta (L) ]}_0^{\ell - 1} \, 
+   \epsilon_{t + \ell }.
+\]
+  Noting that ${[ \Theta (L) ]}_0^{\ell - 1}$ is an order $\ell-1$ polynomial in $L$,
+ and is applied to $\epsilon_{t+ \ell}$, it is apparent that $E_t$ is a linear function
+ of future innovations $\{ \epsilon_{t+1}, \epsilon_{t+2}, \ldots \}$.  Computing
+ the variance of $E_t$ yields the expression for the minimal MSE.  $\quad \Box$
+
+
+\begin{Remark} \rm  
+\label{rem:GPPsoln}
+ The formula (\ref{eq:minimalMSE}) gives us a lower
+ bound  on the MSE when we use sub-optimal proxies for $\widehat{\Psi} (L)$.
+\end{Remark}
+
+ As indicated by Remark \ref{rem:GPPsoln}, the result of Proposition \ref{prop:GPP}
+ is chiefly useful when we know $\Theta (L)$.  However, this is rarely the case in 
+ practice: a classical parametric approach involves formulating a time series model, fitted 
+ using the Gaussian likelihood, and finally computing the LPP solution in terms of
+ the fitted model.  Alternatively, one might consider fitting a specified model such that
+ the LPP MSE is minimized.  A more broad nonparametric approach involves 
+ considering classes of concurrent filters and directly minimizing the LPP MSE over
+ this class -- this is the methodology of Direct Filter Analysis (DFA).
+
+
+\paragraph{Illustration 1:  VAR(1).}  Consider an LPP where the true process $\{ X_t \}$
+ is a Vector Autoregression (VAR) of order 1.  This process can be described via
+\[
+  X_t = \Phi \, X_{t-1} + \epsilon_t
+\]
+ for a matrix $\Phi$ with all eigenvalues bounded by one in modulus (L\"utkepohl, 2007).  It is known
+ that the VAR(1) has the causal representation  $\Theta (L) = {(1 - \Phi \, L )}^{-1}$.  Because
+ for $\ell < 0$ 
+\[
+   { [ \Theta (L) ]}_{-\ell}^{ \infty  } = \sum_{j = -\ell}^{\infty} \Phi^j \, L^j 
+  = \Phi^{-\ell} \, L^{-\ell} \, {( 1 - \Phi \, L )}^{-1},
+\]
+ we find that (\ref{eq:GPPsoln}) reduces to
+\[
+  \widehat{\Psi} (L) =   \sum_{\ell \geq 0 } \psi (\ell) \, L^{\ell} +
+	\sum_{\ell < 0} \psi (\ell) \, \Phi^{-\ell}.
+\]
+  The second term in this expression we denote by $A_{\Psi} (\Phi)$.  Hence, the optimal
+ concurrent filter is determined by applying the filter to past data and modifying the
+ present weight $\psi (0)$ by adding the quantity $A_{\Psi} (\Phi)$.  In the case of
+ $h$-step ahead forecasting of the first time series (Example 1), $\widehat{\Psi} (L)
+ = A_{\Psi} (\Phi) = e_1^{\prime} \, \Phi^h$.
+
+
+
+\section{Model Fitting via LPP MSE Minimization}
+%\label{gppmf}
+
+ Here we study the mechanics of fitting a parametric model such that the LPP MSE
+ is minimized.  In the case of the one-step ahead forecasting MSE, this is related
+ to Whittle estimation of vector time series models (c.f.,  Taniguchi and Kakizawa (2000)).
+  We will focus on the class of separable causal linear models, wherein the innovation variance
+ $\Sigma$ is governed by a separate set of parameters from those describing the power
+ series $\Theta (L)$.  The model is essentially described through a particular class of
+ power series   $\Theta_{\vartheta} (L)$, parameterized by a vector $\vartheta $
+  belonging to some model  parameter manifold.    Hence the model sdf is
+\[
+  F_{\vartheta} (\omega) = \Theta_{\vartheta} (z) \, \Sigma \,  { \Theta_{\vartheta} (z) }^*.
+\]
+ However, the model may be misspecified: the process' sdf is denoted $\widetilde{F}$, 
+  and may not
+ belong to the model class.  The goal of model fitting is to determine $\vartheta$ 
+  such that
+ $F_{\vartheta}$ is a good approximation to $\widetilde{F}$.  
+ Clearly, knowing $\vartheta$ does not
+ fully determine $F_{\vartheta}$ because $\Sigma$ remains unknown; however, the methods
+ described below provide for estimates of $\Sigma$ in terms of $\vartheta$ and the process.
+ From the proof of Proposition \ref{prop:GPP} we know that the filter error satisfies
+\[
+  E_t = \sum_{\ell =1 }^{\infty} \psi (-\ell) \, L^{-\ell} \,  {[ \Theta (L) ]}_0^{\ell - 1} \, 
+   { \Theta_{\vartheta} (L) }^{-1} \, X_t.
+\] 
+ In other words, we have an error filter $ \Xi_{\vartheta} (L) \,  
+  { \Theta_{\vartheta} (L) }^{-1}  $,
+ where
+\[
+  \Xi_{\vartheta} (L)  = \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
+   {[ \Theta (L) ]}_0^{\ell - 1},
+\]
+  such that for any choice of $\vartheta $ we can compute filter errors $\{ E_t \}$.
+ Note that these are not in general to be interpreted as residuals, and they need not be white noise.
+  But we can seek to minimize their variance.  In practice,
+ the calculation of such filter errors  may require a truncation of the error filter, because the finite
+ sample $X_1, X_2, \ldots, X_T$ is available, not the entire infinite past.  The error filter is
+ $1 \times n$, and for any $\vartheta $ and any Hermitian function $G$ we can compute
+\begin{align*}
+  J_{\Psi} (\vartheta, G) & 	= \frac{1}{2 \pi} \, \int_{-\pi}^{\pi} \Xi (z) \,
+  { \Theta_{\vartheta} (z) }^{-1} \, G(\omega)
+  \,  {{ \Theta_{\vartheta} (z) }^{-1} }^* \, { \Xi (z) }^* \, d\omega  = \mbox{tr} \{ 
+ { \langle G \, K_{\vartheta} \rangle }_0 \} \\
+   K_{\vartheta} (z) & =  {{ \Theta_{\vartheta} (z) }^{-1} }^* \, { \Xi (z) }^* \,  \Xi (z) \, 
+ { \Theta_{\vartheta} (z) }^{-1}.
+\end{align*}
+ Then $\mbox{Var} [ E_t ] = J_{\Psi} (\vartheta, \widetilde{F})$.  As we seek to minimize the variability in the filter errors,
+ we can take $J_{\Psi} (\vartheta, \widetilde{F})$ as our criterion function.  However, this will only
+ determine the proximity of the model to the true sdf, which is unavailable to us -- in order to compute actual
+ parameter estimates, we must utilize the data to approximate the true sdf. 
+ There are basic results giving asymptotic normality for simple functionals of the periodogram,
+ and therefore this crude  estimator of the true sdf is sufficient for our purposes.  We propose 
+$J_{\Psi} (\vartheta, \widehat{F})$ as
+ an estimator of $J_{\Psi} (\vartheta, \widetilde{F})$, and intend that the respective minimizers have the same relationship.
+ Namely, if $\vartheta (\widetilde{F}) $ is the unique minimizer of 
+ $J_{\Psi} (\vartheta, \widetilde{F}) $ and
+  $\vartheta (\widehat{F}) $ is the unique minimizer of $J_{\Psi} (\vartheta, \widehat{F}) $, then
+ $\vartheta (\widehat{F})$ is an estimator of $\vartheta (\widetilde{F})$, which is called the {\em pseudo-true value} (PTV).
+  From the PTV and estimator, we can also compute the innovation covariance matrix by the formulas
+\begin{align*}
+  \Sigma (\widetilde{F}) & = { \langle { \Theta_{\vartheta (\widetilde{F} ) } (z) }^{-1} \,
+   \widetilde{F} \, 
+ { { \Theta_{\vartheta(\widetilde{F}) } (z) }^{-1} }^*
+	\rangle }_0 \\
+    \Sigma (\widehat{F}) & = { \langle { \Theta_{\vartheta (\widehat{F} ) } (z) }^{-1} \, \widehat{F} \, 
+{ { \Theta_{\vartheta(\widehat{F}) } (z) }^{-1} }^*
+	\rangle }_0.
+\end{align*}
+ In the special case that the model is correctly specified, there exists some 
+$\widetilde{\vartheta}$ and $\widetilde{\Sigma}$ such that
+ $\widetilde{F} (\omega) = \Theta_{\widetilde{\vartheta}} (z) \, \widetilde{\Sigma} \, 
+{\Theta_{\widetilde{\vartheta}} (z)  }^*$; it is shown below
+  that the PTV matches the truth.
+ 
+\begin{Proposition}
+ \label{prop:PTV-truth}
+ Given an LPP $\Psi$ and the criterion function $J_{\Psi} (\vartheta, \widetilde{F})$, if the model is correctly specified and the 
+ minimizer $\vartheta (\widetilde{F})$ is unique then it equals the true parameter 
+$\widetilde{\vartheta}$, and $\Sigma (\widetilde{F}) = \widetilde{\Sigma}$.
+\end{Proposition}
+
+\paragraph{Proof of Proposition \ref{prop:PTV-truth}.}
+ Because the model is correct, the criterion function becomes
+\[
+  J_{\Psi} (\vartheta, \widetilde{F}) = { \langle \Xi (z) \, { \Theta_{\vartheta   } (z) }^{-1} \, 
+   \Theta_{\widetilde{\vartheta}} (z) \, \widetilde{\Sigma} \, 
+  {\Theta_{\widetilde{\vartheta}} (z)  }^* \, { { \Theta_{\vartheta  } (z) }^{-1} }^*
+ \, { \Xi (z) }^* \rangle }_0,
+\]
+ which for $\vartheta = \widetilde{\vartheta}$ achieves the minimal value:
+\[
+  J_{\Psi} (\widetilde{\vartheta}, \widetilde{F})  ={ \langle \Xi (z) \,   \widetilde{\Sigma} \, 
+   { \Xi (z) }^* \rangle }_0.
+\]
+  Because the minimizer is unique by assumption, $\vartheta (\widetilde{F}) = \widetilde{\vartheta} $. 
+  Plugging this into the formula
+ for $\Sigma (\widetilde{F})$, we see that it equals $\widetilde{\Sigma}$.  $\quad \Box$
+
+\vspace{.5cm}
+
+\paragraph{Example 1: Multi-step Ahead Forecasting.}   For $h$-step ahead forecasting, only $\psi (-h)$
+  is nonzero, so that
+ $\Xi (L) =  L^{-h} \,  e_1^{\prime} \, {[ \Theta (L) ]}_0^{ h - 1}$. 
+  Hence, the criterion function $J_{\Psi} $ fits models so as to minimize
+ (in the frequency domain)  $h$-step ahead forecast error of the first series. 
+ In the special case that $h=1$, the criterion function is
+\[
+ J_{\Psi} (\vartheta, G) =  e_1^{\prime} \, { \langle   { \Theta_{\vartheta   } (z) }^{-1}  \,
+  G \, { { \Theta_{\vartheta  } (z) }^{-1} }^*  \rangle }_0 \, e_1.
+\]
+   If we were to compute such a measure for all $n$ series, and sum over the $n$ criteria, we would obtain the concentrated Whittle 
+ likelihood, namely
+\[
+  \mbox{tr} \, \{  { \langle   { \Theta_{\vartheta   } (z) }^{-1}  \, G \,
+  { { \Theta_{\vartheta  } (z) }^{-1} }^*  \rangle }_0 \}.
+\]
+  See the discussion in McElroy and Findley (2015).  This connection justifies viewing $J_{\Psi}$ as a generalization of the Whittle
+ likelihood from one-step ahead forecasting to more general real-time LPPs.
+
+\vspace{.5cm}
+
+It is possible to conduct inference from the PTVs on the basis of the estimates 
+$\vartheta (\widehat{F})$, and thereby assess model fit.  
+ In order to formulate our result, we assume that the PTVs are not on the
+ boundary of the parameter set (otherwise the limit theory
+ is non-standard; c.f., Self and Liang (1987)), and  that they are unique. 
+We also assume that the  Hessian  $H(\vartheta) = \nabla \nabla^{\prime}
+  J_{\Psi} (\vartheta, \widetilde{F}) $  of $J_{\Psi} $ is positive definite at the PTV.
+  The so-called Hosoya-Taniguchi (HT) conditions of Hosoya and Taniguchi (1982) 
+impose sufficient regularity   on the process
+ $\{ X_t \}$ for our purposes; these conditions require that $\{ X_t \}$ is a 
+causal filter of a higher-order martingale difference.  
+ A simpler limiting variance expression is available if the fourth order cumulant
+ function of $\{ X_t \}$ is zero.  
+
+\begin{Theorem}
+\label{thm:LPP-Clt}
+ Suppose that $\vartheta (\widetilde{F}) $ exists uniquely in the interior of the model 
+ parameter space,   and that $H(\vartheta (\widetilde{F}))$ is 
+ positive definite.  Suppose that $\{ X_t \}$ has finite fourth moments, conditions (HT1)-(HT6) of Taniguchi and Kakizawa (2000, pp.55-56)
+ hold, and that the fourth order cumulant function of $\{ X_t \}$ is zero.  Then the estimator is consistent for the PTV, and
+\[
+ \sqrt{T} \, \left( \vartheta( \widehat{F} ) - \vartheta (\widetilde{F}) \right) 
+ \convinlaw \mathcal{N} \left( 0, { H(\vartheta (\widetilde{F})) }^{-1} \, V (\vartheta (\widetilde{F})) \, { H(\vartheta (\widetilde{F})) }^{-1} \right)
+\]
+ as $T \tends \infty$, where 
+\[
+  V_{jk} (\vartheta) =  \mbox{tr} \{ { \langle  \partial_j K_{\vartheta} (z) \, \widetilde{F} \, \partial_k K_{\vartheta} (z) \, \widetilde{F} \rangle }_0 \}.
+\]
+\end{Theorem}
+
+\paragraph{Proof of Theorem \ref{thm:LPP-Clt}.}
+ A Taylor series exapansion of the gradient of $J_{\Psi} (\vartheta, \widehat{F})$ and $J_{\Psi} (\vartheta, \widetilde{F})$ yields the 
+ asymptotic expression
+\[
+  \sqrt{T} \, \left( \vartheta( \widehat{F} ) - \vartheta (\widetilde{F}) \right)  = o_P (1) 
+   - { H (\vartheta( \widetilde{F} )) }^{-1} \,  \mbox{tr} \, \{  {  \langle (\widehat{F} - \widetilde{F}) \, \nabla K_{\vartheta} \rangle }_0 \},
+\]
+ where the trace operator acts upon the spectral matrices, for each component of the gradient operator.  Our assumptions allow
+ us to apply Lemma 3.1.1 of Taniguchi and Kakizawa (2000) to the right hand expression, yielding the stated central limit theorem.
+ $\quad \Box$
+
+\vspace{.5cm}
+
+\paragraph{Illustration 1: VAR(1).}  When the model is a VAR(1), the parameter vector $\vartheta$
+ describes the entries of $\Phi$ in such a way that the matrix is stable (i.e., all eigenvalues
+ have magnitude less than one).  The error filter can be 
+ expressed
+\begin{align*}
+    \Xi (L) & =   \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
+   \sum_{k=0}^{\ell-1} \Phi^k \, L^k \\
+  & =  \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} \,
+   \left( 1 - \Phi^{\ell} \, L^{\ell} \right) \, {( 1 - \Phi \, L )}^{-1} \\
+ & =  \left( \sum_{\ell =1 }^{\infty} \psi (-\ell) \,  L^{-\ell} -
+    A_{\Psi} (\Phi) \right)  
+    \, {( 1 - \Phi \, L )}^{-1}.
+\end{align*}
+  It follows that 
+\begin{align*}
+ J_{\Psi} (\vartheta, G) & = \sum_{\ell,k > 0} \psi (-\ell) \, {\langle G \rangle}_{\ell-k} \, 
+	{\psi (-k)}^{\prime} - A_{\Psi} (\Phi) \, \sum_{k > 0} {\langle G \rangle}_{-k} 
+	\, {\psi (-k)}^{\prime}  \\
+  & - \sum_{\ell > 0} \psi (-\ell) \, { \langle G \rangle }_{\ell} \, 
+	{ A_{\Psi} (\Phi) }^{\prime} + { A_{\Psi} (\Phi) }^{} \, { \langle G \rangle }_0 \,
+ { A_{\Psi} (\Phi) }^{\prime},
+\end{align*}
+ which is easily computed.  Optimization with respect to $\vartheta$ is straightforward.
+ In the special case of $h$-step ahead forecasting, the criterion further simplifies to
+\begin{align*}
+  J_{ L^{-h}} (\vartheta, G) & = 
+  e_1^{\prime} \, { \langle G \rangle }_0 \, e_1 - e_1^{\prime} \, \Phi^h \, { \langle G \rangle}_{-h} 
+	\, e_1 \\
+ & - e_1^{\prime} \, {\langle G \rangle }_h \, {\Phi}^{h \prime} \, e_1
+	+ e_1^{\prime} \, \Phi^h \, { \langle G \rangle }_0 \, {\Phi}^{h \prime} \, e_1,
+\end{align*}
+ and any $\vartheta$ such that
+\[
+  e_1^{\prime} \, \Phi^h = e_1^{\prime} \, { \langle G \rangle }_h \, { \langle G \rangle }_0^{-1}
+\]
+ is a critical point.  If the model is correctly specified, then setting $G$ equal to the spectral
+ density of the VAR(1) yields a minimal possible MSE of
+\[
+   e_1^{\prime} \, \left( \Gamma (0) - \Phi^h \, \Gamma (0) \, {\Phi}^{h \prime} \right) \, e_1.
+\]
+ It is known that Whittle estimation corresponds to the $h=1$ case, with a criterion function given
+ by the determinant of the forecast MSE matrix (McElroy and Findley, 2015), and in essence
+ incorporates forecast error from all $n$ series.  In the above, the criterion only depends on the
+ performance of the first series, which allows a practitioner to focus on parameter values
+ that sacrifice performance on the other $n-1$ series in order to achieve superior results for
+ the first series.
+
+\vspace{.5cm}
+
+\paragraph{Exercise 1: Correct VAR(1) LPP.}  Simulate a sample of size $T=100$ from a
+  bivariate VAR(1) process with 
+\[
+  \Phi = \left[ \begin{array}{ll} 1 & .5 \\ -.2 & .3 \end{array} \right]
+\]
+ and $\Sigma$ equal to the identity.  The eigenvalues are $.8$ and $.5$.
+ Then utilize the LPP criterion $J_{\Psi} (\vartheta, G)$ to fit a VAR(1) model (let
+ $\vartheta$ correspond to the four entries of $\Phi$) with both the $2$-step
+ ahead forecasting LPP (Example 1) and the ideal low-pass LPP (Example 2) with 
+  $\mu = \pi/24$, where $G$ is given by the periodogram of the sample.
+  Do the parameter estimates appear to be consistent?  Repeat for $T=200$ and $T=500$.
+
+\paragraph{Exercise 2: Incorrect VAR(1) LPP.}  Simulate a sample of size $T=100$ from
+ a bivariate Vector Moving Avergage process of order one, or VMA(1), given by
+\[
+  X_t = \epsilon_t + \Theta \, \epsilon_{t-1},
+\]
+  where
+\[
+ \Theta = \left[ \begin{array}{ll} 1 & 0 \\ .4 & 2 \end{array} \right]
+\]
+  and $\Sigma$ equals the identity.  Use the VAR(1) LPP criterion of Exercise 1 to 
+ fit the mis-specified VAR(1) to this process, for both the $2$-step ahead forecasting
+ LPP and the ideal low-pass LPP.  Why do the parameter estimates not match those
+ of $\Theta$?  Repeat for $T=200$ and $T=500$, and explain your results.
+
+
+
+
+
+
