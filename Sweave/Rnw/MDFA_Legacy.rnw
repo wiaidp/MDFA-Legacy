@@ -157,20 +157,13 @@
 %------------------------------------------
 
 % Chapter 7
-%  regularization, shrinkage towards null specification
-%\SweaveInput{Regularization}
+%  zero crossing
+%\SweaveInput{Zero}
 
-%-------------------------------------------------------------
+%------------------------------------------
 
 %  Chapter 8
-%\SweaveInput{Filter_revisions}
-%\SweaveInput{Vintage}
-%  note: Vintage replaces Filter_revisions
-
-%----------------------------------------------
-
-%  Chapter 9
-% embedding in SVF,  backcasting GDP
+% mixed frequency, embedding in SVF,  backcasting GDP
 %\SweaveInput{Mixed}
 
 %--------------------------------------------------------------------
@@ -207,3 +200,17 @@ OLD IDEAS
 %\SweaveInput{Appendix}
 
 
+% Chapter 7
+%  regularization, shrinkage towards null specification
+%\SweaveInput{Regularization}
+
+%-------------------------------------------------------------
+
+%  Chapter 8
+%\SweaveInput{Filter_revisions}
+%\SweaveInput{Vintage}
+%  note: Vintage replaces Filter_revisions
+
+%-------------------------------------------------------------
+
+ 

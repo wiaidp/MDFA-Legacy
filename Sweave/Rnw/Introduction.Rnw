@@ -106,28 +106,49 @@ real-time problems, according to whether users are concerned with timeliness, ac
 
 \subsection{The Scope of MDFA}
 
-Our critique of the classic paradigm has several facets.  First, there is typically model mis-specification present.  Second, the problem
- has typically not been structured properly, in the sense that the criteria used do not correspond to the relevant LPP, but rather to
-   one-step ahead forecasting.  Third, there is no specific customization of the model, in order to account for timeliness and accuracy.
+Our critique of the classic paradigm has several facets.  First, there is
+typically model mis-specification present.  Second, the problem
+ has typically not been structured properly, in the sense that the criteria
+ used do not correspond to the relevant LPP, but rather to
+   one-step ahead forecasting.  Third, there is no specific customization 
+   of the model, in order to account for timeliness and accuracy.
  These weaknesses are actually linked together.  
 
-Model mis-specification is always present; the issue is whether it has a significant impact upon the objectives of analysis.  For instance,
- a given model's mis-specification may have grave repercussions for certain problem structures, while being adequate for other LPPs.
- The given LPP of interest determines the gravity and impact of model mis-specification.  Moreover, in the classic paradigm the one-step
- ahead forecasting LPP is solved, and it is merely hoped that timeliness and accuracy will be adequate for all users.  Model parameters
- can be tweaked, or tuned, in order to indirectly modify timeliness and accuracy -- but the relationships are indirect and often poorly
- understood.  By building the timeliness-accuracy tradeoff directly into the DFA criterion, the optimality of an LPP solution for a
+Model mis-specification is always present; the issue is whether it has a 
+significant impact upon the objectives of analysis.  For instance,
+ a given model's mis-specification may have grave repercussions for certain 
+ problem structures, while being adequate for other LPPs.
+ The given LPP of interest determines the gravity and impact of model 
+ mis-specification.  Moreover, in the classic paradigm the one-step
+ ahead forecasting LPP is solved, and it is merely hoped that timeliness
+ and accuracy will be adequate for all users.  Model parameters
+ can be tweaked, or tuned, in order to indirectly modify timeliness and 
+ accuracy -- but the relationships are indirect and often poorly
+ understood.  By building the timeliness-accuracy tradeoff directly into 
+ the DFA criterion, the optimality of an LPP solution for a
  customized application is assured.
 
-These topics have been treated in Wildi and McElroy (2016) in the case of univariate time series, which discusses at length
- the basic \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} (Sweave environment: replication).  This book presents
- the generalized treatment of the multivariate LPP in   Chapter \ref{mse_sec}. But before discussing customization in Chapter \ref{ats_sec},
- we discuss the applications of forecasting and nowcasting, as well as the impact of data vintage, in  Chapter \ref{fil_sec}).
- Then the basic LPP treatment is extended to nonstationary processes in Chapter \ref{int_sec}, followed by a discussion of filter constraints (Chapter \ref{con_sec}).
-  This treatment is extended to the case of co-integration in Chapter \ref{coint_sec}.   Applications to replicating and enhancing classical model-based approaches and HP/CF-filters 
- are given in Chapter \ref{rep_sec}, while  more sophisticated gain/loss structures  are discussed in Chapter \ref{exo_sec}.
-Additional topics include inference (Chapter \ref{inf_sec}), regularization (Chapter \ref{reg_sec}), data revisions (Chapter \ref{rev_sec}),
- mixed-frequency data (Chapter \ref{mix_sec}), and   adaptive filtering (Chapter \ref{ada_sec}).
+These topics have been treated in Wildi and McElroy (2016) in the case 
+of univariate time series, which discusses at length the basic DFA.
+ %\href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA} (Sweave environment: replication).
+ % (This link appears to be broken!)
+ This book presents  the generalized treatment of the multivariate LPP in  
+ Chapter \ref{chap:lpp}. But before discussing customization in 
+ Chapter \ref{chap:ats},  we discuss the applications of forecasting and 
+ filtering in Chapter \ref{chap:basic}, wherein the multivariate DFA
+ is introduced in the context of stationary processes.
+ %as well as the impact of data vintage, in  Chapter \ref{fil_sec}).
+ Then this basic treatment is extended to nonstationary processes in 
+ Chapter \ref{chap:int}, including  a discussion of filter constraints; 
+ Chapter \ref{chap:coint} extends the methodology to the case of co-integration. 
+ These chapters also provide applications to replicating and enhancing classical
+ model-based approaches, as well as Hodrick-Prescott and band-pass filters. 
+% are given in Chapter \ref{rep_sec}, while  more sophisticated gain/loss structures  are discussed in Chapter \ref{exo_sec}.
+Additional topics include zero-crossings (Chapter \ref{chap:zero}) and
+ %inference (Chapter \ref{inf_sec}), regularization (Chapter \ref{reg_sec}), 
+ %data revisions (Chapter \ref{rev_sec}),
+ mixed-frequency data (Chapter \ref{chap:mix}).
+ % and   adaptive filtering (Chapter \ref{ada_sec}).
 
 \section{The Style of the Book}
 
@@ -142,28 +163,19 @@ Begin by clearing the workspace:
 <<label=init,echo=TRUE>>=
 #rm(list=ls())
 @
-The R code in   various chapters of this book requires installation of the following R packages:
+The R code in various chapters of this book requires installation of the following R packages:
 <<label=init,echo=TRUE>>=
 # Load packages: time series and xts
-#library(tseries)
-library(xts)
-# State-space models (will be replicated by MDFA) 
-library(dlm)
-# Classic filter designs (be replicated by MDFA)
-library(mFilter)
-# Numerical package 
-library(numDeriv)
-# Graphical package for recession-shading (empirical examples based on US-GDP)
-library(tis)
-# Library for tables
-#library(Hmisc)
-require(xtable)
-#install.packages("devtools")
+library(xts)  #library(tseries)
+library(dlm)  # State-space models (will be replicated by MDFA) 
+library(mFilter)  # Classic filter designs (will be replicated by MDFA)
+library(numDeriv) # Numerical package 
+library(tis)  # Graphical package for recession-shading  
+require(xtable) # Library for tables
 library(devtools)
 # Load MDFA package from github
 devtools::install_github("wiaidp/MDFA")
-# MDFA package
-library(MDFA)
+library(MDFA) # MDFA package
 @
 <<label=init,echo=FALSE>>=
 # Quandl
@@ -171,7 +183,7 @@ library(MDFA)
 library(RCurl)    # For getURL() and curl handler / cookie / google login
 library(stringr)  # For str_trim() to trip whitespace from strings
 library(Quandl)
-require (Quandl)
+require(Quandl)
 #Quandl.api_key("ivVdJGV57TXA1RX5jgvp")
 @
 US-GDP data for the empirical examples can be retrieved either directly from 
@@ -182,14 +194,13 @@ US-GDP data for the empirical examples can be retrieved either directly from
 #   Default-setting is False: the data will be loaded from local data folder
 load_from_quandl <- F
 @
-Paths to MDFA code, as well as to the US-GDP data, must be provided. 
+Paths to MDFA code, as well as to the US-GDP data, must be provided by the reader.
  It is assumed that the MDFA package is saved to a main folder containing
  subfolders labeled as DFA, MDFA, model-based, and data. 
 The R code in the book generates pdf graphs that are saved in a separate folder, 
 whose path is specified by {\em path.out}.
 <<label=init,echo=TRUE>>=
-# Set main path
-path.main <- paste(getwd(),"/Sweave/",sep="")
+path.main <- paste(getwd(),"/Sweave/",sep="") # Set main path
 #path.main <- "C:\\Users\\Tucker\\Documents\\MDFAbook\\"
 # Set paths to subfolders
   # Path to Latex-folder: all pdfs generated by the R code are filed there
@@ -199,8 +210,12 @@ path.dat <- paste(path.main,"Data/",sep="")
   # Path to code that is part of MDFA-Legacy project but not part of MDFA package 
 path.pgm <- paste(path.main,"R/",sep="")
 @
-The univariate DFA code is the same as in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}; all 
- empirical examples are and will be fully compatible. 
+% This link is broken!
+%The univariate DFA code is the same as in \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA}; all 
+% empirical examples are and will be fully compatible. 
+
+
+HERE: following sections can be removed, they are covered in the text
 
 \subsection{DFA}\label{dfa_intro}
 We here briefly review the relevant facets of \href{http://blog.zhaw.ch/sef/files/2014/10/DFA.pdf}{DFA},
