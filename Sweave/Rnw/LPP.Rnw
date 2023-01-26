@@ -18,9 +18,9 @@ The reader should have a basic familiarity with multivariate time
 
  In this book we are focused upon square integrable random variables,
  so that the classic Hilbert space projection theory (see, for example,
- Brockwell and Davis (1991)) can be applied.   Occasionally, we consider 
+ McElroy and Politis (2020)) can be applied.   Occasionally, we consider 
   vector time series $\{ Y_t \}$ or $\{ Z_t \}$, in which case the 
- same conventions apply.When $\{ X_t \}$ is 
+ same conventions apply.  When $\{ X_t \}$ is 
  weakly stationary, its autocovariance function (acf)
  is defined for $h \in \ZZ$  via 
 \[
@@ -851,7 +851,7 @@ When the model is a VAR(1), the parameter vector $\vartheta$
 \]
  and $\Sigma$ equal to the identity.  The eigenvalues are $4/5$ and $1/2$.
  Then utilize the LPP criterion $J_{\Psi} (\vartheta, G)$ to fit a VAR(1) model (use
-  the stable parametrization of $\Phi$, using two choices of $\delta$) with both 
+  the stable parametrization of $\Phi$) with both 
  the $2$-step ahead forecasting LPP (Example \ref{exam:multi-step.fore}) and the 
  ideal low-pass  LPP (Example \ref{exam:ideal-low}) with 
   $\mu = \pi/24$, where $G$ is given by the periodogram of the sample.
@@ -861,24 +861,15 @@ When the model is a VAR(1), the parameter vector $\vartheta$
  Repeat for $T=200$ and $T=500$.
 \end{Exercise}
 
+HERE  add VAR(p) simulator
+
 <<exercise_lpp_var1.correct,echo=True>>=
 # Simulate a Gaussian VAR(1) of sample size 100:
 set.seed(1234)
 T <- 100
 phi.matrix <- rbind(c(1,.5),c(-.2,.3))
 innovar.matrix <- diag(2)
-true.psi <- var.par2pre(array(phi.matrix,c(2,2,1)))
-gamma <- VARMAauto(array(phi.matrix,c(2,2,1)),NULL,innovar.matrix,10)
-gamma.0 <- gamma[,,1]
-x.init <- t(chol(gamma.0)) %*% rnorm(2)
-x.next <- x.init
-x.sim <- NULL
-for(t in 1:T)
-{
-	x.next <- phi.matrix %*% x.next + rnorm(2)
-	x.sim <- cbind(x.sim,x.next)
-}
-x.sim <- ts(t(x.sim))
+x.sim <- varp.sim(array(phi.matrix,c(2,2,1)),innovar.matrix)
 x.acf <- acf(x.sim,type="covariance",plot=FALSE,lag.max=T)[[1]]
 x.acf <- aperm(aperm(x.acf,c(3,2,1)),c(2,1,3))
 

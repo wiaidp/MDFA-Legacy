@@ -23,10 +23,12 @@ model to enforce stationarity.
 \bibitem{} Christiano, L.J., and Fitzgerald, T.J.(2003). 
   The band pass filter.  International economic review 44 (2), 435-465.
 
-\bibitem{} Golub, G. H., and Van Loan, C. F. (1996). Matrix Computations Johns Hopkins University Press. Baltimore and London.
+\bibitem{} Golub, G. H., and Van Loan, C. F. (1996). Matrix Computations.
+ Johns Hopkins University Press. Baltimore and London.
 
 
-\bibitem{} Heaps, S.E., 2020. Enforcing stationarity through the prior in vector autoregressions. arXiv preprint arXiv:2004.09455.
+\bibitem{} Heaps, S.E., 2020. Enforcing stationarity through the prior in 
+vector autoregressions. arXiv preprint arXiv:2004.09455.
 
 \bibitem{} Hosoya, Y., and Taniguchi, M. (1982). A central limit theorem for stationary processes and the parameter estimation of linear processes. The Annals of Statistics, 132-153.
 
@@ -47,7 +49,10 @@ and seasonal taxonomy. Journal of Business \& Economic Statistics, 35(4), pp.611
    Discerning between models through multi-step ahead
 forecasting errors. Journal of Statistical Planning and Inference 140, 3655-3675.
 
-\bibitem{} McElroy, T., and Findley, D. (2015). Fitting constrained vector autoregression models. In Empirical Economic and Financial Research (pp. 451-470). Springer, Cham.
+\bibitem{} McElroy, T. and Findley, D. (2015). Fitting constrained vector autoregression models. In Empirical Economic and Financial Research (pp. 451-470). Springer, Cham.
+
+\bibitem{} McElroy, T. and Politis, D. (2020).  Time Series: A First Course with Bootstrap Starter.
+ Chapman and Hall. New York.
 
 \bibitem{} McElroy, T., and Trimbur, T. (2015). Signal extraction for non-stationary multivariate time series with illustrations for trend inflation. Journal of Time 
 Series Analysis, 36(2), 209-227.

@@ -216,6 +216,8 @@ Simulate a sample of size $T=5000$ from a
   Target the trends for both time series.
 \end{Exercise}
  
+HERE  debug
+
 
 <<exercise_mdfa_var1_coint.filtering,echo=True>>=
 # Simulate a Gaussian VAR(1) of sample size 5000:
@@ -293,8 +295,7 @@ print(c(mean((x.lp.ideal[,1] - x.lp.mdfa[,1])^2),
 	mean((x.lp.ideal[,2] - x.lp.mdfa[,2])^2)))
 @
 
-
-% HERE
+ 
 
 \begin{Example}  {\bf Co-integrated Local Level Model} \rm
 \label{exam:coint-llm}

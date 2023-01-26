@@ -1292,7 +1292,7 @@ We now consider LPPs for non-stationary processes.
 \end{equation}
  Moreover, the   MSE  corresponding to this solution is given by
 \begin{equation} 
-\label{eq:minimalMSE}
+\label{eq:minimalMSE-nonstat}
  \frac{1}{ 2 \pi} \int_{-\pi}^{\pi}   \sum_{\ell, k > 0 } \psi (-\ell) \,
   {[ \Theta  (e^{-i \omega}) / \Delta (e^{-i \omega}) ]}_0^{\ell-1}   \,  \Sigma \,
   { {[ \Theta  (e^{i \omega}) / \Delta (e^{i \omega}) ]}_0^{ k-1} }^{\prime}  \,
