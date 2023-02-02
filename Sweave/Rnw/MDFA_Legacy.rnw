@@ -54,9 +54,6 @@
 \newtheorem{Illustration}{Illustration}
 \newtheorem{Exercise}{Exercise}
 \newtheorem{Remark}{Remark}
-\newtheorem{Example}{Example}
-\newtheorem{Exercise}{Exercise}
-\newtheorem{Illustration}{Illustration}
 \newcommand{\mbf}[1]{\mbox{\boldmath $#1$}}
 
 \setlength{\textwidth}{6.5in} \setlength{\textheight}{9in}
@@ -157,7 +154,7 @@
 %------------------------------------------
 
 % Chapter 7
-%  zero crossing
+%  zero-crossings 
 \SweaveInput{SSA_criterion}
 
 %------------------------------------------

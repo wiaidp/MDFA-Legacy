@@ -6,6 +6,7 @@
 
 <<echo=False>>=
 estim<-F
+recompute_calculations<-F
 @
 
 
@@ -47,7 +48,7 @@ An extension of this framework to $z_t=\sum_{k=-\infty}^{\infty}\gamma_k x_{t-k}
 
 \subsection{Sign-Accuracy, MSE and Holding-Time}
 
-We  look for an estimate $y_t$ of $z_{t+\delta}$ such that the probability P$\Big(\sign(z_{t+\delta})=\sign(y_t)\Big)$ is maximized as a function of $\mathbf{b}=(b_0,...,b_{L-1})'$. We now refer to this criterion in terms of \emph{sign accuracy} (SA).
+We  look for an estimate $y_t$ of $z_{t+\delta}$ such that the probability P$\Big(\textrm{sign}(z_{t+\delta})=\textrm{sign}(y_t)\Big)$ is maximized as a function of $\mathbf{b}=(b_0,...,b_{L-1})'$. We now refer to this criterion in terms of \emph{sign accuracy} (SA).
 
 \begin{Proposition}
 Under the above assumptions about $\epsilon_t, z_t$ the sign accuracy  criterion can be stated as
@@ -60,7 +61,7 @@ where
 \] 
 is the correlation between $y_t$ and $z_{t+\delta}$. 
 \end{Proposition}
-A proof follows readily from the identity $P\Big(\sign(z_{t+\delta})=\sign(y_t)\Big)=0.5+\frac{\arcsin(\rho(y,z,\delta))}{\pi}$, relying on strict monotonicity of the non-linear transformation. %Discarding the affine transformation, expression \ref{opt_crit} by monotonicity of $\arcsin()$. %Note that signs, zero-crossings or correlations are insensitive to the scalings of $y_t$ or $z_t$. 
+A proof follows readily from the identity $P\Big(\textrm{sign}(z_{t+\delta})=\textrm{sign}(y_t)\Big)=0.5+\frac{\arcsin(\rho(y,z,\delta))}{\pi}$, relying on strict monotonicity of the non-linear transformation. %Discarding the affine transformation, expression \ref{opt_crit} by monotonicity of $\arcsin()$. %Note that signs, zero-crossings or correlations are insensitive to the scalings of $y_t$ or $z_t$. 
 %The MSE-estimate  $\mathbf{b}=\boldsymbol{\gamma}_{\delta}:=(\gamma_{\delta},...,\gamma_{\delta+L-1})'$ is a solution of \ref{opt_crit} 
 We infer that SA and MSE are equivalent criteria, at least down to an arbitrary scaling of $y_t$ and conditional on the Gaussian assumption.\\
 
@@ -232,7 +233,7 @@ which can be solved for $(b\cdot\xi)_j, j=0,1,...$, see theorem \ref{lambda}.  T
 
 
 
-\section{Solution of the SSA-Criterion}\label{theorem_SSA}
+\section{Solution of the SSA-Criterion: Frequency-Domain}\label{theorem_SSA}
 
 
 
@@ -667,7 +668,7 @@ For a proof of the third and last assertion we first assume that $\boldsymbol{\g
 #    3.2 For |nu|<2*rho_max (unit-root cases) rho0=rho(y(nu),y(nu),1) is nomore montonous (trend with oscillation) and all other rho0<rho(target) are obtained (generally   not PRACTICALLY RELEVANT  (less smooth))
 #--------------
 # Let's start:
-if (recompute_calculations)
+#if (recompute_calculations)
 {
   forecast_horizon<-0
 
@@ -955,7 +956,7 @@ if (recompute_calculations)
   
   
 # Generate pdfs  
-  if (F)
+#  if (F)
   {  
     file<-"rho_nu_ar1_ev.pdf"
     pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
@@ -1042,6 +1043,197 @@ Let all regularity assumptions of theorem \ref{lambda} hold and let $\hat{\bolds
 If $\hat{\boldsymbol{\gamma}}_{\delta}$ is Gaussian distributed then so is $\hat{\mathbf{b}}$. 
 \end{Corollary}
 The proof readily follows from \ref{diff_non_home}. Note that mean, variance and (asymptotic) distribution of the MSE-estimate under various assumptions about $x_t$ are derived in standard textbooks, see e.g. Brockwell and Davis (1993).
+
+
+
+\section{Solution of the SSA-Problem: Time-Domain}
+
+We here consider the AR(2) difference-equation \ref{ar2} together with the boundary constraints $b_{-1}=b_L=0$ as determinants of the SSA-predictor in the time-domain. In this context, the  roots of the characteristic AR(2)-polynomial of \ref{ar2} are denoted by $\lambda_{1\rho_1}$ and $\lambda_{2\rho_1}$. If $|\nu|<2$ then the roots are complex conjugate and $\nu=2\Re(\lambda_{1\rho_1})$. If $|\nu|\geq 2$ then the roots are real inverse i.e. $\lambda_{2\rho_1}=1/\lambda_{1\rho1}$ and $\nu=\lambda_{1\rho1}+1/\lambda_{1\rho1}$. Section \ref{arma_case} proposes a solution of the SSA-problem for a target $z_t$ following an ARMA-specification; section \ref{ar1closed} derives a closed-form solution of the SSA-predictor in a special case.      
+
+
+
+\subsection{ARMA-Target}\label{arma_case}
+
+
+
+\begin{Corollary}\label{lambda_num_gen}
+Let the regularity assumptions of theorem \ref{lambda} hold, let $|\nu|>2$ in \ref{ar2} and let $\lambda_{1\rho_1}$ designate the (real) stable root in $\nu=\lambda_{1\rho_1}+1/\lambda_{1\rho_1}$. Assume, also, that $\boldsymbol{\gamma}_{\delta}$ follows an ARMA$(p,q)$-specification with AR- and MA-parameters $a_1,...,a_p$ and $b_1,...,b_q$. Then the solution of the SSA-criterion is 
+\begin{eqnarray}\label{time_domain_ssa_ARMA_solution}
+b_k:=\left\{\bigg(\Big(\mathbf{A}^{k+1+\delta}-\mathbf{C}_1\lambda_{1\rho_1}^{k+1}-\mathbf{C}_2\lambda_{1\rho_1}^{L-k}\Big)(\mathbf{A}^2-\nu\mathbf{A}+\mathbf{I})^{-1}\bigg)\mathbf{b}\right\}_1
+\end{eqnarray}
+where 
+\begin{eqnarray*}
+\mathbf{A}&=&\left(\begin{array}{ccccc}a_1&a_2&...&a_{r-1}&a_r\\1&0&...&0&0\\...&&&&\\0&0&...&1&0\end{array}\right)\\
+\mathbf{C}_1&=&\frac{1}{1-\lambda_{1\rho_1}^{2(L+1)}}(\mathbf{A}^{\delta}-\lambda_{1\rho_1}^{L+1}\mathbf{A}^{L+1+\delta})\\
+\mathbf{C}_2&=&\frac{1}{1-\lambda_{1\rho_1}^{2(L+1)}}(\mathbf{A}^{L+1+\delta}-\lambda_{1\rho_1}^{L+1}\mathbf{A}^{\delta})
+\end{eqnarray*}
+$\mathbf{b}'=(1,b_1,...,b_r)$, $r=\max(p,q+1)$ and the notation $\{\cdot\}_1$ in \ref{time_domain_ssa_ARMA_solution} designates the first component of the corresponding vector. 
+\end{Corollary}
+
+Proof\\
+
+Consider first the MA-inversion 
+\[\gamma_k=\left(\mathbf{A}^k\mathbf{b}\right)_{1}\]
+of the ARMA-process $z_t$, where $\mathbf{A}=\left(\begin{array}{ccccc}a_1&a_2&...&a_{r-1}&a_r\\1&0&...&0&0\\...&&&&\\0&0&...&1&0\end{array}\right)$, $\mathbf{b}'=(1,b_1,...,b_r)$ and $r=\max(p,q+1)$. Since
+\begin{eqnarray*}
+\mathbf{A}^{k+2+\delta}-\nu\mathbf{A}^{k+1+\delta}+\mathbf{A}^{k+\delta}=\mathbf{A}^{k+\delta}(\mathbf{A}^2-\nu\mathbf{A}+\mathbf{I})
+\end{eqnarray*}
+we deduce that $b_k':=\left\{\bigg(\mathbf{A}^{k+1+\delta}(\mathbf{A}^2-\nu\mathbf{A}+\mathbf{I})^{-1}\bigg)\mathbf{b}\right\}_1$ must be a solution of the AR(2) difference equation \ref{ar2}, up to arbitrary scaling. Note that $\nu$ must be such that $\mathbf{A}^2-\nu\mathbf{A}+\mathbf{I}$ has full rank, by virtue of the theorem, assuming all regularity assumptions to hold. If $|\nu|>2$ then the roots of the characteristic AR(2) polynomial \ref{ar2} are real inverse numbers i.e. $\nu=\lambda_{1\rho_1}+1/\lambda_{1\rho_1}$ where $\lambda_{1\rho_1}\in ]-1,1[/\{0\}$\footnote{The singular case $\lambda_{1\rho_1}=0$ would correspond to the degenerate case $\mathbf{b}\propto\boldsymbol{\gamma}_{\delta}$ i.e. the SSA-estimate is also the MSA-estimate, which is excluded by the theorem.} designates the stable root. Moreover, $\mathbf{\tilde{C}}(k):=\mathbf{\tilde{C}}_1\lambda_{1\rho_1}^{k+1}+\mathbf{\tilde{C}}_2\lambda_{1\rho_1}^{L-k}$, where $\mathbf{\tilde{C}}_1,\mathbf{\tilde{C}}_2$ are arbitrary matrices of dimension $r$, is a solution of the homogeneous difference equation
+\begin{eqnarray*}
+\mathbf{\tilde{C}}(k+1)-\nu\mathbf{\tilde{C}}(k)+\mathbf{\tilde{C}}(k-1)=\mathbf{0}
+\end{eqnarray*}
+by definition of $\lambda_{1\rho_1}$. Therefore, 
+\[b_k:=\left\{\bigg(\mathbf{A}^{k+1+\delta}(\mathbf{A}^2-\nu\mathbf{A}+\mathbf{I})^{-1}-\mathbf{\tilde{C}}(k)\bigg)\mathbf{b}\right\}_1\]
+is also a solution of \ref{ar2}. We can now select $\mathbf{\tilde{C}}_1$ and $\mathbf{\tilde{C}}_2$ in $\mathbf{\tilde{C}}(k)$ such that the boundary constraints $b_{-1}=b_{L}=0$ hold. Specifically, let $\mathbf{C}_i:=\mathbf{\tilde{C}}_i(\mathbf{A}^2-\nu\mathbf{A}+\mathbf{I})$, $i=1,2$ so that
+\begin{eqnarray}\label{time_domain_ssa_ARMA}
+b_k=\left\{\bigg(\Big(\mathbf{A}^{k+1+\delta}-\mathbf{C}_1\lambda_{1\rho_1}^{k+1}-\mathbf{C}_2\lambda_{1\rho_1}^{L-k}\Big)(\mathbf{A}^2-\nu\mathbf{A}+\mathbf{I})^{-1}\bigg)\mathbf{b}\right\}_1
+\end{eqnarray}
+We now determine $\mathbf{C}_1,\mathbf{C}_2$ according to the boundary constraints at lags $k=-1$ and $k=L$ by
+\begin{eqnarray*}
+\mathbf{A}^{\delta}-\mathbf{C}_1-\mathbf{C}_2\lambda_{1\rho_1}^{L+1}&=&\mathbf{0}\\
+\mathbf{A}^{L+1+\delta}-\mathbf{C}_1\lambda_{1\rho_1}^{L+1}-\mathbf{C}_2&=&\mathbf{0}
+\end{eqnarray*}
+Solving for $\mathbf{C}_1,\mathbf{C}_2$ leads to
+\begin{eqnarray*}
+\mathbf{C}_1&=&\frac{1}{1-\lambda_{1\rho_1}^{2(L+1)}}(\mathbf{A}^{\delta}-\lambda_{1\rho_1}^{L+1}\mathbf{A}^{L+1+\delta})\\
+\mathbf{C}_2&=&\frac{1}{1-\lambda_{1\rho_1}^{2(L+1)}}(\mathbf{A}^{L+1+\delta}-\lambda_{1\rho_1}^{L+1}\mathbf{A}^{\delta})
+\end{eqnarray*}
+Inserting these expressions into \ref{time_domain_ssa_ARMA} implies that the resulting $b_k$ must be a solution of \ref{ar2} satisfying the implicit boundary constraints $b_{-1}=b_L=0$ and therefore it must be the SSA-solution, up to arbitrary scaling, by virtue of theorem \ref{lambda}.\\
+
+
+\textbf{Remarks}\\
+The theorem assumes that $\boldsymbol{\gamma}_{\delta}$ has complete spectral support. This is always the case for a stationary invertible ARMA-process whose spectral density is strictly positive. But non-invertible processes are allowed, too, assuming that the spectral density does not vanish at a frequency corresponding to an eigenvector $\mathbf{v}_i$, $i=1,...,L$, of $\mathbf{M}$: in this case, all spectral weights $w_i$, $i=1,...,L$ in \ref{specdec} are non-vanishing, as assumed. Note also that theorem \ref{lambda} asserts existence of the SSA-solution in the functional form derived in the above corollary and therefore  $\nu$ must be such that $\mathbf{A}^2-\nu\mathbf{A}+\mathbf{I}$ has full rank in the above derivation. Finally, in typical applications the unstable root $1/\lambda_{1\rho_1}$ or, equivalently, $\lambda_{1\rho_1}^{L-k}$ in \ref{time_domain_ssa_ARMA} can be neglected because $\mathbf{C}_2=\frac{1}{1-\lambda_{1\rho_1}^{2(L+1)}}(\mathbf{A}^{L+1+\delta}-\lambda_{1\rho_1}^{L+1}\mathbf{A}^{\delta})$ asymptotically vanishes for $L$ sufficiently large. The unit-root case $|\nu|\leq 2$ would behave differently: in particular $b_k$ would not decay to zero anymore with increasing lag $k$, suggesting an ill-posed or 'atypical' prediction problem.  
+
+
+
+
+\subsection{Special Case AR(1)-Target and a Closed-Form Solution}\label{ar1closed}
+
+We now suggest that the unknown parameter $\lambda_{1\rho_1}$ and therefore $\nu=\lambda_{1\rho_1}+1/\lambda_{1\rho_1}$ can be obtained in closed-form, without numerical optimization, under certain conditions. To simplify exposition we fix attention to a particular target $z_t$, namely an AR(1)-process, with weights $\gamma_k=\lambda^k$. Extensions to an AR(2)-target are available but for ease of exposition we here omit a corresponding more convoluted derivation, especially since the basic proceeding would remain the same.
+
+
+\begin{Corollary}\label{lambda_cor_gen_case}
+Let the following assumptions hold in addition to the set of regularity conditions of theorem \ref{lambda}:
+\begin{enumerate}
+\item The MSE-estimate $\boldsymbol{\gamma}_{\delta}$ corresponds to a stationary AR(1) i.e. $\gamma_k\propto \lambda^k$, $k=0,...,L-1$ with stable root $\lambda\neq 0$ (exponential decay)
+%\item $\lambda_i\neq\lambda_{1\rho_1}$ : regular case of corollary \ref{lambda_cor} (vs. non-degenerate singular case  in corollary \ref{lambda_cor_sing})
+\item $|\nu|>2$  (typical 'non unit-root' case)
+\item $\lambda_{1\rho_1}, \lambda$ and $L$ are such that $\max(|\lambda_{1\rho_1}|^{2k},|\lambda|^{2k})$ is negligible for $k>L$ (sufficiently fast decaying filter-weights).
+\end{enumerate}
+Then the optimal invertible root $\lambda_{1\rho_1}$ in $\nu=\lambda_{1\rho_1}+1/\lambda_{1\rho_1}$ is given by (the real-valued) 
+\begin{eqnarray}\label{closedformlambdarho1}
+\lambda_{1\rho_1}&=&-\frac{1}{3c_3}\left(c_2+C+\frac{\Delta_0}{C}\right)
+\end{eqnarray}
+where
+\begin{eqnarray}
+C&=&\sqrt[3]{\frac{\Delta_1+\textrm{sign}(\Delta_1) \sqrt{\Delta_1^2-4\Delta_0^3}}{2}}\label{C3}\\
+\Delta_0&=&c_2^2-3c_3c_1\nonumber\\
+\Delta_1&=&2c_2^3-9c_3c_2c_1+27c_3^2c_0\nonumber
+\end{eqnarray}
+and where $c_3,c_2,c_1,c_0$ are the coefficients of a cubic polynomial which depend on the AR(1)-target specified by $\lambda$, the forecast horizon $\delta$ and the holding-time constraint $\rho_1$ according to   
+\begin{eqnarray*}
+c_3&=&\lambda^{2\delta-2}-\lambda^{2\delta+2}+\lambda^{2+\delta}-\rho_1\lambda^{2\delta-1}\\
+c_2&=&-(\lambda^{1+\delta}+\lambda^{2\delta-1}(1-\lambda^2))-\rho_1\Big(-2\lambda^{2\delta}+\lambda^{2\delta-2}\Big)\\
+c_1&=&-(\lambda^{2+\delta}+\lambda^{2\delta}(1-\lambda^2))-\rho_1\Big(\lambda^{2\delta+1}-2\lambda^{2\delta-1}\Big)\\
+c_0&=&\lambda^{1+\delta}-\rho_1\lambda^{2\delta}
+\end{eqnarray*}
+The SZC-estimate $\mathbf{b}$ is then uniquely determined in closed-form by \ref{diff_non_home}, down to the correct sign which leads to a positive  criterion value $\mathbf{b}'\boldsymbol{\gamma}_{\delta}\geq 0$. 
+\end{Corollary}
+
+
+Proof\\
+
+
+Let $\gamma_{k+\delta}=\lambda^{k+\delta}$. Then 
+\begin{equation}\label{ar1sc}
+b_k':=D\frac{\lambda^{\delta}}{\lambda^2-\nu\lambda+1} \lambda^{k+1}\propto \lambda^{k+\delta}
+\end{equation}
+is a solution of 
+\begin{eqnarray*}
+b_{k+1}'-\nu b_k'+b_{k_1}'&=&D\gamma_{k+\delta}~,~0\leq k\leq L-1\\
+\end{eqnarray*}
+with boundaries $b_{-1},b_L\neq 0$. The expression is well-defined because $\lambda^2-\nu\lambda+1\neq 0$ when $\lambda\neq \lambda_{1\rho_1}$, which is always the case by virtue of theorem \ref{lambda}. According to corollary \ref{lambda_num_gen} vanishing boundaries $b_{-1}=b_L=0$ can be imposed by combining $b_k'$ in \ref{ar1sc} with a suitably scaled solution of the homogeneous difference-equation: 
+\begin{eqnarray}\label{sol_bk}
+b_k=b_k(\lambda_{1\rho_1)}\propto\lambda^{k+\delta}+C_1\lambda_{1\rho_1}^k+C_2\lambda_{1\rho_1}^{L-k}\approx\lambda^{k+\delta}-\lambda_{1\rho_1}\lambda^{-1+\delta}\lambda_{1\rho_1}^k
+\end{eqnarray}
+where we neglected the backward-solution ($b_{L}\approx 0$ by the last assumption) and where the weight $C_1=-\lambda_{1\rho_1}\lambda^{-1+\delta}$ ensures compliance with the remaining constraint $b_{-1}=0$. Corollary \ref{lambda_num_gen} states also that the unknown stable root $\lambda_{1\rho_1}$ is determined uniquely by requiring  
+\begin{eqnarray}\label{sdfret}
+\frac{\sum_{k=1}^{L-1} b_k(\lambda_{1\rho_1})b_{k-1}(\lambda_{1\rho_1})}{\sum_{k=0}^{L-1}b_k(\lambda_{1\rho_1})^2}=\rho_1
+\end{eqnarray}
+We can now insert \ref{sol_bk} into this equation and solve for $\lambda_{1\rho_1}$. Specifically, the nominator  becomes 
+\begin{eqnarray}\label{cte1before} 
+\sum_{k=1}^{L-1} b_kb_{k-1}&=&\sum_{k=1}^{L-1}\left(\lambda^{k+\delta}-\lambda_{1\rho_1}\lambda^{-1+\delta}\lambda_{1\rho_1}^k\right)\left(\lambda^{k-1+\delta}-\lambda_{1\rho_1}\lambda^{-1+\delta}\lambda_{1\rho_1}^{k-1}\right)
+\end{eqnarray}
+The first cross-product of terms in parantheses is
+\begin{eqnarray}
+\lambda^{-1}\sum_{k=1}^{L-1}\lambda^{2(k+\delta)}=\lambda^{1+2\delta}\sum_{k=0}^{L-2}\lambda^{2k}=\lambda^{1+2\delta}\frac{1-\lambda^{2(L-1)}}{1-\lambda^2}\approx \frac{\lambda^{1+2\delta}}{1-\lambda^2}\label{cte1}
+\end{eqnarray}
+The second cross-product of terms in parentheses is
+\begin{eqnarray}
+-\lambda_{1\rho_1}\lambda^{-1+\delta}\sum_{k=1}^{L-1}\lambda^{k+\delta}\lambda_{1\rho_1}^{k-1}=-\lambda_{1\rho_1}\lambda^{2\delta}\sum_{k=0}^{L-2}(\lambda\lambda_{1\rho_1})^{k}=-\lambda_{1\rho_1}\lambda^{2\delta}\frac{1-(\lambda\lambda_{1\rho_1})^{L-1}}{1-\lambda\lambda_{1\rho_1}}\approx \frac{-\lambda_{1\rho_1}\lambda^{2\delta}}{1-\lambda\lambda_{1\rho_1}}\label{cte2}
+\end{eqnarray}
+The third cross-product of terms in parentheses is
+\begin{eqnarray}
+-\lambda_{1\rho_1}\lambda^{-1+\delta}\sum_{k=1}^{L-1}\lambda^{k-1+\delta}\lambda_{1\rho_1}^{k}\approx \frac{-\lambda_{1\rho_1}^2\lambda^{2\delta-1}}{1-\lambda\lambda_{1\rho_1}}\label{cte3}
+\end{eqnarray}
+The last cross-product of terms in parantheses is
+\begin{eqnarray}
+\lambda_{1\rho_1}^2\lambda^{-2+2\delta}\sum_{k=1}^{L-1}\lambda_{1\rho_1}^{2k-1}=\lambda_{1\rho_1}^3\lambda^{-2+2\delta}\sum_{k=0}^{L-2}\lambda_{1\rho_1}^{2k}=\lambda_{1\rho_1}^3\lambda^{-2+2\delta}\frac{1-\lambda_{1\rho_1}^{2(L-1)}}{1-\lambda_{1\rho_1}^2}
+\approx \frac{\lambda_{1\rho_1}^3\lambda^{-2+2\delta}}{1-\lambda_{1\rho_1}^2}\label{cte4}
+\end{eqnarray}
+Note that the last assumption of the corollary is critical for the validation of the above approximations. Further, the common denominator of \ref{cte1}, \ref{cte2}, \ref{cte3} and \ref{cte4} is 
+\begin{eqnarray}\label{comden}
+(1-\lambda^2)(1-\lambda\lambda_{1\rho_1})(1-\lambda_{1\rho_1}^2)
+\end{eqnarray}
+Summing all terms in \ref{cte1}, \ref{cte2}, \ref{cte3} and \ref{cte4} under the common denominator \ref{comden} leads to a third-order polynomial 
+\[
+f_1(\lambda_{1\rho_1}):=a_3\lambda_{1\rho_1}^3+a_2\lambda_{1\rho_1}^2+a_1\lambda_{1\rho_1}+a_0
+\]
+in $\lambda_{1\rho_1}$ with coefficients 
+\begin{eqnarray*}
+a_3&=&(1-\lambda^2)\lambda^{2\delta-2}(\lambda^2+1)+\lambda^{2+\delta}=\lambda^{2\delta-2}-\lambda^{2\delta+2}+\lambda^{2+\delta}\\
+a_2&=&-(\lambda^{1+\delta}+\lambda^{2\delta-1}(1-\lambda^2))\\
+a_1&=&-(\lambda^{2+\delta}+\lambda^{2\delta}(1-\lambda^2))\\
+a_0&=&\lambda^{1+\delta}
+\end{eqnarray*}
+Note that the coefficient of order four vanishes due to the mutual cancellation of cross-terms. The same proceeding can now be applied to the denominator $\sum_{k=0}^{L-1}b_k^2$ in \ref{sdfret}:
+\begin{eqnarray}\label{bk^2}
+\sum_{k=0}^{L-1} b_k^2&=&\sum_{k=0}^{L-1}\left(\lambda^{k+\delta}-\lambda_{1\rho_1}\lambda^{-1+\delta}\lambda_{1\rho_1}^k\right)^2
+\end{eqnarray}
+with cross-products of terms in parentheses 
+\begin{eqnarray*}
+\sum_{k=0}^{L-1}\lambda^{2(k+\delta)}&\approx& \frac{\lambda^{2\delta}}{1-\lambda^2}\\
+-2\lambda_{1\rho_1}\lambda^{2\delta-1}\sum_{k=0}^{L-1}(\lambda\lambda_{1\rho_1})^{k}&\approx& -\frac{\lambda_{1\rho_1}\lambda^{2\delta-1}}{1-\lambda\lambda_{1\rho_1}}\\
+\lambda_{1\rho_1}^2\lambda^{-2+2\delta}\sum_{k=0}^{L-1}\lambda_{1\rho_1}^{2k}
+&\approx& \frac{\lambda_{1\rho_1}^2\lambda^{-2+2\delta}}{1-\lambda_{1\rho_1}^2}
+\end{eqnarray*}
+This will again lead to the sum of four terms whose common denominator is again \ref{comden} and whose nominator is a polynomial
+\[
+f_2(\lambda_{1\rho_1}):=b_3\lambda_{1\rho_1}^3+b_2\lambda_{1\rho_1}^2+b_1\lambda_{1\rho_1}+b_0
+\]
+with polynomial coefficients
+\begin{eqnarray*}
+b_3&=&\lambda^{2\delta-1}\\
+b_2&=&-2\lambda^{2\delta}+\lambda^{2\delta-2}\\
+b_1&=&\lambda^{2\delta+1}-2\lambda^{2\delta-1}\\
+b_0&=&\lambda^{2\delta}
+\end{eqnarray*}
+Note that fourth-order terms do not appear in this case. After cancellation of their common denominator \ref{comden}, equation \ref{sdfret} can then be re-written as
+\[%begin{equation}\label{lrhds}
+\frac{f_1(\lambda_{1\rho_1})}{f_2(\lambda_{1\rho_1})}=\rho_1
+\]%end{equation}
+or 
+\begin{equation}\label{sol_quart}
+f_3(\lambda_{1\rho_1},\rho_1)=0
+\end{equation}
+where $f_3(\lambda_{1\rho_1},\rho_1):=f_1(\lambda_{1\rho_1})-\rho_1f_2(\lambda_{1\rho_1})$ is the asserted cubic polynomial in $\lambda_{1\rho_1}$ with coefficients
+\begin{eqnarray*}
+c_3=a_3-\rho_1b_3~,~c_2=a_2-\rho_1b_2~,~c_1=a_1-\rho_1b_1~,~c_2=a_0-\rho_1b_0
+\end{eqnarray*}
+The remainder of the proof then follows from a closed-form expression for the root of a cubic polynomial\footnote{Under particular circumstances the leading polynomial coefficient can vanish, $c_3=0$, so that the solution for $\lambda_{1\rho_1}$ simplifies to finding the root of a quadratic polynomial. }, see e.g. Cardano's formula.
+
+
+
 
 
 
@@ -1331,7 +1523,7 @@ colo<-c("green","red","blue")
 
 filter_mat<-cbind(gamma_mse,bk_mat)
 colnames(filter_mat)<-c("MSE",colnames(bk_mat))
-ts.plot(scale(filter_mat,center=F,scale=T),col=colo)
+ts.plot(scale(filter_mat,center=F,scale=rep(T,ncol(filter_mat))),col=colo)
 for (i in 1:ncol(filter_mat))
   mtext(colnames(filter_mat)[i],col=colo[i],line=-i)
 
@@ -1362,7 +1554,7 @@ nrow(na.exclude(y_mat))/number_cross
 # Plot
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Output of filter whose delta exceeds 2*ht is 'negative', see above remarks
-ts.plot(scale(y_mat[1:min(len-L,1000),],center=F,scale=T),col=colo,xlab="")
+ts.plot(scale(y_mat[1:min(len-L,1000),],center=F,scale=rep(T,ncol(y_mat))),col=colo,xlab="")
 abline(h=0)
 for (i in 1:ncol(filter_mat))
   mtext(colnames(filter_mat)[i],col=colo[i],line=-i)
@@ -1471,7 +1663,7 @@ pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6
 
 filter_mat<-cbind(gamma_mse,bk_mat)
 colnames(filter_mat)<-c("MSE",colnames(bk_mat))
-ts.plot(scale(filter_mat,center=F,scale=T),col=colo)
+ts.plot(scale(filter_mat,center=F,scale=rep(T,ncol(filter_mat))),col=colo)
 for (i in 1:ncol(filter_mat))
   mtext(colnames(filter_mat)[i],col=colo[i],line=-i)
 dev.off()
@@ -1479,7 +1671,7 @@ dev.off()
 file = "filter_smooth_time_out.pdf"
 pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
 
-ts.plot(scale(y_mat[1:1000,],center=F,scale=T),col=colo,xlab="")
+ts.plot(scale(y_mat[1:1000,],center=F,scale=rep(T,ncol(y_mat))),col=colo,xlab="")
 abline(h=0)
 for (i in 1:ncol(filter_mat))
   mtext(colnames(filter_mat)[i],col=colo[i],line=-i)
@@ -2221,6 +2413,956 @@ The right panel in the figure illustrates that the completion with the extension
 \] 
 is attained at the right-most spectral line, for $i_0=10$, and where $\tilde{N}_{10}=\Sexpr{round(N,3)}$ has been obtained from \ref{N_comp}, with the correct sign in place. \\
 
+
+
+
+
+
+
+\section{Application to BCA}\label{zcc-criter}\label{busi_cyc}
+
+
+We here apply the SSA-design to monthly industrial production indices of various countries with long business-cycle histories  and benchmark performances against the HP-filter, see Hodrick and Prescott (1997). We refer to the two-sided symmetric HP-filter as the 'target' $z_t$ which must be nowcasted at the current sample-end i.e. $\delta_0=0$. For that purpose, we consider five concurrent designs, namely two classic HP-filters, HP-gap and HP-trend, as well as three SSA-designs based on distinct hyper-parameter settings for $\rho_1,\delta$, see section \ref{hp_f} for reference. %which emphasize various research priorities %The latter is subject to a stronger holding-time constraint, which limits the occurrence of (noisy) alarms, 
+%and we then compare frequencies and timings of zero-crossings. % of these concurrent filters. 
+Our implementation of SSA in this application emphasizes simplicity and robustness: in particular, we do not fit models to the data, assuming log-returns to be white noise and accepting the deliberate misspecification as a tradeoff for simplicity; the same filters are applied to all countries; moreover, SSA must at least equal the benchmarks in terms of smoothness or noise-rejection i.e. we emphasize  reliability over timeliness. Summing-up, our implementation illustrates the possibility of modifying an existing benchmark in view of emphasizing alternative research- or user-priorities.%\footnote{One just needs the MA-weights of the corresponding MSE-predictor and suitable settings of the hyper-parameters.}.   
+ 
+
+\subsection{SSA- and Hodrick Prescott Filters}\label{hp_f}
+
+
+The HP filter is widely used to estimate trends and cycles of economic time series. It 
+can be interpreted as an optimal MSE-signal extraction filter for the trend in the smooth trend model, see Harvey (1989). Conceptually, this results in 'implied' models for the cycle and the trend, such that applying the HP filter results in MSE optimal estimates. In this framework, the bi-infinite symmetric expansion of the filter is obtained as 
+\begin{equation}\label{hp_eq_tc}
+(\gamma_{|k|}B^k)_{|k|<\infty}=\frac{1}{1+\lambda(1-B)^2(1-B^{-1})^2}
+\end{equation}
+where $\lambda$ is a 'smoothing' hyperparameter and where $B,B^{-1}$ are backward and forward operators. The implicit data-generating process is an ARIMA(0,2,2) whose MA-coefficients are determined by $\lambda$, see  McElroy (2006).  In finite samples, the filter behaves differently in the middle or toward the  boundaries of the data, where the symmetry is lost: an exact finite sample representation of the concurrent HP-trend filter, denoted as $b_k^{HP-trend}$, is derived in McElroy (2006). %We also analyze a conventional MSE-design $\boldsymbol{\gamma}_{\delta}$, based on a finite one-sided extract of \ref{hp_eq_tc}, whereby $\delta=0$ (nowcast). MSE and $b_k^{HP-trend}$ differ in their assumptions about the data-generating process: white noise for MSE vs. ARIMA(0,2,2) for HP (the integration order two of the HP-design sets constraints on amplitude and phase-lag functions at frequency zero, see e.g. McElroy and Wildi (2020)). 
+In addition, we also consider the classic HP-{gap} filter 
+\begin{eqnarray}\label{hpgap}
+b_k^{gap}:=\left\{\begin{array}{ccc}1-b_0^{HP-trend}&~& k=0\\-b_k^{HP-trend}&,&k>0
+\end{array}\right.
+\end{eqnarray}
+%Since all filter coefficients decay towards zero rapidly pace, we can select truncated finite length designs, $b_k^{HP-trend~ truncated}:=\left\{\begin{array}{cc}b_k^{HP-trend}&0\leq k<L\\ 0&k>L\end{array}\right.$, and similarly for the symmetric (target) filter, with $L$ sufficiently large, see fig.\ref{filters_hp}.  
+While SSA- and HP-trend will be applied to \emph{differenced} data, the HP-gap is typically applied to data in levels. Therefore, % in order to proceed to meaningful comparisons of concurrent designs 
+we here propose a modified gap-design  $b_k^{\Delta gap}$ such that
+\[\sum_{k=0}^{L-1}b_k^{\Delta gap}\Delta x_{t-k}=\sum_{k=0}^{L-1}b_k^{gap}x_{t-k}\]
+where $\Delta x_t$ are first differences of a time series $x_t$. Note that filter outputs of original and modified gap-filters are strictly identical but their input series differ.  
+One can  verify that $b_k^{\Delta gap}=\sum_{i=1}^kb_i^{gap}$ and that the coefficients decay towards zero for increasing lag, see for example McElroy and Wildi (2020)\footnote{$b_k^{gap}$ is a bandpass design with the property that $\sum b_k^{gap}= 0$ which follows from the definition \ref{hpgap}. Therefore $b_k^{\Delta gap}=\sum_{i=1}^kb_i^{gap}\to 0$ for increasing $k$.}. \\%In the following, we will invariably refer to this modification of the classic HP-gap filter so that cross-comparisons of filter characteristics will be consistent and meaningful.\\
+
+<<label=init,echo=FALSE,results=hide>>=
+# The following file runs the newest exact SSA filter design and computes HP-target, HP-trend concurrent (ARIMA(0,2,2) model) and HP-gap.
+#   -It reads data (provided by Simon)
+#   -It computes all filters and applies to data
+#   -It could account for MA(1) structure in data (though this feature is ignored)
+
+# 1. Load and select data
+data_obj<-data_load_func(path.data)
+# Data sent by Simon: log-returns, data from FRED
+# Remove fourth series (INDPRO not seasonally adjusted: all other series are adjusted)
+indpro<-data_obj$indpro[,-4]
+indpro_level<-data_obj$indpro_level
+# Second data sent by Simon: data from OECD, seasonally adjusted 
+# Data is shorter than FRED: for countries appearing in both data sets the longer series in FRED are selected 
+indpro_euh<-data_obj$indpro_eu
+# Remove Spain and Japan which are contained in indpro (longer series there)
+remove_series<-which(colnames(indpro_euh)%in%c("Japan","Spain"))
+indpro_eu<-indpro_euh[,-remove_series]
+
+# Select INDPRO and make xts object
+select_series<-"US"
+series_level<-indpro_level[,select_series]
+series<-indpro[,select_series]
+plot(series)
+
+#----------------------
+# 2. HP and hyperparameter
+L<-200
+lambda_monthly<-14400
+
+HP_obj<-HP_target_mse_modified_gap(L,lambda_monthly)
+
+target=HP_obj$target
+hp_gap=HP_obj$hp_gap
+modified_hp_gap=HP_obj$modified_hp_gap
+hp_trend=HP_obj$hp_trend
+hp_mse=HP_obj$hp_mse
+#---------------------------
+# 3. SSA and hyperparameters
+# Holding time
+ht<-12
+forecast_horizon_vec<-c(0,18)
+# White noise assumption: MA1_adjustment<-F (MA1_adjustment<-T is not used and should be checked) 
+MA1_adjustment<-F
+# Size of discret grid for computing nu
+grid_size<-200
+
+# Computations are done if recompute_calculations==T (takes a couple seconds). Otherwise saved coefficients are loaded from path.result
+SSA_obj<-SSA_compute(ht,L,hp_mse,forecast_horizon_vec,MA1_adjustment,grid_size)
+
+bk_mat<-SSA_obj$bk_mat
+
+#mse_forecast<-c(hp_mse[(1+forecast_horizon_vec[2]):L],rep(0,forecast_horizon_vec[2]))
+ht_short<-compute_holding_time_func(hp_trend)$ht
+
+# Compute fast SSA-filter with same holding-time as HP-trend
+SSA_obj<-SSA_compute(ht_short,L,hp_mse,forecast_horizon_vec[2],MA1_adjustment,grid_size)
+
+
+bk_mat<-cbind(bk_mat,SSA_obj$bk_mat)
+
+
+#----------------------------
+# 4. Filter and plot series
+# 4.1 Filter
+# Start date for plots
+start_date<-"1970-01-01"
+end_date<-NULL
+colo_hp_all<-c("brown","red")
+colo_SSA<-c("orange","blue","violet")
+colo_all<-c(colo_hp_all,colo_SSA)
+
+
+# 3.2 Specify filters: HP concurrent and SSA filters
+if (F)
+{  
+  mse_forecast<-c(hp_mse[(1+forecast_horizon_vec[2]):L],rep(0,forecast_horizon_vec[2]))
+  filter_mat<-cbind(hp_trend,hp_mse,modified_hp_gap,mse_forecast,bk_mat)
+  colnames(filter_mat)<-c("HP trend","MSE","Modified gap","MSE-forecast",colnames(bk_mat))
+}
+filter_mat<-cbind(hp_trend,modified_hp_gap,bk_mat)
+colnames(filter_mat)<-c("HP trend","Modified gap",colnames(bk_mat))
+ts.plot(scale(filter_mat,center=F,scale=rep(T,ncol(filter_mat))),col=colo_all)
+
+#   Filter data
+filter_obj<-SSA_filter_func(filter_mat,L,series)
+
+y_mat=filter_obj$y_mat
+ts.plot(scale(y_mat,center=F,scale=rep(T,ncol(y_mat))))
+
+# number of crossings
+number_cross_all_filters<-rep(NA,ncol(filter_mat))
+names(number_cross_all_filters)<-colnames(filter_mat)
+for (i in 1:ncol(y_mat))
+{
+  if (is.xts(y_mat))
+  {  
+    number_cross_all_filters[i]<-length(which(sign(y_mat[,i])!=sign(lag(y_mat[,i]))))
+  } else
+  {
+    number_cross_all_filters[i]<-length(which(sign(y_mat[1:(nrow(y_mat)-1),i])!=sign(lag(y_mat[2:nrow(y_mat),i]))))
+  }
+}
+number_cross_all_filters
+#-------------
+# 4.2 Plot 
+
+plot_obj<-plot_paper(y_mat,start_date,end_date,colo_all)
+  
+q_gap=plot_obj$q_gap
+q_trend=plot_obj$q_trend
+x_trend=plot_obj$x_trend
+y_trend=plot_obj$y_trend
+x_gap=plot_obj$x_gap
+y_gap=plot_obj$y_gap
+# Plot great-lockdown (Pandemy)
+start_date_covid<-"2019-01-01"
+end_date_covid<-"2021-06-01"
+plot_obj<-plot_paper(y_mat,start_date_covid,end_date_covid,colo_all)
+  
+q_trend_covid=plot_obj$q_trend
+x_trend_covid=plot_obj$x_trend
+y_trend_covid=plot_obj$y_trend
+q_trend_covid
+polygon(x_trend_covid, y_trend_covid, xpd = T, col = "grey",density=10)#
+q_SSA_covid=plot_obj$q_SSA
+x_SSA_covid=plot_obj$x_trend
+y_SSA_covid=plot_obj$y_trend
+q_SSA_covid
+polygon(x_SSA_covid, y_SSA_covid, xpd = T, col = "grey",density=10)#
+  
+ 
+start_date_moderation_financial_1<-"1990-01-01"
+end_date_moderation_financial_1<-"2002-01-01"
+plot_obj<-plot_paper(y_mat,start_date_moderation_financial_1,end_date_moderation_financial_1,colo_all)
+  
+q_gap_great_moderation_1=plot_obj$q_gap
+x_gap_great_moderation_1=plot_obj$x_trend
+y_gap_great_moderation_1=plot_obj$y_trend
+
+par(mfrow=c(1,1))
+q_gap_great_moderation_1
+polygon(x_gap_great_moderation_1, y_gap_great_moderation_1, xpd = T, col = "grey",density=10)#
+  
+start_date_moderation_financial_2<-"2001-01-01"
+end_date_moderation_financial_2<-"2010-01-01"
+plot_obj<-plot_paper(y_mat,start_date_moderation_financial_2,end_date_moderation_financial_2,colo_all)
+  
+q_gap_great_moderation_2=plot_obj$q_gap
+x_gap_great_moderation_2=plot_obj$x_trend
+y_gap_great_moderation_2=plot_obj$y_trend
+par(mfrow=c(1,1))
+q_gap_great_moderation_2
+polygon(x_gap_great_moderation_2, y_gap_great_moderation_2, xpd = T, col = "grey",density=10)#
+
+
+# Number recessions occurring after 1935
+number_recessions_1935<-length(which(nberDates()[,"Start"]>as.double(substr("1935-01-01",1,4))*10000))
+# length of INDPRO afer 1935
+nrow(indpro["1935-01-01/"])
+head(indpro["1935-01-01/"])
+# Duration of complete recession/expansion cycles
+cycle_length_NBER_1935<-nrow(indpro["1935-01-01/"])/number_recessions_1935
+# Duration of complete recession/expansion cycles
+cycle_length_NBER_start_date<-nrow(indpro[paste(start_date,"/",sep="")])/length(which(nberDates()[,"Start"]>as.double(substr(start_date,1,4))*10000))
+
+#------------------------------------
+# 5 Diagnostics real data: number of Crossings, peak correlation and shift (tau statistic)
+
+# 5.1 SSA(12,18) vs HP trend
+# Select competing series: reference filter/series first
+#   Reference series determines crossings, see description of tau-statistic in paper (should be smoother)
+#   Reference series determines sign of lead/lags of peak-correlation
+# Note: should not be an xts-object!!!!
+mplot<-as.matrix(y_mat[,c(4,1)])
+length_series<-nrow(mplot)
+
+# Max lead for peak-correlation
+max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+last_crossing_or_closest_crossing<-F
+# Skip shifts larger than outlier_limit in absolute value: useful when reference filter has additional crossings which do not correspond to contender
+outlier_limit<-10
+
+timeliness_obj<-compute_timeliness_func(mplot,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+
+cor_peak=timeliness_obj$cor_peak
+tau_vec=timeliness_obj$tau_vec
+tau_vec_adjusted=timeliness_obj$tau_vec_adjusted
+tau=timeliness_obj$tau
+tau_adjusted=timeliness_obj$tau_adjusted
+t_test=timeliness_obj$t_test
+t_test_adjusted=timeliness_obj$t_test_adjusted
+number_cross=timeliness_obj$number_cross
+
+tau
+tau_adjusted
+t_test
+number_cross
+
+# 5.2 SSA(12,18) vs HP gap
+mplot<-as.matrix(y_mat[,c(4,2)])
+# Max lead for peak-correlation
+max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+last_crossing_or_closest_crossing<-F
+
+timeliness_obj<-compute_timeliness_func(mplot,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+
+tau_gap=timeliness_obj$tau
+tau_gap
+
+# 5.3 SSA(12,18) vs SSA(12,0)
+mplot<-as.matrix(y_mat[,c(4,3)])
+# Max lead for peak-correlation
+max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+last_crossing_or_closest_crossing<-F
+
+timeliness_obj<-compute_timeliness_func(mplot,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+
+tau_slow=timeliness_obj$tau
+tau_slow
+
+
+# 5.4 SSA(12,18) vs SSA(7.66,18)
+mplot<-as.matrix(y_mat[,c(4,5)])
+# Max lead for peak-correlation
+max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+last_crossing_or_closest_crossing<-F
+
+timeliness_obj<-compute_timeliness_func(mplot,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+
+tau_fast=timeliness_obj$tau
+tau_fast
+
+
+
+#------------------------------------
+# 6. Diagnostics Gaussian noise: number of Crossings, peak correlation and shift (tau statistic)
+len<-100000
+set.seed<-(46)
+series_Gauss<-rnorm(len)
+
+filter_obj<-SSA_filter_func(filter_mat,L,series_Gauss)
+
+y_mat_Gauss=filter_obj$y_mat
+
+# 6.1 SSA(12,0) vs HP trend
+mplot_Gauss<-as.matrix(y_mat_Gauss[,c(3,1)])
+# Max lead for peak-correlation
+max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+last_crossing_or_closest_crossing<-F
+
+timeliness_obj<-compute_timeliness_func(mplot_Gauss,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+
+tau_Gauss_slow=timeliness_obj$tau
+
+tau_Gauss_slow
+
+# 6.2 SSA(12,18) vs HP trend
+mplot_Gauss<-as.matrix(y_mat_Gauss[,c(4,1)])
+# Max lead for peak-correlation
+max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+last_crossing_or_closest_crossing<-F
+
+timeliness_obj<-compute_timeliness_func(mplot_Gauss,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+
+tau_Gauss_middle=timeliness_obj$tau
+
+tau_Gauss_middle
+
+# 6.3 SSA(7.66,18) vs HP trend
+mplot_Gauss<-as.matrix(y_mat_Gauss[,c(5,1)])
+# Max lead for peak-correlation
+max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+last_crossing_or_closest_crossing<-F
+
+timeliness_obj<-compute_timeliness_func(mplot_Gauss,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+
+tau_Gauss_fast=timeliness_obj$tau
+
+tau_Gauss_fast
+
+
+ht_trend<-round(compute_holding_time_func(hp_trend)$ht,2)
+@
+
+
+
+According to Morten and Uhlig (2002), we select $\lambda=\Sexpr{as.integer(lambda_monthly)}$ (monthly data). For the holding-time, we select either $ht_1=\Sexpr{round(ht,0)}$, which matches roughly the mean-duration of recessions (see also the closing discussion in section \ref{app_indpro}) or $ht_1=$\Sexpr{ht_trend} which is the expected holding-time of the benchmark HP(trend)-filter, as based on \ref{ht}. %: in the first case, SSA has improved smoothing capability: in the second case, SSA replicates HP-trend in terms of smoothness but since the underlying model assumptions are different e.g. white noise vs. ARIMA(0,2,2), timeliness will differ, see table \ref{perf_zcc_gap_trend_mean} further down. 
+Timeliness is addressed by selecting either $\delta=\Sexpr{forecast_horizon_vec[1]}$ (nowcast) or $\delta=\Sexpr{forecast_horizon_vec[2]}$ (forecast), see fig.\ref{lead_zcc_hp_trend} for further analysis and keep in mind that the proper target is a nowcast i.e. $\delta_0=0$ is fixed.  % and we can rely on corollary \ref{lambda_cor} for deriving the SSA-design (the HP-filter belongs to the class of eigenfunctions of the difference equation). 
+<<label=init,echo=FALSE,results=hide>>=
+
+file = "filters_hp_short.pdf"
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+mplot<-scale(cbind(hp_trend,target,hp_gap,modified_hp_gap),center=F,scale=rep(T,4))
+colnames(mplot)<-c("HP trend","Target symmetric","HP-gap (original)","HP-gap (modified)")
+colo<-c(colo_hp_all[1],"black","darkgreen",colo_hp_all[2])
+plot(mplot[,1],main="HP-Filters",axes=F,type="l",xlab="Lag-structure",ylab="filter-coefficients",ylim=c(min(mplot),max(mplot)),col=colo[1])
+for (i in 1:ncol(mplot))
+{
+  lines(mplot[,i],col=colo[i])
+  mtext(colnames(mplot)[i],col=colo[i],line=-i)
+}  
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+# Select forecast horizons 0 and 18
+select_vec<-1:3
+mplot<-scale(bk_mat[,select_vec],center=F,scale=rep(T,length(select_vec)))
+plot(mplot[,1],main="SSA-Filters",axes=F,type="l",xlab="Lag-structure",ylab="filter-coefficients",ylim=c(min(mplot),max(mplot)),col=colo_SSA[1])
+for (i in 1:ncol(mplot))
+{
+  lines(mplot[,i],col=colo_SSA[i])
+  mtext(colnames(mplot)[i],col=colo_SSA[i],line=-i)
+}  
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+
+invisible(dev.off())
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "filters_hp_short.pdf"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{HP concurrent (left panel) and SSA concurrent filters (right panel). All filters are arbitrarily scaled to unit-variance.", sep = "")
+cat("\\label{filters_hp}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+The coefficients of the specified concurrent and target filters are displayed in fig.\ref{filters_hp}: all filters have length $L=\Sexpr{L}$ and are normalized to unit-variance ($\frac{1}{L}\sum_{k=0}^{L-1}(b_k-\overline{b})^2=1$). %The tails of the symmetric HP target (black) suggests evidence of a challenging prediction problem because the left tail reaches far into the future of a series. 
+%The one-sided trend-MSE design (green) corresponds to the right half of the target, up to the arbitrary scaling. The difference between HP-trend and Trend-MSE are due to different model-assumptions: while the former assumes an ARIMA(0,2,2) data generating process, the latter relies on the white noise assumption: both are misspecified since log-returns of INDPRO are close to an MA(1) specification (in the following we ignore this topic which could be addressed formally by the extension proposed in section \ref{ext_stat}). The HP-gap corresponds to  the modification introduced in the previous section. 
+The characteristic tips of the SSA-filters are indicative of the boundary constraint $b_{-1}=0$, see theorem \ref{lambda}. The first two (orange, blue) have identical holding-times (smoothness) but %one of them (blue) is a forecast while the other (orange) is a nowcast and we therefore 
+we expect different lead-lag properties (timeliness); the third (violet) has a shorter holding-time matching HP-trend; also, \Sexpr{colnames(y_mat)[3]} is virtually indistinguishable from the MSE-estimate of the symmetric HP-target, not shown here, so that it may be considered as a third benchmark in our analysis. Fig.\ref{amp_shift_hp} compares amplitudes and phase-lags\footnote{The phase-lag at a given frequency $\omega$ measures the shift, in time-units, between output and input of the filter when fed with a sinusoidal of that frequency.} of all concurrent filters, except the original HP-gap which is discarded from further consideration when working with differenced data.
+<<label=init,echo=FALSE,results=hide>>=
+
+
+mat_coef_hp<-scale(cbind(hp_trend,modified_hp_gap),center=F,scale=c(T,T))
+mat_coef_SSA<-scale(bk_mat[,select_vec],center=F,scale=rep(T,length(select_vec)))
+
+mat_amp_hp<-mat_shift_hp<-mat_amp_SSA<-mat_shift_SSA<-NULL
+K<-600
+for (i in 1:ncol(mat_coef_hp))
+{
+  tr_obj_hp<-amp_shift_func(K,mat_coef_hp[,i],F)
+  mat_amp_hp<-cbind(mat_amp_hp,tr_obj_hp$amp)  
+  mat_shift_hp<-cbind(mat_shift_hp,tr_obj_hp$shift)  
+} 
+colnames(mat_amp_hp)<-colnames(mat_shift_hp)<-colnames(mat_coef_hp)
+for (i in 1:ncol(mat_coef_SSA))
+{
+  tr_obj_SSA<-amp_shift_func(K,mat_coef_SSA[,i],F)
+  mat_amp_SSA<-cbind(mat_amp_SSA,tr_obj_SSA$amp)  
+  mat_shift_SSA<-cbind(mat_shift_SSA,tr_obj_SSA$shift)  
+} 
+colnames(mat_amp_SSA)<-colnames(mat_shift_SSA)<-colnames(mat_coef_SSA)
+colo_hp<-colo_hp_all[c(1,4)]
+
+file = "amp_shift_hp_short.pdf"
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,2))
+mplot<-scale(mat_amp_hp,center=F,scale=rep(T,ncol(mat_amp_hp)))
+#colnames(mplot)<-c("HP trend","HP-gap (modified)","MSE-forecast")
+
+plot(mplot[,1],type="l",axes=F,xlab="Frequency",ylab="",main=paste("Amplitude HP",sep=""),ylim=c(min(mplot),max(mplot)),col=colo_hp[1])
+mtext(colnames(mplot)[1],col=colo_hp_all[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+  lines(mplot[,i],col=colo_hp_all[i])
+  mtext(colnames(mplot)[i],col=colo_hp_all[i],line=-i)
+}
+axis(1,at=1+0:6*K/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+axis(2)
+box()
+
+mplot<-scale(mat_amp_SSA,center=F,scale=rep(T,ncol(mat_amp_SSA)))
+
+plot(mplot[,1],type="l",axes=F,xlab="Frequency",ylab="",main=paste("Amplitude SSA",sep=""),ylim=c(min(mplot),max(mplot)),col=colo_SSA[1])
+mtext(colnames(mplot)[1],col=colo_SSA[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+  lines(mplot[,i],col=colo_SSA[i])
+  mtext(colnames(mplot)[i],col=colo_SSA[i],line=-i)
+}
+axis(1,at=1+0:6*K/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+axis(2)
+box()
+
+
+mplot<-(mat_shift_hp)
+#colnames(mplot)<-c("HP trend","Trend MSE","HP-gap (modified)","MSE-forecast")
+
+mplot[1,]<-NA
+# skip extreme values (larger than max of other shifts)
+#ex_val<-max(na.exclude(mplot[,1:ncol(mplot)]))
+#mplot[which(abs(mplot[,1])>ex_val),1]<-NA
+plot(mplot[,1],type="l",axes=F,xlab="Frequency",ylab="",main=paste("Phase-lag HP",sep=""),
+     ylim=c(-1,max(na.exclude(mplot))),col=colo_hp_all[1])
+mtext(colnames(mplot)[1],col=colo_hp_all[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+  lines(mplot[,i],col=colo_hp_all[i])
+  mtext(colnames(mplot)[i],col=colo_hp_all[i],line=-i)
+}
+axis(1,at=1+0:6*K/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+axis(2)
+box()
+
+mplot<-(mat_shift_SSA)
+
+mplot[1,]<-NA
+# skip extreme values (larger than max of other shifts)
+#ex_val<-max(na.exclude(mplot[,2:ncol(mplot)]))
+#mplot[which(abs(mplot[,1])>ex_val),1]<-NA
+plot(mplot[,1],type="l",axes=F,xlab="Frequency",ylab="",main=paste("Phase-lag SSA",sep=""),
+     ylim=c(-1,max(na.exclude(mplot))),col=colo_SSA[1])
+mtext(colnames(mplot)[1],col=colo_SSA[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+  lines(mplot[,i],col=colo_SSA[i])
+  mtext(colnames(mplot)[i],col=colo_SSA[i],line=-i)
+}
+axis(1,at=1+0:6*K/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+axis(2)
+box()
+
+invisible(dev.off())
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "amp_shift_hp_short.pdf"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{Amplitude and phase-lag functions of HP-gap (red), HP-trend (brown), SSA(12,0) (orange), SSA(12,18) (blue) and SSA(7.66,18) violet)", sep = "")
+cat("\\label{amp_shift_hp}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+The amplitude functions suggest that all filters, except HP-gap, are  lowpass designs; $b_k^{\Delta gap}$ is a bandpass %with vanishing amplitude at frequency zero\footnote{The original $b_k^{gap}$ has a zero of order two at frequency zero such that a zero of order one is left in $b_k^{\Delta gap}$.} 
+which suppresses low-frequency content: this specific characteristic of HP-gap can be related to the phenomenon of so-called 'spurious cycles', see for example fig.\ref{business_cycle_trend_covid}, left panels. %SSA-nowcast (orange) and HP-MSE are similar because their holding-times are similar:   $ht^{MSE}=$\Sexpr{round(compute_holding_time_func(hp_mse)$ht,0)} vs. $ht_1=$\Sexpr{ht}. Therefore, the SSA-nowcast (orange) is redundant and will be skipped from further analysis. 
+Amplitude functions of SSA with larger holding-times (orange and blue) are smallest at higher frequencies, due to stronger smoothing. %: a stronger suppression of high-frequency components warrants less frequent zero-crossings. 
+The phase-lag of HP-gap is smallest overall; \Sexpr{colnames(filter_mat)[5]} (orange) outperforms HP-trend uniformly at business-cycle frequencies; \Sexpr{colnames(filter_mat)[4]}  outperforms HP-trend only at lower cycle-frequencies, see fig.\ref{lead_zcc_hp_trend}.  
+<<label=init,echo=FALSE,results=hide>>=
+file = paste("lead_zcc_hp_trend.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,1))
+mplot<-cbind(mat_shift_hp[,1],mat_shift_SSA)
+colnames(mplot)[1]<-colnames(mat_shift_hp)[1]
+mplot[1,]<-NA
+# skip extreme values (larger than max of other shifts)
+ex_val<-max(na.exclude(mplot[,2:ncol(mplot)]))
+mplot[which(abs(mplot[,1])>ex_val),1]<-NA
+plot(mplot[,1]-mplot[,2],type="l",axes=F,xlab="Frequency",ylab="Lag                              Lead            ",main=paste("Lead/lag of SSA over HP-trend",sep=""),col=colo_SSA[1],ylim=c(-2,6))
+for (i in 2:ncol(mplot))
+{  
+lines(mplot[,1]-mplot[,i],col=colo_SSA[i-1])
+mtext(paste("Relative lead/lag of ",colnames(mplot)[1], " over ",colnames(mplot)[i],sep=""),col=colo_SSA[i-1],line=-i)
+}
+x<-c(as.integer(nrow(mplot)/(10*6)),as.integer(nrow(mplot)/(10*6)),as.integer(nrow(mplot)/(2*6)),as.integer(nrow(mplot)/(2*6)))
+#y<-c(min(na.exclude(mplot[,2]-mplot[,3])),max(na.exclude(mplot[,2]-mplot[,3])),max(na.exclude(mplot[,2]-mplot[,3])),min(na.exclude(mplot[,2]-mplot[,3])))
+y<-c(-2,6,6,-2)
+polygon(x, y, xpd = T, col = "grey",density=10)#, lty = 2, lwd = 2, border = "red")
+#mtext("Trend-cycle frequencies",col="grey",line=-3)
+abline(h=0,lty=2)
+axis(1,at=1+0:6*K/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+axis(2)
+box()
+
+
+
+invisible(dev.off())
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "lead_zcc_hp_trend.pdf"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{Difference of phase-lags of SSA vs. HP-trend. Positive values signify a lead of SSA at the corresponding frequency. Business-cycle frequencies i.e. periodicities between two and ten years are highlighted in the shaded area.", sep = "")
+cat("\\label{lead_zcc_hp_trend}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+%Although the figure suggest that HP-trend is not outperformed uniformly, in terms of phase-lag at business-cycle frequencies, 
+An application of SSA and HP-trend to simulated Gaussian noise leads to mean-shift or $\tau$-statistics summarized in table \ref{perf_zcc_gap_trend_sh} (the mean-shift or $\tau$-statistic is discussed in the appendix: it measures the shift of two competing filter-outputs at zero-crossings and a positive mean-shift implies a corresponding lead or left-shift of the reference-filter, averaged over all crossings).  
+<<label=init,echo=FALSE,results=hide>>=
+# Compute empirical mean shift: lead/lag
+mat_re<-matrix(rbind(as.integer(c(0,round(tau,0),round(tau_gap,0),round(tau_slow,0),round(tau_fast,0))),as.integer(c(number_cross_all_filters[c("SSA(12,18)","HP trend","Modified gap","SSA(12,0)","SSA(7.66,18)")]))),ncol=5)
+colnames(mat_re)<-c("SSA(12,18)","HP trend","Modified gap","SSA(12,0)","SSA(7.66,18)")
+rownames(mat_re)<-c("Mean-shift (Tau-statistic)","Number of crossings")
+#save(mat_re_gap_trend_zcc,file=paste(path.result,"mat_re_gap_trend_zcc"))
+index(indpro)[1]
+index(indpro)[nrow(indpro)]
+mat_sh<-matrix(c(round(tau_Gauss_slow,0),round(tau_Gauss_middle,0),round(tau_Gauss_fast,0)),nrow=1)
+colnames(mat_sh)<-colnames(y_mat_Gauss)[c(3,4,5)]
+rownames(mat_sh)<-"Mean-shift Tau-statistic"
+@
+<<label=ats_mba_2,echo=FALSE,results=tex>>=
+xtable(mat_sh, dec = 1,dig=1,
+paste("Mean-shift (tau-statistic) of HP-trend as referenced against SSA based on an application to Gaussian white noise: positive numbers suggest a lead or left-shift by the corresponding SSA-design"),
+label=paste("perf_zcc_gap_trend_sh",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+%$\tau$(\Sexpr{colnames(y_mat_Gauss)[3]},HP-trend)=\Sexpr{round(tau_Gauss_slow,0)}, $\tau$(\Sexpr{colnames(y_mat_Gauss)[4]},HP-trend)=\Sexpr{round(tau_Gauss_middle,0)} and $\tau$(\Sexpr{colnames(y_mat_Gauss)[5]},HP-trend)=\Sexpr{round(tau_Gauss_fast,0)}. %; but an application to the US-INDPRO series reveals a slight lead $\tau$(SSA,HP-trend)=\Sexpr{round(tau,0)} which might be due to the fact that log-returns of the series are positively autocorrelated (stronger low-frequency content tends to favor the SSA-filter, recall fig.\ref{lead_zcc_hp_trend}). 
+In summary, HP-gap is expected to lead systematically all lowpass designs, but the eventuality of spurious cycles and zero-crossings could affect the analysis; SSA emphasizes three different research priorities whereby HP-trend is at least equaled in terms of holding-time. We now verify the established diagnostics based on empirical data and effective filter-outputs. A detailed analysis of the US business-cycle  is proposed in section \ref{app_indpro} and summary-statistics for a selection of additional countries are provided in section \ref{multi_nat}.%The following section verifies these assumptions.\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+%, as  displayed in fig.\ref{amp_shift_hp}, which will be thoroughly analyzed further down. %: the latter  suggest that the concurrent {trend} estimates are lowpass designs whereas the HP-gap is a bandpass (vanishing amplitude at frequency zero). By altering low-frequency content, the gap filter is likely to introduce spurious cycles and zero-crossings which potentially disturb a coherent analysis of the underlying time series dynamics. 
+
+\subsection{Application to the US-Industrial Production Index}\label{app_indpro}
+
+
+We consider an application of the proposed concurrent filters to first differences $\Delta I_t$ of the (log-transformed) monthly US industrial production index $I_t$ plotted in fig.\ref{z_us_log_indpro}: the series effectively starts in \Sexpr{index(indpro)[1]} (FRED database) but we display shorter samples for ease of visual inspection. %Applications to a selection of other countries are summarized in section \ref{multi_nat}. % Since the HP-gap filter, with coefficients $b_k^{gap}$ defined above, is typically applied to (un-differenced) $I_t$, we here propose an alternative representation suitable for first differences $\Delta I_t$ with coefficients $b_k^{\Delta gap}$ such that
+<<label=init,echo=FALSE,results=hide>>=
+file = paste("z_us_log_indpro.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+x<-nber_dates_polygon(start_date,series_level)$x
+y<-nber_dates_polygon(start_date,series_level)$y
+# Adjust rectangles of shaded recession episodes to minimal series value
+y[which(y==min(y))]<-min(series_level[paste(start_date,"/",sep="")])
+#x<-c(start_date[33],start_date[33],end_date[33],end_date[33])
+#y<-c(min(level),max(level),max(level),min(level))
+plot((series_level[paste(start_date,"/",sep="")]),#ylim=c(min(series_level[paste(start_date,"/",sep="")]),max(series_level[paste(start_date,"/",sep="")])),
+     plot.type='s',col="black",ylab="",main="US industrial production index ")
+polygon(x, y, xpd = T, col = "grey",density=10)#, lty = 2, lwd = 2, border = "red")
+invisible(dev.off())
+@
+<<label=z_us_real_log_gdp.pdf,echo=FALSE,results=tex>>=
+  file = paste("z_us_log_indpro.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Monthly US industrial production index (INDPRO) and recession episodes as dated by the National Bureau of Economic Research, NBER (shaded)", sep = "")
+  cat("\\label{z_us_log_indpro}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+<<label=init,echo=FALSE,results=hide>>=
+# Load full data-set
+file = paste("business_cycle_gap_trend_short.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,1))
+q_gap
+polygon(x_gap, y_gap, xpd = T, col = "grey",density=10)#
+q_trend
+polygon(x_trend, y_trend, xpd = T, col = "grey",density=10)#
+invisible(dev.off())
+
+
+@
+<<label=z_us_real_log_gdp.pdf,echo=FALSE,results=tex>>=
+file = paste("business_cycle_gap_trend_short.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter-outputs: HP-gap (red) and SSA(12,18) (blue) in the top panel; HP-trend (brown) and SSA(12,18) (blue) in the bottom panel with shaded recession episodes.", sep = "")
+  cat("\\label{business_cycle_trend}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+%As seen in the previous fig.\ref{z_us_log_indpro}, this episode corresponds to a period of weaker mean-growth of the Index, which is likely representative of the foreseeable future, and with correspondingly reduced signal to noise ratio, complicating additionally the real-time forecast exercise. 
+Filter-outputs, scaled to unit-variance, are displayed in fig.\ref{business_cycle_trend}. 
+Zero-crossings of the filters are marked by vertical lines with matching colors (overlaps are possible). The figure illustrates that the bandpass HP-gap (top panel) generates excessively many crossings, see table \ref{perf_zcc_gap_trend}, as well as false systematic sign changes, i.e. spurious cycles, during longer up-swings covering the great moderation, from the early nineties up to the financial crisis, see also fig.\ref{business_cycle_trend_covid}, left panels. In contrast, the lowpass designs %do not suppress low-frequency content and 
+track the longer cycle-dynamics better. All filters 
+%The period extends from the beginning of the so-called dot-com recession, in early 2000, down to the Covid-crisis and refers to a longer period of weakening growth and consequently weaker signal-to-noise ratio which is likely more representative of the foreseeable future. 
+indicate a slowdown of industrial production in 2015 and 2016, at a time when the price for crude oil declined sharply, hence affecting petrol extraction as well as collateral industrial activity in the US. A potential advantage of imposing stronger smoothness can be seen in fig.\ref{business_cycle_trend_covid}, right panels, which highlight the pandemic 'great-lockdown' crisis: zero-crossings of the SSA-design are fewer and dynamics are less noisy than the benchmark, which facilitates a real-time assessment of economic conditions, at least in the industrial sector. The bottom-right panel illustrates the potential right-shift or lag of \Sexpr{colnames(y_mat)[3]} at zero-crossings, as measured by $\tau$ in the appendix. Table  \ref{perf_zcc_gap_trend} compares timeliness and smoothness performances in terms of $\tau$ and number of sign changes: HP-gap and \Sexpr{colnames(y_mat)[5]} outperform in terms of timeliness followed by \Sexpr{colnames(y_mat)[4]}, HP-trend and \Sexpr{colnames(y_mat)[3]}; but the latter \Sexpr{colnames(y_mat)[3]} outperforms in terms of smoothness, followed by \Sexpr{colnames(y_mat)[4]}, \Sexpr{colnames(y_mat)[5]}, HP-trend and finally HP-gap. These rankings mostly conform with the diagnostics established in the previous section, based on amplitude and phase-lag functions. Based on theoretical as well as empirical evidences, we now discard HP-gap, subject to spurious cycles, as well as \Sexpr{colnames(filter_mat)[3]}, subject to a relative lag (recall that \Sexpr{colnames(filter_mat)[3]} is virtually indistinguishable from MSE here).
+<<label=init,echo=FALSE,results=hide>>=
+# Load full data-set
+file = paste("business_cycle_trend_covid.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(2,2))
+q_gap_great_moderation_1
+polygon(x_gap_great_moderation_1, y_gap_great_moderation_1, xpd = T, col = "grey",density=10)#
+q_trend_covid
+polygon(x_trend_covid, y_trend_covid, xpd = T, col = "grey",density=10)#
+q_gap_great_moderation_2
+polygon(x_gap_great_moderation_2, y_gap_great_moderation_2, xpd = T, col = "grey",density=10)#
+q_SSA_covid
+polygon(x_SSA_covid, y_SSA_covid, xpd = T, col = "grey",density=10)#
+invisible(dev.off())
+
+@
+<<label=z_us_real_log_gdp.pdf,echo=FALSE,results=tex>>=
+file = paste("business_cycle_trend_covid.pdf", sep = "")
+  cat("\\begin{figure}[H]")
+  cat("\\begin{center}")
+  cat("\\includegraphics[height=4in, width=6in]{", file, "}\n",sep = "")
+  cat("\\caption{Filter-outputs: Modified HP-gap (red), HP-trend (brown), SSA(12,18) (blue) and SSA(12,0) (orange). From 1990-2002 (top left panel, great moderation), 2000-2010 (bottom left panel) and 2019-2021 (right panel: great lockdown). Zero-crossings are marked by corresponding vertical lines (overlaps are possible). ", sep = "")
+  cat("\\label{business_cycle_trend_covid}}", sep = "")
+  cat("\\end{center}")
+  cat("\\end{figure}")
+@
+
+
+
+%The excess zero-crossings of HP-gap as well as a couple of connected intervals with wrong growth-signs in fig.\ref{business_cycle_trend} hamper a straightforward determination of sign-changes of the cycle, as anticipated by an analysis of amplitude functions in fig.\ref{amp_shift_hp} (bandpass vs. lowpass). Both lowpass designs in the bottom panel track upturns and downturns more reliably and the SSA-crossings are more timely (left-shifted) with fewer false alarms (less crossings). Note, however, that the modified gap-filter performs superiorly during the Covid-breakout, with faster signal-tracking than SSA-forecast and fewer false crossings than HP-trend. The key-statistics are summarized in table \ref{perf_zcc_gap_trend} and the reported mean-lead of the SSA-design at zero-crossings is consistent with the positive phase-lag differences at business-cycle frequencies in fig.\ref{lead_zcc_hp_trend} (shaded area). \\
+
+%Our results suggest that improved smoothing-capability of SSA against HP(trend), in terms of fewer zero-crossings or 'false alarms', does not necessarily impair  relative timing-ability in this context, quite the contrary: alas, a formal treatment of the underlying tradeoff(s) would conflict with actual space limitations. Note also that our simplified SSA-design relies on the white noise assumption which is a misspecification in the presence of 'cycles'. Nonetheless, we here deliberately refrain from fine-tuning (and possibly overfitting) the design, based on the extension to stationary processes presented in section \ref{ext_stat}, in particular since the implicit ARIMA(0,2,2)-model of the competing HP-design is likely subject to misspecification, too.
+<<label=init,echo=FALSE,results=hide>>=
+# Compute empirical mean shift: lead/lag
+mat_re<-matrix(rbind(as.integer(c(0,round(tau,0),round(tau_gap,0),round(tau_slow,0),round(tau_fast,0))),as.integer(c(number_cross_all_filters[c("SSA(12,18)","HP trend","Modified gap","SSA(12,0)","SSA(7.66,18)")]))),ncol=5)
+colnames(mat_re)<-c("SSA(12,18)","HP trend","Modified gap","SSA(12,0)","SSA(7.66,18)")
+rownames(mat_re)<-c("Mean-shift (Tau-statistic)","Number of crossings")
+#save(mat_re_gap_trend_zcc,file=paste(path.result,"mat_re_gap_trend_zcc"))
+index(indpro)[1]
+index(indpro)[nrow(indpro)]
+@
+<<label=ats_mba_2,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+xtable(mat_re, dec = 1,
+paste("Mean-shift (tau-statistic), as referenced against SSA(12,18), and number of crossings for US-INDPRO from 1935-09-01 to 2022-11-01: positive mean-shifts signify a left-shift or lead by SSA(12,18)"),
+label=paste("perf_zcc_gap_trend",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+ 
+To conclude our analysis of the US business-cycle, we note that the empirical holding-time of \Sexpr{round(length_series/number_cross[1,"SSA(12,18)"],0)} months of \Sexpr{colnames(filter_mat)[4]} exceeds $ht_1=\Sexpr{ht}$. This discrepancy is mainly due to positive autocorrelation (the 'cyclical' growth-rates of the series are smoother than white noise) and the observed effect could be addressed by the extension in section \ref{ext_stat}, fixing the link between expected and empirical holding-times and reestablishing interpretability of the hyper-parameter in its original meaning (but we excluded data-fitting at the outset). Also, the NBER declared  \Sexpr{number_recessions_1935} recessions in a time span from  \Sexpr{index(indpro)[L]}\footnote{The earliest observations are skipped due to filter initialization.} to \Sexpr{index(indpro)[nrow(indpro)]}  which corresponds to a mean-length of expansion-recession cycles of \Sexpr{round(cycle_length_NBER_start_date,0)} months or roughly \Sexpr{round(cycle_length_NBER_start_date/12,0)} years. In comparison, twice the empirical holding-time of the SSA-filter corresponds to $2\cdot\Sexpr{round(length_series/number_cross[1,"SSA(12,18)"],0)}$=\Sexpr{2*round(length_series/number_cross[1,"SSA(12,18)"],0)} months or four years. Therefore, additional fine-tuning of the design, including the selection of the (HP) target or of the economic indicator\footnote{Some of the downturns of the industrial production index, such as in 2015 and 2016, do not classify as economic recessions and therefore a direct comparison of corresponding 'cycles' is subject to caution.} or of $ht_1$ in the SSA-specification might be envisioned to match  cycle-lengths, at least when calibrated against NBER recession datings.  
+
+
+
+
+\subsection{Multi-National Perspective}\label{multi_nat}
+
+
+We here extend the above framework 'as is' to a selection of countries, restricting attention to 'mature' and large economies with correspondingly long and stable cycle histories, ideally differing from the US. see table \ref{perf_zcc_gap_trend_extended}. Aggregate performances, obtained by concatenating all series, are summarized in table \ref{perf_zcc_gap_trend_mean}: they confirm expectations, as entailed by the selected hyperparameters, and the two SSA-designs are representative of two particular non-exhaustive research priorities. 
+<<label=init,echo=FALSE,results=hide>>=
+# Compute timeliness smoothness for all time series
+
+# 1. First data set Simon
+# We initialize table with results for US above i.e. we skip US from indpro: indpro[,-3]
+time_cross_mat<-mat_re[,c(1,2,5)]
+series_mat<-indpro[,-3]
+time_cross_mat<-NULL
+number_cross_mid<-number_cross_fast<-matrix(rep(0,2),nrow=1)
+series_mat<-indpro
+tau_vec_long_mid<-tau_vec_long_fast<-NULL
+for (ijk in 1:ncol(series_mat))#ijk<-1
+{  
+# Select INDPRO and make xts object
+  select_series<-ijk
+# Remove NAs and fix correct type  
+  series<-as.vector(na.exclude(series_mat[,select_series]))
+  ts.plot(series)
+
+#   Filter data
+
+  filter_obj<-SSA_filter_func(filter_mat,L,series)
+
+  y_mat=filter_obj$y_mat
+  
+  ts.plot(scale(y_mat,center=F,scale=rep(T,ncol(y_mat)))[,c("SSA(12,18)","HP trend")],col=c("blue","brown"))
+  abline(h=0)
+
+#------------------------------------
+# Diagnostics real data: number of Crossings, peak correlation and shift (tau statistic)
+
+# 5.1 SSA-mid vs HP trend
+# Select competing series: reference filter/series first
+#   Reference series determines crossings, see description of tau-statistic in paper (should be smoother)
+#   Reference series determines sign of lead/lags of peak-correlation
+# Note: should not be an xts-object!!!!
+  mplot<-as.matrix(y_mat[,c("SSA(12,18)","HP trend")])
+# Max lead for peak-correlation
+  max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+  last_crossing_or_closest_crossing<-F
+  
+  timeliness_obj<-compute_timeliness_func(mplot,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+  
+  cor_peak=timeliness_obj$cor_peak
+  tau_vec=timeliness_obj$tau_vec
+  tau_vec_adjusted=timeliness_obj$tau_vec_adjusted
+# Collect tau summands over all series for statistical test  
+  tau_vec_long_mid<-c(tau_vec_long_mid,tau_vec_adjusted)
+  tau_trend=timeliness_obj$tau
+  tau_adjusted_trend=timeliness_obj$tau_adjusted
+  t_test=timeliness_obj$t_test
+  t_test_adjusted=timeliness_obj$t_test_adjusted
+  number_cross_trend=timeliness_obj$number_cross
+  number_cross_mid<-number_cross_mid+number_cross_trend
+  tau_trend
+  tau_adjusted_trend
+  number_cross_trend
+  
+# 5.2 SSA-mid vs. SSA-fast
+  mplot<-as.matrix(y_mat[,c(4,5)])
+
+  timeliness_obj<-compute_timeliness_func(mplot,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+  
+  tau_fast_trend=timeliness_obj$tau
+  tau_adjusted_fast_trend=timeliness_obj$tau_adjusted
+  tau_vec_fast_trend_adjusted=timeliness_obj$tau_vec_adjusted
+# Collect tau summands over all series for statistical test  
+  tau_vec_long_fast<-c(tau_vec_long_fast,tau_vec_fast_trend_adjusted)
+  number_cross_fast_trend=timeliness_obj$number_cross
+  number_cross_fast<-number_cross_fast+number_cross_fast_trend
+
+  tau_fast_trend
+  tau_adjusted_fast_trend
+  number_cross_fast_trend
+
+  time_cross_mat<-rbind(time_cross_mat,rbind(c(0,as.integer(round(tau_adjusted_trend,0)),as.integer(round(tau_adjusted_fast_trend,0)))),c(as.integer(number_cross_trend[2:1]),as.integer(number_cross_fast_trend[1])))
+
+}
+
+colnames(time_cross_mat)<-colnames(y_mat)[c(4,1,5)]
+#rowname<-c("US shift","US number crossings")
+rowname<-NULL#c("US shift","US number crossings")
+for (i in 1:ncol(series_mat))
+  rowname<-c(rowname,paste(colnames(series_mat)[i],"shift"),paste(colnames(series_mat)[i],"number crossings"))
+rownames(time_cross_mat)<-rowname
+time_cross_mat
+
+time_cross_mat_first_data_set<-time_cross_mat
+
+#-----------------------------------------------------
+# 2. Second data set Simon
+colnames(indpro_eu)
+series_mat<-indpro_eu
+
+time_cross_mat<-NULL
+
+for (ijk in 1:ncol(indpro_eu))#ijk<-7
+{  
+# Select INDPRO and make xts object
+  select_series<-ijk
+# Remove NAs and fix correct type  
+  series<-as.vector(na.exclude(indpro_eu[,select_series]))
+  ts.plot(series)
+
+
+  filter_obj<-SSA_filter_func(filter_mat,L,series)
+
+  y_mat=filter_obj$y_mat
+  
+  ts.plot(scale(y_mat,center=F,scale=rep(T,ncol(y_mat)))[,c("SSA(12,18)","HP trend")],col=c("blue","brown"))
+  abline(h=0)
+
+#------------------------------------
+# Diagnostics real data: number of Crossings, peak correlation and shift (tau statistic)
+
+# 5.1 SSA-mid vs HP trend
+# Select competing series: reference filter/series first
+#   Reference series determines crossings, see description of tau-statistic in paper (should be smoother)
+#   Reference series determines sign of lead/lags of peak-correlation
+# Note: should not be an xts-object!!!!
+  mplot<-as.matrix(y_mat[,c("SSA(12,18)","HP trend")])
+# Max lead for peak-correlation
+  max_lead<-41
+# Select closest crossings of contender to reference crossings (conservative measure of shift: corresponds to tau-statistic in paper)
+  last_crossing_or_closest_crossing<-F
+  
+  timeliness_obj<-compute_timeliness_func(mplot,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+  
+  cor_peak=timeliness_obj$cor_peak
+  tau_vec=timeliness_obj$tau_vec
+  tau_vec_adjusted=timeliness_obj$tau_vec_adjusted
+# Collect tau summands over all series for statistical test  
+  tau_vec_long_mid<-c(tau_vec_long_mid,tau_vec_adjusted)
+  tau_trend=timeliness_obj$tau
+  tau_adjusted_trend=timeliness_obj$tau_adjusted
+  t_test=timeliness_obj$t_test
+  t_test_adjusted=timeliness_obj$t_test_adjusted
+  number_cross_trend=timeliness_obj$number_cross
+  number_cross_mid<-number_cross_mid+number_cross_trend
+
+  tau_trend
+  tau_adjusted_trend
+  number_cross_trend
+  
+# 5.2 SSA-mid vs. SSA-fast
+  mplot<-as.matrix(y_mat[,c(4,5)])
+
+  timeliness_obj<-compute_timeliness_func(mplot,max_lead,ht,last_crossing_or_closest_crossing,outlier_limit)
+  
+  tau_fast_trend=timeliness_obj$tau
+  tau_adjusted_fast_trend=timeliness_obj$tau_adjusted
+  tau_vec_fast_trend_adjusted=timeliness_obj$tau_vec_adjusted
+# Collect tau summands over all series for statistical test  
+  tau_vec_long_fast<-c(tau_vec_long_fast,tau_vec_fast_trend_adjusted)
+  number_cross_fast_trend=timeliness_obj$number_cross
+  number_cross_fast<-number_cross_fast+number_cross_fast_trend
+
+  tau_fast_trend
+  tau_adjusted_fast_trend
+  number_cross_fast_trend
+
+  time_cross_mat<-rbind(time_cross_mat,rbind(c(0,as.integer(round(tau_adjusted_trend,0)),as.integer(round(tau_adjusted_fast_trend,0)))),c(as.integer(number_cross_trend[2:1]),as.integer(number_cross_fast_trend[1])))
+
+
+}
+
+
+
+t_test_mid<-t.test(tau_vec_long_mid,  alternative = "two.sided")$statistic
+t_test_fast<-t.test(tau_vec_long_fast,  alternative = "two.sided")$statistic
+ts.plot(cumsum(tau_vec_long_mid))
+mean(tau_vec_long_mid)
+ts.plot(cumsum(tau_vec_long_fast))
+mean(tau_vec_long_fast)
+
+
+colnames(time_cross_mat)<-colnames(y_mat)[c(4,1,5)]
+#rowname<-c("US shift","US number crossings")
+rowname<-NULL
+for (i in 1:ncol(series_mat))
+  rowname<-c(rowname,paste(colnames(series_mat)[i],"shift"),paste(colnames(series_mat)[i],"number crossings"))
+rownames(time_cross_mat)<-rowname
+time_cross_mat
+
+# Concatenate both country sets and perform aggregate mean performances over all countries
+time_cross_mat_final<-rbind(time_cross_mat_first_data_set,time_cross_mat)
+aggregate_time_cross_mat_final<-rbind(round(c(0,mean(tau_vec_long_mid),mean(tau_vec_long_fast)),2),
+                                      c(0,t_test_mid,t_test_fast),
+                                     c( as.integer(number_cross_mid[2:1]),as.integer(number_cross_fast[1])))
+  
+colnames(aggregate_time_cross_mat_final)<-colnames(time_cross_mat)
+  
+
+rownames(aggregate_time_cross_mat_final)<-c("Mean-shift over countries","t-test for time-shift","Total number of crossings")
+colnames(aggregate_time_cross_mat_final)<-colnames(aggregate_time_cross_mat_final)
+
+@
+<<label=ats_mba_2,echo=FALSE,results=tex>>=
+library(Hmisc)
+require(xtable)
+xtable(time_cross_mat_final, dec = 1,digits=0,
+paste("Number of crossings and mean-shift (tau-statistic), as referenced against SSA(12,18): a positive shift means a corresponding lead."),
+label=paste("perf_zcc_gap_trend_extended",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+<<label=ats_mba_2,echo=FALSE,results=tex>>=
+xtable(aggregate_time_cross_mat_final, dec = 1,digits=2,
+paste("Aggregate mean timeliness and smoothness performances obtained by concatenation into a single long series. Shifts at zero-crossings i.e. tau-statistics are referenced against SSA(12,18): positive shifts indicate a lead or left-shift of the reference; t-statistics for significance of the lead or lag are reported in the middle row"),
+label=paste("perf_zcc_gap_trend_mean",sep=""),
+center = "centering", file = "", floating = FALSE)
+@
+While the lag of HP-trend against the reference \Sexpr{colnames(filter_mat)[4]} is statistically insignificant, the latter outperforms the former in terms of smoothness. The lead of \Sexpr{colnames(filter_mat)[5]} over the reference \Sexpr{colnames(filter_mat)[4]}, and thus over the benchmark, is strongly significant: for similar smoothness, SSA outperforms HP-trend in terms of timeliness (the strict equality of the total number of crossings is fortuitous in this case). We may also refer to fig.\ref{tau_vec} in the appendix for a visualization of $\tau$ and the underlying statistical t-test. While our treatment of timeliness, by alterations of the forecast horizon $\delta$, might be felt as 'ad hoc', we  argue that the intended effect can be established, measured and tested for statistical significance; moreover, the upshot of our proceeding consists in interpreting the forecast horizon as an additional free tuning-parameter, affecting properties of the predictor to match alternative research priorities. In this abstract perspective,  a more legitimate formal approach can be developed for addressing prediction-tradeoffs in a fundamental manner and SSA is a first step pointing % remains a key-element for building  is currently under investigation criterion could be derived,  based on the proposed SSA-framework, which would emphasize all three dimensions of the prediction tradeoff, namely accuracy, timeliness and smoothness, in a more elaborate and fundamental manner. Our proceeding here is a first step pointing 
+to this direction. 
+
+
+%. We conclude, by emphasizing that our treatment of timeliness, by alteration of the forecast horizon $\delta$, is to some extent ad hoc: indeed, a more refined criterion could be derived,  based on the proposed SSA-framework, which would emphasize all three dimensions of the prediction tradeoff, namely accuracy, timeliness and smoothness, in a more elaborate and fundamental manner. Our proceeding here is a first step pointing to this direction.
+
+
+ 
+
+\section{Conclusion}\label{conclusion}
+
+We propose a novel  SSA-criterion which emphasizes sign accuracy and zero-crossings of the predictor subject to a holding-time constraint. Under the Gaussian assumption, the classic MSE-criterion is equivalent to  unconstrained SSA-optimization: in the absence of a holding-time constraint and down to an arbitrary scaling nuisance. We argue and demonstrate that the proposed concept is resilient against various departures of the Gaussian assumption. Moreover, %Resilience against departures of the Gaussian hypothesis, in terms of  stylized facts of financial times series, has been verified by comparing  expected holding times with empirical means based on the S$\&$P500-index as well as BTC (crypto-currency). While heavy tails or autocorrelation can generate biases, the latter problem could be corrected by the proposed extension of our approach to stationary processes.   
+%Notwithstanding, 
+the approach is interpretable and appealing %beyond the promoted sign-accuracy perspective, in part 
+due to its actual simplicity and because the criterion merges relevant concepts of prediction in terms of sign accuracy, MSE, and smoothing requirements. The business-cycle case illustrates application to an existing benchmark in view of modifying predictors according to particular research priorities. In this context, timeliness and smoothness of real-time designs can be controlled in an effective and interpretable way. %The example also illustrates that timeliness (advance or retard at the zero-line) and smoothing-capability (spread between consecutive crossings) of SSA-designs can be improved both, at once, when compared to established benchmarks. %These somehow intriguing observations hint towards existence of a richer tradeoff, a trilemma, which reconciles particular empirical findings  in a common formal framework. 
+%In summary,  the SSA-criterion reconciles MSE, sign accuracy and smoothing requirements in a flexible, consistent and interpretable manner. \\
+
+
+\section{Appendix}
+
+
+To  quantify leads or lags of filters at zero-crossings we here propose a simple formal test-statistic. Let  $y_{tn}$, $n=1,...,N$ be a set of competing filters and let $ZC_n$ denote the set of zero-crossings $t_{jn}, j=1,...,|ZC_n|$ of each filter $y_{tn}$
+\[ZC_n=\left\{t_{jn}|\textrm{sign}(y_{t_j,n})\neq \textrm{sign}(y_{t_j-1,n})\right\}\]
+where $|ZC_n|$ means the cardinality of the set. Let $ZC_n^+$ and $ZC_n^-$ designate the sub-sets of up- and downturns of $y_{tn}$, at which $y_{tn}$ crosses the zero-line from below or from above.
+Assume that $y_{tN}$ has been selected to be benchmarked against filter $n<N$ according to the following measure
+\begin{eqnarray}\label{leadlagstat}
+\tau(N,n):=\frac{1}{|ZC_N|}\left(\sum_{j=1}^{|ZC_N^+|} (t_{f(j,N),n}^+-t_{jN}^+)+\sum_{j=1}^{|ZC_N^-|}(t_{f(j,N),n}^--t_{jN}^-)\right)
+\end{eqnarray}
+where $f(j,N)$ is the index of the zero-crossing of $y_{tn}$ closest to $t_{jN}^+$ or $t_{jN}^-$ in the corresponding subsets $ZC_n^+$ or $ZC_n^-$  i.e. 
+$|t_{f(j,N),n}^+-t_{jN}^+|=\min_{i}|t_{in}^+-t_{jN}^+|$ and similarly for the downturns. Note that  sums are taken over  zero-crossings of the reference filter $y_{tN}$, which is always a SSA-design in the empirical sections. We recommend that $y_{tn}$, $n=1,...,N$ should have 'similar' crossings for the comparison to be meaningful (comparing a lowpass to a highpass would lead to difficulties when interpreting results); also, ideally, the reference filter should be smoother, with fewer zero-crossings, as is the case in our examples. In our BCA application, we mainly rely on \Sexpr{colnames(filter_mat)[4]}: we prefer this reference to the proper target, i.e. the HP-symmetric filter, because the latter cannot be used towards the sample-end, thus excluding the latest and important great-lockdown crisis, see fig.\ref{business_cycle_trend_covid}. Also, timeliness performances of all concurrent filters can be assessed against another causal filter, which facilitates direct comparisons. \\
+The $\tau$-statistic \ref{leadlagstat} is called \emph{mean shift} of the reference filter $N$ with respect to filter $n$; the former is called \emph{leading} or \emph{lagging}, with respect to the latter, depending on the mean-shift being positive or negative. The statistic could be split into separate downturn and upturn sums in the case of asymmetry. A classic t-test can be used to infer statistical significance of a mean-lead or a -lag at zero-crossings, assuming the summands in \ref{leadlagstat} to be independently distributed. For illustration, fig.\ref{tau_vec} displays the cumulated shifts  at zero-crossings of the filters  in table \ref{perf_zcc_gap_trend_mean} (single long concatenation of all country-specific series).
+<<label=init,echo=FALSE,results=hide>>=
+file = paste("tau_vec.pdf", sep = "")
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+plot(cumsum(tau_vec_long_mid),type="l",axes=F,xlab="Number of crossings",ylab="Cumulated shift",main=paste(" HP-trend vs. ",colnames(filter_mat)[4],sep=""),col=colo_SSA[2])
+#mtext(paste("Relative lead/lag of ",colnames(mplot)[1], " over ",colnames(mplot)[i],sep=""),col=colo_SSA[i-1],line=-i)
+axis(1,at=1:length(tau_vec_long_mid),labels=1:length(tau_vec_long_mid))
+axis(2)
+box()
+plot(cumsum(tau_vec_long_fast),type="l",axes=F,xlab="Number of crossings",ylab="Cumulated shift",main=paste(colnames(filter_mat)[5]," vs. ",colnames(filter_mat)[4],sep=""),col=colo_SSA[3])
+#mtext(paste("Relative lead/lag of ",colnames(mplot)[1], " over ",colnames(mplot)[i],sep=""),col=colo_SSA[i-1],line=-i)
+axis(1,at=1:length(tau_vec_long_mid),labels=1:length(tau_vec_long_mid))
+axis(2)
+box()
+
+invisible(dev.off())
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "tau_vec.pdf"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{Cumulated Shift at zero-crossings computed on concatenated series: HP-trend (left panel) and SSA(7.66,18) (right panel) are both referenced against  SSA(12,18). An upward trend signifies a lead of the reference SSA(12,18).", sep = "")
+cat("\\label{tau_vec}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+The mean-shift or $\tau$-statistic corresponds to the slope of these curves and a positive slope signifies a lead of the reference design. The t-statistic tests the alternative (non-vanishing drift) against the null (vanishing drift): the large absolute t-value for the second SSA-filter in  table \ref{perf_zcc_gap_trend_mean} reflects the strong drift in the right panel of figure \ref{tau_vec}.  
+Finally, note that the time-shift statistic considers differences of \emph{closest} crossings only, i.e. earlier or later 'noisy' sign-changes of the contender $y_{tn}$ are ignored. Therefore,  $\tau$ tends to be biased against the reference-filter $y_{tN}$ if the latter is smooth and leading, as is mostly the case of SSA-designs in our application. As an example, the $\tau$-statistic of HP-trend referenced against \Sexpr{colnames(filter_mat)[4]} in the top-right panel of fig.\ref{business_cycle_trend_covid} would vanish over the latest 'great-lockdown' crisis, because the closest crossings of HP-trend overlap with SSA. But the figure also indicates the presence of a couple of delayed 'noisy' sign-changes by HP, to the right of the reference SSA-crossings, which are ignored by our statistic. In practice, analysts would typically wait for a confirmation of a sign-change, up to a point where a relapse can be excluded with some confidence. Since these considerations are wholly ignored by $\tau$, the mean-shift can be considered as a conservative measure for the lead of SSA in our examples. 
 
 
 
