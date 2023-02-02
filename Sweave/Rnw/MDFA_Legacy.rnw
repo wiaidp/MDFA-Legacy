@@ -158,7 +158,7 @@
 
 % Chapter 7
 %  zero crossing
-%\SweaveInput{Zero}
+\SweaveInput{SSA_criterion}
 
 %------------------------------------------
 
