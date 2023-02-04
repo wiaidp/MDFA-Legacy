@@ -153,7 +153,7 @@ SSA_compute<-function(ht,L,hp_mse,forecast_horizon_vec,MA1_adjustment,grid_size)
   colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon_vec,")",sep="")
   
   colo<-c("brown",rainbow(2*ncol(bk_mat)-1)[(ncol(bk_mat)+1):(2*ncol(bk_mat))])
-  ts.plot(scale(bk_mat,center=F,scale=rep(T,ncol(bk_mat))),col=colo)
+  ts.plot(scale(bk_mat,center=F,scale=T),col=colo)
   for (i in 1:ncol(bk_mat))
     mtext(colnames(bk_mat)[i],col=colo[i],line=-i)
   
@@ -202,7 +202,7 @@ SSA_compute<-function(ht,L,hp_mse,forecast_horizon_vec,MA1_adjustment,grid_size)
     anf<-1
     anf<-nrow(y_mat_ma1)-400
     enf<-nrow(y_mat_ma1)
-    ts.plot(scale(y_mat_ma1[anf:enf,selection_vec],center=F,rep(T,ncol(y_mat_ma1))),col=colo[selection_vec])
+    ts.plot(scale(y_mat_ma1[anf:enf,selection_vec],center=F,scale=T),col=colo[selection_vec])
     for (i in 1:length(selection_vec))
       mtext(colnames(y_mat_ma1)[selection_vec[i]],col=colo[selection_vec[i]],line=-i)
     abline(h=0)
@@ -236,21 +236,27 @@ SSA_compute<-function(ht,L,hp_mse,forecast_horizon_vec,MA1_adjustment,grid_size)
 
 
 # This function computes exact SSA-filter based on corollary in paper: it relies on find_lambda1_subject_to_holding_time_constraint_func 
-#   -grid-search of lambda for given target gammak_generic (target=MSE estimate i.e. not symmetric filter) 
+#   -grid-search of lambda for given target gamma_target (target=MSE estimate i.e. not symmetric filter) 
 #     rho0 and length L in grid with resolution grid_size
 #   -For smoothing one needs positive values of lambda only i.e. with_negative_lambda==T
 # It computes optimal estimates for various forecast horizons as specified in forecast_horizon_vec
 # forecast_horizon_vec<-delta
-SSA_func<-function(L,forecast_horizon_vec,grid_size,gammak_generic,rho0,with_negative_lambda)
+SSA_func<-function(L,forecast_horizon_vec,grid_size,gammak_generic,rho0,with_negative_lambda,xi=NULL)
 {  
-  bk_mat<-NULL
+  #forecast_horizon_vec<-1
+  bk_mat<-bk_white_noise_mat<-NULL
+  if (is.null(xi))
+    xi<-NULL
   # Loop over all forecast horizons  
   for (i in 1:length(forecast_horizon_vec))#i<-1
   {  
     print(paste(round(100*i/(1+length(forecast_horizon_vec)),0),"%",sep=""))
     forecast_horizon<-forecast_horizon_vec[i]
-    opt_obj<-find_lambda1_subject_to_holding_time_constraint_func(grid_size,L,gammak_generic,rho0,forecast_horizon,with_negative_lambda)
+    opt_obj<-find_lambda1_subject_to_holding_time_constraint_func(grid_size,L,gammak_generic,rho0,forecast_horizon,with_negative_lambda,xi)
+# Coefficients as applied to xt: xt can be autocorrelated    
     bk_mat<-cbind(bk_mat,opt_obj$bk_best)
+# Coefficients as applied to white noise in Wold decomposition of xt: is NULL if xi==NULL (white noise)     
+    bk_white_noise_mat=cbind(bk_white_noise_mat,opt_obj$bk_white_noise)
     lambda_opt<-opt_obj$lambda_opt
   }
   
@@ -260,8 +266,10 @@ SSA_func<-function(L,forecast_horizon_vec,grid_size,gammak_generic,rho0,with_neg
   
 # Check theoretical holding-times of optimum: should match ht-constraint
   apply(bk_mat,2,compute_holding_time_func)
+  if (!is.null(bk_white_noise_mat))
+    apply(bk_white_noise_mat,2,compute_holding_time_func)
   
-  return(list(bk_mat=bk_mat,lambda_opt=lambda_opt))
+  return(list(bk_mat=bk_mat,lambda_opt=lambda_opt,bk_white_noise_mat=bk_white_noise_mat))
 } 
 
 
@@ -271,7 +279,7 @@ SSA_func<-function(L,forecast_horizon_vec,grid_size,gammak_generic,rho0,with_neg
 
 # This function finds optimal lambda (note that nu=lambda+1/lambda)) through grid search based on function compute_bk_from_ma_expansion_with_boundary_constraint_func above
 # It implements solution in corollary 1 of paper
-find_lambda1_subject_to_holding_time_constraint_func<-function(grid_size,L,gammak_generic,rho0,forecast_horizon,with_negative_lambda)
+find_lambda1_subject_to_holding_time_constraint_func<-function(grid_size,L,gammak_generic,rho0,forecast_horizon,with_negative_lambda,xi=NULL)
 {
   Lambda<-(1:grid_size)/(grid_size+1)
   if (with_negative_lambda)
@@ -296,14 +304,33 @@ find_lambda1_subject_to_holding_time_constraint_func<-function(grid_size,L,gamma
 # Orthonormal basis of eigenvectors of M  
   V<-eigen_obj$vectors
   nu_vec<-NULL
+# If xt is autocorrelated then one must transform target to white noise 
+#  See section 1.2 in paper (extension to autocorrelated processes)  
+  if (!is.null(xi))
+  {
+    # Append zeroes to xi if it is shorter than target    
+    if (length(xi)<length(gammak_generic))
+      xi<-c(xi,rep(0,length(gammak_generic)-length(xi)))
+    # Convolution, see paper      
+    gammak_ma1<-NULL
+    for (i in 1:length(gammak_generic))
+    {
+      gammak_ma1<-c(gammak_ma1,xi[i:1]%*%gammak_generic[1:i])
+    }
+  } else
+  {
+    gammak_ma1<-gammak_generic
+  }
+  
   if (forecast_horizon==0)
   {  
-    gammak_target<-gammak_generic
+    gammak_target<-gammak_ma1
+
   } else
   {  
-    if (forecast_horizon<length(gammak_generic))
+    if (forecast_horizon<length(gammak_ma1))
     {  
-      gammak_target<-c(gammak_generic[(1+forecast_horizon):length(gammak_generic)],rep(0,forecast_horizon))
+      gammak_target<-c(gammak_ma1[(1+forecast_horizon):length(gammak_ma1)],rep(0,forecast_horizon))
     } else
     {
       print("Forecast horizon is larger than length of target: ill-posed problem")
@@ -323,10 +350,9 @@ find_lambda1_subject_to_holding_time_constraint_func<-function(grid_size,L,gamma
     print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     gammak_target<-gammak_target[1:L]  
   }
+  
 # Spectral weights of target/MSE  
   w<-solve(V)%*%gammak_target
-  
-  
   for (i in 1:length(Lambda))#i<-500  #i<-length(Lambda) i<-900
   {
     lambda1<-Lambda[i]
@@ -372,13 +398,29 @@ find_lambda1_subject_to_holding_time_constraint_func<-function(grid_size,L,gamma
       lambda_opt<-lambda1
       i_select<-i
     }
-  }  
+  }
   colnames(rho_mat)<-c("rho_yy_best","rho_yz_best")
-
+# TRansform bk back from white noise to original (autocorrelated) data, see extension to autocorrelated processes in paper  
+  if (!is.null(xi))
+  {
+    bk_white_noise<-bk_best
+# Invert convolution back to bk    
+    first_non_null_xi<-which(xi!=0)[1]
+    bk_best[1:(first_non_null_xi-1)]<-0
+    bk_best[first_non_null_xi]<-bk_white_noise[first_non_null_xi]/xi[first_non_null_xi]
+    if (first_non_null_xi<length(bk_white_noise))#i<-2
+    {  
+      for (i in (first_non_null_xi+1):length(bk_white_noise))
+        bk_best[i]<-(bk_white_noise[i]-
+                  xi[(first_non_null_xi+1):i]%*%bk_best[(i-1):first_non_null_xi])/xi[first_non_null_xi]
+    }  
+  } else
+  {
+    bk_white_noise<-NULL
+  }
   return(list(rho_mat=rho_mat,bk_best=bk_best,crit_rhoyy=crit_rhoyy,
-              crit_rhoyz=crit_rhoyz,lambda_opt=lambda_opt,nu_vec=nu_vec))
+              crit_rhoyz=crit_rhoyz,lambda_opt=lambda_opt,nu_vec=nu_vec,bk_white_noise=bk_white_noise))
 }
-
 
 
 
@@ -694,8 +736,7 @@ plot_paper<-function(y_mat,start_date,end_date,colo_all)
     start_date<-index(y_mat)[1]
   } 
   select_output<-c(2,4)
-  mplot<-scale(y_mat[paste(start_date,"/",end_date,sep=""),select_output],center=F,
-               rep(T,length(select_output)))
+  mplot<-scale(y_mat[paste(start_date,"/",end_date,sep=""),select_output],center=F,scale=T)
   coli<-colo_all[select_output]
   q_gap<-plot(mplot,main=paste(colnames(y_mat)[select_output[1]], " vs. ",colnames(y_mat)[select_output[2]],sep=""),col=coli)
   #p<-mtext("HP-gap",col=coli[1],line=-3)
@@ -715,7 +756,7 @@ plot_paper<-function(y_mat,start_date,end_date,colo_all)
   
   
   select_output<-c(1,4)
-  mplot<-scale(y_mat[paste(start_date,"/",end_date,sep=""),select_output],center=F,scale=rep(T,length(select_output)))
+  mplot<-scale(y_mat[paste(start_date,"/",end_date,sep=""),select_output],center=F,scale=T)
   coli<-colo_all[select_output]
   q_trend<-plot(mplot,main=paste(colnames(y_mat)[select_output[1]], " vs. ",colnames(y_mat)[select_output[2]],sep=""),col=coli)
   #p<-mtext("HP-gap",col=coli[1],line=-3)
@@ -733,7 +774,7 @@ plot_paper<-function(y_mat,start_date,end_date,colo_all)
   polygon(x_trend, y_trend, xpd = T, col = "grey",density=10)#
   
   select_output<-c(4,3)
-  mplot<-scale(y_mat[paste(start_date,"/",end_date,sep=""),select_output],center=F,scale=rep(T,length(select_output)))
+  mplot<-scale(y_mat[paste(start_date,"/",end_date,sep=""),select_output],center=F,scale=T)
   coli<-colo_all[select_output]
   q_SSA<-plot(mplot,main=paste(colnames(y_mat)[select_output[1]], " vs. ",colnames(y_mat)[select_output[2]],sep=""),col=coli)
   #p<-mtext("HP-gap",col=coli[1],line=-3)

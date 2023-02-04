@@ -17,7 +17,6 @@ recompute_calculations<-F
 
 
 
-
 Time series forecasting aims at a coherent description of the main systematic dynamics of a phenomenon in view of synthesizing information about future events. Typically, the forecast process is structured by a formal optimality concept, whereby a particular forecast-error measure, such as e.g. the mean-square error (MSE), is minimized. We here argue that multiple and various characteristics of a predictor might draw attention such as the smoothing capability, i.e. the extent by which undesirable 'noisy' components of a time series are suppressed, or timeliness, as measured by relative lead or lag properties of a predictor, or sign accuracy and zero-crossings, as measured by the ability to predict the correct sign of a target. For that purpose, we here propose a generic forecast approach by merging sign accuracy and mean-square error (MSE) performances subject to a holding-time constraint which  determines the expected number of zero-crossings of the predictor in a fixed time interval. Zero-crossings (of the growth-rate) of a time series are influential in the decision-making, for e.g. economic actors, by marking transitions between up- and down-turns, expansions and recessions, and our forecast approach contributes to such a design of the predictor. % in terms of an interpretable hyper-parameter. % While a comprehensive and formal treatment of timeliness must be deferred, corresponding issues will be considered indirectly, via an additional and interpretable tuning- or hyper-parameter, and performances in terms of leads or lags will be measured accordingly. %Some of our examples illustrate that classic predictors can be outperformed both in terms of smoothness and timeliness at once.       
 %We here combine mean-square error (MSE) performances, sign accuracy, zero-crossings and smoothness characteristics in a common formal framework under suitable assumptions about the data-generating process. % and defer a lengthier theoretical treatment of timeliness which will be considered from a purely descriptive perspective, only. 
 McElroy and Wildi (2019) propose an alternative methodological framework for addressing specific facets of the forecast problem but their approach does not account for zero-crossings explicitly which may be viewed as a shortcoming in some applications. Wildi (2023) illustrates application-side aspects of the novel approach, in a (real-time) business-cycle exercise, but the chosen approach remains  largely informal. We here fill this gap by providing a complete formal treatment, including regular, singular and boundary cases, a discussion of numerical aspects as well as a derivation of the sample distribution of the predictor.  \\
@@ -40,19 +39,17 @@ The optimization criterion is derived in section \ref{zc} with a discussion of r
 \section{Simple Sign-Accuracy (SSA-) Criterion} \label{zc}
 
 
-Let $\epsilon_t, t \in \mathbb{Z}$, be Gaussian standard white noise\footnote{Since zero-crossings of zero-mean stationary processes are insensitive to the scaling, our approach is insensitive to $\sigma^2$: for simplicity, we will assume $\sigma^2=1$ if not stated otherwise.} and let $\gamma_k\in \mathbb{R}$ for $k \in \mathbb{Z}$ be a square summable sequence $\sum_{k=-\infty}^{\infty}\gamma_k^2<\infty$. Then $z_t=\sum_{k=-\infty}^{\infty}\gamma_k \epsilon_{t-k}$ is a stationary Gaussian zero-mean process with variance $\sum_{k=-\infty}^{\infty}\gamma_k^2$. We  consider estimation of $z_{t+\delta}$, $\delta \in \mathbb{Z}$, referred to as the \emph{target}, based on the predictor $y_t:=\sum_{k=0}^{L-1}b_{k}\epsilon_{t-k}$, where $b_k$ are the coefficients of a finite-length one-sided causal filter. This problem is commonly referred to as fore-, now- or backcast, depending on $\delta>0$, $\delta=0$ or $\delta<0$. %As an example, let $\gamma_0=1, \gamma_1=0.5$ and $\gamma_k=0, k\notin \{0,1\}$. Then $z_t=\epsilon_t+0.5\epsilon_{t-1}$ is a moving-average process of order 1. One-step ahead forecasting of $z_t$ is obtained by selecting $\delta=1$. In this case the optimal mean-square error (MSE) estimate of $z_{t+1}$ is $y_t=0.5\epsilon_t$ i.e. $b_0=0.5$ and $b_k=0,k>0$. 
-An extension of this framework to $z_t=\sum_{k=-\infty}^{\infty}\gamma_k x_{t-k}$, where $x_t=\sum_{j\geq 0}\xi_{j}\epsilon_{t-j}$ is a stationary (or non-stationary integrated) process, is proposed in section \ref{ext_stat}. However, for clarity of exposition and notational convenience we henceforth assume $x_t=\epsilon_t$, our \emph{basic} methodological framework, acknowledging that straightforward modifications apply in the case of autocorrelated $x_t$.  
+
+We propose a simple \emph{basic} methodological framework (BMF) for presentation of our results. Specifically, let $\epsilon_t, t \in \mathbb{Z}$, be Gaussian standard white noise\footnote{Since zero-crossings of zero-mean stationary processes are insensitive to the scaling, our approach is insensitive to $\sigma^2$: for simplicity, we will assume $\sigma^2=1$ if not stated otherwise.} and let $\gamma_k\in \mathbb{R}$ for $k \in \mathbb{Z}$ be a square summable sequence $\sum_{k=-\infty}^{\infty}\gamma_k^2<\infty$. Then $z_t=\sum_{k=-\infty}^{\infty}\gamma_k \epsilon_{t-k}$ is a stationary Gaussian zero-mean process with variance $\sum_{k=-\infty}^{\infty}\gamma_k^2$. We  consider estimation of $z_{t+\delta}$, $\delta \in \mathbb{Z}$, referred to as the \emph{target}, based on the predictor $y_t:=\sum_{k=0}^{L-1}b_{k}x_{t-k}$, where $b_k$ are the coefficients of a finite-length one-sided causal filter. This problem is commonly referred to as fore-, now- or backcast, depending on $\delta>0$, $\delta=0$ or $\delta<0$. Departures from the Gaussian assumption will be discussed in section \ref{mse_sa_zc} and an extension to autocorrelated $x_t$, such that $z_t=\sum_{k=-\infty}^{\infty}\gamma_k x_{t-k}$, is proposed in section \ref{ext_stat}. Indeed, the BFM chiefly intends to clarify exposition and to simplify notation in view of highlighting the relevant facets of the prediction problem in a decluttered formal context. 
 
 
 
-
-
-\subsection{Sign-Accuracy, MSE and Holding-Time}
+\subsection{Sign-Accuracy, MSE and Holding-Time}\label{mse_sa_zc}
 
 We  look for an estimate $y_t$ of $z_{t+\delta}$ such that the probability P$\Big(\sign(z_{t+\delta})=\sign(y_t)\Big)$ is maximized as a function of $\mathbf{b}=(b_0,...,b_{L-1})'$ and we refer to this criterion in terms of \emph{sign accuracy} (SA).
 
 \begin{Proposition}
-Under the above assumptions about $\epsilon_t, z_t$ the sign accuracy  criterion can be stated as
+Under the BMF the sign accuracy  criterion can be stated as
 \begin{eqnarray}\label{opt_crit}
 \max_{\mathbf{b}}\rho(y,z,\delta)
 \end{eqnarray}
@@ -95,7 +92,7 @@ summary(lm(target~explanatory-1))
 Consider now the expected duration between consecutive zero-crossings or sign-changes of the predictor $y_t$, which will be referred to as \emph{holding-time}.
 
 \begin{Proposition}\label{ht_formula}
-Let $y_t$ be the above zero-mean stationary Gaussian process. Then the holding-time $ht(y|\mathbf{b})$ of $y_t$ is 
+Under the BMF the holding-time $ht(y|\mathbf{b})$ of $y_t$ is 
 \begin{eqnarray}\label{ht}
 ht(y|\mathbf{b})=\frac{\pi}{\arccos(\rho(y,y,1))}
 \end{eqnarray}
@@ -113,7 +110,7 @@ or, equivalently,
 where $ht_1$ or $\rho_1$, linked through \ref{ht}, are proper hyper-parameters of our design. In the following, we  refer to the 'holding-time' either in terms of $ht(y|\mathbf{b})$ or $\rho(y,y,1)$, clarifying our intent in case of ambiguity. We here argue that the hyper-parameter $ht_1$ is interpretable and can be set a priori, at the onset of an analysis, according to structural elements of a prediction problem. As an example, Wildi (2023) illustrates the proceeding in a business-cycle application, where $ht_1$ matches the length of historical recession episodes. Also, the holding-time could be selected in view of taming the number of unsystematic or noisy crossings (false alarms). Furthermore, if costly strategy-adjustments or behavioral changes take place at zero-crossings, i.e. at transitions of expansions and recessions or bullish and bearish markets, then $ht_1$ could be selected inversely proportional to adjustment- or trading-costs. Finally, $ht_1$ could be set according to short-, mid- or long-term i.e tactic, strategic or fundamental outlook perspectives. Concerning the proper selection of the holding-time, the following proposition sets limits for admissible constraints in the basic framework.
 
 \begin{Proposition}\label{maxrho}
-Maximal and minimal lag-one autocorrelations $\rho_{max}(L),\rho_{min}(L)$ of $y_t$ as defined above are $ \rho_{max}(L)=-\rho_{min}(L)=\cos(\pi/(L+1))$. The corresponding MA-coefficients $b_{max,k}:=\sin\left(\displaystyle{\frac{(1+k)\pi}{L+1}}\right)$, $k=0,...,L-1$, and $b_{min,k}:=(-1)^kb_{max,k}$ are uniquely determined down to arbitrary scaling and sign.  
+Under the BMF, maximal and minimal lag-one autocorrelations $\rho_{max}(L),\rho_{min}(L)$ of $y_t$ are $ \rho_{max}(L)=-\rho_{min}(L)=\cos(\pi/(L+1))$. The corresponding MA-coefficients $b_{max,k}:=\sin\left(\displaystyle{\frac{(1+k)\pi}{L+1}}\right)$, $k=0,...,L-1$, and $b_{min,k}:=(-1)^kb_{max,k}$ are uniquely determined down to arbitrary scaling and sign.  
 \end{Proposition}
 
 We refer to  N. Davies, M. B. Pate and M. G. Frost (1974) for a proof, see also proposition \ref{stationary_eigenvec} further down. 
@@ -224,7 +221,7 @@ where $(\gamma\cdot\xi)_k=\sum_{m\leq k} \xi_{k-m}\gamma_m$ and $(b\cdot\xi)_j=\
 \max_{(\mathbf{b}\cdot\boldsymbol{\xi})}\frac{\sum_{k\geq 0} (\gamma\cdot\xi)_{k+\delta} (b\cdot\xi)_k}{\sqrt{\sum_{|k|<\infty} (\gamma\cdot\xi)_k^2}\sqrt{\sum_{j\geq 0} (b\cdot\xi)_j^2}}\\
 \frac{\sum_{j\geq 1}(b\cdot\xi)_{j-1}(b\cdot\xi)_j}{\sum_{j\geq 0}(b\cdot\xi)_j^2}=\rho_1\nonumber
 \end{eqnarray}
-which can be solved for $(b\cdot\xi)_j, j=0,1,...$, see theorem \ref{lambda}.  The  sought-after filter coefficients $b_k$ can then be obtained from $(b\cdot\xi)_j$ by inversion. Note that non-stationary integrated processes could be handled similarly, after suitable differencing. Also, we refer to standard results in textbooks for a derivation of $\xi_k$ or $\epsilon_t$ based on a finite sample $x_1,...,x_T$, see e.g. Brockwell and Davis (1993).  Finally, for notational convenience we henceforth assume $x_t=\epsilon_t$ to be white noise, acknowledging that straightforward modifications would apply in the case of autocorrelation.     
+which can be solved for $(b\cdot\xi)_j, j=0,1,...$, see theorem \ref{lambda}.  The  sought-after filter coefficients $b_k$ can then be obtained from $(b\cdot\xi)_j$ by inversion. Note that non-stationary integrated processes could be handled similarly, after suitable differencing. Also, we refer to standard results in textbooks for a derivation of $\xi_k$ or $\epsilon_t$ based on a finite sample $x_1,...,x_T$, see e.g. Brockwell and Davis (1993) and a corresponding worked-out example is provided in section \ref{example_autocor}.  Finally, for notational convenience we henceforth rely on the BMF, acknowledging that straightforward modifications would apply in the case of autocorrelation.     
   %From an empirical perspective, we argue that growth-rates of a wide range of economic time series are in accordance with our simplifying assumption, see e.g. the so-called 'typical spectral shape' of an economic variable in Granger (1966). %To conclude, we note that the procedure could be extended to non-stationary integrated processes. % and its utility would be questionable in the context of suitably transformed  data, typically differences or log-returns, at least if the transformation does not impede the analysis.   % assumption in terms of  conditional heteroscedasticity (vola-clustering) or so-called 'fat tails' (large kurtosis, outliers) is analyzed in section \ref{robustness_SSA}.
 
 
@@ -233,7 +230,8 @@ which can be solved for $(b\cdot\xi)_j, j=0,1,...$, see theorem \ref{lambda}.  T
 
 
 
-\section{Solution of the SSA-Criterion: Frequency-Domain}\label{theorem_SSA}
+
+\section{Solution of the SSA-Criterion}\label{theorem_SSA}
 
 
 
@@ -243,7 +241,7 @@ which can be solved for $(b\cdot\xi)_j, j=0,1,...$, see theorem \ref{lambda}.  T
 
 The following proposition re-formulates the target specification in terms of the MSE-predictor. 
 \begin{Proposition}
-Let $\hat{z}_{t+\delta}=\sum_{k=0}^{L-1}\gamma_{k+\delta}\epsilon_{t-k}=\boldsymbol{\gamma}_{\delta}'\boldsymbol{\epsilon}_{t}$ denote the classic MSE-predictor. Then $z_t$ in criterion \ref{crit1} can be replaced by $\hat{z}_{t+\delta}$.
+Under the BMF let $\hat{z}_{t+\delta}=\sum_{k=0}^{L-1}\gamma_{k+\delta}\epsilon_{t-k}=\boldsymbol{\gamma}_{\delta}'\boldsymbol{\epsilon}_{t}$ designate the classic MSE-predictor. Then $z_t$ in criterion \ref{crit1} can be replaced by $\hat{z}_{t+\delta}$.
 \end{Proposition}
 Proof\\
 
@@ -268,7 +266,7 @@ of dimension $L*L$ designate the so-called autocovariance-generating matrix so t
 
 
 \begin{Proposition}\label{stationary_eigenvec}
-The vector $\mathbf{b}:=(b_0,...,b_{L-1})'\neq 0$ is a stationary point of the lag-one autocorrelation $\rho(y,y,1)=\displaystyle{\frac{\mathbf{b'Mb}}{\mathbf{b'b}}}$ if and only if $\mathbf{b}$ is an eigenvector of the autocovariance-generating matrix 
+Under the BMF, the vector $\mathbf{b}:=(b_0,...,b_{L-1})'\neq 0$ is a stationary point of the lag-one autocorrelation $\rho(y,y,1)=\displaystyle{\frac{\mathbf{b'Mb}}{\mathbf{b'b}}}$ if and only if $\mathbf{b}$ is an eigenvector of the autocovariance-generating matrix 
 with corresponding eigenvalue $\rho(y,y,1)$. The extremal values $\rho_{min}(L)$ and $\rho_{max}(L)$ correspond to $\min_i\lambda_i$ and $\max_i\lambda_i$ where $\lambda_i$, $i=1,...L$ are the eigenvalues of $\mathbf{M}$. 
 \end{Proposition}
 
@@ -303,7 +301,7 @@ Finally, denote by $NZ:=\{i|w_i\neq 0\}$ the set of indexes of  non-vanishing we
 
 
 \begin{Theorem}\label{lambda}
-Consider the SSA optimization problem \ref{crit1} and the following set of regularity assumptions:
+Consider the SSA optimization problem \ref{crit1} under the BMF and the following set of regularity assumptions:
 \begin{enumerate}
 \item $\boldsymbol{\gamma}_{\delta}\neq 0$ (identifiability) and $L\geq 3$ (smoothing).
 %\item $\mathbf{b}$ is not an eigenvector of $\mathbf{M}$% $\rho_1\neq \lambda_{i_0N}$ for all $i_0$ such that $w_{i_0}\neq 0$ in the spectral decomposition \ref{specdec} of $\boldsymbol{\gamma}_{\delta}$ (indeterminacy)
@@ -429,8 +427,7 @@ We now proceed to assertion \ref{ass4} by showing that the parameter $\nu$ is de
 &=&\frac{2\mathbf{b}'{\mathbf{M}}{\boldsymbol{\nu}}^{-1}\mathbf{b}\mathbf{b'}\mathbf{b}/D^2-2\mathbf{b}'{\mathbf{M}}\mathbf{b}\mathbf{b}'{\boldsymbol{\nu}}^{-1}\mathbf{b}/D^2}{\mathbf{b}'\mathbf{b}/D^2}\nonumber\\
 &=&2\mathbf{b}'{\mathbf{M}}{\boldsymbol{\nu}}^{-1}\mathbf{b}\mathbf{b'}\mathbf{b}-2\mathbf{b}'{\mathbf{M}}\mathbf{b}\mathbf{b}'{\boldsymbol{\nu}}^{-1}\mathbf{b}\label{vgrt2}
 \end{eqnarray}
-where commutativity of the matrix multiplications (used in deriving the third and next-to-last equations)  follows from the fact that the matrices are symmetric and simultaneously diagonalizable (same eigenvectors); also ${\boldsymbol{\nu}}^{-1}~'={\boldsymbol{\nu}}^{-1}$ (symmetry) and we relied on generic matrix differentiation rules in the third equation\footnote{$\frac{\partial({\boldsymbol{\nu}}^{-1})}{\partial\nu}={\boldsymbol{\nu}}^{-2}$ and $\frac{\partial({\boldsymbol{\nu}}^{-2})}{\partial\nu}=2{\boldsymbol{\nu}}^{-3}$. For the first equation the general rule is $\frac{\partial(\boldsymbol\nu^{-1})}{\partial\nu}=-\boldsymbol\nu^{-1}\frac{\partial\boldsymbol\nu}{\partial\nu}\boldsymbol\nu^{-1}$, noting that $\frac{\partial\boldsymbol\nu}{\partial\nu}=-\mathbf{I}$. The second equation follows by inserting the first equation into $\frac{\partial(\boldsymbol\nu^{-2})}{\partial\nu}=\frac{\partial(\boldsymbol\nu^{-1})}{\partial\nu}{\boldsymbol{\nu}}^{-1}+{\boldsymbol{\nu}}^{-1}\frac{\partial({\boldsymbol{\nu}}^{-1})}{\partial\nu}$.};  finally we relied on $\mathbf{b}'\mathbf{b}=1$ in the last equation. We can now insert 
-\[{\mathbf{M}}{\boldsymbol{\nu}}^{-1}=\frac{\nu}{2}{\boldsymbol{\nu}}^{-1}+0.5\mathbf{I}\]
+where commutativity of the matrix multiplications (used in deriving the third and next-to-last equations)  follows from the fact that the matrices are symmetric and simultaneously diagonalizable (same eigenvectors); also ${\boldsymbol{\nu}}^{-1}~'={\boldsymbol{\nu}}^{-1}$ (symmetry) and we relied on generic matrix differentiation rules in the third equation\footnote{$\frac{\partial({\boldsymbol{\nu}}^{-1})}{\partial\nu}={\boldsymbol{\nu}}^{-2}$ and $\frac{\partial({\boldsymbol{\nu}}^{-2})}{\partial\nu}=2{\boldsymbol{\nu}}^{-3}$. For the first equation the general rule is $\frac{\partial(\boldsymbol\nu^{-1})}{\partial\nu}=-\boldsymbol\nu^{-1}\frac{\partial\boldsymbol\nu}{\partial\nu}\boldsymbol\nu^{-1}$, noting that $\frac{\partial\boldsymbol\nu}{\partial\nu}=-\mathbf{I}$. The second equation follows by inserting the first equation into $\frac{\partial(\boldsymbol\nu^{-2})}{\partial\nu}=\frac{\partial(\boldsymbol\nu^{-1})}{\partial\nu}{\boldsymbol{\nu}}^{-1}+{\boldsymbol{\nu}}^{-1}\frac{\partial({\boldsymbol{\nu}}^{-1})}{\partial\nu}$.};  finally we relied on $\mathbf{b}'\mathbf{b}=1$ in the last equation. We can now insert \[{\mathbf{M}}{\boldsymbol{\nu}}^{-1}=\frac{\nu}{2}{\boldsymbol{\nu}}^{-1}+0.5\mathbf{I}\]
 which is a reformulation of $(2{\mathbf{M}}-\nu\mathbf{I}){\boldsymbol{\nu}}^{-1}=\mathbf{I}$  into the first summand  in \ref{vgrt2} to obtain
 \begin{eqnarray*}
 2\mathbf{b}'{\mathbf{M}}{\boldsymbol{\nu}}^{-1}\mathbf{b}\mathbf{b'}\mathbf{b}=\left(\nu\mathbf{b}'{\boldsymbol{\nu}}^{-1}\mathbf{b}+\mathbf{b'}\mathbf{b}\right)\mathbf{b'}\mathbf{b}
@@ -668,8 +665,6 @@ For a proof of the third and last assertion we first assume that $\boldsymbol{\g
 #    3.2 For |nu|<2*rho_max (unit-root cases) rho0=rho(y(nu),y(nu),1) is nomore montonous (trend with oscillation) and all other rho0<rho(target) are obtained (generally   not PRACTICALLY RELEVANT  (less smooth))
 #--------------
 # Let's start:
-#if (recompute_calculations)
-{
   forecast_horizon<-0
 
 # See 1. above
@@ -956,8 +951,6 @@ For a proof of the third and last assertion we first assume that $\boldsymbol{\g
   
   
 # Generate pdfs  
-#  if (F)
-  {  
     file<-"rho_nu_ar1_ev.pdf"
     pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
     par(mfrow=c(4,2)) 
@@ -998,9 +991,9 @@ For a proof of the third and last assertion we first assume that $\boldsymbol{\g
     plot(x=log(mat_ar1_rw[1:anz,2]),y=mat_ar1_rw[1:anz,1],xlab="log(nu)",ylab="rho(1)",main="a1=0.99: |nu|>2rho_max",ylim=c(min(mat_ar1_rw[1:anz,1])-0.1,1),type="l",col="red")
 
     invisible(dev.off())
-  }
 
-}
+
+
 
 
 @
@@ -1043,7 +1036,6 @@ Let all regularity assumptions of theorem \ref{lambda} hold and let $\hat{\bolds
 If $\hat{\boldsymbol{\gamma}}_{\delta}$ is Gaussian distributed then so is $\hat{\mathbf{b}}$. 
 \end{Corollary}
 The proof readily follows from \ref{diff_non_home}. Note that mean, variance and (asymptotic) distribution of the MSE-estimate under various assumptions about $x_t$ are derived in standard textbooks, see e.g. Brockwell and Davis (1993).
-
 
 
 \section{Solution of the SSA-Problem: Time-Domain}
@@ -1241,7 +1233,7 @@ The remainder of the proof then follows from a closed-form expression for the ro
 
 Our examples address specific methodological features of the SSA-predictor: a simple introductory forecast exercise is proposed in section \ref{one_step_fore}; section \ref{time_smooth} presents a more generic prediction problem, emphasizing a smoothness-timeliness dilemma;  section \ref{mon_non_mono} highlights multiplicity and uniqueness results; finally, the singular case of a target with incomplete spectral support is illustrated in section \ref{incomplete_support}.
 
-\subsection{Example 1: Forecasting}\label{one_step_fore}
+\subsection{Example 1: Forecasting a MA(2) Process}\label{one_step_fore}
 
 
 <<label=init,echo=FALSE,results=hide>>=
@@ -1273,11 +1265,14 @@ grid_size<-1000
 # We can specify either target with forecast horizon 1 or mse with forecast horizon 0
 delta<-0
 gamma_target<-gamma_mse
-SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda)
+# White noise input
+xi<-NULL
+
+SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
 # Is the same as
 delta<-forecast_horizon
 gamma_target<-target
-SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda)
+SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
 
 bk_mat<-SSA_obj$bk_mat
 colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
@@ -1285,7 +1280,7 @@ colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
 ht<-ht_second<-10
 rho0<-compute_rho_from_ht(ht)$rho
 
-SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda)
+SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
 
 bk_mat<-cbind(bk_mat,SSA_obj$bk_mat)
 colnames(bk_mat)[2]<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
@@ -1298,9 +1293,7 @@ t(bk_mat)%*%c(gamma_mse,rep(0,L_short-2))/sqrt(apply(bk_mat^2,2,sum)*sum(target^
 
 bk_mat<-rbind(bk_mat,matrix(rep(0,(L_long-L_short)*ncol(bk_mat)),ncol=ncol(bk_mat)))
 
-L_long<-50
-
-SSA_obj<-SSA_func(L_long,delta,grid_size,gamma_target,rho0,with_negative_lambda)
+SSA_obj<-SSA_func(L_long,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
 
 bk_mat=cbind(bk_mat,SSA_obj$bk_mat)
 colnames(bk_mat)[3]<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
@@ -1310,6 +1303,8 @@ colnames(mplot)[4:5]<-c("Lag-by-one","MSE")
 mplot[,1]<-3*mplot[,1]
 mplot[,2]<-0.9*mplot[,2]
 mplot[,3]<-1.3*mplot[,3]
+
+bk_wn<-mplot
 
 @
 
@@ -1408,11 +1403,13 @@ L_long<-50
 rho0<-as.double(compute_holding_time_func(target)$rho_ff1)
 ht<-ht_first<-as.double(compute_holding_time_func(target)$ht)
 with_negative_lambda<-F
-grid_size<-1000
 
 delta<-0
 gamma_target<-gamma_mse
-SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda)
+# white-noise input: xi<-NULL
+xi<-NULL
+
+SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
 
 bk_mat<-SSA_obj$bk_mat
 colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
@@ -1420,7 +1417,7 @@ colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
 ht<-ht_second<-10
 rho0<-compute_rho_from_ht(ht)$rho
 
-SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda)
+SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
 
 bk_mat<-cbind(bk_mat,SSA_obj$bk_mat)
 colnames(bk_mat)[2]<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
@@ -1433,9 +1430,7 @@ t(bk_mat)%*%c(gamma_mse,rep(0,L_short-2))/sqrt(apply(bk_mat^2,2,sum)*sum(target^
 
 bk_mat<-rbind(bk_mat,matrix(rep(0,(L_long-L_short)*ncol(bk_mat)),ncol=ncol(bk_mat)))
 
-L_long<-50
-
-SSA_obj<-SSA_func(L_long,delta,grid_size,gamma_target,rho0,with_negative_lambda)
+SSA_obj<-SSA_func(L_long,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
 
 bk_mat=cbind(bk_mat,SSA_obj$bk_mat)
 colnames(bk_mat)[3]<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
@@ -1474,12 +1469,505 @@ center = "centering", file = "", floating = FALSE)
 
 
 
+\subsection{Example 2: Illustration of the Extension to Autocorrelated Processes}\label{example_autocor}
 
 
-\subsection{Example 2: Two Hyperparameters and the Smoothness-Timeliness Dilemma}\label{time_smooth}
+<<label=init,echo=FALSE,results=hide>>=
+# Same example as above but the input xt of target zt is an ARMA-process 
+# ARMA-target
+ar1<--0.3
+ma<-c(0.7,0.8)
+# Target zt based on xt: same as above
+target<-rep(1,3)
+forecast_horizon<-1
+L_short<-20
+L_long<-50
+# Ma-inversion of ARMA-target
+xi<-NULL
+xi<-c(1,ARMAtoMA(ar=ar1,ma=ma,lag.max=L_long-1))
+ts.plot(xi)
+gamma_mse<-gammak_generic<-rep(1,2)
+rho0<-as.double(compute_holding_time_func(target)$rho_ff1)
+ht<-ht_first<-as.double(compute_holding_time_func(target)$ht)
+with_negative_lambda<-F
+grid_size<-1000
+
+
+# We can specify either target with forecast horizon 1 or mse with forecast horizon 0
+delta<-0
+gamma_target<-gamma_mse
+
+SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
+# Is the same as
+delta<-forecast_horizon
+gamma_target<-gammak_generic<-target
+SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
+
+bk_mat<-SSA_obj$bk_mat
+colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+bk_white_noise_mat=SSA_obj$bk_white_noise_mat
+colnames(bk_mat)<-colnames(bk_white_noise_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+compute_holding_time_func(bk_white_noise_mat[,1])$ht
+
+
+ht<-ht_second<-10
+rho0<-compute_rho_from_ht(ht)$rho
+
+SSA_obj<-SSA_func(L_short,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
+
+bk_mat<-cbind(bk_mat,SSA_obj$bk_mat)
+bk_white_noise_mat<-cbind(bk_white_noise_mat,SSA_obj$bk_white_noise_mat)
+
+colnames(bk_mat)[2]<-colnames(bk_white_noise_mat)[2]<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+
+# Criterion values (correlations)
+t(bk_mat)%*%c(gamma_mse,rep(0,L_short-2))/sqrt(apply(bk_mat^2,2,sum)*sum(target^2))
+
+bk_mat<-rbind(bk_mat,matrix(rep(0,(L_long-L_short)*ncol(bk_mat)),ncol=ncol(bk_mat)))
+bk_white_noise_mat<-rbind(bk_white_noise_mat,matrix(rep(0,(L_long-L_short)*ncol(bk_white_noise_mat)),ncol=ncol(bk_white_noise_mat)))
+
+SSA_obj<-SSA_func(L_long,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
+
+
+bk_mat=cbind(bk_mat,SSA_obj$bk_mat)
+bk_white_noise_mat<-cbind(bk_white_noise_mat,SSA_obj$bk_white_noise_mat,xi,c(xi[2:length(xi)],0))
+
+colnames(bk_mat)[3]<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+colnames(bk_white_noise_mat)[3:5]<-c(paste("SSA(",round(ht,2),",",forecast_horizon,")",sep=""),"Lag-by-one","MSE")
+
+# Scale so that plots are comparable
+bk_mat[,1]<-bk_mat[,1]/bk_mat[1,1]*bk_wn[1,1]
+bk_mat[,2]<-bk_mat[,2]/bk_mat[1,2]*bk_wn[1,2]
+bk_mat[,3]<-bk_mat[,3]/bk_mat[1,3]*bk_wn[1,3]
+bk_white_noise_mat[,1]<-bk_white_noise_mat[,1]/bk_white_noise_mat[1,1]*bk_wn[1,1]
+bk_white_noise_mat[,2]<-bk_white_noise_mat[,2]/bk_white_noise_mat[1,2]*bk_wn[1,2]
+bk_white_noise_mat[,3]<-bk_white_noise_mat[,3]/bk_white_noise_mat[1,3]*bk_wn[1,3]
+
+ts.plot(cbind(bk_white_noise_mat[,1:3],bk_wn[,1:3])[1:20,])
+
+ts.plot(bk_mat)
+ijk<-2
+b<-NULL
+for (i in 1:nrow(bk_mat))
+  b<-c(b,bk_mat[1:i,ijk]%*%xi[i:1])
+b/bk_white_noise_mat[,ijk]
+
+# Check theoretical holding times: holding-times of bk_mat are wrong (bk_mat is applied to ARMA)
+compute_holding_time_func(bk_mat[,1])$ht
+compute_holding_time_func(bk_mat[,2])$ht
+compute_holding_time_func(bk_mat[,3])$ht
+# Check holding times: holding-times of bk_white_noise_mat are correct (bk_white_noise_mat is applied to noise i.e. convolution of Wold decomposition and bk_mat)
+compute_holding_time_func(bk_white_noise_mat[,1])$ht
+compute_holding_time_func(bk_white_noise_mat[,2])$ht
+compute_holding_time_func(bk_white_noise_mat[,3])$ht
+
+#------------------------------
+# Verify that empirical holding-times match
+
+set.seed(6)
+len<-10000
+if (F)
+  x<-arima.sim(n = len, list(ar =ar1, ma = ma))
+# Generate ARMA with MA-inversion
+eps<-rnorm(len)
+x<-NULL
+for (i in L_long:len)
+  x<-c(x,xi%*%eps[i:(i-L_long+1)])
+# Check that it is indeed an ARMA
+x_obj<-arima(x,order=c(1,0,2))
+x_obj
+tsdiag(x_obj,gof.lag=20)
+
+# Generate filter output based on ARMA target
+y_arma<-NULL
+i_filter<-1
+for (i in L_long:(len-L_long))
+  y_arma<-c(y_arma,bk_mat[,i_filter]%*%x[i:(i-L_long+1)])
+ts.plot(y_arma)
+# empirical holding time
+(len-L_long)/length(which(y_arma[1:(length(y_arma)-1)]*y_arma[2:length(y_arma)]<0))
+
+# Generate filter output based on white noise
+y_white_noise<-NULL
+for (i in (2*L_long):len)
+  y_white_noise<-c(y_white_noise,bk_white_noise_mat[,i_filter]%*%eps[-1+i:(i-L_long+1)])
+if (F)
+{
+# Check: both output series match up to finite sample differences (coefficients do not decay to zero rapidly)
+  y_arma/y_white_noise
+}
+# empirical holding time
+(len-L_long)/length(which(y_white_noise[1:(length(y_white_noise)-1)]*y_white_noise[2:(length(y_white_noise))]<0))
+
+
+
+
+@
+<<label=init,echo=FALSE,results=hide>>=
+file = "filt_coef_example1_arma.pdf"
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+#mplot<-scale(mplot,scale=T,center=F)
+colo<-c("blue","red","violet","black","green")
+par(mfrow=c(2,2))
+mplot<-bk_mat
+plot(mplot[,1],main="Forecast filters: applied to ARMA",axes=F,type="l",xlab="Lag-structure",ylab="filter-weights",ylim=c(min(mplot),max(na.exclude(mplot))),col=colo[1],lwd=2)
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot[,i],col=colo[i],lwd=2)
+  mtext(colnames(mplot)[i],col=colo[i],line=-i)
+}
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+
+mplot_short<-mplot[1:10,]
+plot(mplot_short[,1],main="",axes=F,type="l",xlab="Lag-structure",ylab="",ylim=c(min(mplot),max(na.exclude(mplot))),col=colo[1],lwd=2)
+mtext(colnames(mplot_short)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot_short))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot_short[,i],col=colo[i],lwd=2)
+  mtext(colnames(mplot_short)[i],col=colo[i],line=-i)
+}
+axis(1,at=1:nrow(mplot_short),labels=-1+1:nrow(mplot_short))
+axis(2)
+box()
+
+mplot<-bk_white_noise_mat#[,1:3]
+
+plot(mplot[,1],main="Forecast filters: applied to white noise",axes=F,type="l",xlab="Lag-structure",ylab="filter-weights",ylim=c(min(mplot),max(na.exclude(mplot))),col=colo[1],lwd=2)
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot[,i],col=colo[i],lwd=2)
+  mtext(colnames(mplot)[i],col=colo[i],line=-i)
+}
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+
+mplot_short<-mplot[1:10,]
+plot(mplot_short[,1],main="",axes=F,type="l",xlab="Lag-structure",ylab="",ylim=c(min(mplot),max(na.exclude(mplot))),col=colo[1],lwd=2)
+mtext(colnames(mplot_short)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot_short))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot_short[,i],col=colo[i],lwd=2)
+  mtext(colnames(mplot_short)[i],col=colo[i],line=-i)
+}
+mplot_short<-bk_wn#[,1:3]
+for (i in 1:ncol(mplot_short))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot_short[,i],col=colo[i],lwd=2,lty=2)
+  mtext(colnames(mplot_short)[i],col=colo[i],line=-i)
+}
+
+axis(1,at=1:nrow(mplot_short),labels=-1+1:nrow(mplot_short))
+axis(2)
+box()
+
+
+invisible(dev.off())
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "filt_coef_example1_arma"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{SSA arbitrarily scaled. All lags (left panel) and first ten lags (right panel). Filters as applied to ARMA-process (upper panels) vs. filters as applied to white noise of MA-inversion (bottom panels). The shaded lines in the bottom-right panel correspond to the SSA-filters in the previous MA(2)-example.", sep = "")
+cat("\\label{filt_coef_example1_arma}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+We consider one-step ahead forecasting of the slightly more complex target $z_t=x_t+x_{t-1}+x_{t-2}$ 
+where $x_t=\Sexpr{ar1}x_{t-1}+\epsilon_t+\Sexpr{ma[1]}\epsilon_{t-1}+\Sexpr{ma[2]}\epsilon_{t-2}$ is a stationary and invertible ARMA-process with MA-inversion or Wold-decomposition $x_t=\sum_{k=0}\xi_k\epsilon_{t-k}$, displayed in figure \ref{filt_coef_example1_arma} (black lines in bottom left and right panels). The convolutions $(b\cdot\xi)_j$, $j=0,...,L-1$ proposed in section \ref{ext_stat}, obtained by applying SSA to $\epsilon_t$ of the MA-inversion of $x_t$ are displayed in the bottom panels, together with a comparison of the predictors in the previous example, where $z_t$ is a comparatively simple MA(2)-process, (bottom right panel). The 'ordinary' $\mathbf{b}$, as applied to $x_t$ instead of $\epsilon_t$, can be obtained by inversion of the convolutions $(b\cdot\xi)_j$
+\[b_j=\left\{\begin{array}{cc}(b\cdot\xi)_0/\xi_{0}&,j=0\\
+\frac{(b\cdot\xi)_{k+1}-\sum_{j=0}^{k}\xi_{k+1-j}b_j}{\xi_0}&j>0\end{array}\right.
+\]
+see top panels in the figure. 
+
+
+
+
+
+\subsection{Example 3: Smoothing and Un-Smoothing}\label{smooth_unsmooth}
+
+<<label=init,echo=FALSE,results=hide>>=
+# Same example as above but the input xt of target zt is an ARMA-process 
+# ARMA-target: this has much stronger lag-one acf than previous example
+ar1<-0.8
+ma<-c(0.5,0.4)
+# Target zt based on xt: same as above
+target<-rep(1,3)
+forecast_horizon<-1
+L_short<-20
+L_long<-50
+# Ma-inversion of ARMA-target
+xi<-NULL
+xi<-c(1,ARMAtoMA(ar=ar1,ma=ma,lag.max=L_long-1))
+ts.plot(xi)
+ht_target<-compute_holding_time_func(xi)$ht
+
+gamma_mse<-gammak_generic<-rep(1,2)
+rho0<-as.double(compute_holding_time_func(target)$rho_ff1)
+ht<-ht_first<-as.double(compute_holding_time_func(target)$ht)
+with_negative_lambda<-F
+grid_size<-1000
+
+
+delta<-forecast_horizon
+gamma_target<-gammak_generic<-target
+SSA_obj<-SSA_func(L_long,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
+
+bk_mat<-SSA_obj$bk_mat
+colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+bk_white_noise_mat=SSA_obj$bk_white_noise_mat
+colnames(bk_mat)<-colnames(bk_white_noise_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+compute_holding_time_func(bk_white_noise_mat[,1])$ht
+
+
+ht<-ht_second<-30
+rho0<-compute_rho_from_ht(ht)$rho
+
+SSA_obj<-SSA_func(L_long,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
+
+bk_mat<-cbind(bk_mat,SSA_obj$bk_mat)
+bk_white_noise_mat<-cbind(bk_white_noise_mat,SSA_obj$bk_white_noise_mat)
+
+colnames(bk_mat)[2]<-colnames(bk_white_noise_mat)[2]<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+
+
+# Scale so that plots are comparable
+bk_mat[,1]<-bk_mat[,1]/bk_mat[1,1]*bk_wn[1,1]
+bk_mat[,2]<-bk_mat[,2]/bk_mat[1,2]*bk_wn[1,2]
+bk_white_noise_mat[,1]<-bk_white_noise_mat[,1]/bk_white_noise_mat[1,1]*bk_wn[1,1]
+bk_white_noise_mat[,2]<-bk_white_noise_mat[,2]/bk_white_noise_mat[1,2]*bk_wn[1,2]
+
+
+ts.plot(bk_mat)
+ts.plot(bk_white_noise_mat)
+ijk<-2
+b<-NULL
+for (i in 1:nrow(bk_mat))
+  b<-c(b,bk_mat[1:i,ijk]%*%xi[i:1])
+b/bk_white_noise_mat[,ijk]
+
+# Check holding times: holding-times of bk_mat are wrong (bk_mat is applied to ARMA)
+compute_holding_time_func(bk_mat[,1])$ht
+compute_holding_time_func(bk_mat[,2])$ht
+# Check holding times: holding-times of bk_white_noise_mat are correct (bk_white_noise_mat is applied to noise i.e. convolution of Wold decomposition and bk_mat)
+compute_holding_time_func(bk_white_noise_mat[,1])$ht
+compute_holding_time_func(bk_white_noise_mat[,2])$ht
+
+#------------------------------
+# Verify that empirical holding-times match
+set.seed(6)
+len<-200
+if (F)
+  x<-arima.sim(n = len, list(ar =ar1, ma = ma))
+# Generate ARMA with MA-inversion
+eps<-rnorm(len+L_long)
+x<-NULL
+for (i in L_long:(L_long+len))
+  x<-c(x,xi%*%eps[i:(i-L_long+1)])
+# Check that it is indeed an ARMA
+x_obj<-arima(x,order=c(1,0,2))
+x_obj
+tsdiag(x_obj,gof.lag=20)
+
+# Generate filter output based on ARMA target first filter: first filter
+y_arma<-NULL
+i_filter<-1
+for (i in L_long:len)
+  y_arma<-c(y_arma,bk_mat[,i_filter]%*%x[i:(i-L_long+1)])
+ts.plot(y_arma)
+# empirical holding time
+(len-L_long)/length(which(y_arma[1:(length(y_arma)-1)]*y_arma[2:length(y_arma)]<0))
+# Compute target: shift by delta
+z<-c((x[1:(len-2)]+x[2:(len-1)]+x[3:len])/3,rep(NA,2+delta))
+y_mat<-cbind(z[L_long:len],y_arma)
+
+# Second filter
+y_arma<-NULL
+i_filter<-2
+for (i in L_long:len)
+  y_arma<-c(y_arma,bk_mat[,i_filter]%*%x[i:(i-L_long+1)])
+ts.plot(y_arma)
+# empirical holding time
+(len-L_long)/length(which(y_arma[1:(length(y_arma)-1)]*y_arma[2:length(y_arma)]<0))
+
+y_mat<-cbind(y_mat,y_arma)
+
+ts.plot(y_mat[1:150,],col=c("black",colo[1:2]))
+abline(h=0)
+
+
+
+@
+<<label=init,echo=FALSE,results=hide>>=
+file = "filt_coef_example1_arma_su.pdf"
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+#mplot<-scale(mplot,scale=T,center=F)
+colo<-c("blue","red","violet","black","green")
+par(mfrow=c(1,2))
+mplot<-bk_mat
+plot(mplot[,1],main="Applied to ARMA",axes=F,type="l",xlab="Lag-structure",ylab="filter-weights",ylim=c(min(mplot),max(na.exclude(mplot))),col=colo[1],lwd=2)
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot[,i],col=colo[i],lwd=2)
+  mtext(colnames(mplot)[i],col=colo[i],line=-i)
+}
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+
+mplot<-bk_white_noise_mat
+plot(mplot[,1],main="Applied to white noise",axes=F,type="l",xlab="Lag-structure",ylab="",ylim=c(min(mplot),max(na.exclude(mplot))),col=colo[1],lwd=2)
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot[,i],col=colo[i],lwd=2)
+  mtext(colnames(mplot)[i],col=colo[i],line=-i)
+}
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+
+
+
+invisible(dev.off())
+
+file = "output_example1_arma_su.pdf"
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+#mplot<-scale(mplot,scale=T,center=F)
+colo<-c("blue","red","violet","black","green")
+par(mfrow=c(1,1))
+
+mplot<-scale(y_mat[1:149,],center=F,scale=T)
+
+plot(mplot[,1],main="Target (black) and SSA-predictors",axes=F,type="l",xlab="Time",ylab="",ylim=c(min(mplot),max(na.exclude(mplot))),col="black",lwd=2)
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot[,i],col=colo[i-1],lwd=2)
+#  mtext(colnames(mplot)[i],col=colo[i-1],line=-i)
+}
+abline(h=0)
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+
+
+invisible(dev.off())
+
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "filt_coef_example1_arma_su.pdf"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{SSA arbitrarily scaled: smoothing (red) and un-smoothing (blue).", sep = "")
+cat("\\label{filt_coef_example1_arma_su}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "output_example1_arma_su.pdf"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{Target (black) shifted by the forecast horizon and SSA-predictors (blue and red): all series scaled to unit-variance.", sep = "")
+cat("\\label{output_example1_arma_su}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+We consider one-step ahead forecasting of the target $z_t=x_t+x_{t-1}+x_{t-2}$ 
+where $x_t=\Sexpr{ar1}x_{t-1}+\epsilon_t+\Sexpr{ma[1]}\epsilon_{t-1}+\Sexpr{ma[2]}\epsilon_{t-2}$ is a stationary and invertible ARMA-process. The target in this example is already 'smooth' with holding-time $ht=$\Sexpr{round(ht_target,1)}. We now apply two SA-designs with holding-times \Sexpr{round(ht_first,1)} and \Sexpr{round(ht_second,1)}: the first predictor 'un-smooths', the second smooths. Fig.\ref{filt_coef_example1_arma_su} displays filter coefficients as applied to $x_t$, left panel, or to $\epsilon_t$ in the Wold-decomposition of $x_t$, right panel. Un-smoothing is obtained by alternating signs of the (blue) predictor weights. SSA-predictors and target (shifted by $\delta=\Sexpr{delta}$) are compared in fig.\ref{output_example1_arma_su}: all series are arbitrarily scaled to unit-variance. Zero-crossings of the un-smoothing predictor are most frequent, followed by the target and the smoothing predictor.    
+
+
+
+
+\subsection{Example 4: Convolution, Plancherel Identity and Amplitude Function}\label{conv_amp}
+
+
+The difference-equation \ref{ar2} suggest that $\mathbf{b}$ can be interpreted as the convolution of the (non-stationary) AR(2)-filter with AR-coefficients $a_1=-\nu$, $a_2=1$ with the MSE-filter $\boldsymbol{\gamma}_{\delta}$. In fact, \ref{diff_non_home} and \ref{rho_fd} can be interpreted as convolutions and Plancherel-identity as stated in the frequency-domain. Fig.\ref{amp_shift_SSA} displays the amplitude functions of both SSA-predictors of the previous example when applied to $x_t$ (left panel) and $\epsilon_t$ from the MA-inversion (right panel). Both predictors are lowpass-designs when applied to $\epsilon_t$ (right) but the un-smoothing predictor as applied to $x_t$ (blue line left panel) is a bandpass design  emphasizing high-frequency-components.
+<<label=init,echo=FALSE,results=hide>>=
+K<-600
+plot_T<-T
+# SSA applied to ARMA
+amp_obj<-amp_shift_func(K,bk_mat[,1],plot_T)
+mat_amp_arma<-amp_obj$amp
+amp_obj<-amp_shift_func(K,bk_mat[,2],plot_T)
+mat_amp_arma<-cbind(mat_amp_arma,amp_obj$amp)
+colnames(mat_amp_arma)<-colnames(bk_mat)
+# SSA applied to white noise
+plot_T<-T
+amp_obj<-amp_shift_func(K,bk_white_noise_mat[,1],plot_T)
+mat_amp_wn<-amp_obj$amp
+amp_obj<-amp_shift_func(K,bk_white_noise_mat[,2],plot_T)
+mat_amp_wn<-cbind(mat_amp_wn,amp_obj$amp)
+colnames(mat_amp_wn)<-colnames(bk_mat)
+
+
+file = "amp_shift_SSA.pdf"
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+par(mfrow=c(1,2))
+mplot<-scale(mat_amp_arma,center=F,scale=T)
+plot(mplot[,1],type="l",axes=F,xlab="Frequency",ylab="Amplitude",main=paste("Amplitude: ARMA",sep=""),ylim=c(min(mplot),max(mplot)),col=colo[1])
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+  lines(mplot[,i],col=colo[i])
+  mtext(colnames(mplot)[i],col=colo[i],line=-i)
+}
+axis(1,at=1+0:6*K/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+axis(2)
+box()
+
+
+mplot<-scale(mat_amp_wn,center=F,scale=T)
+plot(mplot[,1],type="l",axes=F,xlab="Frequency",ylab="",main=paste("Amplitude: white noise",sep=""),ylim=c(min(mplot),max(mplot)),col=colo[1])
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+  lines(mplot[,i],col=colo[i])
+  mtext(colnames(mplot)[i],col=colo[i],line=-i)
+}
+axis(1,at=1+0:6*K/6,labels=c("0","pi/6","2pi/6","3pi/6","4pi/6","5pi/6","pi"))
+axis(2)
+box()
+
+dev.off()
+
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "amp_shift_SSA.pdf"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{Amplitude functions of SSA AR(2)-filters as applied to ARMA-process (left) and to white noise in MA-inversion (right).", sep = "")
+cat("\\label{amp_shift_SSA}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+
+
+\subsection{Example 5: Two Hyperparameters and the Smoothness-Timeliness Dilemma}\label{time_smooth}
 
 <<label=init,echo=FALSE,results=hide>>=
 # 0. Data: white noise
+
 set.seed(31)
 len<-100000
 series<-rnorm(len)
@@ -1523,7 +2011,7 @@ colo<-c("green","red","blue")
 
 filter_mat<-cbind(gamma_mse,bk_mat)
 colnames(filter_mat)<-c("MSE",colnames(bk_mat))
-ts.plot(scale(filter_mat,center=F,scale=rep(T,ncol(filter_mat))),col=colo)
+ts.plot(scale(filter_mat,center=F,scale=T),col=colo)
 for (i in 1:ncol(filter_mat))
   mtext(colnames(filter_mat)[i],col=colo[i],line=-i)
 
@@ -1554,7 +2042,7 @@ nrow(na.exclude(y_mat))/number_cross
 # Plot
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Output of filter whose delta exceeds 2*ht is 'negative', see above remarks
-ts.plot(scale(y_mat[1:min(len-L,1000),],center=F,scale=rep(T,ncol(y_mat))),col=colo,xlab="")
+ts.plot(scale(y_mat[1:min(len-L,1000),],center=F,scale=T),col=colo,xlab="")
 abline(h=0)
 for (i in 1:ncol(filter_mat))
   mtext(colnames(filter_mat)[i],col=colo[i],line=-i)
@@ -1663,7 +2151,7 @@ pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6
 
 filter_mat<-cbind(gamma_mse,bk_mat)
 colnames(filter_mat)<-c("MSE",colnames(bk_mat))
-ts.plot(scale(filter_mat,center=F,scale=rep(T,ncol(filter_mat))),col=colo)
+ts.plot(scale(filter_mat,center=F,scale=T),col=colo)
 for (i in 1:ncol(filter_mat))
   mtext(colnames(filter_mat)[i],col=colo[i],line=-i)
 dev.off()
@@ -1671,7 +2159,7 @@ dev.off()
 file = "filter_smooth_time_out.pdf"
 pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
 
-ts.plot(scale(y_mat[1:1000,],center=F,scale=rep(T,ncol(y_mat))),col=colo,xlab="")
+ts.plot(scale(y_mat[1:1000,],center=F,scale=T),col=colo,xlab="")
 abline(h=0)
 for (i in 1:ncol(filter_mat))
   mtext(colnames(filter_mat)[i],col=colo[i],line=-i)
@@ -1742,7 +2230,7 @@ In this abstract context, the pair $(\rho_1,\delta)$ spans a two-dimensional spa
 
 
 
-\subsection{Example 3: Monotonicity vs. Non-Monotonicity of the Lag-one ACF}\label{mon_non_mono}
+\subsection{Example 6: Monotonicity vs. Non-Monotonicity of the Lag-one ACF}\label{mon_non_mono}
 
 
 We here illustrate uniqueness or multiplicity of the solution of the non-linear holding-time equation \ref{uni_unco_min}, depending on $|\nu|>2\rho_{max}(L)$, see assertion \ref{ass4} of theorem \ref{lambda}. Fig. \ref{rho_nu_ar1}  displays the lag-one autocorrelation  $\rho(\nu)$ in \ref{rho_fd} for a SSA-nowcast ($\delta=0$) as a function of $\nu$ for two different AR(1)-targets $\boldsymbol{\gamma}_{0}(a_1)=(1,a_1,...,a_1^9)'$ of length $L=10$  with $a_1=0.99$ (bottom panels) and $a_1=0.6$ (top panels). The panels on the left correspond to $|\nu|<2\rho_{max}(10)$ and illustrate non-monotonicity of $\rho(\nu)$; the panels on the right correspond to  $\nu>2\rho_{max}(10)$ and illustrate strict monotonicity\footnote{The abscissa of the right hand panels are based on transformed $\log(\nu)$ for a better visualisation of the monotonic shape.}. 
@@ -1760,9 +2248,108 @@ Non-monotonicity generally leads to multiple solutions of $\nu$ for given $\rho_
 
 
 
+\subsection{Example 7: Unit-Root Case}
 
 
-\subsection{Example 4: Application to a Target with Incomplete Spectral Support}\label{incomplete_support}
+<<label=init,echo=FALSE,results=hide>>=
+# Same example as above but the input xt of target zt is an ARMA-process 
+# ARMA-target: this has much stronger lag-one acf than previous example
+# Target zt based on xt: same as above
+ma_len<-20
+target<-rep(1,ma_len)
+forecast_horizon<-ma_len/2
+L_long<-50
+# MA-inversion of ARMA-target
+ht_target<-compute_holding_time_func(target)$ht
+# We assume that input is white noise
+xi<-NULL
+# Impose nearly rho_max (rho_max=L_long+1)
+ht<-ht_first<-50
+rho0<-compute_rho_from_ht(ht)$rho
+
+with_negative_lambda<-F
+grid_size<-1000
+delta<-forecast_horizon
+gamma_target<-gammak_generic<-target
+SSA_obj<-SSA_func(L_long,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
+bk_mat<-SSA_obj$bk_mat
+compute_holding_time_func(bk_mat)$ht
+colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+colnames(bk_mat)<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+
+# Same as above but longer filter
+L_very_long<-5*L_long
+
+SSA_obj<-SSA_func(L_very_long,delta,grid_size,gamma_target,rho0,with_negative_lambda,xi)
+
+bk_mat<-cbind(c(bk_mat,rep(0,L_very_long-L_long)),SSA_obj$bk_mat)
+
+colnames(bk_mat)[2]<-paste("SSA(",round(ht,2),",",forecast_horizon,")",sep="")
+
+
+# Scale so that plots are comparable
+bk_mat[,1]<-bk_mat[,1]/bk_mat[1,1]*bk_wn[1,1]
+bk_mat[,2]<-bk_mat[,2]/bk_mat[1,2]*bk_wn[1,2]
+
+
+ts.plot(bk_mat)
+# Check holding times: holding-times of bk_mat are wrong (bk_mat is applied to ARMA)
+compute_holding_time_func(bk_mat[,1])$ht
+compute_holding_time_func(bk_mat[,2])$ht
+# Check holding times: holding-times of bk_white_noise_mat are correct (bk_white_noise_mat is applied to noise i.e. convolution of Wold decomposition and bk_mat)
+
+
+
+@
+Typically, the coefficients of $\mathbf{b}$ decay towards zero at a rate determined by $\boldsymbol{\gamma}_{\delta}$ and the holding-time constraint $\rho_1$ or $ht_1$. Figure \ref{filt_coef_example4} displays two SSA-predictors with the same holding-time $\Sexpr{round(ht,1)}$ but with different filter-lengths $L=\Sexpr{L_long}$ (blue) and $L=\Sexpr{L_very_long}$ (red). The shorter filter is subject to a near unit-root because the holding-time is close to the maximal limit $\rho_max(50)$ for that filter length: its coefficients do not follow an exponential decay. In contrast, increasing the filter length leads to an exponentially decaying pattern at higher-order lags. In typical applications, the unit-root case typically occurs when $L$ and $ht_1$ are mismatched: in this case, filter performances are affected because the holding-time constraint 'overrules' the proper target-fitting. Increasing $L$ unleashes degrees of freedom and improves MSE-performances.   
+<<label=init,echo=FALSE,results=hide>>=
+file = "filt_coef_example4.pdf"
+pdf(file = paste(path.out,file,sep=""), paper = "special", width = 6, height = 6)
+
+#mplot<-scale(mplot,scale=T,center=F)
+colo<-c("blue","red","violet","black","green")
+par(mfrow=c(1,2))
+mplot<-as.matrix(bk_mat[1:L_long,1])
+plot(mplot[,1],main="Shorter filter",axes=F,type="l",xlab="Lag-structure",ylab="filter-weights",ylim=c(min(mplot),max(na.exclude(mplot))),col=colo[1],lwd=2)
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+
+mplot<-bk_mat
+plot(mplot[,1],main="Short vs. long filters",axes=F,type="l",xlab="Lag-structure",ylab="filter-weights",ylim=c(min(mplot),max(na.exclude(mplot))),col=colo[1],lwd=2)
+mtext(colnames(mplot)[1],col=colo[1],line=-1)
+for (i in 2:ncol(mplot))
+{
+#  lines(mplot[,i]-ifelse(i==ncol(mplot),0.3,0),col=colo[i],lwd=2)
+  lines(mplot[,i],col=colo[i],lwd=2)
+}
+axis(1,at=1:nrow(mplot),labels=-1+1:nrow(mplot))
+axis(2)
+box()
+
+
+invisible(dev.off())
+
+
+
+@
+<<label=z_box_plot_pure_mba_2.pdf,echo=FALSE,results=tex>>=
+file = "filt_coef_example4.pdf"
+cat("\\begin{figure}[H]")
+cat("\\begin{center}")
+cat("\\includegraphics[height=3in, width=6in]{", file, "}\n",sep = "")
+cat("\\caption{SSA coefficients: identical holding-time ht=50 but different filter lengths L=50 (blue) and L=250 (red).", sep = "")
+cat("\\label{filt_coef_example4}}", sep = "")
+cat("\\end{center}")
+cat("\\end{figure}")
+@
+
+
+
+
+
+\subsection{Example 8: Application to a Target with Incomplete Spectral Support}\label{incomplete_support}
 
 
 
@@ -2412,7 +2999,6 @@ The right panel in the figure illustrates that the completion with the extension
 \Big(\mathbf{b}_{i_0}(\tilde{N}_{i_0})\Big)'\boldsymbol{\gamma}_{\delta}=\Big(\mathbf{b}_{10}(\Sexpr{round(N,3)})\Big)'\boldsymbol{\gamma}_{0}=0.737
 \] 
 is attained at the right-most spectral line, for $i_0=10$, and where $\tilde{N}_{10}=\Sexpr{round(N,3)}$ has been obtained from \ref{N_comp}, with the correct sign in place. \\
-
 
 
 
