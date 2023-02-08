@@ -325,7 +325,7 @@ print(c(mean((x.lp.ideal[,1] - x.lp.mdfa[,1])^2),
 \[
   f_{\partial X} (0) = \Psi (1) \, { \Psi (1)}^{\prime} = \Sigma_S.
 \]
-Clearly $\Psi (1)$ has reduced rank $r < n$,
+Clearly $\Psi (1)$ has reduced rank $n-r < n$,
   and Stock and Watson (1988) discuss how there are
  left and right null vectors of $\Psi (1)$,
    i.e., there exist both $\beta$ and $\alpha$, which are
@@ -334,30 +334,35 @@ Clearly $\Psi (1)$ has reduced rank $r < n$,
   \beta^{\prime} \Psi (1) = 0 = \Psi (1) \alpha.
 \]
  We proceed to derive $\beta$ and $\alpha$ from the Cholesky decomposition of
-  $\Sigma_S$.  We can write $\Sigma_S = L L^{\prime}$ for $n \times r$-dimensional
+  $\Sigma_S$.  We can write $\Sigma_S = L L^{\prime}$ for $n \times n-r$-dimensional
    matrices $L$, which are lower-triangular in the sense that 
    they are obtained from a $n \times n$ lower triangular matrix $\widetilde{L}$
    by removing $r$ columns.  This follows from the generalized Cholesky decomposition
    (McElroy, 2017),   where the rank configuration of $\Sigma_S$ determines which 
-    columns are excluded. In fact, we can construct a diagonal matrix $H$ with $n-r$ ones
-    and $r$ zeroes on the diagonal, with a zero corresponding to an omitted column,
-   and such that $\Sigma_S = \widetilde{L} H \widetilde{L}^{\prime}$.
-   Because $H$ is idempotent, this discussion shows that we have $\Psi (1) = \widetilde{L} H$.
-  
-  The matrix $\widetilde{L}$ is not uniquely defined, and we choose to set those columns
+    columns are excluded. In fact, there exist selection matrices $P$ and $M$
+    that are subsets of the identity matrix (i.e., $[P \, M]$ is a permutation
+     matrix), having dimensions $n \times n-r$ and $n \times r$ respectively,
+    and such that $\widetilde{L} \, P = L$.  
+   The matrix $\widetilde{L}$ is not uniquely defined, and we choose to set those columns
    omitted from $L$ to be unit vectors, and by this means $\widetilde{L}$ is invertible.
-   Let $P$ be a $n \times r$-dimensional matrix consisting of these unit vectors,
-   so that $\widetilde{L}$ is constructed from $L$ by inserting columns of $P$ so as to
-    make a lower triangular matrix. Then clearly $HP = 0$, and hence 
-    $\Psi (1) P = 0$.  So we can set $\alpha = P$.  Also, we can define
-    $\beta = \widetilde{L}^{-\prime} P$, which shows that
-  \[
-  \beta^{\prime} \widetilde{L} = P^{\prime} H = 0.
+ So the action of $P$ is  to remove $r$ of the columns of $\widetilde{L}$.
+  Then $H = P P^{\prime}$ is a diagonal matrix    with $n-r$ ones
+    and $r$ zeroes on the diagonal, with a zero corresponding to an omitted column
+    in $L$.    Because $H$ is idempotent, this discussion shows that we
+    have $\Psi (1) = \widetilde{L} H$.   Due to the definition of $P$ and $M$,
+    it follows that $M^{\prime} P = 0$, which suggests setting $\alpha = M$
+    and  $\beta = \widetilde{L}^{-\prime} M$, which shows that
+    \[
+    \Psi (1) \, \alpha = \widetilde{L} P P^{\prime} M = 0 \qquad 
+    \mbox{and} \qquad 
+  \beta^{\prime} \, \Psi (1) = M^{\prime} \widetilde{L}^{-1} \widetilde{L} P P^{\prime} = 0.
   \]
-   With these definitions of $\alpha$ and $\beta$, we find that
+ Note that we could also define $\alpha = M \, G$ for any $r \times r$ matrix $G$;
+ in particular, we could scale each column of $M$ in the definition of $\alpha$.
+   But with our primal definition of $\alpha$ and $\beta$, we find that
 \begin{equation}
 \label{eq:co-int.constraint-llm}
- \alpha \beta^{\prime} = P P^{\prime} \widetilde{L}^{-1} = (1_n - H) \widetilde{L}^{-1}.
+ \alpha \beta^{\prime} = M \, M^{\prime} \widetilde{L}^{-1} = (1_n - H) \widetilde{L}^{-1}.
 \end{equation}
  This can be used in (\ref{eq:zero-constraint-cointcase}).
 \end{Example}
