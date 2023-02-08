@@ -28,13 +28,16 @@ library(R.utils)
 library(xtable)
 
 # set directory to GitHub/MDFA-Legacy
-setwd("C:/Users/neide/OneDrive/Documents/GitHub/MDFA-Legacy")
+#setwd("C:/Users/neide/OneDrive/Documents/GitHub/MDFA-Legacy")
 path.main <- paste(getwd(),"/Sweave/",sep="")
 path.pgm <- paste(path.main,"Rnw/",sep="")
 path.out <- paste(path.main,"Latex/",sep="")
+path.data<-paste(path.main,"Data/",sep="")
  
 ## Load MDFA R codes #
 sourceDirectory(path=paste(path.main,"RcodeTSM/",sep=""), modifiedOnly=FALSE)
+## Load SSA R codes (zero-crossings and such)
+sourceDirectory(path=paste(path.main,"RcodeSSA/",sep=""), modifiedOnly=FALSE)
 
 script <- paste(path.pgm,"MDFA_Legacy",sep="")
 
