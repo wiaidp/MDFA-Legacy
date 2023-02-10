@@ -1544,6 +1544,7 @@ gamma_lag_by_one<-(xi[1:L_long]+c(0,xi[1:(L_long-1)])+c(0,0,xi[1:(L_long-2)]))/3
 ts.plot(cbind(gamma_mse,gamma_lag_by_one),col=c("green","black"))
 rho0<-as.double(compute_holding_time_func(target)$rho_ff1)
 ht<-ht_first<-as.double(compute_holding_time_func(target)$ht)
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # In signal extraction cases it is often suitable to allow for negative nu or lambda if xt is strongly autocorrelated and holding-time 'small': then the signal extraction filter must un-smooth xt i.e. negative nu is required
 with_negative_lambda<-T
