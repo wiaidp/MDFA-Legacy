@@ -231,7 +231,7 @@ which can be solved for $(b\cdot\xi)_j, j=0,1,...$, see theorem \ref{lambda}.  T
 
 
 
-\section{Solution of the SSA-Criterion}\label{theorem_SSA}
+\section{Solution of the SSA-Criterion: Frequency-Domain}\label{theorem_SSA}
 
 
 
