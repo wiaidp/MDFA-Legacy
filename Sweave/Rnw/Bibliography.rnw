@@ -3,15 +3,18 @@
 \bibitem{} Ansley, C. F. and R. Kohn (1986).
 A note on reparameterizing a vector autoregressive moving average
 model to enforce stationarity. 
-  Journal of Statistical Computation and Simulation 24, 99-106.
+  {\it Journal of Statistical Computation and Simulation} {\bf 24}, 99--106.
   
 \bibitem{}  Ansley, C. F. and P. Newbold (1979). Multivariate partial autocorrelations. 
-  In Proceedings of the Businessand Economics Section, pp. 349-353.
+  In Proceedings of the Business \& Economics Section,  349--353.
   American Statistical Association.
 
-\bibitem{} Baxter, M., and King, R. G. (1999). Measuring business cycles: approximate band-pass filters for economic time series. Review of economics and statistics, 81(4), 575-593.
+\bibitem{} Baxter, M., and King, R. G. (1999). Measuring business cycles: 
+approximate band-pass filters for economic time series. {\it Review of
+Economics and Statistics} {\bf 81}(4), 575--593.
 
-\bibitem{} Bell, W. (1984). Signal extraction for nonstationary time series. The Annals of Statistics, 12(2), 646-664.
+\bibitem{} Bell, W. (1984). Signal extraction for nonstationary time series. 
+ {\it The Annals of Statistics} {\bf 12}(2), 646--664.
 
 \bibitem{}  Bell, W. and Martin, D. (2004) Computation of asymmetric signal 
  extraction filters and mean  squared error for ARIMA component models.  
@@ -21,19 +24,33 @@ model to enforce stationarity.
   Time Series: Theory and Methods, second edition.   Springer. New York.
 
 \bibitem{} Christiano, L.J., and Fitzgerald, T.J.(2003). 
-  The band pass filter.  International economic review 44 (2), 435-465.
+  The band pass filter.  {\it International Economic Review}
+  {\bf 44}(2), 435--465.
 
-\bibitem{} Golub, G. H., and Van Loan, C. F. (1996). Matrix Computations.
+\bibitem{} Golub, G. H., and Van Loan, C. F. (1996). {\it Matrix Computations.}
  Johns Hopkins University Press. Baltimore and London.
 
 
-\bibitem{} Heaps, S.E., 2020. Enforcing stationarity through the prior in 
+\bibitem{} Heaps, S.E. (2020). Enforcing stationarity through the prior in 
 vector autoregressions. arXiv preprint arXiv:2004.09455.
 
-\bibitem{} Hosoya, Y., and Taniguchi, M. (1982). A central limit theorem for stationary processes and the parameter estimation of linear processes. The Annals of Statistics, 132-153.
+\bibitem{} Hodrick, R., and Prescott, E. (1997). Postwar U.S. business cycles: an
+empirical investigation. {\it Journal of Money, Credit, and Banking}
+{\bf 29}, 1--16.
+
+\bibitem{} Hosoya, Y., and Taniguchi, M. (1982). A central limit theorem 
+for stationary processes and the parameter estimation of linear processes. 
+{\it The Annals of Statistics}, 132--153.
+
+\bibitem{} Koopman, S., Harvey, A., Doornik, J., and Shepherd, N. (2000).
+{\it Stamp 6.0: Structural time series analyser, modeller, and predictor.}
+London: Timberlake Consultant.
 
 \bibitem{} L\"utkepohl, H. (2007).  New Introduction to Multiple Time Series Analysis. 
 Springer-Verlag. 
+
+\bibitem{} Maravall, A., and Caparello, G. (2004).  Program TSW: Revised reference manual. 
+Working paper 2004, Research Department, Bank of Spain.  
 
 \bibitem{} McElroy, T. (2008a). Matrix formulas for nonstationary ARIMA signal extraction. Econometric Theory, 988-1009.
 

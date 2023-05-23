@@ -155,7 +155,8 @@
 
 % Chapter 7
 %  zero-crossings 
-\SweaveInput{SSA_criterion}
+%  NOTE: we think this will be omitted
+%\SweaveInput{SSA_criterion}
 
 %------------------------------------------
 

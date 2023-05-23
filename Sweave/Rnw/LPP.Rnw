@@ -3,6 +3,16 @@
 \chapter{Linear Prediction Problems}
 \label{chap:lpp}
 
+This chapter develops the basic framework of the book by
+discussing the so-called Linear Prediction Problem (LPP).
+We begin with a rapid introduction to vector time series,
+which mainly serves to set our notation -- it is presumed
+that the reader already has familiarity with these topics --
+and then proceed to the main discussion of LPP, and how
+ models can be fitted through an LPP criterion.
+
+
+
 \section{Background on Stationary Vector Time Series}
 
 The reader should have a basic familiarity with multivariate time
@@ -112,7 +122,7 @@ covariance involves conjugation of
  non-negative definite.  Clearly, $\Gamma (h) = 0$ for $h \neq 0$ and $\Gamma (0) = \Sigma$.
  We denote this type of process with the notation $\mbox{WN} (\Sigma)$.
 
- The advantage of the spectral representation is that it quickly facillitates
+ The advantage of the spectral representation is that it quickly facilitates
  the understanding of linear filtering in the frequency domain.
  A multivariate filter maps one vector time series to another, and for
  now we suppose that both input and output belong to $\RR^n$.

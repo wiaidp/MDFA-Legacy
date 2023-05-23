@@ -2,30 +2,632 @@
 \chapter{Filter Customization}
 \label{chap:ats}
 
-We propose an extension of the classic MSE-paradigm which addresses
- nowcast and forecast applications\footnote{Backcasts were discussed 
-in chapter \ref{fil_sec}.}. Specifically, we split the original MSE-norm 
-into three components, identified as Accuracy, Timeliness and Smoothness. 
-The resulting two-dimensional trade-off, controlled by the parameter-pair 
-$\lambda,\eta$ in the head of the main function call, is called 
-Accuracy-Timeliness-Smoothness Trilemma, or ATS-Trilemma for short,
- see Wildi (2005), McElroy and Wildi (2015). We derive  a generic 
-optimization principle, called Customization, which nests the classic
- MSE-approach.  We show that the ATS-trilemma collapses to a one-dimensional 
-trade off, the so-called AT-dilemma, in the case of forecasting. We infer 
- that classic (pseudo-maximum likelihood)  one-step ahead forecast
- approaches are incapable of addressing Timeliness and Smoothness, 
-simultaneously. Efficiency gains of customized designs are quantified 
-in a series of empirical examples. \\
+% We propose an extension of the classic MSE-paradigm which addresses
+%  nowcast and forecast applications\footnote{Backcasts were discussed 
+% in chapter \ref{fil_sec}.}. Specifically, we split the original MSE-norm 
+% into three components, identified as Accuracy, Timeliness and Smoothness. 
+% The resulting two-dimensional trade-off, controlled by the parameter-pair 
+% $\lambda,\eta$ in the head of the main function call, is called 
+% Accuracy-Timeliness-Smoothness Trilemma, or ATS-Trilemma for short,
+%  see Wildi (2005), McElroy and Wildi (2015). We derive  a generic 
+% optimization principle, called Customization, which nests the classic
+%  MSE-approach.  We show that the ATS-trilemma collapses to a one-dimensional 
+% trade off, the so-called AT-dilemma, in the case of forecasting. We infer 
+%  that classic (pseudo-maximum likelihood)  one-step ahead forecast
+%  approaches are incapable of addressing Timeliness and Smoothness, 
+% simultaneously. Efficiency gains of customized designs are quantified 
+% in a series of empirical examples. \\
+% 
+% The ATS-trilemma and the generic customization principle are introduced
+%  in section \ref{seatatst}; section \ref{fatatd} highlights the classic
+%  dichotomic forecast paradigm; quadratic optimization criteria and 
+% closed-form solutions are presented in section \ref{idfas}; an application
+%  of customization is proposed in section \ref{ats_work_o}; performance
+%  measures are presented in section \ref{peco_cu}; finally,
+%  sections \ref{double_score_ats} and \ref{ucdvbmseli} assess 
+% performances of customized designs when benchmarked against classic
+%  MSE-approaches. 
 
-The ATS-trilemma and the generic customization principle are introduced
- in section \ref{seatatst}; section \ref{fatatd} highlights the classic
- dichotomic forecast paradigm; quadratic optimization criteria and 
-closed-form solutions are presented in section \ref{idfas}; an application
- of customization is proposed in section \ref{ats_work_o}; performance
- measures are presented in section \ref{peco_cu}; finally,
- sections \ref{double_score_ats} and \ref{ucdvbmseli} assess 
-performances of customized designs when benchmarked against classic
- MSE-approaches. 
+
+In the previous chapters we analyzed the impact 
+on real-time filters of the level and time shift constraints, 
+ as well as constraints arising from non-stationarity
+ (Chapter \ref{chap:int}) and co-integration (Chapter \ref{chap:coint}).
+   In this chapter we explore an extension of the classical MSE 
+   (Chapter \ref{chap:basic}) criterion by means of a decomposition of
+signal extraction error into components corresponding to Accuracy, Timeliness, 
+and Smoothness -- abbreviated at the ATS trilemma.
+ With this decomposition, we are empowered to address important
+ user-priorities that are relevant to nowcasting
+and forecasting applications, and thereby customize filters for
+specific uses.
+ 
+
+\section{The ATS-Trilemma and Customization}
+
+\label{sec:ats-tr}
+
+\subsection{The Univariate Case}
+
+HERE:  the following text is self-plagiarized from our trilemma paper.
+
+The evaluation of economic data and monitoring of the economy is often concerned 
+with an assessment of mid- and long-term dynamics of
+time series (i.e., trend and/or cycle). For this purpose a broad range of 
+popular techniques are available to the analyst: 
+ARIMA-based approaches (e.g., TRAMO-SEATS (Maravall and Caparello, 2004)), 
+State-Space methods (e.g., STAMP (Koopman, Harvey, Doornik, Shepherd (2000)),
+and classic filters (e.g., Hodrick-Prescott (HP) or
+Cristiano-Fitzgerald (CF); see Hodrick and Prescott (1997) and 
+Cristiano and Fitzgerald (2003)) are widely-used benchmarks.  
+Whereas DFA can be used to provide real-time estimates of a target signal,
+it may be desirable to enforce the presence of certain   properties --
+such as smoothness and timeliness -- by direct design of the filter.
+  
+ 
+In order to impose these desirable properties on a filter, 
+we proceed by decomposing the filter  MSE 
+ into components that correspond to the key properties of a filter. 
+ Recall from Chapter \ref{chap:lpp} that we can decompose a linear
+ filter's frf   in terms of its gain function and  phase function.  
+  The former governs smoothness of filter estimates,
+describing the so-called pass-band and stop-band, 
+whereas the latter governs timeliness of the filter,
+controlling the advance or retardation in time of underlying harmonics.  
+Here, we  connect these concepts with the signal extraction MSE
+by decomposing it   into Accuracy, Timeliness and Smoothness error components.
+By proposing a two-dimensional trade-off between these
+conflicting terms, we obtain the so-called ATS-trilemma.  
+This is analogous, but not mathematically equivalent, to the
+bias-variance trade-off that arises from the classical 
+decomposition of MSE of a parameter estimator.
+
+With this formalism, we are able to derive a general class of
+optimization criteria that allow the user to address specific 
+research priorities, in terms of the Accuracy, Timeliness and Smoothness 
+properties of the resulting real-time filter.  We call such a
+criterion a  {\it customization}.  Although customization for real-time signal 
+extraction can be achieved via
+other methodologies, the MSE decomposition developed below offers the most direct and
+compelling connection between parameters and the corresponding characteristics
+of a real-time filter. For example, in a model-based framework 
+(e.g., TRAMO-SEATS or STAMP) one could adjust model orders and/or
+model parameters to achieve modifications to smoothness (e.g., increase the integration order for the
+trend to obtain a smoother real-time trend), but the connection of such adjustments to the phase function
+of the concurrent filter arising from such models is much harder to discern; moreover, knowing the
+phase function alone does not provide information about its impact on MSE -- and one is ultimately
+concerned about signal extraction error.  If instead one advocates using an asymmetric version of a
+popular nonparametric filter, such as the HP, CF, or ideal low-pass filter, there are few parameters
+ available to adjust the phase function, and the story is much the same as in the model-based framework.
+
+The relationship between filter parameters and filter behavior is explicit in the ATS paradigm.
+  The ATS decomposition can in fact be used to analyze and
+ customize a model-based concurrent filter, or even a nonparametric concurrent filter.  We advocate
+ working with a richer class of concurrent filters, that allow for more flexibility in terms of gain
+ and phase functions, than is typically possible with model-based or nonparametric approaches.
+
+ If one were to weight squared bias and variance by some convex combination -- where equal weights
+ correspond to the estimator's MSE -- one could emphasize either aspect, depending upon user priorities.
+ Such a customization results in a one-dimensional space -- or curve -- of criteria, the classical MSE
+ being but the central point.  Similarly, real-time signal extraction customization results in a
+ two-dimensional space -- or triangle -- of criteria, wherein the MSE lies in the center, and the
+ vertices correspond to exclusive emphasis on either Accuracy, Timeliness, or Smoothness. Thus,
+traditional approaches can be replicated perfectly by DFA, and can
+also be customized. 
+
+Interestingly, the two-dimensional tradeoff collapses to a bipolar dilemma in a classic
+one- or multi-step ahead forecast perspective, which we demonstrate below (essentially because the notions
+of pass-band and stop-band are irrelevant in forecasting problems).  The key facet here is that MSE can be
+decomposed into a summation of constituent error measures that correspond to useful quantities of interest.
+Just as with a classical estimator, where it is useful to examine both its squared bias and its variance --
+described heuristically as accuracy and precision respectively -- here in the context of signal
+extraction  it is useful to decompose MSE into three components of Accuracy, Timeliness, and
+Smoothness.  As in nonparametric density estimation, where altering the bandwidth can decrease bias
+at the expense of higher variance, or vice versa, so here an improvement of one of the ATS components
+typically entails a deterioration in one or both of the other components.
+ 
+
+We introduce the concepts through the univariate case.
+The mean square real-time estimation error is given by (\ref{eq:dfa-mvar}),
+ which in the scalar case is given by the weighted integral of
+\begin{equation}
+ \label{eq:chapats_filterErr}
+ {| \Psi (e^{-i \omega}) - \widehat{\Psi}_{\vartheta} (e^{-i \omega}) |}^2 \, 
+ \widetilde{F} (\omega) =
+ {| \Lambda (e^{-i \omega}) |}^2  \widetilde{F} (\omega).
+\end{equation}
+    Now decomposing the squared
+    filter error in (\ref{eq:chapats_filterErr}), we obtain an    identity
+    that allows direct comparison of  the amplitude and phase functions.
+    
+\begin{Proposition}    
+    \label{prop:amp-and-phase}
+For given filters $\Psi (L)$ and $\widehat{\Psi}_{\vartheta} (L)$,     
+    let   $A(\omega)=|\Psi (e^{-i \omega}) |$ and
+$\widehat{A}(\omega)=|\widehat{\Psi}_{\vartheta} (e^{-i \omega}) |$ be their
+amplitude functions, and let $\Phi(\omega)=\mbox{Arg} (Psi (e^{-i \omega}))$ and
+$\widehat{\Phi}(\omega)= \mbox{Arg} (\widehat{\Psi}_{\vartheta} (e^{-i \omega}))$ 
+ be their phase functions.  Then 
+\begin{align}
+{| \Psi (e^{-i \omega}) - \widehat{\Psi}_{\vartheta} (e^{-i \omega}) |}^2
+&= A(\omega)^2+\widehat{A}(\omega)^2-2A(\omega)
+ \widehat{A}(\omega)\cos\left(\Phi (\omega)- \widehat{\Phi} (\omega)\right)  \notag \\
+  &=  (A(\omega)-\widehat{A}(\omega))^2 + 4 \, A(\omega)\widehat{A}(\omega)
+  \sin\left( ( \Phi (\omega)-\widehat{\Phi} (\omega) )/2 \right)^2.
+   \label{eq:chapats_etrigid}
+\end{align}
+\end{Proposition}
+ 
+ \paragraph{Proof of Proposition \ref{prop:amp-and-phase}.}
+Noting that $\Psi (z) = A(\omega) \exp \{ i \Phi (\omega) \} $ and
+$\widehat{\Psi}_{\vartheta} (z) = 
+\widehat{A} (\omega) \exp \{ i \widehat{\Phi} (\omega) \} $,
+ we obtain
+ \begin{align*}
+ {| \Lambda (z) |}^2 & = 
+  { A(\omega) }^2 + { \widehat{A} (\omega) }^2 - 
+  2 \Re [ \Psi (\omega) \widehat{\Psi} (-\omega) ] \\
+  & = {\left( A(\omega) - \widehat{A} (\omega) \right)}^2 
+   + 2 A(\omega) \widehat{A} (\omega) - 2 A(\omega) \widehat{A} (\omega)
+    \Re [ \exp \{ i (\Phi (\omega) - \widehat{\Phi} (\omega) ) \} ] \\
+  & = {\left( A(\omega) - \widehat{A} (\omega) \right)}^2 
+   + 2 A(\omega) \widehat{A} (\omega) 
+   \left( 1- \cos (\Phi (\omega) - \widehat{\Phi} (\omega) )  \right).
+ \end{align*}
+ The proof is completed by using the identity
+ $1 - \cos (\theta) = 2 { \sin (\theta/2) }^2$.   $\quad \Box$
+
+ 
+\vspace{.5cm}
+
+ 
+ 
+We now plug (\ref{eq:chapats_etrigid}) into
+(\ref{eq:chapats_dfa_fd}) and obtain the following 
+decomposition of the signal extraction MSE:
+\begin{align*}
+ \langle | \Psi (z) - \widehat{\Psi}_{\vartheta} (z)|^2 
+ \widetilde{F}  \rangle_0 & =
+ \langle (A -\widehat{A}   )^2 \widetilde{F} \rangle_0  \\
+& \quad +4  \langle A \widehat{A} \sin\left( (\Phi  - \widehat{\Phi} )/2 \right)^2 \,
+ \widetilde{F} \rangle_0.
+\end{align*}
+This decomposes the signal extraction MSE into two terms,
+the first of which measures the difference in amplitudes
+of the two filters (weighted by the spectral density),
+whereas the second term assesses the discrepancy of
+the phase functions.   Next,  we further 
+decompose these two terms by dividing the range of
+frequencies into a  pass-band and stop-band 
+defined according to 
+ high and low values, respectively, of the amplitude function.
+ Specifically, let
+\begin{eqnarray*}
+\textrm{pass-band}&=&\{\omega|A(\omega)\geq 0.5\}                          \\
+\textrm{stop-band}&=&[-\pi,\pi] \setminus \textrm{pass-band}.
+\end{eqnarray*}
+Then we subdivide the signal extraction MSE further, obtaining  
+the following four terms:
+\begin{eqnarray}
+\textrm{Accuracy}&:=&
+ \langle 1_{ \textrm{pass-band}} (A -\widehat{A} )^2 \, \widetilde{F}(\omega) \rangle_0
+ \label{eq:chapats_Ats}\\
+\textrm{Timeliness}&:=& 4 \langle 1_{ \textrm{pass-band}}
+ A \widehat{A} \sin\left( (\Phi  - \widehat{\Phi} )/2 \right)^2 \,
+ \widetilde{F}(\omega) \rangle_0
+  \label{eq:chapats_aTs}\\
+\textrm{Smoothness}&:=&
+ \langle 1_{ \textrm{stop-band}} (A -\widehat{A} )^2 \, \widetilde{F}(\omega) \rangle_0
+ \label{eq:chapats_atS}\\
+\textrm{Residual}&:=& 4 \langle 1_{ \textrm{stop-band}}
+ A \widehat{A} \sin\left( (\Phi  - \widehat{\Phi} )/2 \right)^2 \,
+ \widetilde{F}(\omega) \rangle_0.  \label{eq:chapats_atsR}
+\end{eqnarray}
+We explain the naming of these four terms.
+Accuracy, or A for short,  measures the contribution to the MSE
+when the phase properties of the filters -- as well as  the noise suppression
+ in the stop-band -- are ignored. This measure   corresponds to the performance of a symmetric filter
+  (with no time-shift) with perfect noise suppression, i.e., 
+  $\widehat{A} = A 1_{ \textrm{pass-band}}  $.  Hence, (\ref{eq:chapats_Ats})
+  assesses the extent to which $\Psi $ matches the gain function of $\widehat{\Psi}$
+  in the important pass-band; for this reason the term is called  Accuracy.
+  
+  The second term, Timeliness (T for short), measures the MSE contribution generated by the time-shift. 
+  Like Accuracy, it focuses on discrepancies between $\Psi$ and $\widehat{\Psi}$ 
+  in the pass-band, but in contrast assesses phase fidelity; low values
+  of (\ref{eq:chapats_aTs}) indicate that $\widehat{\Psi}$ generates little
+  phase delay at frequencies that matter.
 
 
+Smoothness, or S for short,
+measures the MSE contribution that can be attributed to the leakage of the real-time
+filter in the stop-band -- consisting of undesirable frequency content. 
+ This quantity  (\ref{eq:chapats_atS})  forms a complement to the
+ Accuracy term, focusing upon the amplitude discrepancy in the stop-band;
+ large values of (\ref{eq:chapats_atS}) indicate that $\widet{A}$ differs from
+ $A$ at frequencies where the latter is low, indicating the introduction
+ of spurious effects -- such as high-frequency oscillations -- that are
+ of no interest.  In the case of a trend, or low-frequency target, such effects
+ would disrupt the smoothness of $\widehat{Y}_t$, and hence this term
+ is called Smoothness.
+ 
+ 
+% the time-domain ``curvature'' measure consisting of the variance of second differences,
+%  because 
+% \[
+%  \EE {[ {(1-B)}^2 (\widehat{Y}_t - Y_t ) ]}^2  = \langle {(2 - 2 \cos )}^2  \, 
+%   |\Lambda (z) |^2 \widetilde{F} \rangle_0,
+% \]
+%  and the function $ {(2 - 2 \cos \omega)}^2 $ plays the role of a stop-band. 
+%  If $A$ is compactly supported in the 
+% pass-band, then the above curvature measure
+%  is equal to the integral of $ {(2 - 2 \cos \omega)}^2 \widehat{A}^2 (\omega)$, which
+% resembles the Smoothness term. 
+
+
+
+Finally, the fourth term (\ref{eq:chapats_atsR}) is what's left --
+that part of the MSE which is not attributable to any of the other three components;
+hence it is called the Residual (or R for short).
+Since the product $A \widehat{A} $ is typically small in the stop-band,
+the Residual is generally negligible. 
+ % From a slightly different   perspective, user priorities are rarely concerned 
+ %about time-shift properties of components  in the stop-band,  which ought to be 
+ %damped or eliminated anyways. 
+ 
+The MSE (\ref{eq:dfa-mvar}) can now be   generalized to provide a customized measure.
+We proceed by assigning weights to the terms of the ATS decomposition of the MSE:
+\begin{equation}\label{eq:chapats_ats_cust}
+ \mathcal{M} (\lambda_1, \lambda_2) = \lambda_1 \, \textrm{Timeliness}+ \lambda_2 \,
+ \textrm{Smoothness} + ( 1 - \lambda_1 - \lambda_2) \, \textrm{Accuracy}.
+\end{equation}
+The parameters $\lambda_1, \lambda_2 \in [0,1]$ allow a user to prioritize
+a particular term or pair of terms among Accuracy, Smoothness, and Timeliness.
+The resulting three-dimensional
+trade-off is called the {\it ATS-trilemma}, and the
+optimization paradigm (\ref{eq:chapats_ats_cust}) is called a {\it customized criterion}.
+ The user can explore different regions of  the
+customization triangle according to their specific research priorities: the ordinary MSE is
+obtained by setting $\lambda_1=\lambda_2=1/3$, whereas complete emphasis on Smoothness arises from the
+ choice $\lambda_1 = 0, \lambda_2 =1$.
+
+
+The above trilemma was obtained by assuming that the target filter $\Psi $
+separates components into pass- and stop-bands. However, $h$-step ahead forecasting
+ involves a target filter that is all-pass, i.e., with amplitude equal to one
+ at all frequencies.    Therefore the stop-band is non-existent, and hence
+ the Smoothness and Residual error components are irrelevant; then the
+ trilemma reduces to a forecasting dilemma:
+\begin{equation}
+ \label{eq:dilemma}
+ \mathcal{M} (\lambda_1) = \lambda_1 \, \textrm{Timeliness} + (1 - \lambda_1) \, \textrm{Accuracy}.
+\end{equation}
+ While this paradigm is sufficient to address all-pass filtering problems, such as multi-step ahead forecasting,
+ it cannot emphasize Smoothness, and hence is less flexible than (\ref{eq:chapats_ats_cust}).
+
+The proposed method can replicate and customize traditional (ARIMA or State-Space)
+model-based approaches as well as classic filter designs (HP, CF, Henderson), by plugging the corresponding
+spectral densities as well as the target signals into equations 
+(\ref{eq:chapats_Ats}), (\ref{eq:chapats_aTs}), (\ref{eq:chapats_atS}), 
+and (\ref{eq:chapats_atsR}), followed by minimization of (\ref{eq:chapats_ats_cust})
+subject to $\lambda_1 = \lambda_2 = 1/3$, 
+including the Residual term to achieve perfect replication.  
+
+We could combine these operations in any order.  As an example, we could target a HP filter by supplying
+a model-based spectral density. Moreover, we could use alternative spectral
+estimates (for example, nonparametric) or targets, allowing for a flexible
+implementation of general real-time problems.  For instance, recall
+from Chapter \ref{chap:basic} that we can employ a model-based 
+ estimate of  $\widetilde{F}$.
+    
+    
+\subsection{The Linearized ATS Criterion}    
+    
+    
+HERE insert from notes    
+    
+\subsection{The Multivariate ATS Criterion}     
+    
+    
+HERE  edit from notes    
+    
+    We begin with the MDFA MSE criterion and 
+ rewrite the signal extraction variance in a way that decomposes the
+ MSE into amplitude and phase comparisons, much like in the
+ univariate case.  This will reveal at once how a user can re-weight
+ these two contributions in order to emphasize amplitude match at
+ the expense of phase match, and vice versa.  Define
+\begin{align*}
+ \Gamma^* (z) & = \left[ 0, \left( \frac{ \Gamma (z) - \Gamma^{N,k} (z) }{ \delta (z) } \right) \right] \\
+  \widehat{\Gamma}^* (z) & = \left[ 1, \left( \frac{ \widehat{\Gamma} (z) - \widehat{\Gamma}^{N,k} (z)  }{ \delta (z) } \right)  \right].
+\end{align*}
+ Then the M-DFA variance is the weighted integral of
+\begin{align*}
+ & \left[\Gamma^* (z) - \widehat{\Gamma}^* (z) \right] \,
+ h(\omega)  \, \left[  \Gamma^{* \prime} (\overline{z}) -
+ \widehat{\Gamma}^{* \prime} (\overline{z}) \right] \\
+ & = \Gamma^* (z) \, f (\omega) \,  \Gamma^{* \prime}
+ (\overline{z}) - \widehat{\Gamma}^* (z) \, f (\omega) \,
+  \Gamma^{* \prime} (\overline{z})
+  - \Gamma^* (z) \, f (\omega) \,
+  \widehat{\Gamma}^{* \prime} (\overline{z}) +
+  \widehat{\Gamma}^* (z) \, f (\omega) \,
+  \widehat{\Gamma}^{* \prime} (\overline{z}) \\
+  & = { \left( A^* (\omega) -\widehat{A}^* (\omega)
+  \right) }^2 + 2 \, A^* (\omega) \, \widehat{A}^*
+  (\omega) \, \left( 1 -  \frac{ \Re \, \widehat{\Gamma}^* (z) \, f (\omega) \,
+  \Gamma^{* \prime} (\overline{z}) }{ A^*
+  (\omega) \, \widehat{A}^*  (\omega) } \right),
+\end{align*}
+ where the functions $A^*$ and $\widehat{A}^*$ are
+ aggregate amplitude functions defined by
+\[
+  A^* (\omega) = \sqrt{\Gamma^* (z) \, f (\omega) \,  \Gamma^{* \prime}
+ (\overline{z})  } \qquad \widehat{A}^* (\omega) =
+  \sqrt{  \widehat{\Gamma}^{*} (z) \, f (\omega) \,
+  \widehat{\Gamma}^{*\prime} (\overline{z}) }.
+\]
+ The phase expression in the parentheses is always positive by the
+ Cauchy-Schwarz inequality:
+\begin{align*}
+ \left|  \widehat{\Gamma}^* (z) \, f (\omega) \,
+  \Gamma^{* \prime} (\overline{z})  \right|
+ & = \left| \EE \left[ \widehat{\Gamma}^* (z) d\widetilde{\ZZ} (\omega) \,
+  d\widetilde{\ZZ}^{\prime} (\overline{\omega}) \Gamma^{* \prime}
+ (\overline{z}) \right] \right| \\
+ & \leq \sqrt{ \EE  \left[ \widehat{\Gamma}^* (z) d\widetilde{\ZZ} (\omega)  \,
+  d\widetilde{\ZZ}^{\prime} (\overline{\omega}) \widehat{\Gamma}^{* \prime}
+ (\overline{z}) \right] \cdot \EE  \left[ \Gamma^* (z) d\widetilde{\ZZ} (\omega) \,
+  d\widetilde{\ZZ}^{\prime} (\overline{\omega}) \Gamma^{* \prime}
+ (\overline{z}) \right] } \\
+ & = A^* (\omega) \cdot \widehat{A}^* (\omega).
+\end{align*}
+ This shows that MSE breaks into two non-negative terms
+ corresponding to aggregate amplitude match and aggregate phase
+ match, taking co-integration into account.  We note in passing that
+ the target $A^{* }$ does not involve $f_c$, but the estimate
+ $\widehat{A}^*$ does involve $f_c$ and $f_{c \partial x}$.
+
+Now we consider the topic of estimation, where the periodogram $I$
+is substituted for $f$.  This shall be the periodogram of the
+noise-differenced co-integrated series $C_t$ together with the fully
+differenced data $\partial X_t$.  Let the DFT of a stationary series
+$Y_t$ be denoted $Z_Y (\omega) = \frac{1}{ \sqrt{n}} \sum_{t=1}^n
+Y_t z^t$.  Then $I(\omega) $ is the outer product of $[Z_C
+(\omega), Z^{\prime}_{\partial X} (\omega) ]$ with itself.  Let us
+denote the joint vector ${[C_t, \partial X_t^{\prime}]}^{\prime}$ by
+$W_t$ for short, so that $I(\omega) = Z_W (\omega) \, Z_W^{\prime}
+(-\omega)$.  These quantities are easily computed.  When we
+substitute $I$ for $f$ in the above expressions, we exchange $\,
+\widetilde{} \,$ for $\, \widehat{} \,$. Then
+\[
+   \widehat{H} (\omega) = \left| \widetilde{\Psi} (z) \, Z_W
+   (\omega) \right| \qquad \widehat{G} (\omega) =
+ \left| \widetilde{\Gamma} (z) \, Z_W (\omega) \right| \qquad
+ \widetilde{\Gamma} (z) \, I (\omega) \,
+  \widetilde{\Psi}^{\prime} (\overline{z}) = \widetilde{\Gamma} (z)
+  \, Z_W (\omega) \cdot \widetilde{\Psi} (\overline{z}) \, Z_W
+  (-\omega).
+\]
+This latter expression can be decomposed in terms of amplitude and
+phase fairly neatly.  Let
+\[
+  \widetilde{\Gamma} (z)  \, Z_W (\omega)
+  = \widehat{G} (\omega) \cdot \exp \{ i \widehat{\Phi} (\omega) \}
+  \qquad  \widetilde{\Psi} (z)  \, Z_W (\omega)
+  = \widehat{H} (\omega) \cdot \exp \{ i \widehat{\Omega} (\omega)
+  \},
+\]
+ so that the signal extraction MSE is estimated by the weighted
+ integral of
+\begin{equation}
+ \label{eq:empCrit}
+ { \left( \widehat{H} (\omega) - \widehat{G} (\omega) \right) }^2
+  + 2 \, \widehat{H} (\omega) \, \widehat{G} (\omega) \,
+  \left( 1- \cos \left[ \widehat{\Omega} (\omega) - \widehat{\Phi}
+  (\omega) \right] \right).
+\end{equation}
+  Algorithmically, we select the multivariate $\Gamma$ from a class
+  that satisfies the signal preservation property, the noise
+  annihilation property, and any feasible co-integrating relations
+  -- which relate the estimating filters to the known target
+  filters.  To do this, one must first know co-integrating relations
+  for an appropriate signal frequency; otherwise, when $\beta$ is
+  mis-construed, a non-stationary signal extraction error could
+  result, which will interfere with consistency of the integrated
+  periodogram for the joint spectrum.  Having narrowed down the
+  class of admissible estimating filters, one computes
+  (\ref{eq:empCrit}) by integrating over Fourier frequencies, after
+  the DFTs of $C_t$ and $\partial X_t$ have been determined.  (In
+  practice the sample size of these series will differ, because
+  $\partial X_t$ requires more temporal differencing than $C_t$, but
+  this is irrelevant asymptotically.)
+    
+
+\section{Customization Examples}
+
+Here we study several examples originally introduced in the basic DFA treatment.   In particular, we consider HP Low-Pass,  Na\"ive Seasonal Adjustment,  $H$-step ahead forecasting (which will utilize the dilemma (\ref{eq:dilemma})), and the Ideal Low-Pass.  These examples can then be applied to data with the accompanying R code.
+
+\subsection{HP Low-Pass Filtering}
+ The HP filter was defined earlier as having frf
+\[
+ \Gamma (z) = \frac{ r}{ r + {(1-z)}^2 {(1- \overline{z})}^2 },
+\]
+ where $z = e^{-i \lambda}$ and $r > 0$ is the signal-to-noise ratio.  This is our target filter, so that $y_t = \Gamma (B) x_t$ is our target.  Explicit formulas for the coefficients are given in McElroy (2008, EJ); there are infinitely many non-zero coefficients, and the filter is symmetric.   We seek a concurrent filter $\widehat{\Gamma} (B)$, and will consider the class $\mathcal{M}_q$ of moving average filters of order $q$.   Moreover, we wish to impose a level constraint so that the forecast filter can be applied to interesting $I(1)$ time series.  Recall that the level constraint states that $\Gamma (1) = \widehat{\Gamma} (1)$. 
+ Now it's easy to see that $\Gamma(1) = 1$, but in the following derivations we write $\Gamma(1) $ instead, so that the calculations are valid for filters that don't satisfy $\Gamma (1) = 1$.    Because $\widehat{\Gamma} \in \mathcal{M}_q$, it can be written
+\[
+   \widehat{\Gamma}  (B) = \sum_{j=0}^q \theta_j B^j,
+\]
+ with no {\it a priori} restrictions on the coefficients $\theta_j$.  Imposing the constraint and solving for $\theta_0$ yields
+\[
+ \theta_0 = \Gamma (1) - \sum_{j=1}^q \theta_j.
+\]
+ The vector of unconstrained parameters is denoted $\theta = {[ \theta_1, \theta_2, \cdots, \theta_q ]}^{\prime}$.
+ Substituting into $\widehat{\Gamma} (B)$, we can algebraically manipulate the concurrent filter as follows:
+\begin{align*}
+ \widehat{\Gamma} (B) & = \Gamma(1) + \theta_1 (B-1) + \theta_2 (B^2 - 1) + \cdots + \theta_q (B^q - 1) \\
+ 	& = \Gamma(1) +  \sum_{j=1}^q \theta_j \, (B^j - 1),
+\end{align*}
+  It follows that  the filter error is
+\[
+ \Gamma (B) -   \widehat{\Gamma} (B)   = \Gamma (B) - \Gamma(1) -  \sum_{j=1}^q \theta_j \, (B^j - 1).
+ \]
+ Recall the notation $\langle \cdot \rangle$ for the average integral over $[-\pi, \pi]$, and for short let $b_j (z) = z^j - 1$, written as a vector of functions $b(z)$.  Then the filter error in frequency domain becomes $\Gamma (z) - \Gamma (1 ) - \theta^{\prime} b (z)$.  Also let $g(z) = \Gamma (z) - \Gamma(1)$.
+ Substituting into the DFA criterion (\ref{eq:chapats_dfa_fd}) yields
+\begin{equation}
+ \label{eq:HPdfaMSE}
+  \langle g( e^{-i \cdot} ) g(e^{i \cdot}) h \rangle -  \theta^{\prime} \, \langle \left( b (e^{-i \cdot}) g(e^{i \cdot}) +  b (e^{i \cdot}) g(e^{-i \cdot}) \right) h \rangle + \theta^{\prime} \, \langle b( e^{-i \cdot}) b^{\prime} (e^{i \cdot}) h \rangle \, \theta,
+\end{equation}
+ which is a quadratic function of the parameter $\theta$.  The theoretical solution is obtained when $h$ is the true data spectrum, while an estimate $\widehat{\theta}$ is obtained when $h$ is the periodogram, or some other estimator of the spectral density.  In either case, the minimizer is
+\[ 
+ \theta = { \left[  \langle b( e^{-i \cdot}) b^{\prime} (e^{i \cdot}) h \rangle \right] }^{-1} \,  \langle \left( b (e^{-i \cdot}) g(e^{i \cdot}) +  b (e^{i \cdot}) g(e^{-i \cdot}) \right) h \rangle.
+\]
+ However, when computing the customized optimum $\theta$ the criterion becomes $\mathcal{M} (\lambda_1, \lambda_2)$ of (\ref{eq:chapats_ats_cust}),
+ which in general is no longer a quadratic function.   For the HP filter there is no phase, so that $A (\omega) = \Gamma (e^{-i \omega})$.  On the other hand, the squared amplitude for the concurrent filter can be expressed
+\begin{equation}
+ \label{eq:HPsquaredamp}
+  \widehat{A}^2 (\omega) = 
+\Gamma(1)^2 +  \Gamma (1) \, \theta^{\prime} \, \left( b (e^{-i \cdot}) +  b (e^{i \cdot})  \right)  +  \theta^{\prime} \,  b( e^{-i \cdot}) b^{\prime} (e^{i \cdot})  \, \theta.
+\end{equation}
+ In the Accuracy and Smoothness terms, wee compare the square root of this function to the HP frf.   As for phase, we have $\Phi (\omega) = 0$ and the concurrent phase is obtained most easily by computing the arctangent of the ratio of imaginary and real portions of the given frf.  Noting that $\Re b_j (z) = 
+  \cos (\omega j ) - 1$  and $\Im b_j (z) = - \sin (\omega j) - 1$, we can write
+\begin{equation}
+ \label{eq:HPphase}
+ \widehat{\Phi} (\omega) = \tan^{-1} \left( \frac{ \Gamma(1) + \theta^{\prime} \, \Im b (z)  }{ \Gamma(1) + \theta^{\prime} \, \Re b (z) } \right).
+\end{equation}
+  Finally, the cut-off for the pass-band is computed by solving
+\[
+ \frac{1}{2} =  \frac{ r}{ r + {( 2 - 2 \cos \omega)}^2 }
+\]
+ for $\omega$, which yields $\omega = \cos^{-1} (1 - \sqrt{r}/ 2)$.  At this point, Accuracy, Timeliness, and Smoothness can be calculated numerically.
+
+TO DO: write R code for the functions, and use integrate with inputted h.
+
+For a very basic illustration, we suppose the filter is applied to white noise, so that $h$ is a constant (and can be essentially ignored).  Then, having fixed some values of $r$ ahead of time, we compute the optimal $\theta$ under various values of $\lambda_1$ and $\lambda_2$, illustrating the dependence on differing emphases in the trilemma criterion.
+
+INSERT: table of values
+
+REPEAT: with $h$ corresponding to an AR(1) process with known $\phi$
+
+
+
+\subsection{Na\"ive Seasonal Adjustment}
+ Earlier we introduced a fairly primitive seasonal adjustment filter, defined as
+\[
+ \Gamma (B) = s^{-2} U(B) U(F),
+\]
+ where $s$ is the number of seasons in the year (e.g., $s=4$ for
+ quarterly data and $s=12$ for monthly data) and $U(B) = 1 + B + B^2
+ + \cdots + B^{s-1}$.   Typically this would be applied to data that exhibits seasonality, and in particular corresponds to 
+a non-stationary seasonal process requiring so-called ``differencing" by $U(B)$ to be rendered stationary.  Our full
+treatment of non-stationary processes is left until later, and we focus on application to stationary series for now.  As in the previous illustration, 
+we are interested in concurrent moving average filters.  However, the filter constraints are more subtle when dealing with seasonality.
+
+Observe that the roots of $U(z)$ are $e^{-i 2 \pi j /s }$ for $1 \leq j \leq s-1$, which indicates that  the frf $\Gamma (z)$ is zero at the ``seasonal frequencies" $2 \pi j /s$ for $1 \leq j leq s-1$.  Because the frf is real and even, it suffices to focus on the seasonal frequencies for $1 \leq j \leq s/2$ (when $s$ is even).  These zeroes in the target frf are the essential property of a seasonal adjustment filter, which should be a ``comb" filter (i.e., a filter having frf equal to zero at frequencies that are to be suppressed).  In order for the concurrent filter to be a causal comb filter, it should also have this zero structure, which we can impose by seeking it to be of the form
+\begin{equation}
+ \label{eq:naiveSAfilt}
+ \widehat{\Gamma} (B) = U(B) \, \Theta (B),
+\end{equation}
+ for some $\Theta (B) \in \mathcal{M}_q$ (for example).  Up to reparametrization, imposing the structure of (\ref{eq:naiveSAfilt}) on the class of concurrent filter  is the same as considering the class $\mathcal{M}_{q+s-1}$ with the imposition of $\widehat{\Gamma} (z) = \Gamma (z)$ for all seasonal frequencies $z$.  Proceeding, the corresponding filter error is
+\[
+ \Gamma (B) -  \widehat{\Gamma} (B)  = U(B) \, \left( s^{-2} U(F) - \Theta (B) \right),
+\]
+ so that the DFA problem amounts to approximating an anti-causal filter $U(F)$ by a causal one $\Theta (B)$.  
+The resulting DFA MSE is similar to the HP case (\ref{eq:HPdfaMSE}).  Let $\theta = {[ \theta_0, \theta_1, \cdots, \theta_q ]}^{\prime}$, and denote the functions $b_j (z) = z^j $ for $0 \leq j \leq q$, written as a $(q+1)$-vector of functions $b(z)$.  Then the filter error in frequency domain is 
+$\Gamma (z) - U(z) \theta^{\prime} b(z)$, and the DFA MSE is
+\begin{equation}
+ \label{eq:SeasdfaMSE}
+  \langle \Gamma ( e^{-i \cdot} ) h \rangle -  \theta^{\prime} \, \langle \left( b (e^{-i \cdot}) U(e^{-i \cdot}) \Gamma(e^{i \cdot}) 
+	+  b (e^{i \cdot}) U(e^{i \cdot}) \Gamma (e^{-i \cdot}) \right) h \rangle + \theta^{\prime} \, \langle b( e^{-i \cdot}) b^{\prime} (e^{i \cdot})
+   \Gamma (e^{-i \cdot})  h \rangle \, \theta.
+\end{equation}
+ As in the HP case, this is a quadratic function of the parameter $\theta$.  The theoretical solution is obtained when $h$ is the true data spectrum, while an estimate $\widehat{\theta}$ is obtained when $h$ is the periodogram, or some other estimator of the spectral density.  In either case, the minimizer is
+\[ 
+ \theta = { \left[  \langle b( e^{-i \cdot}) b^{\prime} (e^{i \cdot}) \Gamma (e^{-i \cdot}) h \rangle \right] }^{-1} \,  \langle \left( b (e^{-i \cdot}) U(e^{-i \cdot}) \Gamma(e^{i \cdot}) 
+	+  b (e^{i \cdot}) U(e^{i \cdot}) \Gamma (e^{-i \cdot}) \right) h \rangle.
+\]
+ However, when computing the customized optimum $\theta$ the criterion becomes $\mathcal{M} (\lambda_1, \lambda_2)$ of (\ref{eq:chapats_ats_cust}),
+ which in general is no longer a quadratic function.   For the Na\"ive Seasonal Adjustment filter there is no phase, so that $A (\omega) = \Gamma (e^{-i \omega})$.  On the other hand, the concurrent filter has squared amplitude 
+\[
+  \widehat{A} (\omega) = \Gamma (\omega) \, {| \Theta (e^{-i \omega}) |}^2 = \Gamma (\omega) \, \theta^{\prime} \, b(z) \, b^{\prime} (\overline{z}) \, \theta.
+\]
+  The phase function can be written
+\[
+ \widehat{\Phi} (\omega) = \tan^{-1} \left( \frac{ \theta^{\prime} \, \Im [U(z) b(z) ] }{ \theta^{\prime} \, \Re [ U(z) b(z) ] } \right).
+\]
+ Finally, to find the pass-band we observe that the complementary stop-band is the union of several disjoint intervals located about the seasonal frequencies, their boundaries being determined as the multiple solutions $\omega$ to
+\[
+  s^2/2 = U(e^{-i \omega}) U(e^{i \omega}).
+\]
+ Now we can compute the ATS components numerically, given a spectrum $h$.
+
+TO DO: extend HP code to this case
+
+
+
+\subsection{Multi-step Ahead Forecasting}
+ Here our target is $y_t = x_{t+H} = F^H x_t$, and $\Gamma (B) = B^{-H}$.  We seek a concurrent filter $\widehat{\Gamma} (B)$, and will consider the class  $\mathcal{M}_q$ of moving average filters of order $q$.  As with the HP example, we wish to impose a level constraint so that the forecast filter can be applied to interesting $I(1)$ time series.   We can take the HP calculations a few steps further: we can show that the filter error is divisible by $1-B$, which is important when treating $I(1)$ series later in this book. The concurrent filter can be expressed as
+\begin{align*}
+ \widehat{\Gamma} (B) &  = 1 + (B-1) \, \sum_{j=1}^q \theta_j \, ( \sum_{\ell=0}^{j-1} B^{\ell} ) \\
+	& = 1 + (B-1) \, \sum_{j=0}^{q-1}  ( \Theta_q - \Theta_{j} ) B^j ,
+\end{align*}
+ where $\Theta_j = \sum_{\ell=1}^j \theta_{\ell}$, and $\Theta_0 = 0$.   Then the filter error divided by $1-B$ is
+\begin{align*}
+  \frac{ B^{-H} -  \widehat{\Psi} (B)  }{ 1 - B} & = B^{-H} \, \frac{ 1 - B^{H} + (1-B)  \, \sum_{j=0}^{q-1}  ( \Theta_q - \Theta_{j} ) B^{j+H} }{1-B} \\
+   & = B^{-H} \, \left( \sum_{j=0}^{H-1} B^j +  \sum_{j=0}^{q-1}  ( \Theta_q - \Theta_{j} ) B^{j+H} \right) .
+\end{align*}
+ Now when forecasting $I(1)$ processes, the DFA criterion  (\ref{eq:chapats_dfa_fd})  gets modified by division of the integrand by ${|1 - z |}^2$, in which case the DFA MSE is 
+\[
+   [1, 1, \cdots, 1, \Theta_q - \Theta_0, \Theta_q - \Theta_1, \cdots, \theta_q ] \, \Sigma (h) \,  { [1, 1, \cdots, 1, \Theta_q - \Theta_0, \Theta_q - \Theta_1, \cdots, \theta_q ] }^{\prime},
+\]
+ where $\Sigma(h)$ is the Toeplitz covariance matrix corresponding to $h$, with dimension $H+q$.   In the stationary case there is no such factor in the denomminator needed, and the above formula applies but within ${|1 - z|}^2$ multiplying $h$.   Writing $\iota$ for the vector of $H$ ones, and $C$ the cumulation matrix given by ones in the upper triangular portion, the criterion can be rewritten
+\[
+ \iota^{\prime} \Sigma_{11} (f) \iota + 2 \iota^{\prime} \Sigma_{21} (f) \, C \theta + \theta^{\prime} C^{\prime} \Sigma_{22} (f)  \, C \theta,
+\]
+ where $f (\omega ) = h(\omega) (2 -2 \cos(\omega))$, and $\Sigma (f) $ has been partitioned into blocks $\Sigma_{11} (f)$, $\Sigma_{21} (f)$, $\Sigma_{12} (f)$, and $\Sigma_{22} (f)$.   Optimizing this quadratic functional of $\theta$ yields the minimizer
+\[
+ \theta (f) = - C^{-1} \, {\Sigma_{22} (f)}^{-1} \, \Sigma_{21} (f) \, \iota.
+\]
+Return now to the customized criterion.  Because the target filter's amplitude function is identically equal to one, the notions of pass-band and stop-band become trivial: the pass-band is $[- \pi, \pi]$ and the stop-band is the null set.  Thus we only need to compute the Accuracy and Timeliness factors.  We then have the simplified criterion (\ref{eq:dilemma}), where $A \equiv 1$ and $\Phi \equiv 0$.  For pedagogical value only, we repeat  equations (\ref{eq:chapats_Ats}) and (\ref{eq:chapats_aTs}) for this special case:
+\begin{eqnarray}
+\textrm{A(ccuracy)}&:=&\int_{\textrm{pass-band}}(1-\widehat{A}(\omega))^2 \, h(\omega) \, d\omega\label{eq:chapats_Ats2}\\
+\textrm{T(imeliness)}&:=&4\int_{\textrm{pass-band}}  \widehat{A}(\omega)\sin\left( \widehat{\Phi} (\omega) /2\right)^2
+ \, h(\omega) \, d\omega.  \label{eq:chapats_aTs2}
+\end{eqnarray}
+ Of course the pass-band is $[-\pi,\pi]$, because the target filter is an all-pass; the above formulas will also be applicable when the target filter is ``locally all-pass", i.e., has unit magnitude on a pass-band smaller than $[-\pi, \pi]$.  
+
+The squared amplitude of the concurrent filter is given by equation (\ref{eq:HPsquaredamp}) of the HP case, setting $\Gamma(1) = 1$, and phase given by (\ref{eq:HPphase}).  Then the Accuracy and Timeliness components can be computed numerically.  
+
+
+
+
+TO DO: extend HP code to this case
+
+\subsection{Ideal Low-Pass}
+ Finally we consider a target  defined as the output of the Ideal Low-Pass filter, which has frf
+\[
+ \Gamma (e^{-i \omega}) = 1_{[-\mu, \mu]} (\omega)
+\]
+ for a cutoff $\mu \in (0, \pi)$.  The pass-band is identical with $[-\mu, \mu]$, while the stop-band is the complementary set.  Typically $\mu$ is a small positive value, and the filter is used to obtain trend dynamics of some desired maximum frequency $\mu$.  The concurrent filter is usually chosen to match the level constraint of $\Gamma (1) = 1$, and if using the class of moving average filters, the mathematics are the same as the HP case.  The target filter has amplitude funcion $\Gamma$ with $\Phi \equiv 0$, and the concurrent filter has squared amplitude and phase functions given by (\ref{eq:HPsquaredamp}) and (\ref{eq:HPphase}) respectively.  The Accuracy and Timeliness terms are computed via (\ref{eq:chapats_Ats2}) and (\ref{eq:chapats_aTs2}); the Smoothness term is as (\ref{eq:chapats_Ats2}), but integrated over the stop-band instead.
+
+TO DO: numerical stuff
+
+
+
+\subsection{Customization Applications}
+
+In this final section, we consider several time series, and apply trend estimation and forecasting filters.
+
+NOTES: use ATS paper example as guide.  Consider ideal low-pass and multi-step forecasting, and begin with simulated AR(1).  Fit AR(1) and use for $h$; also use perodogram.  Tabulate results.  Then repeat with real data, using h given by periodogram and AR(p) estimator.
+
+
+
+
+
+% \section{Multivariate Customization}
+% 
+% \subsection{Emphasizing Smoothness}
+% 
+% \subsection{Emphasizing Timeliness}
+% 
+% \subsection{Emphasizing Smoothness and Timeliness}
